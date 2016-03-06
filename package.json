@@ -1,7 +1,7 @@
 {
-  "name": "angular2-seed",
+  "name": "BigPolicy (based on angular2-seed)",
   "version": "1.0.0",
-  "description": "A simple starter Angular2 project",
+  "description": "A simple starter Big Policy project",
   "scripts": {
     "start": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 8080 --content-base src"
   },
