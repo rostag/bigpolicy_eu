@@ -23,7 +23,7 @@ import { DialogService } from './dialog.service';
   styles: ['input {width: 20em}']
 })
 
-export class LeaderDetailComponent implements OnActivate, CanDeactivate {
+export class LeaderDetailsComponent implements OnActivate, CanDeactivate {
   leader: Leader;
   editName: string;
   private curSegment: RouteSegment;
@@ -38,7 +38,7 @@ export class LeaderDetailComponent implements OnActivate, CanDeactivate {
     this.curSegment = curr;
 
     let id = +curr.getParam('id');
-    this.service.getLeader(id).then(leader => {
+    this.service.getLeader(id).then((leader:Leader) => {
       if (leader) {
         this.editName = leader.name;
         this.leader = leader;

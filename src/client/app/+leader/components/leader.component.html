@@ -2,8 +2,11 @@
   Leader
 <h2>
 
-<ul>
-  <li>Ready to go, statically typed build system using Gulp for working with TypeScript.</li>
-</ul>
+<p>Ready to go, select one from the list below:</p>
+<nav>
+  <ul><li><a [routerLink]="['LeaderRoot']">Root</a></li></ul>
+  <ul><li><a [routerLink]="['LeaderList']">List</a></li></ul>
+  <!-- <ul><li><a [routerLink]="['LeaderDetails']">Details</a></li></ul> -->
+</nav>
 
 <router-outlet></router-outlet>

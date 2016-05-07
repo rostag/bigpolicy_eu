@@ -1,4 +1,3 @@
-
 export class Leader {
   constructor(public id: number, public name: string) { }
 }
@@ -23,14 +22,14 @@ export class LeaderService {
 
   getLeader(id: number | string) {
     return crisesPromise
-      .then(crises => crises.filter(c => c.id === +id)[0]);
+      .then((crises:any) => crises.filter((c:any) => c.id === +id)[0]);
   }
 
   addLeader(name: string) {
     name = name.trim();
     if (name) {
       let leader = new Leader(LeaderService.nextLeaderId++, name);
-      crisesPromise.then(crises => crises.push(leader));
+      crisesPromise.then((crises:any) => crises.push(leader));
     }
   }
 }
