@@ -7,7 +7,7 @@ import {
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from 'angular2/core';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
-import {LeadersComponent} from './leader.component';
+import {LeadersComponent} from '../leader/leader.component';
 
 export function main() {
   describe('Leader component', () => {

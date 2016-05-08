@@ -14,8 +14,8 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
     selector: 'sd-leader',
-    templateUrl: 'app/+leader/components/leader.component.html',
-    styleUrls: ['app/+leader/components/leader.component.css'],
+    templateUrl: 'app/+leader/leader/leader.component.html',
+    styleUrls: ['app/+leader/leader/leader.component.css'],
     directives: [ROUTER_DIRECTIVES],
     providers: [LeaderService]
 })

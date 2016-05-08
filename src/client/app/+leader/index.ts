@@ -1,1 +1,1 @@
-export * from './components/leader.component';
+export * from './leader/leader.component';
