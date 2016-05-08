@@ -1,12 +1,9 @@
-<h2>
-  Leader
-<h2>
+<h2>{{title}}</h2>
 
 <p>Ready to go, select one from the list below:</p>
 <nav>
-  <ul><li><a [routerLink]="['LeaderRoot']">Root</a></li></ul>
-  <ul><li><a [routerLink]="['LeaderList']">List</a></li></ul>
-  <!-- <ul><li><a [routerLink]="['LeaderDetails']">Details</a></li></ul> -->
+  <a [routerLink]="['Dashboard']">Dashboard</a>
+  <a [routerLink]="['LeadersList']">Leaders List</a>
 </nav>
 
 <router-outlet></router-outlet>
