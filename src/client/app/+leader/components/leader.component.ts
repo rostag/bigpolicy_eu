@@ -4,7 +4,7 @@ import { Router, RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecate
 //import { Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 
 import { LeaderService }     from '../leader/leader.service';
-import { LeadersListComponent } from '../leaders/leaders.list.component';
+import { LeadersListComponent } from '../list/leaders.list.component';
 // import { LeadersListComponent }   from './leader.list.component';
 import { LeaderDetailsComponent } from '../details/leader-details.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -39,6 +39,6 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
     }
 ])
 export class LeadersComponent {
-    constructor(private router: Router) { }
     title = 'Leaders';
+    constructor(private router: Router) { }
 }

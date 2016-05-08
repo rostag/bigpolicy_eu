@@ -1,4 +1,4 @@
-import {Project} from '../project/project.component'
+import {Project} from '../project/project.component';
 
 export class Leader {
 	id: number;

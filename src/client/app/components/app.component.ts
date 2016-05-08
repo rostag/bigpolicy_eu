@@ -38,5 +38,4 @@ import {DonorsComponent} from '../+donors/donors.component';
     }
 ])
 export class AppComponent {
-    constructor() { }
 }

@@ -8,8 +8,11 @@ div {
 }
 
 /* Box-sizing border-box */
-* {
+html {
   box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 /* Set up a default font and some padding to provide breathing room */

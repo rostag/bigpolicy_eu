@@ -7,7 +7,7 @@ import {
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from 'angular2/core';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
-import {LeaderComponent} from './leader.component';
+import {LeadersComponent} from './leader.component';
 
 export function main() {
   describe('Leader component', () => {
@@ -27,7 +27,7 @@ export function main() {
 
 @Component({
   selector: 'test-cmp',
-  directives: [LeaderComponent],
+  directives: [LeadersComponent],
   template: '<sd-leader></sd-leader>'
 })
 class TestComponent {}
