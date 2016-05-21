@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {Router, RouteConfig, Route, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component} from '@angular/core';
+import {Router, RouteConfig, Route, ROUTER_DIRECTIVES} from '@angular2/router-deprecated';
 
 import {RepoList} from '../repo-list/repo-list';
 import {RepoDetail} from '../repo-detail/repo-detail';
@@ -20,7 +20,7 @@ import {Github} from '../../services/github';
 export class RepoBrowser {
 
   constructor(private router:Router, private github: Github) {}
-  
+
   searchForOrg(orgName: string){
     this.github.getOrg(orgName)
       .subscribe(({name}) => {
