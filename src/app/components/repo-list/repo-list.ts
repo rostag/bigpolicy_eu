@@ -1,7 +1,7 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {Github} from '../../services/github';
 import {Observable} from 'rxjs/Observable';
-import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteParams, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
   selector: 'repo-list',
