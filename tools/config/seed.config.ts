@@ -81,6 +81,7 @@ export class SeedConfig {
     defaultJSExtensions: true,
     packageConfigPaths: [
       `${this.APP_BASE}node_modules/@angular/*/package.json`,
+      `${this.APP_BASE}node_modules/@angular2-material/*/package.json`,
       `${this.APP_BASE}node_modules/*/package.json`,
       `${this.APP_BASE}node_modules/**/package.json`
     ],
@@ -94,6 +95,8 @@ export class SeedConfig {
       rxjs: { defaultExtension: false }
     }
   };
+
+  MATERIAL_INJECTOR = addMaterialToSystemConfig(this.SYSTEM_CONFIG_DEV);
 
   SYSTEM_CONFIG = this.SYSTEM_CONFIG_DEV;
 
@@ -140,8 +143,34 @@ export class SeedConfig {
   };
 }
 
+// Port from ng2plunk
+function addMaterialToSystemConfig(config:any) {
+  var _packageConfig = config.packages;
+  var _defaultPackages = [
+    '@angular/core', '@angular/common', '@angular/compiler', '@angular/http', '@angular/router',
+    '@angular/platform-browser', '@angular/platform-browser-dynamic', 'rxjs'
+  ];
 
+  // Angular Material 2 Packages to load.
+  var _materialPackages= [
+    'core', 'toolbar', 'button', 'card', 'checkbox', 'icon', 'input', 'list', 'progress-bar',
+    'progress-circle', 'radio', 'sidenav'
+  ];
 
+  _materialPackages.forEach(function(item) {
+    // All Material 2 components are prefixed with  @angular2-material and use
+    // the components name as entry point.
+    _packageConfig['@angular2-material/' + item] = { main: item };
+  });
+
+  _defaultPackages.forEach(function (item) {
+    // Angular's Default Packages are always using `index` as an entry point.
+    _packageConfig[item] = { main: 'index' };
+  });
+
+  // Apply the new generated packages to the SystemJS configuration.
+  // System.config({ packages: _packageConfig });
+}
 
 // --------------
 // Utils.
