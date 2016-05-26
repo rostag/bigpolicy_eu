@@ -1,0 +1,8 @@
+<h2>Кращі діячі</h2>
+<div class="grid grid-pad">
+    <div *ngFor="let leader of leaders" (click)="gotoDetail(leader)" class="col-1-4">
+        <div class="module leader">
+            <h4>{{leader.name}}</h4>
+        </div>
+    </div>
+</div>

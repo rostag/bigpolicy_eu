@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  padding: 0 16px;
+}
+
+p {
+  line-height: 1.4;
+}
+
+.btn-add-leader {
+  min-width: 274px;
+}
+/*
+h1 {
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: 1.2em;
+    padding-top: 0;
+    margin-top: 0.83em;
+}
+*/
+
+/* ported from materialize landing */
+
+/*
+.bg-diag {
+  position: relative;
+}
+
+.bg-diagonal {
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: url(../img/p3000x3000.png) scroll no-repeat 50% 50%;
+  background-size: contain;
+  // background: #eee;
+  display: none;
+}
+*/
+.numbers b {
+  font-size: 4.5rem;
+}
+.numbers span {
+  display: block;
+  font-size: 2rem;
+  margin-top: -1.5rem;
+}
+
+.img-logo {
+  margin-top: 3rem;
+}
+
+/* ported from material2 demo */

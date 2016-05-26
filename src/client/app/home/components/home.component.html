@@ -1,0 +1,67 @@
+<!-- FIXME: Go back to Grid List after it's release
+<md-grid-list cols="4" [style.background]="'lightblue'">
+  <md-grid-tile>1</md-grid-tile>
+  <md-grid-tile>2</md-grid-tile>
+  <md-grid-tile>3</md-grid-tile>
+  <md-grid-tile>4</md-grid-tile>
+</md-grid-list> -->
+
+<!-- Using Materialize CSS Until MdGridList is off -->
+<div class="row">
+    <div class="col s12">
+        <div class="bg-diag card-panel z-depth-0">
+            <div class="bg-diagonal"></div>
+            <div class="row valign-wrapper">
+                <div class="col s12 m4">
+                    <a [routerLink]="['AddLeader']"
+                      class="waves-effect waves-light btn-large btn-add-leader">
+                      <i class="material-icons large left">note_add</i>
+                      Заповнити анкету</a>
+                </div>
+                <div class="col s12 m9">
+                    <div class="row numbers">
+                        <div class="col s12 m3">
+                            <b>2</b><span>діячі</span>
+                        </div>
+                        <div class="col s12 m3">
+                            <b>8</b><span>донорів</span>
+                        </div>
+                        <div class="col s12 m3">
+                            <b>96020</b><span>зібрано</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <p class="flow-text">
+                        Запрошуємо тебе на платформу для людей, які хочуть створити нову політичну систему. У тебе звісно є свої думки щодо цього.
+                    </p>
+                    <p class="flow-text">
+                        <a href="#">Поділись ними з нами</a> та долучайся до перших користувачів.
+                    </p>
+
+                </div>
+                <div class="col s12 m3">
+                    <img src="../../assets/img/logo-and-bg.png" alt="" class="col s12 m12 img-logo">
+                </div>
+                <div class="col s12 m5 offset-m0">
+                    <div class="card z-depth-3">
+                        <div class="card-content black-text row">
+                            <img src="../../assets/img/prokop-150px.jpg" alt="" class="circle responsive-img col s4">
+                            <h2 class="card-title col s6">Чому я йду до Ради</h2>
+                            <p class="col s12 flow-text">Оновлення влади має продовжуватися.
+                              Законодавча влада мусить бути оновлена якнайшвидше,
+                              щоб на наступному етапі оновити владу виконавчу.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#" class="waves-effect waves-light btn-large">
+                                <i class="material-icons left">thumb_up</i>Підтримати
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
