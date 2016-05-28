@@ -1,14 +1,21 @@
 <md-card class="demo-card demo-basic">
-  <md-toolbar color="primary">Анкета</md-toolbar>
+  <md-toolbar color="primary">Деталі Діяча</md-toolbar>
   <md-card-content>
     <form>
-
     <!-- FIXME: Завантаж: Фото | Відео | Лого -->
-
     <table style="width: 100%" cellspacing="0"><tr>
-      <td><md-input placeholder="Ім'я" style="width: 100%"></md-input></td>
-      <td><md-input placeholder="Прізвище" style="width: 100%"></md-input></td>
-    </tr></table>
+      <md-card style="width: 30%">
+      <img md-card-md-image src="/assets/img/avatar.jpg">
+      <md-card-content>Фокусування на тому, що дійсно робить світ краще.</md-card-content>
+         <md-card-title>Завантаж:</md-card-title>  
+         <md-card-actions style="align:end">
+        <button md-button>Фото</button>
+        <button md-button>Відео</button>
+        <button md-button>Твоє Лого</button>
+   </md-card-actions>
+</md-card>
+      <td><md-input placeholder="Ім'я" style="width: 100&"></md-input></td>
+      <td><md-input placeholder="Прізвище" style="width: 100%"></md-input></td></tr></table>
 
     <h3>Як виглядає проблема для тебе?</h3>
 
@@ -70,7 +77,6 @@
     </p>
 
     <md-toolbar color="primary">Вкажи свої профілі у соцмережах:</md-toolbar>
-
     <!-- [ICONS]
 
           Які навички та вміння маєш?
@@ -147,7 +153,7 @@
 </md-card>
 
 <md-card class="demo-card demo-basic">
-  <md-toolbar color="primary">Prefix + Suffix</md-toolbar>
+  <md-toolbar color="primary">Документи для Діяльності</md-toolbar>
   <md-card-content>
     <md-input placeholder="amount" align="end">
       <span md-prefix>$&nbsp;</span>
