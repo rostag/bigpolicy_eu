@@ -1,9 +1,9 @@
 {
-  "name": "angular2-seed",
+  "name": "angular2-seed-material2",
   "version": "0.0.0",
   "description": "Modular seed project for Angular 2 apps with fast, statically typed build",
   "repository": {
-    "url": "https://github.com/mgechev/angular2-seed"
+    "url": "https://github.com/DeviantJS/angular2-seed-material2"
   },
   "scripts": {
     "build.dev": "gulp build.dev --color",
@@ -33,6 +33,11 @@
     "webdriver-update": "webdriver-manager update"
   },
   "author": "Minko Gechev <mgechev>",
+  "contributors": [
+    {
+      "name": "Joshua Wiens <d3viant0ne>"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "async": "^1.4.2",
@@ -119,6 +124,21 @@
     "@angular/platform-browser": "2.0.0-rc.1",
     "@angular/platform-browser-dynamic": "2.0.0-rc.1",
     "@angular/router": "2.0.0-rc.1",
+    "@angular2-material/button": "^2.0.0-alpha.5",
+    "@angular2-material/card": "^2.0.0-alpha.5",
+    "@angular2-material/checkbox": "^2.0.0-alpha.5",
+    "@angular2-material/core": "^2.0.0-alpha.5",
+    "@angular2-material/grid-list": "^2.0.0-alpha.5",
+    "@angular2-material/icon": "^2.0.0-alpha.5",
+    "@angular2-material/input": "^2.0.0-alpha.5",
+    "@angular2-material/list": "^2.0.0-alpha.5",
+    "@angular2-material/progress-bar": "^2.0.0-alpha.5",
+    "@angular2-material/progress-circle": "^2.0.0-alpha.5",
+    "@angular2-material/radio": "^2.0.0-alpha.5",
+    "@angular2-material/sidenav": "^2.0.0-alpha.5",
+    "@angular2-material/slide-toggle": "^2.0.0-alpha.5",
+    "@angular2-material/tabs": "^2.0.0-alpha.5",
+    "@angular2-material/toolbar": "^2.0.0-alpha.5",
     "es6-module-loader": "^0.17.8",
     "core-js": "^2.4.0",
     "reflect-metadata": "0.1.2",

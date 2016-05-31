@@ -1,5 +1,9 @@
 import { FORM_DIRECTIVES } from '@angular/common';
 import { Component } from '@angular/core';
+import {MdButton} from '@angular2-material/button';
+import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
+import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 
 import { NameListService } from '../shared/index';
 
@@ -11,7 +15,7 @@ import { NameListService } from '../shared/index';
   selector: 'sd-home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
-  directives: [FORM_DIRECTIVES]
+  directives: [FORM_DIRECTIVES, MdButton, MD_INPUT_DIRECTIVES, MD_CARD_DIRECTIVES, MD_LIST_DIRECTIVES]
 })
 export class HomeComponent {
 

@@ -1,14 +1,22 @@
-<p>
-  Howdy! Here's a list of awesome computer scientists.
-  Do you know any others? Add to the list yourself.
-</p>
-
-<form (submit)="addName()">
-  <input [(ngModel)]="newName" placeholder="Awesome Computer Scientist">
-  <button type="submit">Add</button>
-</form>
-
-
-<ul>
-  <li *ngFor="let name of nameListService.get() | async">{{name}}</li>
-</ul>
+<div class="home-card-container">
+  <p>
+    Howdy! Here's a list of awesome computer scientists.
+  </p>
+  <p>
+    Do you know any others? Add to the list yourself.
+  </p>
+  <md-card class="home-card">
+    <form (submit)="addName()" class="home-form">
+      <div>
+        <md-input [(ngModel)]="newName" placeholder="Awesome Computer Scientist" class="home-input"></md-input>
+        <button md-raised-button color="accent" type="submit" class="home-button">ADD</button>
+      </div>
+    </form>
+    <md-list class="home-list">
+      <md-list-item *ngFor="let name of nameListService.get() | async">
+        <h3 md-line>{{name}}</h3>
+        <p md-line class="demo-secondary-text"></p>
+      </md-list-item>
+    </md-list>
+  </md-card>
+</div>

@@ -27,7 +27,8 @@ System.config({
   defaultJSExtensions: true,
   map: {
     'rxjs': 'node_modules/rxjs',
-    '@angular': 'node_modules/@angular'
+    '@angular': 'node_modules/@angular',
+    '@angular2-material': 'node_modules/@angular2-material'
   },
   packages: {
     '@angular/core': {
@@ -59,6 +60,58 @@ System.config({
       defaultExtension: 'js'
     },
     'rxjs': {
+      defaultExtension: 'js'
+    },
+    '@angular2-material/button': {
+      main: 'button.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/card': {
+      main: 'card.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/checkbox': {
+      main: 'checkbox.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/grid-list': {
+      main: 'grid-list.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/icon': {
+      main: 'icon.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/input': {
+      main: 'input.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/list': {
+      main: 'list.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/progress-bar': {
+      main: 'progress-bar.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/progress-circle': {
+      main: 'progress-circle.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/radio': {
+      main: 'radio.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/sidenav': {
+      main: 'sidenav.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/tabs': {
+      main: 'tabs.js',
+      defaultExtension: 'js'
+    },
+    '@angular2-material/toolbar': {
+      main: 'toolbar.js',
       defaultExtension: 'js'
     }
   }

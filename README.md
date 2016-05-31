@@ -1,8 +1,17 @@
-# Introduction
+# Angular2-Seed Materialized [![Build Status](https://travis-ci.org/DeviantJS/angular2-seed-material2.svg?branch=master)](https://travis-ci.org/DeviantJS/angular2-seed-material2)
+> Current Material2 Version - material2-2.0.0-alpha.5
+
+## Deviations from the based seed project
+- Angular2-Material
+
+## This repo is intended to guide you through the addition of Angular2-Material on top of your angular2-seed fork
+- Please don't make project forks of this repo unless it's for contribution ( build ontop of the official seed )
+- Outside of the guide walking you through adding material, I will be adding other components as they land in Material
+
+**NOTE :** Material2 is as alpha as it gets, there will be hacky workarounds to make things work. This is not in a state where I would build something with it yet.
 
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 [![Build Status](https://travis-ci.org/mgechev/angular2-seed.svg?branch=master)](https://travis-ci.org/mgechev/angular2-seed)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/mgechev/angular2-seed?svg=true)](https://ci.appveyor.com/project/mgechev/angular2-seed)
 [![Join the chat at https://gitter.im/mgechev/angular2-seed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mgechev/angular2-seed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/mgechev/angular2-seed.svg)](https://david-dm.org/mgechev/angular2-seed)

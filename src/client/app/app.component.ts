@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
+import { Route, Routes, ROUTER_DIRECTIVES } from '@angular/router';
 import { HTTP_PROVIDERS} from '@angular/http';
 
 import { AboutComponent } from './+about/index';
@@ -18,13 +18,7 @@ import { NameListService, NavbarComponent, ToolbarComponent } from './shared/ind
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 @Routes([
-  {
-    path: '/',
-    component: HomeComponent
-  },
-  {
-    path: '/about',
-    component: AboutComponent
-  }
+  new Route({path: '/', component: HomeComponent}),
+  new Route({path: '/about', component: AboutComponent})
 ])
 export class AppComponent {}
