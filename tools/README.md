@@ -1,3 +1,9 @@
+#BigPolicy
+
+We want politics to be crowd sourced and open funded.
+
+Here is a draft of opensource crowdfunding platform for social activists, who doesn't want to be involved into obsolete corrupted parties, but are bright and willing for change.
+
 # Tools documentation
 
 This document contains information about the tools section of the `angular2-seed`.
