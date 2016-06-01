@@ -1,0 +1,281 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar color="primary">Деталі Діяча</md-toolbar>
+  <md-card-content>
+    <form>
+    <!-- FIXME: Завантаж: Фото | Відео | Лого -->
+    <table style="width: 100%" cellspacing="0"><tr>
+      <md-card style="width: 30%">
+      <img md-card-md-image src="assets/img/avatar.jpg">
+      <md-card-content>Фокусування на тому, що дійсно робить світ краще.</md-card-content>
+         <md-card-title>Завантаж:</md-card-title>
+         <md-card-actions style="align:end">
+        <button md-button>Фото</button>
+        <button md-button>Відео</button>
+        <button md-button>Твоє Лого</button>
+   </md-card-actions>
+</md-card>
+      <td><md-input placeholder="Ім'я" style="width: 100&"></md-input></td>
+      <td><md-input placeholder="Прізвище" style="width: 100%"></md-input></td></tr></table>
+
+    <h3>Як виглядає проблема для тебе?</h3>
+
+    <md-input characterCounter style="width: 100%;"
+      placeholder="Твоя особиста візія і думки"
+      hintLabel="" >
+    </md-input>
+
+    <h3>Який аспект проблеми ти хочеш вирішити?</h3>
+
+    <md-input characterCounter style="width: 100%;"
+      placeholder="Твоя місія"
+      hintLabel="" >
+    </md-input>
+
+    <md-toolbar color="primary">Заходи та проекти</md-toolbar>
+    <h3>Якими заходами ти вирішиш цю проблему?</h3>
+
+    <md-input characterCounter style="width: 100%;"
+      placeholder="Опиши свій проект чи захід: *"
+      hintLabel="">
+    </md-input>
+
+    <md-input placeholder="Сума, грн" align="end">
+      <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
+      <span md-suffix>.00 </span>
+    </md-input>
+
+    <p>
+      <button md-raised-button (click)="addProject()">Додати ще один захід або проект</button>
+    </p>
+
+    <md-toolbar color="primary">Твоя програма</md-toolbar>
+
+    <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3>
+
+    Головна ціль: <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+
+    <p>
+    Другорядна ціль: <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+    </p>
+
+    <p>
+      <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
+    </p>
+
+    <md-toolbar color="primary">Додатково</md-toolbar>
+
+    <md-card-title>
+      Належиш до партії? <md-input type="text" placeholder="Вкажи партію"></md-input>
+    </md-card-title>
+
+    <md-card-title>
+      Офіційна посада: <md-input type="text" placeholder="Вкажи свою посаду"></md-input>
+    </md-card-title>
+
+    <p>
+      <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
+    </p>
+
+    <md-toolbar color="primary">Вкажи свої профілі у соцмережах:</md-toolbar>
+    <!-- [ICONS]
+
+          Які навички та вміння маєш?
+          Перелічи тут свої навички та вміння
+
+    Документи
+
+
+          Завантаж необхідні документи:
+
+          Програма дій
+
+          Програма на вибори
+
+          Публічна майнова декларація
+
+          Довідка про судимості
+
+          Антикорупційні документи
+
+          Скан паспорту
+
+
+          Я даю дозвіл на обробку моїх персональних даних
+          Я погоджуюся з умовами роботи BigPolicy
+
+
+          Готово
+          Як буде виглядати моя сторінка?
+
+        -->
+
+        <!-- JUST SOME SNIPPETS TO BE REUSED
+
+        The example of name list service from
+        <ul>
+          <li *ngFor="let name of nameListService.get()">{{name}}</li>
+        </ul>
+
+        <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Вкажи своє прізвище, ім'я та по-батькові:"></md-input>
+
+        PREFILL LIKE ADDRESS:
+        <p>
+          <md-input class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
+        </p>
+
+        <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
+        value="Твоя особиста візія і думки"></md-input>
+
+        <md-input-container>
+          <label>Color</label>
+          <input type="text" ng-model="color" required md-maxlength="10">
+        </md-input-container>
+
+        <md-input class="demo-full-width" placeholder="Company (disabled)" disabled value="Google">
+        </md-input>
+
+        <table style="width: 100%" cellspacing="0"><tr>
+          <td><md-input class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
+          <td><md-input class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
+          <td><md-input #postalCode class="demo-full-width" maxLength="5"
+                        placeholder="Postal Code"
+                        value="94043">
+            <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>
+          </md-input></td>
+        </tr></table>
+
+        -->
+
+      <button type="submit" md-raised-button (click)="addName()">Додати</button>
+
+    </form>
+  </md-card-content>
+</md-card>
+
+<md-card class="demo-card demo-basic">
+  <md-toolbar color="primary">Документи для Діяльності</md-toolbar>
+  <md-card-content>
+    <md-input placeholder="amount" align="end">
+      <span md-prefix>$&nbsp;</span>
+      <span md-suffix>.00</span>
+    </md-input>
+  </md-card-content>
+</md-card>
+
+<md-card class="demo-card demo-basic">
+  <md-toolbar color="primary">Divider Colors</md-toolbar>
+  <md-card-content>
+    <md-input dividerColor="primary" placeholder="Default Color" value="example"></md-input>
+    <md-input dividerColor="accent" placeholder="Accent Color" value="example"></md-input>
+    <md-input dividerColor="warn" placeholder="Warn Color" value="example"></md-input>
+  </md-card-content>
+</md-card>
+
+<md-card class="demo-card demo-basic">
+  <md-toolbar color="primary">Hints</md-toolbar>
+  <md-card-content>
+    <p>
+      <md-input placeholder="Character count (100 max)" maxLength="100" class="demo-full-width"
+                value="Hello world. How are you?"
+                #characterCountHintExample>
+        <md-hint align="end">{{characterCountHintExample.characterCount}} / 100</md-hint>
+      </md-input>
+    </p>
+  </md-card-content>
+</md-card>
+
+<md-card class="demo-card">
+  <md-card-title>
+    Hello <md-input [(ngModel)]="name" type="text" placeholder="First name"></md-input>,
+    how are you?
+  </md-card-title>
+  <md-card-content>
+    <p>
+      <md-input disabled placeholder="Disabled field" value="Value"></md-input>
+      <md-input required placeholder="Required field"></md-input>
+    </p>
+    <p>
+      <md-input placeholder="100% width placeholder" style="width: 100%"></md-input>
+    </p>
+    <p>
+      <md-input placeholder="Character count (100 max)" maxLength="100" style="width: 100%"
+                #input>
+        <md-hint align="end">{{input.characterCount}} / 100</md-hint>
+      </md-input>
+    </p>
+    <p>
+      <md-input placeholder="Show Hint Label" style="width: 100%"
+                hintLabel="Hint label"></md-input>
+    </p>
+    <!-- md-icon to span -->
+    <p>
+      <md-input>
+        <md-placeholder>
+          I <span class="demo-icons">favorite</span> <b>bold</b> placeholder
+        </md-placeholder>
+        <md-hint>
+          I also <span class="demo-icons">home</span> <i>italic</i> hint labels
+        </md-hint>
+      </md-input>
+    </p>
+    <p>
+      <md-checkbox [(ngModel)]="dividerColor">Check to change the divider color:</md-checkbox>
+      <md-input [dividerColor]="dividerColor ? 'primary' : 'accent'"
+                [placeholder]="dividerColor ? 'Primary color' : 'Accent color'"></md-input>
+    </p>
+    <p>
+      <md-checkbox [(ngModel)]="requiredField"> Check to make required:</md-checkbox>
+      <md-input [required]="requiredField"
+                [placeholder]="requiredField ? 'Required field' : 'Not required field'"></md-input>
+    </p>
+    <p>
+      <md-checkbox [(ngModel)]="floatingLabel"> Check to make floating label:</md-checkbox>
+      <md-input [floatingPlaceholder]="floatingLabel"
+                [placeholder]="floatingLabel ? 'Floating label' : 'Not floating label'"></md-input>
+    </p>
+
+    <p>
+      <md-input placeholder="Prefixed" value="example">
+        <div md-prefix>Example:&nbsp;</div>
+      </md-input>
+      <md-input placeholder="Suffixed" value="123" align="end">
+        <span md-suffix>.00 €</span>
+      </md-input>
+      <br/>
+      Both:
+      <md-input #email placeholder="Email Address" value="angular-core" align="end">
+        <span md-prefix><span [class.primary]="email.focused" class="demo-icons demo-transform">email</span>&nbsp;</span>
+        <span md-suffix class="demo-transform" [class.primary]="email.focused">&nbsp;@gmail.com</span>
+      </md-input>
+    </p>
+
+    <p>
+      Empty: <md-input></md-input>
+      <label>Label: <md-input></md-input></label>
+    </p>
+  </md-card-content>
+</md-card>
+
+<md-card class="demo-card">
+  <table width="100%">
+    <thead>
+      <td>Table</td>
+      <td colspan="3">
+        <button (click)="addABunch(5)">Add 5</button>
+        <button (click)="addABunch(10)">Add 10</button>
+        <button (click)="addABunch(100)">Add 100</button>
+        <button (click)="addABunch(1000)">Add 1000</button>
+      </td>
+    </thead>
+    <tr *ngFor="let item of items; let i = index">
+      <td>{{i+1}}</td>
+      <td>
+        <md-input type="number" placeholder="value" aria-label="hello" [(ngModel)]="items[i].value"></md-input>
+      </td>
+      <td>
+        <input type="number" [(ngModel)]="items[i].value">
+      </td>
+      <td>{{item.value}}</td>
+    </tr>
+  </table>
+</md-card>

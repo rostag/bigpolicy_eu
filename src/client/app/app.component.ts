@@ -7,6 +7,7 @@ import { HTTP_PROVIDERS} from '@angular/http';
 // import { HomeComponent } from './+home/index';
 // BP-MOD: ADDED
 import { LandingComponent } from './landing/index';
+import { EditLeaderComponent } from './leader/edit/index';
 import { NameListService, NavbarComponent, ToolbarComponent } from './shared/index';
 
 /**
@@ -29,7 +30,8 @@ import { NameListService, NavbarComponent, ToolbarComponent } from './shared/ind
 // BP-MOD: ADDED
 @Routes([
   new Route({path: '/', component: LandingComponent}),
-  new Route({path: '/about', component: LandingComponent})
+  new Route({path: '/about', component: LandingComponent}),
+  new Route({path: '/add-leader', component: EditLeaderComponent})
 ])
 
 export class AppComponent {}
