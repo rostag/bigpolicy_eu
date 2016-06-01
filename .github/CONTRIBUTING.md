@@ -51,7 +51,7 @@ npm run build.dev
 git push origin feature-[назва]
 ```
 
-## Після цього ідіть на https://github.com/rostag/bigpolicy_eu і робіть Pull Request з вашої гілки до гілки `develop`, не забуваючи заповняти поля з описом змін.
+## Після цього на https://github.com/rostag/bigpolicy_eu робіть ПР (Pull Request) з вашої гілки до гілки `develop`, не забуваючи заповняти поля з описом змін.
 
 ## Для гілок рекомендуються такі назви:
 
@@ -61,6 +61,6 @@ git push origin feature-[назва]
 
 ## Облік багів
 
-Ведемо на сторінці [issues](https://github.com/rostag/bigpolicy_eu/issues)
+* Проблеми описуємо тут, посилаючись на ваш ПР, якщо такий є: [issues](https://github.com/rostag/bigpolicy_eu/issues)
 
-Дякуемо за співпрацю над майбутнім!
+Дякуємо за співпрацю над майбутнім!
