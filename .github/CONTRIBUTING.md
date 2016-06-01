@@ -1,15 +1,66 @@
-## Submitting Pull Requests
+#Як почати роботу
 
-**Please follow these basic steps to simplify pull request reviews - if you don't you'll probably just be asked to anyway.**
+1. Склонуйте цей репозиторій, замінивши у наступній команді `[app_dir]` на шлях до каталога з проектом на вашій машині, наприклад `c:/dev/BP/qa`:
 
-* Please rebase your branch against the current master
-* Run ```npm install``` to make sure your development dependencies are up-to-date
-* Please ensure that the test suite passes **and** that code is lint free before submitting a PR by running:
- * ```npm test```
-* If you've added new functionality, **please** include tests which validate its behaviour
-* Make reference to possible [issues](https://github.com/mgechev/angular2-seed/issues) on PR comment
+```
+git clone https://github.com/rostag/bigpolicy_eu.git [app_dir]
+```
 
-## Submitting bug reports
+2. Виконайте команди з установки і запуску:
 
-* Please detail the affected browser(s) and operating system(s)
-* Please be sure to state which version of node **and** npm you're using
+```
+npm install
+
+npm start
+```
+Після збірки відкриється браузер зі стартовою сторінкою.
+
+#Як зробити свій внесок
+
+Перше правило: ні за яких обставин не працюйте напряму над гілкою master.
+
+Працюйте над власними гілками за таким процесом:
+
+```
+## Перед початком роботи синхронізуйтеся, тобто заберіть свіжу версію коду, вона завжди буде у гілці develop:
+
+git checkout develop
+
+git pull origin develop
+
+## Створіть вашу власну гілку, назвавши її відповідно до змісту роботи:
+
+git checkout -b feat-[назва]
+
+## Зробіть зміни у коді.
+
+Це може зайняти 5 хвилин, а може й 5 днів, за які develop міз змінитися іншими, тому:
+
+## Перед тим, як віддати код у репозиторій
+
+Не віддавайте код з конфліктами: знову синзронізуйте його з останнью версією develop і виправте конфлікти, якщо будуть:
+
+git pull origin develop
+
+## Не віддавайте код з помилками: перевірте, шо ваш проект збирається:
+
+npm run build.dev
+
+## Після цього відправте зміни у коді до репозиторію:
+
+git push origin feature-[назва]
+```
+
+## Після цього ідіть на https://github.com/rostag/bigpolicy_eu і робіть Pull Request з вашої гілки до гілки `develop`, не забуваючи заповняти поля з описом змін.
+
+## Для гілок рекомендуються такі назви:
+
+* feat-[name] - для нових функцій
+* fix-[name] - для виправлень помилок
+* BP-[number] - для роботи над конкретеними задачами, що мають номер.
+
+## Облік багів
+
+Ведемо на сторінці [issues](https://github.com/rostag/bigpolicy_eu/issues)
+
+Дякуемо за співпрацю над майбутнім!
