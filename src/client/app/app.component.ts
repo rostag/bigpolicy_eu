@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { Route, Routes, ROUTER_DIRECTIVES } from '@angular/router';
 import { HTTP_PROVIDERS} from '@angular/http';
 
-import { AboutComponent } from './+about/index';
-import { HomeComponent } from './+home/index';
+// BP-MOD: REMOVED
+// import { AboutComponent } from './+about/index';
+// import { HomeComponent } from './+home/index';
+// BP-MOD: ADDED
+import { LandingComponent } from './landing/index';
 import { NameListService, NavbarComponent, ToolbarComponent } from './shared/index';
 
 /**
@@ -17,8 +20,16 @@ import { NameListService, NavbarComponent, ToolbarComponent } from './shared/ind
   templateUrl: 'app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
+// BP-MOD: REMOVED
+// @Routes([
+//   new Route({path: '/', component: HomeComponent}),
+//   new Route({path: '/about', component: AboutComponent})
+// ])
+
+// BP-MOD: ADDED
 @Routes([
-  new Route({path: '/', component: HomeComponent}),
-  new Route({path: '/about', component: AboutComponent})
+  new Route({path: '/', component: LandingComponent}),
+  new Route({path: '/about', component: LandingComponent})
 ])
+
 export class AppComponent {}
