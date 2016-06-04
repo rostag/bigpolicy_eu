@@ -1,36 +1,93 @@
-<div class="demo-grid-list">
+<div class="bp-landing stats-list numbers">
+  <md-card class="md-card-flat">
+    <md-grid-list cols="5" rowHeight="50">
+      <md-grid-tile> <a [routerLink]="['/add-leader']"><button md-button md-raised-button color="accent">Заповнити анкету</button></a> </md-grid-tile>
+      <md-grid-tile> <h2>Лідерів</h2> <br/> <span>{{leaderCount}}</span> </md-grid-tile>
+      <md-grid-tile> <h2>Донорів</h2> <br/> <span>{{donorCount}}</span> </md-grid-tile>
+      <md-grid-tile> <h2>Зібрано</h2> <br/> <span>{{coinCount}}</span> </md-grid-tile>
+      <md-grid-tile>
+        <h2>
+          Омега
+        </h2> <br/> <span>Ω</span> </md-grid-tile>
+    </md-grid-list>
+  <!-- </md-card>
+  <md-card> -->
+
+    <md-grid-list cols="8" rowHeight="400">
+      <md-grid-tile colspan="3" [style.background]="getColor()">
+        <div class="topcontent">
+          <p>
+            <md-icon md-grid-avatar>info_outline</md-icon>
+          </p>
+          <p>Запрошуємо тебе  на платформу для людей, які хочуть створити нову політичну систему.</p>
+          <p>У тебе звісно є свої думки щодо цього.</p>
+          <p>
+            <a [routerLink]="['/add-leader']">Поділись ними з нами</a> та долучайся до перших користувачів.
+          </p>
+          <p>
+            <md-icon>star_border</md-icon>
+          </p>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile colspan="3" [style.background]="getColor()">
+        <div class="topcontent leader">
+          <md-card>
+            <md-card-title><img src="assets/img/avatar.jpg">Чому?</md-card-title>
+            <md-card-content>
+                Оновлення влади має продовжуватися. Ми досягли певних успіхів, та цього замало, щоб спочивати. Ми не можемо собі цього дозволити. Законодавча влада мусить бути оновлена у першу чергу, щоб наступним кроком оновити кабінет міністрів.
+              <br/>
+              <br/>
+                <button md-button md-raised-button (click)="addTileCols()" color="primary" icon="thumb_up">Підтримати</button>
+            </md-card-content>
+          </md-card>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile colspan="2" [style.background]="getColor()">
+        <div class="align-bottom">
+          <img class="logo" src="assets/img/logo-and-bg.png" />
+        </div>
+      </md-grid-tile>
+
+    </md-grid-list>
+  </md-card>
+
+<!--
+
+<md-grid-tile>
+    <div class="align-bottom">
+</md-grid-tile>
+
+
+-->
+
+
+<!--
   <md-card>
-    <md-card-content class="stats-list numbers">
-      <md-grid-list cols="5" [rowHeight]="basicRowHeight">
-        <md-grid-tile> <a [routerLink]="['/add-leader']"><button md-button md-raised-button color="accent">Заповнити анкету</button></a> </md-grid-tile>
-        <md-grid-tile> <h2>Лідерів</h2> <br/> <span>{{leaderCount}}</span> </md-grid-tile>
-        <md-grid-tile> <h2>Донорів</h2> <br/> <span>{{donorCount}}</span> </md-grid-tile>
-        <md-grid-tile> <h2>Зібрано</h2> <br/> <span>{{coinCount}}</span> </md-grid-tile>
+    <md-card-title>Grid list with header</md-card-title>
+    <md-card-content>
+      <md-grid-list cols="3">
+        <md-grid-tile *ngFor="let dog of dogs" style="background:gray">
+          <md-grid-tile-header>
+            <md-icon md-grid-avatar>info_outline</md-icon>
+            {{dog.name}}
+          </md-grid-tile-header>
+        </md-grid-tile>
       </md-grid-list>
     </md-card-content>
   </md-card>
-
-  <md-grid-list cols="4" rowHeight="100">
-    <md-grid-tile [colspan]="3" [rowspan]="1">
-      <md-card>
-        <md-card-title>Чому я такий</md-card-title>
-          <md-card-content>
-            addTileCol back Zorro per Bessie Forder ACU hey see you smiling is there a nearby decoy to Lucent to my story all the birthday girl who came to stay she's the kind of girl who makes you feel so salty still didn't think… thanks the done s)
-          </md-card-content>
-          <md-card-actions>
-          <button md-button (click)="addTileCols()" color="primary">Підтримати</button>
-        </md-card-actions>
-      </md-card>
-    </md-grid-tile>
-    <md-grid-tile [colspan]="2" [rowspan]="1">
-      <md-card>
-        2
-      </md-card>
-    </md-grid-tile>
-    <md-grid-tile [colspan]="1" [rowspan]="1">
-      <md-card>
-        3
-      </md-card>
-    </md-grid-tile>
-  </md-grid-list>
+  <md-card>
+    <md-grid-list cols="3" rowHeight="200px">
+      <md-grid-tile *ngFor="let dog of dogs">
+        <img [alt]="dog.name" src="https://material.angularjs.org/material2_assets/ngconf/{{dog.name}}.png">
+        <md-grid-tile-footer>
+          <h3 md-line>{{dog.name}}</h3>
+          <span md-line>Human: {{dog.human}}</span>
+          <md-icon>star_border</md-icon>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+    </md-grid-list>
+  </md-card>
 </div>
+-->
