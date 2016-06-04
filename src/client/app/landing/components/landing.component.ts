@@ -8,21 +8,32 @@ import {MdIcon, MdIconRegistry} from '@angular2-material/icon/icon';
 @Component({
   selector: 'bp-landing',
   templateUrl: 'app/landing/components/landing.component.html',
-  styleUrls: ['app/landing/components/landing.component.css'],
+  styleUrls: ['app/landing/components/landing.component.scss'],
   directives: [MD_GRID_LIST_DIRECTIVES, MD_CARD_DIRECTIVES, MdButton, ROUTER_DIRECTIVES, MdIcon],
   providers: [MdIconRegistry]
 })
 
 export class LandingComponent {
-  leaderCount = 0;
-  donorCount = 0;
-  coinCount = 0;
+  leaderCount = 'å';
+  donorCount = 'ß';
+  coinCount = 'µ';
 
+  getColor() {
+    let tunes = ['', 'light'];
+    let colors = ['yellow', 'green', 'blue', 'grey'];
+    // let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet', 'grey'];
+    let randomTune = Math.floor(Math.random() * tunes.length);
+    let randomColor = Math.floor(Math.random() * colors.length);
+    return 'transparent';
+    // return tunes[randomTune] + colors[randomColor];
+  }
+
+  // FIXME - Legacy Demo Code To Be Removed
   tiles: any[] = [
     {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
-    {text: 'Two', cols: 1, rows: 2, color: 'blue'},
-    {text: 'Three', cols: 1, rows: 1, color: 'lightgreen'},
-    {text: 'Four', cols: 2, rows: 1, color: 'green'},
+    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
   ];
 
   dogs: Object[] = [
@@ -34,7 +45,11 @@ export class LandingComponent {
     { name: 'Husi', human: 'Matias' },
   ];
 
+  fixedCols: number = 4;
+  fixedRowHeight: number = 100;
   ratioGutter: number = 1;
   fitListHeight: string = '400px';
   ratio: string = '4:1';
+
+  addTileCols() { this.tiles[2].cols++; }
 }

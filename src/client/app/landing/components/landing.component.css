@@ -4,7 +4,7 @@
 }
 
 .bp-landing {
-  width: 1100px;
+
 }
 
 md-card {
@@ -24,16 +24,16 @@ img {
   width: 350px;
 }
 
-
 .numbers h2 {
   font-size: 2rem;
 }
+
 .numbers span {
   display: block;
   font-size: 2rem;
   margin-top: -1.5rem;
 }
 
-.img-logo {
-  margin-top: 3rem;
+.logo {
+  width: 7rem;
 }
