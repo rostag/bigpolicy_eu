@@ -1,3 +1,6 @@
+## BigPolicy 0.0.1
+Opensource Political Crowdfunding tool, based on Good Will, Hard Work for Better Future, Angular 2, Material 2 and Angular2-Seed Materialized by DeviantJS.
+
 # Angular2-Seed Materialized [![Build Status](https://travis-ci.org/DeviantJS/angular2-seed-material2.svg?branch=master)](https://travis-ci.org/DeviantJS/angular2-seed-material2)
 > Current Material2 Version - material2-2.0.0-alpha.5
 
