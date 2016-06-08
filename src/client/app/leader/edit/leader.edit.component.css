@@ -45,3 +45,11 @@ ul {
 .demo-card {
   margin: 16px;
 }
+
+.grid{
+  border-style: solid;
+}
+
+.one{
+  width:30%;
+}

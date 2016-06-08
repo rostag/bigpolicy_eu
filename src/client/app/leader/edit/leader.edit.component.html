@@ -1,84 +1,92 @@
 <md-card class="demo-card demo-basic">
-  <md-toolbar color="primary">Деталі Діяча</md-toolbar>
+  <md-grid-list cols="2" [style.background]="'white'">
+    <md-grid-tile class="grid one">One</md-grid-tile>
+    <md-grid-tile class="grid two">Two</md-grid-tile>
+  </md-grid-list>
+
   <md-card-content>
+    <md-toolbar color="primary">РЕЕСТРАЦІЯ ДІЯЧА
+    </md-toolbar>
     <form>
-    <!-- FIXME: Завантаж: Фото | Відео | Лого -->
-    <table style="width: 100%" cellspacing="0"><tr>
-      <md-card style="width: 30%">
-      <img md-card-md-image src="assets/img/avatar.jpg">
-      <md-card-content>Фокусування на тому, що дійсно робить світ краще.</md-card-content>
-         <md-card-title>Завантаж:</md-card-title>
-         <md-card-actions style="align:end">
-        <button md-button>Фото</button>
-        <button md-button>Відео</button>
-        <button md-button>Твоє Лого</button>
-   </md-card-actions>
-</md-card>
-      <td><md-input placeholder="Ім'я" style="width: 100%"></md-input></td>
-      <td><md-input placeholder="Прізвище" style="width: 100%"></md-input></td></tr></table>
+      <!--LOGO OF LEADER-->
+      <table style="width: 100%" cellspacing="0">
+        <tr>
+          <md-card style="width: 30%">
+            <img md-card-md-image src="assets/img/avatar.jpg">
+            <md-card-content>Фокусування на тому, що дійсно робить світ краще.</md-card-content>
+            <md-card-title>Завантаж:</md-card-title>
+            <md-card-actions style="align:end">
+              <button md-button>Фото</button>
+              <button md-button>Відео</button>
+              <button md-button>Твоє Лого</button>
+            </md-card-actions>
+          </md-card>
+          <td>
+            <md-input placeholder="Ім'я" style="width: 100%"></md-input>
+          </td>
+          <td>
+            <md-input placeholder="Прізвище" style="width: 100%"></md-input>
+          </td>
+        </tr>
+      </table>
+      <h3>Як виглядає проблема для тебе?</h3>
 
-    <h3>Як виглядає проблема для тебе?</h3>
+      <md-input characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
+      </md-input>
 
-    <md-input characterCounter style="width: 100%;"
-      placeholder="Твоя особиста візія і думки"
-      hintLabel="" >
-    </md-input>
+      <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
-    <h3>Який аспект проблеми ти хочеш вирішити?</h3>
+      <md-input characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
+      </md-input>
 
-    <md-input characterCounter style="width: 100%;"
-      placeholder="Твоя місія"
-      hintLabel="" >
-    </md-input>
+      <md-toolbar color="primary">Заходи та проекти</md-toolbar>
+      <h3>Якими заходами ти вирішиш цю проблему?</h3>
 
-    <md-toolbar color="primary">Заходи та проекти</md-toolbar>
-    <h3>Якими заходами ти вирішиш цю проблему?</h3>
+      <md-input characterCounter style="width: 100%;" placeholder="Опиши свій проект чи захід: *" hintLabel="">
+      </md-input>
 
-    <md-input characterCounter style="width: 100%;"
-      placeholder="Опиши свій проект чи захід: *"
-      hintLabel="">
-    </md-input>
+      <md-input placeholder="Сума, грн" align="end">
+        <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
+        <span md-suffix>.00 </span>
+      </md-input>
 
-    <md-input placeholder="Сума, грн" align="end">
-      <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
-      <span md-suffix>.00 </span>
-    </md-input>
+      <p>
+        <button md-raised-button (click)="addProject()">Додати ще один захід або проект</button>
+      </p>
 
-    <p>
-      <button md-raised-button (click)="addProject()">Додати ще один захід або проект</button>
-    </p>
+      <md-toolbar color="primary">Твоя програма</md-toolbar>
 
-    <md-toolbar color="primary">Твоя програма</md-toolbar>
+      <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
+      <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
 
-    <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3>
+      <p>
+        Другорядна ціль:
+        <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+      </p>
 
-    Головна ціль: <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+      <p>
+        <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
+      </p>
 
-    <p>
-    Другорядна ціль: <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
-    </p>
+      <md-toolbar color="primary">Додатково</md-toolbar>
 
-    <p>
-      <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
-    </p>
+      <md-card-title>
+        Належиш до партії?
+        <md-input type="text" placeholder="Вкажи партію"></md-input>
+      </md-card-title>
 
-    <md-toolbar color="primary">Додатково</md-toolbar>
+      <md-card-title>
+        Офіційна посада:
+        <md-input type="text" placeholder="Вкажи свою посаду"></md-input>
+      </md-card-title>
 
-    <md-card-title>
-      Належиш до партії? <md-input type="text" placeholder="Вкажи партію"></md-input>
-    </md-card-title>
+      <p>
+        <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
+      </p>
 
-    <md-card-title>
-      Офіційна посада: <md-input type="text" placeholder="Вкажи свою посаду"></md-input>
-    </md-card-title>
+      <md-toolbar color="primary">Вкажи свої профілі у соцмережах:</md-toolbar>
 
-    <p>
-      <button md-raised-button (click)="addProject()">Додати ще одну ціль</button>
-    </p>
-
-    <md-toolbar color="primary">Вкажи свої профілі у соцмережах:</md-toolbar>
-    
-        <!-- JUST SOME SNIPPETS TO BE REUSED
+      <!-- JUST SOME SNIPPETS TO BE REUSED
 
         The example of name list service from
         <ul>
@@ -116,39 +124,42 @@
         -->
 
       <button type="submit" md-raised-button (click)="addName()">Додати</button>
-
     </form>
   </md-card-content>
 </md-card>
 
 <md-card class="demo-card demo-basic">
-  <md-toolbar color="primary">Документи для Діяльності</md-toolbar>
   <md-card-content>
-  <md-card-header>
-   <h2>Завантаж необхідні документи:</h2>
-  </md-card-header>
-  <button md-raised-button color="primary">Програма Дій</button>
-  <button md-raised-button color="primary">Передвиборча Програма</button>
-  <button md-raised-button color="accent">Скан Паспорту</button>
-  <button md-raised-button color="accent">Довідка про судимості</button>
-  <button md-raised-button color="warn">Антикорупційні документи</button>
-  <button md-raised-button color="primary" color="warn">Публічна майнова декларація</button>
+    <md-toolbar color="primary">Документи для Діяльності</md-toolbar>
+    <md-card-content>
+      <md-card-header>
+        <h2>Завантаж необхідні документи:</h2>
+      </md-card-header>
+      <button md-raised-button color="primary">Програма Дій</button>
+      <button md-raised-button color="primary">Передвиборча Програма</button>
+      <button md-raised-button color="accent">Скан Паспорту</button>
+      <button md-raised-button color="accent">Довідка про судимості</button>
+      <button md-raised-button color="warn">Антикорупційні документи</button>
+      <button md-raised-button color="primary" color="warn">Публічна майнова декларація</button>
+    </md-card-content>
+    <ul style="list-style-type:none">
+      <li>
+        <md-checkbox [checked]="false" align="start">
+          Я даю згоду на обробку моїх персональних данних.
+        </md-checkbox>
+      </li>
+      <li>
+        <md-checkbox [checked]="false" align="start">
+          Я погоджуюся з умовами роботи BigPolicy
+        </md-checkbox>
+      </li>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button md-raised-button color="primary">Готово</button>
+      <button md-raised-button>Як буде виглядати моя сторінка</button>
+    </ul>
   </md-card-content>
-  <ul style="list-style-type:none" >
-  <li>
-  <md-checkbox [checked]="false" align="start">
-  Я даю згоду на обробку моїх персональних данних.
-</md-checkbox></li>
-<li>
-<md-checkbox [checked]="false" align="start">
-  Я погоджуюся з умовами роботи BigPolicy
-</md-checkbox></li>
-<br>
-<br>
-<br>
-<br>
-<br>
-<button md-raised-button color="primary">Готово</button>
-<button md-raised-button>Як буде виглядати моя сторінка</button>
-  </ul>
 </md-card>
