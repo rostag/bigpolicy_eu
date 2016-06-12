@@ -6,7 +6,9 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 # export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # WAS . ~/app-root/repo/.bashrc
 
-source ~/app-root/data/.bash_profile
+# source ~/app-root/data/.bash_profile
+
+source ~/app-root/data/.bash_profile >> ~/app-root/repo/.bashrc
 
 # export XDG_DATA_DIRS || '/usr/local/share/:/usr/share/').split(':');
 # exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"

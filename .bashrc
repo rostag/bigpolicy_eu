@@ -1,3 +1,7 @@
+echo '--------------- HELLO from .bashrc'
+
+
+
 # export NODE_ENV=development
 #
 # # NPM_PACKAGES="${HOME}app-root/data/.npm-packages"
