@@ -13,6 +13,10 @@ export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
+  PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+
+  IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+
   constructor() {
     super();
     // this.APP_TITLE = 'Put name of your app here';

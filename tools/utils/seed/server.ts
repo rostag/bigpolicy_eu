@@ -5,7 +5,7 @@ import { resolve } from 'path';
 import * as serveStatic from 'serve-static';
 
 import * as codeChangeTool from './code_change_tools';
-import { APP_BASE, COVERAGE_PORT, DOCS_DEST, DOCS_PORT, PORT, PROD_DEST } from '../../config';
+import { APP_BASE, COVERAGE_PORT, DOCS_DEST, DOCS_PORT, PORT, IP_ADDRESS, PROD_DEST } from '../../config';
 
 /**
  * Serves the Single Page Application. More specifically, calls the `listen` method, which itself launches BrowserSync.
@@ -36,7 +36,7 @@ export function serveDocs() {
   );
 
   server.listen(DOCS_PORT, () =>
-    openResource('http://localhost:' + DOCS_PORT + APP_BASE)
+    openResource('http://' + IP_ADDRESS + ':' + DOCS_PORT + APP_BASE)
   );
 }
 
@@ -52,7 +52,7 @@ export function serveCoverage() {
   );
 
   server.listen(COVERAGE_PORT, () =>
-    openResource('http://localhost:' + COVERAGE_PORT + APP_BASE)
+    openResource('http://' + IP_ADDRESS + ':' + COVERAGE_PORT + APP_BASE)
   );
 }
 
@@ -68,6 +68,6 @@ export function serveProd() {
   server.use(fallback('index.html', { root }));
 
   server.listen(PORT, () =>
-    openResource('http://localhost:' + PORT + APP_BASE)
+    openResource('http://' + IP_ADDRESS + ':' + PORT + APP_BASE)
   );
 };

@@ -32,6 +32,7 @@
     "webdriver-start": "webdriver-manager start",
     "webdriver-update": "webdriver-manager update"
   },
+  "main": "server.js",
   "author": "Minko Gechev <mgechev>",
   "contributors": [
     {
