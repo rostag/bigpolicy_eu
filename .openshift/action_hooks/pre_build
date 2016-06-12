@@ -1,18 +1,5 @@
 echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 
-# NPM_PACKAGES="${HOME}app-root/data/.npm-packages"
-# PATH="$NPM_PACKAGES/bin:$PATH"
-# unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-# export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-# WAS . ~/app-root/repo/.bashrc
-
-# source ~/app-root/data/.bash_profile
-
-source ~/app-root/data/.bash_profile >> ~/app-root/repo/.bashrc
-
-# export XDG_DATA_DIRS || '/usr/local/share/:/usr/share/').split(':');
-# exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"
-
 echo 'NodeJS Config:'
 echo NPM_PACKAGES = $NPM_PACKAGES
 echo NODE_ENV = $NODE_ENV
@@ -28,6 +15,5 @@ cd ~/app-root/repo/
 npm install typings -g
 
 npm install gulp
-
 
 echo '[>>> >>> >>>PRE-BUILT HOOK FINAL <<< <<< <<<]'

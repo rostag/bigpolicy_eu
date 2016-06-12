@@ -1,5 +1,3 @@
 echo 'Build hook START'
 
-# . ../../.bashrc
-
 echo 'Build hook FIN'
