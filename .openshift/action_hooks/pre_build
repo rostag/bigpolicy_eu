@@ -2,6 +2,10 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 
 source ~/app-root/data/.bash_profile
 
+npm install typings -g
+
+npm install gulp
+
 # NPM_PACKAGES="${HOME}app-root/data/.npm-packages"
 # PATH="$NPM_PACKAGES/bin:$PATH"
 # unset MANPATH # delete if you already modified MANPATH elsewhere in your config
