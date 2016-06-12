@@ -7,10 +7,10 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 
 # WAS . ~/app-root/repo/.bashrc
 
-echo 'export NODE_ENV=development' >> ~/app-root/data/.bash_profile
-echo 'export XDG_DATA_HOME="${HOME}app-root/data/.local/share' >> ~/app-root/data/.bash_profile
-echo 'export XDG_CONFIG_HOME="${HOME}app-root/data/.config"' >> ~/app-root/data/.bash_profile
-echo 'export XDG_CACHE_HOME="${HOME}app-root/data/.cache"' >> ~/app-root/data/.bash_profile
+# echo 'export NODE_ENV=development' >> ~/app-root/data/.bash_profile
+# echo 'export XDG_DATA_HOME="${HOME}app-root/data/.local/share"' >> ~/app-root/data/.bash_profile
+# echo 'export XDG_CONFIG_HOME="${HOME}app-root/data/.config"' >> ~/app-root/data/.bash_profile
+# echo 'export XDG_CACHE_HOME="${HOME}app-root/data/.cache"' >> ~/app-root/data/.bash_profile
 
 # echo 'source ~/app-root/data/.bash_profile' >> .openshift/action_hooks/pre_start_nodejs-0.6
 
