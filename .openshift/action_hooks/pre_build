@@ -27,6 +27,7 @@ echo $XDG_DATA_HOME
 echo $XDG_CONFIG_HOME
 echo $XDG_CACHE_HOME
 
+cd ~/app-root/repo/
 
 npm install typings -g
 
