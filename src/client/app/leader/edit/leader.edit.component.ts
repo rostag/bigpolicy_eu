@@ -14,7 +14,7 @@ import {NameListService} from '../../shared/index';
 @Component({
   templateUrl: 'app/leader/edit/leader.edit.component.html',
   styleUrls: ['app/leader/edit/leader.edit.component.css'],
-  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES]
+  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
   providers: [MdIconRegistry]
   })
 
