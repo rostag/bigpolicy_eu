@@ -17,12 +17,13 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 # export XDG_DATA_DIRS || '/usr/local/share/:/usr/share/').split(':');
 # exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"
 
-echo 'NodeJS Config:
+echo 'NodeJS Config:'
 
 echo $NPM_PACKAGES
 echo $NODE_ENV
 
-echo 'XDG Config:
+echo 'XDG Config:'
+
 echo $XDG_DATA_HOME
 echo $XDG_CONFIG_HOME
 echo $XDG_CACHE_HOME
