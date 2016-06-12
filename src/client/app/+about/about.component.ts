@@ -12,5 +12,5 @@ import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
   directives: [MD_CARD_DIRECTIVES]
 })
 export class AboutComponent {
-  the = 'The'
+  the = 'The';
 }

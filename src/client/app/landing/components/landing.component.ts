@@ -18,16 +18,6 @@ export class LandingComponent {
   donorCount = 'ß';
   coinCount = 'µ';
 
-  getColor() {
-    let tunes = ['', 'light'];
-    let colors = ['yellow', 'green', 'blue', 'grey'];
-    // let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet', 'grey'];
-    let randomTune = Math.floor(Math.random() * tunes.length);
-    let randomColor = Math.floor(Math.random() * colors.length);
-    return 'transparent';
-    // return tunes[randomTune] + colors[randomColor];
-  }
-
   // FIXME - Legacy Demo Code To Be Removed
   tiles: any[] = [
     {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
@@ -51,5 +41,17 @@ export class LandingComponent {
   fitListHeight: string = '400px';
   ratio: string = '4:1';
 
-  addTileCols() { this.tiles[2].cols++; }
+  addTileCols() {
+    this.tiles[2].cols++;
+  }
+
+  getColor() {
+    // let tunes = ['', 'light'];
+    // let colors = ['yellow', 'green', 'blue', 'grey'];
+    // let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet', 'grey'];
+    // let randomTune = Math.floor(Math.random() * tunes.length);
+    // let randomColor = Math.floor(Math.random() * colors.length);
+    return 'transparent';
+    // return tunes[randomTune] + colors[randomColor];
+  }
 }

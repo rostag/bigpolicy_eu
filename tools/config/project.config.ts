@@ -9,7 +9,7 @@ import { InjectableDependency } from './seed.config.interfaces';
  */
 export class ProjectConfig extends SeedConfig {
 
-  APP_TITLE = 'BigPolicy - Suport your folks'
+  APP_TITLE = 'BigPolicy - Suport your folks';
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
