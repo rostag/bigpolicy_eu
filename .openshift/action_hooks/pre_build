@@ -1,5 +1,7 @@
 echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 
+source ~/app-root/data/.bash_profile
+
 # NPM_PACKAGES="${HOME}app-root/data/.npm-packages"
 # PATH="$NPM_PACKAGES/bin:$PATH"
 # unset MANPATH # delete if you already modified MANPATH elsewhere in your config
@@ -11,8 +13,6 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 # echo 'export XDG_DATA_HOME="${HOME}app-root/data/.local/share"' >> ~/app-root/data/.bash_profile
 # echo 'export XDG_CONFIG_HOME="${HOME}app-root/data/.config"' >> ~/app-root/data/.bash_profile
 # echo 'export XDG_CACHE_HOME="${HOME}app-root/data/.cache"' >> ~/app-root/data/.bash_profile
-
-# echo 'source ~/app-root/data/.bash_profile' >> .openshift/action_hooks/pre_start_nodejs-0.6
 
 # export XDG_DATA_DIRS || '/usr/local/share/:/usr/share/').split(':');
 # exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"
