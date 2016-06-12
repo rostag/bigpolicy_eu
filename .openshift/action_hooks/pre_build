@@ -2,10 +2,6 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 
 source ~/app-root/data/.bash_profile
 
-npm install typings -g
-
-npm install gulp
-
 # NPM_PACKAGES="${HOME}app-root/data/.npm-packages"
 # PATH="$NPM_PACKAGES/bin:$PATH"
 # unset MANPATH # delete if you already modified MANPATH elsewhere in your config
@@ -31,5 +27,11 @@ echo 'XDG Config:'
 echo $XDG_DATA_HOME
 echo $XDG_CONFIG_HOME
 echo $XDG_CACHE_HOME
+
+
+npm install typings -g
+
+npm install gulp
+
 
 echo '[>>> >>> >>>PRE-BUILT HOOK FINAL <<< <<< <<<]'
