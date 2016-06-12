@@ -1,4 +1,4 @@
-echo 'Pre-Build hook START'
+echo 'Pre-Build hook START - export .bashrc'
 
 . ../../.bashrc
 
