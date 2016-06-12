@@ -1,0 +1,5 @@
+echo 'Pre-Build hook START'
+
+. ../../.bashrc
+
+echo 'Pre-Build hook FIN'
