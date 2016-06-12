@@ -1,0 +1,3 @@
+. .bashrc
+
+npm install --only=dev
