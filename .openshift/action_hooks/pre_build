@@ -2,11 +2,15 @@ echo 'Pre-Build hook START - export .bashrc'
 
 . ~/app-root/repo/.bashrc
 
+echo 'NodeJS Config:
+
 echo $NPM_PACKAGES
+echo $NODE_ENV
+
+echo 'XDG Config:
 echo $XDG_DATA_HOME
 echo $XDG_CONFIG_HOME
 echo $XDG_CACHE_HOME
 
-echo $NODE_ENV
 
 echo 'Pre-Build hook FIN'
