@@ -13,7 +13,3 @@ export XDG_CACHE_HOME="${HOME}app-root/data/.cache"
 # exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"
 
 export NODE_ENV=development
-
-. .bashrc
-
-echo 'BASHRC =>'
