@@ -15,3 +15,5 @@ export XDG_CACHE_HOME="${HOME}app-root/data/.cache"
 export NODE_ENV=development
 
 . .bashrc
+
+echo 'BASHRC =>'

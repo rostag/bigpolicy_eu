@@ -1,3 +1,5 @@
+echo 'Build hook START'
+
 . .bashrc
 
-npm install --only=dev
+echo 'Build hook FIN'
