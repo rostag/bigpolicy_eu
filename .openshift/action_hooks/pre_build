@@ -1,5 +1,6 @@
 echo 'Pre-Build hook START - export .bashrc'
 
-. ../../.bashrc
+ls -la
+. ~/app-root/repo/.bashrc
 
 echo 'Pre-Build hook FIN'
