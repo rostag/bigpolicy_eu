@@ -6,26 +6,20 @@ echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
 # export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # WAS . ~/app-root/repo/.bashrc
 
-echo 'export NODE_ENV=development' >> ~/app-root/data/.bash_profile
-echo 'export XDG_DATA_HOME=${HOME}app-root/data/.local/share' >> ~/app-root/data/.bash_profile
-echo 'export XDG_CONFIG_HOME=${HOME}app-root/data/.config' >> ~/app-root/data/.bash_profile
-echo 'export export XDG_CACHE_HOME=${HOME}app-root/data/.cache' >> ~/app-root/data/.bash_profile
-
 source ~/app-root/data/.bash_profile
 
 # export XDG_DATA_DIRS || '/usr/local/share/:/usr/share/').split(':');
 # exports.configDirs = (env.XDG_CONFIG_DIRS || '/etc/xdg').split(':');"
 
 echo 'NodeJS Config:'
-
-echo $NPM_PACKAGES
-echo $NODE_ENV
+echo NPM_PACKAGES = $NPM_PACKAGES
+echo NODE_ENV = $NODE_ENV
 
 echo 'XDG Config:'
 
-echo $XDG_DATA_HOME
-echo $XDG_CONFIG_HOME
-echo $XDG_CACHE_HOME
+echo XDG_DATA_HOME = $XDG_DATA_HOME
+echo XDG_CONFIG_HOME = $XDG_CONFIG_HOME
+echo XDG_CACHE_HOME = $XDG_CACHE_HOME
 
 cd ~/app-root/repo/
 
