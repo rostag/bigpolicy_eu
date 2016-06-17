@@ -1,17 +1,17 @@
 {
   "name": "bp-app",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "node openshift-server.js",
+    "start": "node --use_strict start.js",
     "postinstall": "typings install",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor"
   },
-  "main": "openshift-server.js",
+  "main": "start.js",
   "private": true,
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",
