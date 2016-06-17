@@ -1,0 +1,19 @@
+echo '[>>> >>> >>>PRE-BUILT HOOK START <<< <<< <<<]'
+
+echo 'NodeJS Config:'
+echo NPM_PACKAGES = $NPM_PACKAGES
+echo NODE_ENV = $NODE_ENV
+
+echo 'XDG Config:'
+
+echo XDG_DATA_HOME = $XDG_DATA_HOME
+echo XDG_CONFIG_HOME = $XDG_CONFIG_HOME
+echo XDG_CACHE_HOME = $XDG_CACHE_HOME
+
+# cd ~/app-root/repo/
+
+# npm install typings -g
+
+# npm install gulp
+
+echo '[>>> >>> >>>PRE-BUILT HOOK FINAL <<< <<< <<<]'

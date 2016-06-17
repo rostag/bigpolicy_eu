@@ -1,0 +1,3 @@
+echo 'Build hook START'
+
+echo 'Build hook FIN'
