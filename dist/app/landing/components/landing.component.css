@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  padding: 0 16px;
+}
+
+.bp-landing {
+
+}
+
+md-card {
+  margin: 16px 0;
+}
+
+p {
+  margin: 16px;
+  line-height: 1.4;
+}
+
+.stats-list md-grid-tile {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+img {
+  width: 350px;
+}
+
+.numbers h2 {
+  font-size: 1.2em;
+}
+
+.numbers span {
+  display: block;
+  font-size: 1em;
+  margin-top: -1.5em;
+  color: #999;
+}
+
+.logo {
+  width: 7em;
+}
+
+/* FIXME Hack due to Grid List lack of vertical align */
+.topcontent {
+  height: 100%;
+}
+
+.topcontent.leader img {
+    width: 60px;
+    vertical-align: middle;
+    margin-right: 1rem;
+}
+
+.align-bottom {
+  position: absolute;
+  bottom: 2rem;
+  right: 1rem;
+}
