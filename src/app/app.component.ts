@@ -18,8 +18,5 @@ import { NavbarComponent, ToolbarComponent } from './shared/index';
 })
 
 export class AppComponent {
-  leadersCount = 0;
-  donorsCount = 0;
-  coinsCount = 0;
   title = 'BigPolicy';
 }
