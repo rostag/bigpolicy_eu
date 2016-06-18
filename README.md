@@ -1,13 +1,12 @@
 # BigPolicy
 
-Here is a draft of opensourcing crowdfunding platform for social activists, who do not want to be involved into obsolete corrupted parties, but are bright and willing for change
-
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.6.
+Here is a [draft](qa-europe.rhcloud.com) of open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
 
 ## How To start
 
 ### Prerequisites
 
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.6.
 At the moment of this writing TS1.9 nightly build is needed in order to compile typescript. Please install it like this:
 
 `npm install -g typescript@next`

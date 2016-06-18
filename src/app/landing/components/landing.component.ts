@@ -15,9 +15,9 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 })
 
 export class LandingComponent {
-  leaderCount = 'å';
-  donorCount = 'ß';
-  coinCount = 'µ';
+  leaderCount = '0';
+  donorCount = '0';
+  coinCount = '0';
 
   // FIXME - Legacy Demo Code To Be Removed
   tiles: any[] = [
@@ -42,8 +42,8 @@ export class LandingComponent {
   fitListHeight: string = '400px';
   ratio: string = '4:1';
 
-  addTileCols() {
-    this.tiles[2].cols++;
+  supportLeader() {
+    console.log('support');
   }
 
   getColor() {

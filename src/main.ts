@@ -7,6 +7,7 @@ import { provideRouter } from '@angular/router';
 import { AboutComponent } from './app/about/index';
 import { LandingComponent } from './app/landing/index';
 import { EditLeaderComponent } from './app/leader/edit/index';
+import { LeadersListComponent } from './app/leader/list/index';
 
 if (environment.production) {
   enableProdMode();
@@ -18,6 +19,7 @@ bootstrap(AppComponent, [
   provideRouter([
     { index: true, component: LandingComponent },
     { path: '/about', component: AboutComponent },
+    { path: '/leaders', component: LeadersListComponent },
     { path: '/add-leader', component: EditLeaderComponent }
   ])
 ]);

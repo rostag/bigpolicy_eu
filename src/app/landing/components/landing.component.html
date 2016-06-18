@@ -6,9 +6,12 @@
       <md-grid-tile> <h2>Донорів</h2> <br/> <span>{{donorCount}}</span> </md-grid-tile>
       <md-grid-tile> <h2>Зібрано</h2> <br/> <span>{{coinCount}}</span> </md-grid-tile>
       <md-grid-tile>
+        <!--
         <h2>
           Омега
-        </h2> <br/> <span>Ω</span> </md-grid-tile>
+        </h2> <br/> <span>Ω</span>
+        -->
+      </md-grid-tile>
     </md-grid-list>
   <!-- </md-card>
   <md-card> -->
@@ -24,9 +27,9 @@
           <p>
             <a [routerLink]="['/add-leader']">Поділись ними з нами</a> та долучайся до перших користувачів.
           </p>
-          <p>
+          <!-- <p>
             <md-icon>star_border</md-icon>
-          </p>
+          </p> -->
         </div>
       </md-grid-tile>
 
@@ -38,7 +41,7 @@
                 Оновлення влади має продовжуватися. Ми досягли певних успіхів, та цього замало, щоб спочивати. Ми не можемо собі цього дозволити. Законодавча влада мусить бути оновлена у першу чергу, щоб наступним кроком оновити кабінет міністрів.
               <br/>
               <br/>
-                <button md-button md-raised-button (click)="addTileCols()" color="primary" icon="thumb_up">Підтримати</button>
+                <button md-button md-raised-button (click)="supportLeader()" color="primary" icon="thumb_up">Підтримати</button>
             </md-card-content>
           </md-card>
         </div>
