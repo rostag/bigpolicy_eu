@@ -1,2 +1,2 @@
-echo '=========== PRE START BEGIN ==========='
-echo '=========== PRE START FINAL ==========='
+echo '[ >>> PRE START BEGIN <<< ]'
+echo '[ <<<< PRE START END >>>> ]'
