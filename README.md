@@ -13,7 +13,7 @@ At the moment of this writing TS1.9 nightly build is needed in order to compile 
 
 ### Clone this repository:
 
-'git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>'
+`git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>`
 
 ## How to contribute? / Як долучитися до проекту?
 
