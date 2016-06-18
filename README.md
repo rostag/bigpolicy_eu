@@ -12,7 +12,11 @@ At the moment of this writing TS1.9 nightly build is needed in order to compile 
 
 `npm install -g typescript@next`
 
-Please notice: recently, there were big [updates to Angular 2 Router](http://victorsavkin.com/post/145672529346/angular-router#comment-2723686096), and this project incorporates them.
+Please note: recently, there were big [updates to Angular 2 Router](http://victorsavkin.com/post/145672529346/angular-router#comment-2723686096), and this project incorporates them.
+
+## How to contribute? / Як долучитися до проекту?
+
+[Please see BigPolicy Contributibg Doc](https://github.com/rostag/bigpolicy_eu/blob/develop/.github/CONTRIBUTING.md)
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
