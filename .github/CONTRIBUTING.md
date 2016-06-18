@@ -11,7 +11,7 @@ git clone https://github.com/rostag/bigpolicy_eu.git [app_dir]
 ```
 npm install
 
-npm start
+ng serve
 ```
 Після збірки відкриється браузер зі стартовою сторінкою.
 

@@ -7,13 +7,24 @@ Here is a [draft](qa-europe.rhcloud.com) of open-source crowdfunding platform fo
 ### Prerequisites
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.6.
-At the moment of this writing TS1.9 nightly build is needed in order to compile typescript. Please install it like this:
+At the moment of this writing TS1.9 nightly build is needed in order to compile typescript due to [updates to Angular 2 Router](http://victorsavkin.com/post/145672529346/angular-router#comment-2723686096). Install it like this:
 
 `npm install -g typescript@next`
 
-Please note: recently, there were big [updates to Angular 2 Router](http://victorsavkin.com/post/145672529346/angular-router#comment-2723686096), and this project incorporates them.
+`npm install -g typings`
 
-## How to contribute? / Як долучитися до проекту?
+`npm install -g angular-cli`
+
+Clone this repository:
+
+`git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>`
+
+`npm install`
+
+`ng serve`
+
+### How to contribute? / Як долучитися до проекту?
+
 
 [Please see BigPolicy Contributibg Doc](https://github.com/rostag/bigpolicy_eu/blob/develop/.github/CONTRIBUTING.md)
 
