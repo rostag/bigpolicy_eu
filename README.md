@@ -19,6 +19,8 @@ At the moment of this writing TS1.9 nightly build is needed in order to compile 
 
 `npm install`
 
+`npm install -g angular-cli`
+
 `ng serve`
 
 ### How to contribute? / Як долучитися до проекту?
