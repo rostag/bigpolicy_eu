@@ -19,7 +19,9 @@ At the moment of this writing TS1.9 nightly build is needed in order to compile 
 
 `npm install`
 
-## How to contribute? / Як долучитися до проекту?
+`ng serve`
+
+### How to contribute? / Як долучитися до проекту?
 
 
 [Please see BigPolicy Contributibg Doc](https://github.com/rostag/bigpolicy_eu/blob/develop/.github/CONTRIBUTING.md)
