@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../Users/rsiryk/dev/BP/qa-dev/tmp/broccoli_type_script_compiler-input_base_path-PZe5mwZO.tmp/0/src/app/shared/navbar/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,oBAAoB,CAAC,EAAA","sourcesContent":["export * from './navbar.component';\n"]}
