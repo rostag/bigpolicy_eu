@@ -1,6 +1,17 @@
-# BpApp
+# BigPolicy
+
+Here is a draft of opensourcing crowdfunding platform for social activists, who do not want to be involved into obsolete corrupted parties, but are bright and willing for change
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.6.
+
+## How To start
+
+### Prerequisites
+
+At the moment of this writing TS1.9 nightly build is needed in order to compile typescript. Please install it like this:
+
+`npm install -g typescript@next`
+
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -19,7 +30,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Deploying to Github Pages
@@ -29,3 +40,17 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 ## Further help
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Badges
+
+[![Build Status](https://travis-ci.org/rostag/bigpolicy_eu.svg?branch=master)](https://travis-ci.org/rostag/bigpolicy_eu)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/rostag/bigpolicy_eu?svg=true)](https://ci.appveyor.com/project/rostag/bigpolicy_eu)
+[![Join the chat at https://gitter.im/rostag/bigpolicy_eu](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rostag/bigpolicy_eu?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Dependency Status](https://david-dm.org/rostag/bigpolicy_eu.svg)](https://david-dm.org/rostag/bigpolicy_eu)
+[![devDependency Status](https://david-dm.org/rostag/bigpolicy_eu/dev-status.svg)](https://david-dm.org/rostag/bigpolicy_eu#info=devDependencies)
+
+
+## License
+
+MIT
