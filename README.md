@@ -17,6 +17,8 @@ At the moment of this writing TS1.9 nightly build is needed in order to compile 
 
 `git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>`
 
+`npm install`
+
 ## How to contribute? / Як долучитися до проекту?
 
 
