@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../Users/rsiryk/dev/BP/qa-dev/tmp/broccoli_type_script_compiler-input_base_path-iwlepOBb.tmp/0/src/app/about/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,8BAA8B,CAAC,EAAA","sourcesContent":["export * from './components/about.component';\n\n"]}
