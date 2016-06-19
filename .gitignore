@@ -40,7 +40,6 @@ dev
 lib
 test
 tmp
-dist
 
 gulpfile.js
 gulpfile.js.map

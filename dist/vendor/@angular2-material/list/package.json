@@ -1,0 +1,87 @@
+{
+  "_args": [
+    [
+      {
+        "name": "@angular2-material/list",
+        "raw": "@angular2-material/list@^2.0.0-alpha.5-2",
+        "rawSpec": "^2.0.0-alpha.5-2",
+        "scope": "@angular2-material",
+        "spec": ">=2.0.0-alpha.5-2 <3.0.0",
+        "type": "range"
+      },
+      "/Users/rsiryk/dev/BP/qa-dev"
+    ]
+  ],
+  "_from": "@angular2-material/list@>=2.0.0-alpha.5-2 <3.0.0",
+  "_id": "@angular2-material/list@2.0.0-alpha.5-2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@angular2-material/list",
+  "_nodeVersion": "5.7.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/list-2.0.0-alpha.5-2.tgz_1464814650686_0.5425850667525083"
+  },
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angular2-material"
+  },
+  "_npmVersion": "3.7.5",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@angular2-material/list",
+    "raw": "@angular2-material/list@^2.0.0-alpha.5-2",
+    "rawSpec": "^2.0.0-alpha.5-2",
+    "scope": "@angular2-material",
+    "spec": ">=2.0.0-alpha.5-2 <3.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@angular2-material/list/-/list-2.0.0-alpha.5-2.tgz",
+  "_shasum": "5eec8c4c3eceb67137cf78f776f514bf28e95956",
+  "_shrinkwrap": null,
+  "_spec": "@angular2-material/list@^2.0.0-alpha.5-2",
+  "_where": "/Users/rsiryk/dev/BP/qa-dev",
+  "bugs": {
+    "url": "https://github.com/angular/material2/issues"
+  },
+  "dependencies": {},
+  "description": "Angular 2 Material list",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "5eec8c4c3eceb67137cf78f776f514bf28e95956",
+    "tarball": "https://registry.npmjs.org/@angular2-material/list/-/list-2.0.0-alpha.5-2.tgz"
+  },
+  "homepage": "https://github.com/angular/material2#readme",
+  "keywords": [
+    "angular",
+    "material",
+    "material design",
+    "components",
+    "list"
+  ],
+  "license": "MIT",
+  "main": "./list.js",
+  "maintainers": [
+    {
+      "email": "angular-core+npm@google.com",
+      "name": "angular2-material"
+    }
+  ],
+  "name": "@angular2-material/list",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular2-material/core": "2.0.0-alpha.5-2"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/material2.git"
+  },
+  "scripts": {},
+  "typings": "./list.d.ts",
+  "version": "2.0.0-alpha.5-2"
+}
