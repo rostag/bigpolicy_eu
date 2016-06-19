@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../Users/rsiryk/dev/BP/qa-dev/tmp/broccoli_type_script_compiler-input_base_path-7sincoDV.tmp/0/src/app/landing/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,gCAAgC,CAAC,EAAA","sourcesContent":["export * from './components/landing.component';\n"]}
