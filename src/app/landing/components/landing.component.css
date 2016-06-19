@@ -7,6 +7,23 @@
 
 }
 
+.bp-landing .container {
+  width: 100%;
+  max-width: inherit;
+}
+
+.bp-landing h4 {
+  font-size: 1.9em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.bp-landing h5 {
+  font-size: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
 md-card {
   margin: 16px 0;
 }
@@ -16,27 +33,28 @@ p {
   line-height: 1.4;
 }
 
-.stats-list md-grid-tile {
-  background: rgba(0, 0, 0, 0.01);
+#stats {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1em;
 }
 
-img {
-  width: 350px;
+#stats md-grid-tile {
+  background: rgba(0, 0, 0, 0);
 }
 
 .numbers h2 {
-  font-size: 1.2em;
+  font-size: 2em;
+  letter-spacing: normal;
 }
 
 .numbers span {
-  display: block;
-  font-size: 1em;
-  margin-top: -1.5em;
-  color: #999;
+  color: #c00;
+  font-weight: bold;
 }
 
 .logo {
-  width: 7em;
+  width: 9em;
+  margin: 0px 25px 25px 15px;
 }
 
 /* FIXME Hack due to Grid List lack of vertical align */
@@ -54,4 +72,20 @@ img {
   position: absolute;
   bottom: 2rem;
   right: 1rem;
+}
+
+#top-projects md-card-title {
+  font-size: 1.2em;
+}
+
+#bottomline {
+  background: url('assets/img/bp-bg-gray-red.jpg')
+}
+
+#bottomline .align-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 0;
+  top: 1rem;
 }

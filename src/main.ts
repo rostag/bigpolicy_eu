@@ -6,7 +6,7 @@ import { provideRouter } from '@angular/router';
 
 import { AboutComponent } from './app/about/index';
 import { LandingComponent } from './app/landing/index';
-import { EditLeaderComponent } from './app/leader/edit/index';
+import { LeaderEditComponent } from './app/leader/edit/index';
 import { ProjectListComponent } from './app/project/list/index';
 import { LeaderViewComponent } from './app/leader/view/index';
 
@@ -21,6 +21,6 @@ bootstrap(AppComponent, [
     { path: '/about', component: AboutComponent },
     { path: '/leader', component: LeaderViewComponent },
     { path: '/projects', component: ProjectListComponent },
-    { path: '/add-leader', component: EditLeaderComponent }
+    { path: '/add-leader', component: LeaderEditComponent }
   ])
 ]);
