@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../Users/rsiryk/dev/BP/qa-dev/tmp/broccoli_type_script_compiler-input_base_path-iwlepOBb.tmp/0/src/app/shared/name-list/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,qBAAqB,CAAC,EAAA","sourcesContent":["export * from './name-list.service';\n"]}
