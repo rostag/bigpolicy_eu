@@ -41,8 +41,38 @@
   }(document, 'script', 'facebook-jssdk'));</script>
   <!-- end ported from live -->
 
-  <app-root><div style="font-family: sans-serif;display: flex; height: 600px;"><span style="font-size:2.5em; text-align:center; display: block; width: 600px; height: 400px; margin: auto;">Відкрита платформа <br />прямої демократії<br /><br /><br /><img src="assets/img/logo-arr.png" style="height:300px;" alt="BigPolicy" /></spam></div></app-root>
+  <style>
+  .circle {
+    width: 200px;
+    height: 200px;
+    /*border-radius: 0px;*/
+    /*border: 1px solid #ccc;*/
+    /*border-width: 100px;*/
+    outline: 80px solid white;
+    outline-offset: -80px;
+  }
 
+  /* Step 1: Set up Keyframes */
+  /* fadeInOut */
+  @keyframes fadeInOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  /* radius */
+  @keyframes radidadius {
+    from { outline-offset: -100px;}
+    to   { outline-offset: 0px;}
+  }
+
+  /* Step 2: Set up the animation */
+  .circle {
+    animation: radidadius 0.5s linear normal;
+    animation-fill-mode: forwards;
+  }
+  </style>
+
+  <app-root><div style="font-family: sans-serif;display: flex; height: 600px;"><span style="font-size:2.5em; text-align:center; display: block; width: 600px; height: 400px; margin: auto;">Відкрита платформа <br />прямої демократії<br /><br /><br /><img src="assets/img/logo-arr.png" class="circle" alt="BigPolicy" /><br /><br /><a style="font-size: 17px;" href="http://github.com/rostag/bigpolicy_eu">github.com/rostag/bigpolicy_eu</a></spam></div></app-root>
 
     <script src="vendor/es6-shim/es6-shim.js"></script>
     <script src="vendor/reflect-metadata/Reflect.js"></script>
@@ -103,8 +133,6 @@
       ga('send', 'pageview');
     </script>
     <!-- End Document -->
-
-
 
 
 </body>
