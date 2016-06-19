@@ -48,8 +48,13 @@ p {
 }
 
 .numbers span {
-  color: #c00;
+  color: #f44336;
   font-weight: bold;
+}
+
+.bp-landing a:href,
+.bp-landing a:visited {
+  color: #f44336;
 }
 
 .logo {
@@ -79,7 +84,8 @@ p {
 }
 
 #bottomline {
-  background: url('assets/img/bp-bg-gray-red.jpg')
+  background: url('assets/img/bp-bg-gray-red.jpg');
+  min-height: 1350px;
 }
 
 #bottomline .align-bottom {

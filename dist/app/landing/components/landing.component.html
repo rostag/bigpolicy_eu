@@ -15,6 +15,7 @@
 
           <h4>Творимо нову політичну систему разом</h4>
           <p><a [routerLink]="['/add-leader']">Реєструйся і ставай діячем</a> або підтримуй активних громадян та їх проекти.</p>
+          <p><small>Мало часу? <a href="https://www.facebook.com/groups/BIGPOLICY/permalink/1771667176453897/">Ми стисло виклали суть справи, наші задачі і методи</a>. І твоя думка цікава нам.</small></p>
 
           <!-- <a [routerLink]="['/add-leader']"><button md-button md-raised-button>Заповнити анкету</button></a> -->
 
@@ -24,7 +25,7 @@
           Ми незалежні від політичних сил і такими зостанемося. Але нам конче необхідні кошти на розробку відкритої платформи прямої демократії.
           Допоможи нам!
           </p>
-          <a href="https://www.liqpay.com/ru/checkout/step1/1466331801138058_50624514_HoU2ZW2G5ONCM05zFoNl"><button md-button md-raised-button>Підтримай нас фінансово</button></a>
+          <a href="https://www.liqpay.com/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXlkb25hdGUiLCJwdWJsaWNfa2V5IjoiaTc3MDYxMzUxNDgyIiwiYW1vdW50IjoiMTAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0JzQvtC5INGC0L7QstCw0YAiLCJ0eXBlIjoiZG9uYXRlIiwibGFuZ3VhZ2UiOiJlbiJ9&signature=vZuhVZRM7b96f9njbtBCp75%2F5pU%3D"><button md-button color="warn" md-raised-button>Підтримай нас фінансово</button></a>
 
           <h5>Ми на зв'язку:</h5>
           <p>Пиши нам на <a href="mailto:voice@bigpolicy.eu">електронну пошту</a>. Долучайся до групи <a href="https://www.facebook.com/groups/BigPolicy">BigPolicy</a> у FB.
@@ -79,7 +80,7 @@
                 <a [routerLink]="['/leader']">Разом ми зробили багато справ</a>, а тепер я готовий іти далі.
             </md-card-content>
             <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
+              <a [routerLink]="['/leader']"><button md-button color="warn">Підтримати</button></a>
             </md-card-actions>
           </md-card>
 
@@ -98,7 +99,7 @@
                 Так, я кажу про українських олігархів. І <a [routerLink]="['/leader']">я знаю, що робити</a>.
             </md-card-content>
             <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
+              <a [routerLink]="['/leader']"><button md-button color="warn">Підтримати</button></a>
             </md-card-actions>
           </md-card>
 
@@ -116,11 +117,11 @@
                 <a [routerLink]="['/leader']">Ось моя ідея у деталях</a>, чекаю ваших відгуків!
             </md-card-content>
             <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
+              <a [routerLink]="['/leader']"><button md-button color="warn">Підтримати</button></a>
             </md-card-actions>
           </md-card>
 
-          <a [routerLink]="['/projects']"><button md-button>Дивитися усі проекти</button></a>
+          <a [routerLink]="['/projects']"><button md-button color="warn">Дивитися усі проекти</button></a>
 
           <!-- FIXME: temporarily disabled: FB Page -->
           <!--
@@ -147,8 +148,20 @@
        </md-grid-tile>
 
       <md-grid-tile colspan="3">
-        <p style="padding-left:2em;"><big>Форкни демократію!</big> Долучайся до розробників відкритої платформи <a href="https://github.com/rostag/bigpolicy_eu">BigPolicy на GitHub</a></p>
-        <p>Ми детально описали, як почати роботу. Якщо будуть питання - звертайся до нашого <a href="https://www.facebook.com/rastislavr">технічного лідера</a>, він підкаже.</p>
+        <div>
+          <p style="padding-left:2em;"><big>Форкни демократію!</big> Долучайся до розробки відкритої платформи <a href="https://github.com/rostag/bigpolicy_eu">BigPolicy на GitHub</a>.</p>
+          <p>Ми детально описали, як почати роботу. Якщо будуть питання - звертайся до нашого <a href="https://www.facebook.com/rastislavr">технічного лідера</a>, він підкаже.</p>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile colspan="2">
+      </md-grid-tile>
+
+      <md-grid-tile colspan="3">
+        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+      </md-grid-tile>
+
+      <md-grid-tile colspan="3">
       </md-grid-tile>
 
       <md-grid-tile colspan="2">
@@ -158,4 +171,5 @@
       </md-grid-tile>
 
     </md-grid-list>
+
   </md-card>
