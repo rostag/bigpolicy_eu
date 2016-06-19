@@ -9,15 +9,15 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   selector: 'bp-landing',
   moduleId: module.id,
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css'],
+  styleUrls: ['./skeleton.css', './landing.component.css'],
   directives: [MD_GRID_LIST_DIRECTIVES, ROUTER_DIRECTIVES, MD_CARD_DIRECTIVES, MdButton, MdIcon],
   providers: [MdIconRegistry]
 })
 
 export class LandingComponent {
-  leaderCount = '0';
-  donorCount = '0';
-  coinCount = '0';
+  leaderCount = '4';
+  donorCount = '40';
+  coinCount = '1344';
 
   supportLeader() {
     console.log('support leader');

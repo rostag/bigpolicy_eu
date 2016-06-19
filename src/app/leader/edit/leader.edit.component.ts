@@ -19,7 +19,7 @@ import {NameListService} from '../../shared/name-list/index';
   providers: [MdIconRegistry, NameListService]
   })
 
-export class EditLeaderComponent {
+export class LeaderEditComponent {
   newName: string;
   dividerColor: boolean;
   requiredField: boolean;
