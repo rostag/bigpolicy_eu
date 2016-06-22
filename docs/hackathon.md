@@ -52,3 +52,8 @@ _18 червня 2016_
 
 # Саундтрек під який деплоївся продакшен у кінці хакатону:
 https://www.youtube.com/watch?v=ZeeWXRxml78
+
+Переможці:
+https://www.facebook.com/alexeydubinsky/posts/10210010858933822?pnref=story
+
+[facebook.com/groups/BIGPOLICY](https://www.facebook.com/groups/BIGPOLICY)
