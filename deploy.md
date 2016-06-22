@@ -1,7 +1,7 @@
 #Deployment Commands
 
 ### QA Deployment Command:
-git checkout deploy-qa-bck deploy-qa && git checkout deploy-qa && ng b -p && git add . && git commit -m 'deploy-update' && git push deploy-qa deploy-qa
+git checkout -B deploy-qa-bck deploy-qa && git checkout deploy-qa && ng b -p && git add . && git commit -m 'deploy-update' && git push deploy-qa deploy-qa && git checkout -B feat-temp
 
 ### Live Deployment Command:
 
