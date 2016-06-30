@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+import { ProjectModel } from './project.model'
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.
@@ -51,9 +52,9 @@ export class ProjectListService {
 
   /**
    * Contains the currently pending request.
-   * @type {Observable<any[]>}
+   * @type {Observable<ProjectModel[]>}
    */
-  private request: Observable<any[]>;
+  private request: Observable<ProjectModel[]>;
 
   /**
    * Creates a new ProjectListService with the injected Http.
@@ -65,16 +66,16 @@ export class ProjectListService {
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource. If there was a previous successful request
    * (the local projects array is defined and has elements), the cached version is returned
-   * @return {any[]} The Observable for the HTTP request.
+   * @return {ProjectModel[]} The Observable for the HTTP request.
    */
-  get(): Observable<any[]> {
+  get(): Observable<ProjectModel[]> {
     if (this.projects && this.projects.length) {
       return Observable.from([this.projects]);
     }
     if (!this.request) {
       this.request = this.http.get('/assets/data.json')
         .map((response: Response) => response.json())
-        .map((data: any[]) => {
+        .map((data: ProjectModel[]) => {
           this.request = null;
           return this.projects = data;
         });
@@ -86,7 +87,7 @@ export class ProjectListService {
    * Adds the given project to the array of projects.
    * @param {string} value - The project to add.
    */
-  add(value: any): void {
+  add(value: ProjectModel): void {
     this.projects.push(value);
   }
 }

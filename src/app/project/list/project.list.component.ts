@@ -3,7 +3,7 @@ import { MdCard } from '@angular2-material/card/card';
 import { MdButton } from '@angular2-material/button/button';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_LIST_DIRECTIVES } from '@angular2-material/list/list';
-import { ProjectListService } from '../../shared/project-list/index';
+import { ProjectListService, ProjectModel } from '../../shared/project-list/index';
 
 @Component({
   moduleId: module.id,
@@ -19,7 +19,6 @@ export class ProjectListComponent {
     this.projects = projectListService.projects;
   }
 
-  // TODO make typed Project
-  projects: Array<any>;
+  projects: Array<ProjectModel>;
 
 }
