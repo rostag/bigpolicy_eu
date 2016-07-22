@@ -47,6 +47,7 @@ const barrels: string[] = [
   '@angular/common',
   '@angular/compiler',
   '@angular/http',
+  '@angular/forms',
   '@angular/router',
   '@angular/platform-browser',
   '@angular/platform-browser-dynamic',
