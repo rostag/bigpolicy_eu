@@ -37,8 +37,7 @@ The push must be made against so called 'deployment branch' which is a branch yo
 
 ### Build and commit build result (usually 'dist' folder):
 
-`ng build -prod
-git add . && git commit -m 'deploy update'`
+`ng build -prod && git add . && git commit -m 'deploy update'`
 
 *Please note*: you need to build in deployment branch, not develop, because develop ignores the 'dist' folder by purpose to avoid storing it in the main repo.
 
@@ -58,8 +57,7 @@ Please make sure you tested your changes on QA before deploying to Live, otherwi
 
 ### Build and commit build result:
 
-`ng build -prod
-git add . && git commit -m 'deploy update'`
+`ng build -prod && git add . && git commit -m 'deploy update'`
 
 ### Push updated `deploy-live` branch to `deploy-live` remote:
 
