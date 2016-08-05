@@ -8,8 +8,6 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 
-import {NameListService} from '../../shared/name-list/index';
-
 @Component({
   moduleId: module.id,
   templateUrl: './leaders.list.component.html',
