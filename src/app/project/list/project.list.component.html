@@ -24,14 +24,13 @@
   <md-list>
      <md-list-item  *ngFor="let project of projects">
        <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-       <h3 md-line>{{project.title}} - {{project.managerName}}</h3>
+       <h3 md-line><big><big><b>{{project.title}}</b>, ₴{{project.cost}}</big></big> - {{project.managerName}}</h3>
        <p md-line>
-        Проект почато: {{project.dateStarted | date:'yMMMMd'}},
-        Дедлайн: {{project.dateEnded | date:'yMMMMd'}}
+        <b><small>Початок: {{project.dateStarted | date:'yMMMMd'}}, 
+        Дедлайн: {{project.dateEnded | date:'yMMMMd'}}</small></b>
        </p>
        <p md-line>
          <span>{{project.description}}</span>
-         <span>Вартість: {{project.cost}} грн.</span>
        </p>
     </md-list-item>
   </md-list>

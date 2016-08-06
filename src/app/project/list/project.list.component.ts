@@ -15,8 +15,8 @@ import { ProjectListService, ProjectModel } from '../../shared/project-list/inde
 
 export class ProjectListComponent {
 
-  constructor(public projectListService: ProjectListService) {
-    this.projects = projectListService.projects;
+  constructor() {
+    this.projects = ProjectListService.getInstance().projects;
   }
 
   projects: Array<ProjectModel>;

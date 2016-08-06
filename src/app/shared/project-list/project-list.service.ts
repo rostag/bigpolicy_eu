@@ -11,66 +11,14 @@ import { ProjectModel } from './project.model'
 @Injectable()
 export class ProjectListService {
 
+  static instance: ProjectListService;
+  static isCreating: Boolean = false;
+
   /**
    * The array of initial projects provided by the service.
    * @type {Array}
    */
-  projects = [{
-      title: 'Чому я йду до Ради',
-      description: 'Замість того, щоб викрити суддю хабарника та притягнути до відповідальності слідчих та прокурорів, які незаконно закрили кримінальне провадження, генеральний прокурор фактично став на захист пшонківських методів розслідування, в якій панує кумівство та позапроцесуальний порядок прийняття рішень у кримінальному провадженні", – наголошує він',
-      cost: 120,
-      managerId: 0,
-      managerName: 'Назар Остапенко',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }, {
-      title: 'Освітлити парки за 99 днів',
-      description: 'Prj 2 Description',
-      cost: 10,
-      managerId: 0,
-      managerName: 'Unknown',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }, {
-      title: '100 робочих місць за 100 днів',
-      description: 'Prj 3 Description',
-      cost: 100,
-      managerId: 0,
-      managerName: 'Unknown',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }, {
-      title: 'Прийняти закон про прокурорські канікули',
-      description: 'Деталі пізніше',
-      cost: 100,
-      managerId: 0,
-      managerName: 'Unknown',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }, {
-      title: '100 робочих місць за 100 днів',
-      description: 'Prj 3 Description',
-      cost: 100,
-      managerId: 0,
-      managerName: 'Unknown',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }, {
-      title: 'Освітлити парки за 99 днів',
-      description: 'Prj 2 Description',
-      cost: 10,
-      managerId: 0,
-      managerName: 'Unknown',
-      dateStarted: new Date(),
-      dateEnded: new Date(),
-      iconURL: ''
-    }
-  ];
+  projects: ProjectModel[];
 
   /**
    * Contains the currently pending request.
@@ -83,8 +31,50 @@ export class ProjectListService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    if (!ProjectListService.isCreating) {
+      throw new Error("You can't call new in Singleton instances!");
+    }
+    // console.log('project list service CONSTRUCTOR');
+    this.projects = [{
+      title: 'Освітлити парки за 99 днів',
+      description: 'Треба Україну трансформувати, а не реформувати. І програма на те і існує, вона працює дуже добре, так що за декілька років ця трансформація відбудеться.',
+      cost: 10,
+      managerId: 0,
+      managerName: 'Марія Олрайт',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
+    }, {
+      title: '100 робочих місць за 100 днів',
+      description: 'Є причини бути оптимістом, бодай для мене, тому що ми маємо таку програму — «Молодь змінить країну» і, додам, без революції. Себто, Україна в жахливому стані. Вона була такою декілька років тому, вона досі в жахливому стані: політично, економічно, соціально, екологічно.',
+      cost: 100,
+      managerId: 0,
+      managerName: 'Дмитро Полив`яний',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
+    }, {
+      title: 'Прийняти закон про зелену енергію',
+      description: 'Деталі пізніше',
+      cost: 100,
+      managerId: 0,
+      managerName: 'Остап Занзібар',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
+    }];
+  }
 
+  static getInstance() {
+    if (ProjectListService.instance == null) {
+      ProjectListService.isCreating = true;
+      ProjectListService.instance = new ProjectListService(null);
+      ProjectListService.isCreating = false;
+    }
+
+    return ProjectListService.instance;
+  }
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource. If there was a previous successful request
    * (the local projects array is defined and has elements), the cached version is returned
@@ -111,5 +101,6 @@ export class ProjectListService {
    */
   add(value: ProjectModel): void {
     this.projects.push(value);
+    console.log("Project added: ", this.projects);
   }
 }

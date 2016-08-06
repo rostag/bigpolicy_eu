@@ -23,7 +23,7 @@ export class ProjectEditComponent {
 
   project: ProjectModel;
 
-  constructor(public projectListService: ProjectListService) {
+  constructor() {
     this.project = new ProjectModel();
   }
 
@@ -31,9 +31,11 @@ export class ProjectEditComponent {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addProject(): boolean {
-    this.projectListService.add(this.project);
-    console.log(this.project.title);
-    this.project = new ProjectModel();
+    ProjectListService.getInstance().add(this.project);
+    this.project.dateStarted = new Date(this.project.dateStarted.toString());
+    this.project.dateEnded = new Date(this.project.dateEnded.toString());
+    // console.log('Project added: ' + this.project.title);
+    // this.project = new ProjectModel();
     return false;
   }
 
