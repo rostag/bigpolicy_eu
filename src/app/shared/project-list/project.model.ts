@@ -4,7 +4,7 @@ export class ProjectModel {
   cost: number;
   managerName: string;
   managerId: number;
-  dateStarted: Date;
-  dateEnded: Date;
+  dateStarted: Date = new Date();
+  dateEnded: Date = new Date();
   iconURL: string;
 }

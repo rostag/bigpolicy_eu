@@ -41,7 +41,7 @@ export class ProjectListService {
       description: 'Треба Україну трансформувати, а не реформувати. І програма на те і існує, вона працює дуже добре, так що за декілька років ця трансформація відбудеться.',
       cost: 10,
       managerId: 0,
-      managerName: 'Марія Олрайт',
+      managerName: 'Марія Конотопська',
       dateStarted: new Date(),
       dateEnded: new Date(),
       iconURL: ''
@@ -59,7 +59,7 @@ export class ProjectListService {
       description: 'Деталі пізніше',
       cost: 100,
       managerId: 0,
-      managerName: 'Остап Занзібар',
+      managerName: 'Олекса Запальний',
       dateStarted: new Date(),
       dateEnded: new Date(),
       iconURL: ''

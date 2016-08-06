@@ -17,8 +17,12 @@
       </md-input>
 
       <table style="width: 100%" cellspacing="0"><tr>
-       <td><md-input [(ngModel)]="project.dateStarted" placeholder="Дата початку: " value="Вкажи дату початку проекту, будь ласка"></md-input></td>
-       <td><md-input [(ngModel)]="project.dateEnded" placeholder="Дата завершення: " value="коли закінчується проект?"></md-input></td>
+       <td><md-input type="date" [(ngModel)]="project.dateStarted" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка">
+          <div md-prefix>Дата початку:&nbsp;</div>
+       </md-input></td>
+       <td><md-input type="date" [(ngModel)]="project.dateEnded" hintlabel="Коли закінчується проект?" value="Дата завершення проекту">
+          <div md-prefix>Дата завершення:&nbsp;</div>
+       </md-input></td>
       </tr></table>
 
       <p>
