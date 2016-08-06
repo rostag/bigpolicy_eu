@@ -33,7 +33,15 @@ DB.listLeaders = function(id) {
     // .exec();
 }
 
-DB.createLeader = function(data) {
+DB.createLeader = function(dataObj) {
+  var data = dataObj;
+
+  for ( var item in dataObj ) {
+    data = JSON.parse(item);
+    // console.log( item, data[item]);
+  }
+
+  // var data = JSON.parse(dataStr);
   console.log('createLeader: ', data)
     if(!data) data = {};
     const leader = new Leader({

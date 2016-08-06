@@ -51,8 +51,24 @@ export class NameListService {
 
   create(): void {
     var body: string = JSON.stringify({
-      name: 'Name of leader',
-      surName: 'Surname of leader'
+      "name": "Name of Leader",
+      "surName": "Surname of leader",
+      "parentName": "2",
+      "vision": "4",
+      "mission": "5",
+      "photo": "6",
+      "video": "7",
+      "logo": "8",
+      "party": 9,
+      "officialPost": "10",
+      "socialNetworks": "11",
+      "skills": "12",
+      "docActionPlan": "13",
+      "docElectionProgram": "14",
+      "docPropertyDeclaration": "15",
+      "docCriminalRecord": "16",
+      "docCorruptionRecord": "17",
+      "docPassport": "18"
     });
     // let headers = new Headers({ 'Content-Type': 'application/json' });
     var headers = new Headers();
@@ -75,18 +91,16 @@ export class NameListService {
     this.http.post('http://localhost:4200/leader-api', body, options)
         .map(res => res.json())
         .subscribe(
-          data => this.saveData(data),
+          data => this.processResponse(data),
           err => (err) => console.error('Data send error: ', err),
           () => console.log('Data sent')
         );
   }
 
-  private saveData(data) {
-        // if(data) {
-          // localStorage.setItem('id_token', jwt)
-          console.log('save data:', data)
-        // }
-      }
+  private processResponse(data) {
+    console.log('Process reponse:', data)
+  }
+
   /**
    * Adds the given name to the array of names.
    * @param {string} value - The name to add.
