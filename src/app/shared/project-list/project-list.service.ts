@@ -16,37 +16,59 @@ export class ProjectListService {
    * @type {Array}
    */
   projects = [{
-      title: '1 - Чому я йду до Ради',
-      description: 'Prj 1 Description',
-      cost: 120
+      title: 'Чому я йду до Ради',
+      description: 'Замість того, щоб викрити суддю хабарника та притягнути до відповідальності слідчих та прокурорів, які незаконно закрили кримінальне провадження, генеральний прокурор фактично став на захист пшонківських методів розслідування, в якій панує кумівство та позапроцесуальний порядок прийняття рішень у кримінальному провадженні", – наголошує він',
+      cost: 120,
+      managerId: 0,
+      managerName: 'Назар Остапенко',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }, {
       title: 'Освітлити парки за 99 днів',
       description: 'Prj 2 Description',
-      cost: 10
+      cost: 10,
+      managerId: 0,
+      managerName: 'Unknown',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }, {
       title: '100 робочих місць за 100 днів',
       description: 'Prj 3 Description',
-      cost: 100
+      cost: 100,
+      managerId: 0,
+      managerName: 'Unknown',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }, {
-      title: 'Освітлити парки за 99 днів',
-      description: 'Prj 2 Description',
-      cost: 10
+      title: 'Прийняти закон про прокурорські канікули',
+      description: 'Деталі пізніше',
+      cost: 100,
+      managerId: 0,
+      managerName: 'Unknown',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }, {
       title: '100 робочих місць за 100 днів',
       description: 'Prj 3 Description',
-      cost: 100
+      cost: 100,
+      managerId: 0,
+      managerName: 'Unknown',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }, {
       title: 'Освітлити парки за 99 днів',
       description: 'Prj 2 Description',
-      cost: 10
-    }, {
-      title: '100 робочих місць за 100 днів',
-      description: 'Prj 3 Description',
-      cost: 100
-    }, {
-      title: 'Освітлити парки за 99 днів',
-      description: 'Prj 2 Description',
-      cost: 10
+      cost: 10,
+      managerId: 0,
+      managerName: 'Unknown',
+      dateStarted: new Date(),
+      dateEnded: new Date(),
+      iconURL: ''
     }
   ];
 

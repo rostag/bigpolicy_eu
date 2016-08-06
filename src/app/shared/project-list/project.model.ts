@@ -1,5 +1,10 @@
 export class ProjectModel {
-  title: string = 'Untitled Project';
-  description: string = 'No Description';
-  cost: number = 0;
+  title: string;
+  description: string;
+  cost: number;
+  managerName: string;
+  managerId: number;
+  dateStarted: Date;
+  dateEnded: Date;
+  iconURL: string;
 }
