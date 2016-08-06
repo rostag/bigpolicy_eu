@@ -114,10 +114,7 @@
             <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>
           </md-input></td>
         </tr></table>
-
         -->
-
-      <button type="submit" md-raised-button (click)="addName()">Додати</button>
     </form>
   </md-card-content>
 </md-card>
@@ -148,8 +145,8 @@
         </md-checkbox>
       </li>
       <br>
-      <button md-raised-button color="primary">Готово</button>
-      <button md-raised-button>Як буде виглядати моя сторінка</button>
+      <button type="submit" md-raised-button color="primary" (click)="addName()">Готово</button>
+      <button md-raised-button>Як буде виглядати моя сторінка?</button>
     </ul>
   </md-card-content>
 </md-card>

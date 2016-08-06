@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 
+// Use native promises
+mongoose.Promise = global.Promise;
+
 // mongoose models
 var Leader = require('./models/leader');
 
@@ -8,14 +11,17 @@ var Leader = require('./models/leader');
 var DB = {};
 
 try{// for livereloading purposes
+  console.error('establishing mongoose connection');
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
+        console.error('establishing PSHIT connection: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
         mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
     }else{
         // localhost
+        console.error('establishing mongoose connection: \nmongodb://localhost:27017/bigpolicy?poolSize=5');
         mongoose.connect('mongodb://localhost:27017/bigpolicy?poolSize=5');
     }
 }catch(err){
-    console.error('mongoose connection failed with error: ',err);
+    console.error('A Mongoose connection failed with error: ', err);
 }
 
 DB.getLeader = function(id) {
@@ -28,6 +34,7 @@ DB.listLeaders = function(id) {
 }
 
 DB.createLeader = function(data) {
+  console.log('createLeader: ', data)
     if(!data) data = {};
     const leader = new Leader({
         name: data.name,

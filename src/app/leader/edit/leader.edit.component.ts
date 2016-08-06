@@ -41,8 +41,9 @@ export class LeaderEditComponent {
    */
   addName(): boolean {
     this.nameListService.add(this.newName);
+    this.nameListService.create();
+    // console.log(this.newName);
     this.newName = '';
-    console.log(this.newName);
     return false;
   }
 

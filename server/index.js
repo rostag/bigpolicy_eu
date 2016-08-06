@@ -80,6 +80,6 @@ router.post('/', function (req, res) {
 
 app.use('/leader-api', router);
 
-console.log('backend connected');
+console.log('Server/index:backend connected!');
 // end of module
 }
