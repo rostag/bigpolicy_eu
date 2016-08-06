@@ -8,6 +8,8 @@
 * Створено базовий сервіс проектів (синглтон)
 * Можливість додавати проекти до списку проектів і бачити.
 
+* Додана можливість зберігати діяча (дякую за чудову роботу, Олексію)
+
 ## Почитати:
 
 * Про форматування дат:
@@ -23,3 +25,8 @@ http://twofuckingdevelopers.com/2015/04/angular-2-singleton-service/
 
 * Theming:
 http://stackoverflow.com/questions/38734518/changing-primary-color-in-angular-material-2
+
+* HTTP
+https://auth0.com/blog/angular-2-series-part-3-using-http/
+
+http://chariotsolutions.com/blog/post/angular2-observables-http-separating-services-components/
