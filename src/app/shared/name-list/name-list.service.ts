@@ -50,6 +50,7 @@ export class NameListService {
   }
 
   create(): void {
+
     var body: string = JSON.stringify({
       "name": "Name of Leader",
       "surName": "Surname of leader",
@@ -70,23 +71,11 @@ export class NameListService {
       "docCorruptionRecord": "17",
       "docPassport": "18"
     });
-    // let headers = new Headers({ 'Content-Type': 'application/json' });
-    var headers = new Headers();
+
+    let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
     let options = new RequestOptions({ headers: headers });
-
-    console.log('request: ', body);
-    // if (!this.request) {
-    //   this.http.post('leader-api', body, options)
-    //     .map((response: Response) => response.json())
-    //     .map((data: string[]) => {
-    //       this.request = null;
-    //       console.log('data: ', data);
-    //       return data;
-    //     });
-    // }
-    // return this.request;
 
     this.http.post('http://localhost:4200/leader-api', body, options)
         .map(res => res.json())

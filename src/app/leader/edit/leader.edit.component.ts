@@ -20,18 +20,8 @@ import {NameListService} from '../../shared/name-list/index';
   })
 
 export class LeaderEditComponent {
+
   newName: string;
-  dividerColor: boolean;
-  requiredField: boolean;
-  floatingLabel: boolean;
-  name: string;
-  items: any[] = [
-    { value: 10 },
-    { value: 20 },
-    { value: 30 },
-    { value: 40 },
-    { value: 50 },
-  ];
 
   constructor(public nameListService: NameListService) {}
 
@@ -39,17 +29,11 @@ export class LeaderEditComponent {
    * @param newname  any text as input.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
-  addName(): boolean {
+  addLeader(): boolean {
     this.nameListService.add(this.newName);
     this.nameListService.create();
-    // console.log(this.newName);
     this.newName = '';
     return false;
   }
 
-  addABunch(n: number) {
-    for (let x = 0; x < n; x++) {
-      this.items.push({ value: 5 });
-    }
-  }
 }
