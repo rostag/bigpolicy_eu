@@ -1,41 +1,43 @@
 <md-card>
-  <md-card-title>Як зробити діяльність політика прозорою?</md-card-title>
-  <md-card-subtitle>Діяч - політик чи активіст — це менеджер, і його діяльність складається з [проектів].
-    Кожен проект має виміри: бюджет, строки, результат та інші. Ми ведемо історію проектів та записуємо відгуки спільноти про них.
-    Важливою є здатність діяча адекватно реагувати на критику і виправляти помилки, працювати на результат і ефективний процес його досягнення.
-    Він мусить відповідати на будь-які задані йому запитання щодо проектів.</md-card-subtitle>
-  <md-card-content>
-  <md-card-title>Підтримуйте і контролюйте тих, хто вас цікавить:</md-card-title>
+  <md-card-title>Проекти</md-card-title>
+  <md-card-subtitle>Як зробити діяльність прозорою? Будь-який діяч є менеджером проектів.
+    Кожен проект має визначені  бюджет, строки і результат. Результат оцінює спільнота.
+    Менеджер реагує на критику і відповідає на запитання.
+  </md-card-subtitle>
 
-  <p>Вибрати:
+  <md-card-content>
+  <p>Показати у спискові:
     <select>
-      <option>[члени партій]</option>
+      <option>члени партії...</option>
       <option>РПР</option>
       <option>ЩЗП</option>
     </select>
 
-   <a href="#">громадські активісти</a>, регіон:
+   <a href="#">активісти</a> з регіону:
     <select>
-      <option>будь-який</option>
-      <option>РПР</option>
-      <option>ЩЗП</option>
+      <option>Усі регіони</option>
+      <option>Львів</option>
+      <option>Харків</option>
     </select>
   </p>
 
   <md-list>
      <md-list-item  *ngFor="let project of projects">
        <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-       <h3 md-line> {{project.title}}</h3>
+       <h3 md-line><big><big><b>{{project.title}}</b>, ₴{{project.cost}}</big></big> - {{project.managerName}}</h3>
        <p md-line>
-         <span> {{project.description}}</span>
-         <span class="project-details"> {{project.cost}} </span>
+        <b><small>Початок: {{project.dateStarted | date:'yMMMMd'}}, 
+        Дедлайн: {{project.dateEnded | date:'yMMMMd'}}</small></b>
+       </p>
+       <p md-line>
+         <span>{{project.description}}</span>
        </p>
     </md-list-item>
   </md-list>
 
   </md-card-content>
   <md-card-actions>
-    <a href="/leader"><button md-button color="primary">Дивитися усі проекти</button></a>
+    <a href="/projects"><button md-button color="primary">Переглянути усі проекти</button></a>
   </md-card-actions>
 </md-card>
 
