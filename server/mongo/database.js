@@ -90,9 +90,12 @@ module.exports = DB;
 
 GET localhost:4200/leader-api
 
+
+
 *** To get one particular leader -
 
 GET localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
+
 
 
 *** To create new leader -
@@ -105,6 +108,8 @@ name - Name of leader
 surName - Surname of leader
 etc.
 
+
+
 *** To update leader info -
 
 PUT localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
@@ -115,9 +120,13 @@ name - Name of leader
 surName - Surname of leader
 etc.
 
+
+
 *** To delete leader -
 
 DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
+
+
 
 *** To delete all leaders (DEV PURPOSES!)
 

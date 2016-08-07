@@ -8,7 +8,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const DB = require('./mongo/database');
 
 var router = express.Router();
-// order of routes is important!
+
+//
+// !The order of routes is important!
+//
 
 // middleware for all requests
 // router.use(function(req, res, next) {
@@ -59,6 +62,10 @@ router.post('/', function (req, res) {
     });
 })
 
+/**
+ * Gets the Leader by ID, example:
+ * /leader-api/57a64e2b3a5bfb3b48e6fd1b
+ */
 .get('/:id', function (req, res) {
     if (req.params.id) {
         DB.getLeader(req.params.id)
@@ -68,6 +75,10 @@ router.post('/', function (req, res) {
     }
 })
 
+/**
+ * Gets all leaders, example:
+ * /leader-api/
+ */
 .get('*', function (req, res)     {
     DB.listLeaders()
     .then(function (data) {

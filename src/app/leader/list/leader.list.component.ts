@@ -10,12 +10,12 @@ import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list'
 
 @Component({
   moduleId: module.id,
-  templateUrl: './leaders.list.component.html',
-  styleUrls: ['./leaders.list.component.css'],
+  templateUrl: './leader.list.component.html',
+  styleUrls: ['./leader.list.component.css'],
   directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
   providers: [MdIconRegistry]
-  })
+})
 
-export class LeadersListComponent {
+export class LeaderListComponent {
   constructor() {}
 }

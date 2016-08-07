@@ -39,14 +39,26 @@ export class NameListService {
       return Observable.from([this.names]);
     }
     if (!this.request) {
-      this.request = this.http.get('/assets/data.json')
+      this.request = this.http.get('/leader-api/')
         .map((response: Response) => response.json())
         .map((data: string[]) => {
+          console.log('Leaders loaded: ', data)
           this.request = null;
           return this.names = data;
         });
     }
     return this.request;
+
+    // .get('*', function (req, res)     {
+    //     DB.listLeaders()
+    //     .then(function (data) {
+    //         res.json(data);
+    //     })
+    //     .catch(function(err){
+    //         res.json(err);
+    //     });
+    // });
+
   }
 
   create(): void {
@@ -97,4 +109,5 @@ export class NameListService {
   add(value: string): void {
     this.names.push(value);
   }
+
 }

@@ -7,9 +7,11 @@ import { provideRouter } from '@angular/router';
 import { AboutComponent } from './app/about/index';
 import { LandingComponent } from './app/landing/index';
 import { LeaderEditComponent } from './app/leader/edit/index';
+import { LeaderListComponent } from './app/leader/list/index';
+import { LeaderViewComponent } from './app/leader/view/index';
+
 import { ProjectEditComponent } from './app/project/edit/index';
 import { ProjectListComponent } from './app/project/list/index';
-import { LeaderViewComponent } from './app/leader/view/index';
 // import { ProjectViewComponent } from './app/project/view/index';
 
 if (environment.production) {
@@ -21,9 +23,12 @@ bootstrap(AppComponent, [
   provideRouter([
     { index: true, component: LandingComponent },
     { path: '/about', component: AboutComponent },
+
     { path: '/leader', component: LeaderViewComponent },
-    { path: '/projects', component: ProjectListComponent },
+    { path: '/leaders', component: LeaderListComponent },
     { path: '/add-leader', component: LeaderEditComponent },
+
+    { path: '/projects', component: ProjectListComponent },
     { path: '/add-project', component: ProjectEditComponent }
   ])
 ]);
