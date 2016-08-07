@@ -34,35 +34,33 @@ export class LeaderListService {
    * (the local names array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  get(): Observable<string[]> {
-    if (this.names && this.names.length) {
-      return Observable.from([this.names]);
-    }
-    if (!this.request) {
-      this.request = this.http.get('/leader-api/')
-        .map((response: Response) => response.json())
-        .map((data: string[]) => {
-          console.log('Leaders loaded: ', data)
-          this.request = null;
-          return this.names = data;
-        });
-    }
-    return this.request;
-
-    // .get('*', function (req, res)     {
-    //     DB.listLeaders()
-    //     .then(function (data) {
-    //         res.json(data);
-    //     })
-    //     .catch(function(err){
-    //         res.json(err);
-    //     });
-    // });
-
+  get() {
+    let d = '';
+    this.http.get('http://localhost:4200/leader-api')
+      .map( ( res : Response ) => {
+        console.log('RES: ', res);
+        return res.json()
+      })
+      .subscribe(
+        data => d = data,
+        err => this.logError(err),
+        () => console.log('getLeaders Complete ', d)
+      );
   }
 
-  create(): void {
+  logError(err) {
+    console.error('There was an error: ' + err);
+  }
 
+  private processResponse(data) {
+    console.log('Process reponse:', data)
+  }
+
+  /**
+   * Adds the given name to the array of names.
+   * @param {string} value - The name to add.
+   */
+  add(value: string): void {
     var body: string = JSON.stringify({
       "name": "Name of Leader",
       "surName": "Surname of leader",
@@ -96,18 +94,6 @@ export class LeaderListService {
           err => (err) => console.error('Data send error: ', err),
           () => console.log('Data sent')
         );
-  }
-
-  private processResponse(data) {
-    console.log('Process reponse:', data)
-  }
-
-  /**
-   * Adds the given name to the array of names.
-   * @param {string} value - The name to add.
-   */
-  add(value: string): void {
-    this.names.push(value);
   }
 
 }

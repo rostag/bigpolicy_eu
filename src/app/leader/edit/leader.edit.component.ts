@@ -9,7 +9,7 @@ import { MD_INPUT_DIRECTIVES } from '@angular2-material/input/input';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 
-import {LeaderListService} from '../../shared/leader-list/index';
+import { LeaderListService } from '../../shared/leader-list/index';
 
 @Component({
   moduleId: module.id,
@@ -31,7 +31,6 @@ export class LeaderEditComponent {
    */
   addLeader(): boolean {
     this.leaderListService.add(this.newName);
-    this.leaderListService.create();
     this.newName = '';
     return false;
   }
