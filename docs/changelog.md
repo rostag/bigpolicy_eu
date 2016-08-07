@@ -29,10 +29,17 @@ http://stackoverflow.com/questions/38734518/changing-primary-color-in-angular-ma
 * HTTP
 https://auth0.com/blog/angular-2-series-part-3-using-http/
 
-Angular 2 включає в себе RxJS як місток до реактивного програмування. Практично це означає, наприклад, що HTTP-запити у нашому застосунку повертають об'єкти типу Observable — і щоб успішно працювати з ними, варто вивчити доку.
+Фреймворк Angular 2 включає в себе RxJS як місток до реактивного програмування. Практично це означає, наприклад, що HTTP-запити у вашому застосунку повертають об'єкти типу Observable, що є однією з основних концепцій Angular 2.
 
-Ось дока від розробника Angular 2 Віктора Савкіна про те, як працюють Observables:
+Отже, щоб успішно працювати з цим, варто вивчити доки:
+
+* Текст від розробника Angular 2 Віктора Савкіна про те, як працюють Observables:
 https://vsavkin.com/change-detection-in-angular-2-4f216b855d4c
 
-Ось блог про те, як вони використовуються в HTTP:
+* Блог про те, як вони використовуються в Angular 2 HTTP, і як це відрізняється від Angular 1:
 http://chariotsolutions.com/blog/post/angular2-observables-http-separating-services-components/
+
+* Текст Віктора Савкіна про основні концепції Angular 2:
+https://vsavkin.com/the-core-concepts-of-angular-2-c3d6cbe04d04
+
+ - будь ласка, переконайтеся, що ви їх знаєте і розумієте.

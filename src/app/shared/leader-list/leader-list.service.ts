@@ -5,10 +5,10 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 
 /**
- * This class provides the NameList service with methods to read names and add names.
+ * This class provides the LeaderList service with methods to read names and add names.
  */
 @Injectable()
-export class NameListService {
+export class LeaderListService {
 
   /**
    * The array of initial names provided by the service.
@@ -23,7 +23,7 @@ export class NameListService {
   private request: Observable<string[]>;
 
   /**
-   * Creates a new NameListService with the injected Http.
+   * Creates a new LeaderListService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
    */
