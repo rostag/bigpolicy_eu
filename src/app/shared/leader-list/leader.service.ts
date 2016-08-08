@@ -7,16 +7,17 @@ export class LeaderService {
 
   constructor( private http: Http ) { }
 
-  // FIXME 
+  // FIXME
   // Uses http.get() to load a single JSON file
   getLeaders() {
     var result;
     console.log('getLeaders')
-    return this.http.get('/leader-api/').map((res:Response) => {
+    var r = this.http.get('/leader-api/').map((res:Response) => {
       result = res.json();
       console.log('result:', result);
       return result;
     });
+    return result;
   }
 
   // Uses Observable.forkJoin() to run multiple concurrent http.get() requests.

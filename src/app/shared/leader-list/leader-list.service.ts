@@ -31,6 +31,47 @@ export class LeaderListService {
    */
   constructor(private http: Http) {}
 
+  private leadersUrl = '/leader-api/';
+
+  public getLds (): Observable<any> {
+    return this.http.get(this.leadersUrl)
+                    .map(this.extractData)
+                    // .catch(this.handleError);
+  }
+
+  private extractData(res: Response) {
+    let body = res.json()
+    console.log('res:', res)
+    return body.data || { }
+  }
+
+  getLeaders(leadersHandler:Function) {
+    var ls;
+    var rs = this.http.get(this.leadersUrl)
+      .map((res:Response) => res.json())
+      .subscribe(
+        data => this.saveData(leadersHandler, data),
+        err => console.error(err),
+        () => {
+          console.log('getLeaders:', this.leaders)
+          ls = this.leaders
+          return ls
+        }
+      );
+      return rs
+  }
+
+  private saveData(leadersHandler, data) {
+    this.leaders = data;
+    leadersHandler( data );
+    console.log('saveData:', data);
+    return data;
+  }
+
+  private logError(error) {
+    console.error('logError:', error);
+  }
+
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource. If there was a previous successful request
    * (the local names array is defined and has elements), the cached version is returned
@@ -78,29 +119,6 @@ export class LeaderListService {
     }
     // console.log('d=', d);
     return this.request;
-  }
-
-  getLeaders() {
-    this.http.get('/leader-api/')
-      .map((res:Response) => res.json())
-      .subscribe(
-        data => this.saveData(data),
-        err => console.error(err),
-        () => {
-          console.log('done', this.leaders)
-          return this.leaders
-        }
-      );
-      // return this.leaders
-  }
-
-  private saveData(data) {
-    this.leaders = data;
-    console.log('daarta:', data);
-    return data;
-  }
-  private logError(error) {
-    console.error("ERROR", error);
   }
 
   private processResponse(data) {

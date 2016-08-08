@@ -8,6 +8,7 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { LeaderListService } from '../../shared/leader-list/index';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
   moduleId: module.id,
@@ -19,18 +20,40 @@ import { LeaderListService } from '../../shared/leader-list/index';
 
 export class LeaderListComponent {
 
-    leaders;
+    private leadersUrl = '/leader-api/';
 
-    constructor(public leaderListService: LeaderListService) {
+    leaders = []
 
-    }
+    leadersObservable
+
+    constructor(
+      public leaderListService: LeaderListService,
+      private http: Http
+    ) {}
 
     ngOnInit() {
+      this.leadersObservable = this.getLeaders();
+      console.log( 'Leaders:', this.leadersObservable );
+    }
 
-      this.leaders = this.leaderListService.getLeaders();
+    // FIXME - Move it to the service
+    getLeaders() {
+      return this.http.get(this.leadersUrl)
+        .map((res:Response) => res.json())
+        .subscribe(
+          data => this.saveData(data),
+          err => console.error(err),
+          () => {
+            console.log('getLeaders:', this.leaders)
+            return this.leaders
+          }
+        );
+    }
 
-      console.log( 'Leaders:', this.leaders );
-
+    private saveData(data) {
+      this.leaders = data;
+      console.log('saveData:', data);
+      return data;
     }
 
 }
