@@ -9,7 +9,6 @@ import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { LeaderListService } from '../../shared/leader-list/index';
 
-
 @Component({
   moduleId: module.id,
   templateUrl: './leader.list.component.html',
@@ -19,7 +18,19 @@ import { LeaderListService } from '../../shared/leader-list/index';
 })
 
 export class LeaderListComponent {
+
+    leaders;
+
     constructor(public leaderListService: LeaderListService) {
-      this.leaderListService.get();
+
     }
+
+    ngOnInit() {
+
+      this.leaders = this.leaderListService.getLeaders();
+
+      console.log( 'Leaders:', this.leaders );
+
+    }
+
 }

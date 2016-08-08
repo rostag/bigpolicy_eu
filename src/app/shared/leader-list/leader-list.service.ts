@@ -16,11 +16,13 @@ export class LeaderListService {
    */
   names: string[] = [];
 
+  leaders;
+
   /**
    * Contains the currently pending request.
    * @type {Observable<string[]>}
    */
-  private request: Observable<string[]>;
+  private request;
 
   /**
    * Creates a new LeaderListService with the injected Http.
@@ -35,27 +37,77 @@ export class LeaderListService {
    * @return {string[]} The Observable for the HTTP request.
    */
   get() {
-    let d = '';
-    this.http.get('http://localhost:4200/leader-api')
-      .map( ( res : Response ) => {
-        console.log('RES: ', res);
-        return res.json()
-      })
-      .subscribe(
-        data => d = data,
-        err => this.logError(err),
-        () => console.log('getLeaders Complete ', d)
-      );
+    var d;
+    if (this.names && this.names.length) {
+      return Observable.from([this.names]);
+    }
+    if (!this.request) {
+      this.request = this.http.get('http://localhost:4200/leader-api')
+        .map( ( res : Response ) => {
+          d = res.json();
+          console.log('RES: ', d);
+          return d
+        })
+        .subscribe(
+          data => d = data,
+          err => this.logError(err),
+          () => console.log('getLeaders Complete ', d)
+        );
+    }
+    // console.log('d=', d);
+    return this.request;
   }
 
-  logError(err) {
-    console.error('There was an error: ' + err);
+  getl() {
+    var d;
+    if (this.leaders && this.leaders.length) {
+      return Observable.from([this.leaders]);
+    }
+    if (!this.request) {
+      this.request = this.http.get('http://localhost:4200/leader-api')
+        .map( ( res : Response ) => {
+          d = res.json();
+          console.log('RES: ', d);
+          return d
+        })
+        .subscribe(
+          data => this.leaders = data,
+          err => this.logError(err),
+          () => console.log('getLeaders Complete ', this.leaders)
+        );
+    }
+    // console.log('d=', d);
+    return this.request;
+  }
+
+  getLeaders() {
+    this.http.get('/leader-api/')
+      .map((res:Response) => res.json())
+      .subscribe(
+        data => this.saveData(data),
+        err => console.error(err),
+        () => {
+          console.log('done', this.leaders)
+          return this.leaders
+        }
+      );
+      // return this.leaders
+  }
+
+  private saveData(data) {
+    this.leaders = data;
+    console.log('daarta:', data);
+    return data;
+  }
+  private logError(error) {
+    console.error("ERROR", error);
   }
 
   private processResponse(data) {
     console.log('Process reponse:', data)
   }
 
+  // FIXME: ATTACH TO THE FORM
   /**
    * Adds the given name to the array of names.
    * @param {string} value - The name to add.
@@ -95,5 +147,4 @@ export class LeaderListService {
           () => console.log('Data sent')
         );
   }
-
 }
