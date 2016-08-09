@@ -24,6 +24,8 @@ export class LeaderEditComponent {
 
   private leader: LeaderModel = new LeaderModel();
 
+  private isUpdateMode: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,6 +42,7 @@ export class LeaderEditComponent {
       .subscribe((id) => {
         console.log('Leader Editor by ID from route params:', id)
         if (id) {
+          this.isUpdateMode = true;
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
@@ -49,7 +52,6 @@ export class LeaderEditComponent {
             () => {}
           )
         }
-
       });
   }
 
@@ -73,28 +75,38 @@ export class LeaderEditComponent {
     return false;
   }
 
-  /*
-   * @param newLeader  any text as input.
+  /**
+   * Saves new or edited leader by asking one of two service methods for DB.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   // FIXME: Complete Leader processing
-  addLeader(): boolean {
-    this.leaderService.createLeader(this.leader)
+  saveLeader(): boolean {
+    if (this.isUpdateMode) {
+      // Update existing leader
+      this.leaderService.updateLeader(this.leader)
+      .subscribe(
+        data => { this.gotoLeader(data) },
+        err => (err) => console.error('Leader update error: ', err),
+        () => {}
+      )
+    } else {
+      // Create new leader
+      this.leaderService.createLeader(this.leader)
       .subscribe(
         data => { this.gotoLeader(data) },
         err => (err) => console.error('Leader creation error: ', err),
         () => {}
-      );
-    return false;
+      )
+    }
+    return false
   }
 
-  gotoLeader(data){
-    var leaderId = data._id;
+  gotoLeader(leader){
+    var leaderId = leader._id
     if (leaderId) {
-      console.log('goto leader: ', leaderId, this)
+      console.log('Go to leader by ID: ', leaderId)
       this.router.navigate(['/leader', leaderId]).then(_ => {
         //navigation is done
-        console.log('navigation done')
       });
     }
   }

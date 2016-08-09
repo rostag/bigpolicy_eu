@@ -80,8 +80,21 @@ export class LeaderService {
   }
 
   /**
+   * Updates a leader by performing a request with PUT HTTP method.
+   * @param LeaderModel A Leader to update
+   */
+  updateLeader(leader:LeaderModel):Observable<Response> {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.put(this.leadersUrl + leader._id, JSON.stringify(leader), {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError)
+  }
+
+  /**
+   * Deletes a leader by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
-   * Deletes a leader by performing a request with delete http method.
    */
   deleteLeader(leader:LeaderModel) {
     this.http.delete(this.leadersUrl + leader._id)
