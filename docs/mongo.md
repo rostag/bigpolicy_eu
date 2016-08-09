@@ -9,7 +9,7 @@ If it's installed, you will get version info. Install MongoDB if it's missing.
 
 2. Go to project folder and create `data/db` subfolder:
 
-  'mkdir data && cd data && mkdir db'
+  'mkdir data && cd data && mkdir db && cd ../'
 
 3. run mongodb using this command:
 
