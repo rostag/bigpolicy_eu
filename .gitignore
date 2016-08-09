@@ -41,6 +41,7 @@ lib
 test
 tmp
 dist
+data
 
 gulpfile.js
 gulpfile.js.map
