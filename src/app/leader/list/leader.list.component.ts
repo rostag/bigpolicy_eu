@@ -7,14 +7,15 @@ import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
-import { LeaderListService } from '../../shared/leader-list/index';
+import { LeaderListService, LeaderModel } from '../../shared/leader-list/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   moduleId: module.id,
   templateUrl: './leader.list.component.html',
   styleUrls: ['./leader.list.component.css'],
-  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
+  directives: [FORM_DIRECTIVES, ROUTER_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
   providers: [MdIconRegistry, LeaderListService]
 })
 
@@ -54,6 +55,21 @@ export class LeaderListComponent {
       this.leaders = data;
       console.log('saveData:', data);
       return data;
+    }
+
+    private deleteLeader(leader: LeaderModel) {
+      // Delete from UI Model:
+      var leaderToRemoveIndex = this.leaders.indexOf(leader);
+      this.leaders.splice(leaderToRemoveIndex, 1);
+
+      // Delete from DB
+      this.leaderListService.deleteLeader(leader);
+      return false;
+    }
+
+    private editLeader(leader: LeaderModel) {
+      console.log('Edit Leader: ', leader);
+      return false;
     }
 
 }

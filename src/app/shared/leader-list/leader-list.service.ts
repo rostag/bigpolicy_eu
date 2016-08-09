@@ -4,11 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 
+import { LeaderModel } from './leader.model.ts';
+
 /**
  * This class provides the LeaderList service with methods to read names and add names.
  */
 @Injectable()
 export class LeaderListService {
+
+  private leadersUrl = '/leader-api/';
 
   /**
    * The array of initial names provided by the service.
@@ -30,8 +34,6 @@ export class LeaderListService {
    * @constructor
    */
   constructor(private http: Http) {}
-
-  private leadersUrl = '/leader-api/';
 
   public getLds (): Observable<any> {
     return this.http.get(this.leadersUrl)
@@ -130,27 +132,8 @@ export class LeaderListService {
    * Adds the given name to the array of names.
    * @param {string} value - The name to add.
    */
-  add(value: string): void {
-    var body: string = JSON.stringify({
-      "name": "Name of Leader",
-      "surName": "Surname of leader",
-      "parentName": "2",
-      "vision": "4",
-      "mission": "5",
-      "photo": "6",
-      "video": "7",
-      "logo": "8",
-      "party": 9,
-      "officialPost": "10",
-      "socialNetworks": "11",
-      "skills": "12",
-      "docActionPlan": "13",
-      "docElectionProgram": "14",
-      "docPropertyDeclaration": "15",
-      "docCriminalRecord": "16",
-      "docCorruptionRecord": "17",
-      "docPassport": "18"
-    });
+  add(leader: LeaderModel): void {
+    var body: string = leader.toString();
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -165,4 +148,22 @@ export class LeaderListService {
           () => console.log('Data sent')
         );
   }
+
+  /**
+   * Performs a request with delete http method.
+   */
+  deleteLeader(leader:LeaderModel) {
+    console.log('service, deleteLeader:', leader._id);
+
+    this.http.delete(this.leadersUrl + leader._id)
+        .map(res => console.log('DELETED:', res.json()))
+        .catch(this.handleError)
+        .subscribe((res) => {});
+  }
+
+  private handleError(error: Response) {
+      console.error("HANDLERERROR:", error);
+      return Observable.throw(error.json().error || 'Server error');
+  }
+
 }

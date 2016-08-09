@@ -1,40 +1,43 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-
 /*
-
-1) range of each value will be defined after coordination (with front-end)
-
-2) documents fields will be adjusted after coordination (with host place)
-
+	// TODO
+	Define ranges:
+		1) range of each value will be defined after coordination (with front-end)
+		2) documents fields will be adjusted after coordination (with host place)
 */
 
 const LeaderSchema = new Schema({
 	// personal info
-	name			: { type: String, required: true  },
-	parentName		: { type: String, required: true  },
-	surName			: { type: String, required: true  },
-	vision			: { type: String, required: true  },
-	mission			: { type: String, required: true  },
-	photo			: { type: String },
-	video			: { type: String },
-	logo			: { type: String },// ???
+	name: { type: String, required: true  },
+	parentName: { type: String, required: true  },
+	surName: { type: String, required: true  },
+	vision: { type: String, required: true  },
+	mission: { type: String, required: true  },
+	photo: { type: String },
+	video: { type: String },
+	logo: { type: String },// ???
+
 	// political party membership
-	party			: { type: Number },//  id of party from parties list
-	officialPost	: { type: String },
+	// id of party from parties lst
+	party: { type: Number },
+	officialPost: { type: String },
+
 	// other
 	socialNetworks	: { type: String },// json
-	skills			: { type: String },
+	skills: { type: String },
+
 	// important personal documents
-	docActionPlan			: { type: String },
-	docElectionProgram		: { type: String },
-	docPropertyDeclaration	: { type: String },
-	docCriminalRecord		: { type: String },
-	docCorruptionRecord		: { type: String },
-	docPassport				: { type: String },
+	docActionPlan: { type: String },
+	docElectionProgram: { type: String },
+	docPropertyDeclaration: { type: String },
+	docCriminalRecord: { type: String },
+	docCorruptionRecord: { type: String },
+	docPassport: { type: String },
+
 	// end of documents
-	createdAt				: { type: Date }
+	createdAt: { type: Date }
 });
 
 module.exports = function(){
@@ -44,4 +47,3 @@ module.exports = function(){
 
     return mongoose.model('Leader');
 }();
-

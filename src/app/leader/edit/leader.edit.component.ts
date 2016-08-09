@@ -9,7 +9,7 @@ import { MD_INPUT_DIRECTIVES } from '@angular2-material/input/input';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 
-import { LeaderListService } from '../../shared/leader-list/index';
+import { LeaderListService, LeaderModel } from '../../shared/leader-list/index';
 
 @Component({
   moduleId: module.id,
@@ -21,18 +21,16 @@ import { LeaderListService } from '../../shared/leader-list/index';
 
 export class LeaderEditComponent {
 
-  newName: string;
+  private leader: LeaderModel = new LeaderModel();
 
   constructor(public leaderListService: LeaderListService) {}
 
   /*
-   * @param newname  any text as input.
+   * @param newLeader  any text as input.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addLeader(): boolean {
-    this.leaderListService.add(this.newName);
-    this.newName = '';
+    this.leaderListService.add(this.leader);
     return false;
   }
-
 }

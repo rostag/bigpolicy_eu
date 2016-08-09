@@ -16,22 +16,22 @@
             </md-card-actions>
           </md-card>
           <td>
-            <md-input placeholder="Ім'я" style="width: 100%"></md-input>
+            <md-input [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
           </td>
           <td>
-            <md-input placeholder="Прізвище" style="width: 100%"></md-input>
+            <md-input [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
           </td>
         </tr>
       </table>
-      
+
       <h3>Як виглядає проблема для тебе?</h3>
 
-      <md-input characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
+      <md-input [(ngModel)]="leader.vision" characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
       </md-input>
 
       <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
-      <md-input characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
+      <md-input [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
       </md-input>
 
       <md-toolbar color="primary">Заходи та проекти</md-toolbar>
