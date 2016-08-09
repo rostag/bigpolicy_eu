@@ -2,11 +2,10 @@
 
 <div class="bp-landing numbers">
   <md-card class="md-card-flat">
-    <md-grid-list cols="4" rowHeight="55" id="stats">
-      <md-grid-tile> <h2>Статистика:</h2> &nbsp;</md-grid-tile>
-      <md-grid-tile> <h2>Діячів: <span>{{leaderCount}}</span></h2> </md-grid-tile>
-      <md-grid-tile> <h2>Донорів: <span>{{donorCount}}</span></h2> </md-grid-tile>
-      <md-grid-tile> <h2>Зібрано: <span>{{coinCount}} &#8372;</span></h2> </md-grid-tile>
+    <md-grid-list cols="3" rowHeight="55" id="stats">
+      <md-grid-tile> <h2><span>{{leaderCount}}</span> діяча</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{donorCount}}</span> донорів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{coinCount}}</span> &#8372;</h2> </md-grid-tile>
     </md-grid-list>
 
     <div class="container">
@@ -14,18 +13,22 @@
         <div class="one-half column">
 
           <h4>Творимо нову політичну систему разом</h4>
+
           <p><a [routerLink]="['/add-leader']">Реєструйся і ставай діячем</a> або підтримуй активних громадян та їх проекти.</p>
           <p><small>Мало часу? <a href="https://www.facebook.com/groups/BIGPOLICY/permalink/1771667176453897/">Ми стисло виклали суть справи, наші задачі і методи</a>.<br />І твоя думка цікава нам.</small></p>
 
           <h5>BigPolicy потрібна і твоя пряма підтримка</h5>
+
           <p>Ми не отримуємо фінансової допомоги від жодної з політичних партій і
           в наші плани не входить отримання коштів від них чих від політиків.
           Ми незалежні від політичних сил і такими зостанемося. Але нам конче необхідні кошти на розробку відкритої платформи прямої демократії.
           Допоможи нам!
           </p>
+
           <a href="https://www.liqpay.com/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXlkb25hdGUiLCJwdWJsaWNfa2V5IjoiaTc3MDYxMzUxNDgyIiwiYW1vdW50IjoiMTAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0K8g0LLRltGA0Y4g0LIg0YLQtdCx0LUhIiwidHlwZSI6ImRvbmF0ZSIsImxhbmd1YWdlIjoiZW4ifQ%3D%3D&signature=%2FA19v2A2ebDHGW71VxD5JDhaG70%3D"><button md-button color="primary" md-raised-button>Підтримай нас фінансово</button></a>
 
           <h5>Ми на зв'язку:</h5>
+
           <p>Пиши нам на <a href="mailto:voice@bigpolicy.eu">електронну пошту</a>. Долучайся до групи <a href="https://www.facebook.com/groups/BigPolicy">BigPolicy</a> у FB.
           </p>
 
@@ -175,3 +178,5 @@
     </md-grid-list>
 
   </md-card>
+
+𝖄

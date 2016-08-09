@@ -104,7 +104,7 @@ export class LeaderEditComponent {
   gotoLeader(leader){
     var leaderId = leader._id
     if (leaderId) {
-      console.log('Go to leader by ID: ', leaderId)
+      console.log('𝕱 𝕱 𝕱 Go to leader by ID: ', leaderId)
       this.router.navigate(['/leader', leaderId]).then(_ => {
         //navigation is done
       });
