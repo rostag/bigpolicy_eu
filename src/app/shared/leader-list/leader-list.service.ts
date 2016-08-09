@@ -127,7 +127,7 @@ export class LeaderListService {
     console.log('Process reponse:', data)
   }
 
-  // FIXME: ATTACH TO THE FORM
+  // FIXME: Complete form processing
   /**
    * Adds the given name to the array of names.
    * @param {string} value - The name to add.

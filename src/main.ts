@@ -24,7 +24,8 @@ bootstrap(AppComponent, [
     { index: true, component: LandingComponent },
     { path: '/about', component: AboutComponent },
 
-    { path: '/leader', component: LeaderViewComponent },
+    { path: '/leader/:id', component: LeaderViewComponent },
+    { path: '/leader/:id/edit', component: LeaderEditComponent },
     { path: '/leaders', component: LeaderListComponent },
     { path: '/add-leader', component: LeaderEditComponent },
 
