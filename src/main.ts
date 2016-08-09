@@ -12,7 +12,6 @@ import { LeaderViewComponent } from './app/leader/view/index';
 
 import { ProjectEditComponent } from './app/project/edit/index';
 import { ProjectListComponent } from './app/project/list/index';
-// import { ProjectViewComponent } from './app/project/view/index';
 
 if (environment.production) {
   enableProdMode();

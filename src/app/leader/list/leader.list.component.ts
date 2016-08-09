@@ -7,7 +7,7 @@ import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
-import { LeaderListService, LeaderModel } from '../../shared/leader-list/index';
+import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
@@ -16,54 +16,45 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   templateUrl: './leader.list.component.html',
   styleUrls: ['./leader.list.component.css'],
   directives: [FORM_DIRECTIVES, ROUTER_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
-  providers: [MdIconRegistry, LeaderListService]
+  providers: [MdIconRegistry, LeaderService]
 })
 
 export class LeaderListComponent {
 
-    private leadersUrl = '/leader-api/';
+    private leadersUrl = '/leader-api/'
 
-    leaders = []
-
-    leadersObservable
+    private leaders = []
 
     constructor(
-      public leaderListService: LeaderListService,
-      private http: Http
+      private http: Http,
+      private leaderService: LeaderService
     ) {}
 
     ngOnInit() {
-      this.leadersObservable = this.getLeaders();
-      console.log( 'Leaders:', this.leadersObservable );
+      this.getLeaders()
     }
 
-    // FIXME - Move it to the service
     getLeaders() {
-      return this.http.get(this.leadersUrl)
-        .map((res:Response) => res.json())
+      this.leaderService.getLeaders()
         .subscribe(
-          data => this.saveData(data),
+          data => this.setLeaders(data),
           err => console.error(err),
-          () => {
-            console.log('getLeaders:', this.leaders)
-            return this.leaders
-          }
+          () => this.leaders
         );
     }
 
-    private saveData(data) {
-      this.leaders = data;
-      console.log('saveData:', data);
-      return data;
+    private setLeaders(data) {
+      this.leaders = data
+      return data
     }
 
     private deleteLeader(leader: LeaderModel) {
       // Delete from UI Model:
-      var leaderToRemoveIndex = this.leaders.indexOf(leader);
-      this.leaders.splice(leaderToRemoveIndex, 1);
+      var leaderToRemoveIndex = this.leaders.indexOf(leader)
+      this.leaders.splice(leaderToRemoveIndex, 1)
 
       // Delete from DB
-      this.leaderListService.deleteLeader(leader);
+      this.leaderService.deleteLeader(leader)
       return false;
     }
 

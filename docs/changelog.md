@@ -14,7 +14,7 @@
 
 * Список лідерів завантажується з БД і відображається в UI - див. leader.list.component.ts.
 * Форма створення лідера передає базові властивості лідера у контролер для збереження - leader.edit.component.ts.
-* Реалізовано видалення лідера - leader.list.component.ts та leader-list.service.ts
+* Реалізовано видалення лідера - leader.list.component.ts та leader.service.ts
 * У процесі: режим редагування існуючого лідера.
 
 ## Почитати:

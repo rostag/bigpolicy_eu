@@ -3,26 +3,33 @@
     <md-toolbar color="primary">Реєстрація лідера</md-toolbar>
     <form>
       <!--LOGO OF LEADER-->
-      <table style="width: 100%" cellspacing="0">
-        <tr>
-          <md-card style="width: 30%">
-            <img md-card-md-image src="assets/img/avatar.jpg">
-            <md-card-content>Фокусування на тому, що дійсно робить світ краще.</md-card-content>
-            <md-card-title>Завантаж:</md-card-title>
-            <md-card-actions style="align:end">
-              <button md-button>Фото</button>
-              <button md-button>Відео</button>
-              <button md-button>Твоє Лого</button>
-            </md-card-actions>
-          </md-card>
-          <td>
-            <md-input [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
-          </td>
-          <td>
-            <md-input [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
-          </td>
-        </tr>
-      </table>
+      <md-card>
+        <md-card-header>
+          <img md-card-md-image src="assets/img/avatar-generic.png">
+          Фокусуємося на тому, <br />
+          що дійсно робить світ кращим.
+        </md-card-header>
+        <md-card-content>
+          <table style="width: 100%" cellspacing="0">
+            <tr>
+              <td style="width: 40%">
+              </td>
+              <td>
+                <big><md-input [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input></big>
+              </td>
+              <td>
+                <big><md-input [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input></big>
+              </td>
+            </tr>
+          </table>
+        </md-card-content>
+        <md-card-actions style="align:end">
+          Завантаж зображення:
+          <button md-button>Фото</button>
+          <button md-button>Відео</button>
+          <button md-button>Твоє лого</button>
+        </md-card-actions>
+      </md-card>
 
       <h3>Як виглядає проблема для тебе?</h3>
 
@@ -124,7 +131,7 @@
     The example of name list service from
 
       <ul>
-        <li *ngFor="let name of leaderListService.get()">{{name}}</li>
+        <li *ngFor="let name of leaderService.get()">{{name}}</li>
       </ul>
 
       <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Вкажи своє прізвище, ім'я та по-батькові:"></md-input>

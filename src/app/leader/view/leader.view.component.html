@@ -4,13 +4,11 @@
     <img md-card-md-image src="assets/img/avatar.jpg">
   </md-card>
   <md-card style="width:60%">
-    <md-card-title>Семен Гігабіт, Дніпро
+    <md-card-title>{{leader.name}} {{leader.surName}}, Дніпро
     </md-card-title>
     <md-card-subtitle>
       <p>Навички та вміння: Аналітик, соціальний підприємець та консультант</p>
       <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка.</p>
-      <button md-button>Місія</button>
-      <button md-button>Візія</button>
       <button md-button>Фінансовий Звіт</button>
       <button md-button>Декларація</button>
     </md-card-subtitle>
@@ -28,15 +26,23 @@
       Голосування <a href="https://www.google.com.ua/" target="blank"><md-icon>tag_faces</md-icon></a>
   </md-card>
   <md-card style="width:100%">
-    <h3>Місія :</h3> Sea evertitur deseruisse an. Fugit utinam ea est, ei pro magna propriae recusabo. Euripidis gloriatur pro at, quem debitis pri eu. Duo aliquam principes disputationi ei, veritus expetenda no vix. Eripuit delectus recusabo sit in, illum fabulas at sea.
+    <h3>Місія:</h3>{{leader.mission}}
     <br><br>
-    <h3>Візія:</h3> Duo no harum omittam dignissim. No nec vocent praesent, enim possit iisque ea mei. Sit ei dicta munere, vis ex delectus intellegat. At mea stet vocibus eleifend. In dolores sensibus iudicabit mei, vix verear electram adolescens ut. Eu novum molestiae eum. Ut cum malorum persequeris, ne porro inimicus est, no mea choro qualisque.
+    <h3>Візія:</h3> {{leader.vision}}
   </md-card>
 </md-card-content>
 <md-card-content style="width:100%">
 <md-card style="width:60%">
   <button md-raised-button color="primary">Підтримати (70₴)</button>   <button md-raised-button color="primary">Підтримати (700₴)</button>
-  <button md-raised-button color="primary">Підтримати (70₴)</button>     <button md-raised-button color="primary">PRIMARY</button>
+  <button md-raised-button color="primary">Підтримати (70₴)</button>
+
+  <br />
+
+  <admin>
+    <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
+    <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
+  </admin>
+
 </md-card>
 <md-card>
   Треба зібрати: <h2>700000₴</h2>
