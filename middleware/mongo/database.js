@@ -12,21 +12,20 @@ var DB = {};
 
 // FIXME
 var options = {
-  server: { poolSize: 5 },
-  user: 'admin',
-  pass: 'LsR7mT64BMR5'
+  server: { poolSize: 5 }
 }
-mongoose.connect(uri, options);
 
 // for livereloading purposes
 try{
   console.error('Establishing mongoose connection:');
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
-        console.error('  on Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
+        console.error('On Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
+        options.user = 'admin';
+        options.pass = 'LsR7mT64BMR5';
         mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME, options);
     }else{
         // localhost
-        console.error('  locally: mongodb://localhost:27017/bigpolicy');
+        console.error('Locally: mongodb://localhost:27017/bigpolicy');
         mongoose.connect('mongodb://localhost:27017/bigpolicy', options);
     }
 }catch(err){
