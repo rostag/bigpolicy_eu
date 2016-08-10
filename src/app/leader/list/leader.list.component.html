@@ -1,28 +1,73 @@
 <md-card>
   <md-card-content>
     <h2>Діячі</h2>
-    <div class="leadears-mockup">
+    <div class="leadears-mockup demo-card-container">
       <md-list>
          <md-list-item *ngFor="let leader of leaders">
 
-           <md-card>
-             <md-card-header>
-               <img md-card-avatar src="assets/img/avatar-generic.png">
-               <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
-               <!-- <md-card-subtitle>{{leader.name}} {{leader.surName}}</md-card-subtitle> -->
-             </md-card-header>
-             <md-card-content>
-                 Візія: {{leader.vision}}
-                 <br/>
-                 <br/>
-             </md-card-content>
-             <md-card-actions>
-               <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
-               <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-               <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
-             </md-card-actions>
-           </md-card>
+                        <md-card>
+                          <md-card-title-group>
+                            <img md-card-avatar src="assets/img/avatar-generic.png">
+                            <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
+                            <md-card-title></md-card-title>
+                          </md-card-title-group>
+                          <md-card-content>
+                            <!-- <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title> -->
+                              <p>Візія: {{leader.vision}}</p>
+                          </md-card-content>
+                          <md-card-actions>
+                            <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
+                            <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+                            <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
+                          </md-card-actions>
+                        </md-card>
 
+
+             <!-- <md-card>
+               <md-card-subtitle>Subtitle</md-card-subtitle>
+               <md-card-title>Card with title</md-card-title>
+               <md-card-content>
+                 <p>This is supporting text.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+               </md-card-content>
+               <md-card-actions>
+                 <button md-button>LIKE</button>
+                 <button md-button>SHARE</button>
+               </md-card-actions>
+             </md-card>
+
+             <md-card>
+               <img md-card-image src="https://material.angularjs.org/latest/img/washedout.png">
+               <md-card-title>Content Title</md-card-title>
+               <md-card-content>
+                 <p>Here is some content</p>
+               </md-card-content>
+               <md-card-actions align="end">
+                 <button md-button>LIKE</button>
+                 <button md-button>SHARE</button>
+               </md-card-actions>
+             </md-card>
+
+             <md-card>
+               <md-card-header>
+                 <img md-card-avatar>
+                 <md-card-title>Header title</md-card-title>
+                 <md-card-subtitle>Header subtitle</md-card-subtitle>
+               </md-card-header>
+               <img md-card-image src="https://material.angularjs.org/latest/img/washedout.png">
+               <md-card-content>
+                 <p>Here is some content</p>
+               </md-card-content>
+             </md-card>
+
+             <md-card class="demo-card-blue md-card-flat">
+               <md-card-title>Easily customizable</md-card-title>
+               <md-card-actions>
+                 <button md-button>First</button>
+                 <button md-button>Second</button>
+               </md-card-actions>
+             </md-card>
+           </div> -->
            <br />
            <br />
 
@@ -31,3 +76,7 @@
     </div>
   </md-card-content>
 </md-card>
+
+<p>
+⨒-_-⨒-_-⨒-_-⨒-qa
+</p>

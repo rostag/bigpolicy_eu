@@ -32,6 +32,8 @@ export class LeaderModel {
 	// end of documents
 	createdAt: String;
 
+	cash: Number = Math.random() * 1000000;
+
   /**
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
@@ -55,7 +57,8 @@ export class LeaderModel {
       "docPropertyDeclaration": this.docPropertyDeclaration,
       "docCriminalRecord": this.docCriminalRecord,
       "docCorruptionRecord": this.docCorruptionRecord,
-      "docPassport": this.docPassport
+      "docPassport": this.docPassport,
+			"cash": this.cash
     })
   }
 }

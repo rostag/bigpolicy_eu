@@ -4,7 +4,7 @@ var app = express();
 var server = http.createServer(app);
 var port = process.env.OPENSHIFT_NODEJS_PORT || 8021;
 var hostname = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var middleware = require('./middleware/');
+var middleware = require('./server/');
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
