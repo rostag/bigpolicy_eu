@@ -103,6 +103,10 @@ export class LeaderService {
         .subscribe((res) => {});
   }
 
+  get(): Observable<Response> {
+    return this.getLeaders()
+  }
+
   private handleError(error: Response) {
       console.error("Error occured:", error);
       return Observable.throw(error.json().error || 'Server error');
