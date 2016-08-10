@@ -23,6 +23,8 @@ Clone this repository:
 
 `ng serve`
 
+Please note: you need _at least npm 3_.
+
 ### How to contribute? / Як долучитися до проекту?
 
 
