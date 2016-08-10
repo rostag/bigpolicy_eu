@@ -10,15 +10,24 @@ var Leader = require('./models/leader');
 
 var DB = {};
 
-try{// for livereloading purposes
+// FIXME
+var options = {
+  server: { poolSize: 5 },
+  user: 'admin',
+  pass: 'LsR7mT64BMR5'
+}
+mongoose.connect(uri, options);
+
+// for livereloading purposes
+try{
   console.error('Establishing mongoose connection:');
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
-        console.error('  on Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
-        mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
+        console.error('  on Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
+        mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME, options);
     }else{
         // localhost
-        console.error('  locally: mongodb://localhost:27017/bigpolicy?poolSize=5');
-        mongoose.connect('mongodb://localhost:27017/bigpolicy?poolSize=5');
+        console.error('  locally: mongodb://localhost:27017/bigpolicy');
+        mongoose.connect('mongodb://localhost:27017/bigpolicy', options);
     }
 }catch(err){
     console.error('A Mongoose connection failed with error: ', err);
