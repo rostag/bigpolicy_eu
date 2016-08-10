@@ -11,13 +11,13 @@ var Leader = require('./models/leader');
 var DB = {};
 
 try{// for livereloading purposes
-  console.error('establishing mongoose connection');
+  console.error('Establishing mongoose connection:');
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
-        console.error('establishing PSHIT connection: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
+        console.error('  on Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
         mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
     }else{
         // localhost
-        console.error('establishing mongoose connection: \nmongodb://localhost:27017/bigpolicy?poolSize=5');
+        console.error('  locally: mongodb://localhost:27017/bigpolicy?poolSize=5');
         mongoose.connect('mongodb://localhost:27017/bigpolicy?poolSize=5');
     }
 }catch(err){
