@@ -27,4 +27,4 @@ middleware(app);
 
 server.listen(port,hostname);
 
-console.log( 'BigPolicy Express web server listening on port ' + port + ', host: ' + hostname);
+console.log( 'BigPolicy Express Web Server is listening: http://' + hostname + ':' + port );

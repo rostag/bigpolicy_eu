@@ -18,6 +18,10 @@
 * Редагування існуючого лідера (а саме даних, завантажених із БД).
 * Запрацювала сторінка лідера (з даними, завантаженими БД)
 
+11.08.2016
+
+* Заново увімкнув QA-картридж MongoDB, added creds to docs.
+
 ## Почитати:
 
 * Про форматування дат:
@@ -48,6 +52,13 @@ https://vsavkin.com/change-detection-in-angular-2-4f216b855d4c
 http://chariotsolutions.com/blog/post/angular2-observables-http-separating-services-components/
 
 * Текст Віктора Савкіна про основні концепції Angular 2:
+- будь ласка, переконайтеся, що ви їх знаєте і розумієте.
 https://vsavkin.com/the-core-concepts-of-angular-2-c3d6cbe04d04
 
- - будь ласка, переконайтеся, що ви їх знаєте і розумієте.
+* https://blog.openshift.com/set-up-nodejs-mongodb-and-express-on-free-spatial-web-hosting/
+
+* FB Integration:
+https://developers.facebook.com/docs/sharing/opengraph
+
+* 5 Rookie mistakes on Angular:
+http://angularjs.blogspot.co.uk/2016/04/5-rookie-mistakes-to-avoid-with-angular.html
