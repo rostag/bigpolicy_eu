@@ -1,49 +1,37 @@
-<md-toolbar color="primary">Діяч</md-toolbar>
-
 <md-card>
-
-  <md-card-content>
 
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
         <a href><md-icon>thumb_up</md-icon></a>
         <a href><md-icon>share</md-icon></a>
-        <br><em>{{leader.cash}}₴</em>
+        <em>{{leader.cash}}₴</em>
         <md-card-subtitle>Дніпро</md-card-subtitle>
+          <button md-raised-button color="accent">+70₴</button>
+          <button md-raised-button color="accent">+3700₴</button>
+          <button md-raised-button color="accent">+7000₴</button>
       </md-card-title>
       <img md-card-md-image src="assets/img/avatar.jpg">
     </md-card-title-group>
 
-    <md-card-title-group>
-      <div>
-        <h2>Навички та вміння:</h2>
-        <p>Аналітик, соціальний підприємець та консультант</p>
-        <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка.</p>
-      </div>
+    <md-card-content>
 
-      <md-card-title>
+      <h3>Місія:</h3>{{leader.mission}}
+      <br><br>
+      <h3>Візія:</h3> {{leader.vision}}
 
-      </md-card-title>
+      <h2>Навички та вміння:</h2>
+      <p>Аналітик, соціальний підприємець та консультант</p>
+      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка.</p>
 
-    </md-card-title-group>
+      <h2>Документи:</h2>
+      <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація
 
-    <div>
-        <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
-        <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
-        <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
-        <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація
-    </div>
-
-    <h3>Місія:</h3>{{leader.mission}}
-    <br><br>
-    <h3>Візія:</h3> {{leader.vision}}
-
-  </md-card-content>
+    </md-card-content>
 
   <md-card-actions>
-    <button md-raised-button color="primary">Підтримати (70₴)</button>
-    <button md-raised-button color="primary">Підтримати (700₴)</button>
-    <button md-raised-button color="primary">Підтримати (70₴)</button>
     <p class="admin">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
