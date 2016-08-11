@@ -3,7 +3,7 @@
 # $2 base branch to deploy
 
 cd ..
-git checkout -B deploy-qa-$1 deploy-qa
+git checkout -B deploy-qa-bck-$1 deploy-qa
 
 git checkout deploy-qa
 git merge $2 -Xtheirs -m 'deploy-update'
