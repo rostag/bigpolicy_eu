@@ -2,7 +2,6 @@
 # $1 bck branch to save before deploy
 # $2 base branch to deploy
 
-cd ..
 git checkout -B deploy-live-bck-$1 deploy-live
 
 git checkout deploy-live
