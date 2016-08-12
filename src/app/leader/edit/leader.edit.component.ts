@@ -8,47 +8,106 @@ import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
 import { MD_INPUT_DIRECTIVES } from '@angular2-material/input/input';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {NameListService} from '../../shared/name-list/index';
+import { LeaderService, LeaderModel } from '../../shared/leader/index';
 
 @Component({
   moduleId: module.id,
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.css'],
   directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
-  providers: [MdIconRegistry, NameListService]
+  providers: [MdIconRegistry, LeaderService]
   })
 
 export class LeaderEditComponent {
-  newName: string;
-  dividerColor: boolean;
-  requiredField: boolean;
-  floatingLabel: boolean;
-  name: string;
-  items: any[] = [
-    { value: 10 },
-    { value: 20 },
-    { value: 30 },
-    { value: 40 },
-    { value: 50 },
-  ];
 
-  constructor(public nameListService: NameListService) {}
+  private leader: LeaderModel = new LeaderModel();
 
-  /*
-   * @param newname  any text as input.
-   * @returns return false to prevent default form submit behavior to refresh the page.
+  private isUpdateMode: boolean = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private leaderService: LeaderService
+  ) {}
+
+  /**
+   * Initialization Event Handler, used to parse route params
+   * like `id` in leader/:id/edit)
    */
-  addName(): boolean {
-    this.nameListService.add(this.newName);
-    this.newName = '';
-    console.log(this.newName);
+  ngOnInit() {
+    this.route.params
+      .map(params => params['id'])
+      .subscribe((id) => {
+        console.log('Leader Editor by ID from route params:', id)
+        if (id) {
+          this.isUpdateMode = true;
+          this.leaderService.getLeader(id)
+          .subscribe(
+            data => {
+              this.setLeader(data)
+            },
+            err => console.error(err),
+            () => {}
+          )
+        }
+      });
+  }
+
+  /**
+   * Leader loading handler
+   * @param {data} Loaded leader data
+   */
+  setLeader(data){
+    this.leader = data;
+  }
+
+  /**
+   * Remove this leader
+   * @param {leader} Leader being viewed
+   */
+  private deleteLeader(leader: LeaderModel) {
+    // Delete from DB
+    this.leaderService.deleteLeader(leader)
+
+    this.router.navigate(['/leaders'])
     return false;
   }
 
-  addABunch(n: number) {
-    for (let x = 0; x < n; x++) {
-      this.items.push({ value: 5 });
+  /**
+   * Saves new or edited leader by asking one of two service methods for DB.
+   * @returns return false to prevent default form submit behavior to refresh the page.
+   */
+  // FIXME: Complete Leader processing
+  saveLeader(): boolean {
+    if (this.isUpdateMode) {
+      // Update existing leader
+      this.leaderService.updateLeader(this.leader)
+      .subscribe(
+        data => { this.gotoLeader(data) },
+        err => (err) => console.error('Leader update error: ', err),
+        () => {}
+      )
+    } else {
+      // Create new leader
+      this.leaderService.createLeader(this.leader)
+      .subscribe(
+        data => { this.gotoLeader(data) },
+        err => (err) => console.error('Leader creation error: ', err),
+        () => {}
+      )
+    }
+    return false
+  }
+
+  gotoLeader(leader){
+    var leaderId = leader._id
+    if (leaderId) {
+      console.log('𝕱 𝕱 𝕱 Go to leader by ID: ', leaderId)
+      this.router.navigate(['/leader', leaderId]).then(_ => {
+        //navigation is done
+      });
     }
   }
 }

@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 
+// Use native promises
+mongoose.Promise = global.Promise;
+
 // mongoose models
 var Leader = require('./models/leader');
 
@@ -7,15 +10,26 @@ var Leader = require('./models/leader');
 
 var DB = {};
 
-try{// for livereloading purposes
+// FIXME
+var options = {
+  server: { poolSize: 5 }
+}
+
+// for livereloading purposes
+try{
+  console.error('Establishing mongoose connection:');
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
-        mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME+'?poolSize=5');
+        console.error('On Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
+        options.user = 'admin';
+        options.pass = 'LsR7mT64BMR5';
+        mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME, options);
     }else{
         // localhost
-        mongoose.connect('mongodb://localhost:27017/bigpolicy?poolSize=5');
+        console.error('Locally: mongodb://localhost:27017/bigpolicy');
+        mongoose.connect('mongodb://localhost:27017/bigpolicy', options);
     }
 }catch(err){
-    console.error('mongoose connection failed with error: ',err);
+    console.error('A Mongoose connection failed with error: ', err);
 }
 
 DB.getLeader = function(id) {
@@ -27,7 +41,16 @@ DB.listLeaders = function(id) {
     // .exec();
 }
 
-DB.createLeader = function(data) {
+DB.createLeader = function(dataObj) {
+  var data = dataObj;
+
+  for ( var item in dataObj ) {
+    data = JSON.parse(item);
+    // console.log( item, data[item]);
+  }
+
+  // var data = JSON.parse(dataStr);
+  console.log('createLeader: ', data)
     if(!data) data = {};
     const leader = new Leader({
         name: data.name,
@@ -75,9 +98,12 @@ module.exports = DB;
 
 GET localhost:4200/leader-api
 
+
+
 *** To get one particular leader -
 
 GET localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
+
 
 
 *** To create new leader -
@@ -90,6 +116,8 @@ name - Name of leader
 surName - Surname of leader
 etc.
 
+
+
 *** To update leader info -
 
 PUT localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
@@ -100,9 +128,13 @@ name - Name of leader
 surName - Surname of leader
 etc.
 
+
+
 *** To delete leader -
 
 DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
+
+
 
 *** To delete all leaders (DEV PURPOSES!)
 

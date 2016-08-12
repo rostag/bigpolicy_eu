@@ -2,8 +2,9 @@ var http = require('http');
 var express = require('express');
 var app = express();
 var server = http.createServer(app);
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var hostname = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.2';
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8021;
+var hostname = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var middleware = require('./server/');
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
@@ -14,14 +15,16 @@ function redirectToSecure(req, res, next) {
   }
 }
 
-if (hostname === '127.0.0.2') {
-  port = 80;
+if (hostname === '127.0.0.1') {
+  port = 8021;
 } else {
   app.use(redirectToSecure);
 }
 
 app.use(express.static(__dirname + '/dist'));
 
+middleware(app);
+
 server.listen(port,hostname);
 
-console.log( 'BigPolicy Express web server listening on port ' + port + ' , host: ' + hostname);
+console.log( 'BigPolicy Express Web Server is listening: http://' + hostname + ':' + port );
