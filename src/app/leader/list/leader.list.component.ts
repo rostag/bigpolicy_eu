@@ -62,5 +62,4 @@ export class LeaderListComponent {
       console.log('Edit Leader: ', leader);
       return false;
     }
-
 }

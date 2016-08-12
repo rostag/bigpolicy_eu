@@ -127,38 +127,31 @@
 
   JUST SOME SNIPPETS TO BE REUSED
 
-    The example of name list service from
+  PREFILL LIKE ADDRESS:
 
-      <ul>
-        <li *ngFor="let name of leaderService.get()">{{name}}</li>
-      </ul>
+    <p>
+      <md-input class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
+    </p>
 
-      <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Вкажи своє прізвище, ім'я та по-батькові:"></md-input>
+    <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
+    value="Твоя особиста візія і думки"></md-input>
 
-    PREFILL LIKE ADDRESS:
+    <md-input-container>
+      <label>Color</label>
+      <input type="text" ng-model="color" required md-maxlength="10">
+    </md-input-container>
 
-      <p>
-        <md-input class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
-      </p>
+    <md-input class="demo-full-width" placeholder="Company (disabled)" disabled value="Google">
+    </md-input>
 
-      <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
-      value="Твоя особиста візія і думки"></md-input>
+    <table style="width: 100%" cellspacing="0"><tr>
+      <td><md-input class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
+      <td><md-input class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
+      <td><md-input #postalCode class="demo-full-width" maxLength="5"
+                    placeholder="Postal Code"
+                    value="94043">
+        <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>
+      </md-input></td>
+    </tr></table>
 
-      <md-input-container>
-        <label>Color</label>
-        <input type="text" ng-model="color" required md-maxlength="10">
-      </md-input-container>
-
-      <md-input class="demo-full-width" placeholder="Company (disabled)" disabled value="Google">
-      </md-input>
-
-      <table style="width: 100%" cellspacing="0"><tr>
-        <td><md-input class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
-        <td><md-input class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
-        <td><md-input #postalCode class="demo-full-width" maxLength="5"
-                      placeholder="Postal Code"
-                      value="94043">
-          <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>
-        </md-input></td>
-      </tr></table>
-    -->
+-->
