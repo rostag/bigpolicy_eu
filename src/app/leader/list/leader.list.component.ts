@@ -12,6 +12,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
+  selector: 'leader-list',
   moduleId: module.id,
   templateUrl: './leader.list.component.html',
   styleUrls: ['./leader.list.component.css'],

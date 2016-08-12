@@ -7,6 +7,7 @@ import { ProjectListService, ProjectModel } from '../../shared/project-list/inde
 
 @Component({
   moduleId: module.id,
+  // selector: 'project-list',
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.css'],
   directives: [MD_LIST_DIRECTIVES, MdCard, MdButton, MdIcon],
