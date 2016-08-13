@@ -30,10 +30,16 @@
 Лайв-застосунок запрацював тут: https://live-europe.rhcloud.com/
 Тепер він на адекватному NodeJS, як і раніше має ССЛ, додалася працююча БД
 
-13.08.2016
+14.08.2016
 
-* Додано БД до проекту
-* 
+* Project CRUD / DB integration:
+ * Added ability to Create Project
+ * Ability to View Project
+ * Ability to Edit Project
+ * Ability to Delete Project
+* Project List, Project View, Project Editor
+* Implemented dynamic Landing page incl. leaders and projects count
+
 
 ## Почитати:
 
