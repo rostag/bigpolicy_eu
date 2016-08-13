@@ -1,0 +1,56 @@
+<!-- <md-card>
+
+    <md-card-title-group>
+      <md-card-title>{{leader.name}} {{leader.surName}}
+        <a href><md-icon>thumb_up</md-icon></a>
+        <a href><md-icon>share</md-icon></a>
+        <em>{{leader.cash}}₴</em>
+        <md-card-subtitle>Дніпро</md-card-subtitle>
+          <button md-raised-button color="accent">+70₴</button>
+          <button md-raised-button color="accent">+3700₴</button>
+          <button md-raised-button color="accent">+7000₴</button>
+      </md-card-title>
+      <img md-card-md-image src="assets/img/avatar.jpg">
+    </md-card-title-group>
+
+    <md-card-content>
+
+      <h3>Місія:</h3>{{leader.mission}}
+      <br><br>
+      <h3>Візія:</h3> {{leader.vision}}
+
+      <h2>Навички та вміння:</h2>
+      <p>Аналітик, соціальний підприємець та консультант</p>
+      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p>
+
+      <h2>Документи:</h2>
+      <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація
+
+    </md-card-content>
+
+</md-card> -->
+
+<md-card-content>
+   <img md-list-avatar src="assets/img/project/project-placeholder.png" alt="{{project.title}}" width="300">
+   <h3 md-line>{{project.title}}</h3>
+   <p md-line>
+     <span> {{project.description}}</span>
+     <span class="project-details"> {{project.cost}} </span>
+   </p>
+   <p>{{project.managerName}}</p>
+   <p>{{project.dateStarted}}</p>
+   <p>{{project.dateEnded}}</p>
+   <p>{{project.startDateInputValue}}</p>
+   <p>{{project.endDateInputValue}}</p>
+
+   <md-card-actions>
+     <p class="admin">
+       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
+       <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
+     </p>
+   </md-card-actions>
+
+</md-card-content>

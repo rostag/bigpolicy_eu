@@ -5,7 +5,7 @@ import { MD_CARD_DIRECTIVES } from '@angular2-material/card';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { LeaderListComponent } from '../../leader/list/index';
-import { ProjectListService, ProjectModel } from '../../shared/project-list/index';
+import { ProjectService, ProjectModel } from '../../shared/project/index';
 
 @Component({
   selector: 'bp-landing',
@@ -13,13 +13,13 @@ import { ProjectListService, ProjectModel } from '../../shared/project-list/inde
   templateUrl: './landing.component.html',
   styleUrls: ['./skeleton.css', './landing.component.css'],
   directives: [MD_GRID_LIST_DIRECTIVES, ROUTER_DIRECTIVES, MD_CARD_DIRECTIVES, MdButton, MdIcon, LeaderListComponent],
-  providers: [MdIconRegistry, ProjectListService]
+  providers: [MdIconRegistry, ProjectService]
 })
 
 export class LandingComponent {
 
   constructor() {
-    this.app.projects = ProjectListService.getInstance().projects;
+    this.app.projects = [];
   }
 
   app = {

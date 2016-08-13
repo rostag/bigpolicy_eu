@@ -3,23 +3,46 @@ import { MdCard } from '@angular2-material/card/card';
 import { MdButton } from '@angular2-material/button/button';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_LIST_DIRECTIVES } from '@angular2-material/list/list';
-import { ProjectListService, ProjectModel } from '../../shared/project-list/index';
+import { ProjectService, ProjectModel } from '../../shared/project/index';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 
 @Component({
   moduleId: module.id,
-  // selector: 'project-list',
+  // selector: 'project',
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.css'],
   directives: [MD_LIST_DIRECTIVES, MdCard, MdButton, MdIcon],
-  providers: [MdIconRegistry, ProjectListService]
+  providers: [MdIconRegistry, ProjectService]
 })
 
 export class ProjectListComponent {
 
-  constructor() {
-    this.projects = ProjectListService.getInstance().projects;
+  projects;
+
+  constructor(
+    private http: Http,
+    private projectService: ProjectService
+  ) {
+    this.projects = [{title: 'Loading'}];
   }
 
-  projects: Array<ProjectModel>;
+  ngOnInit() {
+    this.getProjects()
+  }
+
+  getProjects() {
+    this.projectService.getProjects()
+      .subscribe(
+        data => this.setProjects(data),
+        err => console.error(err),
+        () => this.projects
+      );
+  }
+
+  private setProjects(data) {
+    this.projects = data
+    return data
+  }
 
 }

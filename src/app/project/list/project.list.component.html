@@ -26,8 +26,8 @@
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
          <h3 md-line><big><big><b>{{project.title}}</b>, ₴{{project.cost}}</big></big> - {{project.managerName}}</h3>
          <p md-line>
-          <b><small>Початок: {{project.dateStarted | date:'yMMMMd'}},
-          Дедлайн: {{project.dateEnded | date:'yMMMMd'}}</small></b>
+          <b><small>Початок: {{project.startDateInputValue | date:'yMMMMd'}},
+          Дедлайн: {{project.endDateInputValue | date:'yMMMMd'}}</small></b>
          </p>
          <p md-line>
            <span>{{project.description}}</span>

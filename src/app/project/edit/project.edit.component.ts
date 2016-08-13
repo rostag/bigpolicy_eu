@@ -8,35 +8,112 @@ import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
 import { MD_INPUT_DIRECTIVES } from '@angular2-material/input/input';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ProjectModel, ProjectListService } from '../../shared/project-list/index';
+
+import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 @Component({
   moduleId: module.id,
   templateUrl: './project.edit.component.html',
   styleUrls: ['./project.edit.component.css'],
   directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
-  providers: [MdIconRegistry, ProjectListService]
+  providers: [MdIconRegistry, ProjectService]
   })
 
 export class ProjectEditComponent {
 
+  private isUpdateMode: boolean = false;
+
   project: ProjectModel;
 
-  constructor() {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private projectService: ProjectService
+  ) {
     this.project = new ProjectModel();
   }
 
-  /*
+  /**
+   * Initialization Event Handler, used to parse route params
+   * like `id` in project/:id/edit)
+   */
+  ngOnInit() {
+    this.route.params
+      .map(params => params['id'])
+      .subscribe((id) => {
+        console.log('Project Editor by ID from route params:', id)
+        if (id) {
+          this.isUpdateMode = true;
+          this.projectService.getProject(id)
+          .subscribe(
+            data => {
+              this.setProject(data)
+            },
+            err => console.error(err),
+            () => {}
+          )
+        }
+      });
+  }
+
+  /**
+   * Project loading handler
+   * @param {data} Loaded project data
+   */
+  setProject(data){
+    this.project = new ProjectModel();
+
+    this.project.parseData(data);
+  }
+
+  /**
+   * Remove this project
+   * @param {project} Project being viewed
+   */
+  private deleteProject(project: ProjectModel) {
+    // Delete from DB
+    this.projectService.deleteProject(project)
+
+    this.router.navigate(['/projects'])
+    return false;
+  }
+
+  /**
+   * Saves new or edited project by asking one of two service methods for DB.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
-  addProject(): boolean {
-    ProjectListService.getInstance().add(this.project);
-    this.project.dateStarted = new Date(this.project.dateStarted.toString());
-    this.project.dateEnded = new Date(this.project.dateEnded.toString());
-    // console.log('Project added: ' + this.project.title);
-    // this.project = new ProjectModel();
-    return false;
+  // FIXME: Complete Project processing
+  saveProject(): boolean {
+    if (this.isUpdateMode) {
+      // Update existing project
+      this.projectService.updateProject(this.project)
+      .subscribe(
+        data => { this.gotoProject(data) },
+        err => (err) => console.error('Project update error: ', err),
+        () => {}
+      )
+    } else {
+      // Create new project
+      this.projectService.createProject(this.project)
+      .subscribe(
+        data => { this.gotoProject(data) },
+        err => (err) => console.error('Project creation error: ', err),
+        () => {}
+      )
+    }
+    return false
+  }
+
+  gotoProject(project){
+    var projectId = project._id
+    if (projectId) {
+      console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId)
+      this.router.navigate(['/project', projectId]).then(_ => {
+        //navigation is done
+      });
+    }
   }
 
 }
