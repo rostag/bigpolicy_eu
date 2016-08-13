@@ -96,7 +96,17 @@ export class ProjectService {
       this.request = this.http.get(this.apiUrl + modelId)
         .map((res:Response) => {
           this.projects = res.json()
-          console.log('Projects loaded, response: ', this.projects)
+          if (this.projects.forEach) {
+            this.projects.forEach((project) => {
+              project.dateStarted = new Date(project['dateStarted'])
+              project.dateEnded = new Date(project['dateEnded'])
+            })
+          }
+          else {
+            this.projects.dateStarted = new Date(this.projects['dateStarted'])
+            this.projects.dateEnded = new Date(this.projects['dateEnded'])
+          }
+          // console.log('Projects loaded, response: ', this.projects)
           return this.projects
         })
     }

@@ -1,13 +1,10 @@
-<md-card class="demo-card demo-basic">
+<md-card class="leader-edit-card">
   <form>
   <md-card-content>
-    <md-toolbar class="add-toolbar" color="primary">Реєстрація лідера
-      <span class="add-fill-remaining"></span>
-      <a href (click)="deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
-      <!-- <md-toolbar-row>
-          <span>Second Line</span>
-        </md-toolbar-row> -->
-      </md-toolbar>
+    <md-card-title>
+     Створити лідера
+    </md-card-title>
+
       <!--LOGO OF LEADER-->
       <md-card-content>
         <md-card-header>
@@ -21,7 +18,7 @@
           </p>
         </md-card-header>
 
-        <md-card-content style="margin-top:100px;">
+        <div style="margin-top:100px;">
 
         <h3>Як виглядає проблема для тебе?</h3>
 
@@ -33,35 +30,39 @@
           <md-input [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
           </md-input>
 
-        </md-card-content>
+        </div>
+
       </md-card-content>
 
       <md-toolbar class="add-toolbar" color="primary">Проекти
         <span class="add-fill-remaining"></span>
         <button md-raised-button (click)="addProject()" color="accent">Додати проект</button>
       </md-toolbar>
-      <h3>Як ти вирішиш цю проблему?</h3>
+      <md-card-content>
+        <h3>Як ти вирішиш цю проблему?</h3>
 
-      <md-input characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel="">
-      </md-input>
+        <md-input characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
 
-      <md-input placeholder="Сума, грн" align="end">
-        <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
-        <span md-suffix>.00 </span>
-      </md-input>
+        <md-input placeholder="Сума, грн" align="end">
+          <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
+          <span md-suffix>.00 </span>
+        </md-input>
+      </md-card-content>
 
       <md-toolbar class="add-toolbar" color="primary">Твоя програма
         <span class="add-fill-remaining"></span>
         <button md-raised-button (click)="addProject()" color="accent">Додати ще одну ціль</button>
       </md-toolbar>
 
-      <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
-      <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
-
-      <p>
-        Другорядна ціль:
+      <md-card-content>
+        <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
         <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
-      </p>
+
+        <p>
+          Другорядна ціль:
+          <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+        </p>
+      </md-card-content>
 
       <md-toolbar class="add-toolbar" color="white">Додатково</md-toolbar>
 
@@ -117,8 +118,17 @@
         </li>
       </ul>
     <br>
-    <button type="submit" md-raised-button color="primary" (click)="saveLeader()">Готово</button>
-    <button md-raised-button>Як буде виглядати моя сторінка?</button>
+
+    <md-toolbar class="add-toolbar" color="primary">
+      <button md-raised-button type="submit" color="primary" (click)="saveLeader()">Готово</button>
+      <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
+      <span class="add-fill-remaining"></span>
+      <button md-raised-button color="warn"(click)="deleteLeader(leader)">Видалити</button>
+      <!-- <md-toolbar-row>
+          <span>Second Line</span>
+        </md-toolbar-row> -->
+      </md-toolbar>
+
   </md-card-content>
   </form>
 </md-card>

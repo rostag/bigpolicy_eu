@@ -1,31 +1,22 @@
-.demo-basic {
-  padding: 0;
-}
-.demo-basic md-card-content {
-  padding: 16px;
-}
-.demo-full-width {
-  width: 100%;
-}
-
-.demo-icons {
-  font-size: 100%;
-  height: inherit;
-  vertical-align: top;
-  width: inherit;
-}
-
-.demo-transform {
-  transition: color $swift-ease-out-duration $swift-ease-out-timing-function;
-}
-.demo-primary {
-  color: md-color($md-primary);
-}
-
-.demo-card {
-  margin: 16px;
-}
-
 md-card {
   display:inline-block;
+}
+
+:host {
+  display: block;
+  padding: 2em 2em;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+  padding-top: 0;
+}
+
+h3 {
+  font-size: 1.4em;
+  padding-top: 0;
 }

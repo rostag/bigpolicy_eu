@@ -29,8 +29,7 @@ export class ProjectModel {
   }
 
   /**
-   * It's necessary to have a string representation for sending it to DB
-   * @returns String Serialized Leader
+   * Populate model from a json representation loaded from DB
    */
   parseData(data) {
     for (var item in data) {

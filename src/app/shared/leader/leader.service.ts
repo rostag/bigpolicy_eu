@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 
-import { LeaderModel } from './leader.model.ts';
+import { LeaderModel } from './leader.model';
 
 /**
  * This class provides the Leader service with methods to create, read, update and delete models.
@@ -63,13 +63,23 @@ export class LeaderService {
       this.request = this.http.get(this.apiUrl + modelId)
         .map((res:Response) => {
           this.models = res.json()
-          console.log('Leaders loaded, response: ', this.models)
+
+          // if (this.models.forEach) {
+          //   this.models.forEach((leader) => {
+          //     leader = new LeaderModel();
+          //     leader.parseData(res);
+          //   })
+          // }
+          // else {
+          //   let leader = new LeaderModel();
+          //   leader.parseData(res);
+          // }
+
+          // console.log('Leaders loaded, response: ', this.models)
           return this.models
         })
     }
     return this.request;
-
-    // return this.http.get(this.apiUrl).map((res:Response) => res.json());
   }
 
   /**

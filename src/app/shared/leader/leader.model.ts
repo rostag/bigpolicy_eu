@@ -61,4 +61,14 @@ export class LeaderModel {
 			"cash": this.cash
     })
   }
+
+	/**
+   * Populate model from a json representation loaded from DB
+   */
+  parseData(data) {
+    for (var item in data) {
+      this[item] = data[item]
+    }
+  }
+
 }

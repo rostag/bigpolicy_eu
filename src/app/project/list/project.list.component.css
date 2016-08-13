@@ -1,5 +1,14 @@
-.mockup {
-  background: url(../../assets/img/project-mockup.png);
-  height: 1200px;
-  background-repeat: no-repeat;
+:host {
+  display: block;
+  padding: 0;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+  padding-top: 0;
+  margin-top: 0.83em;
 }

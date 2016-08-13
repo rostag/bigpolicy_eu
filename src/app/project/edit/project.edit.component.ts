@@ -64,7 +64,6 @@ export class ProjectEditComponent {
    */
   setProject(data){
     this.project = new ProjectModel();
-
     this.project.parseData(data);
   }
 
@@ -112,7 +111,7 @@ export class ProjectEditComponent {
       console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId)
       this.router.navigate(['/project', projectId]).then(_ => {
         //navigation is done
-      });
+      })
     }
   }
 

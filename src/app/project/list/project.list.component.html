@@ -6,44 +6,26 @@
   </md-card-subtitle>
 
   <md-card-content>
-    <p>Показати у спискові:
-      <select>
-        <option>члени партії...</option>
-        <option>РПР</option>
-        <option>ЩЗП</option>
-      </select>
-
-     <a href="#">активісти</a> з регіону:
-      <select>
-        <option>Усі регіони</option>
-        <option>Львів</option>
-        <option>Харків</option>
-      </select>
-    </p>
-
     <md-list>
        <md-list-item  *ngFor="let project of projects">
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-         <h3 md-line><big><big><b>{{project.title}}</b>, ₴{{project.cost}}</big></big> - {{project.managerName}}</h3>
+         <h3 md-line><a [routerLink]="['/project/' + project._id]"><big><b>{{project.title}}</b></big> - {{project.managerName}}</a></h3>
          <p md-line>
-          <b><small>Початок: {{project.startDateInputValue | date:'yMMMMd'}},
-          Дедлайн: {{project.endDateInputValue | date:'yMMMMd'}}</small></b>
+          <b>₴{{project.cost}}.</b> {{project.dateEnded | date}} - {{project.dateStarted | date}}
          </p>
          <p md-line>
-           <span>{{project.description}}</span>
+           <small>{{project.description}}</small>
          </p>
-         <md-card-actions>
-           <p class="admin">
-             <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
-             <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
-           </p>
-         </md-card-actions>
+         <p class="admin" style="min-width:4em;">
+           <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
+           <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
+         </p>
 
       </md-list-item>
     </md-list>
 
   </md-card-content>
-  <md-card-actions>
+  <!-- <md-card-actions>
     <a href="/projects"><button md-button color="primary">Переглянути усі проекти</button></a>
-  </md-card-actions>
+  </md-card-actions> -->
 </md-card>
