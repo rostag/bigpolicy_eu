@@ -4,7 +4,7 @@ md-card {
 
 :host {
   display: block;
-  padding: 2em 2em;
+  /*padding: 2em 2em;*/
 }
 
 h1 {

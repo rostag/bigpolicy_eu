@@ -8,8 +8,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
+  selector: 'project-list',
   moduleId: module.id,
-  // selector: 'project',
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.css'],
   directives: [MD_LIST_DIRECTIVES, ROUTER_DIRECTIVES, MdCard, MdButton, MdIcon],
