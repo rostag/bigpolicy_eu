@@ -12,6 +12,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
+  selector: 'leader-list',
   moduleId: module.id,
   templateUrl: './leader.list.component.html',
   styleUrls: ['./leader.list.component.css'],
@@ -55,11 +56,6 @@ export class LeaderListComponent {
 
       // Delete from DB
       this.leaderService.deleteLeader(leader)
-      return false;
-    }
-
-    private editLeader(leader: LeaderModel) {
-      console.log('Edit Leader: ', leader);
       return false;
     }
 }

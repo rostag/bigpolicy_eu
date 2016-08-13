@@ -1,9 +1,10 @@
 <div class="bp-landing numbers">
   <md-card class="md-card-flat">
-    <md-grid-list cols="3" rowHeight="55" id="stats">
-      <md-grid-tile> <h2><span>{{leaderCount}}</span> діяча</h2> </md-grid-tile>
-      <md-grid-tile> <h2><span>{{donorCount}}</span> донорів</h2> </md-grid-tile>
-      <md-grid-tile> <h2><span>{{coinCount}}</span> &#8372;</h2> </md-grid-tile>
+    <md-grid-list cols="4" rowHeight="55" id="stats">
+      <md-grid-tile> <h2><span>{{app.leaders.length}}</span> діячів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.projects.length}}</span> проектів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.cash}}</span>&#8372;</h2> </md-grid-tile>
     </md-grid-list>
 
     <div class="container">
@@ -20,15 +21,13 @@
           <p>Ми не отримуємо фінансової допомоги від жодної з політичних партій і
           в наші плани не входить отримання коштів від них чих від політиків.
           Ми незалежні від політичних сил і такими зостанемося. Але нам конче необхідні кошти на розробку відкритої платформи прямої демократії.
-          Допоможи нам!
-          </p>
+          Допоможи нам!</p>
 
           <a href="https://www.liqpay.com/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXlkb25hdGUiLCJwdWJsaWNfa2V5IjoiaTc3MDYxMzUxNDgyIiwiYW1vdW50IjoiMTAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0K8g0LLRltGA0Y4g0LIg0YLQtdCx0LUhIiwidHlwZSI6ImRvbmF0ZSIsImxhbmd1YWdlIjoiZW4ifQ%3D%3D&signature=%2FA19v2A2ebDHGW71VxD5JDhaG70%3D"><button md-button color="primary" md-raised-button>Підтримай нас фінансово</button></a>
 
           <h5>Ми на зв'язку:</h5>
 
-          <p>Пиши нам на <a href="mailto:voice@bigpolicy.eu">електронну пошту</a>. Долучайся до групи <a href="https://www.facebook.com/groups/BigPolicy">BigPolicy</a> у FB.
-          </p>
+          <p>Пиши нам на <a href="mailto:voice@bigpolicy.eu">електронну пошту</a>. Долучайся до групи <a href="https://www.facebook.com/groups/BigPolicy">BigPolicy</a> у FB.</p>
 
           <h5>Підпишися на новини:</h5>
           <!-- Begin MailChimp Signup Form -->
@@ -63,62 +62,29 @@
 
           <h4>Популярні проекти:</h4>
 
-          <md-card>
-            <md-card-header>
-              <img md-card-avatar src="assets/img/avatar-generic.png">
-              <md-card-title>Чому я йду до ради?</md-card-title>
-              <md-card-subtitle>Семен Гігабіт, Дніпро</md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
-                Оновлення влади має продовжуватися.
-                Ми досягли певних успіхів, та цього замало, щоб спочивати.
-                Законодавча влада мусить бути оновлена у першу чергу,
-                щоб наступним кроком оновити кабінет міністрів.
-                <br/>
-                <br/>
-                <a [routerLink]="['/leader']">Разом ми зробили багато справ</a>, а тепер я готовий іти далі.
-            </md-card-content>
-            <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
-            </md-card-actions>
-          </md-card>
+          <!-- FIXME <project-list>
+          </project-list> -->
 
-          <md-card>
-            <md-card-header>
-              <img md-card-avatar src="assets/img/avatar-generic.png">
-              <md-card-title>Як зробити, щоб наші податки працювали на нас</md-card-title>
-              <!-- <md-card-subtitle>Олекса Шелест, Київ</md-card-subtitle> -->
-            </md-card-header>
-            <md-card-content>
-                Це непроста задача, і її вирішення починається з непопулярних заходів.
-                Цього разу вони будуть непопулярними не відносно бідняків, а відносно тих, хто забирає їх гроші собі.
-                <br/>
-                <br/>
-
-                Так, я кажу про українських олігархів. І <a [routerLink]="['/leader']">я знаю, що робити</a>.
-            </md-card-content>
-            <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
-            </md-card-actions>
-          </md-card>
-
-
-          <md-card>
-            <md-card-header>
-              <img md-card-avatar src="assets/img/avatar.jpg">
-              <md-card-title>Ініціатива працевлаштування</md-card-title>
-              <md-card-subtitle>Марта Кипарис, Стрий</md-card-subtitle>
-            </md-card-header>
-            <md-card-content>
-                Я ніколи не була політиком. А зараз стаю, щоб вирішити одну проблему -- відсутності певних робочих місць у моєму місті.
-                <br/>
-                <br/>
-                <a [routerLink]="['/leader']">Ось моя ідея у деталях</a>, чекаю ваших відгуків!
-            </md-card-content>
-            <md-card-actions>
-              <a [routerLink]="['/leader']"><button md-button color="primary">Підтримати</button></a>
-            </md-card-actions>
-          </md-card>
+          <md-list>
+             <md-list-item *ngFor="let project of app.projects">
+               <md-card>
+                 <md-card-header>
+                   <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+                   <md-card-title>{{project.title}}</md-card-title>
+                   <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
+                 </md-card-header>
+                 <md-card-content>
+                     {{project.description}}
+                     <br/>
+                     <br/>
+                     <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}}₴</small>
+                 </md-card-content>
+                 <md-card-actions>
+                   <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
+                 </md-card-actions>
+               </md-card>
+            </md-list-item>
+          </md-list>
 
           <a [routerLink]="['/projects']"><button md-button color="primary">Дивитися усі проекти</button></a>
 
@@ -136,7 +102,6 @@
         </div>
      </div>
    </div>
-
 
      <md-grid-list cols="8" rowHeight="300" id="bottomline">
        <md-grid-tile colspan="3">

@@ -17,16 +17,16 @@
       </md-input>
 
       <table style="width: 100%" cellspacing="0"><tr>
-       <td><md-input type="date" [(ngModel)]="project.dateStarted" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка">
+       <td><md-input type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка">
           <div md-prefix>Дата початку:&nbsp;</div>
        </md-input></td>
-       <td><md-input type="date" [(ngModel)]="project.dateEnded" hintlabel="Коли закінчується проект?" value="Дата завершення проекту">
+       <td><md-input type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту">
           <div md-prefix>Дата завершення:&nbsp;</div>
        </md-input></td>
       </tr></table>
 
       <p>
-        <button type="submit" md-raised-button (click)="addProject()">Додати проект</button>
+        <button type="submit" md-raised-button (click)="saveProject()">Додати проект</button>
       </p>
 
     </md-card-content>

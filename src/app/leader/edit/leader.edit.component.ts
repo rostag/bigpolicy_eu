@@ -60,7 +60,9 @@ export class LeaderEditComponent {
    * @param {data} Loaded leader data
    */
   setLeader(data){
-    this.leader = data;
+    console.log('set lraer:', data )
+    this.leader = new LeaderModel()
+    this.leader.parseData(data)
   }
 
   /**
@@ -82,7 +84,7 @@ export class LeaderEditComponent {
   // FIXME: Complete Leader processing
   saveLeader(): boolean {
     if (this.isUpdateMode) {
-      // Update existing leader
+      // Update existing leader:
       this.leaderService.updateLeader(this.leader)
       .subscribe(
         data => { this.gotoLeader(data) },

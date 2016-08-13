@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 
 // mongoose models
 var Leader = require('./models/leader');
+var Project = require('./models/project');
 
 //////////////////////////
 
@@ -52,7 +53,7 @@ DB.createLeader = function(dataObj) {
   // var data = JSON.parse(dataStr);
   console.log('createLeader: ', data)
     if(!data) data = {};
-    const leader = new Leader({
+    const model = new Leader({
         name: data.name,
         parentName: data.parentName,
         surName: data.surName,
@@ -60,21 +61,23 @@ DB.createLeader = function(dataObj) {
         mission: data.mission,
         createdAt: new Date()
     });
-    return leader.save();
+    var saved = model.save();
+    console.log('saved: ', saved);
+    return model.save(saved);
 }
 
 DB.updateLeader = function(id,data) {
     if(!data) data = {};
-    return Leader.findById(id, function(err, leader) {
-        if(err || !leader){
+    return Leader.findById(id, function(err, model) {
+        if(err || !model){
             return;
         }
-        if(data.name)leader.name = data.name;
-        if(data.parentName)leader.parentName = data.parentName;
-        if(data.surName)leader.surName = data.surName;
-        if(data.vision)leader.vision = data.vision;
-        if(data.mission)leader.mission = data.mission;
-        return leader.save();
+        if(data.name)model.name = data.name;
+        if(data.parentName)model.parentName = data.parentName;
+        if(data.surName)model.surName = data.surName;
+        if(data.vision)model.vision = data.vision;
+        if(data.mission)model.mission = data.mission;
+        return model.save();
     });
 }
 
@@ -87,6 +90,80 @@ DB.deleteAllLeaders = function(id) {
     return Leader.find().remove();
 }
 // END OF DANGER
+
+
+
+
+
+
+//******************************************************************************
+//
+//    P R O J E C T
+//
+//******************************************************************************
+
+
+DB.getProject = function(id) {
+    return Project.findById(id);
+}
+
+DB.listProjects = function(id) {
+    return Project.find()
+    // .exec();
+}
+
+DB.createProject = function(dataObj) {
+  var data = dataObj;
+
+  for ( var item in dataObj ) {
+    data = JSON.parse(item);
+  }
+
+  // var data = JSON.parse(dataStr);
+  console.log('database.js: createProject: ', data)
+    if(!data) data = {};
+    const model = new Project({
+      title: data.title,
+      description: data.description,
+      cost: data.cost,
+      managerName: data.managerName,
+      managerId: data.managerId,
+      dateStarted: data.dateStarted,
+      dateEnded: data.dateEnded,
+      iconURL: data.iconURL
+    });
+    var saved = model.save();
+    console.log('saved: ', saved);
+    return model.save(saved);
+}
+
+DB.updateProject = function(id,data) {
+    if(!data) data = {};
+    return Project.findById(id, function(err, model) {
+        if(err || !model){
+            return;
+        }
+
+        // TODO Tell Olexii the optimization
+        for (var field in data) {
+          model[field] = data[field]
+        }
+
+        return model.save();
+    });
+}
+
+DB.deleteProject = function(id) {
+    return Project.findById(id).remove();
+}
+
+// DANGER FUNCTION. FOR DEV PURPOSES
+DB.deleteAllProjects = function(id) {
+    return Project.find().remove();
+}
+// END OF DANGER
+
+
 
 module.exports = DB;
 

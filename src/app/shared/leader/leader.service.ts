@@ -4,21 +4,21 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 
-import { LeaderModel } from './leader.model.ts';
+import { LeaderModel } from './leader.model';
 
 /**
- * This class provides the Leader service with methods to create, read, update and delete leaders.
+ * This class provides the Leader service with methods to create, read, update and delete models.
  */
 @Injectable()
 export class LeaderService {
 
-  private leadersUrl = '/leader-api/';
+  private apiUrl = '/leader-api/';
 
   /**
-   * The array of leaders provided by the service.
+   * The array of models provided by the service.
    * @type {Array}
    */
-  private leaders;
+  private models;
 
   /**
    * Contains the currently pending request.
@@ -35,69 +35,79 @@ export class LeaderService {
 
   /**
    * Creates the Leader.
-   * @param {LeaderModel} leader - The Leader to create.
+   * @param {LeaderModel} model - The Leader to create.
    */
-  createLeader(leader: LeaderModel): Observable<Response> {
-    var body: string = leader.toString();
+  createLeader(model: LeaderModel): Observable<Response> {
+    var body: string = model.toString();
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.leadersUrl, body, options)
+    return this.http.post(this.apiUrl, body, options)
         .map(res => res.json())
   }
 
   /**
-   * Get all leaders from DB
+   * Get all models from DB
    * Returns an Observable for the HTTP GET request.
    * If there was a previous successful request
-   * (the local leaders array is defined and has elements), the cached version is returned
+   * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getLeaders(leaderId: string = ''): Observable<Response> {
-    if (this.leaders && this.leaders.length) {
-      return Observable.from([this.leaders]);
+  getLeaders(modelId: string = ''): Observable<Response> {
+    if (this.models && this.models.length) {
+      return Observable.from([this.models]);
     }
 
     if (!this.request) {
-      this.request = this.http.get(this.leadersUrl + leaderId)
+      this.request = this.http.get(this.apiUrl + modelId)
         .map((res:Response) => {
-          this.leaders = res.json()
-          console.log('Leaders loaded, response: ', this.leaders)
-          return this.leaders
+          this.models = res.json()
+
+          // if (this.models.forEach) {
+          //   this.models.forEach((leader) => {
+          //     leader = new LeaderModel();
+          //     leader.parseData(res);
+          //   })
+          // }
+          // else {
+          //   let leader = new LeaderModel();
+          //   leader.parseData(res);
+          // }
+
+          // console.log('Leaders loaded, response: ', this.models)
+          return this.models
         })
     }
     return this.request;
-
-    // return this.http.get(this.leadersUrl).map((res:Response) => res.json());
   }
 
   /**
-   * Get a leader from DB or from cache.
+   * Get a model from DB or from cache.
    */
-  getLeader(leaderId: string): Observable<Response> {
-    return this.getLeaders(leaderId)
+  getLeader(modelId: string): Observable<Response> {
+    return this.getLeaders(modelId)
   }
 
   /**
-   * Updates a leader by performing a request with PUT HTTP method.
+   * Updates a model by performing a request with PUT HTTP method.
    * @param LeaderModel A Leader to update
    */
-  updateLeader(leader:LeaderModel):Observable<Response> {
+  updateLeader(model:LeaderModel):Observable<Response> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.leadersUrl + leader._id, JSON.stringify(leader), {headers: headers})
+    return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
         .map(res => res.json())
         .catch(this.handleError)
   }
 
   /**
-   * Deletes a leader by performing a request with DELETE HTTP method.
+   * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  deleteLeader(leader:LeaderModel) {
-    this.http.delete(this.leadersUrl + leader._id)
+  deleteLeader(model:LeaderModel) {
+    this.http.delete(this.apiUrl + model._id)
         .map(res => console.log('Leader deleted:', res.json()))
         .catch(this.handleError)
         .subscribe((res) => {});

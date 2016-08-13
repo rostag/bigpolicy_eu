@@ -1,0 +1,27 @@
+<md-card>
+  <md-card-content>
+
+    <h1>{{project.title}}</h1>
+
+    <md-grid-list cols="2" rowHeight="255" id="stats">
+      <md-grid-tile><img md-list-avatar src="assets/img/project/project-placeholder.png" alt="{{project.title}}" width="300"> </md-grid-tile>
+      <md-grid-tile>
+        <div>
+          <h2>Вартість: {{project.cost}}₴</h2>
+          <h3>Менеджер: {{project.managerName}}</h3>
+          <p>Початок: {{project.dateStarted | date}}<br/>
+          Кінець: {{project.dateEnded | date}}</p>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+
+    <h2>Детальніше</h2>
+    <p>{{project.description}}</p>
+
+      <span class="admin">
+        <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
+        <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
+      </span>
+
+  </md-card-content>
+</md-card>
