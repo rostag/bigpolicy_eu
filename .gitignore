@@ -42,6 +42,7 @@ test
 tmp
 dist
 data/db
+server/mongo/models/app.js
 
 gulpfile.js
 gulpfile.js.map
