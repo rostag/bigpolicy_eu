@@ -10,7 +10,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 @Component({
   moduleId: module.id,
   templateUrl: './project.view.component.html',
-  styleUrls: ['./project.view.component.css'],
+  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.css'],
   directives: [ROUTER_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar],
   providers: [MdIconRegistry, ProjectService]
 })

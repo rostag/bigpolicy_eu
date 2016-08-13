@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'bp-about',
   moduleId: module.id,
   templateUrl: './about.component.html',
-  styleUrls: ['./skeleton.css', './about.component.css']
+  styleUrls: ['../../../assets/css/skeleton.css', './about.component.css']
 })
 
 export class AboutComponent {

@@ -58,9 +58,4 @@ export class LeaderListComponent {
       this.leaderService.deleteLeader(leader)
       return false;
     }
-
-    private editLeader(leader: LeaderModel) {
-      console.log('Edit Leader: ', leader);
-      return false;
-    }
 }

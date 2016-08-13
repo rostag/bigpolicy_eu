@@ -140,5 +140,4 @@ export class ProjectService {
       console.error("Error occured:", error);
       return Observable.throw(error.json().error || 'Server error');
   }
-
 }

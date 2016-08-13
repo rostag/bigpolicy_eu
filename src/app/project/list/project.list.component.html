@@ -32,6 +32,13 @@
          <p md-line>
            <span>{{project.description}}</span>
          </p>
+         <md-card-actions>
+           <p class="admin">
+             <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
+             <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
+           </p>
+         </md-card-actions>
+
       </md-list-item>
     </md-list>
 
