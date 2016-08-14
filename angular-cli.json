@@ -5,7 +5,7 @@
   },
   "apps": [
     {
-      "main": "src/boot.ts",
+      "main": "src/main.ts",
       "tsconfig": "src/tsconfig.json",
       "mobile": false
     }

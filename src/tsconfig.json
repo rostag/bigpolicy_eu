@@ -17,7 +17,7 @@
   },
 
   "files": [
-    "boot.ts",
+    "main.ts",
     "typings.d.ts"
   ]
 }
