@@ -90,3 +90,6 @@ https://vsavkin.com/managing-state-in-angular-2-applications-caf78d123d02
 
 * Angular 2 Authentication Revisited
 https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.d7n63c9g5
+
+* Angular Icons:
+https://klarsys.github.io/angular-material-icons/

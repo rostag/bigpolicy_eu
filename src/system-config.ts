@@ -74,7 +74,7 @@ System.config({
   map: {
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
-    'main': 'main.js'
+    'boot': 'boot.js'
   },
   packages: cliSystemConfigPackages
 });

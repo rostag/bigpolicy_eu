@@ -6,8 +6,8 @@ export class localStorage {
   constructor() {
   }
 
+  // FIXME Connect it to real local storage
   static items = {'auth_token': true};
-
 
   // FIXME Connect it to real local storage
   static getItem(item) {
