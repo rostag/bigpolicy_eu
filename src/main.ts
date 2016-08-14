@@ -3,17 +3,11 @@ import { enableProdMode } from '@angular/core';
 import { AppComponent, environment } from './app/';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { provideRouter } from '@angular/router';
+import { APP_ROUTES_PROVIDER } from './app/app.routes';
 
-import { AboutComponent } from './app/about/index';
-import { LandingComponent } from './app/landing/index';
-
-import { LeaderEditComponent } from './app/leader/edit/index';
-import { LeaderListComponent } from './app/leader/list/index';
-import { LeaderViewComponent } from './app/leader/view/index';
-
-import { ProjectEditComponent } from './app/project/edit/index';
-import { ProjectListComponent } from './app/project/list/index';
-import { ProjectViewComponent } from './app/project/view/index';
+/**
+ * Application bootstrap, or entry point where it all starts
+ */
 
 if (environment.production) {
   enableProdMode();
@@ -21,20 +15,5 @@ if (environment.production) {
 
 bootstrap(AppComponent, [
   HTTP_PROVIDERS,
-  provideRouter([
-
-    { index: true, component: LandingComponent },
-
-    { path: '/add-leader', component: LeaderEditComponent },
-    { path: '/leader/:id', component: LeaderViewComponent },
-    { path: '/leaders', component: LeaderListComponent },
-    { path: '/leader/:id/edit', component: LeaderEditComponent },
-
-    { path: '/add-project', component: ProjectEditComponent },
-    { path: '/project/:id', component: ProjectViewComponent },
-    { path: '/projects', component: ProjectListComponent },
-    { path: '/project/:id/edit', component: ProjectEditComponent },
-
-    { path: '/about', component: AboutComponent }
-  ])
+  APP_ROUTES_PROVIDER
 ]);

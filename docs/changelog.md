@@ -81,3 +81,12 @@ https://developers.facebook.com/docs/sharing/opengraph
 
 * 5 Rookie mistakes on Angular:
 http://angularjs.blogspot.co.uk/2016/04/5-rookie-mistakes-to-avoid-with-angular.html
+
+* Scan - apply a function to each item emitted by an Observable, sequentially, and emit each successive value
+http://reactivex.io/documentation/operators/scan.html
+
+* Tackling State
+https://vsavkin.com/managing-state-in-angular-2-applications-caf78d123d02
+
+* Angular 2 Authentication Revisited
+https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.d7n63c9g5

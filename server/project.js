@@ -8,9 +8,6 @@ module.exports = function(app, DB){
 
   // const DB = require('./mongo/database');
 
-  console.log('DBDBDBDBDBDBDB: ', DB);
-  
-
   var router = express.Router();
 
   //
