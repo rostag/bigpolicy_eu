@@ -18,25 +18,24 @@ import { ProjectViewComponent } from './project/view/index';
 
 export const routes = [
 
-  { index: true, component: LandingComponent },
+  { path: '', index: true, component: LandingComponent, terminal: true },
 
-  { path: '', component: LandingComponent, terminal: true },
   { path: 'login', component: LoginComponent },
   // The guard is added as an array, multiple guards will be executed in a sequence
   // and only let the user see the page if all of them returns or resolves to true.
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
 
-  { path: '/add-leader', component: LeaderEditComponent },
-  { path: '/leader/:id', component: LeaderViewComponent },
-  { path: '/leaders', component: LeaderListComponent },
-  { path: '/leader/:id/edit', component: LeaderEditComponent },
+  { path: 'add-leader', component: LeaderEditComponent },
+  { path: 'leader/:id', component: LeaderViewComponent },
+  { path: 'leaders', component: LeaderListComponent },
+  { path: 'leader/:id/edit', component: LeaderEditComponent },
 
-  { path: '/add-project', component: ProjectEditComponent },
-  { path: '/project/:id', component: ProjectViewComponent },
-  { path: '/projects', component: ProjectListComponent },
-  { path: '/project/:id/edit', component: ProjectEditComponent },
+  { path: 'add-project', component: ProjectEditComponent },
+  { path: 'project/:id', component: ProjectViewComponent },
+  { path: 'projects', component: ProjectListComponent },
+  { path: 'project/:id/edit', component: ProjectEditComponent },
 
-  { path: '/about', component: AboutComponent }
+  { path: 'about', component: AboutComponent }
 
 ];
 
