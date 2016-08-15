@@ -1,57 +1,34 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { Injectable }      from '@angular/core';
+import { tokenNotExpired } from 'angular2-jwt';
+
+// Avoid name not found warnings
+declare var Auth0Lock: any;
 
 @Injectable()
 export class UserService {
+  // Configure Auth0
+  lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
 
-  private loggedIn = true;
-
-  constructor(
-    private http: Http,
-    private localStorageService: LocalStorageService
-  ) {
-    // FIXME - remove
-
-    console.log('auuuuu:', localStorageService.get('auth_token'));
-    this.loggedIn = !!localStorageService.get('auth_token');
+  constructor() {
+    // Add callback for lock `authenticated` event
+    this.lock.on("authenticated", (authResult) => {
+      localStorage.setItem('id_token', authResult.idToken);
+    });
   }
 
-  login(email, password) {
+  public login() {
+    // Call the show method to display the widget.
+    this.lock.show();
+  };
 
-    // By default the content type is plain/text, we need to set it to application/json
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+  public authenticated() {
+    // Check if there's an unexpired JWT
+    // This searches for an item in localStorage with key == 'id_token'
+    return tokenNotExpired();
+  };
 
-    // We get an RxJS observable object instead of a Promise.
-    // As with promises we can listen to it’s result, the subscribe method
-    // will take the place of the promise’s then method
-    return this.http
-      .post(
-        '/login',
-        JSON.stringify({email, password}),
-        { headers }
-      )
-      .map( res => res.json())
-      .map((res) => {
-        if (res.success) {
-          // Backend service generates a unique token for authentication of requests
-          this.localStorageService.set('auth_token', res.auth_token);
-          this.loggedIn = true;
-        }
-
-        return res.success;
-      })
-  }
-
-  logout() {
-    this.localStorageService.remove('auth_token');
-    this.loggedIn = false;
-  }
-
-  isLoggedIn() {
-    console.log('Usr is logged in: ', this.loggedIn);
-    return this.loggedIn;
-  }
-
+  public logout() {
+    // Remove token from localStorage
+    localStorage.removeItem('id_token');
+  };
 }

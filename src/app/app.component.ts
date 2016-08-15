@@ -4,7 +4,7 @@ import { MD_CARD_DIRECTIVES } from '@angular2-material/card';
 import { MD_BUTTON_DIRECTIVES } from '@angular2-material/button';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon';
 import { HTTP_PROVIDERS } from '@angular/http';
-import { UserModel } from './shared/user';
+import { UserModel, UserService } from './shared/user';
 
 import { NavbarComponent, ToolbarComponent } from './shared/index';
 
@@ -20,6 +20,10 @@ import { NavbarComponent, ToolbarComponent } from './shared/index';
 
 export class AppComponent {
   title = 'BigPolicy';
+
+  constructor(
+    private userService: UserService
+  ) {}
 
   ngOnInit(){
     console.log('• - • app init • - •')

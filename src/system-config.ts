@@ -55,6 +55,7 @@ const barrels: string[] = [
   // Thirdparty barrels.
   'rxjs',
   'angular-2-local-storage',
+  'angular2-jwt',
 
   // App specific barrels.
   'app',
@@ -62,7 +63,12 @@ const barrels: string[] = [
   /** @cli-barrel */
 ];
 
-const cliSystemConfigPackages: any = {};
+const cliSystemConfigPackages: any = {
+  'angular2-jwt': {
+    main: 'angular2-jwt.js',
+    format: 'cjs'
+  }
+};
 barrels.forEach((barrelName: string) => {
   cliSystemConfigPackages[barrelName] = { main: 'index' };
 });
@@ -76,6 +82,7 @@ System.config({
     '@angular': 'vendor/@angular',
     'angular-2-local-storage': 'vendor/angular-2-local-storage',
     'rxjs': 'vendor/rxjs',
+    'angular2-jwt': 'vendor/angular2-jwt',
     'main': 'main.js'
   },
   packages: cliSystemConfigPackages

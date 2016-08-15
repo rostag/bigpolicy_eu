@@ -17,7 +17,8 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
       '@angular2-material/**/*',
-      'angular-2-local-storage/**/*.js'
+      'angular-2-local-storage/**/*.js',
+      'angular2-jwt/**/*.+(js|js.map)'
     ]
   });
 };
