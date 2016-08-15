@@ -36,6 +36,8 @@
     "@angular2-material/slide-toggle": "^2.0.0-alpha.5-2",
     "@angular2-material/tabs": "^2.0.0-alpha.5-2",
     "@angular2-material/toolbar": "^2.0.0-alpha.5-2",
+    "angular2-jwt": "^0.1.18",
+    "auth0-lock": "^10.1.0",
     "body-parser": "^1.15.2",
     "es6-shim": "0.35.1",
     "express": "^4.14.0",
