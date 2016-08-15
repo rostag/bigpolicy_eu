@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { localStorage } from '../localstorage/localStorage';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Injectable()
 export class UserService {
 
   private loggedIn = true;
 
-  constructor(private http: Http) {
-    console.log('auuuuu:', localStorage.getItem('auth_token'));
-    this.loggedIn = !!localStorage.getItem('auth_token');
+  constructor(
+    private http: Http,
+    private localStorageService: LocalStorageService
+  ) {
+    // FIXME - remove
+
+    console.log('auuuuu:', localStorageService.get('auth_token'));
+    this.loggedIn = !!localStorageService.get('auth_token');
   }
 
   login(email, password) {
@@ -31,7 +36,7 @@ export class UserService {
       .map((res) => {
         if (res.success) {
           // Backend service generates a unique token for authentication of requests
-          localStorage.setItem('auth_token', res.auth_token);
+          this.localStorageService.set('auth_token', res.auth_token);
           this.loggedIn = true;
         }
 
@@ -40,7 +45,7 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('auth_token');
+    this.localStorageService.remove('auth_token');
     this.loggedIn = false;
   }
 

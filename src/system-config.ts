@@ -54,6 +54,7 @@ const barrels: string[] = [
 
   // Thirdparty barrels.
   'rxjs',
+  'angular-2-local-storage',
 
   // App specific barrels.
   'app',
@@ -73,6 +74,7 @@ declare var System: any;
 System.config({
   map: {
     '@angular': 'vendor/@angular',
+    'angular-2-local-storage': 'vendor/angular-2-local-storage',
     'rxjs': 'vendor/rxjs',
     'main': 'main.js'
   },
