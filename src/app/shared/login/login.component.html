@@ -1,2 +1,15 @@
 <h1>Login</h1>
-<p>Hello</p>
+<form>
+  <div class="form-group">
+    <label for="name">Username</label>
+    <input type="text" class="form-control" #username placeholder="yours@example.com">
+  </div>
+  <div class="form-group">
+    <label for="name">Password</label>
+    <input type="password" class="form-control" #password placeholder="your password">
+  </div>
+  <button type="submit" class="btn btn-default" (click)="userService.login(username.value, password.value)">Login</button>
+  <button type="submit" class="btn btn-default" (click)="userService.signUp(username.value, password.value)">Sign Up</button>
+  <button type="submit" class="btn btn-default btn-primary" (click)="userService.googleLogin()">Login with Google</button>
+
+</form>

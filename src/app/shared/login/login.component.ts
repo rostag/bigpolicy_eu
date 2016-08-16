@@ -17,7 +17,7 @@ export class LoginComponent {
 
   //  listen to the result of the login and after a success redirect the user to the home page
   onSubmit(email, password) {
-    this.userService.login()
+    // this.userService.login()
     // .subscribe((result) => {
     //   if (result) {
     //     this.router.navigate(['']);
