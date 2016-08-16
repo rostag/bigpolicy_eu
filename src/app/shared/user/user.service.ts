@@ -1,4 +1,4 @@
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 
 // Avoid name not found warnings
@@ -6,6 +6,7 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class UserService {
+
   // Configure Auth0
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
 

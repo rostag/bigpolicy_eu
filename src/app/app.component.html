@@ -6,3 +6,5 @@
 </div>
 
 <footer>Creative Commons and BigPolicy 2015-2016. <a [routerLink]="['/about']">Про проект</a></footer>
+<button md-button (click)="userService.login()" *ngIf="!userService.authenticated()">Log In</button>
+<button md-button (click)="userService.logout()" *ngIf="userService.authenticated()">Log Out</button>

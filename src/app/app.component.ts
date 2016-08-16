@@ -4,7 +4,8 @@ import { MD_CARD_DIRECTIVES } from '@angular2-material/card';
 import { MD_BUTTON_DIRECTIVES } from '@angular2-material/button';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon';
 import { HTTP_PROVIDERS } from '@angular/http';
-import { UserModel, UserService } from './shared/user';
+import { UserModel } from './shared/user/user.model';
+import { UserService } from './shared/user/user.service';
 
 import { NavbarComponent, ToolbarComponent } from './shared/index';
 
