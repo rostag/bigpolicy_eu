@@ -8,3 +8,21 @@
 <footer>Creative Commons and BigPolicy 2015-2016. <a [routerLink]="['/about']">Про проект</a></footer>
 <button md-button (click)="userService.login()" *ngIf="!userService.authenticated()">Log In</button>
 <button md-button (click)="userService.logout()" *ngIf="userService.authenticated()">Log Out</button>
+
+<div *ngIf="userService.authenticated() && userService.userProfile">
+  <h4>You are logged in</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Profile</h3>
+      <img [src]="userService.userProfile.picture" alt="" class="profile-img">
+      <p><strong>Name: </strong> {{userService.userProfile.name}}</p>
+      <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
+      <p><strong>Nickname: </strong> {{userService.userProfile.nickname}}</p>
+      <p><strong>Created At: </strong> {{userService.userProfile.created_at}}</p>
+      <p><strong>Updated At: </strong> {{userService.userProfile.updated_at}}</p>
+    </div>
+  </div>
+</div>
+<h4 *ngIf="!userService.authenticated()">You are not logged in, please click 'Log in' button to login</h4>
+
+.

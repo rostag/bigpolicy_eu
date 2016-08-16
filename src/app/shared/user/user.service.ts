@@ -9,7 +9,10 @@ declare var Auth0: any;
 @Injectable()
 export class UserService {
 
-  // var origin = location.origin;
+  useLock: boolean;
+
+  //Store profile object in auth class
+  userProfile: Object;
 
   auth0 = new Auth0({
     domain: 'bigpolicy.eu.auth0.com',
@@ -19,14 +22,33 @@ export class UserService {
   });
 
   // Configure Auth0
-  // lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
+  lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
 
   constructor(private router: Router) {
-    // Add callback for lock `authenticated` event
-    // this.lock.on("authenticated", (authResult) => {
-    //   localStorage.setItem('id_token', authResult.idToken);
-    // });
+    // Set userProfile attribute of already saved profile
+    this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
+    if (this.useLock) {
+      // Add callback for lock `authenticated` event
+      this.lock.on("authenticated", (authResult) => {
+        localStorage.setItem('id_token', authResult.idToken);
+
+        // Fetch profile information
+        this.lock.getProfile(authResult.idToken, (error, profile) => {
+          if (error) {
+            // Handle error
+            alert(error);
+            return;
+          }
+
+          localStorage.setItem('profile', JSON.stringify(profile));
+          this.userProfile = profile;
+        });
+      });
+      return
+    }
+
+    // Custom Login
     var result = this.auth0.parseHash(window.location.hash);
 
     if (result && result.idToken) {
@@ -39,15 +61,20 @@ export class UserService {
 
   public login(username, password) {
     // Call the show method to display the widget.
-    // this.lock.show();
-    this.auth0.login({
-      connection: 'Username-Password-Authentication',
-      responseType: 'token',
-      email: username,
-      password: password,
-    }, function(err) {
-      if (err) alert("something went wrong: " + err.message);
-    });
+    if (this.useLock) {
+      this.lock.show();
+
+    } else {
+      // Custom Login
+      this.auth0.login({
+        connection: 'Username-Password-Authentication',
+        responseType: 'token',
+        email: username,
+        password: password,
+      }, function(err) {
+        if (err) alert("something went wrong: " + err.message);
+      });
+    }
   };
 
   public googleLogin() {
@@ -78,5 +105,7 @@ export class UserService {
   public logout() {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+    this.userProfile = undefined;
   };
 }
