@@ -40,6 +40,10 @@
 * Project List, Project View, Project Editor
 * Implemented dynamic Landing page incl. leaders and projects count
 
+15.08.2016
+
+* Прилаштував Auth0 згідно з офдоками і https://github.com/auth0/angular2-jwt/issues/50
+
 
 ## Почитати:
 
