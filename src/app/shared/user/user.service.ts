@@ -10,6 +10,8 @@ declare var Auth0: any;
 export class UserService {
 
   useLock: boolean;
+  email: string = 'user@bigpolicy.com';
+  username: string = 'User2';
 
   //Store profile object in auth class
   userProfile: Object;
@@ -27,6 +29,8 @@ export class UserService {
   constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
+
+    this.username = 'User2s'
 
     if (this.useLock) {
       // Add callback for lock `authenticated` event

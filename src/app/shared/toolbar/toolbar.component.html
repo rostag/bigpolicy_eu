@@ -6,4 +6,6 @@
   <!-- <more></more> -->
 
   <a [routerLink]="['/profile']" color="warn" ><md-icon size="48">account_circle</md-icon></a>
+  <a (click)="userService.login()" *ngIf="!userService.authenticated()">Log In</a>
+  <a (click)="userService.logout()" *ngIf="userService.authenticated()">Log Out</a>
 </md-toolbar>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MdToolbar } from '@angular2-material/toolbar';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon';
+import { UserService } from '../user/user.service';
 
 /**
  * This class represents the toolbar component.
@@ -14,4 +15,9 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon';
   directives: [ROUTER_DIRECTIVES, MdToolbar, MdIcon],
   providers: [MdIconRegistry]
 })
-export class ToolbarComponent {}
+export class ToolbarComponent {
+
+  constructor(
+    private userService: UserService
+  ){}
+}
