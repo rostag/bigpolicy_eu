@@ -18,7 +18,7 @@ import { ProjectViewComponent } from './project/view/index';
 
 export const routes = [
 
-  { path: '', index: true, component: LandingComponent, terminal: true },
+  { path: '', component: LandingComponent, index: true, terminal: true },
 
   { path: 'login', component: LoginComponent },
   // The guard is added as an array, multiple guards will be executed in a sequence

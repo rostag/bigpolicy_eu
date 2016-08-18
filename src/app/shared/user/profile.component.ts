@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from './user.service';
 
 @Component({
   moduleId: module.id,
@@ -9,6 +10,7 @@ import { Component } from '@angular/core';
 export class ProfileComponent {
 
   constructor(
+    private userService: UserService
   ){}
 
 }
