@@ -1,3 +1,5 @@
+import { UserService } from '../user/user.service';
+
 export class LeaderModel {
 
 	_id: String;
@@ -11,6 +13,7 @@ export class LeaderModel {
 	photo: String;
 	video: String;
 	logo: String;
+	email: String;
 
 	// political party membership
   // id of party from parties list
@@ -48,6 +51,7 @@ export class LeaderModel {
       "photo": this.photo,
       "video": this.video,
       "logo": this.logo,
+      "email": this.email,
       "party": this.party,
       "officialPost": this.officialPost,
       "socialNetworks": this.socialNetworks,

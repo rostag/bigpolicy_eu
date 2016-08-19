@@ -1,24 +1,18 @@
 <md-card>
   <md-card-content>
-
-    <!-- <h1>{{userService.username}}</h1> -->
-
-
+    <h1>{{userService.userProfile.name}}</h1>
     <div *ngIf="userService.authenticated() && userService.userProfile">
-      <h4>You are logged in</h4>
+      <!-- <h4>You are logged in</h4> -->
       <div class="row">
         <div class="col-md-6">
-          <h3>Profile</h3>
           <img [src]="userService.userProfile.picture" alt="" class="profile-img">
-          <p><strong>Name: </strong> {{userService.userProfile.name}}</p>
           <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
-          <p><strong>Nickname: </strong> {{userService.userProfile.nickname}}</p>
-          <p><strong>Created At: </strong> {{userService.userProfile.created_at}}</p>
-          <p><strong>Updated At: </strong> {{userService.userProfile.updated_at}}</p>
+          <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
+          <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
+          <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
         </div>
       </div>
     </div>
-    <h4 *ngIf="!userService.authenticated()">You are not logged in, please click 'Log in' button to login</h4>
-
+    <h4 *ngIf="!userService.authenticated()">Ви не зайшли в систему. Натисніть 'Вхід', щоб зайти</h4>
   </md-card-content>
 </md-card>

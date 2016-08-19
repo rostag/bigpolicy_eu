@@ -11,6 +11,7 @@ import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   moduleId: module.id,
@@ -29,7 +30,8 @@ export class LeaderEditComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private userService: UserService
   ) {}
 
   /**
@@ -93,6 +95,7 @@ export class LeaderEditComponent {
       )
     } else {
       // Create new leader
+      this.leader.email = this.userService.userProfile['email'];
       this.leaderService.createLeader(this.leader)
       .subscribe(
         data => { this.gotoLeader(data) },

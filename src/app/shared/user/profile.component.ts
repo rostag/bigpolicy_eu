@@ -11,6 +11,5 @@ export class ProfileComponent {
 
   constructor(
     private userService: UserService
-  ){}
-
+  ) {}
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MdButton } from '@angular2-material/button';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import { UserService } from '../user/user.service';
 
 /**
  * This class represents the navigation bar component.
@@ -12,4 +13,10 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   styleUrls: ['navbar.component.css'],
   directives: [ROUTER_DIRECTIVES, MdButton]
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+
+  constructor(
+    private userService: UserService
+  ) {}
+
+}
