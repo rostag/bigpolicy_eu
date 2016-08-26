@@ -44,6 +44,28 @@
 
 * Прилаштував Auth0 згідно з офдоками і https://github.com/auth0/angular2-jwt/issues/50
 
+22.08.2016
+
+User Model Added. Router extracted
+Added Profile Service, Profile View, LocalStorage for auth control
+Local storage support added
+Auth0 dependencies added
+RC1-RC4 migration done
+Added Custom Auth0 Login
+Added Profile WIP
+User Profile is working
+Added Leader Email - form User Profile
+
+
+Google+
+LinkedIn
+
+Кабінет користувача поеєднує проекти, показує їх по регіонах, грошах.
+
+26.08.2016
+
+
+
 
 ## Почитати:
 

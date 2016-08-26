@@ -8,6 +8,10 @@ var Schema       = mongoose.Schema;
 		2) documents fields will be adjusted after coordination (with host place)
 */
 
+/**
+ * managerId is actually a manager email
+ */
+
 const ProjectSchema = new Schema({
 	title: { type: String, required: true  },
 	description: { type: String, required: true  },
