@@ -35,6 +35,16 @@ export class UserService {
     });
   };
 
+  public isAdmin() {
+    let p = this.userProfile;
+    if (p) {
+      console.log('p = ', p);
+      return p['email'] === 'rostislav.siryk@gmail.com';
+    } else {
+      return false
+    }
+  }
+
   public login() {
     // Call the show method to display the widget.
     this.lock.show();

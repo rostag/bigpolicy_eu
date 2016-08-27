@@ -33,8 +33,10 @@
             </md-card-content>
             <md-card-actions>
               <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
-              <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-              <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
+              <span *ngIf="isAdmin">
+                <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+                <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
+              </span>
             </md-card-actions>
           </md-card>
 
