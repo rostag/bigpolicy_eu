@@ -38,7 +38,7 @@ export class UserService {
   public isAdmin() {
     let p = this.userProfile;
     if (p) {
-      console.log('p = ', p);
+      console.log('email:', p['email']);
       return p['email'] === 'rostislav.siryk@gmail.com';
     } else {
       return false

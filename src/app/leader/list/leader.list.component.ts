@@ -24,8 +24,6 @@ import { UserService } from '../../shared/user/user.service';
 
 export class LeaderListComponent {
 
-    private isAdmin = false;
-
     private leadersUrl = '/leader-api/'
 
     private leaders = []
@@ -33,7 +31,7 @@ export class LeaderListComponent {
     constructor(
       private http: Http,
       private leaderService: LeaderService,
-      private userService: UserService
+      private user: UserService
     ) {}
 
     ngOnInit() {
@@ -50,7 +48,6 @@ export class LeaderListComponent {
     }
 
     private setLeaders(data) {
-      this.isAdmin = this.userService.isAdmin();
       this.leaders = data;
       return data
     }

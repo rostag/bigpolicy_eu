@@ -6,6 +6,8 @@ import { MD_LIST_DIRECTIVES } from '@angular2-material/list/list';
 import { ProjectService, ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import { UserService } from '../../shared/user/user.service';
+
 
 @Component({
   selector: 'project-list',
@@ -13,7 +15,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.css'],
   directives: [MD_LIST_DIRECTIVES, ROUTER_DIRECTIVES, MdCard, MdButton, MdIcon],
-  providers: [MdIconRegistry, ProjectService]
+  providers: [MdIconRegistry, ProjectService, UserService]
 })
 
 export class ProjectListComponent {
@@ -22,7 +24,8 @@ export class ProjectListComponent {
 
   constructor(
     private http: Http,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private user: UserService
   ) {
     this.projects = [{title: 'Loading'}];
   }
