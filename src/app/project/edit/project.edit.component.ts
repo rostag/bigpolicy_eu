@@ -10,8 +10,8 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   moduleId: module.id,
@@ -30,7 +30,8 @@ export class ProjectEditComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private userService: UserService
   ) {
     this.project = new ProjectModel();
   }
@@ -95,6 +96,8 @@ export class ProjectEditComponent {
       )
     } else {
       // Create new project
+      this.project.managerName = this.userService.userProfile['name'];
+      this.project.managerId = this.userService.userProfile['email'];
       this.projectService.createProject(this.project)
       .subscribe(
         data => { this.gotoProject(data) },

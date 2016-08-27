@@ -7,11 +7,15 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  '@angular2-material': 'vendor/@angular2-material'
+  '@angular2-material': 'vendor/@angular2-material',
+  'angular2-jwt': 'vendor/angular2-jwt'
 };
 
 /** User packages configuration. */
 const packages: any = {
+  'angular2-jwt': {
+    main: 'angular2-jwt.js'
+  }
 };
 
 // put the names of any of your Material components here
@@ -54,6 +58,8 @@ const barrels: string[] = [
 
   // Thirdparty barrels.
   'rxjs',
+  'angular-2-local-storage',
+  'angular2-jwt',
 
   // App specific barrels.
   'app',
@@ -61,7 +67,8 @@ const barrels: string[] = [
   /** @cli-barrel */
 ];
 
-const cliSystemConfigPackages: any = {};
+const cliSystemConfigPackages: any = {
+};
 barrels.forEach((barrelName: string) => {
   cliSystemConfigPackages[barrelName] = { main: 'index' };
 });
@@ -73,6 +80,7 @@ declare var System: any;
 System.config({
   map: {
     '@angular': 'vendor/@angular',
+    'angular-2-local-storage': 'vendor/angular-2-local-storage',
     'rxjs': 'vendor/rxjs',
     'main': 'main.js'
   },

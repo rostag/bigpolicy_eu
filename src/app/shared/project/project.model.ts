@@ -3,8 +3,8 @@ export class ProjectModel {
   title: string;
   description: string;
   cost: number;
-  managerName: string = 'Manager Absent';
-  managerId: string = '-1';
+  managerName: string = 'John Doe';
+  managerId: string = 'johndoe@mail.com';
   iconURL: string;
   dateStarted: Date = new Date();
   dateEnded: Date = new Date();

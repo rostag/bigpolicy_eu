@@ -11,6 +11,7 @@ import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   moduleId: module.id,
@@ -29,7 +30,8 @@ export class LeaderEditComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private userService: UserService
   ) {}
 
   /**
@@ -37,6 +39,10 @@ export class LeaderEditComponent {
    * like `id` in leader/:id/edit)
    */
   ngOnInit() {
+    var p = this.userService.userProfile;
+    let fullname = p ? p['name'] : '';
+    this.leader.name = fullname.split(' ')[0];
+    this.leader.surName = fullname.split(' ')[1];
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
@@ -93,6 +99,10 @@ export class LeaderEditComponent {
       )
     } else {
       // Create new leader
+      let n = this.userService.userProfile['name'].split(' ');
+      this.leader.name = name[0];
+      this.leader.surName = name[1];
+      this.leader.email = this.userService.userProfile['email'];
       this.leaderService.createLeader(this.leader)
       .subscribe(
         data => { this.gotoLeader(data) },

@@ -11,13 +11,15 @@ import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
+import { UserService } from '../../shared/user/user.service';
+
 @Component({
   selector: 'leader-list',
   moduleId: module.id,
   templateUrl: './leader.list.component.html',
   styleUrls: ['./leader.list.component.css'],
   directives: [FORM_DIRECTIVES, ROUTER_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
-  providers: [MdIconRegistry, LeaderService]
+  providers: [MdIconRegistry, LeaderService, UserService]
 })
 
 export class LeaderListComponent {
@@ -28,7 +30,8 @@ export class LeaderListComponent {
 
     constructor(
       private http: Http,
-      private leaderService: LeaderService
+      private leaderService: LeaderService,
+      private user: UserService
     ) {}
 
     ngOnInit() {
@@ -45,7 +48,7 @@ export class LeaderListComponent {
     }
 
     private setLeaders(data) {
-      this.leaders = data
+      this.leaders = data;
       return data
     }
 

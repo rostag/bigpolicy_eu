@@ -1,40 +1,36 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
-import { enableProdMode } from '@angular/core';
-import { AppComponent, environment } from './app/';
-import { HTTP_PROVIDERS } from '@angular/http';
 import { provideRouter } from '@angular/router';
+import { HTTP_PROVIDERS } from '@angular/http';
+import { enableProdMode, Provider, provide } from '@angular/core';
+import { AppComponent, environment } from './app/';
+import { APP_ROUTES_PROVIDER } from './app/app.routes';
+import { UserService } from './app/shared/user/user.service';
+import { LoggedInGuard } from './app/shared/login/logged-in.guard';
+import { LocalStorageService, LOCAL_STORAGE_SERVICE_CONFIG } from 'angular-2-local-storage';
 
-import { AboutComponent } from './app/about/index';
-import { LandingComponent } from './app/landing/index';
-
-import { LeaderEditComponent } from './app/leader/edit/index';
-import { LeaderListComponent } from './app/leader/list/index';
-import { LeaderViewComponent } from './app/leader/view/index';
-
-import { ProjectEditComponent } from './app/project/edit/index';
-import { ProjectListComponent } from './app/project/list/index';
-import { ProjectViewComponent } from './app/project/view/index';
+/**
+ * Application bootstrap, or entry point where it all starts
+ */
 
 if (environment.production) {
   enableProdMode();
 }
 
+// Create config options (see ILocalStorageServiceConfigOptions) for deets:
+let localStorageServiceConfig = {
+    prefix: 'bp-app',
+    storageType: 'sessionStorage'
+};
+// Provide the config to the service:
+const LOCAL_STORAGE_CONFIG_PROVIDER: Provider = provide(LOCAL_STORAGE_SERVICE_CONFIG, {
+    useValue: localStorageServiceConfig
+});
+
 bootstrap(AppComponent, [
+  UserService,
+  LoggedInGuard,
+  LocalStorageService,
+  LOCAL_STORAGE_CONFIG_PROVIDER,
   HTTP_PROVIDERS,
-  provideRouter([
-
-    { index: true, component: LandingComponent },
-
-    { path: '/add-leader', component: LeaderEditComponent },
-    { path: '/leader/:id', component: LeaderViewComponent },
-    { path: '/leaders', component: LeaderListComponent },
-    { path: '/leader/:id/edit', component: LeaderEditComponent },
-
-    { path: '/add-project', component: ProjectEditComponent },
-    { path: '/project/:id', component: ProjectViewComponent },
-    { path: '/projects', component: ProjectListComponent },
-    { path: '/project/:id/edit', component: ProjectEditComponent },
-
-    { path: '/about', component: AboutComponent }
-  ])
+  APP_ROUTES_PROVIDER
 ]);

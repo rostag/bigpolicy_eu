@@ -16,7 +16,7 @@
          <p md-line>
            <small>{{project.description}}</small>
          </p>
-         <p class="admin" style="min-width:4em;">
+         <p *ngIf="user.isAdmin()" class="admin" style="min-width:4em;">
            <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
            <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
          </p>

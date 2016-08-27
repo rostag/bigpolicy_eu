@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 // mongoose models
 var Leader = require('./models/leader');
 var Project = require('./models/project');
-var acc = require('./models/acc');
+var app = require('./models/app');
 
 //////////////////////////
 
@@ -23,7 +23,7 @@ try{
     if(process.env.OPENSHIFT_MONGODB_DB_URL){
         console.error('On Openshift: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
         options.user = 'admin';
-        options.pass = acc.name;
+        options.pass = app.qa;
         mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME, options);
     }else{
         // localhost

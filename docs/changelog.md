@@ -40,6 +40,32 @@
 * Project List, Project View, Project Editor
 * Implemented dynamic Landing page incl. leaders and projects count
 
+15.08.2016
+
+* Прилаштував Auth0 згідно з офдоками і https://github.com/auth0/angular2-jwt/issues/50
+
+22.08.2016
+
+User Model Added. Router extracted
+Added Profile Service, Profile View, LocalStorage for auth control
+Local storage support added
+Auth0 dependencies added
+RC1-RC4 migration done
+Added Custom Auth0 Login
+Added Profile WIP
+User Profile is working
+Added Leader Email - form User Profile
+
+
+Google+
+LinkedIn
+
+Кабінет користувача поеєднує проекти, показує їх по регіонах, грошах.
+
+26.08.2016
+
+
+
 
 ## Почитати:
 
@@ -81,3 +107,15 @@ https://developers.facebook.com/docs/sharing/opengraph
 
 * 5 Rookie mistakes on Angular:
 http://angularjs.blogspot.co.uk/2016/04/5-rookie-mistakes-to-avoid-with-angular.html
+
+* Scan - apply a function to each item emitted by an Observable, sequentially, and emit each successive value
+http://reactivex.io/documentation/operators/scan.html
+
+* Tackling State
+https://vsavkin.com/managing-state-in-angular-2-applications-caf78d123d02
+
+* Angular 2 Authentication Revisited
+https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.d7n63c9g5
+
+* Angular Icons:
+https://klarsys.github.io/angular-material-icons/

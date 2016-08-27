@@ -18,6 +18,7 @@ const LeaderSchema = new Schema({
 	photo: { type: String },
 	video: { type: String },
 	logo: { type: String },// ???
+	email: { type: String },
 
 	// political party membership
 	// id of party from parties lst

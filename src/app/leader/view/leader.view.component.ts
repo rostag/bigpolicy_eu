@@ -5,6 +5,7 @@ import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { UserService } from '../../shared/user/user.service';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +13,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
   templateUrl: './leader.view.component.html',
   styleUrls: ['./leader.view.component.css'],
   directives: [ROUTER_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar],
-  providers: [MdIconRegistry, LeaderService]
+  providers: [MdIconRegistry, LeaderService, UserService]
 })
 
 export class LeaderViewComponent {
@@ -25,7 +26,8 @@ export class LeaderViewComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private user: UserService
   ){}
 
   /**

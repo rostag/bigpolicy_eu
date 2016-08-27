@@ -6,13 +6,14 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   moduleId: module.id,
   templateUrl: './project.view.component.html',
   styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.css'],
   directives: [ROUTER_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar],
-  providers: [MdIconRegistry, ProjectService]
+  providers: [MdIconRegistry, ProjectService, UserService]
 })
 
 export class ProjectViewComponent {
@@ -25,7 +26,8 @@ export class ProjectViewComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private user: UserService
   ){}
 
   /**
