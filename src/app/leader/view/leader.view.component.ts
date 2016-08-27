@@ -27,7 +27,7 @@ export class LeaderViewComponent {
     private router: Router,
     private route: ActivatedRoute,
     private leaderService: LeaderService,
-    private userService: UserService
+    private user: UserService
   ){}
 
   /**
