@@ -16,27 +16,36 @@ import { ProjectEditComponent } from './project/edit/index';
 import { ProjectListComponent } from './project/list/index';
 import { ProjectViewComponent } from './project/view/index';
 
+import { TaskEditComponent } from './task/edit/index';
+import { TaskListComponent } from './task/list/index';
+import { TaskViewComponent } from './task/view/index';
+
+//
+// The order of routes is IMPORTANT.
+// More specific come first.
+//
 export const routes = [
+  { path: 'leader/:id/edit', component: LeaderEditComponent },
+  { path: 'project/:id/edit', component: ProjectEditComponent },
+  { path: 'task/:id/edit', component: TaskEditComponent },
+  { path: 'leader/:id', component: LeaderViewComponent },
+  { path: 'project/:id', component: ProjectViewComponent },
+  { path: 'task/:id', component: TaskViewComponent },
 
-  { path: '', component: LandingComponent, index: true, terminal: true },
+  { path: 'leaders', component: LeaderListComponent },
+  { path: 'projects', component: ProjectListComponent },
+  { path: 'tasks', component: TaskListComponent },
+  { path: 'add-leader', component: LeaderEditComponent },
+  { path: 'add-project', component: ProjectEditComponent },
+  { path: 'add-task', component: TaskEditComponent },
 
-  { path: 'login', component: LoginComponent },
   // The guard is added as an array, multiple guards will be executed in a sequence
   // and only let the user see the page if all of them returns or resolves to true.
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
+  { path: 'login', component: LoginComponent },
 
-  { path: 'add-leader', component: LeaderEditComponent },
-  { path: 'leader/:id', component: LeaderViewComponent },
-  { path: 'leaders', component: LeaderListComponent },
-  { path: 'leader/:id/edit', component: LeaderEditComponent },
-
-  { path: 'add-project', component: ProjectEditComponent },
-  { path: 'project/:id', component: ProjectViewComponent },
-  { path: 'projects', component: ProjectListComponent },
-  { path: 'project/:id/edit', component: ProjectEditComponent },
-
-  { path: 'about', component: AboutComponent }
-
+  { path: 'about', component: AboutComponent },
+  { path: '', component: LandingComponent }
 ];
 
 export const APP_ROUTES_PROVIDER = provideRouter(routes);

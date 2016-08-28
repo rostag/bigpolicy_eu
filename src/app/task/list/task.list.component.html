@@ -1,0 +1,27 @@
+<md-card>
+  <md-card-title>Заходи</md-card-title>
+  <md-card-subtitle>Проект - {{user.current.project.title}}
+  </md-card-subtitle>
+
+  <md-card-content>
+    <md-list>
+       <md-list-item  *ngFor="let task of tasks">
+         <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
+         <h3 md-line><a [routerLink]="['/task/' + task._id]"><big><b>{{task.title}}</b></big></a></h3>
+         <p md-line>
+          <b>₴{{task.cost}}.</b> {{task.dateEnded | date}} - {{task.dateStarted | date}}
+         </p>
+         <p md-line>
+           <small>{{task.description}}</small>
+         </p>
+         <p *ngIf="user.isAdmin()" class="admin" style="min-width:4em;">
+           <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
+           <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+         </p>
+
+      </md-list-item>
+    </md-list>
+
+  </md-card-content>
+
+</md-card>

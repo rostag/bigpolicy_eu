@@ -199,8 +199,7 @@ DB.createTask = function(dataObj) {
       title: data.title,
       description: data.description,
       cost: data.cost,
-      managerName: data.managerName,
-      managerId: data.managerId,
+      projectId: data.projectId,
       dateStarted: data.dateStarted,
       dateEnded: data.dateEnded,
       iconURL: data.iconURL

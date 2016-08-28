@@ -3,46 +3,42 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import { ProjectModel } from './project.model'
+import { TaskModel } from './task.model'
 
 /**
- * This class provides the ProjectList service with methods to get and save projects.
+ * This class provides the TaskList service with methods to get and save tasks.
  */
 @Injectable()
-export class ProjectService {
+export class TaskService {
 
-  private apiUrl = '/project-api/';
+  private apiUrl = '/task-api/';
 
   /**
-   * The array of initial projects provided by the service.
+   * The array of initial tasks provided by the service.
    * @type {Array}
    */
-  projects;
+  tasks;
 
   /**
    * Contains the currently pending request.
-   * @type {Observable<ProjectModel[]>}
+   * @type {Observable<TaskModel[]>}
    */
   private request;
 
   /**
-   * Creates a new ProjectService with the injected Http.
+   * Creates a new TaskService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
    */
   constructor(private http: Http) {
-
-    this.projects = [];
-
-    // console.log('project list service CONSTRUCTOR');
-
+    this.tasks = [];
   }
 
   /**
-   * Creates the Project.
-   * @param {ProjectModel} model - The Project to create.
+   * Creates the Task.
+   * @param {TaskModel} model - The Task to create.
    */
-  createProject(model: ProjectModel): Observable<Response> {
+  createTask(model: TaskModel): Observable<Response> {
     var body: string = model.toString();
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -59,27 +55,27 @@ export class ProjectService {
    * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjects(modelId: string = ''): Observable<Response> {
-    if (this.projects && this.projects.length) {
-      return Observable.from([this.projects]);
+  getTasks(modelId: string = ''): Observable<Response> {
+    if (this.tasks && this.tasks.length) {
+      return Observable.from([this.tasks]);
     }
 
     if (!this.request) {
       this.request = this.http.get(this.apiUrl + modelId)
         .map((res:Response) => {
-          this.projects = res.json()
-          if (this.projects.forEach) {
-            this.projects.forEach((project) => {
-              project.dateStarted = new Date(project['dateStarted'])
-              project.dateEnded = new Date(project['dateEnded'])
+          this.tasks = res.json()
+          if (this.tasks.forEach) {
+            this.tasks.forEach((task) => {
+              task.dateStarted = new Date(task['dateStarted'])
+              task.dateEnded = new Date(task['dateEnded'])
             })
           }
           else {
-            this.projects.dateStarted = new Date(this.projects['dateStarted'])
-            this.projects.dateEnded = new Date(this.projects['dateEnded'])
+            this.tasks.dateStarted = new Date(this.tasks['dateStarted'])
+            this.tasks.dateEnded = new Date(this.tasks['dateEnded'])
           }
-          // console.log('Projects loaded, response: ', this.projects)
-          return this.projects
+          // console.log('Tasks loaded, response: ', this.tasks)
+          return this.tasks
         })
     }
     return this.request;
@@ -90,15 +86,15 @@ export class ProjectService {
   /**
    * Get a model from DB or from cache.
    */
-  getProject(modelId: string): Observable<Response> {
-    return this.getProjects(modelId)
+  getTask(modelId: string): Observable<Response> {
+    return this.getTasks(modelId)
   }
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param ProjectModel A Project to update
+   * @param TaskModel A Task to update
    */
-  updateProject(model:ProjectModel):Observable<Response> {
+  updateTask(model:TaskModel):Observable<Response> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -109,11 +105,11 @@ export class ProjectService {
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param ProjectModel A Project to delete
+   * @param TaskModel A Task to delete
    */
-  deleteProject(model:ProjectModel) {
+  deleteTask(model:TaskModel) {
     this.http.delete(this.apiUrl + model._id)
-        .map(res => console.log('Project deleted:', res.json()))
+        .map(res => console.log('Task deleted:', res.json()))
         .catch(this.handleError)
         .subscribe((res) => {});
   }

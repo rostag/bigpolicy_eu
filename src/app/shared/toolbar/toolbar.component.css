@@ -3,6 +3,18 @@
   color: white;
 }
 
+a {
+  cursor: pointer;
+  color: #ffffff;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.toolbar-username {
+    font-size: 1em;
+    cursor: pointer;
+}
+
 .sd-icon-button {
   box-shadow: none;
   user-select: none;
