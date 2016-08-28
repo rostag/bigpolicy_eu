@@ -36,9 +36,10 @@ export class UserService {
   };
 
   public isAdmin() {
+    // FIXME it's being called too often, as log below shows
     let p = this.userProfile;
     if (p) {
-      console.log('email:', p['email']);
+      // console.log('email:', p['email']);
       return p['email'] === 'rostislav.siryk@gmail.com';
     } else {
       return false

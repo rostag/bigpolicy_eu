@@ -6,6 +6,7 @@ mongoose.Promise = global.Promise;
 // mongoose models
 var Leader = require('./models/leader');
 var Project = require('./models/project');
+var Task = require('./models/task');
 var app = require('./models/app');
 
 //////////////////////////
@@ -163,6 +164,97 @@ DB.deleteAllProjects = function(id) {
     return Project.find().remove();
 }
 // END OF DANGER
+
+
+// END OF P R O J E C T
+
+
+//******************************************************************************
+//
+//    T A S K
+//
+//******************************************************************************
+
+
+DB.getTask = function(id) {
+    return Task.findById(id);
+}
+
+DB.listTasks = function(id) {
+    return Task.find()
+    // .exec();
+}
+
+DB.createTask = function(dataObj) {
+  var data = dataObj;
+
+  for ( var item in dataObj ) {
+    data = JSON.parse(item);
+  }
+
+  // var data = JSON.parse(dataStr);
+  console.log('database.js: createTask: ', data)
+    if(!data) data = {};
+    const model = new Task({
+      title: data.title,
+      description: data.description,
+      cost: data.cost,
+      managerName: data.managerName,
+      managerId: data.managerId,
+      dateStarted: data.dateStarted,
+      dateEnded: data.dateEnded,
+      iconURL: data.iconURL
+    });
+    var saved = model.save();
+    console.log('saved: ', saved);
+    return model.save(saved);
+}
+
+DB.updateTask = function(id,data) {
+    if(!data) data = {};
+    return Task.findById(id, function(err, model) {
+        if(err || !model){
+            return;
+        }
+
+        // TODO Tell Olexii the optimization
+        for (var field in data) {
+          model[field] = data[field]
+        }
+
+        return model.save();
+    });
+}
+
+DB.deleteTask = function(id) {
+    return Task.findById(id).remove();
+}
+
+// DANGER FUNCTION. FOR DEV PURPOSES
+DB.deleteAllTasks = function(id) {
+    return Task.find().remove();
+}
+// END OF DANGER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
