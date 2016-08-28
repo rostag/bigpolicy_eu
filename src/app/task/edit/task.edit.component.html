@@ -4,7 +4,9 @@
     <md-card-content>
 
       <md-card-title>
-       Додати захід
+        <span *ngIf="!isUpdateMode">Додати</span>
+        <span *ngIf="isUpdateMode">Редагувати</span>
+         захід
       </md-card-title>
 
       <md-input [(ngModel)]="task.title" characterCounter placeholder="Назва заходу: *" hintLabel=""></md-input>
@@ -26,7 +28,10 @@
       </tr></table>
 
       <p>
-        <button type="submit" md-raised-button (click)="saveTask()">Додати захід</button>
+        <button type="submit" md-raised-button (click)="saveTask()">
+          <span *ngIf="!isUpdateMode">Додати</span>
+          <span *ngIf="isUpdateMode">Зберегти</span>
+           захід</button>
       </p>
 
     </md-card-content>

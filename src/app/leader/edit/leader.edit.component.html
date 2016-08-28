@@ -2,7 +2,8 @@
   <form>
   <md-card-content>
     <md-card-title>
-     Створити лідера
+      <span *ngIf="!isUpdateMode">Стати лідером</span>
+      <span *ngIf="isUpdateMode">Редагувати профіль діяча</span>
     </md-card-title>
 
       <!--LOGO OF LEADER-->
