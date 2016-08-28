@@ -1,4 +1,4 @@
-<md-card>
+<md-card class="project-view">
   <md-card-content>
 
     <h1>{{project.title}}</h1>
@@ -17,6 +17,17 @@
 
     <h2>Детальніше</h2>
     <p>{{project.description}}</p>
+
+    <!-- Project Tasks -->
+    <!-- Add task directly from project editor: -->
+    <!-- <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
+    </bp-task-edit> -->
+
+    <!-- List existing tasks -->
+    <task-list [projectId]="project._id" >
+    </task-list>
+    <!-- /Project Tasks -->
+
 
     <span *ngIf="user.isAdmin()" class="admin">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>

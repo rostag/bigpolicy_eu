@@ -11,7 +11,16 @@ export class UserService {
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
 
   //Store profile object in auth class
-  userProfile: Object;
+  userProfile: Object = {
+      name: '',
+      email: ''
+  };
+
+  current = {
+    project: {
+      title: 't'
+    }
+  }
 
   constructor() {
     // Set userProfile attribute of already saved profile
@@ -36,9 +45,10 @@ export class UserService {
   };
 
   public isAdmin() {
+    // FIXME it's being called too often, as log below shows
     let p = this.userProfile;
     if (p) {
-      console.log('email:', p['email']);
+      // console.log('email:', p['email']);
       return p['email'] === 'rostislav.siryk@gmail.com';
     } else {
       return false

@@ -13,17 +13,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 
+import { TaskEditComponent } from '../../task/edit/index';
+import { TaskListComponent } from '../../task/list/index';
+
 @Component({
   moduleId: module.id,
   templateUrl: './project.edit.component.html',
   styleUrls: ['./project.edit.component.css'],
-  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
+  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, TaskEditComponent, TaskListComponent],
   providers: [MdIconRegistry, ProjectService]
-  })
+})
 
 export class ProjectEditComponent {
 
   private isUpdateMode: boolean = false;
+  private isAddingTaskMode: boolean = false;
 
   project: ProjectModel;
 
@@ -116,6 +120,13 @@ export class ProjectEditComponent {
         //navigation is done
       })
     }
+  }
+
+  addTask(){
+    this.isAddingTaskMode = true;
+    console.log('Adding task for', this.project.title, ' project, id: ', this.project._id );
+
+    // var tedit = new TaskEditComponent();
   }
 
 }

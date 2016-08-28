@@ -1,10 +1,12 @@
+<form>
 <md-card class="project-edit-card">
-  <form>
 
     <md-card-content>
 
       <md-card-title>
-       Створити проект
+        <span *ngIf="!isUpdateMode">Створити</span>
+        <span *ngIf="isUpdateMode">Редагувати</span>
+         проект
       </md-card-title>
 
       <md-input [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму: *" hintLabel=""></md-input>
@@ -25,10 +27,29 @@
        </md-input></td>
       </tr></table>
 
-      <p>
-        <button type="submit" md-raised-button (click)="saveProject()">Додати проект</button>
-      </p>
+      <md-toolbar class="add-toolbar" color="primary">Заходи проекту
+        <span class="add-fill-remaining"></span>
+        <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
+      </md-toolbar>
+
+      <!-- Project Tasks -->
+      <!-- Add task directly from project editor: -->
+      <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
+      </bp-task-edit>
+
+      <!-- List existing tasks -->
+      <task-list [projectId]="project._id" >
+      </task-list>
+      <!-- /Project Tasks -->
 
     </md-card-content>
-  </form>
+
+    <md-card-actions>
+        <button type="submit" md-raised-button (click)="saveProject()">
+          <span *ngIf="!isUpdateMode">Додати</span>
+          <span *ngIf="isUpdateMode">Зберегти</span>
+           проект</button>
+    </md-card-actions>
+
 </md-card>
+</form>
