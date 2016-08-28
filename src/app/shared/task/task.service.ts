@@ -55,13 +55,13 @@ export class TaskService {
    * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasks(modelId: string = ''): Observable<Response> {
+  getTasks(modelId: string = '', projectId: string = ''): Observable<Response> {
     if (this.tasks && this.tasks.length) {
       return Observable.from([this.tasks]);
     }
 
     if (!this.request) {
-      this.request = this.http.get(this.apiUrl + modelId)
+      this.request = this.http.get(this.apiUrl + modelId + '/' + projectId)
         .map((res:Response) => {
           this.tasks = res.json()
           if (this.tasks.forEach) {

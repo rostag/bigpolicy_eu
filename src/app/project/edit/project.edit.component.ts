@@ -14,14 +14,15 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 
 import { TaskEditComponent } from '../../task/edit/index';
+import { TaskListComponent } from '../../task/list/index';
 
 @Component({
   moduleId: module.id,
   templateUrl: './project.edit.component.html',
   styleUrls: ['./project.edit.component.css'],
-  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, TaskEditComponent],
+  directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, TaskEditComponent, TaskListComponent],
   providers: [MdIconRegistry, ProjectService]
-  })
+})
 
 export class ProjectEditComponent {
 

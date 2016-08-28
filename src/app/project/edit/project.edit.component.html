@@ -32,9 +32,15 @@
         <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
       </md-toolbar>
 
-      <!-- add task directly from project editor: -->
+      <!-- Project Tasks -->
+      <!-- Add task directly from project editor: -->
       <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
       </bp-task-edit>
+
+      <!-- List existing tasks -->
+      <task-list [projectId]="project._id" >
+      </task-list>
+      <!-- /Project Tasks -->
 
     </md-card-content>
 

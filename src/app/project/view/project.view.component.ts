@@ -8,11 +8,15 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 
+import { TaskEditComponent } from '../../task/edit/index';
+import { TaskListComponent } from '../../task/list/index';
+
 @Component({
   moduleId: module.id,
+  selector: 'project-view',
   templateUrl: './project.view.component.html',
   styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.css'],
-  directives: [ROUTER_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar],
+  directives: [ROUTER_DIRECTIVES, MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar, TaskEditComponent, TaskListComponent],
   providers: [MdIconRegistry, ProjectService, UserService]
 })
 

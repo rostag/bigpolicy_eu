@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MdCard } from '@angular2-material/card/card';
 import { MdButton } from '@angular2-material/button/button';
 import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
@@ -22,6 +22,8 @@ export class TaskListComponent {
 
   tasks;
 
+  @Input() projectId: string;
+
   constructor(
     private http: Http,
     private taskService: TaskService,
@@ -35,7 +37,7 @@ export class TaskListComponent {
   }
 
   getTasks() {
-    this.taskService.getTasks()
+    this.taskService.getTasks(this.projectId)
       .subscribe(
         data => this.setTasks(data),
         err => console.error(err),

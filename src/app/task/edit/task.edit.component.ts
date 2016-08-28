@@ -107,6 +107,7 @@ export class TaskEditComponent {
     } else {
       // Create new task
       this.task.projectId = this.projectId;
+      console.log('idd =', this.task.projectId);
       this.taskService.createTask(this.task)
       .subscribe(
         data => { this.gotoTask(data) },
