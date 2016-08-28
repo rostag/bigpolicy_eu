@@ -4,6 +4,7 @@ export class TaskModel {
   description: string;
   cost: number;
   projectId: string = '';
+  project = null;
   iconURL: string;
   dateStarted: Date = new Date();
   dateEnded: Date = new Date();

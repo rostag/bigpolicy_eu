@@ -39,17 +39,21 @@ export class ProjectViewComponent {
       .map(params => params['id'])
       .subscribe((id) => {
         console.log('View Project by ID from route params:', id)
-        if (id) {
-          this.projectService.getProject(id)
-          .subscribe(
-            data => {
-              this.setProject(data)
-            },
-            err => console.error(err),
-            () => {}
-          )
-        }
+        this.loadProject(id);
       })
+  }
+
+  loadProject(id) {
+    if (id) {
+      this.projectService.getProject(id)
+      .subscribe(
+        data => {
+          this.setProject(data)
+        },
+        err => console.error(err),
+        () => {}
+      )
+    }
   }
 
   /**

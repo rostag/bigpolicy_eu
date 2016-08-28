@@ -26,6 +26,7 @@ import { TaskEditComponent } from '../../task/edit/index';
 export class ProjectEditComponent {
 
   private isUpdateMode: boolean = false;
+  private isAddingTaskMode: boolean = false;
 
   project: ProjectModel;
 
@@ -121,7 +122,10 @@ export class ProjectEditComponent {
   }
 
   addTask(){
-    console.log('addTask');
+    this.isAddingTaskMode = true;
+    console.log('Adding task for', this.project.title, ' project, id: ', this.project._id );
+
+    // var tedit = new TaskEditComponent();
   }
 
 }

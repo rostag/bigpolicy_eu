@@ -2,6 +2,10 @@ md-card {
   display:inline-block;
 }
 
+.task-view {
+  width: 100%;
+}
+
 :host {
   display: block;
   /*padding: 2em 2em;*/

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FORM_DIRECTIVES } from '@angular/common';
 
 import { MdCard } from '@angular2-material/card/card';
@@ -10,6 +10,7 @@ import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { MD_GRID_LIST_DIRECTIVES } from '@angular2-material/grid-list/grid-list';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { ProjectModel } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
 
@@ -25,6 +26,9 @@ import { UserService } from '../../shared/user/user.service';
 export class TaskEditComponent {
 
   private isUpdateMode: boolean = false;
+
+  @Input() projectId: string = '';
+  @Input() project: ProjectModel;
 
   task: TaskModel;
 
@@ -47,7 +51,6 @@ export class TaskEditComponent {
       .subscribe((id) => {
         console.log('Task Editor by ID from route params:', id)
         if (id) {
-          this.isUpdateMode = true;
           this.taskService.getTask(id)
           .subscribe(
             data => {
@@ -65,8 +68,14 @@ export class TaskEditComponent {
    * @param {data} Loaded task data
    */
   setTask(data){
-    this.task = new TaskModel();
-    this.task.parseData(data);
+    console.log('set task:', data, ', project =', this.project );
+    if (data.length > 0) {
+      this.isUpdateMode = true;
+      // this.task.projectId = this.projectId;
+    } else {
+      this.task = new TaskModel();
+      this.task.parseData(data);
+    }
   }
 
   /**
@@ -97,7 +106,7 @@ export class TaskEditComponent {
       )
     } else {
       // Create new task
-      // this.task.projectId = this.userService.userProfile['email'];
+      this.task.projectId = this.projectId;
       this.taskService.createTask(this.task)
       .subscribe(
         data => { this.gotoTask(data) },
