@@ -29,14 +29,17 @@
 
       <md-toolbar class="add-toolbar" color="primary">Заходи проекту
         <span class="add-fill-remaining"></span>
-        <button md-raised-button (click)="addProject()" color="accent">Додати захід</button>
+        <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
       </md-toolbar>
 
-        <md-input characterCounter style="width: 100%;" placeholder="Опиши свій захід: *" hintLabel=""></md-input>
+      <bp-task-edit>
+      </bp-task-edit>
+
+        <!-- <md-input characterCounter style="width: 100%;" placeholder="Опиши свій захід: *" hintLabel=""></md-input>
         <md-input placeholder="Сума, грн" align="end">
           <span md-prefix>Який його бюджет? ₴&nbsp;</span>
           <span md-suffix>.00 </span>
-        </md-input>
+        </md-input> -->
 
     </md-card-content>
 

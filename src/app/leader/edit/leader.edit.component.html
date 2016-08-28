@@ -37,7 +37,9 @@
 
       <md-toolbar class="add-toolbar" color="primary">Проекти
         <span class="add-fill-remaining"></span>
-        <button md-raised-button (click)="addProject()" color="accent">Додати проект</button>
+        <span *ngIf="isUpdateMode">
+          <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати проект</button>
+        </span>
       </md-toolbar>
       <md-card-content>
         <h3>Як ти вирішиш цю проблему?</h3>
@@ -52,7 +54,9 @@
 
       <md-toolbar class="add-toolbar" color="primary">Твоя програма
         <span class="add-fill-remaining"></span>
-        <button md-raised-button (click)="addProject()" color="accent">Додати ще одну ціль</button>
+        <span *ngIf="isUpdateMode">
+          <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати ще одну ціль</button>
+        </span>
       </md-toolbar>
 
       <md-card-content>
@@ -82,7 +86,6 @@
       <md-toolbar class="add-toolbar" color="accent">Твої профілі у соцмережах:
         <span class="add-fill-remaining"></span>
         <button md-button><md-icon>add</md-icon>Додати</button>
-        <button md-button color="warn">Видалити</button>
       </md-toolbar>
 
       <md-card-content>

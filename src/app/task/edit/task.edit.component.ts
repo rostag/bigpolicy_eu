@@ -15,6 +15,7 @@ import { UserService } from '../../shared/user/user.service';
 
 @Component({
   moduleId: module.id,
+  selector: 'bp-task-edit',
   templateUrl: './task.edit.component.html',
   styleUrls: ['./task.edit.component.css'],
   directives: [FORM_DIRECTIVES, MdCard, MdCheckbox, MdButton, MdIcon, MdToolbar, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES],
@@ -116,5 +117,4 @@ export class TaskEditComponent {
       })
     }
   }
-
 }
