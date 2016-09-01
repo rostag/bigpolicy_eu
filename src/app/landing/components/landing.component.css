@@ -84,7 +84,8 @@ p {
 }
 
 #bottomline {
-  background: url('assets/img/bp-bg-gray-red.jpg');
+  background: #eee; 
+  /* url('assets/img/bp-bg-gray-red.jpg'); */
   min-height: 350px;
 }
 

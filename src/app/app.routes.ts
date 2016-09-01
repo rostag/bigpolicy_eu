@@ -45,7 +45,7 @@ export const routes = [
   { path: 'login', component: LoginComponent },
 
   { path: 'about', component: AboutComponent },
-  { path: '', component: LandingComponent }
+  { path: '', component: LandingComponent, useAsDefault:true }
 ];
 
 export const APP_ROUTES_PROVIDER = provideRouter(routes);
