@@ -15,6 +15,10 @@ const map: any = {
 const packages: any = {
   'angular2-jwt': {
     main: 'angular2-jwt.js'
+  },
+  '@angular/router': {
+    main: 'index.js',
+    defaultExtension: 'js'
   }
 };
 
