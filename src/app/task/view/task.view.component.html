@@ -8,9 +8,15 @@
       <md-grid-tile>
         <div>
           <h2>Вартість: {{task.cost}}₴</h2>
-          <h3>Проект: {{task.projectId}}</h3>
+          <h3><a [routerLink]="['/project/',task.projectId]">Проект</a></h3>
           <p>Початок: {{task.dateStarted | date}}<br/>
           Кінець: {{task.dateEnded | date}}</p>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}"
+          class="SHARE FACEBOOK"
+          onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
+          target="social">
+          Share on FB
+        </a>
         </div>
       </md-grid-tile>
     </md-grid-list>
