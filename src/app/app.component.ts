@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
+// FIXME: Avoid Double-declaration (it's also in Module)
 import { UserService } from './shared/user/user.service';
-
-import { NavbarComponent, ToolbarComponent } from './shared/index';
 
 @Component({
   selector: 'app-root',

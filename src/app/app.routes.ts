@@ -1,4 +1,4 @@
-import { provideRouter } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -24,7 +24,7 @@ import { TaskViewComponent } from './task/view/index';
 // The order of routes is IMPORTANT.
 // More specific come first.
 //
-export const routes = [
+export const routes: Routes = [
   { path: 'leader/:id/edit', component: LeaderEditComponent },
   { path: 'project/:id/edit', component: ProjectEditComponent },
   { path: 'task/:id/edit', component: TaskEditComponent },
@@ -48,4 +48,4 @@ export const routes = [
   { path: '', component: LandingComponent }
 ];
 
-export const APP_ROUTES_PROVIDER = provideRouter(routes);
+export const routing = RouterModule.forRoot(routes);

@@ -1,8 +1,4 @@
 import { Component } from '@angular/core';
-import { MdCard } from '@angular2-material/card/card';
-import { MdButton } from '@angular2-material/button/button';
-import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
-import { MD_LIST_DIRECTIVES } from '@angular2-material/list/list';
 import { ProjectService, ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
@@ -12,8 +8,7 @@ import { UserService } from '../../shared/user/user.service';
   selector: 'project-list',
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.css'],
-  directives: [MD_LIST_DIRECTIVES, MdCard, MdButton, MdIcon],
-  providers: [MdIconRegistry, ProjectService, UserService]
+  providers: [ProjectService, UserService]
 })
 
 export class ProjectListComponent {

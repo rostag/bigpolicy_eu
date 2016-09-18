@@ -2,43 +2,92 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+
+// Material Design
+import { MdCoreModule } from '@angular2-material/core';
+import { MdCardModule } from '@angular2-material/card';
+import { MdListModule } from '@angular2-material/list';
+import { MdRadioModule } from '@angular2-material/radio';
+import { MdInputModule } from '@angular2-material/input';
+import { MdButtonModule } from '@angular2-material/button';
+import { MdToolbarModule } from '@angular2-material/toolbar';
+import { MdGridListModule } from '@angular2-material/grid-list';
+import { MdCheckboxModule } from '@angular2-material/checkbox/checkbox';
+import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
+
+// Directives
+import { NavbarComponent, ToolbarComponent } from './shared/index';
+
+import { TaskEditComponent } from './task/edit/index';
+import { TaskListComponent } from './task/list/index';
+import { TaskViewComponent } from './task/view/index';
+
+import { ProjectEditComponent } from './project/edit/index';
+import { ProjectListComponent } from './project/list/index';
+import { ProjectViewComponent } from './project/view/index';
+
+import { LeaderEditComponent } from './leader/edit/index';
+import { LeaderListComponent } from './leader/list/index';
+import { LeaderViewComponent } from './leader/view/index';
+
+import { ProfileComponent } from './shared/user/profile.component';
+import { LoginComponent } from './shared/login/login.component';
+import { AboutComponent } from './about/index';
+import { LandingComponent } from './landing/index';
+
+import { routing } from './app.routes';
+
+// Services
+import { UserService } from './shared/user/user.service';
 
 import { AppComponent } from './app.component';
 
-import { MdCard } from '@angular2-material/card/card';
-import { MdGridList } from '@angular2-material/grid-list/grid-list';
-import { MdButton } from '@angular2-material/button/button';
-import { MdToolbar } from '@angular2-material/toolbar/toolbar';
-import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
-import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
-import { MdInput } from '@angular2-material/input/input';
-
-import { LeaderListComponent } from './leader/list/index';
-import { TaskEditComponent } from './task/edit/index';
-import { TaskListComponent } from './task/list/index';
-
-// directives: [MdCard]
-// directives: [MD_LIST_DIRECTIVES,MdButton, MdIcon],
-// directives: [MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MdIcon, NavbarComponent, ToolbarComponent],
-// directives: [MD_GRID_LIST_DIRECTIVES, MdCard, MdButton, MdIcon, MdToolbar],
-// directives: [MdToolbar, MdIcon],
-// directives: [MdButton, MdIcon, LeaderListComponent],
-
-// directives: [TaskEditComponent, TaskListComponent],
-// directives: [TaskEditComponent, TaskListComponent],
-
-// providers: [MdIconRegistry,
 
 @NgModule({
   declarations: [
+    NavbarComponent,
+    ToolbarComponent,
+    TaskEditComponent,
+    TaskViewComponent,
+    TaskListComponent,
+    ProjectEditComponent,
+    ProjectViewComponent,
+    ProjectListComponent,
+    LeaderEditComponent,
+    LeaderViewComponent,
+    LeaderListComponent,
+    ProfileComponent,
+    LoginComponent,
+    AboutComponent,
+    LandingComponent,
     AppComponent
   ],
   imports: [
+    routing,
     BrowserModule,
+    // Router
+    RouterModule,
+    // Forms
     FormsModule,
-    HttpModule
+    HttpModule,
+    // Material Design
+    MdCoreModule.forRoot(),
+    MdCardModule.forRoot(),
+    MdListModule.forRoot(),
+    MdRadioModule.forRoot(),
+    MdInputModule.forRoot(),
+    MdButtonModule.forRoot(),
+    MdToolbarModule.forRoot(),
+    MdGridListModule.forRoot(),
+    MdCheckboxModule.forRoot(),
+    MdIconModule.forRoot(),
+    // MdIconRegistry.forRoot(),
   ],
-  providers: [],
+  providers: [
+    MdIconRegistry,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

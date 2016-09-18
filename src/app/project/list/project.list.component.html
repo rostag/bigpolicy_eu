@@ -9,7 +9,7 @@
     <md-list>
        <md-list-item  *ngFor="let project of projects">
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-         <h3 md-line><a [routerLink]="['/project/' + project._id]"><big><b>{{project.title}}</b></big> - {{project.managerName}}</a></h3>
+         <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
          <p md-line>
           <b>₴{{project.cost}}.</b> {{project.dateEnded | date}} - {{project.dateStarted | date}}
          </p>

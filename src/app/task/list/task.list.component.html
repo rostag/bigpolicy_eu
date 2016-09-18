@@ -7,7 +7,7 @@
     <md-list>
        <md-list-item *ngFor="let task of tasks">
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
-         <h3 md-line><a [routerLink]="['/task/' + task._id]"><big><b>{{task.title}}</b></big></a></h3>
+         <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>
           <b>₴{{task.cost}}.</b> {{task.dateEnded | date}} - {{task.dateStarted | date}}
          </p>
