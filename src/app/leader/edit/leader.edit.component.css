@@ -1,0 +1,27 @@
+.add-toolbar {
+  padding: 0px 1em;
+}
+
+.add-toolbar .add-toolbar-icon {
+  padding: 0 14px;
+}
+
+.add-toolbar .add-fill-remaining {
+  flex: 1 1 auto;
+}
+
+.leader-edit-card {
+  padding: 0;
+}
+
+.leader-edit-card md-card-content {
+  padding: 24px;
+}
+
+.grid {
+  border-style: solid;
+}
+
+.one {
+  width: 30%;
+}

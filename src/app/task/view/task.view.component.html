@@ -1,0 +1,35 @@
+<md-card class="task-view">
+  <md-card-content>
+
+    <h1>{{task.title}}</h1>
+
+    <md-grid-list cols="2" rowHeight="255" id="stats">
+      <md-grid-tile><img md-list-avatar src="assets/img/task/task-placeholder.png" alt="{{task.title}}" width="300"> </md-grid-tile>
+      <md-grid-tile>
+        <div>
+          <h2>Вартість: {{task.cost}}₴</h2>
+          <h3><a [routerLink]="['/project/',task.projectId]">Проект</a></h3>
+          <p>Початок: {{task.dateStarted | date}}<br/>
+          Кінець: {{task.dateEnded | date}}</p>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}"
+          class="SHARE FACEBOOK"
+          onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
+          target="social">
+          Share on FB
+        </a>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+
+    <h2>Детальніше</h2>
+    <p>{{task.description}}</p>
+
+    <md-card-actions>
+      <span *ngIf="user.isAdmin()" class="admin">
+        <a [routerLink] = "['/task/' + task._id + '/edit']"><button md-raised-button>Редагувати</button></a>
+        <a href (click) = "deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
+      </span>
+      <a [routerLink]="['/tasks']"><button md-button color="primary">Всі заходи</button></a>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

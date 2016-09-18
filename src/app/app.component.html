@@ -1,3 +1,8 @@
-<h1>
-  {{title}}
-</h1>
+<sd-toolbar></sd-toolbar>
+<sd-navbar></sd-navbar>
+
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>
+
+<footer>Creative Commons and BigPolicy 2015-2016. <a [routerLink]="['/about']">Про проект</a></footer>

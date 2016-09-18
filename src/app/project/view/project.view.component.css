@@ -1,0 +1,26 @@
+md-card {
+  display:inline-block;
+}
+
+.project-view {
+  width: 100%;
+}
+
+:host {
+  display: block;
+  /*padding: 2em 2em;*/
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+  padding-top: 0;
+}
+
+h3 {
+  font-size: 1.4em;
+  padding-top: 0;
+}

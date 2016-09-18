@@ -1,0 +1,11 @@
+.grid {
+  border-style: solid;
+}
+
+.one {
+  width: 30%;
+}
+
+md-card {
+  display:inline-block;
+}

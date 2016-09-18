@@ -1,0 +1,137 @@
+<div class="bp-landing numbers">
+  <md-card class="md-card-flat">
+    <md-grid-list cols="4" rowHeight="55" id="stats">
+      <md-grid-tile> <h2><span>{{app.leaders.length}}</span> діячів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.projects.length}}</span> проектів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><span>{{app.cash}}</span>&#8372;</h2> </md-grid-tile>
+    </md-grid-list>
+
+    <div class="container">
+      <div class="row">
+        <div class="one-half column">
+
+          <h4>BIGPOLICY - краудфандінгова платформа прямої демократії для політиків і громадських активістів.</h4>
+          <h5>Винайдемо нову політику разом</h5>
+
+          <p><a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a> або підтримуй активних громадян та їх проекти.</p>
+          <!--<p><small>Мало часу? <a href="https://www.facebook.com/groups/BIGPOLICY/permalink/1771667176453897/">Ми стисло виклали суть справи, наші задачі і методи</a>.<br />І твоя думка цікава нам.</small></p>-->
+
+          <h5>BigPolicy вже має команду діячів, з першим проектом створення платформи!</h5>
+
+          <p>Ми не отримуємо фінансової допомоги від жодної з політичних партій і
+          в наші плани не входить отримання коштів від них чих від політиків.
+          Ми незалежні від політичних сил і такими зостанемося.</p>
+          
+          <h5>В нас є можливість розвинути цю ідею. Спробуй пряму демократію, підтримавши нашу громадянську волю.</h5>
+          <a href="https://www.liqpay.com/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXlkb25hdGUiLCJwdWJsaWNfa2V5IjoiaTc3MDYxMzUxNDgyIiwiYW1vdW50IjoiMTAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0K8g0LLRltGA0Y4g0LIg0YLQtdCx0LUhIiwidHlwZSI6ImRvbmF0ZSIsImxhbmd1YWdlIjoiZW4ifQ%3D%3D&signature=%2FA19v2A2ebDHGW71VxD5JDhaG70%3D"><button md-button color="primary" md-raised-button>Підтримай нас фінансово</button></a>
+
+          <h5>Ми на зв'язку:</h5>
+
+          <p>Пиши нам на <a href="mailto:voice@bigpolicy.eu">електронну пошту</a>. Долучайся до групи <a href="https://www.facebook.com/groups/BigPolicy">BigPolicy</a> у FB.</p>
+
+          <h5>Підпишися на новини:</h5>
+          <!-- Begin MailChimp Signup Form -->
+          <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
+          <style type="text/css">
+            #mc_embed_signup{margin-top: 0;}
+            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+               We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+            #mc_embed_signup form {
+              padding-left: 0;
+              padding-top: 0;
+              margin-top: 0;
+            }
+          </style>
+
+          <div id="mc_embed_signup">
+            <form action="//us11.list-manage.com/subscribe/post?u=deeb36270b9b694bba754d0c1&amp;id=f35a7fdff8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+              <div id="mc_embed_signup_scroll">
+                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Твій email" required>
+                <input type="submit" value="Підписатися" name="subscribe" id="mc-embedded-subscribe" class="button">
+                <!-- <button id="mc-embedded-subscribe" >Підписатися</button> -->
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                  <input type="text" name="b_deeb36270b9b694bba754d0c1_f35a7fdff8" tabindex="-1" value="">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="one-half column" id="top-projects">
+
+          <h4>Популярні проекти:</h4>
+
+          <!-- FIXME <project-list>
+          </project-list> -->
+
+          <md-list>
+             <md-list-item *ngFor="let project of app.projects">
+               <md-card>
+                 <md-card-header>
+                   <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+                   <md-card-title>{{project.title}}</md-card-title>
+                   <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
+                 </md-card-header>
+                 <md-card-content>
+                     {{project.description}}
+                     <br/>
+                     <br/>
+                     <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}}₴</small>
+                 </md-card-content>
+                 <md-card-actions>
+                   <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
+                 </md-card-actions>
+               </md-card>
+            </md-list-item>
+          </md-list>
+
+          <a [routerLink]="['/projects']"><button md-button color="primary">Дивитися усі проекти</button></a>
+
+          <!-- FIXME: temporarily disabled: FB Page -->
+          <!--
+          <div style="width: 190px;text-align: center;margin-top: 30px;" id="fb_page_div">
+            <div class="fb-page" data-href="https://www.facebook.com/bigpolicy" data-tabs="timeline" data-width="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+              <div class="fb-xfbml-parse-ignore">
+                <blockquote cite="https://www.facebook.com/bigpolicy">
+
+                </blockquote>
+              </div>
+            </div>
+          </div> -->
+        </div>
+     </div>
+   </div>
+
+   <div class="container">
+     <div class="row">
+       <div class="one-half column">
+
+         <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2Fvideos%2F161167597610702%2F&show_text=0&width=560" width="100%" height="300" style="border:none;overflow:hidden;max-width: 560px;" scrolling="no" frameborder="0" allowTransparency="true" id="fb_video_post">
+         </iframe>
+
+         <h4>Форкни демократію</h4>
+         <p>
+           Долучайся до розробки відкритої платформи <a href="https://github.com/rostag/bigpolicy_eu">BigPolicy на GitHub</a>.
+         </p>
+
+          <p>
+            Ми описали, як почати роботу. Якщо будуть питання - звертайся до <a href="https://www.facebook.com/rastislavr">техліда</a>.
+          </p>
+        </div>
+        <div class="one-half column">
+          <p><b>Контакти:</b><br>
+            м.&nbsp;Львів, вул.&nbsp;Наукова&nbsp;58, кв.&nbsp;28 <br>
+            +380936191795</p>
+            <img class="logo" src="assets/img/logo.png" />
+            <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="450" height="80" style="border:none;overflow:hidden; margin-left: 1em;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+        </div>
+      </div>
+    </div>
+  </md-card>
+
+  <p>
+    𝖄
+  </p>
+</div>

@@ -1,0 +1,55 @@
+<form>
+<md-card class="project-edit-card">
+
+    <md-card-content>
+
+      <md-card-title>
+        <span *ngIf="!isUpdateMode">Створити</span>
+        <span *ngIf="isUpdateMode">Редагувати</span>
+         проект
+      </md-card-title>
+
+      <md-input [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму: *" hintLabel=""></md-input>
+
+      <md-input [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід: *" hintLabel=""></md-input>
+
+      <md-input [(ngModel)]="project.cost" placeholder="Сума, грн" align="end">
+       <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
+       <span md-suffix>.00 </span>
+      </md-input>
+
+      <table style="width: 100%" cellspacing="0"><tr>
+       <td><md-input type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка">
+          <div md-prefix>Дата початку:&nbsp;</div>
+       </md-input></td>
+       <td><md-input type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту">
+          <div md-prefix>Дата завершення:&nbsp;</div>
+       </md-input></td>
+      </tr></table>
+
+      <md-toolbar class="add-toolbar" color="primary">Заходи проекту
+        <span class="add-fill-remaining"></span>
+        <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
+      </md-toolbar>
+
+      <!-- Project Tasks -->
+      <!-- Add task directly from project editor: -->
+      <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
+      </bp-task-edit>
+
+      <!-- List existing tasks -->
+      <task-list [projectId]="project._id" >
+      </task-list>
+      <!-- /Project Tasks -->
+
+    </md-card-content>
+
+    <md-card-actions>
+        <button type="submit" md-raised-button (click)="saveProject()">
+          <span *ngIf="!isUpdateMode">Додати</span>
+          <span *ngIf="isUpdateMode">Зберегти</span>
+           проект</button>
+    </md-card-actions>
+
+</md-card>
+</form>

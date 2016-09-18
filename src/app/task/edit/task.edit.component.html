@@ -1,0 +1,39 @@
+<md-card class="task-edit-card">
+  <form>
+
+    <md-card-content>
+
+      <md-card-title>
+        <span *ngIf="!isUpdateMode">Додати</span>
+        <span *ngIf="isUpdateMode">Редагувати</span>
+         захід
+      </md-card-title>
+
+      <md-input [(ngModel)]="task.title" characterCounter placeholder="Назва заходу: *" hintLabel=""></md-input>
+
+      <md-input [(ngModel)]="task.description" placeholder="Опиши захід: *" hintLabel=""></md-input>
+
+      <md-input [(ngModel)]="task.cost" placeholder="Сума, грн" align="end">
+       <span md-prefix>Який його бюджет? ₴&nbsp;</span>
+       <span md-suffix>.00 </span>
+      </md-input>
+
+      <table style="width: 100%" cellspacing="0"><tr>
+       <td><md-input type="date" [(ngModel)]="task.startDateInputValue" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка">
+          <div md-prefix>Дата початку:&nbsp;</div>
+       </md-input></td>
+       <td><md-input type="date" [(ngModel)]="task.endDateInputValue" hintlabel="Коли закінчується?" value="Дата завершення">
+          <div md-prefix>Дата завершення:&nbsp;</div>
+       </md-input></td>
+      </tr></table>
+
+      <p>
+        <button type="submit" md-raised-button (click)="saveTask()">
+          <span *ngIf="!isUpdateMode">Додати</span>
+          <span *ngIf="isUpdateMode">Зберегти</span>
+           захід</button>
+      </p>
+
+    </md-card-content>
+  </form>
+</md-card>
