@@ -14,8 +14,8 @@
           </button>
           <img md-card-md-image src="assets/img/avatar-generic.png">
           <p style="margin-left:2em;">
-            <md-input [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
-            <md-input [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
+            <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
+            <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
           </p>
         </md-card-header>
 
@@ -23,12 +23,12 @@
 
         <h3>Як виглядає проблема для тебе?</h3>
 
-          <md-input [(ngModel)]="leader.vision" characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
+          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.vision" characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
           </md-input>
 
           <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
-          <md-input [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
+          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
           </md-input>
 
         </div>
@@ -44,9 +44,9 @@
       <md-card-content>
         <h3>Як ти вирішиш цю проблему?</h3>
 
-        <md-input characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
+        <md-input [ngModelOptions]="{standalone: true}" characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
 
-        <md-input placeholder="Сума, грн" align="end">
+        <md-input [ngModelOptions]="{standalone: true}" placeholder="Сума, грн" align="end">
           <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
           <span md-suffix>.00 </span>
         </md-input>
@@ -61,11 +61,11 @@
 
       <md-card-content>
         <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
-        <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+        <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
 
         <p>
           Другорядна ціль:
-          <md-input [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
         </p>
       </md-card-content>
 
@@ -74,12 +74,12 @@
       <md-card-content>
         <md-card-title>
           Належиш до партії?
-          <md-input type="text" placeholder="Вкажи партію"></md-input>
+          <md-input [ngModelOptions]="{standalone: true}" type="text" placeholder="Вкажи партію"></md-input>
         </md-card-title>
 
         <md-card-title>
           Офіційна посада:
-          <md-input type="text" placeholder="Вкажи свою посаду"></md-input>
+          <md-input [ngModelOptions]="{standalone: true}" type="text" placeholder="Вкажи свою посаду"></md-input>
         </md-card-title>
       </md-card-content>
 
@@ -144,10 +144,10 @@
   PREFILL LIKE ADDRESS:
 
     <p>
-      <md-input class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
+      <md-input [ngModelOptions]="{standalone: true}" class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
     </p>
 
-    <md-input style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
+    <md-input [ngModelOptions]="{standalone: true}" style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
     value="Твоя особиста візія і думки"></md-input>
 
     <md-input-container>
@@ -159,9 +159,9 @@
     </md-input>
 
     <table style="width: 100%" cellspacing="0"><tr>
-      <td><md-input class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
-      <td><md-input class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
-      <td><md-input #postalCode class="demo-full-width" maxLength="5"
+      <td><md-input [ngModelOptions]="{standalone: true}"class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
+      <td><md-input [ngModelOptions]="{standalone: true}"class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
+      <td><md-input [ngModelOptions]="{standalone: true}" #postalCode class="demo-full-width" maxLength="5"
                     placeholder="Postal Code"
                     value="94043">
         <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>

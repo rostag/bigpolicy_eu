@@ -41,8 +41,9 @@ import { routing } from './app.routes';
 // Services
 import { UserService } from './shared/user/user.service';
 
-import { AppComponent } from './app.component';
+import { LoggedInGuard } from './shared/login/logged-in.guard';
 
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { AppComponent } from './app.component';
   ],
   providers: [
     MdIconRegistry,
+    LoggedInGuard,
     UserService
   ],
   bootstrap: [AppComponent]
