@@ -35,18 +35,21 @@
 
       </md-card-content>
 
+      <!--
+
       <md-toolbar class="add-toolbar" color="primary">Проекти
         <span class="add-fill-remaining"></span>
         <span *ngIf="isUpdateMode">
           <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати проект</button>
         </span>
       </md-toolbar>
+
       <md-card-content>
         <h3>Як ти вирішиш цю проблему?</h3>
 
-        <md-input [ngModelOptions]="{standalone: true}" characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
+        <md-input name="description" characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
 
-        <md-input [ngModelOptions]="{standalone: true}" placeholder="Сума, грн" align="end">
+        <md-input name="amount" placeholder="Сума, грн" align="end">
           <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
           <span md-suffix>.00 </span>
         </md-input>
@@ -61,11 +64,11 @@
 
       <md-card-content>
         <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
-        <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+        <md-input name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
 
         <p>
           Другорядна ціль:
-          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
+          <md-input name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input>*
         </p>
       </md-card-content>
 
@@ -74,12 +77,12 @@
       <md-card-content>
         <md-card-title>
           Належиш до партії?
-          <md-input [ngModelOptions]="{standalone: true}" type="text" placeholder="Вкажи партію"></md-input>
+          <md-input name="party" type="text" placeholder="Вкажи партію"></md-input>
         </md-card-title>
 
         <md-card-title>
           Офіційна посада:
-          <md-input [ngModelOptions]="{standalone: true}" type="text" placeholder="Вкажи свою посаду"></md-input>
+          <md-input name="title" type="text" placeholder="Вкажи свою посаду"></md-input>
         </md-card-title>
       </md-card-content>
 
@@ -121,17 +124,16 @@
           </md-checkbox>
         </li>
       </ul>
-    <br>
+      <br>
+
+    -->
 
     <md-toolbar class="add-toolbar" color="primary">
-      <button md-raised-button type="submit" color="primary" (click)="saveLeader()">Готово</button>
-      <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
-      <span class="add-fill-remaining"></span>
       <button md-raised-button color="warn"(click)="deleteLeader(leader)">Видалити</button>
-      <!-- <md-toolbar-row>
-          <span>Second Line</span>
-        </md-toolbar-row> -->
-      </md-toolbar>
+      <span class="add-fill-remaining"></span>
+      <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
+      <button md-raised-button type="submit" color="primary" (click)="saveLeader()">Готово</button>
+    </md-toolbar>
 
   </md-card-content>
   </form>

@@ -10,7 +10,7 @@ module.exports = function(app){
   var projectApi = require('./project');
   var taskApi = require('./task');
 
-  console.log('𝖄 server /');
+  console.log('𝖄  SRV  𝖄');
 
   var router = express.Router();
 

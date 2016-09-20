@@ -10,11 +10,11 @@ git merge $2 -Xtheirs -m 'deploy-update'
 ng build -prod
 
 #Workaround to copy auth0 assets
-cp -r src/assets/js/ dist/assets/js
+# cp -r src/assets/js/ dist/assets/js
 
 git add .
 git commit -m 'deploy-update-build'
 
-git push deploy-qa deploy-qa
+git push deploy-qa deploy-qa --force
 
-git checkout $2
+git checkout -B feat-temp

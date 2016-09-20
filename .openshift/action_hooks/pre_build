@@ -1,0 +1,7 @@
+echo '[ >>> PRE-BUILD HOOK START <<< ]'
+
+echo 'NodeJS Config:'
+echo NPM_PACKAGES = $NPM_PACKAGES
+echo NODE_ENV = $NODE_ENV
+
+echo '[ <<<< PRE-BUILT HOOK END >>>> ]'
