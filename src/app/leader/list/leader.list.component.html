@@ -17,10 +17,8 @@
       </select>
     </p>
 
-    <div class="leadears-mockup demo-card-container">
-      <md-list>
-         <md-list-item *ngFor="let leader of leaders">
-
+    <div class="leaders-list">
+         <div *ngFor="let leader of leaders">
           <md-card class="leader-list">
             <md-card-title-group>
               <img md-card-avatar src="assets/img/avatar-generic.png">
@@ -28,7 +26,6 @@
               <md-card-title></md-card-title>
             </md-card-title-group>
             <md-card-content>
-              <!-- <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title> -->
                 <p>Візія: {{leader.vision}}</p>
             </md-card-content>
             <md-card-actions>
@@ -39,7 +36,6 @@
               </span>
             </md-card-actions>
           </md-card>
-
 
            <!-- <md-card>
              <md-card-subtitle>Subtitle</md-card-subtitle>
@@ -89,12 +85,8 @@
          <br />
          <br />
 
-        </md-list-item>
-      </md-list>
+       </div>
+       <!-- /md-list-item -->
     </div>
   </md-card-content>
 </md-card>
-
-<p>
-⨒
-</p>

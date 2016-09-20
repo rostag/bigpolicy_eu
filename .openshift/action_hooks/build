@@ -1,0 +1,3 @@
+echo '[ >>> Openshift Build Hook START <<< ]'
+
+echo '[ <<<< Openshift Build hook END >>>> ]'

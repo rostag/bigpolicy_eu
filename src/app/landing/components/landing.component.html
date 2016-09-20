@@ -66,8 +66,7 @@
           <!-- FIXME <project-list>
           </project-list> -->
 
-          <md-list>
-             <md-list-item *ngFor="let project of app.projects">
+             <div *ngFor="let project of app.projects">
                <md-card>
                  <md-card-header>
                    <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
@@ -84,8 +83,7 @@
                    <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
                  </md-card-actions>
                </md-card>
-            </md-list-item>
-          </md-list>
+            </div>
 
           <a [routerLink]="['/projects']"><button md-button color="primary">Дивитися усі проекти</button></a>
 
@@ -118,6 +116,10 @@
 
           <p>
             Ми описали, як почати роботу. Якщо будуть питання - звертайся до <a href="https://www.facebook.com/rastislavr">техліда</a>.
+          </p>
+
+          <p>
+            <a href="https://www.facebook.com/groups/bigpolicy">Група BigPolicy на Facebook</a>
           </p>
         </div>
         <div class="one-half column">
