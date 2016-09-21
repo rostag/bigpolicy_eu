@@ -12,6 +12,6 @@ ng build -prod
 git add .
 git commit -m 'deploy-update-build'
 
-git push deploy-live deploy-live
+git push deploy-live deploy-live --force
 
 git checkout -B feat-temp
