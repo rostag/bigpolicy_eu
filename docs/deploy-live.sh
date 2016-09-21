@@ -5,7 +5,7 @@
 git checkout -B deploy-live-bck-$1 deploy-live
 
 git checkout deploy-live
-git merge $2 -Xtheirs -m 'deploy-update'
+git merge $2 -X theirs -m 'deploy-update'
 
 ng build -prod
 
