@@ -64,6 +64,12 @@ LinkedIn
 
 26.08.2016
 
+20.09.2016
+
+# Migration to Final: Angular2, Angular CLI and Material 2
+
+Project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14.
+To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 
 
