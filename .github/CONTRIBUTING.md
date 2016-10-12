@@ -1,71 +1,49 @@
-#Як почати роботу
+# How to contribute
 
-1. Склонуйте цей репозиторій, замінивши у наступній команді `[app_dir]` на шлях до каталога з проектом на вашій машині, наприклад `c:/dev/BP/qa`:
+First, you need to install and run the project locally, as it described in the README.md
 
-```
-git clone https://github.com/rostag/bigpolicy_eu.git [app_dir]
-```
+# Contribution Guidelines
 
-2. Виконайте команди з установки і запуску:
+Don't work on master or develop branches directly. Never.
 
-```
-npm install
-
-ng serve
-```
-
-*Важливо:* вам знадобиться npm версії npm 3.
-
-Після збірки відкриється браузер зі стартовою сторінкою.
-
-#Як зробити свій внесок
-
-Перше правило: ні за яких обставин не працюйте напряму над гілкою master.
-
-Працюйте над власними гілками за таким процесом:
+Create your own feature branches following these steps:
 
 ```
-# Перед початком роботи синхронізуйтеся, тобто заберіть свіжу версію коду,
-# - вона завжди буде у гілці develop:
+# Before coding, sync your local repo to repository develop branch:
 
 git checkout develop
 
 git pull origin develop
 
-# Створіть вашу власну гілку, назвавши її відповідно до змісту роботи:
+# Create your feature branch and name it to reflect the sense of work:
 
-git checkout -b feat-[назва]
+git checkout -b feat-[name]
 
-# Зробіть зміни у коді.
+# Do your work in code.
 
-# Це може зайняти 5 хвилин, а може й 5 днів, за які develop міз змінитися іншими, тому:
-
-# Перед тим, як віддати код у репозиторій
-
-# Не віддавайте код з конфліктами: знову синзронізуйте його
-# з останнью версією develop і виправте конфлікти, якщо будуть:
+# There's a chance other developers pushed new code to repo while you did your chages, so sync again before pushing, to reveal and resolve conflicts early:
 
 git pull origin develop
 
-# Не віддавайте код з помилками: перевірте, шо ваш проект збирається:
+# Before pushing, check build is ok and fix if there are errors:
 
 ng build -prod
 
-# Після цього відправте зміни у коді до репозиторію:
+# Now, you're ready to push your changes:
 
 git push origin feature-[назва]
 ```
 
-Після цього на https://github.com/rostag/bigpolicy_eu робіть ПР (Pull Request) з вашої гілки до гілки `develop`, не забуваючи заповняти поля з описом змін.
+Now, go to https://github.com/rostag/bigpolicy_eu and make a Pull Request from your branch to `develop`. Don't forget to describe what you did.
 
-## Для гілок рекомендуються такі назви:
+## Recommended branch names:
 
-* feat-[name] - для нових функцій
-* fix-[name] - для виправлень помилок
-* BP-[number] - для роботи над конкретеними задачами, що мають номер.
+* feat-[name] - for new feature development
+* fix-[name] - for fixed bugs
+* BP-[number] - refer particular task by ID.
 
-## Облік багів
+## Issue tracking
 
-* Проблеми описуємо тут, посилаючись на ваш ПР, якщо такий є: [issues](https://github.com/rostag/bigpolicy_eu/issues)
+* If you see an issue, please describe it in details and refer your PR if needed: [issues](https://github.com/rostag/bigpolicy_eu/issues)
 
-Дякуємо за співпрацю над майбутнім!
+Thank you for making future brighter!
