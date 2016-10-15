@@ -2,12 +2,6 @@ module.exports = function(app, DB){
 
   // start module
   var express = require('express');
-  var bodyParser = require('body-parser');
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-
-  // const DB = require('./mongo/database');
-
   var router = express.Router();
 
   //
@@ -92,6 +86,5 @@ module.exports = function(app, DB){
 
   app.use('/project-api', router);
 
-  console.log('project middleware connected.');
   // end of module
 }
