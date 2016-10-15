@@ -1,21 +1,12 @@
 module.exports = function(app, DB){
 
-  // start module
   var express = require('express');
   var router = express.Router();
 
-  //
-  // !The order of routes is important!
-  //
-
-  // middleware for all requests
-  // router.use(function(req, res, next) {
-  //     // console.log('API was used');
-  //     next(); // go to the next routes
-  // });
+  // Routes order is important
 
   router.post('/', function (req, res) {
-      DB.createProject(req.body)
+      DB.createLeader(req.body)
       .catch(function (err) {
           res.send(err);
       }).then(function (data) {
@@ -24,7 +15,7 @@ module.exports = function(app, DB){
   })
 
   .put('/:id', function(req, res) {
-      DB.updateProject(req.params.id,req.body)
+      DB.updateLeader(req.params.id,req.body)
       .then(function (data) {
           res.json(data);
       })
@@ -36,34 +27,34 @@ module.exports = function(app, DB){
   // DANGER!!! FOR DEV PURPOSES ONLY
   // *****************
 
-  .delete('/allprojects', function (req, res) {
+  .delete('/allleaders', function (req, res) {
   	if(req.query.secret != 19863){
   		res.send(404);
   		return;
   	}
-      DB.deleteAllProjects()
+      DB.deleteAllLeaders()
       .then(function (data) {
           res.json(data);
       });
   })
 
   // *****************
-  // END OF DANGER!!!
+  // END OF DANGER
 
   .delete('/:id', function (req, res) {
-      DB.deleteProject(req.params.id)
+      DB.deleteLeader(req.params.id)
       .then(function (data) {
           res.json(data);
       });
   })
 
   /**
-   * Gets the Project by ID, example:
-   * /project-api/57a64e2b3a5bfb3b48e6fd1b
+   * Gets the Leader by ID, example:
+   * /leader-api/57a64e2b3a5bfb3b48e6fd1b
    */
   .get('/:id', function (req, res) {
       if (req.params.id) {
-          DB.getProject(req.params.id)
+          DB.getLeader(req.params.id)
           .then(function (data) {
               res.json(data || []);
           });
@@ -71,11 +62,11 @@ module.exports = function(app, DB){
   })
 
   /**
-   * Gets all projects, example:
-   * /project-api/
+   * Gets all leaders, example:
+   * /leader-api/
    */
   .get('*', function (req, res)     {
-      DB.listProjects()
+      DB.listLeaders()
       .then(function (data) {
           res.json(data);
       })
@@ -84,7 +75,7 @@ module.exports = function(app, DB){
       });
   });
 
-  app.use('/project-api', router);
+  app.use('/leader-api', router);
 
   // end of module
 }

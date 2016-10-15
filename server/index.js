@@ -2,10 +2,10 @@ module.exports = function(app){
 
   const DB = require('./mongo/database');
 
-  var leaderApi = require('./leader');
-  var projectApi = require('./project');
-  var taskApi = require('./task');
-
+  var leaderApi = require('./leader-api');
+  var projectApi = require('./project-api');
+  var taskApi = require('./task-api');
+  var mailApi = require('./mail-api');
   var bodyParser = require('body-parser');
 
   app.use(bodyParser.json());
@@ -14,8 +14,15 @@ module.exports = function(app){
   leaderApi(app, DB);
   projectApi(app, DB);
   taskApi(app, DB);
+  mailApi(app, DB);
 
-  console.log('𝖄  middleware connected  𝖄');
+  // middleware for all requests
+  // router.use(function(req, res, next) {
+  //     // console.log('API was used');
+  //     next(); // go to the next routes
+  // });
+
+  console.log('𝖄 • Middleware connected.');
 
   return DB;
 }
