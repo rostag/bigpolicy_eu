@@ -1,7 +1,9 @@
 <md-card class="project-view">
   <md-card-content>
 
-    <h1>{{project.title}}</h1>
+    <h1>{{project.title}}
+      <a href (click) = "shareProject()"><button md-raised-button color="warn">Поширити</button></a>
+    </h1>
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile><img md-list-avatar src="assets/img/project/project-placeholder.png" alt="{{project.title}}" width="300"> </md-grid-tile>
@@ -27,7 +29,6 @@
     <task-list [projectId]="project._id" >
     </task-list>
     <!-- /Project Tasks -->
-
 
     <span *ngIf="user.isAdmin()" class="admin">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>

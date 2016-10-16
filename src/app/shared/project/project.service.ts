@@ -12,6 +12,7 @@ import { ProjectModel } from './project.model'
 export class ProjectService {
 
   private apiUrl = '/project-api/';
+  private mailApiUrl = '/mail-api/';
 
   /**
    * The array of initial projects provided by the service.
@@ -50,6 +51,22 @@ export class ProjectService {
 
     return this.http.post(this.apiUrl, body, options)
         .map(res => res.json())
+  }
+
+  /**
+   * Shares a model
+   * @param ProjectModel A Project to share
+   */
+  shareProject(model: ProjectModel): Observable<Response> {
+
+    var body: string = JSON.stringify(model);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    let options = new RequestOptions({ headers: headers });
+
+    console.log('Share project: ', model, body);
+    return this.http.post(this.mailApiUrl + 'share', body, options)
+      .map(res => res.json())
   }
 
   /**

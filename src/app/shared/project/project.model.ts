@@ -16,6 +16,7 @@ export class ProjectModel {
    * @returns String Serialized Leader
    */
   toString() {
+    console.log('to string: ', this.title);
     return JSON.stringify({
       title: this.title,
       description: this.description,

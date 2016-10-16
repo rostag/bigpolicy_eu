@@ -69,4 +69,23 @@ export class ProjectViewComponent {
     this.router.navigate(['/projects'])
     return false;
   }
+
+  /**
+   * Share this project
+   * @param {project} Project being viewed
+   */
+  private shareProject() {
+    // Update in from DB
+    // project.shareCount++;
+    // TODO: this.projectService.updateProject(project);
+
+    this.projectService.shareProject(this.project)
+    .subscribe(
+      data => { console.log('Project Shared', data) },
+      err => (err) => console.error('Project creation error: ', err),
+      () => {}
+    )
+
+    return false;
+  }
 }
