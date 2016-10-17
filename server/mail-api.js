@@ -52,7 +52,11 @@ module.exports = function(app, DB){
       to: model.to,
       //Subject and text data
       subject: 'Ping from ' + model.managerName,
-      html: '<h1>' + model.title + '</h1><p>' + model.description + '<p><br><br><a href="http://bigpolicy.eu/project/' + model._id + '">Ось мій проект</a>'
+      html: getEmailHtml(model)
+    }
+
+    function getEmailHtml(model) {
+      var html = '<h1>' + model.title + '</h1><p>' + model.description + '<p><br><br><a href="http://bigpolicy.eu/project/' + model._id + '">Ось мій проект</a>';
     }
 
     console.log('data:', data);
