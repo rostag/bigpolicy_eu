@@ -10,6 +10,7 @@ export class ProjectModel {
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
+  email: any = {};
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -46,5 +47,4 @@ export class ProjectModel {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset())
     return local.toJSON().slice(0,10)
   }
-
 }

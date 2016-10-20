@@ -35,8 +35,6 @@ export class ProjectService {
 
     this.projects = [];
 
-    // console.log('project list service CONSTRUCTOR');
-
   }
 
   /**
@@ -58,15 +56,11 @@ export class ProjectService {
    * @param ProjectModel A Project to share
    */
   shareProject(model: ProjectModel): Observable<Response> {
-
-    var body: string = JSON.stringify(model);
+    var body: string = encodeURIComponent(JSON.stringify(model));
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
-
-    console.log('Share project: ', model, body);
-    return this.http.post(this.mailApiUrl + 'share', body, options)
-      .map(res => res.json())
+    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
   }
 
   /**

@@ -24,3 +24,7 @@ h3 {
   font-size: 1.4em;
   padding-top: 0;
 }
+
+.wide {
+  width: 80%;
+}

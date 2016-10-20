@@ -1,26 +1,25 @@
 module.exports = function(app){
 
-  const DB = require('./mongo/database');
-
+  var mailApi = require('./mail-api');
+  var taskApi = require('./task-api');
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
-  var taskApi = require('./task-api');
-  var mailApi = require('./mail-api');
   var bodyParser = require('body-parser');
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  const DB = require('./mongo/database');
+
+  app.use(bodyParser.urlencoded({'extended':'true'})); // parse application/x-www-form-urlencoded
+  app.use(bodyParser.json());                          // parse application/json
 
   leaderApi(app, DB);
   projectApi(app, DB);
   taskApi(app, DB);
   mailApi(app, DB);
 
-  // middleware for all requests
-  // router.use(function(req, res, next) {
-  //     // console.log('API was used');
-  //     next(); // go to the next routes
-  // });
+  // Send spa file if unmatched and then register it at the very end of the chain
+  app.use(function (req,res) {
+    res.sendFile('/dist/index.html', { root: '.' });
+  });
 
   console.log('𝖄 • Middleware connected.');
 

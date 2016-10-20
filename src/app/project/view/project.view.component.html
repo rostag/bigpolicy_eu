@@ -1,19 +1,29 @@
 <md-card class="project-view">
   <md-card-content>
 
-    <p>
-      <a href (click) = "shareProject()"><button md-raised-button color="warn">Поширити</button></a>
-    </p>
-
-    <md-card class="demo-card demo-basic">
-      <md-card-content>
-        <form>
-          <p>
-            <md-input class="full-width" placeholder="Address" value="1600 Amphitheatre Pkway"></md-input>
-          </p>
-        </form>
-      </md-card-content>
-    </md-card>
+    <a href (click)="shareProject()"><button md-raised-button color="warn">Поширити</button></a>
+    <br />
+    <md-card-content class="wide">
+      <md-icon>email</md-icon>
+      <form>
+        <md-input id="textToReader"
+               name="textToReader"
+               [(ngModel)]="textToReader"
+               class="wide"
+               placeholder="Звернення до отримувача"
+               value="Друже, хочу поділитися з тобою своїм задумом: "></md-input>
+        <md-input #email
+               id="toEmail"
+               name="toEmail"
+               [(ngModel)]="toEmail"
+               value="rostyslav.siryk@gmail.com"
+               placeholder="Адреса отримувача"
+               hint="Можна увести декілька адрес через кому"
+               class="wide"
+               >
+        </md-input>
+      </form>
+    </md-card-content>
 
     <h1>{{project.title}}</h1>
 
