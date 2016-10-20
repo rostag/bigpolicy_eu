@@ -130,11 +130,14 @@ export class ProjectViewComponent {
     this.project.email = {
       from: this.project.managerId,
       toEmails: {},
-      subject: 'Hello, it\'s ' + this.project.managerName,
+      subject: 'Проект "' + this.project.title + '" - BigPolicy',
       html:
-        '<p>' + this.textToReader + '</p><h1>'
+        '<p>' + this.textToReader + ' (<a href="http://bigpolicy.eu/project/' + this.project._id + '">ось проект</a>)</p><br><h1 align="center">'
         + this.project.title + '</h1><p>'
-        + this.project.description + '<p><br><br><a href="http://bigpolicy.eu/project/' + this.project._id + '">Ось мій проект</a>'
+        + this.project.description + '<br><br><p align="center"><a href="http://bigpolicy.eu/project/' + this.project._id + '">Тут можна детальніше переглянути проект</a><br><br>'
+        + '<br><p>Щиро вдячний,<br/>' + this.project.managerName + '<br/><small>'
+        + this.project.managerId + '</small></p>'
+        + '<img src="http://bigpolicy.eu/assets/img/logo.png" style="width:40px">'
     }
 
     this.project.email.toEmails[this.toEmail] = this.toEmail;
