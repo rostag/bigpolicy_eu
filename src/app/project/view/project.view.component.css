@@ -33,6 +33,10 @@ h3 {
   margin: 0;
 }
 
+.share-card .email-preview {
+  display: block;
+}
+
 .share-card h2 {
   margin: 0.5em 0 0.25em 0;
   /*display: none;*/

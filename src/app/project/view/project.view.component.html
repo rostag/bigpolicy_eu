@@ -2,19 +2,21 @@
   <md-card-content>
 
     <a href (click)="shareProject()"><button md-raised-button color="accent">Поширити</button></a>
-    <a href (click)="previewShare()"><button md-button disabled="disabled">Попередній перегляд</button></a>
+    <a href (click)="previewShare()"><button md-button>Попередній перегляд</button></a>
 
     <br />
 
+    <!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
     <md-card class="share-card">
       <form>
         <md-input #email
           [(ngModel)]="toEmail"
           id="toEmail"
           name="toEmail"
-          class="wide">
+          class="wide"
+          required>
             <md-placeholder>
-              Email (можна ввести декілька адрес через кому)
+              Email
             </md-placeholder>
             <span md-suffix>
               *
@@ -30,19 +32,20 @@
           rows="10">{{textToReader}}</textarea>
 
         <md-input
-          [(ngModel)]="videoLink"
-          id="videoLink"
-          name="videoLink"
+          [(ngModel)]="videoUrl"
+          id="videoUrl"
+          name="videoUrl"
           class="wide">
           <md-placeholder>
             Відео (посилання):
           </md-placeholder>
         </md-input>
       </form>
-    </md-card>
 
-    <md-card>
-      {{previewHtml}}
+      <md-card class="email-preview">
+        {{previewHtml}}
+      </md-card>
+
     </md-card>
 
     <h1>{{project.title}}</h1>

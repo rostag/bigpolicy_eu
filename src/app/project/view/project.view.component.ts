@@ -15,10 +15,12 @@ export class ProjectViewComponent {
   project: ProjectModel = new ProjectModel()
 
   // FIXME -- extract to send module
-  textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
+  // TODO: Add subject generator
   toEmail: string;
-  videoLink: string = 'https://www.youtube.com/watch?v=pktGY3qk0LM';
+  videoUrl: string;
   previewHtml: string = '<h1>Preview</h1>';
+  emailSubject: string = 'Проект "' + this.project.title + '" - BigPolicy';
+  textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -88,36 +90,57 @@ export class ProjectViewComponent {
     return location.href;
   }
 
-  private getVideoThumbnail(thumbType: string) {
-    var videoUrl = 'https://www.youtube.com/watch?v=pktGY3qk0LM';
+  private getYouTubeThumbnail(url, thumbType: string) {
     var urlPrefix = 'http://img.youtube.com/vi/';
-    var vParamIndex = videoUrl.indexOf('?v=');
-    var videoId: string = videoUrl.substring(vParamIndex + 3, 11);
-    console.log('Video URL:', videoUrl, 'videoId:', videoId);
+    var videoId: string = this.getYouTubeId(url);
     var thumbs: any = {};
 
-    // 1st Thumb, Small (120x90)
-    thumbs.small1 = urlPrefix + videoId + '/1.jpg';
-    // 2nd Default Thumb, Small (120x90)
-    thumbs.small2 = urlPrefix + videoId + '/2.jpg';
-    // 3rd Thumbnail Image, Small (120x90)
-    thumbs.small3 = urlPrefix + videoId + '/3.jpg';
+    // Standard YouTube Thumbs:
+    // 1st: Small (120x90)
+    // 2nd: Small (120x90) (Default)
+    // 3rd: Small (120x90)
     // Default Thumbnail Image, Full-Size (480x360)
-    thumbs.full = urlPrefix + videoId + '/0.jpg';
+    thumbs = {
+      small1: '/1.jpg',
+      small2: '/2.jpg',
+      small3: '/3.jpg',
+      full: '/0.jpg'
+    }
 
-    return thumbs[thumbType];
+    // console.log('Video URL:', url, 'videoId:', videoId, ', thumb: ', urlPrefix + videoId + thumbs[thumbType]);
+
+    return videoId !== null
+      ? '<a href="' + this.getUrl() + '" ><img src="' + urlPrefix + videoId + thumbs[thumbType] + '" /></a>'
+      : '';
+  }
+
+  /**
+    * Get video Thumbnail by given yotube URL.
+    * Supported URL formats:
+      http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+      http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+      http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+      http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+      http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+      http://www.youtube.com/watch?v=0zM3nApSvMg
+      http://youtu.be/0zM3nApSvMg
+      @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
+    */
+  private getYouTubeId(url: string = ''): string{
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match && match[7].length == 11) ? match[7] : null;
   }
 
   private getProjectEmail() {
     // Populate email properties on project before share or preview;
     let contentHtml =
-      this.textToReader + `
-      <h1 align="center">` + this.project.title + `</h1>
-      <p>` + this.project.description + `<br>
-      <br>
-      <p align="center"><a href="` + this.getUrl() + '">Тут можна детальніше переглянути проект</a><br><br>'
-      + '<a href="' + this.getUrl() + '" ><img width="320" height="176" src="' + this.getVideoThumbnail('full') + '" /></a>' +
-      + '<br><p>Щиро вдячний,<br/>' + this.project.managerName + '<br/><small>'
+        this.textToReader
+      + '<h1 align="center">' + this.project.title + '</h1><p>'
+      + this.project.description + '<br><br>'
+      + '</p><p align="center"><a href="' + this.getUrl() + '">Тут можна детальніше переглянути проект</a><br><br>'
+      + this.getYouTubeThumbnail(this.videoUrl, 'full')
+      + '</p><p>Щиро вдячний,<br>' + this.project.managerName + '<br><small>'
       + this.project.managerId + '</small></p>'
       + '<img src="http://bigpolicy.eu/assets/img/logo.png" style="width:40px">';
 
@@ -174,7 +197,7 @@ export class ProjectViewComponent {
     return {
       from: this.project.managerId,
       toEmails: {},
-      subject: 'Проект "' + this.project.title + '" - BigPolicy',
+      subject: this.emailSubject,
       html:
         renderedHtmlTemplate
     }
@@ -190,11 +213,12 @@ export class ProjectViewComponent {
     this.project.email.toEmails[this.toEmail] = this.toEmail;
 
     this.projectService.shareProject(this.project)
-    .subscribe(
-      data => { console.log('Project Shared', data) },
-      err => (err) => console.error('Project creation error: ', err),
-      () => {}
-    )
+      .subscribe(
+        data => { console.log('Project Shared', data) },
+        err => (err) => console.error('Project creation error: ', err),
+        () => {}
+      );
+
     return false;
   }
 
