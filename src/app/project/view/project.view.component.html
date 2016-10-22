@@ -1,29 +1,49 @@
 <md-card class="project-view">
   <md-card-content>
 
-    <a href (click)="shareProject()"><button md-raised-button color="warn">Поширити</button></a>
+    <a href (click)="shareProject()"><button md-raised-button color="accent">Поширити</button></a>
+    <a href (click)="previewShare()"><button md-button disabled="disabled">Попередній перегляд</button></a>
+
     <br />
-    <md-card-content class="wide">
-      <md-icon>email</md-icon>
+
+    <md-card class="share-card">
       <form>
-        <md-input id="textToReader"
-               name="textToReader"
-               [(ngModel)]="textToReader"
-               class="wide"
-               placeholder="Звернення до отримувача"
-               value="Друже, хочу поділитися з тобою своїм задумом: "></md-input>
         <md-input #email
-               id="toEmail"
-               name="toEmail"
-               [(ngModel)]="toEmail"
-               value="rostyslav.siryk@gmail.com"
-               placeholder="Адреса отримувача"
-               hint="Можна увести декілька адрес через кому"
-               class="wide"
-               >
+          [(ngModel)]="toEmail"
+          id="toEmail"
+          name="toEmail"
+          class="wide">
+            <md-placeholder>
+              Email (можна ввести декілька адрес через кому)
+            </md-placeholder>
+            <span md-suffix>
+              *
+          </span>
+        </md-input>
+
+        <h2>Звернення до отримувача:</h2>
+        <textarea
+          [(ngModel)]="textToReader"
+          class="bp-textarea wide"
+          id="textToReader"
+          name="textToReader"
+          rows="10">{{textToReader}}</textarea>
+
+        <md-input
+          [(ngModel)]="videoLink"
+          id="videoLink"
+          name="videoLink"
+          class="wide">
+          <md-placeholder>
+            Відео (посилання):
+          </md-placeholder>
         </md-input>
       </form>
-    </md-card-content>
+    </md-card>
+
+    <md-card>
+      {{previewHtml}}
+    </md-card>
 
     <h1>{{project.title}}</h1>
 

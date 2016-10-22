@@ -25,6 +25,31 @@ h3 {
   padding-top: 0;
 }
 
+.share-card {
+  width: 70%;
+}
+
+.share-card .form {
+  margin: 0;
+}
+
+.share-card h2 {
+  margin: 0.5em 0 0.25em 0;
+  /*display: none;*/
+}
+
 .wide {
-  width: 80%;
+  width: 100%;
+}
+
+.bp-textarea {
+  font-family:Roboto, "Helvetica Neue", sans-serif;
+  font-size:14px;
+  letter-spacing:normal;
+  line-height:normal;
+  outline-color:rgb(0, 0, 0);
+  outline-style:none;
+  outline-width:0px;
+  height: auto;
+  margin-bottom: 0.5em;
 }

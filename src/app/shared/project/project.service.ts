@@ -61,6 +61,9 @@ export class ProjectService {
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
     return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
+
+    // TODO: Upsert project in DB:
+    // project.events.push({'type': 'share'});
   }
 
   /**
