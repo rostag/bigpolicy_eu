@@ -1,5 +1,8 @@
-<md-card class="project-view">
+<div class="project-view">
+
   <md-card-content>
+
+    <bp-sharer [project]="project"></bp-sharer>
 
     <h1>{{project.title}}</h1>
 
@@ -24,10 +27,9 @@
     </bp-task-edit> -->
 
     <!-- List existing tasks -->
-    <task-list [projectId]="project._id" >
-    </task-list>
+    <!-- <task-list [projectId]="project._id" >
+    </task-list> -->
     <!-- /Project Tasks -->
-
 
     <span *ngIf="user.isAdmin()" class="admin">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
@@ -35,4 +37,5 @@
     </span>
 
   </md-card-content>
-</md-card>
+
+</div>
