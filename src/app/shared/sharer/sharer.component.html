@@ -1,0 +1,66 @@
+<a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
+<!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
+<md-card *ngIf="showDialog" class="share-card">
+  <form>
+    <h1>Надіслати проект по email</h1>
+    <md-input #email="ngModel" [(ngModel)]="toEmail"
+      id="toEmail" name="toEmail"
+      class="wide bt-input" required>
+        <md-placeholder>
+          Кому:
+        </md-placeholder>
+    </md-input>
+
+    <md-input
+      disabled
+      [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
+      class="wide bt-input">
+      <md-placeholder>
+        Тема:
+      </md-placeholder>
+    </md-input>
+
+    <div class="text-label">Текст:</div>
+    <textarea
+      [(ngModel)]="textToReader"
+      class="bp-textarea"
+      id="textToReader"
+      name="textToReader"
+      rows="10">{{textToReader}}
+      <md-placeholder>
+        Текст:
+      </md-placeholder>
+    </textarea>
+
+    <md-input
+      [(ngModel)]="videoUrl"
+      id="videoUrl"
+      name="videoUrl"
+      class="wide bt-input">
+      <md-placeholder>
+        Відео (посилання):
+      </md-placeholder>
+    </md-input>
+  </form>
+
+  <a href (click)="shareProject()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
+
+  <a *ngIf="!showEmailPreview" href (click)="toggleEmailPreview()"><button md-button>Показати листа</button></a>
+  <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
+
+  <p
+    [innerHTML]="previewHtml"
+    *ngIf="showEmailPreview"
+    class="bp-pre">
+  </p>
+
+  <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
+  <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
+
+  <div
+    *ngIf="showHtmlPreview"
+    class="bp-pre-html">
+    {{previewHtml}}
+  </div>
+
+</md-card>

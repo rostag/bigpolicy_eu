@@ -44,6 +44,7 @@ import { UserService } from './shared/user/user.service';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { AppComponent } from './app.component';
+import { SharerComponent } from './shared/sharer/sharer.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { AppComponent } from './app.component';
     LoginComponent,
     AboutComponent,
     LandingComponent,
-    AppComponent
+    AppComponent,
+    SharerComponent
   ],
   imports: [
     routing,
