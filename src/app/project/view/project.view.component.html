@@ -1,4 +1,5 @@
-<md-card class="project-view">
+<div class="project-view">
+
   <md-card-content>
 
     <bp-sharer [project]="project"></bp-sharer>
@@ -26,8 +27,8 @@
     </bp-task-edit> -->
 
     <!-- List existing tasks -->
-    <task-list [projectId]="project._id" >
-    </task-list>
+    <!-- <task-list [projectId]="project._id" >
+    </task-list> -->
     <!-- /Project Tasks -->
 
     <span *ngIf="user.isAdmin()" class="admin">
@@ -36,4 +37,5 @@
     </span>
 
   </md-card-content>
-</md-card>
+
+</div>

@@ -1,45 +1,66 @@
-<a href (click)="shareProject()"><button md-raised-button color="accent">Поширити</button></a>
-<a href (click)="previewShare()"><button md-button>Попередній перегляд</button></a>
-
-<br />
+<a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
 <!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
-<md-card class="share-card">
+<md-card *ngIf="showDialog" class="share-card">
   <form>
-    <md-input #email
-      [(ngModel)]="toEmail"
-      id="toEmail"
-      name="toEmail"
-      class="wide"
-      required>
+    <h1>Надіслати проект по email</h1>
+    <md-input #email="ngModel" [(ngModel)]="toEmail"
+      id="toEmail" name="toEmail"
+      class="wide bt-input" required>
         <md-placeholder>
-          Email
+          Кому:
         </md-placeholder>
-        <span md-suffix>
-          *
-      </span>
     </md-input>
 
-    <h2>Звернення до отримувача:</h2>
+    <md-input
+      disabled
+      [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
+      class="wide bt-input">
+      <md-placeholder>
+        Тема:
+      </md-placeholder>
+    </md-input>
+
+    <div class="text-label">Текст:</div>
     <textarea
       [(ngModel)]="textToReader"
-      class="bp-textarea wide"
+      class="bp-textarea"
       id="textToReader"
       name="textToReader"
-      rows="10">{{textToReader}}</textarea>
+      rows="10">{{textToReader}}
+      <md-placeholder>
+        Текст:
+      </md-placeholder>
+    </textarea>
 
     <md-input
       [(ngModel)]="videoUrl"
       id="videoUrl"
       name="videoUrl"
-      class="wide">
+      class="wide bt-input">
       <md-placeholder>
         Відео (посилання):
       </md-placeholder>
     </md-input>
   </form>
 
-  <md-card class="email-preview">
+  <a href (click)="shareProject()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
+
+  <a *ngIf="!showEmailPreview" href (click)="toggleEmailPreview()"><button md-button>Показати листа</button></a>
+  <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
+
+  <p
+    [innerHTML]="previewHtml"
+    *ngIf="showEmailPreview"
+    class="bp-pre">
+  </p>
+
+  <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
+  <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
+
+  <div
+    *ngIf="showHtmlPreview"
+    class="bp-pre-html">
     {{previewHtml}}
-  </md-card>
+  </div>
 
 </md-card>

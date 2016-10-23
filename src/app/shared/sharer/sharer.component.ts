@@ -8,23 +8,27 @@ import { ShareService } from './share.service';
   styleUrls: ['./sharer.component.css'],
   providers: [ShareService]
 })
+
 export class SharerComponent implements OnInit {
 
   @Input() project: ProjectModel;
 
-  // FIXME -- extract to send module
-  // TODO: Add subject generator
   toEmail: string;
   videoUrl: string;
-  previewHtml: string = '<h1>Preview</h1>';
-  emailSubject: string = 'Проект - BigPolicy';
+  // TODO: Add subject generator
   textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
+  showDialog: boolean = false;
+  showEmailPreview: boolean = false;
+  showHtmlPreview: boolean = false;
 
   constructor(
     private shareService: ShareService
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  get emailSubject(): string {
+    return 'Проект "' + this.project.title + '" - BigPolicy'
   }
 
   /**
@@ -35,7 +39,6 @@ export class SharerComponent implements OnInit {
     // Populate email properties on project before share;
     this.project.email = this.getProjectEmail();
     this.project.email.toEmails[this.toEmail] = this.toEmail;
-    this.emailSubject = 'Проект "' + this.project.title + '" - BigPolicy'
 
     this.shareService.shareProject(this.project)
       .subscribe(
@@ -47,12 +50,8 @@ export class SharerComponent implements OnInit {
     return false;
   }
 
-  private previewShare() {
-    console.log('Preview: ', this.project);
-    var emlHtml = this.getProjectEmail().html;
-
-    this.previewHtml = emlHtml;
-    return false;
+  get previewHtml() {
+    return this.getProjectEmail().html;
   }
 
   private getUrl() {
@@ -105,21 +104,31 @@ export class SharerComponent implements OnInit {
     // Populate email properties on project before share or preview;
     let contentHtml =
         this.textToReader
-      + '<h1 align="center">' + this.project.title + '</h1><p>'
-      + this.project.description + '<br><br>'
-      + '</p><p align="center"><a href="' + this.getUrl() + '">Тут можна детальніше переглянути проект</a><br><br>'
-      + this.getYouTubeThumbnail(this.videoUrl, 'full')
-      + '</p><p>Щиро вдячний,<br>' + this.project.managerName + '<br><small>'
-      + this.project.managerId + '</small></p>'
-      + '<img src="http://bigpolicy.eu/assets/img/logo.png" style="width:40px">';
+      + `<h1 align="center">
+      `
+      + this.project.title + `</h1>
+      <p>
+      `
+      + this.project.description + `<br><br></p><p align="center">
+      `
+      + this.getYouTubeThumbnail(this.videoUrl, `full`)
+      + `<br><br>
+      <a href="` + this.getUrl() + `">Тут можна детальніше переглянути проект</a><br><br></p><p>
+
+      Щиро вдячний,<br>` + this.project.managerName + `<br>
+      <small>` + this.project.managerId + `</small></p>`
+      + `
+      <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
 
     let contentHtmlVideo = `<!doctype html>
       <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>`
-      + 'Проект "' + this.project.title + '" - BigPolicy' +
-      `</title>
+      + this.emailSubject +
+
+      `
+      </title>
 
       <style type="text/css">
 
@@ -147,16 +156,16 @@ export class SharerComponent implements OnInit {
       <div class="video_holder">
         <p>Video Div</p>
           <video width="320" height="176" controls>
-              <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-              <source src="http://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
-                <a href="www.emailonacid.com" ><img height="176"
-                  src="http://www.emailonacid.com/images/blog_images/Emailology/2013/html5_video/backup_bunny2.jpg" width="320" /></a>
+              <source src="m.mp4" type="video/mp4">
+              <source src="m.ogg" type="video/ogg">
+                <a href="#" ><img height="176"
+                  src="" width="320" /></a>
           </video>
       </div>
       <div class="android" style="display:none; width:0px; height:0px; overflow:hidden;">
         <p>Android Div</p>
-        <a href="www.emailonacid.com" ><img height="176"
-          src="http://www.emailonacid.com/images/blog_images/Emailology/2013/html5_video/backup_bunny2.jpg" width="320" /></a>
+        <a href="#" ><img height="176"
+          src="i.jpg" width="320" /></a>
       </div>
       </body>
       </html>`;
@@ -172,8 +181,18 @@ export class SharerComponent implements OnInit {
     }
   }
 
+  private showSharer() {
+    this.showDialog = !this.showDialog;
+    return false;
+  }
 
+  private toggleEmailPreview() {
+    this.showEmailPreview = !this.showEmailPreview;
+    return false;
+  }
 
-
-
+  private toggleHtmlPreview() {
+    this.showHtmlPreview = !this.showHtmlPreview;
+    return false;
+  }
 }

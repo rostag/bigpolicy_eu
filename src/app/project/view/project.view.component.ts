@@ -32,7 +32,7 @@ export class ProjectViewComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('View Project by ID from route params:', id)
+        // console.log('View Project by ID from route params:', id)
         this.loadProject(id);
       })
   }
@@ -69,7 +69,4 @@ export class ProjectViewComponent {
     this.router.navigate(['/projects'])
     return false;
   }
-
-  private showShareDialog() {}
-
 }
