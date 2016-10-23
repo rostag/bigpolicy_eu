@@ -72,7 +72,6 @@ export class ProjectViewComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
-    console.log('setProject:', data);
     this.project = data;
   }
 

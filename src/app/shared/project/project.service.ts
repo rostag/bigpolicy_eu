@@ -42,7 +42,7 @@ export class ProjectService {
    * @param {ProjectModel} model - The Project to create.
    */
   createProject(model: ProjectModel): Observable<Response> {
-    var body: string = model.toString();
+    var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });

@@ -10,8 +10,8 @@ export class ProjectModel {
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
-  email: any = {};
   videoUrl: string = '';
+  email: any = {};
 
   /**
    * It's necessary to have a string representation for sending it to DB
