@@ -58,7 +58,7 @@ export class SharerComponent implements OnInit {
     return location.href;
   }
 
-  private getYouTubeThumbnail(url, thumbType: string) {
+  getYouTubeThumbnail(url, thumbType: string) {
     var urlPrefix = 'http://img.youtube.com/vi/';
     var videoId: string = this.getYouTubeId(url);
     var thumbs: any = {};
@@ -94,7 +94,7 @@ export class SharerComponent implements OnInit {
       http://youtu.be/0zM3nApSvMg
       @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
     */
-  private getYouTubeId(url: string = ''): string{
+  getYouTubeId(url: string = ''): string{
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     var match = url.match(regExp);
     return (match && match[7].length == 11) ? match[7] : null;
