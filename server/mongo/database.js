@@ -124,16 +124,7 @@ DB.createProject = function(dataObj) {
   // var data = JSON.parse(dataStr);
   console.log('database.js: createProject: ', data)
     if(!data) data = {};
-    const model = new Project({
-      title: data.title,
-      description: data.description,
-      cost: data.cost,
-      managerName: data.managerName,
-      managerId: data.managerId,
-      dateStarted: data.dateStarted,
-      dateEnded: data.dateEnded,
-      iconURL: data.iconURL
-    });
+    const model = new Project(data);
     var saved = model.save();
     console.log('saved: ', saved);
     return model.save(saved);
