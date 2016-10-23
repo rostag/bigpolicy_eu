@@ -49,7 +49,7 @@
   <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
 
   <p
-    [innerHTML]="previewHtml"
+    [innerHTML]="emailHtml"
     *ngIf="showEmailPreview"
     class="bp-pre">
   </p>
@@ -60,7 +60,7 @@
   <div
     *ngIf="showHtmlPreview"
     class="bp-pre-html">
-    {{previewHtml}}
+    {{emailHtml}}
   </div>
 
 </md-card>

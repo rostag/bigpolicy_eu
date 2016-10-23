@@ -14,7 +14,9 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 export class ProjectViewComponent {
 
   project: ProjectModel = new ProjectModel();
-  private videoUrl: string = '';
+
+  private safeVideoUrl;
+
   /**
   * Dependency Injection: route (for reading params later)
   */
@@ -26,13 +28,13 @@ export class ProjectViewComponent {
     private sanitizer: DomSanitizer
   ){}
 
-  get updateVideoUrl() {
-    this.videoUrl = this.youTubeId
+  sanitizeVideoUrl() {
+    var videoUrl = this.youTubeId
       ? 'https://www.youtube.com/embed/' + this.youTubeId
       : null;
 
-    // TODO: SECURITY
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+    // TODO: BP_SECURITY
+    this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
   }
 
   get videoThumbUrl() {
@@ -72,7 +74,8 @@ export class ProjectViewComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
-    this.project = data;
+    this.project.parseData(data);
+    this.sanitizeVideoUrl();
   }
 
   /**
@@ -91,6 +94,7 @@ export class ProjectViewComponent {
     if (!this.project.videoUrl) {
       return null;
     }
+    // FIXME it's being called too many times
     var match = this.project.videoUrl.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
     return (match && match[7].length == 11) ? match[7] : null;
   }

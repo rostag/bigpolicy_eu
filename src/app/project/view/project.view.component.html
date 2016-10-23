@@ -11,7 +11,7 @@
       <md-grid-tile>
         <div *ngIf="youTubeId">
           <!-- TODO: SECURITY Need to double-check security here as soon as we neutralized DomSanitizer -->
-          <iframe width="400" height="222" [src]="updateVideoUrl" frameborder="0" allowfullscreen></iframe>
+          <iframe width="400" height="222" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
         </div>
 
         <!-- If there's no video, placeholder image will be shown -->

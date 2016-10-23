@@ -116,18 +116,18 @@ DB.listProjects = function(id) {
 
 DB.createProject = function(dataObj) {
   var data = dataObj;
-
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
+  // console.log('database.js: createProject: ', data)
+  if(!data) data = {};
 
-  // var data = JSON.parse(dataStr);
-  console.log('database.js: createProject: ', data)
-    if(!data) data = {};
-    const model = new Project(data);
-    var saved = model.save();
-    console.log('saved: ', saved);
-    return model.save(saved);
+  const model = new Project(data);
+
+  var saved = model.save();
+  // console.log('saved: ', saved);
+
+  return model.save(saved);
 }
 
 DB.updateProject = function(id,data) {

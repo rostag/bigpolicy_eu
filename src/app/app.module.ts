@@ -40,6 +40,7 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
+import { ShareService } from './shared/sharer/share.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -90,7 +91,8 @@ import { SharerComponent } from './shared/sharer/sharer.component';
   providers: [
     MdIconRegistry,
     LoggedInGuard,
-    UserService
+    UserService,
+    ShareService
   ],
   bootstrap: [AppComponent]
 })
