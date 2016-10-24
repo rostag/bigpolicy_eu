@@ -79,3 +79,10 @@ h2 {
   box-sizing: border-box;
   line-height: 160%;
 }
+
+/* Validation */
+
+.alert, .alert-danger {
+  color: #955;
+  font-size: 0.9em;
+}

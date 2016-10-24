@@ -40,11 +40,14 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
+import { ShareService } from './shared/sharer/share.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { AppComponent } from './app.component';
 import { SharerComponent } from './shared/sharer/sharer.component';
+
+import { ForbiddenValidatorDirective } from './shared/validation/email';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,8 @@ import { SharerComponent } from './shared/sharer/sharer.component';
     AboutComponent,
     LandingComponent,
     AppComponent,
-    SharerComponent
+    SharerComponent,
+    ForbiddenValidatorDirective
   ],
   imports: [
     routing,
@@ -90,7 +94,8 @@ import { SharerComponent } from './shared/sharer/sharer.component';
   providers: [
     MdIconRegistry,
     LoggedInGuard,
-    UserService
+    UserService,
+    ShareService
   ],
   bootstrap: [AppComponent]
 })

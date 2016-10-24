@@ -1,15 +1,32 @@
 <a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
 <!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
 <md-card *ngIf="showDialog" class="share-card">
-  <form>
+
+  <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
     <h1>Надіслати проект по email</h1>
-    <md-input #email="ngModel" [(ngModel)]="toEmail"
-      id="toEmail" name="toEmail"
-      class="wide bt-input" required>
+    <md-input
+      [(ngModel)]="toEmail"
+      name="toEmail"
+      id="toEmail"
+      class="wide bt-input"
+      validateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
         <md-placeholder>
           Кому:
         </md-placeholder>
     </md-input>
+
+    <div *ngIf="formErrors.toEmail" class="alert alert-danger">
+      {{ formErrors.toEmail }}
+    </div>
+
+    <!-- <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+      <div [hidden]="!email.errors.required">
+        Потрібно увести хоча б одну адресу
+      </div>
+      <div [hidden]="!email.errors.maxlength">
+        Email cannot be more than 1000 characters long.
+      </div>
+    </div> -->
 
     <md-input
       disabled
@@ -21,6 +38,7 @@
     </md-input>
 
     <div class="text-label">Текст:</div>
+
     <textarea
       [(ngModel)]="textToReader"
       class="bp-textarea"
@@ -49,7 +67,7 @@
   <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
 
   <p
-    [innerHTML]="previewHtml"
+    [innerHTML]="emailHtml"
     *ngIf="showEmailPreview"
     class="bp-pre">
   </p>
@@ -60,7 +78,7 @@
   <div
     *ngIf="showHtmlPreview"
     class="bp-pre-html">
-    {{previewHtml}}
+    {{emailHtml}}
   </div>
 
 </md-card>
