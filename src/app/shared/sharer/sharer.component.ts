@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, ViewChild } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'bp-sharer',
@@ -28,6 +29,50 @@ export class SharerComponent implements OnInit {
   showDialog: boolean = false;
   showEmailPreview: boolean = false;
   showHtmlPreview: boolean = false;
+
+  shareForm: NgForm;
+  @ViewChild('shareForm') currentForm: NgForm;
+
+  ngAfterViewChecked() {
+   this.formChanged();
+  }
+
+  formChanged() {
+   if (this.currentForm === this.shareForm) { return; }
+   this.shareForm = this.currentForm;
+   if (this.shareForm) {
+     this.shareForm.valueChanges
+       .subscribe(data => this.onValueChanged(data));
+   }
+  }
+
+  onValueChanged(data?: any) {
+   if (!this.shareForm) { return; }
+   const form = this.shareForm.form;
+
+   for (const field in this.formErrors) {
+     // clear previous error message (if any)
+     this.formErrors[field] = '';
+     const control = form.get(field);
+
+     if (control && control.touched && !control.valid) {
+       const messages = this.validationMessages[field];
+       for (const key in control.errors) {
+         this.formErrors[field] += messages[key] + ' ';
+       }
+     }
+   }
+  }
+
+  formErrors = {
+    'toEmail': ''
+  };
+
+  validationMessages = {
+    'toEmail': {
+      'validateEmail': 'Будь ласка, уведіть коректну адресу.'
+    }
+  };
 
   // TODO: Add subject generator
 
@@ -58,6 +103,11 @@ export class SharerComponent implements OnInit {
    * @param {project} Project being viewed
    */
   private shareProject() {
+    if (!this.shareForm.form.valid) {
+      console.log('firm invalis');
+      return false;
+    }
+
     // Populate email properties on before share;
     this.emailToShare.html = this.emailHtml;
     this.emailToShare.from = this.project.managerId;

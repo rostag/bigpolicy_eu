@@ -47,6 +47,8 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 import { AppComponent } from './app.component';
 import { SharerComponent } from './shared/sharer/sharer.component';
 
+import { ForbiddenValidatorDirective } from './shared/validation/email';
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -65,7 +67,8 @@ import { SharerComponent } from './shared/sharer/sharer.component';
     AboutComponent,
     LandingComponent,
     AppComponent,
-    SharerComponent
+    SharerComponent,
+    ForbiddenValidatorDirective
   ],
   imports: [
     routing,
