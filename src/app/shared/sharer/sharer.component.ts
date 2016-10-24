@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewChecked, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
@@ -7,14 +7,43 @@ import { NgForm } from '@angular/forms';
   selector: 'bp-sharer',
   templateUrl: './sharer.component.html',
   styleUrls: ['./sharer.component.css'],
-  providers: [ShareService]
+  providers: [ShareService],
+  animations: [
+  trigger('visibilityChanged', [
+      state('shown' , style({ opacity: 1 })),
+      state('hidden', style({ opacity: 0.5 })),
+      transition('shown => hidden', animate('1600ms')),
+      transition('hidden => shown', animate('1300ms')),
+    ])
+  ]
 })
 
 // TODO: Add subject generator
 
-export class SharerComponent implements OnInit {
+export class SharerComponent implements OnInit, OnChanges {
+
+  visibility;
+
+  @Input() isVisible : boolean = false;
+
+  ngOnChanges() {
+   this.visibility = this.isVisible ? 'shown' : 'hidden';
+  }
 
   @Input() project: ProjectModel;
+
+  state = '';
+  emailSent: boolean = false;
+  emailSendError;
+
+  toEmail: string;
+  textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
+
+  showEmailPreview: boolean = false;
+  showHtmlPreview: boolean = false;
+
+  shareForm: NgForm;
+  @ViewChild('shareForm') currentForm: NgForm;
 
   // Model to be shared.
   // Here, the videoUrl may be overridden before share:
@@ -24,25 +53,11 @@ export class SharerComponent implements OnInit {
     subject: '',
     html: '',
     videoUrl: ''
-  };
+  }
 
   formState(stateName){
     return this.state === stateName;
-  };
-
-  state = '';
-  emailSent: boolean = false;
-  emailSendError;
-
-  toEmail: string;
-  textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
-
-  showDialog: boolean = false;
-  showEmailPreview: boolean = false;
-  showHtmlPreview: boolean = false;
-
-  shareForm: NgForm;
-  @ViewChild('shareForm') currentForm: NgForm;
+  }
 
   ngAfterViewChecked() {
    this.formChanged();
@@ -169,7 +184,9 @@ export class SharerComponent implements OnInit {
   }
 
   private showSharer() {
-    this.showDialog = !this.showDialog;
+    this.isVisible = !this.isVisible;
+    this.ngOnChanges();
+    // this.showDialog = !this.showDialog;
     return false;
   }
 

@@ -1,6 +1,8 @@
-<a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
+<a *ngIf="visibility == 'hidden'" href (click)="showSharer()" class="share-show">
+  <button md-raised-button color="accent">Поширити</button>
+</a>
 <!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
-<md-card-content *ngIf="showDialog" class="share-card">
+<md-card-content *ngIf="visibility == 'shown'" class="share-card">
 
   <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
     <h2 *ngIf="formState('')">Надіслати по email</h2>
