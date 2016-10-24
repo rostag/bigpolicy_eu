@@ -23,6 +23,14 @@ export class SharerComponent implements OnInit {
     videoUrl: ''
   };
 
+  formState(stateName){
+    return this.state === stateName;
+  };
+
+  state = '';
+  emailSent: boolean = false;
+  emailSendError;
+
   toEmail: string;
   textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
@@ -70,7 +78,7 @@ export class SharerComponent implements OnInit {
 
   validationMessages = {
     'toEmail': {
-      'validateEmail': 'Будь ласка, уведіть коректну адресу.'
+      'validateEmail': 'Будь ласка, уведи коректну адресу.'
     }
   };
 
@@ -104,9 +112,11 @@ export class SharerComponent implements OnInit {
    */
   private shareProject() {
     if (!this.shareForm.form.valid) {
-      console.log('firm invalis');
+      this.state = 'formIsNotComplete';
       return false;
     }
+
+    this.state = 'emailIsBeingSent';
 
     // Populate email properties on before share;
     this.emailToShare.html = this.emailHtml;
@@ -116,8 +126,14 @@ export class SharerComponent implements OnInit {
 
     this.shareService.shareProject(this.emailToShare)
       .subscribe(
-        data => { console.log('Project Shared', data) },
-        err => (err) => console.error('Project creation error: ', err),
+        data => {
+          this.state = 'emailSent';
+          console.log('Project Shared', data)
+        },
+        err => (err) => {
+          this.state = 'emailSendError';
+          console.error('Project creation error: ', err)
+        },
         () => {}
       );
 

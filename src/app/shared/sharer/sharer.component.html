@@ -3,7 +3,11 @@
 <md-card *ngIf="showDialog" class="share-card">
 
   <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
-    <h1>Надіслати проект по email</h1>
+    <h1 *ngIf="formState('')">Надіслати проект по email</h1>
+    <h1 *ngIf="formState('emailIsBeingSent')">Повідомлання надіслано!</h1>
+    <h1 *ngIf="formState('emailSent')">Повідомлання надіслано!</h1>
+    <h1 *ngIf="formState('emailSendError')">Сталася помилка: {{emailSendError}}</h1>
+    <h1 *ngIf="formState('formIsNotComplete')">Форма ще не готова до відправки</h1>
     <md-input
       [(ngModel)]="toEmail"
       name="toEmail"
@@ -66,14 +70,17 @@
   <a *ngIf="!showEmailPreview" href (click)="toggleEmailPreview()"><button md-button>Показати листа</button></a>
   <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
 
-  <p
-    [innerHTML]="emailHtml"
-    *ngIf="showEmailPreview"
-    class="bp-pre">
-  </p>
+  <md-card *ngIf="showEmailPreview" style="margin-top: 1em;">
+    <p
+      [innerHTML]="emailHtml"
+      class="bp-pre">
+    </p>
+  </md-card>
 
   <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
   <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
+
+  <a href (click)="showSharer()"><button md-button>Закрити</button></a>
 
   <div
     *ngIf="showHtmlPreview"
