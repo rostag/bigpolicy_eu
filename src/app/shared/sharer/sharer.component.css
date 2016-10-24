@@ -1,14 +1,14 @@
 :host {
   display: block;
+  margin-bottom: 2em;
 }
 
 .share-card {
   width: 90%;
-  margin-bottom: 2em;
 }
 
 .share-show {
-  margin-bottom: 2em;
+    float: right;
 }
 
 h1 {
@@ -24,11 +24,11 @@ h2 {
   color: #777;
 }
 
-.text-label {
-  margin-top: 1em;
+.textarea-label {
+  display: block;
+  margin: 1.4em 0 0 0;
   color: rgba(0, 0, 0, 0.38);
-  padding-bottom: 5px;
-  font-size: 0.7em;
+  font-size: 0.75em;
 }
 
 .email-subject .span {
@@ -48,20 +48,22 @@ h2 {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 16px;
   letter-spacing: normal;
-  line-height: 110%;
+  line-height: 140%;
   outline: none;
   height: auto;
   box-sizing: border-box;
   padding: 0;
   padding-bottom: 1px;
   border: 0 solid transparent;
-  border-bottom: 1px solid #aaaacc;
+  border-bottom: 1px solid #eee;
   width: 100%;
+  color: #999;
 }
 
 .bp-textarea:focus {
   padding-bottom: 0;
-  border-bottom: 2px solid #bbbbdd;
+  border-bottom: 2px solid #777;
+  color: #000;
 }
 
 .bp-pre {
@@ -83,6 +85,13 @@ h2 {
 /* Validation */
 
 .alert, .alert-danger {
-  color: #955;
+  color: #F44336;
   font-size: 0.9em;
+  float: right;
+  margin-top: -2.3em;
+  position: relative;
+}
+
+.email-preview {
+  margin-top: 1.5em;
 }

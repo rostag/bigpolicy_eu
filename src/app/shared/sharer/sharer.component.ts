@@ -10,11 +10,14 @@ import { NgForm } from '@angular/forms';
   providers: [ShareService]
 })
 
+// TODO: Add subject generator
+
 export class SharerComponent implements OnInit {
 
   @Input() project: ProjectModel;
 
-  // Model to be shared. Here, the videoUrl may be overridden before share:
+  // Model to be shared.
+  // Here, the videoUrl may be overridden before share:
   emailToShare: any = {
     from: '',
     toEmails: {},
@@ -54,6 +57,10 @@ export class SharerComponent implements OnInit {
    }
   }
 
+  handleInputBlur(e){
+    this.onValueChanged(e);
+  }
+
   onValueChanged(data?: any) {
    if (!this.shareForm) { return; }
    const form = this.shareForm.form;
@@ -63,7 +70,7 @@ export class SharerComponent implements OnInit {
      this.formErrors[field] = '';
      const control = form.get(field);
 
-     if (control && control.dirty && !control.valid) {
+     if (control && (control.dirty || control.touched) && !control.valid) {
        const messages = this.validationMessages[field];
        for (const key in control.errors) {
          this.formErrors[field] += messages[key] + ' ';
@@ -78,11 +85,10 @@ export class SharerComponent implements OnInit {
 
   validationMessages = {
     'toEmail': {
-      'validateEmail': 'Будь ласка, уведи коректну адресу.'
+      'required': 'Будь ласка, заповніть поле',
+      'validateEmail': 'Будь ласка, уведіть коректну адресу'
     }
   };
-
-  // TODO: Add subject generator
 
   constructor(
     private shareService: ShareService

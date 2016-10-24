@@ -1,18 +1,20 @@
 <a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
 <!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
-<md-card *ngIf="showDialog" class="share-card">
+<md-card-content *ngIf="showDialog" class="share-card">
 
   <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
-    <h1 *ngIf="formState('')">Надіслати проект по email</h1>
-    <h1 *ngIf="formState('emailIsBeingSent')">Надсилаю повідомлення...</h1>
-    <h1 *ngIf="formState('emailSent')">Повідомлення надіслано</h1>
-    <h1 *ngIf="formState('emailSendError')">Сталася помилка {{emailSendError}}</h1>
-    <h1 *ngIf="formState('formIsNotComplete')">Форма ще не готова до відправки...</h1>
+    <h2 *ngIf="formState('')">Надіслати по email</h2>
+    <h2 *ngIf="formState('emailIsBeingSent')">Надсилаю повідомлення...</h2>
+    <h2 *ngIf="formState('emailSent')">Повідомлення надіслано</h2>
+    <h2 *ngIf="formState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
+    <h2 *ngIf="formState('formIsNotComplete')">Форма ще не готова до відправки</h2>
     <md-input
       [(ngModel)]="toEmail"
       name="toEmail"
       id="toEmail"
       class="wide bt-input"
+      (blur)="handleInputBlur($event)"
+      #toEmailElement
       validateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
         <md-placeholder>
           Кому:
@@ -23,15 +25,6 @@
       {{ formErrors.toEmail }}
     </div>
 
-    <!-- <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
-      <div [hidden]="!email.errors.required">
-        Потрібно увести хоча б одну адресу
-      </div>
-      <div [hidden]="!email.errors.maxlength">
-        Email cannot be more than 1000 characters long.
-      </div>
-    </div> -->
-
     <md-input
       disabled
       [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
@@ -41,7 +34,7 @@
       </md-placeholder>
     </md-input>
 
-    <div class="text-label">Текст:</div>
+    <label for="textToReader" class="textarea-label">Текст:</label>
 
     <textarea
       [(ngModel)]="textToReader"
@@ -70,7 +63,8 @@
   <a *ngIf="!showEmailPreview" href (click)="toggleEmailPreview()"><button md-button>Показати листа</button></a>
   <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
 
-  <md-card *ngIf="showEmailPreview" style="margin-top: 1em;">
+  <md-card *ngIf="showEmailPreview" class="email-preview">
+    <h2>Попередній перегляд листа:</h2>
     <p
       [innerHTML]="emailHtml"
       class="bp-pre">
@@ -80,7 +74,7 @@
   <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
   <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
 
-  <a href (click)="showSharer()"><button md-button>Закрити</button></a>
+  <a href (click)="showSharer()"><button md-button>Відміна</button></a>
 
   <div
     *ngIf="showHtmlPreview"
@@ -88,4 +82,4 @@
     {{emailHtml}}
   </div>
 
-</md-card>
+</md-card-content>
