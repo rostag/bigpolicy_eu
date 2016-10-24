@@ -5,7 +5,7 @@
   <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
     <h1 *ngIf="formState('')">Надіслати проект по email</h1>
     <h1 *ngIf="formState('emailIsBeingSent')">Надсилаю повідомлення...</h1>
-    <h1 *ngIf="formState('emailSent')">Повідомлення надіслано.</h1>
+    <h1 *ngIf="formState('emailSent')">Повідомлення надіслано</h1>
     <h1 *ngIf="formState('emailSendError')">Сталася помилка {{emailSendError}}</h1>
     <h1 *ngIf="formState('formIsNotComplete')">Форма ще не готова до відправки...</h1>
     <md-input
