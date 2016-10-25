@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
@@ -9,29 +9,30 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./sharer.component.css'],
   providers: [ShareService],
   animations: [
-  trigger('visibilityChanged', [
-      state('shown' , style({ opacity: 1 })),
-      state('hidden', style({ opacity: 0.5 })),
-      transition('shown => hidden', animate('1600ms')),
-      transition('hidden => shown', animate('1300ms')),
+    trigger('visibilityChanged', [
+      state('true' , style({ opacity: 1 })),
+      state('false', style({ opacity: 0 })),
+      transition('1 => 0', animate('200ms')),
+      transition('0 => 1', animate('500ms'))
     ])
   ]
 })
 
 // TODO: Add subject generator
 
-export class SharerComponent implements OnInit, OnChanges {
+export class SharerComponent implements OnInit {
 
-  visibility;
-
-  @Input() isVisible : boolean = false;
-
-  ngOnChanges() {
-   this.visibility = this.isVisible ? 'shown' : 'hidden';
-  }
+  @Input() isVisible: boolean = false;
 
   @Input() project: ProjectModel;
 
+  animationDone(e){
+    console.log('e1', e);
+    this.dialogShown = e.toState;
+    console.log('e2', this.dialogShown);
+  }
+
+  dialogShown = false;
   state = '';
   emailSent: boolean = false;
   emailSendError;
@@ -185,8 +186,6 @@ export class SharerComponent implements OnInit, OnChanges {
 
   private showSharer() {
     this.isVisible = !this.isVisible;
-    this.ngOnChanges();
-    // this.showDialog = !this.showDialog;
     return false;
   }
 
