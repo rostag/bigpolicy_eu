@@ -1,6 +1,14 @@
 # BigPolicy
 
-Here is a [draft](qa-europe.rhcloud.com) of open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
+Welcome to (qa-europe.rhcloud.com) open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
+
+Project appeared in Ukraine, when group of activists decides that Direct Democracy is the instrument of truly agile governments, ready to be open for challenges and react them.
+
+Our goals for this tool are
+implement new culture in political landscape
+implement it on local and government level
+
+Idea was validated on EGAP Hackaton Challenge with support of bright experts and moving forward
 
 ![image](https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png?raw=true)
 
@@ -39,6 +47,17 @@ Please note: you need _at least npm 3_.
 mongod --dbpath data/db
 
 Please note — path to database may be different on your machine. It's better to keep your DB files outside the source folder to avoid leaking DB files into project repository.
+
+Windows notes
+Add mongodb to PATH
+run mongo server manually:
+a) go to default folder of mongo e.g.
+C:\Program Files\MongoDB\Server\3.2\bin
+and enter command:
+mongod.exe --dbpath "path_to_bin_mongo_folder"
+
+This will show waiting for connections message on the console output, which indicates that the mongod.exe process is running successfully.
+14 OCTOBER 11:58
 
 #### Run Angular-CLI Server
 
