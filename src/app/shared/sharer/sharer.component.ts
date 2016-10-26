@@ -11,9 +11,9 @@ import { NgForm } from '@angular/forms';
   animations: [
     trigger('visibilityChanged', [
       state('true' , style({ opacity: 1 })),
-      state('false', style({ opacity: 0 })),
-      transition('1 => 0', animate('200ms')),
-      transition('0 => 1', animate('500ms'))
+      state('false', style({ opacity: 0.2 })),
+      transition('1 => 0', animate('600ms')),
+      transition('0 => 1', animate('400ms'))
     ])
   ]
 })
@@ -22,25 +22,18 @@ import { NgForm } from '@angular/forms';
 
 export class SharerComponent implements OnInit {
 
-  @Input() isVisible: boolean = false;
+  @Input() sharerIsVisible: boolean = false;
 
   @Input() project: ProjectModel;
 
-  animationDone(e){
-    console.log('e1', e);
-    this.dialogShown = e.toState;
-    console.log('e2', this.dialogShown);
-  }
-
-  dialogShown = false;
-  state = '';
+  formStatus = '';
   emailSent: boolean = false;
   emailSendError;
 
   toEmail: string;
   textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
-  showEmailPreview: boolean = false;
+  showEmailPreview: boolean = true;
   showHtmlPreview: boolean = false;
 
   shareForm: NgForm;
@@ -56,8 +49,8 @@ export class SharerComponent implements OnInit {
     videoUrl: ''
   }
 
-  formState(stateName){
-    return this.state === stateName;
+  getFormState(stateName){
+    return this.formStatus === stateName;
   }
 
   ngAfterViewChecked() {
@@ -134,11 +127,11 @@ export class SharerComponent implements OnInit {
    */
   private shareProject() {
     if (!this.shareForm.form.valid) {
-      this.state = 'formIsNotComplete';
+      this.formStatus = 'formIsNotComplete';
       return false;
     }
 
-    this.state = 'emailIsBeingSent';
+    this.formStatus = 'emailIsBeingSent';
 
     // Populate email properties on before share;
     this.emailToShare.html = this.emailHtml;
@@ -149,11 +142,11 @@ export class SharerComponent implements OnInit {
     this.shareService.shareProject(this.emailToShare)
       .subscribe(
         data => {
-          this.state = 'emailSent';
+          this.formStatus = 'emailSent';
           console.log('Project Shared', data)
         },
         err => (err) => {
-          this.state = 'emailSendError';
+          this.formStatus = 'emailSendError';
           console.error('Project creation error: ', err)
         },
         () => {}
@@ -167,25 +160,54 @@ export class SharerComponent implements OnInit {
    */
   private get emailHtml() {
     return  this.textToReader
-            + `<h1 align="center">
+            + `<h1 align="center" class="emailH1">
             `
             + this.project.title + `</h1>
-            <p>
+            <p style="display:none;">
             `
             + this.project.description + `<br><br></p><p align="center">
             `
             + this.shareService.getYouTubeThumbnail(this.videoUrl, `full`)
-            + `<br><br>
-            <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a><br><br></p><p>
-
-            Щиро вдячний,<br>` + this.project.managerName + `<br>
-            <small>` + this.project.managerId + `</small></p>`
-            + `
+            +
+            `
+            <br>
+            <br>
+            <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
+            <br>
+            <br>
+            </p>
+            <p>Щиро вдячний,<br>`
+            + this.project.managerName + `<br>
+            <small>` + this.project.managerId + `</small></p>
+            `
+            +
+            `
             <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
+  private autoExpand(e) {
+    console.log('auto expa: ', e);
+
+    var textField = typeof e === 'object' ? e.target : document.getElementById(e);
+
+    if (textField.clientHeight < textField.scrollHeight)
+    {
+      textField.style.height = textField.scrollHeight + "px";
+      if (textField.clientHeight < textField.scrollHeight)
+      {
+        textField.style.height =
+          (textField.scrollHeight * 2 - textField.clientHeight) + "px";
+      }
+    }
+
+    // text.field.innerHt
+
+		// var scrollHeight = element.scrollHeight - 1; // replace 1 by the sum of padding-top and padding-bottom
+    // element.style.height =  scrollHeight + "px";
+  };
+
   private showSharer() {
-    this.isVisible = !this.isVisible;
+    this.sharerIsVisible = !this.sharerIsVisible;
     return false;
   }
 
