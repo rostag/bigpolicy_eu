@@ -16,7 +16,7 @@ const TaskSchema = new Schema({
 	dateStarted: { type: Date, required: true  },
 	dateEnded: { type: Date, required: true  },
 	image: { type: String },
-	video: { type: String },
+	videoUrl: { type: String },
 	logo: { type: String },
 
 	createdAt: { type: Date }

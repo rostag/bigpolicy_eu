@@ -16,7 +16,7 @@ const LeaderSchema = new Schema({
 	vision: { type: String, required: true  },
 	mission: { type: String, required: true  },
 	photo: { type: String },
-	video: { type: String },
+	videoUrl: { type: String },
 	logo: { type: String },// ???
 	email: { type: String },
 
