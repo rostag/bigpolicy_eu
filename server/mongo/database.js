@@ -46,15 +46,16 @@ DB.listLeaders = function(id) {
 
 DB.createLeader = function(dataObj) {
   var data = dataObj;
+  console.log('createLeader: ', data)
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-  console.log('createLeader: ', data)
     if(!data) data = {};
     const model = new Leader(data);
     var saved = model.save();
-    console.log('saved: ', saved);
-    return model.save(saved);
+    var saved2 = model.save(saved);
+    console.log('saved2: ', saved2);
+    return saved2;
 }
 
 DB.updateLeader = function(id,data) {

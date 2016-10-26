@@ -35,7 +35,7 @@ export class LeaderModel {
 	// end of documents
 	createdAt: String;
 
-	cash: Number = Math.random() * 1000000;
+	cash: Number = Math.random() * 1000;
 
   /**
    * It's necessary to have a string representation for sending it to DB
