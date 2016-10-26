@@ -44,7 +44,9 @@ const LeaderSchema = new Schema({
 module.exports = function(){
     try {
         mongoose.model('Leader', LeaderSchema);
-    } catch (error) {}
+    } catch (error) {
+			console.log('error createin:', error)
+		}
 
     return mongoose.model('Leader');
 }();

@@ -46,25 +46,12 @@ DB.listLeaders = function(id) {
 
 DB.createLeader = function(dataObj) {
   var data = dataObj;
-
-  console.log('create leader:', data);
-
   for ( var item in dataObj ) {
     data = JSON.parse(item);
-    // console.log( item, data[item]);
   }
-
-  // var data = JSON.parse(dataStr);
   console.log('createLeader: ', data)
     if(!data) data = {};
-    const model = new Leader({
-        name: data.name,
-        parentName: data.parentName,
-        surName: data.surName,
-        vision: data.vision,
-        mission: data.mission,
-        createdAt: new Date()
-    });
+    const model = new Leader(data);
     var saved = model.save();
     console.log('saved: ', saved);
     return model.save(saved);
@@ -119,7 +106,7 @@ DB.createProject = function(dataObj) {
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-  // console.log('database.js: createProject: ', data)
+  console.log('database.js: createProject: ', data)
   if(!data) data = {};
 
   const model = new Project(data);
