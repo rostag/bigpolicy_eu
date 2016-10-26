@@ -2,7 +2,7 @@
 
 Welcome to (qa-europe.rhcloud.com) open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
 
-Project appeared in Ukraine, when group of activists decides that Direct Democracy is the instrument of truly agile governments, ready to be open for challenges and react them.
+Project appeared in Ukraine, when group of activists decides that Direct Democracy is the instrument of truly agile governments, ready to be open for challenges and react on them.
 
 Our goals for this tool are
 implement new culture in political landscape
