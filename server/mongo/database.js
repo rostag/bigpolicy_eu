@@ -183,15 +183,7 @@ DB.createTask = function(dataObj) {
   // var data = JSON.parse(dataStr);
   console.log('database.js: createTask: ', data)
     if(!data) data = {};
-    const model = new Task({
-      title: data.title,
-      description: data.description,
-      cost: data.cost,
-      projectId: data.projectId,
-      dateStarted: data.dateStarted,
-      dateEnded: data.dateEnded,
-      iconURL: data.iconURL
-    });
+    const model = new Task(data);
     var saved = model.save();
     console.log('saved: ', saved);
     return model.save(saved);
@@ -203,12 +195,9 @@ DB.updateTask = function(id,data) {
         if(err || !model){
             return;
         }
-
-        // TODO Tell Olexii the optimization
         for (var field in data) {
           model[field] = data[field]
         }
-
         return model.save();
     });
 }

@@ -16,7 +16,7 @@
           <p style="margin-left:2em;">
             <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
             <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
-            <!-- Create a directive to auto-extend functionality on input -->
+            <!-- TODO: Use existing video control to auto-extend functionality on input -->
             <md-input video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
           </p>
         </md-card-header>

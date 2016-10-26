@@ -12,6 +12,7 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectEditComponent {
 
+  private showTasks: boolean = true;
   private isUpdateMode: boolean = false;
   private isAddingTaskMode: boolean = false;
 
