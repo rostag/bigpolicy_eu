@@ -1,8 +1,6 @@
 <form>
 <md-card class="project-edit-card">
-
     <md-card-content>
-
       <md-card-title>
         <span *ngIf="!isUpdateMode">Створити</span>
         <span *ngIf="isUpdateMode">Редагувати</span>
@@ -10,10 +8,9 @@
       </md-card-title>
 
       <md-input [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}" required></md-input>
-
       <md-input [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}" required ></md-input>
-
-      <md-input [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <!-- Create a directive to auto-extend functionality on input -->
+      <md-input video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
 
       <md-input [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
        <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>

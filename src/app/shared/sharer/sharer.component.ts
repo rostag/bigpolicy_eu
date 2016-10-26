@@ -125,7 +125,7 @@ export class SharerComponent implements OnInit {
    * Share this project
    * @param {project} Project being viewed
    */
-  private shareProject() {
+  private shareModel() {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -139,7 +139,7 @@ export class SharerComponent implements OnInit {
     this.emailToShare.subject = this.emailSubject;
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
 
-    this.shareService.shareProject(this.emailToShare)
+    this.shareService.share(this.emailToShare)
       .subscribe(
         data => {
           this.formStatus = 'emailSent';

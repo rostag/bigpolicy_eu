@@ -13,6 +13,9 @@
 
       <md-input [(ngModel)]="task.description" placeholder="Опиши захід: *" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
 
+      <!-- TODO: Use existing video control to auto-extend functionality on input -->
+      <md-input video-control [(ngModel)]="task.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+
       <md-input [(ngModel)]="task.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
        <span md-prefix>Який його бюджет? ₴&nbsp;</span>
        <span md-suffix>.00 </span>

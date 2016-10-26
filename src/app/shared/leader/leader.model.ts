@@ -11,7 +11,7 @@ export class LeaderModel {
 	vision: String;
 	mission: String;
 	photo: String;
-	video: String;
+	videoUrl: String;
 	logo: String;
 	email: String;
 
@@ -35,35 +35,14 @@ export class LeaderModel {
 	// end of documents
 	createdAt: String;
 
-	cash: Number = Math.random() * 1000000;
+	cash: Number = Math.random() * 1000;
 
   /**
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
    */
   toString() {
-    return JSON.stringify({
-      "name": this.name,
-      "surName": this.surName,
-      "parentName": this.parentName = ' ',
-      "vision": this.vision,
-      "mission": this.mission,
-      "photo": this.photo,
-      "video": this.video,
-      "logo": this.logo,
-      "email": this.email,
-      "party": this.party,
-      "officialPost": this.officialPost,
-      "socialNetworks": this.socialNetworks,
-      "skills": this.skills,
-      "docActionPlan": this.docActionPlan,
-      "docElectionProgram": this.docElectionProgram,
-      "docPropertyDeclaration": this.docPropertyDeclaration,
-      "docCriminalRecord": this.docCriminalRecord,
-      "docCorruptionRecord": this.docCorruptionRecord,
-      "docPassport": this.docPassport,
-			"cash": this.cash
-    })
+    return JSON.stringify( this );
   }
 
 	/**

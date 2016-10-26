@@ -8,14 +8,8 @@
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile>
-        <div *ngIf="youTubeId">
-          <!-- TODO: SECURITY Need to double-check security here as soon as we neutralized DomSanitizer -->
-          <iframe width="400" height="222" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
-        </div>
 
-        <!-- If there's no video, placeholder image will be shown -->
-        <!-- TODO: convert it to "add video (media?)" function -->
-        <img *ngIf="!youTubeId" md-list-avatar src="{{videoThumbUrl}}" alt="{{project.title}}" width="300">
+        <bp-video state="iFramed.Project" [videoUrl]="project.videoUrl"></bp-video>
 
       </md-grid-tile>
       <md-grid-tile>
