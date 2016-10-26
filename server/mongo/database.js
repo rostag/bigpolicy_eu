@@ -47,6 +47,8 @@ DB.listLeaders = function(id) {
 DB.createLeader = function(dataObj) {
   var data = dataObj;
 
+  console.log('create leader:', data);
+
   for ( var item in dataObj ) {
     data = JSON.parse(item);
     // console.log( item, data[item]);
@@ -74,11 +76,9 @@ DB.updateLeader = function(id,data) {
         if(err || !model){
             return;
         }
-        if(data.name)model.name = data.name;
-        if(data.parentName)model.parentName = data.parentName;
-        if(data.surName)model.surName = data.surName;
-        if(data.vision)model.vision = data.vision;
-        if(data.mission)model.mission = data.mission;
+        for (var field in data) {
+          model[field] = data[field]
+        }
         return model.save();
     });
 }
@@ -136,12 +136,9 @@ DB.updateProject = function(id,data) {
         if(err || !model){
             return;
         }
-
-        // TODO Tell Olexii the optimization
         for (var field in data) {
           model[field] = data[field]
         }
-
         return model.save();
     });
 }

@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+
 import { ProjectModel } from './project.model'
 
 /**
@@ -12,7 +13,6 @@ import { ProjectModel } from './project.model'
 export class ProjectService {
 
   private apiUrl = '/project-api/';
-  private mailApiUrl = '/mail-api/';
 
   /**
    * The array of initial projects provided by the service.
@@ -49,21 +49,6 @@ export class ProjectService {
 
     return this.http.post(this.apiUrl, body, options)
         .map(res => res.json())
-  }
-
-  /**
-   * Shares a model
-   * @param ProjectModel A Project to share
-   */
-  shareProject(model: ProjectModel): Observable<Response> {
-    var body: string = encodeURIComponent(JSON.stringify(model));
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
-
-    // TODO: Upsert project in DB:
-    // project.events.push({'type': 'share'});
   }
 
   /**

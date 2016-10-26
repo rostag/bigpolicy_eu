@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 import { LeaderModel } from './leader.model';
 
 /**
- * This class provides the Leader service with methods to create, read, update and delete models.
+ * Provides the Leader service with methods to create, read, update and delete models.
  */
 @Injectable()
 export class LeaderService {
@@ -38,7 +38,7 @@ export class LeaderService {
    * @param {LeaderModel} model - The Leader to create.
    */
   createLeader(model: LeaderModel): Observable<Response> {
-    var body: string = model.toString();
+    var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });

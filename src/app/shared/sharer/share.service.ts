@@ -31,15 +31,15 @@ export class ShareService {
    * Shares a model
    * @param ProjectModel A Project to share
    */
-  shareProject(modelToShare: any): Observable<Response> {
+  share(modelToShare: any): Observable<Response> {
     var body: string = encodeURIComponent(JSON.stringify(modelToShare));
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
     return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
 
-    // TODO: Upsert project in DB:
-    // project.events.push({'type': 'share'});
+    // TODO: Upsert model in DB:
+    // model.events.push({'type': 'share'});
   }
 
   private handleError(error: Response) {

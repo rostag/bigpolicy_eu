@@ -48,6 +48,7 @@ import { AppComponent } from './app.component';
 import { SharerComponent } from './shared/sharer/sharer.component';
 
 import { ForbiddenValidatorDirective } from './shared/validation/email';
+import { VideoComponent } from './shared/video/video.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ForbiddenValidatorDirective } from './shared/validation/email';
     LandingComponent,
     AppComponent,
     SharerComponent,
-    ForbiddenValidatorDirective
+    ForbiddenValidatorDirective,
+    VideoComponent
   ],
   imports: [
     routing,

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
@@ -15,8 +14,6 @@ export class ProjectViewComponent {
 
   project: ProjectModel = new ProjectModel();
 
-  private safeVideoUrl;
-
   /**
   * Dependency Injection: route (for reading params later)
   */
@@ -24,24 +21,8 @@ export class ProjectViewComponent {
     private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private user: UserService,
-    private sanitizer: DomSanitizer
+    private user: UserService
   ){}
-
-  sanitizeVideoUrl() {
-    var videoUrl = this.youTubeId
-      ? 'https://www.youtube.com/embed/' + this.youTubeId
-      : null;
-
-    // TODO: BP_SECURITY
-    this.safeVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
-  }
-
-  get videoThumbUrl() {
-    return this.youTubeId
-      ? 'http://img.youtube.com/vi/' + this.youTubeId + '/0.jpg'
-      : 'assets/img/project/project-placeholder.png';
-  }
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -75,7 +56,6 @@ export class ProjectViewComponent {
    */
   setProject(data){
     this.project.parseData(data);
-    this.sanitizeVideoUrl();
   }
 
   /**
@@ -90,12 +70,4 @@ export class ProjectViewComponent {
     return false;
   }
 
-  get youTubeId() {
-    if (!this.project.videoUrl) {
-      return null;
-    }
-    // FIXME it's being called too many times
-    var match = this.project.videoUrl.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
-    return (match && match[7].length == 11) ? match[7] : null;
-  }
 }
