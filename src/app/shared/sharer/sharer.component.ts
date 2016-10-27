@@ -1,31 +1,121 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'bp-sharer',
   templateUrl: './sharer.component.html',
   styleUrls: ['./sharer.component.css'],
-  providers: [ShareService]
+  providers: [ShareService],
+  animations: [
+    trigger('visibilityChanged', [
+      state('true' , style({ opacity: 1 })),
+      state('false', style({ opacity: 0.2 })),
+      transition('1 => 0', animate('600ms')),
+      transition('0 => 1', animate('400ms'))
+    ])
+  ]
 })
+
+// TODO: Add subject generator
 
 export class SharerComponent implements OnInit {
 
+  @Input() sharerIsVisible: boolean = false;
+
   @Input() project: ProjectModel;
 
+  formStatus = '';
+  emailSent: boolean = false;
+  emailSendError;
+
   toEmail: string;
-  videoUrl: string;
-  // TODO: Add subject generator
   textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
-  showDialog: boolean = false;
-  showEmailPreview: boolean = false;
+
+  showEmailPreview: boolean = true;
   showHtmlPreview: boolean = false;
+
+  shareForm: NgForm;
+  @ViewChild('shareForm') currentForm: NgForm;
+
+  // Model to be shared.
+  // Here, the videoUrl may be overridden before share:
+  emailToShare: any = {
+    from: '',
+    toEmails: {},
+    subject: '',
+    html: '',
+    videoUrl: ''
+  }
+
+  getFormState(stateName){
+    return this.formStatus === stateName;
+  }
+
+  ngAfterViewChecked() {
+   this.formChanged();
+  }
+
+  formChanged() {
+   if (this.currentForm === this.shareForm) { return; }
+   this.shareForm = this.currentForm;
+   if (this.shareForm) {
+     this.shareForm.valueChanges
+       .subscribe(data => this.onValueChanged(data));
+   }
+  }
+
+  handleInputBlur(e){
+    this.onValueChanged(e);
+  }
+
+  onValueChanged(data?: any) {
+   if (!this.shareForm) { return; }
+   const form = this.shareForm.form;
+
+   for (const field in this.formErrors) {
+     // clear previous error message (if any)
+     this.formErrors[field] = '';
+     const control = form.get(field);
+
+     if (control && (control.dirty || control.touched) && !control.valid) {
+       const messages = this.validationMessages[field];
+       for (const key in control.errors) {
+         this.formErrors[field] += messages[key] + ' ';
+       }
+     }
+   }
+  }
+
+  formErrors = {
+    'toEmail': ''
+  };
+
+  validationMessages = {
+    'toEmail': {
+      'required': 'Будь ласка, заповніть поле',
+      'validateEmail': 'Будь ласка, уведіть коректну адресу'
+    }
+  };
 
   constructor(
     private shareService: ShareService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  /*
+   * Overriding model videoUrl by email videoUrl
+   */
+  get videoUrl(): string {
+    // FIXME it's called too often
+    return this.emailToShare.videoUrl || this.project.videoUrl || ''
+  };
+
+  set videoUrl(url: string) {
+    this.emailToShare.videoUrl = url;
+  };
 
   get emailSubject(): string {
     return 'Проект "' + this.project.title + '" - BigPolicy'
@@ -35,154 +125,89 @@ export class SharerComponent implements OnInit {
    * Share this project
    * @param {project} Project being viewed
    */
-  private shareProject() {
-    // Populate email properties on project before share;
-    this.project.email = this.getProjectEmail();
-    this.project.email.toEmails[this.toEmail] = this.toEmail;
+  private shareModel() {
+    if (!this.shareForm.form.valid) {
+      this.formStatus = 'formIsNotComplete';
+      return false;
+    }
 
-    this.shareService.shareProject(this.project)
+    this.formStatus = 'emailIsBeingSent';
+
+    // Populate email properties on before share;
+    this.emailToShare.html = this.emailHtml;
+    this.emailToShare.from = this.project.managerId;
+    this.emailToShare.subject = this.emailSubject;
+    this.emailToShare.toEmails[this.toEmail] = this.toEmail;
+
+    this.shareService.share(this.emailToShare)
       .subscribe(
-        data => { console.log('Project Shared', data) },
-        err => (err) => console.error('Project creation error: ', err),
+        data => {
+          this.formStatus = 'emailSent';
+          console.log('Project Shared', data)
+        },
+        err => (err) => {
+          this.formStatus = 'emailSendError';
+          console.error('Project creation error: ', err)
+        },
         () => {}
       );
 
     return false;
   }
 
-  get previewHtml() {
-    return this.getProjectEmail().html;
-  }
-
-  private getUrl() {
-    return location.href;
-  }
-
-  private getYouTubeThumbnail(url, thumbType: string) {
-    var urlPrefix = 'http://img.youtube.com/vi/';
-    var videoId: string = this.getYouTubeId(url);
-    var thumbs: any = {};
-
-    // Standard YouTube Thumbs:
-    // 1st: Small (120x90)
-    // 2nd: Small (120x90) (Default)
-    // 3rd: Small (120x90)
-    // Default Thumbnail Image, Full-Size (480x360)
-    thumbs = {
-      small1: '/1.jpg',
-      small2: '/2.jpg',
-      small3: '/3.jpg',
-      full: '/0.jpg'
-    }
-
-    // console.log('Video URL:', url, 'videoId:', videoId, ', thumb: ', urlPrefix + videoId + thumbs[thumbType]);
-
-    return videoId !== null
-      ? '<a href="' + this.getUrl() + '" ><img src="' + urlPrefix + videoId + thumbs[thumbType] + '" /></a>'
-      : '';
-  }
-
   /**
-    * Get video Thumbnail by given yotube URL.
-    * Supported URL formats:
-      http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
-      http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
-      http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
-      http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
-      http://www.youtube.com/embed/0zM3nApSvMg?rel=0
-      http://www.youtube.com/watch?v=0zM3nApSvMg
-      http://youtu.be/0zM3nApSvMg
-      @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
-    */
-  private getYouTubeId(url: string = ''): string{
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : null;
+   * Populate email properties on project before share or preview;
+   */
+  private get emailHtml() {
+    return  this.textToReader
+            + `<h1 align="center" class="emailH1">
+            `
+            + this.project.title + `</h1>
+            <p style="display:none;">
+            `
+            + this.project.description + `<br><br></p><p align="center">
+            `
+            + this.shareService.getYouTubeThumbnail(this.videoUrl, `full`)
+            +
+            `
+            <br>
+            <br>
+            <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
+            <br>
+            <br>
+            </p>
+            <p>Щиро вдячний,<br>`
+            + this.project.managerName + `<br>
+            <small>` + this.project.managerId + `</small></p>
+            `
+            +
+            `
+            <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
-  private getProjectEmail() {
-    // Populate email properties on project before share or preview;
-    let contentHtml =
-        this.textToReader
-      + `<h1 align="center">
-      `
-      + this.project.title + `</h1>
-      <p>
-      `
-      + this.project.description + `<br><br></p><p align="center">
-      `
-      + this.getYouTubeThumbnail(this.videoUrl, `full`)
-      + `<br><br>
-      <a href="` + this.getUrl() + `">Тут можна детальніше переглянути проект</a><br><br></p><p>
+  private autoExpand(e) {
+    console.log('auto expa: ', e);
 
-      Щиро вдячний,<br>` + this.project.managerName + `<br>
-      <small>` + this.project.managerId + `</small></p>`
-      + `
-      <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
+    var textField = typeof e === 'object' ? e.target : document.getElementById(e);
 
-    let contentHtmlVideo = `<!doctype html>
-      <html xmlns="http://www.w3.org/1999/xhtml">
-      <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>`
-      + this.emailSubject +
-
-      `
-      </title>
-
-      <style type="text/css">
-
-        @media screen and (max-width:800px) {
-          div[class=video_holder] {display:none;}
-          div[class=android] {display:block !important;width:320px !important;height:176px !important;}
-        }
-
-        @media screen and (width:320px), screen and (width:703px){
-          div[class=android] {display:none !important;}
-          div[class=video_holder] {display:block !important;}
-        }
-
-        .ExternalClass div.video_holder {display:none !important;}
-        .ExternalClass div.android {display:block !important;width:100% !important;height:200px !important;}
-
-      </style>
-      </head>
-      <body>
-      `
-
-      + contentHtml +
-
-      `
-      <div class="video_holder">
-        <p>Video Div</p>
-          <video width="320" height="176" controls>
-              <source src="m.mp4" type="video/mp4">
-              <source src="m.ogg" type="video/ogg">
-                <a href="#" ><img height="176"
-                  src="" width="320" /></a>
-          </video>
-      </div>
-      <div class="android" style="display:none; width:0px; height:0px; overflow:hidden;">
-        <p>Android Div</p>
-        <a href="#" ><img height="176"
-          src="i.jpg" width="320" /></a>
-      </div>
-      </body>
-      </html>`;
-
-    let renderedHtmlTemplate = contentHtml;
-
-    return {
-      from: this.project.managerId,
-      toEmails: {},
-      subject: this.emailSubject,
-      html:
-        renderedHtmlTemplate
+    if (textField.clientHeight < textField.scrollHeight)
+    {
+      textField.style.height = textField.scrollHeight + "px";
+      if (textField.clientHeight < textField.scrollHeight)
+      {
+        textField.style.height =
+          (textField.scrollHeight * 2 - textField.clientHeight) + "px";
+      }
     }
-  }
+
+    // text.field.innerHt
+
+		// var scrollHeight = element.scrollHeight - 1; // replace 1 by the sum of padding-top and padding-bottom
+    // element.style.height =  scrollHeight + "px";
+  };
 
   private showSharer() {
-    this.showDialog = !this.showDialog;
+    this.sharerIsVisible = !this.sharerIsVisible;
     return false;
   }
 

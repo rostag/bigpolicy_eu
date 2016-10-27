@@ -46,26 +46,16 @@ DB.listLeaders = function(id) {
 
 DB.createLeader = function(dataObj) {
   var data = dataObj;
-
+  console.log('createLeader: ', data)
   for ( var item in dataObj ) {
     data = JSON.parse(item);
-    // console.log( item, data[item]);
   }
-
-  // var data = JSON.parse(dataStr);
-  console.log('createLeader: ', data)
     if(!data) data = {};
-    const model = new Leader({
-        name: data.name,
-        parentName: data.parentName,
-        surName: data.surName,
-        vision: data.vision,
-        mission: data.mission,
-        createdAt: new Date()
-    });
+    const model = new Leader(data);
     var saved = model.save();
-    console.log('saved: ', saved);
-    return model.save(saved);
+    var saved2 = model.save(saved);
+    console.log('saved2: ', saved2);
+    return saved2;
 }
 
 DB.updateLeader = function(id,data) {
@@ -74,11 +64,9 @@ DB.updateLeader = function(id,data) {
         if(err || !model){
             return;
         }
-        if(data.name)model.name = data.name;
-        if(data.parentName)model.parentName = data.parentName;
-        if(data.surName)model.surName = data.surName;
-        if(data.vision)model.vision = data.vision;
-        if(data.mission)model.mission = data.mission;
+        for (var field in data) {
+          model[field] = data[field]
+        }
         return model.save();
     });
 }
@@ -116,27 +104,18 @@ DB.listProjects = function(id) {
 
 DB.createProject = function(dataObj) {
   var data = dataObj;
-
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-
-  // var data = JSON.parse(dataStr);
   console.log('database.js: createProject: ', data)
-    if(!data) data = {};
-    const model = new Project({
-      title: data.title,
-      description: data.description,
-      cost: data.cost,
-      managerName: data.managerName,
-      managerId: data.managerId,
-      dateStarted: data.dateStarted,
-      dateEnded: data.dateEnded,
-      iconURL: data.iconURL
-    });
-    var saved = model.save();
-    console.log('saved: ', saved);
-    return model.save(saved);
+  if(!data) data = {};
+
+  const model = new Project(data);
+
+  var saved = model.save();
+  // console.log('saved: ', saved);
+
+  return model.save(saved);
 }
 
 DB.updateProject = function(id,data) {
@@ -145,12 +124,9 @@ DB.updateProject = function(id,data) {
         if(err || !model){
             return;
         }
-
-        // TODO Tell Olexii the optimization
         for (var field in data) {
           model[field] = data[field]
         }
-
         return model.save();
     });
 }
@@ -195,15 +171,7 @@ DB.createTask = function(dataObj) {
   // var data = JSON.parse(dataStr);
   console.log('database.js: createTask: ', data)
     if(!data) data = {};
-    const model = new Task({
-      title: data.title,
-      description: data.description,
-      cost: data.cost,
-      projectId: data.projectId,
-      dateStarted: data.dateStarted,
-      dateEnded: data.dateEnded,
-      iconURL: data.iconURL
-    });
+    const model = new Task(data);
     var saved = model.save();
     console.log('saved: ', saved);
     return model.save(saved);
@@ -215,12 +183,9 @@ DB.updateTask = function(id,data) {
         if(err || !model){
             return;
         }
-
-        // TODO Tell Olexii the optimization
         for (var field in data) {
           model[field] = data[field]
         }
-
         return model.save();
     });
 }

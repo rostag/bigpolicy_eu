@@ -1,15 +1,45 @@
-<a *ngIf="!showDialog" href (click)="showSharer()" class="share-show"><button md-raised-button color="accent">Поширити</button></a>
-<!-- ÷ TODO:  (можна ввести декілька адрес через кому) -->
-<md-card *ngIf="showDialog" class="share-card">
-  <form>
-    <h1>Надіслати проект по email</h1>
-    <md-input #email="ngModel" [(ngModel)]="toEmail"
-      id="toEmail" name="toEmail"
-      class="wide bt-input" required>
-        <md-placeholder>
-          Кому:
-        </md-placeholder>
+<!-- Show Sharer Button -->
+<a href (click)="showSharer()" class="share-show">
+  <button *ngIf="!sharerIsVisible" md-raised-button color="accent">Поширити</button>
+</a>
+<!-- TODO уведення декількох адрес через кому -->
+<md-card class="share-card" [class.displayBlock]="sharerIsVisible"
+  [@visibilityChanged]="sharerIsVisible"
+  >
+
+  <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
+
+    <div style="float:right;margin-top: -0.75em;margin-right: 0">
+      <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
+      <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
+      <a href (click)="showSharer()"><button md-button>Відмінити</button></a>
+      <a href (click)="share()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
+    </div>
+
+    <div *ngIf="showHtmlPreview" class="bp-pre-html">{{emailHtml}}</div>
+
+    <h2 *ngIf="getFormState('')">Надіслати по email</h2>
+    <h2 *ngIf="getFormState('emailIsBeingSent')">Надсилаю повідомлення...</h2>
+    <h2 *ngIf="getFormState('emailSent')">Повідомлення надіслано</h2>
+    <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
+    <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
+
+    <md-input
+      [(ngModel)]="toEmail"
+      name="toEmail"
+      id="toEmail"
+      class="wide bt-input"
+      (blur)="handleInputBlur($event)"
+      #toEmailElement
+      validateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+      <md-placeholder>
+        Кому:
+      </md-placeholder>
     </md-input>
+
+    <div *ngIf="formErrors.toEmail" class="alert alert-danger">
+      {{ formErrors.toEmail }}
+    </div>
 
     <md-input
       disabled
@@ -20,47 +50,33 @@
       </md-placeholder>
     </md-input>
 
-    <div class="text-label">Текст:</div>
-    <textarea
-      [(ngModel)]="textToReader"
-      class="bp-textarea"
-      id="textToReader"
-      name="textToReader"
-      rows="10">{{textToReader}}
-      <md-placeholder>
-        Текст:
-      </md-placeholder>
-    </textarea>
+
+    <div class="bp-textarea-wrapper">
+      <label for="textToReader" class="textarea-label">Текст:</label>
+
+      <textarea
+        [(ngModel)]="textToReader"
+        class="bp-textarea mailtext"
+        id="textToReader"
+        name="textToReader"
+        (keydown)="autoExpand('textToReader')">
+        {{textToReader}}
+      </textarea>
+    </div>
 
     <md-input
       [(ngModel)]="videoUrl"
       id="videoUrl"
       name="videoUrl"
-      class="wide bt-input">
+      class="wide bt-input video-input">
       <md-placeholder>
         Відео (посилання):
       </md-placeholder>
     </md-input>
   </form>
 
-  <a href (click)="shareProject()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
-
-  <a *ngIf="!showEmailPreview" href (click)="toggleEmailPreview()"><button md-button>Показати листа</button></a>
-  <a *ngIf="showEmailPreview" href (click)="toggleEmailPreview()"><button md-raised-button>Сховати листа</button></a>
-
-  <p
-    [innerHTML]="previewHtml"
-    *ngIf="showEmailPreview"
-    class="bp-pre">
-  </p>
-
-  <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
-  <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
-
-  <div
-    *ngIf="showHtmlPreview"
-    class="bp-pre-html">
-    {{previewHtml}}
-  </div>
+  <md-card-content *ngIf="showEmailPreview" class="email-preview">
+    <p [innerHTML]="emailHtml" class="bp-pre"></p>
+  </md-card-content>
 
 </md-card>

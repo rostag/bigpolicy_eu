@@ -1,5 +1,5 @@
 export class ProjectModel {
-  _id:string;
+  _id: string;
   title: string;
   description: string;
   cost: number;
@@ -10,7 +10,7 @@ export class ProjectModel {
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
-  email: any = {};
+  videoUrl: string = '';
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -25,7 +25,8 @@ export class ProjectModel {
       managerId: this.managerId,
       dateStarted: this.startDateInputValue,
       dateEnded: this.endDateInputValue,
-      iconURL: this.iconURL
+      iconURL: this.iconURL,
+      videoUrl: this.videoUrl
     })
   }
 

@@ -2,12 +2,16 @@
 
   <md-card-content>
 
-    <bp-sharer [project]="project"></bp-sharer>
+    <bp-sharer #sharer [project]="project"></bp-sharer>
 
     <h1>{{project.title}}</h1>
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
-      <md-grid-tile><img md-list-avatar src="assets/img/project/project-placeholder.png" alt="{{project.title}}" width="300"> </md-grid-tile>
+      <md-grid-tile>
+
+        <bp-video state="iFramed.Project" [videoUrl]="project.videoUrl"></bp-video>
+
+      </md-grid-tile>
       <md-grid-tile>
         <div>
           <h2>Вартість: {{project.cost}}₴</h2>

@@ -1,14 +1,28 @@
 :host {
   display: block;
+  margin-bottom: 2em;
 }
 
 .share-card {
-  width: 90%;
-  margin-bottom: 2em;
+  border: 7px dashed #eee;
+  display: none;
+  position: absolute;
+  z-index: 100;
+  left: 1em;
+  right: 1em;
+  margin-top: -1em;
+  padding-top: 0;
+  padding-top: 1em;
+}
+
+.displayBlock {
+  display: block;
 }
 
 .share-show {
-  margin-bottom: 2em;
+  position: absolute;
+  z-index: 120;
+  right: 2em;
 }
 
 h1 {
@@ -24,11 +38,11 @@ h2 {
   color: #777;
 }
 
-.text-label {
-  margin-top: 1em;
+.textarea-label {
+  display: block;
+  margin: 1.4em 0 0 0;
   color: rgba(0, 0, 0, 0.38);
-  padding-bottom: 5px;
-  font-size: 0.7em;
+  font-size: 0.75em;
 }
 
 .email-subject .span {
@@ -44,28 +58,55 @@ h2 {
   width: 100%;
 }
 
+.video-input {
+  position: absolute;
+  display: none;
+}
+
+.bp-textarea-wrapper {
+  right: 1.7em;
+  left: 1.7em;
+  top: 12.9em;
+  position: absolute;
+}
+
 .bp-textarea {
+  overflow: hidden;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: normal;
-  line-height: 110%;
+  line-height: 120%;
   outline: none;
-  height: auto;
+  height: 20px;
   box-sizing: border-box;
   padding: 0;
   padding-bottom: 1px;
   border: 0 solid transparent;
-  border-bottom: 1px solid #aaaacc;
+  border-bottom: 1px solid #eee;
   width: 100%;
+  color: #000;
+  /*background-color: transparent;*/
 }
 
-.bp-textarea:focus {
+.bp-textarea: focus {
   padding-bottom: 0;
-  border-bottom: 2px solid #bbbbdd;
+  border-bottom: 2px solid #777;
+  color: #555;
 }
 
-.bp-pre {
+.emailDescription {
+    color: #eee;
+}
 
+.email-preview {
+  margin-top: 1em;
+  font-size: 18px;
+  line-height: 120%;
+}
+
+.mailtext {
+  font-size: 18px;
+  line-height: 120%;
 }
 
 .bp-pre-html {
@@ -78,4 +119,14 @@ h2 {
   font-family: 'Andale Mono', monospace;
   box-sizing: border-box;
   line-height: 160%;
+}
+
+/* Validation */
+
+.alert, .alert-danger {
+  color: #F44336;
+  font-size: 0.9em;
+  float: right;
+  margin-top: -2.3em;
+  position: relative;
 }

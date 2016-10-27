@@ -39,7 +39,7 @@ export class TaskService {
    * @param {TaskModel} model - The Task to create.
    */
   createTask(model: TaskModel): Observable<Response> {
-    var body: string = model.toString();
+    var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
