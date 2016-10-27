@@ -125,7 +125,7 @@ export class SharerComponent implements OnInit {
    * Share this project
    * @param {project} Project being viewed
    */
-  private shareModel() {
+  private shareItem() {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
