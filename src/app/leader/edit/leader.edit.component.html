@@ -13,9 +13,9 @@
             <md-icon color="white">file_upload</md-icon>
           </button>
           <img md-card-md-image src="assets/img/avatar-generic.png">
-          <p style="margin-left:2em;">
-            <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
-            <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
+          <p style="margin:-1em 3em 0 1em;">
+            <md-input required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input>
+            <md-input required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input>
             <!-- TODO: Use existing video control to auto-extend functionality on input -->
             <md-input video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
           </p>
@@ -25,12 +25,12 @@
 
         <h3>Як виглядає проблема для тебе?</h3>
 
-          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.vision" characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
+          <md-input required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.vision" characterCounter style="width: 100%;" placeholder="Твоя особиста візія і думки" hintLabel="">
           </md-input>
 
           <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
-          <md-input [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
+          <md-input required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.mission" characterCounter style="width: 100%;" placeholder="Твоя місія" hintLabel="">
           </md-input>
 
         </div>
@@ -49,7 +49,7 @@
       <md-card-content>
         <h3>Як ти вирішиш цю проблему?</h3>
 
-        <md-input name="description" characterCounter style="width: 100%;" placeholder="Опиши свій проект: *" hintLabel=""></md-input>
+        <md-input name="description" characterCounter style="width: 100%;" placeholder="Опиши свій проект: " hintLabel=""></md-input>
 
         <md-input name="amount" placeholder="Сума, грн" align="end">
           <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
@@ -148,15 +148,15 @@
   PREFILL LIKE ADDRESS:
 
     <p>
-      <md-input [ngModelOptions]="{standalone: true}" class="demo-full-width" placeholder="Як виглядає проблема для тебе?*" value="Твоя особиста візія і думки"></md-input>
+      <md-input [ngModelOptions]="{standalone: true}" class="demo-full-width" placeholder="Як виглядає проблема для тебе?" value="Твоя особиста візія і думки"></md-input>
     </p>
 
-    <md-input [ngModelOptions]="{standalone: true}" style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?*"
+    <md-input [ngModelOptions]="{standalone: true}" style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?"
     value="Твоя особиста візія і думки"></md-input>
 
     <md-input-container>
       <label>Color</label>
-      <input type="text" ng-model="color" required md-maxlength="10">
+      <input type="text" ng-model="color" md-maxlength="10">
     </md-input-container>
 
     <md-input class="demo-full-width" placeholder="Company (disabled)" disabled value="Google">

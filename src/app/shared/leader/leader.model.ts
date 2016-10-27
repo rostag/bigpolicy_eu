@@ -41,9 +41,33 @@ export class LeaderModel {
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
    */
-  toString() {
-    return JSON.stringify( this );
-  }
+	 toString() {
+		 // TODO - ask on SO
+		 // FIXME -- Somehow it stops saving if switch to next string instead of bulky code
+     // return JSON.stringify( this );
+     return JSON.stringify({
+       "name": this.name,
+       "surName": this.surName,
+       "parentName": this.parentName = ' ',
+       "vision": this.vision,
+       "mission": this.mission,
+       "photo": this.photo,
+       "videoUrl": this.videoUrl,
+       "logo": this.logo,
+       "email": this.email,
+       "party": this.party,
+       "officialPost": this.officialPost,
+       "socialNetworks": this.socialNetworks,
+       "skills": this.skills,
+       "docActionPlan": this.docActionPlan,
+       "docElectionProgram": this.docElectionProgram,
+       "docPropertyDeclaration": this.docPropertyDeclaration,
+       "docCriminalRecord": this.docCriminalRecord,
+       "docCorruptionRecord": this.docCorruptionRecord,
+       "docPassport": this.docPassport,
+ 			"cash": this.cash
+     })
+   }
 
 	/**
    * Populate model from a json representation loaded from DB
