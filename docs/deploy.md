@@ -1,4 +1,3 @@
-
 #BigDeploy
 
 QA and Live deployment is possible by pushing the updated build files, usually located in 'dist' folder, to the remote OpenStack repo using 'git push' command.
@@ -67,23 +66,19 @@ This will start deployment process on OS app after push and application will be 
 
 *Please note:* if you haven't madd any changes, app won't be pushed to remote.
 
-
-
-
-
-##WIP: Deployment Commands
-
-*Warning:* Please note these commands are shortcuts which may not be suitable for you. Use them only if you fully understand what's there.
-
-### QA Deployment Command:
-git checkout -B deploy-qa-bck deploy-qa && git checkout deploy-qa && ng b -p && git add . && git commit -m 'deploy-update' && git push deploy-qa deploy-qa && git checkout -B feat-temp
-
-### Live Deployment Command:
-
-git checkout deploy-qa && ng b -p && git add . && git commit -m 'deploy-live-update' && git checkout -B deploy-live-bck deploy-live && git checkout deploy-live && git merge -X theirs -m 'merge QA into Live' deploy-qa && git push deploy-live deploy-live && git checkout -B feat-temp
-
 ### Please read:
 
 * https://blog.openshift.com/introduction-to-deployments-and-rollbacks-on-openshift/
 
-Questions? Ask @rostag
+### Known Deploy Issues
+
+*1. Error:* `Uncaught SyntaxError: Unexpected token <`
+*Cause:* Some bundled JS isn't loaded.
+*Root cause:* possible addition change of 'dist' folder into '.gitignore' of the deploy branch.
+*Solution:* fix .gitignore in deploy branch.
+*Final Solution:* reorganize folders, e.g. move dist out of source folder to avoid gitignoring it.
+
+*2. Error:* 'Not found' on the main page.
+*Cause, Root cause, Solution, Final Solution:* The same as in #1
+
+### Questions? Ask @rostag
