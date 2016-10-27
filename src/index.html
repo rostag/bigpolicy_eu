@@ -16,15 +16,15 @@
 
   <!-- Facebook Pixel Code -->
   <script>
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-  document,'script','//connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '163534360699638');
-  fbq('track', "PageView");
-  fbq('track', 'ViewContent');
-  fbq('track', 'Lead');
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','//connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '163534360699638');
+    fbq('track', "PageView");
+    fbq('track', 'ViewContent');
+    fbq('track', 'Lead');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=163534360699638&ev=PageView&noscript=1"/></noscript>
   <!-- End Facebook Pixel Code -->
@@ -32,7 +32,6 @@
   <!-- FIXME replace with NPM -->
   <script src="/assets/js/lock.min.js"></script>
   <script src="/assets/js/auth0-7.0.3.min.js"></script>
-
 </head>
 <body>
   <style>
@@ -45,20 +44,17 @@
       outline: 80px solid white;
       outline-offset: -80px;
     }
-
     /* Step 1: Set up Keyframes */
     /* fadeInOut */
     @keyframes fadeInOut {
       from { opacity: 1; }
       to   { opacity: 0; }
     }
-
     /* radius */
     @keyframes radidadius {
       from { outline-offset: -100px;}
       to   { outline-offset: 0px;}
     }
-
     /* Step 2: Set up the animation */
     .circle {
       animation: radidadius 0.5s linear normal;
