@@ -12,12 +12,13 @@ export class VideoComponent {
   // Unused at the moment, but will be needed for images alt text
   @Input() title: string = '';
 
+  @Input() placeholderUrl: string;
+
   // Main input, a media (video) url
   @Input()
   set videoUrl(url: string) {
-    // Set YouTube ID:
     if (url) {
-      // FIXME it's being called too many times
+      // Set YouTube ID
       var match = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
       this.youTubeId = (match && match[7].length == 11) ? match[7] : null;
 
@@ -28,7 +29,7 @@ export class VideoComponent {
           : null
       );
 
-      // set thumb URL
+      // Set thumb URL by video
       this.thumbUrl = this.youTubeId
           ? 'http://img.youtube.com/vi/' + this.youTubeId + '/0.jpg'
           : 'assets/img/project/project-placeholder.png';

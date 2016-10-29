@@ -9,7 +9,8 @@
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile>
 
-        <bp-video state="iFramed.Project" [videoUrl]="project.videoUrl"></bp-video>
+        <!-- state="iFramed.Project" -->
+        <bp-video [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></bp-video>
 
       </md-grid-tile>
       <md-grid-tile>

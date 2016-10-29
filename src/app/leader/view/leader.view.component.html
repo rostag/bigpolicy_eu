@@ -11,7 +11,8 @@
           <button md-raised-button color="accent">+7000₴</button>
       </md-card-title>
 
-      <bp-video state="iframed.leader" [videoUrl]="leader.videoUrl"></bp-video>
+      <!-- state="iframed.leader"  -->
+      <bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></bp-video>
 
     </md-card-title-group>
 
