@@ -67,10 +67,10 @@ import { VideoComponent } from './shared/video/video.component';
     LoginComponent,
     AboutComponent,
     LandingComponent,
-    AppComponent,
     SharerComponent,
     ForbiddenValidatorDirective,
-    VideoComponent
+    VideoComponent,
+    AppComponent
   ],
   imports: [
     routing,
@@ -79,7 +79,6 @@ import { VideoComponent } from './shared/video/video.component';
     RouterModule,
     // Forms
     FormsModule,
-    HttpModule,
     // Material Design
     MdCoreModule.forRoot(),
     MdCardModule.forRoot(),
@@ -92,6 +91,7 @@ import { VideoComponent } from './shared/video/video.component';
     MdCheckboxModule.forRoot(),
     MdIconModule.forRoot(),
     // MdIconRegistry.forRoot(),
+    HttpModule
   ],
   providers: [
     MdIconRegistry,
