@@ -1,17 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { MdCard } from '@angular2-material/card/card';
-import { MdButton } from '@angular2-material/button/button';
-import { MdIcon, MdIconRegistry } from '@angular2-material/icon/icon';
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
-
 
 @Component({
   selector: 'task-list',
   templateUrl: './task.list.component.html',
   styleUrls: ['./task.list.component.css'],
-  providers: [MdIconRegistry, TaskService, UserService]
+  providers: [TaskService, UserService]
 })
 
 export class TaskListComponent {

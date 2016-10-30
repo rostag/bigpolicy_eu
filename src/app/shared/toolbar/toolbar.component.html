@@ -8,7 +8,7 @@
   <a *ngIf="!userService.authenticated()" (click)="userService.login()"><button md-button>Login</button></a>
 
   <span *ngIf="userService.authenticated()" class="toolbar-username">
-    <a [routerLink]="['/profile']" color="primary" >{{userService.userProfile ? userService.userProfile.name : ''}} <md-icon size="48">account_circle</md-icon></a>
+    <a [routerLink]="['/profile']" color="primary" >{{userService.userProfile ? userService.userProfile.name : ''}} <md-icon size="36">account_circle</md-icon></a>
     <a (click)="userService.logout()"><button md-button>Logout</button></a>
   </span>
 </md-toolbar>
