@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../user/user.service';
+import { MdIconModule } from '@angular/material';
 
 /**
  * This class represents the toolbar component.

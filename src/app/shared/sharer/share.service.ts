@@ -31,19 +31,64 @@ export class ShareService {
    * Shares a model
    * @param ProjectModel A Project to share
    */
-  shareProject(model: ProjectModel): Observable<Response> {
-    var body: string = encodeURIComponent(JSON.stringify(model));
+  share(modelToShare: any): Observable<Response> {
+    var body: string = encodeURIComponent(JSON.stringify(modelToShare));
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
     return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
 
-    // TODO: Upsert project in DB:
-    // project.events.push({'type': 'share'});
+    // TODO: Upsert model in DB:
+    // model.events.push({'type': 'share'});
   }
 
   private handleError(error: Response) {
       console.error("Error occured:", error);
       return Observable.throw(error.json().error || 'Server error');
   }
+
+  /**
+   * Takes videoUrl and returns thumbnail images for it
+   * Standard YouTube Thumbs:
+   * 1: Small (120x90)
+   * 2: Small (120x90) (Default)
+   * 3: Small (120x90)
+   * Default Thumbnail Image: Full-Size (480x360)
+   */
+  getYouTubeThumbnail(url, thumbType: string) {
+    var videoId: string = this.getYouTubeId(url);
+    var prefix = 'http://img.youtube.com/vi/';
+    var thumbs: any = {
+      small1: '/1.jpg',
+      small2: '/2.jpg',
+      small3: '/3.jpg',
+      full: '/0.jpg'
+    }
+    return videoId !== null
+      ? '<a href="' + this.getUrl() + '" ><img src="' + prefix + videoId + thumbs[thumbType] + '" /></a>'
+      : '';
+  }
+
+  getUrl() {
+    return location.href;
+  }
+
+  /**
+    * Get video Thumbnail by given yotube URL.
+    * Supported URL formats:
+      http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+      http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+      http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+      http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+      http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+      http://www.youtube.com/watch?v=0zM3nApSvMg
+      http://youtu.be/0zM3nApSvMg
+      @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
+    */
+  getYouTubeId(url: string = ''): string{
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match && match[7].length == 11) ? match[7] : null;
+  }
+
 }

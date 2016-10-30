@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
+import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 @Component({
   selector: 'project-view',
@@ -12,11 +12,11 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectViewComponent {
 
-  project: ProjectModel = new ProjectModel()
+  project: ProjectModel = new ProjectModel();
 
   /**
-   * Dependency Injection: route (for reading params later)
-   */
+  * Dependency Injection: route (for reading params later)
+  */
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -55,7 +55,7 @@ export class ProjectViewComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
-    this.project = data;
+    this.project.parseData(data);
   }
 
   /**
@@ -69,4 +69,5 @@ export class ProjectViewComponent {
     this.router.navigate(['/projects'])
     return false;
   }
+
 }

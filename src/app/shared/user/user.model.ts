@@ -6,7 +6,7 @@ export class UserModel {
   fbId: String;
   twitterId: String;
 	image: String;
-	video: String;
+	videoUrl: String;
 	logo: String;
 
 	//createdAt: Date
