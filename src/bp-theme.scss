@@ -8,11 +8,11 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$bp-primary: md-palette($md-indigo);
-$bp-accent:  md-palette($md-pink, A200, A100, A400);
+$bp-primary: md-palette($md-blue-grey, A700);
+$bp-accent:  md-palette($md-light-green);
 
 // The warn palette is optional (defaults to red).
-$bp-warn:    md-palette($md-red);
+$bp-warn:    md-palette($md-red, A700);  // Closest to brand's C62828
 
 // Create the theme object (a Sass map containing all of the palettes).
 $bp-theme: md-light-theme($bp-primary, $bp-accent, $bp-warn);
@@ -23,8 +23,8 @@ $bp-theme: md-light-theme($bp-primary, $bp-accent, $bp-warn);
 @include angular-material-theme($bp-theme);
 
 .bp-dark-theme {
-  $dark-primary: md-palette($md-blue-grey);
-  $dark-accent:  md-palette($md-amber, A200, A100, A400);
+  $dark-primary: md-palette($md-grey, A700);
+  $dark-accent:  md-palette($md-amber, A400, A100, A500);
   $dark-warn:    md-palette($md-deep-orange);
 
   $dark-theme: md-dark-theme($dark-primary, $dark-accent, $dark-warn);

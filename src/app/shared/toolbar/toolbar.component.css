@@ -1,3 +1,7 @@
+md-toolbar-row {
+  justify-content: space-between;
+}
+
 a {
   cursor: pointer;
   color: #ffffff;
