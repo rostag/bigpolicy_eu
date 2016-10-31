@@ -50,6 +50,7 @@ export class LeaderViewComponent {
    * @param {data} Loaded leader data
    */
   setLeader(data){
+    console.log('got leader: ', data);
     this.leader = data;
   }
 
