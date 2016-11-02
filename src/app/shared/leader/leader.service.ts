@@ -55,6 +55,7 @@ export class LeaderService {
    * @return {string[]} The Observable for the HTTP request.
    */
   getLeaders(modelId: string = ''): Observable<Response> {
+    // TODO: Local caching
     if (this.models && this.models.length) {
       return Observable.from([this.models]);
     }
