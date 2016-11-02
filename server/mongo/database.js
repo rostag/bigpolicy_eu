@@ -119,7 +119,7 @@ DB.deleteAllLeaders = function(id) {
 
 
 DB.getProject = function(id) {
-    return Project.findById(id);
+   return Project.findById(id);
 }
 
 DB.listProjects = function() {
@@ -203,9 +203,10 @@ DB.getTask = function(id) {
     return Task.findById(id);
 }
 
-DB.listTasks = function(id) {
-    return Task.find()
-    // .exec();
+DB.listTasks = function(taskIds) {
+  return taskIds
+    ? Task.find({ '_id': { $in: taskIds } })
+    : Task.find()
 }
 
 DB.createTask = function(dataObj) {
@@ -215,26 +216,50 @@ DB.createTask = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  // var data = JSON.parse(dataStr);
-  console.log('database.js: createTask: ', data)
-    if(!data) data = {};
+  console.log('DB: createTask', data)
+
+  if(!data) data = {};
     const model = new Task(data);
-    var saved = model.save();
-    console.log('saved: ', saved);
+    var saved = model.save(DB.addTaskToProject);
     return model.save(saved);
 }
 
-DB.updateTask = function(id,data) {
-    if(!data) data = {};
-    return Task.findById(id, function(err, model) {
-        if(err || !model){
-            return;
-        }
-        for (var field in data) {
-          model[field] = data[field]
-        }
-        return model.save();
-    });
+DB.addTaskToProject = function(error, savedTask) {
+  // Add this task to the corresponding project's array
+  // console.log('find this task project by id: ', savedTask.projectId);
+
+  var projectByIdQuery  = Project.where({ _id: savedTask.projectId });
+
+  projectByIdQuery.findOne( function (err, project) {
+    if (project) {
+      // console.log('new task: ', savedTask._id);
+      // console.log('\ttask\'s project found: ', project.title);
+      // console.log('\t\tand his tasks: ', project.tasks);
+      project.tasks.push(savedTask.id);
+      // console.log('\t\t+plus updated: ', project.tasks);
+
+      project.update({ tasks: project.tasks }, function (error, project){
+        // console.log('\tadded task to project');
+      })
+    }
+  });
+}
+
+// WIP
+DB.updateTask = function(id, data) {
+  console.info('update task:', id, data);
+  if(!data) {
+    data = {}
+  };
+  return Task.findById(id, function(err, model) {
+    if(err || !model){
+      return;
+    }
+    for (var field in data) {
+      model[field] = data[field]
+    }
+    return model.save();
+  });
 }
 
 DB.deleteTask = function(id) {
@@ -246,21 +271,6 @@ DB.deleteAllTasks = function(id) {
     return Task.find().remove();
 }
 // END OF DANGER
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -12,9 +12,14 @@ import { UserService } from '../../shared/user/user.service';
 
 export class TaskListComponent {
 
-  tasks;
+  private tasks;
 
-  @Input() projectId: string;
+  @Input()
+  set projectId (id: string) {
+    if (id) {
+      this.getTasks(id)
+    }
+  }
 
   constructor(
     private http: Http,
@@ -24,12 +29,8 @@ export class TaskListComponent {
     this.tasks = [{title: 'Loading'}];
   }
 
-  ngOnInit() {
-    this.getTasks()
-  }
-
-  getTasks() {
-    this.taskService.getTasks(this.projectId)
+  getTasks(projectId) {
+    this.taskService.getTasks('', projectId)
       .subscribe(
         data => this.setTasks(data),
         err => console.error(err),

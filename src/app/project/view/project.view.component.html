@@ -28,12 +28,12 @@
 
     <!-- Project Tasks -->
     <!-- Add task directly from project editor: -->
-    <!-- <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
-    </bp-task-edit> -->
+    <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
+    </bp-task-edit>
 
     <!-- List existing tasks -->
-    <!-- <task-list [projectId]="project._id" >
-    </task-list> -->
+    <task-list [projectId]="project._id" >
+    </task-list>
     <!-- /Project Tasks -->
 
     <span *ngIf="user.isAdmin()" class="admin">

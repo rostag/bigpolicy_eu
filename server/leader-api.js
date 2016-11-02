@@ -24,23 +24,6 @@ module.exports = function(app, DB){
   	});
   })
 
-  // DANGER!!! FOR DEV PURPOSES ONLY
-  // *****************
-
-  .delete('/allleaders', function (req, res) {
-  	if(req.query.secret != 19863){
-  		res.send(404);
-  		return;
-  	}
-      DB.deleteAllLeaders()
-      .then(function (data) {
-          res.json(data);
-      });
-  })
-
-  // *****************
-  // END OF DANGER
-
   .delete('/:id', function (req, res) {
       DB.deleteLeader(req.params.id)
       .then(function (data) {

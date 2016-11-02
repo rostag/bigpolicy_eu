@@ -56,12 +56,23 @@ export class TaskService {
    * @return {string[]} The Observable for the HTTP request.
    */
   getTasks(modelId: string = '', projectId: string = ''): Observable<Response> {
+    // TODO: caching locally
     if (this.tasks && this.tasks.length) {
       return Observable.from([this.tasks]);
     }
 
+    // Get task by task id
+    var requestUrl = this.apiUrl + modelId;
+
+    // Get tasks by project id
+    if ( projectId ) {
+       requestUrl = this.apiUrl + 'project/' + projectId;
+       console.info('TASK SERVICE - get tasks by requestUrl:', requestUrl);
+    }
+
+    // WIP - FIXME - Request isn't coming to backend
     if (!this.request) {
-      this.request = this.http.get(this.apiUrl + modelId + '/' + projectId)
+      this.request = this.http.get(requestUrl)
         .map((res:Response) => {
           this.tasks = res.json()
           if (this.tasks.forEach) {
@@ -79,15 +90,13 @@ export class TaskService {
         })
     }
     return this.request;
-
-    // return this.http.get(this.apiUrl).map((res:Response) => res.json());
   }
 
   /**
    * Get a model from DB or from cache.
    */
   getTask(modelId: string): Observable<Response> {
-    return this.getTasks(modelId)
+    return this.getTasks(modelId, '')
   }
 
   /**
