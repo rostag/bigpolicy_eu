@@ -12,6 +12,8 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 export class ProjectViewComponent {
 
+  private isAddingTaskMode: boolean = false;
+
   project: ProjectModel = new ProjectModel();
 
   /**
@@ -56,6 +58,11 @@ export class ProjectViewComponent {
    */
   setProject(data){
     this.project.parseData(data);
+  }
+
+  addTask(project) {
+    this.isAddingTaskMode = true;
+    return false;
   }
 
   /**

@@ -1,8 +1,8 @@
 <div class="bp-landing numbers">
   <md-card class="md-card-flat">
     <md-grid-list cols="4" rowHeight="55" id="stats">
-      <md-grid-tile> <h2><span>{{app.leaders.length}}</span> діячів</h2> </md-grid-tile>
-      <md-grid-tile> <h2><span>{{app.projects.length}}</span> проектів</h2> </md-grid-tile>
+      <md-grid-tile> <h2><a [routerLink]="['/leaders']"><span>{{app.leaders.length}}</span> діячів</a></h2> </md-grid-tile>
+      <md-grid-tile> <h2><a [routerLink]="['/projects']"><span>{{app.projects.length}}</span> проектів</a></h2> </md-grid-tile>
       <md-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </md-grid-tile>
       <md-grid-tile> <h2><span>{{app.cash}}</span>&#8372;</h2> </md-grid-tile>
     </md-grid-list>

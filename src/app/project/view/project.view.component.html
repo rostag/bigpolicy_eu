@@ -36,10 +36,12 @@
     </task-list>
     <!-- /Project Tasks -->
 
-    <span *ngIf="user.isAdmin()" class="admin">
-      <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
+    <p *ngIf="user.isAdmin()" class="admin">
+      <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати</button></a>
+      <!-- TODO Enable it -->
+      <a href (click) = "addTask(project)"><button md-raised-button color="accent">Додати захід</button></a>
       <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
-    </span>
+    </p>
 
   </md-card-content>
 
