@@ -2,7 +2,7 @@
 
   <md-card-content>
 
-    <bp-sharer #sharer [project]="project"></bp-sharer>
+    <!-- <bp-sharer #sharer [project]="project"></bp-sharer> -->
 
     <h1>{{project.title}}</h1>
 
@@ -32,7 +32,7 @@
     </bp-task-edit>
 
     <!-- List existing tasks -->
-    <task-list [projectId]="project._id" >
+    <task-list [project]="project" >
     </task-list>
     <!-- /Project Tasks -->
 

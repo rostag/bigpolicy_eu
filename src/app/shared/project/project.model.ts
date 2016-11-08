@@ -34,6 +34,7 @@ export class ProjectModel {
 
   /**
    * Populate model from a json representation loaded from DB
+   * TODO implement pipes for dates parsing
    */
   parseData(data) {
     for (var item in data) {

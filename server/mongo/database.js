@@ -100,12 +100,6 @@ DB.deleteLeader = function(id) {
     return Leader.findById(id).remove();
 }
 
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllLeaders = function(id) {
-    return Leader.find().remove();
-}
-// END OF DANGER
-
 
 
 
@@ -182,14 +176,8 @@ DB.deleteProject = function(id) {
     return Project.findById(id).remove();
 }
 
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllProjects = function(id) {
-    return Project.find().remove();
-}
-// END OF DANGER
 
-
-// END OF P R O J E C T
+// E N  D   O    F     P      R       O        J         E          C           T
 
 
 //******************************************************************************
@@ -265,15 +253,6 @@ DB.updateTask = function(id, data) {
 DB.deleteTask = function(id) {
     return Task.findById(id).remove();
 }
-
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllTasks = function(id) {
-    return Task.find().remove();
-}
-// END OF DANGER
-
-
-
 
 
 

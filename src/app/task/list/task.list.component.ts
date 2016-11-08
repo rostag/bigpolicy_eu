@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
+import { ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
@@ -7,29 +10,32 @@ import { UserService } from '../../shared/user/user.service';
   selector: 'task-list',
   templateUrl: './task.list.component.html',
   styleUrls: ['./task.list.component.css'],
-  providers: [TaskService, UserService]
+  providers: [TaskService, UserService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskListComponent {
+export class TaskListComponent implements OnChanges {
 
   private tasks;
+  @Input() project: ProjectModel;
 
-  @Input()
-  set projectId (id: string) {
-    if (id) {
-      this.getTasks(id)
+  ngOnChanges(changes) {
+    var project = changes.project.currentValue;
+    if (project && project._id) {
+      this.getTasks(project._id)
     }
   }
 
   constructor(
-    private http: Http,
     private taskService: TaskService,
-    private user: UserService
+    private user: UserService,
+    private http: Http
   ) {
     this.tasks = [{title: 'Loading'}];
   }
 
   getTasks(projectId) {
+    console.log('get tasks for project by id', projectId);
     this.taskService.getTasks('', projectId)
       .subscribe(
         data => this.setTasks(data),
@@ -39,8 +45,9 @@ export class TaskListComponent {
   }
 
   private setTasks(data) {
-    this.tasks = data
-    return data
+    console.log('setTasksss:', data)
+    this.tasks = data.concat();
+    return data;
   }
 
   private deleteTask(task: TaskModel) {

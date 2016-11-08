@@ -57,6 +57,9 @@ export class ProjectViewComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
+    // Immutability, explanation:
+    // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
+    this.project = new ProjectModel();
     this.project.parseData(data);
   }
 
