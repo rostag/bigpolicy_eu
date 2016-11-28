@@ -14,28 +14,12 @@ export class TaskService {
   private apiUrl = '/task-api/';
 
   /**
-   * The array of initial tasks provided by the service.
-   * @type {Array}
+   * Creates a new TaskService with the injected Http
    */
-  tasks;
+  constructor(private http: Http) { }
 
   /**
-   * Contains the currently pending request.
-   * @type {Observable<TaskModel[]>}
-   */
-  private request;
-
-  /**
-   * Creates a new TaskService with the injected Http.
-   * @param {Http} http - The injected Http.
-   * @constructor
-   */
-  constructor(private http: Http) {
-    this.tasks = [];
-  }
-
-  /**
-   * Creates the Task.
+   * Creates the Task
    * @param {TaskModel} model - The Task to create.
    */
   createTask(model: TaskModel): Observable<Response> {
@@ -48,48 +32,39 @@ export class TaskService {
         .map(res => res.json())
   }
 
+  // TODO: implement local cache
+
   /**
-   * Get all models from DB
+   * Get all models from DB by task id or project id
    * Returns an Observable for the HTTP GET request.
-   * If there was a previous successful request
-   * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasks(modelId: string = '', projectId: string = ''): Observable<Response> {
-    // TODO: caching locally
-    if (this.tasks && this.tasks.length) {
-      return Observable.from([this.tasks]);
-    }
+  getTasks(modelId: string = '', projectId: string = ''): Observable<any> {
+    var requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : modelId);
 
-    // Get task by task id
-    var requestUrl = this.apiUrl + modelId;
+    console.info('Task Service: get by', requestUrl);
 
-    // Get tasks by project id
-    if ( projectId ) {
-       requestUrl = this.apiUrl + 'project/' + projectId;
-       console.info('TASK SERVICE - get tasks by requestUrl:', requestUrl);
-    }
+    var reponseObservable = this.http.get(requestUrl)
+      .map((res: Response) => {
+        let tasks = res.json();
+        if (tasks.forEach) {
+          tasks.forEach(task => this.convertTime(task))
+        }
+        else {
+          this.convertTime(tasks)
+        }
+        console.info('\tmap it:', tasks, requestUrl);
+        return tasks
+      })
 
-    // WIP - FIXME - Request isn't coming to backend
-    if (!this.request) {
-      this.request = this.http.get(requestUrl)
-        .map((res:Response) => {
-          this.tasks = res.json()
-          if (this.tasks.forEach) {
-            this.tasks.forEach((task) => {
-              task.dateStarted = new Date(task['dateStarted'])
-              task.dateEnded = new Date(task['dateEnded'])
-            })
-          }
-          else {
-            this.tasks.dateStarted = new Date(this.tasks['dateStarted'])
-            this.tasks.dateEnded = new Date(this.tasks['dateEnded'])
-          }
-          // console.log('Tasks loaded, response: ', this.tasks)
-          return this.tasks
-        })
-    }
-    return this.request;
+      console.info('\tgot reponse observable:', reponseObservable);
+
+      return reponseObservable;
+  }
+
+  private convertTime(task) {
+    task.dateStarted = new Date(task['dateStarted']);
+    task.dateEnded = new Date(task['dateEnded']);
   }
 
   /**

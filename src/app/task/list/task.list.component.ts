@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/Rx';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
@@ -16,13 +17,14 @@ import { UserService } from '../../shared/user/user.service';
 
 export class TaskListComponent implements OnChanges {
 
-  private tasks;
   @Input() project: ProjectModel;
+  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
 
   ngOnChanges(changes) {
+    console.log('changes:', changes);
     var project = changes.project.currentValue;
     if (project && project._id) {
-      this.getTasks(project._id)
+      this.requestTasks(project._id)
     }
   }
 
@@ -30,33 +32,33 @@ export class TaskListComponent implements OnChanges {
     private taskService: TaskService,
     private user: UserService,
     private http: Http
-  ) {
-    this.tasks = [{title: 'Loading'}];
+  ) {}
+
+  requestTasks(projectId) {
+    var proxySub = this.taskService.getTasks('', projectId).subscribe(r => {
+      console.log('Task List: get tasks');
+      this.tasks.next(r);
+      proxySub.unsubscribe();
+    });
   }
 
-  getTasks(projectId) {
-    console.log('get tasks for project by id', projectId);
-    this.taskService.getTasks('', projectId)
-      .subscribe(
-        data => this.setTasks(data),
-        err => console.error(err),
-        () => this.tasks
-      );
-  }
-
-  private setTasks(data) {
-    console.log('setTasksss:', data)
-    this.tasks = data.concat();
-    return data;
-  }
-
-  private deleteTask(task: TaskModel) {
-    // Delete from UI Model:
-    var taskToRemoveIndex = this.tasks.indexOf(task)
-    this.tasks.splice(taskToRemoveIndex, 1)
-
-    // Delete from DB
-    this.taskService.deleteTask(task)
+  private deleteTask(taskToRemove: any) {
+    // Delete from App and DB
+    console.log( 'Tasks:', this.tasks );
+    this.tasks.map(
+      tsks => {
+        var t = tsks.filter( task => task._id !== taskToRemove._id )
+        console.log('deleet:', t)
+        return t;
+      }
+    )
+    .subscribe(
+      data => {
+        // this.tasks = data;
+      }
+    );
+    console.log('Deleted?',this.tasks)
+    // this.taskService.deleteTask(taskToRemove);
     return false;
   }
 }
