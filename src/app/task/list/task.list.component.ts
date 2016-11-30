@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/Rx';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -31,34 +31,30 @@ export class TaskListComponent implements OnChanges {
   constructor(
     private taskService: TaskService,
     private user: UserService,
-    private http: Http
+    private http: Http,
+    private ref: ChangeDetectorRef
   ) {}
 
   requestTasks(projectId) {
-    var proxySub = this.taskService.getTasks('', projectId).subscribe(r => {
-      console.log('Task List: get tasks');
-      this.tasks.next(r);
+    var proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
+      console.log('Task List: get tasks', tasks);
+      this.tasks.next(tasks);
+      // just a test setTimeout( () => { this.tasks.next([{title:'Replaced'}]) }, 2000);      setTimeout( () => { this.tasks.next(tasks) }, 1910);
       proxySub.unsubscribe();
     });
   }
 
   private deleteTask(taskToRemove: any) {
-    // Delete from App and DB
-    console.log( 'Tasks:', this.tasks );
-    this.tasks.map(
-      tsks => {
-        var t = tsks.filter( task => task._id !== taskToRemove._id )
-        console.log('deleet:', t)
-        return t;
-      }
-    )
-    .subscribe(
-      data => {
-        // this.tasks = data;
-      }
-    );
-    console.log('Deleted?',this.tasks)
-    // this.taskService.deleteTask(taskToRemove);
+    // Delete from App
+    var updatedTasks;
+    this.tasks.subscribe ( tasks => {
+      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id)
+    });
+    this.tasks.next( updatedTasks );
+
+    // Delete from DB
+    this.taskService.deleteTask(taskToRemove);
+
     return false;
   }
 }
