@@ -1,7 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/Rx';
-import { Component, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -31,15 +30,13 @@ export class TaskListComponent implements OnChanges {
   constructor(
     private taskService: TaskService,
     private user: UserService,
-    private http: Http,
-    private ref: ChangeDetectorRef
+    private http: Http
   ) {}
 
   requestTasks(projectId) {
     var proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
       console.log('Task List: get tasks', tasks);
       this.tasks.next(tasks);
-      // just a test setTimeout( () => { this.tasks.next([{title:'Replaced'}]) }, 2000);      setTimeout( () => { this.tasks.next(tasks) }, 1910);
       proxySub.unsubscribe();
     });
   }
@@ -54,7 +51,6 @@ export class TaskListComponent implements OnChanges {
 
     // Delete from DB
     this.taskService.deleteTask(taskToRemove);
-
     return false;
   }
 }
