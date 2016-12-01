@@ -131,10 +131,10 @@
     -->
 
     <md-toolbar class="add-toolbar" color="primary">
-      <button md-raised-button color="warn"(click)="deleteLeader(leader)">Видалити</button>
+      <button md-raised-button color="accent" type="submit" (click)="saveLeader()">Готово</button>
       <span class="add-fill-remaining"></span>
       <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
-      <button md-raised-button type="submit" color="primary" (click)="saveLeader()">Готово</button>
+      <button md-button color="warn"(click)="deleteLeader(leader)">Видалити</button>
     </md-toolbar>
 
   </md-card-content>

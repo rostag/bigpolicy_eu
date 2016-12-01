@@ -32,25 +32,34 @@
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація
 
+      <br />
+      <br />
+      <br />
+
+      <!-- WIP -->
+
+      <md-card>
+        <md-card-title>
+          Проекти:
+        </md-card-title>
+        <md-list>
+           <md-list-item *ngFor="let project of leader.projects">
+             <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
+             <h3 md-line><a [routerLink] = "['/project/' + project ]">{{project}}</a></h3>
+             <p md-line>
+               <span> {{project.description}}</span>
+               <span class="project-details"> {{project.cost}} </span>
+             </p>
+          </md-list-item>
+        </md-list>
+      </md-card>
+
     </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="user.isAdmin()">
+    <p class="admin" *ngIf="user.hasEditPermissions()">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
     </p>
   </md-card-actions>
 </md-card>
-
-<!-- <md-card>
-  <md-list>
-     <md-list-item  *ngFor="let project of projects">
-       <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-       <h3 md-line> {{project.title}}</h3>
-       <p md-line>
-         <span> {{project.description}}</span>
-         <span class="project-details"> {{project.cost}} </span>
-       </p>
-    </md-list-item>
-  </md-list>
-</md-card> -->

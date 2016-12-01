@@ -24,23 +24,6 @@ module.exports = function(app, DB){
   	});
   })
 
-  // DANGER!!! FOR DEV PURPOSES ONLY
-  // *****************
-
-  .delete('/allleaders', function (req, res) {
-  	if(req.query.secret != 19863){
-  		res.send(404);
-  		return;
-  	}
-      DB.deleteAllLeaders()
-      .then(function (data) {
-          res.json(data);
-      });
-  })
-
-  // *****************
-  // END OF DANGER
-
   .delete('/:id', function (req, res) {
       DB.deleteLeader(req.params.id)
       .then(function (data) {
@@ -73,7 +56,22 @@ module.exports = function(app, DB){
       .catch(function(err){
           res.json(err);
       });
+  })
+
+  /**
+   * Gets all projects for leader, example:
+   * /leader-api/id/projects
+   */
+  .get('/:id/projects', function (req, res)     {
+      DB.listProjects(req.params.id)
+      .then(function (data) {
+          res.json(data);
+      })
+      .catch(function(err){
+          res.json(err);
+      });
   });
+
 
   app.use('/leader-api', router);
 

@@ -2,7 +2,7 @@ export class TaskModel {
   _id:string;
   title: string;
   description: string;
-  cost: number;
+  cost: number = 0;
   projectId: string = '';
   project = null;
   iconURL: string;

@@ -35,8 +35,33 @@ try{
     console.error('A Mongoose connection failed with error: ', err);
 }
 
+////////////////////////////////////////////////////
+//
+// L E A D E R S H I P
+//
+////////////////////////////////////////////////////
+
 DB.getLeader = function(id) {
-    return Leader.findById(id);
+  var leader = Leader.findById(id, function (error, leader) {
+    if(leader){
+      console.log('DB: got leader:', leader.email);
+      leader.projects = DB.getLeaderProjects(leader.projects);
+    }
+  });
+  return leader;
+}
+
+DB.getLeaderProjects = function (projects) {
+  if (projects) {
+    console.log('DB: get leader projects:', projects);
+
+    // WIP
+    projects.forEach (function (project) {
+      console.log('DB: project found:', project);
+    });
+  }
+
+  return projects;
 }
 
 DB.listLeaders = function(id) {
@@ -75,12 +100,6 @@ DB.deleteLeader = function(id) {
     return Leader.findById(id).remove();
 }
 
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllLeaders = function(id) {
-    return Leader.find().remove();
-}
-// END OF DANGER
-
 
 
 
@@ -94,10 +113,10 @@ DB.deleteAllLeaders = function(id) {
 
 
 DB.getProject = function(id) {
-    return Project.findById(id);
+   return Project.findById(id);
 }
 
-DB.listProjects = function(id) {
+DB.listProjects = function() {
     return Project.find()
     // .exec();
 }
@@ -112,10 +131,32 @@ DB.createProject = function(dataObj) {
 
   const model = new Project(data);
 
-  var saved = model.save();
-  // console.log('saved: ', saved);
+  var saved = model.save(DB.addProjectToLeader);
 
   return model.save(saved);
+}
+
+DB.addProjectToLeader = function(error, savedProject) {
+  // Add this project to the corresponding leader's array
+  console.log('find this project leader by email: ', savedProject.managerId);
+
+  var leaderByEmailQuery  = Leader.where({ email: savedProject.managerId });
+
+  leaderByEmailQuery.findOne( function (err, leader) {
+    if( leader ) {
+      console.log('project leader found: ', leader.name);
+      console.log('and his projects: ', leader.projects);
+      console.log('new project: ', savedProject._id);
+
+      leader.projects.push(savedProject.id);
+
+      console.log('and his updated projects: ', leader.projects);
+
+      leader.update({ projects: leader.projects }, function (error, leader){
+         console.log('added project to leader');
+      })
+    }
+  });
 }
 
 DB.updateProject = function(id,data) {
@@ -135,14 +176,8 @@ DB.deleteProject = function(id) {
     return Project.findById(id).remove();
 }
 
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllProjects = function(id) {
-    return Project.find().remove();
-}
-// END OF DANGER
 
-
-// END OF P R O J E C T
+// E N  D   O    F     P      R       O        J         E          C           T
 
 
 //******************************************************************************
@@ -156,9 +191,10 @@ DB.getTask = function(id) {
     return Task.findById(id);
 }
 
-DB.listTasks = function(id) {
-    return Task.find()
-    // .exec();
+DB.listTasks = function(taskIds) {
+  return taskIds
+    ? Task.find({ '_id': { $in: taskIds } })
+    : Task.find()
 }
 
 DB.createTask = function(dataObj) {
@@ -168,55 +204,55 @@ DB.createTask = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  // var data = JSON.parse(dataStr);
-  console.log('database.js: createTask: ', data)
-    if(!data) data = {};
+  console.log('DB: createTask', data)
+
+  if(!data) data = {};
     const model = new Task(data);
-    var saved = model.save();
-    console.log('saved: ', saved);
+    var saved = model.save(DB.addTaskToProject);
     return model.save(saved);
 }
 
-DB.updateTask = function(id,data) {
-    if(!data) data = {};
-    return Task.findById(id, function(err, model) {
-        if(err || !model){
-            return;
-        }
-        for (var field in data) {
-          model[field] = data[field]
-        }
-        return model.save();
-    });
+DB.addTaskToProject = function(error, savedTask) {
+  // Add this task to the corresponding project's array
+  // console.log('find this task project by id: ', savedTask.projectId);
+
+  var projectByIdQuery  = Project.where({ _id: savedTask.projectId });
+
+  projectByIdQuery.findOne( function (err, project) {
+    if (project) {
+      // console.log('new task: ', savedTask._id);
+      // console.log('\ttask\'s project found: ', project.title);
+      // console.log('\t\tand his tasks: ', project.tasks);
+      project.tasks.push(savedTask.id);
+      // console.log('\t\t+plus updated: ', project.tasks);
+
+      project.update({ tasks: project.tasks }, function (error, project){
+        // console.log('\tadded task to project');
+      })
+    }
+  });
+}
+
+// WIP
+DB.updateTask = function(id, data) {
+  console.info('update task:', id, data);
+  if(!data) {
+    data = {}
+  };
+  return Task.findById(id, function(err, model) {
+    if(err || !model){
+      return;
+    }
+    for (var field in data) {
+      model[field] = data[field]
+    }
+    return model.save();
+  });
 }
 
 DB.deleteTask = function(id) {
     return Task.findById(id).remove();
 }
-
-// DANGER FUNCTION. FOR DEV PURPOSES
-DB.deleteAllTasks = function(id) {
-    return Task.find().remove();
-}
-// END OF DANGER
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
