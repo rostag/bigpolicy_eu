@@ -21,8 +21,9 @@ const ProjectSchema = new Schema({
 	dateStarted: { type: Date, required: true  },
 	dateEnded: { type: Date, required: true  },
 	image: { type: String },
-	video: { type: String },
+	videoUrl: { type: String },
 	logo: { type: String },
+	tasks: { type: Array },
 
 	createdAt: { type: Date }
 });

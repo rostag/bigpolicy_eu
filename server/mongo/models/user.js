@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   fbId: { type: String },
   twitterId: { type: String },
 	image: { type: String },
-	video: { type: String },
+	videoUrl: { type: String },
 	logo: { type: String },
 
 	createdAt: { type: Date }

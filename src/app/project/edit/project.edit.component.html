@@ -1,19 +1,18 @@
 <form>
 <md-card class="project-edit-card">
-
     <md-card-content>
-
       <md-card-title>
         <span *ngIf="!isUpdateMode">Створити</span>
         <span *ngIf="isUpdateMode">Редагувати</span>
          проект
       </md-card-title>
 
-      <md-input [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму: *" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <md-input required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input>
+      <md-input required [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input>
+      <!-- Create a directive to auto-extend functionality on input -->
+      <md-input video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
 
-      <md-input [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід: *" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
-
-      <md-input [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
+      <md-input required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
        <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
        <span md-suffix>.00 </span>
       </md-input>
@@ -27,21 +26,22 @@
        </md-input></td>
       </tr></table>
 
-      <md-toolbar class="add-toolbar" color="primary">Заходи проекту
-        <span class="add-fill-remaining"></span>
-        <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
-      </md-toolbar>
+      <div *ngIf="showTasks">
+        <md-toolbar class="add-toolbar" color="primary">Заходи проекту
+          <span class="add-fill-remaining"></span>
+          <button md-raised-button (click)="addTask()" color="accent">Додати захід</button>
+        </md-toolbar>
 
-      <!-- Project Tasks -->
-      <!-- Add task directly from project editor: -->
-      <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
-      </bp-task-edit>
+        <!-- Project Tasks -->
+        <!-- Add task directly from project editor -->
+        <bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode">
+        </bp-task-edit>
 
-      <!-- List existing tasks -->
-      <task-list [projectId]="project._id" >
-      </task-list>
-      <!-- /Project Tasks -->
-
+        <!-- List existing tasks -->
+        <task-list [project]="project">
+        </task-list>
+        <!-- /Project Tasks -->
+      </div>
     </md-card-content>
 
     <md-card-actions>

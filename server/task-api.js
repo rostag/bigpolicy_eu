@@ -1,24 +1,9 @@
 module.exports = function(app, DB){
 
-  // start module
   var express = require('express');
-  var bodyParser = require('body-parser');
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-
-  // const DB = require('./mongo/database');
-
   var router = express.Router();
 
-  //
-  // !The order of routes is important!
-  //
-
-  // middleware for all requests
-  // router.use(function(req, res, next) {
-  //     // console.log('API was used');
-  //     next(); // go to the next routes
-  // });
+  // Routes order is important
 
   router.post('/', function (req, res) {
       DB.createTask(req.body)
@@ -38,23 +23,6 @@ module.exports = function(app, DB){
   	    res.json(err);
   	});
   })
-
-  // DANGER!!! FOR DEV PURPOSES ONLY
-  // *****************
-
-  .delete('/alltasks', function (req, res) {
-  	if(req.query.secret != 19863){
-  		res.send(404);
-  		return;
-  	}
-      DB.deleteAllTasks()
-      .then(function (data) {
-          res.json(data);
-      });
-  })
-
-  // *****************
-  // END OF DANGER!!!
 
   .delete('/:id', function (req, res) {
       DB.deleteTask(req.params.id)
@@ -76,6 +44,21 @@ module.exports = function(app, DB){
       }
   })
 
+  // WIP
+  /**
+   * Gets all tasks for the given project:
+   * /project-api/id/tasks
+   */
+  .get('/project/:projectId', function (req, res) {
+    DB.getProject( req.params.projectId )
+      .then( (project) => {
+        DB.listTasks(project.tasks)
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err))
+  })
+
   /**
    * Gets all tasks, example:
    * /task-api/
@@ -92,6 +75,5 @@ module.exports = function(app, DB){
 
   app.use('/task-api', router);
 
-  console.log('task middleware connected.');
   // end of module
 }

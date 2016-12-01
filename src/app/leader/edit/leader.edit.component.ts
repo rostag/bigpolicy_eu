@@ -55,7 +55,6 @@ export class LeaderEditComponent {
    * @param {data} Loaded leader data
    */
   setLeader(data){
-    console.log('set lraer:', data )
     this.leader = new LeaderModel()
     this.leader.parseData(data)
   }
@@ -89,8 +88,6 @@ export class LeaderEditComponent {
     } else {
       // Create new leader
       // let n = this.userService.userProfile['name'].split(' ');
-      // this.leader.name = name[0];
-      // this.leader.surName = name[1];
       this.leader.email = this.userService.userProfile['email'];
       this.leaderService.createLeader(this.leader)
       .subscribe(
@@ -105,7 +102,6 @@ export class LeaderEditComponent {
   gotoLeader(leader){
     var leaderId = leader._id
     if (leaderId) {
-      console.log('𝕱 𝕱 𝕱 Go to leader by ID: ', leaderId)
       this.router.navigate(['/leader', leaderId]).then(_ => {
         //navigation is done
       });

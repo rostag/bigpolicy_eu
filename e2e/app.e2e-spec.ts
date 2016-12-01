@@ -1,10 +1,10 @@
-import { MigrationProjectPage } from './app.po';
+import { BpProjectPage } from './app.po';
 
-describe('migration-project App', function() {
-  let page: MigrationProjectPage;
+describe('bp-project App', function() {
+  let page: BpProjectPage;
 
   beforeEach(() => {
-    page = new MigrationProjectPage();
+    page = new BpProjectPage();
   });
 
   it('should display message saying app works', () => {

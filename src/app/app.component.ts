@@ -5,8 +5,8 @@ import { UserService } from './shared/user/user.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css']
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
@@ -17,7 +17,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit(){
-    console.log('• - • app init ' + this.userService + ' • - •')
+    console.log('• app init, user service: ', this.userService);
   }
 
   user: UserModel

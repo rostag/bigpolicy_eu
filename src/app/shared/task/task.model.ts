@@ -2,10 +2,11 @@ export class TaskModel {
   _id:string;
   title: string;
   description: string;
-  cost: number;
+  cost: number = 0;
   projectId: string = '';
   project = null;
   iconURL: string;
+  videoUrl: string;
   dateStarted: Date = new Date();
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
@@ -23,7 +24,8 @@ export class TaskModel {
       projectId: this.projectId,
       dateStarted: this.startDateInputValue,
       dateEnded: this.endDateInputValue,
-      iconURL: this.iconURL
+      iconURL: this.iconURL,
+      videoUrl: this.videoUrl
     })
   }
 

@@ -1,0 +1,17 @@
+<!-- TODO: SECURITY Need to double-check security here as soon as we neutralized DomSanitizer -->
+<!-- TODO: convert it to "add video (media?)" function -->
+<!-- [src]="safeVideoUrl" -->
+<div *ngIf="youTubeId" class="bp-video-iframed">
+  <iframe width="100%" height="100%" [src]="safeMediaUrl" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<!-- If there's no video, placeholder image will be shown -->
+
+<!-- STATE: iFramed.Project -->
+<img *ngIf="!youTubeId" src="{{placeholderUrl}}" alt="{{title}}" width="300">
+
+<!-- STATE: iFramed.Leader -->
+<!-- <img md-card-md-image src="assets/img/avatar.jpg" alt="{{title}}" > -->
+
+<!-- STATE: iFramed.Task -->
+<!-- <img md-list-avatar src="assets/img/task/task-placeholder.png" alt="{{title}}" width="300"> -->

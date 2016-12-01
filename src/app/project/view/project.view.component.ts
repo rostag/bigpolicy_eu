@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
+import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 @Component({
   selector: 'project-view',
@@ -12,11 +12,13 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectViewComponent {
 
-  project: ProjectModel = new ProjectModel()
+  private isAddingTaskMode: boolean = false;
+
+  project: ProjectModel = new ProjectModel();
 
   /**
-   * Dependency Injection: route (for reading params later)
-   */
+  * Dependency Injection: route (for reading params later)
+  */
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -32,7 +34,7 @@ export class ProjectViewComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('View Project by ID from route params:', id)
+        // console.log('View Project by ID from route params:', id)
         this.loadProject(id);
       })
   }
@@ -55,7 +57,15 @@ export class ProjectViewComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
-    this.project = data;
+    // Immutability, explanation:
+    // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
+    this.project = new ProjectModel();
+    this.project.parseData(data);
+  }
+
+  addTask(project) {
+    this.isAddingTaskMode = true;
+    return false;
   }
 
   /**
@@ -69,4 +79,5 @@ export class ProjectViewComponent {
     this.router.navigate(['/projects'])
     return false;
   }
+
 }

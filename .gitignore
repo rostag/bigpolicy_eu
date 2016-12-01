@@ -1,9 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-dist
-tmp
-server/mongo/models/app.js
+/tmp
+/dist
 
 # dependencies
 # Dependency directory
@@ -15,7 +14,7 @@ server/mongo/models/app.js
 
 # IDEs and editors
 /.idea
-.vscode
+/.vscode
 *.iml
 .project
 .classpath
@@ -34,7 +33,7 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-# Logs & System Files
+#System Files
 .DS_Store
 Thumbs.db
 logs

@@ -10,7 +10,7 @@
 
 * Додана можливість зберігати діяча (дякую за чудову роботу, Олексію)
 
-08.08.2016
+### 08.08.2016
 
 * Список лідерів завантажується з БД і відображається в UI - див. leader.list.component.ts.
 * Форма створення лідера передає базові властивості лідера у контролер для збереження - leader.edit.component.ts.
@@ -18,33 +18,33 @@
 * Редагування існуючого лідера (а саме даних, завантажених із БД).
 * Запрацювала сторінка лідера (з даними, завантаженими БД)
 
-11.08.2016
+### 11.08.2016
 
 * Перейменував каталог server на middleware і додав його як модуль до start.js
 * Заново увімкнув QA-картридж MongoDB, added creds to docs.
 * Задеплоїв на СЯ і запустив.
 * Задеплоїв на Лайв і запустив. На лайві прийшлося перевстановити застосунок.
 
-12.08.2016
+### 12.08.2016
 
 Лайв-застосунок запрацював тут: https://live-europe.rhcloud.com/
 Тепер він на адекватному NodeJS, як і раніше має ССЛ, додалася працююча БД
 
-14.08.2016
+### 14.08.2016
 
-* Project CRUD / DB integration:
+ * Project CRUD / DB integration:
  * Added ability to Create Project
  * Ability to View Project
  * Ability to Edit Project
  * Ability to Delete Project
-* Project List, Project View, Project Editor
-* Implemented dynamic Landing page incl. leaders and projects count
+ * Project List, Project View, Project Editor
+ * Implemented dynamic Landing page incl. leaders and projects count
 
-15.08.2016
+### 15.08.2016
 
 * Прилаштував Auth0 згідно з офдоками і https://github.com/auth0/angular2-jwt/issues/50
 
-22.08.2016
+### 22.08.2016
 
 User Model Added. Router extracted
 Added Profile Service, Profile View, LocalStorage for auth control
@@ -56,21 +56,30 @@ Added Profile WIP
 User Profile is working
 Added Leader Email - form User Profile
 
-
-Google+
-LinkedIn
-
-Кабінет користувача поеєднує проекти, показує їх по регіонах, грошах.
-
-26.08.2016
-
-20.09.2016
+### 20.09.2016 - Final NG
 
 # Migration to Final: Angular2, Angular CLI and Material 2
 
 Project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14.
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+### 21.10.2016 - Sharer
+
+Now Project can be shared via Email, Mailgun service is used
+
+### 26.10.2016 - Video For Everything (almost)!
+
+Now Video can be addd to Leader, Video, and Task.
+
+
+
+## Rough TODO Further integrations:
+
+Facebook Story
+Google+
+LinkedIn
+
+Кабінет користувача поєднує проекти, показує їх по регіонах, грошах.
 
 
 ## Почитати:

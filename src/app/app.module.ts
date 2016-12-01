@@ -3,18 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-
-// Material Design
-import { MdCoreModule } from '@angular2-material/core';
-import { MdCardModule } from '@angular2-material/card';
-import { MdListModule } from '@angular2-material/list';
-import { MdRadioModule } from '@angular2-material/radio';
-import { MdInputModule } from '@angular2-material/input';
-import { MdButtonModule } from '@angular2-material/button';
-import { MdToolbarModule } from '@angular2-material/toolbar';
-import { MdGridListModule } from '@angular2-material/grid-list';
-import { MdCheckboxModule } from '@angular2-material/checkbox/checkbox';
-import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
+import { MaterialModule } from '@angular/material';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -40,10 +29,15 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
+import { ShareService } from './shared/sharer/share.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { AppComponent } from './app.component';
+import { SharerComponent } from './shared/sharer/sharer.component';
+
+import { ForbiddenValidatorDirective } from './shared/validation/email';
+import { VideoComponent } from './shared/video/video.component';
 
 @NgModule({
   declarations: [
@@ -62,33 +56,24 @@ import { AppComponent } from './app.component';
     LoginComponent,
     AboutComponent,
     LandingComponent,
+    SharerComponent,
+    ForbiddenValidatorDirective,
+    VideoComponent,
     AppComponent
   ],
   imports: [
     routing,
     BrowserModule,
-    // Router
     RouterModule,
-    // Forms
     FormsModule,
-    HttpModule,
-    // Material Design
-    MdCoreModule.forRoot(),
-    MdCardModule.forRoot(),
-    MdListModule.forRoot(),
-    MdRadioModule.forRoot(),
-    MdInputModule.forRoot(),
-    MdButtonModule.forRoot(),
-    MdToolbarModule.forRoot(),
-    MdGridListModule.forRoot(),
-    MdCheckboxModule.forRoot(),
-    MdIconModule.forRoot(),
-    // MdIconRegistry.forRoot(),
+    MaterialModule.forRoot(),
+    HttpModule
   ],
   providers: [
-    MdIconRegistry,
+    // MdIconRegistry,
     LoggedInGuard,
-    UserService
+    UserService,
+    ShareService
   ],
   bootstrap: [AppComponent]
 })

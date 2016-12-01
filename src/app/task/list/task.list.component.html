@@ -1,7 +1,8 @@
 <md-card>
   <md-card-content>
+    <h3>Заходи проекту "{{project.title}}"</h3>
     <md-list>
-       <md-list-item *ngFor="let task of tasks">
+       <md-list-item *ngFor="let task of tasks | async">
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
          <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>

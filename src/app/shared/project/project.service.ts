@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+
 import { ProjectModel } from './project.model'
 
 /**
@@ -34,8 +35,6 @@ export class ProjectService {
 
     this.projects = [];
 
-    // console.log('project list service CONSTRUCTOR');
-
   }
 
   /**
@@ -43,7 +42,7 @@ export class ProjectService {
    * @param {ProjectModel} model - The Project to create.
    */
   createProject(model: ProjectModel): Observable<Response> {
-    var body: string = model.toString();
+    var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });

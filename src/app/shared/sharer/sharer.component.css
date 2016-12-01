@@ -1,0 +1,132 @@
+:host {
+  display: block;
+  margin-bottom: 2em;
+}
+
+.share-card {
+  border: 7px dashed #eee;
+  display: none;
+  position: absolute;
+  z-index: 100;
+  left: 1em;
+  right: 1em;
+  margin-top: -1em;
+  padding-top: 0;
+  padding-top: 1em;
+}
+
+.displayBlock {
+  display: block;
+}
+
+.share-show {
+  position: absolute;
+  z-index: 120;
+  right: 2em;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin: 0.5em 0 0.25em 0;
+}
+
+.email-subject {
+  font-size: 14px;
+  color: #777;
+}
+
+.textarea-label {
+  display: block;
+  margin: 1.4em 0 0 0;
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 0.75em;
+}
+
+.email-subject .span {
+  color: #bbb;
+  text-align: right;
+}
+
+.bt-input {
+  margin-top: 1em;
+}
+
+.wide {
+  width: 100%;
+}
+
+.video-input {
+  position: absolute;
+  display: none;
+}
+
+.bp-textarea-wrapper {
+  right: 1.7em;
+  left: 1.7em;
+  top: 12.9em;
+  position: absolute;
+}
+
+.bp-textarea {
+  overflow: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  letter-spacing: normal;
+  line-height: 120%;
+  outline: none;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 0;
+  padding-bottom: 1px;
+  border: 0 solid transparent;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  color: #000;
+  /*background-color: transparent;*/
+}
+
+.bp-textarea: focus {
+  padding-bottom: 0;
+  border-bottom: 2px solid #777;
+  color: #555;
+}
+
+.emailDescription {
+    color: #eee;
+}
+
+.email-preview {
+  margin-top: 1em;
+  font-size: 18px;
+  line-height: 120%;
+}
+
+.mailtext {
+  font-size: 18px;
+  line-height: 120%;
+}
+
+.bp-pre-html {
+  background-color: #000;
+  color: #0f0;
+  width: 100%;
+  margin: 2em 0 1em 0;
+  padding: 1em;
+  font-size: 11px;
+  font-family: 'Andale Mono', monospace;
+  box-sizing: border-box;
+  line-height: 160%;
+}
+
+/* Validation */
+
+.alert, .alert-danger {
+  color: #F44336;
+  font-size: 0.9em;
+  float: right;
+  margin-top: -2.3em;
+  position: relative;
+}

@@ -1,8 +1,8 @@
 export class ProjectModel {
-  _id:string;
+  _id: string;
   title: string;
   description: string;
-  cost: number;
+  cost: number = 0;
   managerName: string = 'John Doe';
   managerId: string = 'johndoe@mail.com';
   iconURL: string;
@@ -10,6 +10,8 @@ export class ProjectModel {
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
+  videoUrl: string = '';
+  tasks;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -24,12 +26,15 @@ export class ProjectModel {
       managerId: this.managerId,
       dateStarted: this.startDateInputValue,
       dateEnded: this.endDateInputValue,
-      iconURL: this.iconURL
+      iconURL: this.iconURL,
+      videoUrl: this.videoUrl,
+      tasks: this.tasks
     })
   }
 
   /**
    * Populate model from a json representation loaded from DB
+   * TODO implement pipes for dates parsing
    */
   parseData(data) {
     for (var item in data) {
@@ -45,5 +50,4 @@ export class ProjectModel {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset())
     return local.toJSON().slice(0,10)
   }
-
 }

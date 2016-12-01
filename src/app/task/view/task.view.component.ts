@@ -34,13 +34,9 @@ export class TaskViewComponent {
         console.log('View Task by ID from route params:', id)
         if (id) {
           this.taskService.getTask(id)
-          .subscribe(
-            data => {
-              this.setTask(data)
-            },
-            err => console.error(err),
-            () => {}
-          )
+          .subscribe( data => {
+            this.setTask(data)
+          })
         }
       })
   }
@@ -59,9 +55,10 @@ export class TaskViewComponent {
    */
   private deleteTask(task: TaskModel) {
     // Delete from DB
-    this.taskService.deleteTask(task)
+    this.taskService.deleteTask(task);
 
-    this.router.navigate(['/tasks'])
+    this.router.navigate(['/project/' + task.projectId]);
+
     return false;
   }
 }
