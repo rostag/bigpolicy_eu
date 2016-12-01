@@ -23,6 +23,7 @@ const ProjectSchema = new Schema({
 	image: { type: String },
 	videoUrl: { type: String },
 	logo: { type: String },
+	tasks: { type: Array },
 
 	createdAt: { type: Date }
 });

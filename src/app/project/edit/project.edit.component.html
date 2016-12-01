@@ -33,12 +33,12 @@
         </md-toolbar>
 
         <!-- Project Tasks -->
-        <!-- Add task directly from project editor: -->
-        <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
+        <!-- Add task directly from project editor -->
+        <bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode">
         </bp-task-edit>
 
         <!-- List existing tasks -->
-        <task-list [projectId]="project._id" >
+        <task-list [project]="project">
         </task-list>
         <!-- /Project Tasks -->
       </div>

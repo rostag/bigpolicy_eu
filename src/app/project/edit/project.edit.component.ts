@@ -55,6 +55,7 @@ export class ProjectEditComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
+    // Immutability
     this.project = new ProjectModel();
     this.project.parseData(data);
   }
@@ -112,8 +113,5 @@ export class ProjectEditComponent {
   addTask(){
     this.isAddingTaskMode = true;
     console.log('Adding task for', this.project.title, ' project, id: ', this.project._id );
-
-    // var tedit = new TaskEditComponent();
   }
-
 }

@@ -17,8 +17,9 @@ const LeaderSchema = new Schema({
 	mission: { type: String, required: true  },
 	photo: { type: String },
 	videoUrl: { type: String },
-	logo: { type: String },// ???
+	logo: { type: String },
 	email: { type: String },
+	projects: { type: Array },
 
 	// political party membership
 	// id of party from parties lst
@@ -45,7 +46,7 @@ module.exports = function(){
     try {
         mongoose.model('Leader', LeaderSchema);
     } catch (error) {
-			console.log('error createin:', error)
+			console.log('error during creation:', error)
 		}
 
     return mongoose.model('Leader');

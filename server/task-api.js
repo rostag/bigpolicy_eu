@@ -24,23 +24,6 @@ module.exports = function(app, DB){
   	});
   })
 
-  // DANGER!!! FOR DEV PURPOSES ONLY
-  // *****************
-
-  .delete('/alltasks', function (req, res) {
-  	if(req.query.secret != 19863){
-  		res.send(404);
-  		return;
-  	}
-      DB.deleteAllTasks()
-      .then(function (data) {
-          res.json(data);
-      });
-  })
-
-  // *****************
-  // END OF DANGER!!!
-
   .delete('/:id', function (req, res) {
       DB.deleteTask(req.params.id)
       .then(function (data) {
@@ -59,6 +42,21 @@ module.exports = function(app, DB){
               res.json(data || []);
           });
       }
+  })
+
+  // WIP
+  /**
+   * Gets all tasks for the given project:
+   * /project-api/id/tasks
+   */
+  .get('/project/:projectId', function (req, res) {
+    DB.getProject( req.params.projectId )
+      .then( (project) => {
+        DB.listTasks(project.tasks)
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err))
   })
 
   /**

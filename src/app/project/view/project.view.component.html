@@ -2,7 +2,7 @@
 
   <md-card-content>
 
-    <bp-sharer #sharer [project]="project"></bp-sharer>
+    <!-- <bp-sharer #sharer [project]="project"></bp-sharer> -->
 
     <h1>{{project.title}}</h1>
 
@@ -27,19 +27,20 @@
     <p>{{project.description}}</p>
 
     <!-- Project Tasks -->
-    <!-- Add task directly from project editor: -->
-    <!-- <bp-task-edit [projectId]="project._id" [project]="project" *ngIf="isAddingTaskMode">
-    </bp-task-edit> -->
-
     <!-- List existing tasks -->
-    <!-- <task-list [projectId]="project._id" >
-    </task-list> -->
+    <task-list [project]="project" >
+    </task-list>
+    <!-- Add task directly from project editor -->
+    <bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
+    </bp-task-edit>
     <!-- /Project Tasks -->
 
-    <span *ngIf="user.isAdmin()" class="admin">
-      <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
-      <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити</button></a>
-    </span>
+    <p *ngIf="user.isAdmin()" class="admin project-toolbar">
+      <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати</button></a>
+      <!-- TODO Enable it -->
+      <a href (click) = "addTask(project)"><button md-raised-button color="accent">Додати захід</button></a>
+      <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити проект</button></a>
+    </p>
 
   </md-card-content>
 

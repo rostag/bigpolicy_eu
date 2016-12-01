@@ -14,6 +14,7 @@ export class LeaderModel {
 	videoUrl: String;
 	logo: String;
 	email: String;
+	projects;
 
 	// political party membership
   // id of party from parties list
@@ -55,6 +56,7 @@ export class LeaderModel {
        "videoUrl": this.videoUrl,
        "logo": this.logo,
        "email": this.email,
+       "projects": this.projects,
        "party": this.party,
        "officialPost": this.officialPost,
        "socialNetworks": this.socialNetworks,
