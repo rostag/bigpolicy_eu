@@ -1,14 +1,26 @@
 <md-toolbar color="primary">
-  <button class="sd-icon-button">
-    <!-- <i class="material-icons sd-toolbar-menu">menu</i> -->
-  </button>BigPolicy
-  <span class="sd-toolbar-filler"></span>
-  <!-- <more></more> -->
-
-  <a *ngIf="!userService.authenticated()" (click)="userService.login()"><button md-button>Login</button></a>
-
-  <span *ngIf="userService.authenticated()" class="toolbar-username">
-    <a [routerLink]="['/profile']" color="primary" >{{userService.userProfile ? userService.userProfile.name : ''}} <md-icon size="36">account_circle</md-icon></a>
-    <a (click)="userService.logout()"><button md-button>Logout</button></a>
+  <span class="logo">
+    <a [routerLink]="['/']">
+      <md-icon class="toolbar-inline-icon">group_work</md-icon>
+      BigPolicy
+    </a>
   </span>
+
+  <span class="username">
+    <a *ngIf="!userService.authenticated()" (click)="userService.login()">Login</a>
+    <span *ngIf="userService.authenticated()" class="toolbar-username">
+      <a [routerLink]="['/profile']" >{{userService.userProfile ? userService.userProfile.name : ''}}
+        <md-icon class="toolbar-inline-icon">account_circle</md-icon>
+      </a>
+      <a (click)="userService.logout()">Logout</a>
+    </span>
+  </span>
+
+  <button md-icon-button [md-menu-trigger-for]="menu">
+    <md-icon>more_vert</md-icon>
+  </button>
 </md-toolbar>
+
+<md-menu x-position="before" #menu="mdMenu">
+  <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle theme</button>
+</md-menu>

@@ -5,7 +5,7 @@ import { UserService } from '../user/user.service';
  * This class represents the navigation bar component.
  */
 @Component({
-  selector: 'sd-navbar',
+  selector: 'bp-navbar',
   templateUrl: 'navbar.component.html',
   styleUrls: ['navbar.component.css']
 })
