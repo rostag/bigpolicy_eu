@@ -35,7 +35,7 @@
     </bp-task-edit>
     <!-- /Project Tasks -->
 
-    <p *ngIf="user.isAdmin()" class="admin project-toolbar">
+    <p *ngIf="user.hasEditPermissions()" class="admin project-toolbar">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати</button></a>
       <!-- TODO Enable it -->
       <a href (click) = "addTask(project)"><button md-raised-button color="accent">Додати захід</button></a>

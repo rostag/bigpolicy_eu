@@ -2,7 +2,7 @@
   <span class="logo">
     <a [routerLink]="['/']">
       <md-icon class="toolbar-inline-icon">group_work</md-icon>
-      BigPolicy
+      BigPolicy <span *ngIf="userService.isDemoMode">[DEMO]</span>
     </a>
   </span>
 
@@ -23,4 +23,5 @@
 
 <md-menu x-position="before" #menu="mdMenu">
   <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle theme</button>
+  <button md-menu-item (click)="userService.setDemoMode()">.</button>
 </md-menu>

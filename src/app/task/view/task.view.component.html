@@ -30,7 +30,7 @@
     <p>{{task.description}}</p>
 
     <md-card-actions>
-      <span *ngIf="user.isAdmin()" class="admin">
+      <span *ngIf="user.hasEditPermissions()" class="admin">
         <a [routerLink] = "['/task/' + task._id + '/edit']"><button md-raised-button>Редагувати</button></a>
         <a href (click) = "deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
       </span>

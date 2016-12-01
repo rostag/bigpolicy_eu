@@ -10,6 +10,18 @@ export class UserService {
   // Configure Auth0
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', {});
 
+  // FIXME
+  // One might temporarily enable Demo mode just for fun!
+  public get isDemoMode () {
+    return this._isDemoMode;
+  }
+
+  public set isDemoMode ( value : boolean ) {
+    this._isDemoMode = value;
+  }
+
+  private _isDemoMode = true;
+
   //Store profile object in auth class
   userProfile: Object = {
       name: '',
@@ -44,15 +56,9 @@ export class UserService {
     });
   };
 
-  public isAdmin() {
+  public hasEditPermissions() {
     // FIXME it's being called too often, as log below shows
-    let p = this.userProfile;
-    if (p) {
-      // console.log('email:', p['email']);
-      return p['email'] === 'rostislav.siryk@gmail.com';
-    } else {
-      return false
-    }
+    return this.isDemoMode || ( this.userProfile && this.userProfile['email'] === 'rostislav.siryk@gmail.com' );
   }
 
   public login() {
@@ -72,4 +78,8 @@ export class UserService {
     localStorage.removeItem('profile');
     this.userProfile = undefined;
   };
+
+  public setDemoMode() {
+    this.isDemoMode = true;
+  }
 }
