@@ -2,7 +2,6 @@
   <a [routerLink]="['/']"><button md-button color="primary">Головна</button></a>
   <a [routerLink]="['/projects']"><button md-button color="primary">Проекти</button></a>
   <a [routerLink]="['/leaders']"><button md-button color="primary">Лідери</button></a>
-
-  <a *ngIf="userService.authenticated()" [routerLink]="['/add-leader']"><button md-button color="primary">Стати лідером</button></a>
   <a *ngIf="userService.authenticated()" [routerLink]="['/add-project']"><button md-button color="primary">Створити проект</button></a>
+  <a *ngIf="userService.authenticated()" [routerLink]="['/add-leader']"><button md-button color="primary">Стати лідером</button></a>
 </nav>
