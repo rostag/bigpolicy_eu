@@ -35,7 +35,9 @@
           <span *ngIf="!isUpdateMode">Додати</span>
           <span *ngIf="isUpdateMode">Зберегти</span>
            захід</button>
+        <a href *ngIf="isUpdateMode" (click)="deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
       </p>
+
 
     </md-card-content>
   </form>

@@ -39,8 +39,8 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasks(modelId: string = '', projectId: string = ''): Observable<any> {
-    var requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : modelId);
+  getTasks(taskId: string = '', projectId: string = ''): Observable<any> {
+    var requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : taskId);
 
     console.info('Task Service: get by', requestUrl);
 
@@ -53,12 +53,8 @@ export class TaskService {
         else {
           this.convertTime(tasks)
         }
-        console.info('\tmap it:', tasks, requestUrl);
         return tasks
       })
-
-      console.info('\tgot reponse observable:', reponseObservable);
-
       return reponseObservable;
   }
 
@@ -70,15 +66,15 @@ export class TaskService {
   /**
    * Get a model from DB or from cache.
    */
-  getTask(modelId: string): Observable<Response> {
-    return this.getTasks(modelId, '')
+  getTask(taskId: string): Observable<Response> {
+    return this.getTasks(taskId, '')
   }
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
    * @param TaskModel A Task to update
    */
-  updateTask(model:TaskModel):Observable<Response> {
+  updateTask(model: TaskModel): Observable<Response> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -91,11 +87,11 @@ export class TaskService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param TaskModel A Task to delete
    */
-  deleteTask(model:TaskModel) {
+  deleteTask(model: TaskModel) {
     this.http.delete(this.apiUrl + model._id)
         .map(res => console.log('Task deleted:', res.json()))
         .catch(this.handleError)
-        .subscribe((res) => {});
+        .subscribe();
   }
 
   private handleError(error: Response) {

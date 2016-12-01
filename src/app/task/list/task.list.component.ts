@@ -20,7 +20,6 @@ export class TaskListComponent implements OnChanges {
   private tasks: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
 
   ngOnChanges(changes) {
-    console.log('changes:', changes);
     var project = changes.project.currentValue;
     if (project && project._id) {
       this.requestTasks(project._id)
@@ -35,14 +34,13 @@ export class TaskListComponent implements OnChanges {
 
   requestTasks(projectId) {
     var proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
-      console.log('Task List: get tasks', tasks);
       this.tasks.next(tasks);
       proxySub.unsubscribe();
     });
   }
 
   private deleteTask(taskToRemove: any) {
-    // Delete from App
+    // Delete in UI
     var updatedTasks;
     this.tasks.subscribe ( tasks => {
       updatedTasks = tasks.filter( task => task._id !== taskToRemove._id)
