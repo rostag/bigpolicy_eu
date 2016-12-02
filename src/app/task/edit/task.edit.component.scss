@@ -1,0 +1,8 @@
+.task-edit-view md-input,
+.task-edit-view md-textarea {
+  width: 100%;
+}
+
+:host.add-project-inline .task-edit-view {
+  margin-top: 1em;
+}

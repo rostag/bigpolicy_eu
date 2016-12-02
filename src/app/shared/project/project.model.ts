@@ -2,7 +2,7 @@ export class ProjectModel {
   _id: string;
   title: string;
   description: string;
-  cost: number;
+  cost: number = 1;
   managerName: string = 'John Doe';
   managerId: string = 'johndoe@mail.com';
   iconURL: string;
@@ -34,6 +34,7 @@ export class ProjectModel {
 
   /**
    * Populate model from a json representation loaded from DB
+   * TODO implement pipes for dates parsing
    */
   parseData(data) {
     for (var item in data) {

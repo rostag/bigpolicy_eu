@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './leader.view.component.html',
-  styleUrls: ['./leader.view.component.css'],
+  styleUrls: ['./leader.view.component.scss'],
   providers: [LeaderService, UserService]
 })
 

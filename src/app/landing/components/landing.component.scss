@@ -42,6 +42,10 @@ p {
   background: rgba(0, 0, 0, 0);
 }
 
+#stats a {
+  text-decoration: none;
+}
+
 .numbers h2 {
   font-size: 2em;
   letter-spacing: normal;
@@ -84,7 +88,7 @@ p {
 }
 
 #bottomline {
-  background: #eee; 
+  background: #eee;
   /* url('assets/img/bp-bg-gray-red.jpg'); */
   min-height: 350px;
 }

@@ -1,55 +1,62 @@
-import { Component, Input } from '@angular/core';
+import 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
+import { ProjectModel } from '../../shared/project/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'task-list',
   templateUrl: './task.list.component.html',
-  styleUrls: ['./task.list.component.css'],
-  providers: [TaskService, UserService]
+  styleUrls: ['./task.list.component.scss'],
+  providers: [TaskService, UserService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskListComponent {
+export class TaskListComponent implements OnChanges {
 
-  private tasks;
+  @Input() project: ProjectModel;
 
-  @Input()
-  set projectId (id: string) {
-    if (id) {
-      this.getTasks(id)
+  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
+
+  private isAddingTaskMode: boolean = false;
+
+  ngOnChanges(changes) {
+    var project = changes.project.currentValue;
+    if (project && project._id) {
+      this.requestTasks(project._id)
     }
   }
 
   constructor(
-    private http: Http,
     private taskService: TaskService,
-    private user: UserService
-  ) {
-    this.tasks = [{title: 'Loading'}];
+    private user: UserService,
+    private http: Http
+  ) {}
+
+  requestTasks(projectId) {
+    var proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
+      this.tasks.next(tasks);
+      proxySub.unsubscribe();
+    });
   }
 
-  getTasks(projectId) {
-    this.taskService.getTasks('', projectId)
-      .subscribe(
-        data => this.setTasks(data),
-        err => console.error(err),
-        () => this.tasks
-      );
+  addTask(project) {
+    this.isAddingTaskMode = true;
+    return false;
   }
 
-  private setTasks(data) {
-    this.tasks = data
-    return data
-  }
-
-  private deleteTask(task: TaskModel) {
-    // Delete from UI Model:
-    var taskToRemoveIndex = this.tasks.indexOf(task)
-    this.tasks.splice(taskToRemoveIndex, 1)
+  private deleteTask(taskToRemove: any) {
+    // Delete in UI
+    var updatedTasks;
+    this.tasks.subscribe ( tasks => {
+      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id)
+    });
+    this.tasks.next( updatedTasks );
 
     // Delete from DB
-    this.taskService.deleteTask(task)
+    this.taskService.deleteTask(taskToRemove);
     return false;
   }
 }

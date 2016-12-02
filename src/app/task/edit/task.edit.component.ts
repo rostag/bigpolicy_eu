@@ -8,16 +8,16 @@ import { UserService } from '../../shared/user/user.service';
 @Component({
   selector: 'bp-task-edit',
   templateUrl: './task.edit.component.html',
-  styleUrls: ['./task.edit.component.css'],
+  styleUrls: ['./task.edit.component.scss'],
   providers: [TaskService]
   })
 
 export class TaskEditComponent {
 
-  private isUpdateMode: boolean = false;
-
   @Input() projectId: string = '';
-  @Input() project: ProjectModel;
+  // @Input() project: ProjectModel;
+
+  private isUpdateMode: boolean = false;
 
   task: TaskModel;
 
@@ -35,36 +35,37 @@ export class TaskEditComponent {
    * like `id` in task/:id/edit)
    */
   ngOnInit() {
+    // if project id is provided, it means we editing / adding task from inside the parent project
+    console.log('Task Editor Initialization, provided Project Id:', this.projectId);
+
+    if ( this.projectId ) {
+      return;
+    }
+
     this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('Task Editor by ID from route params:', id)
-        if (id) {
-          this.taskService.getTask(id)
-          .subscribe(
-            data => {
-              this.setTask(data)
-            },
-            err => console.error(err),
-            () => {}
-          )
+      .map(params => {
+        console.log('Route params:', params);
+        return params['id']
+      })
+      .subscribe((taskId) => {
+        console.log('Task Editor by ID from route params:', taskId)
+        if (taskId) {
+          this.taskService.getTask(taskId).subscribe( data => {
+            this.parseLoadedTask(data)
+          })
         }
-      });
+      })
   }
 
   /**
    * Task loading handler
    * @param {data} Loaded task data
    */
-  setTask(data){
-    console.log('set task:', data, ', project =', this.project );
-    if (data.length > 0) {
-      this.isUpdateMode = true;
-      // this.task.projectId = this.projectId;
-    } else {
-      this.task = new TaskModel();
-      this.task.parseData(data);
-    }
+  parseLoadedTask(task){
+    console.log('Set task:', task, ', project =', task.projectId );
+    this.isUpdateMode = true;
+    this.task = new TaskModel();
+    this.task.parseData(task);
   }
 
   /**
@@ -73,9 +74,9 @@ export class TaskEditComponent {
    */
   private deleteTask(task: TaskModel) {
     // Delete from DB
-    this.taskService.deleteTask(task)
+    this.taskService.deleteTask(task);
 
-    this.router.navigate(['/tasks'])
+    this.router.navigate(['/project/' + task.projectId]);
     return false;
   }
 

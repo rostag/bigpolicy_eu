@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
 
 export class ProfileComponent {

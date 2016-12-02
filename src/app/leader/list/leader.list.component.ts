@@ -7,7 +7,7 @@ import { UserService } from '../../shared/user/user.service';
 @Component({
   selector: 'leader-list',
   templateUrl: './leader.list.component.html',
-  styleUrls: ['./leader.list.component.css'],
+  styleUrls: ['./leader.list.component.scss'],
   providers: [LeaderService, UserService]
 })
 

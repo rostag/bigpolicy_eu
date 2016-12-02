@@ -6,15 +6,17 @@ import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './project.edit.component.html',
-  styleUrls: ['./project.edit.component.css'],
+  styleUrls: ['./project.edit.component.scss'],
   providers: [ProjectService]
 })
 
 export class ProjectEditComponent {
 
-  private showTasks: boolean = true;
+  get showTasks(): boolean {
+      return this.isUpdateMode;
+  };
+
   private isUpdateMode: boolean = false;
-  private isAddingTaskMode: boolean = false;
 
   project: ProjectModel;
 
@@ -55,6 +57,7 @@ export class ProjectEditComponent {
    * @param {data} Loaded project data
    */
   setProject(data){
+    // Immutability
     this.project = new ProjectModel();
     this.project.parseData(data);
   }
@@ -108,12 +111,4 @@ export class ProjectEditComponent {
       })
     }
   }
-
-  addTask(){
-    this.isAddingTaskMode = true;
-    console.log('Adding task for', this.project.title, ' project, id: ', this.project._id );
-
-    // var tedit = new TaskEditComponent();
-  }
-
 }
