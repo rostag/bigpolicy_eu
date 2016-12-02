@@ -9,11 +9,11 @@
 
       <md-input required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input>
       <!-- Add a md-autosize directive to auto-extend functionality on input -->
-      <md-textarea class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-textarea>
+      <md-textarea required class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-textarea>
       <!-- <md-input required [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input> -->
       <md-input video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
 
-      <md-input required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
+      <md-input required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" value="1" >
        <span md-prefix>Який бюджет тобі на це потрібен? ₴&nbsp;</span>
        <span md-suffix>.00 </span>
       </md-input>

@@ -10,15 +10,15 @@ var Schema       = mongoose.Schema;
 
 const LeaderSchema = new Schema({
 	// personal info
-	name: { type: String, required: true  },
-	parentName: { type: String, required: true  },
-	surName: { type: String, required: true  },
-	vision: { type: String, required: true  },
-	mission: { type: String, required: true  },
+	name: { type: String, required: true },
+	parentName: { type: String },
+	surName: { type: String, required: true },
+	vision: { type: String, required: true },
+	mission: { type: String, required: true },
 	photo: { type: String },
 	videoUrl: { type: String },
 	logo: { type: String },
-	email: { type: String },
+	email: { type: String, required: true },
 	projects: { type: Array },
 
 	// political party membership
