@@ -13,7 +13,7 @@
       <md-grid-tile>
         <div>
           <h2>Вартість: {{task.cost}}₴</h2>
-          <h3><a [routerLink]="['/project/',task.projectId]">Проект</a></h3>
+          <h3><a [routerLink]="['/project/',task.projectId]">До проекту</a></h3>
           <p>Початок: {{task.dateStarted | date}}<br/>
           Кінець: {{task.dateEnded | date}}</p>
           <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}"

@@ -1,4 +1,4 @@
-<md-card class="task-edit-card">
+<md-card class="task-edit-view">
   <form>
 
     <md-card-content>
@@ -11,7 +11,7 @@
 
       <md-input required [(ngModel)]="task.title" characterCounter placeholder="Назва заходу:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
 
-      <md-input required [(ngModel)]="task.description" placeholder="Опиши захід:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <md-textarea required [(ngModel)]="task.description" rows="3" placeholder="Опиши захід:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-textarea>
 
       <!-- TODO: Use existing video control to auto-extend functionality on input -->
       <md-input video-control [(ngModel)]="task.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
@@ -31,7 +31,7 @@
       </tr></table>
 
       <p>
-        <button type="submit" md-raised-button (click)="saveTask()">
+        <button type="submit" md-raised-button (click)="saveTask()" color="primary">
           <span *ngIf="!isUpdateMode">Додати</span>
           <span *ngIf="isUpdateMode">Зберегти</span>
            захід</button>
