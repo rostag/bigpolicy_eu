@@ -6,9 +6,9 @@
         <a href><md-icon>share</md-icon></a>
         <em>{{leader.cash}}₴</em>
         <md-card-subtitle>Дніпро</md-card-subtitle>
-          <button md-raised-button color="accent">+70₴</button>
-          <button md-raised-button color="accent">+3700₴</button>
-          <button md-raised-button color="accent">+7000₴</button>
+          <button md-raised-button color="accent" disabled>+70₴</button>
+          <button md-raised-button color="accent" disabled>+3700₴</button>
+          <button md-raised-button color="accent" disabled>+7000₴</button>
       </md-card-title>
 
       <!-- state="iframed.leader"  -->
@@ -57,7 +57,7 @@
     </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="user.isAdmin()">
+    <p class="admin" *ngIf="user.hasEditPermissions()">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
     </p>

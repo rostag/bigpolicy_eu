@@ -1,15 +1,3 @@
-.add-toolbar {
-  padding: 0px 1em;
-}
-
-.add-toolbar .add-toolbar-icon {
-  padding: 0 14px;
-}
-
-.add-toolbar .add-fill-remaining {
-  flex: 1 1 auto;
-}
-
 .leader-edit-card {
   padding: 0;
 }
@@ -24,4 +12,8 @@
 
 .one {
   width: 30%;
+}
+
+md-input, md-textarea {
+  width: 100%;
 }

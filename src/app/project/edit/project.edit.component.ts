@@ -6,15 +6,17 @@ import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './project.edit.component.html',
-  styleUrls: ['./project.edit.component.css'],
+  styleUrls: ['./project.edit.component.scss'],
   providers: [ProjectService]
 })
 
 export class ProjectEditComponent {
 
-  private showTasks: boolean = true;
+  get showTasks(): boolean {
+      return this.isUpdateMode;
+  };
+
   private isUpdateMode: boolean = false;
-  private isAddingTaskMode: boolean = false;
 
   project: ProjectModel;
 
@@ -108,10 +110,5 @@ export class ProjectEditComponent {
         //navigation is done
       })
     }
-  }
-
-  addTask(){
-    this.isAddingTaskMode = true;
-    console.log('Adding task for', this.project.title, ' project, id: ', this.project._id );
   }
 }
