@@ -9,7 +9,8 @@ module.exports = function(app, DB){
       DB.createTask(req.body)
       .catch(function (err) {
           res.send(err);
-      }).then(function (data) {
+      })
+      .then(function (data) {
           res.json(data);
       });
   })

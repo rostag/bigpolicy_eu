@@ -2,7 +2,7 @@ export class ProjectModel {
   _id: string;
   title: string;
   description: string;
-  cost: number = 0;
+  cost: number = 1;
   managerName: string = 'John Doe';
   managerId: string = 'johndoe@mail.com';
   iconURL: string;

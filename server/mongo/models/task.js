@@ -11,7 +11,7 @@ var Schema       = mongoose.Schema;
 const TaskSchema = new Schema({
 	title: { type: String, required: true  },
 	description: { type: String, required: true  },
-	projectId: { type: String },
+	projectId: { type: String, required: true },
 	cost: { type: String, required: true  },
 	dateStarted: { type: Date, required: true  },
 	dateEnded: { type: Date, required: true  },
