@@ -71,29 +71,38 @@ DB.listLeaders = function(id) {
 
 DB.createLeader = function(dataObj) {
   var data = dataObj;
-  console.log('createLeader: ', data)
+  console.log('DB: createLeader: ', data)
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-    if(!data) data = {};
-    const model = new Leader(data);
-    var saved = model.save();
-    var saved2 = model.save(saved);
-    console.log('saved2: ', saved2);
-    return saved2;
+
+  if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
+    throw ( 'DB: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
+  }
+
+  if(!data) data = {};
+  const model = new Leader(data);
+  var saved = model.save();
+  var saved2 = model.save(saved);
+  console.log('saved2: ', saved2);
+  return saved2;
 }
 
 DB.updateLeader = function(id,data) {
-    if(!data) data = {};
-    return Leader.findById(id, function(err, model) {
-        if(err || !model){
-            return;
-        }
-        for (var field in data) {
-          model[field] = data[field]
-        }
-        return model.save();
-    });
+  if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
+    throw ( 'DB: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
+  }
+
+  if(!data) data = {};
+  return Leader.findById(id, function(err, model) {
+    if(err || !model){
+      return;
+    }
+    for (var field in data) {
+      model[field] = data[field]
+    }
+    return model.save();
+  });
 }
 
 DB.deleteLeader = function(id) {
@@ -126,7 +135,13 @@ DB.createProject = function(dataObj) {
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-  console.log('database.js: createProject: ', data)
+
+  console.log('DB: CreateProject: ', data)
+
+  if ( !data.title || !data.description ) {
+    throw ( 'DB: Invalid project cannot be saved. Either title or description is missed.')
+  }
+
   if(!data) data = {};
 
   const model = new Project(data);
@@ -161,6 +176,11 @@ DB.addProjectToLeader = function(error, savedProject) {
 
 DB.updateProject = function(id,data) {
     if(!data) data = {};
+
+    if ( !data.title || !data.description ) {
+      throw ( 'DB: Invalid project cannot be updated. Either title or description is missed.')
+    }
+
     return Project.findById(id, function(err, model) {
         if(err || !model){
             return;
@@ -206,6 +226,10 @@ DB.createTask = function(dataObj) {
 
   console.log('DB: createTask', data)
 
+  if ( !data.title || !data.description ) {
+    throw ( 'DB: Invalid task cannot be saved. Either title or description is missed.')
+  }
+
   if(!data) data = {};
     const model = new Task(data);
     var saved = model.save(DB.addTaskToProject);
@@ -235,7 +259,12 @@ DB.addTaskToProject = function(error, savedTask) {
 
 // WIP
 DB.updateTask = function(id, data) {
-  console.info('update task:', id, data);
+  console.info('DB: Update task:', id, data);
+
+  if ( !data.title || !data.description ) {
+    throw ( 'DB: Invalid task cannot be saved. Either title or description is missed.')
+  }
+
   if(!data) {
     data = {}
   };
