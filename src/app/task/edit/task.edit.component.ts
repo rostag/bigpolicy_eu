@@ -8,7 +8,7 @@ import { UserService } from '../../shared/user/user.service';
 @Component({
   selector: 'bp-task-edit',
   templateUrl: './task.edit.component.html',
-  styleUrls: ['./task.edit.component.css'],
+  styleUrls: ['./task.edit.component.scss'],
   providers: [TaskService]
   })
 

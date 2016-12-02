@@ -8,7 +8,7 @@ import { MdIconModule } from '@angular/material';
 @Component({
   selector: 'bp-toolbar',
   templateUrl: 'toolbar.component.html',
-  styleUrls: ['toolbar.component.css']
+  styleUrls: ['toolbar.component.scss']
 })
 export class ToolbarComponent {
 

@@ -5,7 +5,7 @@ import { LeaderService, LeaderModel } from '../../shared/leader/index';
 @Component({
   selector: 'bp-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./skeleton.css', './landing.component.css'],
+  styleUrls: ['./skeleton.css', './landing.component.scss'],
   providers: [ProjectService, LeaderService]
 })
 

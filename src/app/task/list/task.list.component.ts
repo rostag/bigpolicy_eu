@@ -9,7 +9,7 @@ import { UserService } from '../../shared/user/user.service';
 @Component({
   selector: 'task-list',
   templateUrl: './task.list.component.html',
-  styleUrls: ['./task.list.component.css'],
+  styleUrls: ['./task.list.component.scss'],
   providers: [TaskService, UserService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -17,7 +17,10 @@ import { UserService } from '../../shared/user/user.service';
 export class TaskListComponent implements OnChanges {
 
   @Input() project: ProjectModel;
+
   private tasks: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
+
+  private isAddingTaskMode: boolean = false;
 
   ngOnChanges(changes) {
     var project = changes.project.currentValue;
@@ -37,6 +40,11 @@ export class TaskListComponent implements OnChanges {
       this.tasks.next(tasks);
       proxySub.unsubscribe();
     });
+  }
+
+  addTask(project) {
+    this.isAddingTaskMode = true;
+    return false;
   }
 
   private deleteTask(taskToRemove: any) {

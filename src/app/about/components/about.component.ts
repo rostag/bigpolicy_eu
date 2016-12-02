@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'bp-about',
   templateUrl: './about.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './about.component.css']
+  styleUrls: ['../../../assets/css/skeleton.css', './about.component.scss']
 })
 
 export class AboutComponent {

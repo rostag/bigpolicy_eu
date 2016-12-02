@@ -7,7 +7,7 @@ import { UserService } from '../user/user.service';
 @Component({
   selector: 'bp-navbar',
   templateUrl: 'navbar.component.html',
-  styleUrls: ['navbar.component.css']
+  styleUrls: ['navbar.component.scss']
 })
 export class NavbarComponent {
 

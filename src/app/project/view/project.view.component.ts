@@ -6,13 +6,11 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 @Component({
   selector: 'project-view',
   templateUrl: './project.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.css'],
+  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss'],
   providers: [ProjectService, UserService]
 })
 
 export class ProjectViewComponent {
-
-  private isAddingTaskMode: boolean = false;
 
   project: ProjectModel = new ProjectModel();
 
@@ -61,11 +59,6 @@ export class ProjectViewComponent {
     // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
     this.project = new ProjectModel();
     this.project.parseData(data);
-  }
-
-  addTask(project) {
-    this.isAddingTaskMode = true;
-    return false;
   }
 
   /**

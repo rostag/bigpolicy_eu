@@ -1,7 +1,0 @@
-.task-edit-card md-input {
-  width: 100%;
-}
-
-:host.add-project-inline .task-edit-card {
-  margin-top: 2em;
-}
