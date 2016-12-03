@@ -1,5 +1,5 @@
 <md-list>
-  <md-list-item  *ngFor="let project of projects">
+  <md-list-item *ngFor="let project of projects | async">
     <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
     <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
     <p md-line>

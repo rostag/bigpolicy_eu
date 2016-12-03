@@ -42,6 +42,7 @@ try{
 ////////////////////////////////////////////////////
 
 DB.getLeader = function(id) {
+  // return Leader.findById(id);
   var leader = Leader.findById(id, function (error, leader) {
     if(leader){
       console.log('DB: got leader:', leader.email);
@@ -53,11 +54,11 @@ DB.getLeader = function(id) {
 
 DB.getLeaderProjects = function (projects) {
   if (projects) {
-    console.log('DB: get leader projects:', projects);
+    // console.log('DB: get leader projects:', projects);
 
     // WIP
     projects.forEach (function (project) {
-      console.log('DB: project found:', project);
+      // console.log('DB: project found:', project);
     });
   }
 
@@ -125,9 +126,14 @@ DB.getProject = function(id) {
    return Project.findById(id);
 }
 
-DB.listProjects = function() {
-    return Project.find()
-    // .exec();
+DB.listProjects = function(projectIds) {
+
+  var result = projectIds
+    ? Project.find({ '_id': { $in: projectIds } })
+    : Project.find();
+
+  // console.log('DB: List Projects: ', projectIds);
+  return result;
 }
 
 DB.createProject = function(dataObj) {

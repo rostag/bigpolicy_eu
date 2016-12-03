@@ -40,6 +40,7 @@ export class TaskService {
    * @return {string[]} The Observable for the HTTP request.
    */
   getTasks(taskId: string = '', projectId: string = ''): Observable<any> {
+    
     var requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : taskId);
 
     console.info('Task Service: get by', requestUrl);

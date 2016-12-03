@@ -9,7 +9,8 @@ module.exports = function(app, DB){
       DB.createProject(req.body)
       .catch(function (err) {
           res.send(err);
-      }).then(function (data) {
+      })
+      .then(function (data) {
           res.json(data);
       });
   })
@@ -42,6 +43,21 @@ module.exports = function(app, DB){
               res.json(data || []);
           });
       }
+  })
+
+  // WIP
+  /**
+   * Gets all projects for the given leader:
+   * /project-api/leader/id
+   */
+  .get('/leader/:leaderId', function (req, res) {
+    DB.getLeader( req.params.leaderId )
+      .then( (leader) => {
+        DB.listProjects(leader.projects)
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err))
   })
 
   /**
