@@ -1,31 +1,16 @@
-<md-card>
-  <md-card-title>Проекти</md-card-title>
-  <md-card-subtitle>Як зробити діяльність прозорою? Будь-який діяч є менеджером проектів.
-    Кожен проект має визначені  бюджет, строки і результат. Результат оцінює спільнота.
-    Менеджер реагує на критику і відповідає на запитання.
-  </md-card-subtitle>
-
-  <md-card-content>
-    <md-list>
-       <md-list-item  *ngFor="let project of projects">
-         <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
-         <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
-         <p md-line>
-          <b>₴{{project.cost}}.</b> {{project.dateEnded | date}} - {{project.dateStarted | date}}
-         </p>
-         <p md-line>
-           <small>{{project.description}}</small>
-         </p>
-         <p *ngIf="user.hasEditPermissions()" class="admin" style="min-width:4em;">
-           <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
-           <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
-         </p>
-
-      </md-list-item>
-    </md-list>
-
-  </md-card-content>
-  <!-- <md-card-actions>
-    <a href="/projects"><button md-button color="primary">Переглянути усі проекти</button></a>
-  </md-card-actions> -->
-</md-card>
+<md-list>
+  <md-list-item  *ngFor="let project of projects">
+    <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
+    <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
+    <p md-line>
+      <b>₴{{project.cost}}.</b> {{project.dateEnded | date}} - {{project.dateStarted | date}}
+    </p>
+    <p md-line>
+      <small>{{project.description}}</small>
+    </p>
+    <p *ngIf="user.hasEditPermissions()" class="admin" style="min-width:4em;">
+      <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
+      <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
+    </p>
+  </md-list-item>
+</md-list>
