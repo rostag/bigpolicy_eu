@@ -45,13 +45,18 @@ export class ProjectListComponent implements OnChanges {
     });
   }
 
-  private deleteProject(project: ProjectModel) {
-    // Delete from UI Model:
-    // var projectToRemoveIndex = this.projects.indexOf(project)
-    // this.projects.splice(projectToRemoveIndex, 1)
+  private deleteProject(projectToRemove: ProjectModel) {
+    // TODO: Also delete related tasks
+    // Delete in UI
+    var updatedProjects;
+    this.projects.subscribe ( projects => {
+      updatedProjects = projects.filter( project => project._id !== projectToRemove._id)
+    });
+    this.projects.next( updatedProjects );
+    console.log('removed index:', projectToRemove, updatedProjects);
 
     // Delete from DB
-    this.projectService.deleteProject(project)
+    this.projectService.deleteProject(projectToRemove);
     return false;
   }
 }

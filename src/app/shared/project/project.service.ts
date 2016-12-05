@@ -69,8 +69,8 @@ export class ProjectService {
   /**
    * Get a model from DB or from cache.
    */
-  getProject(modelId: string): Observable<Response> {
-    return this.getProjects(modelId)
+  getProject(projectId: string): Observable<Response> {
+    return this.getProjects(projectId)
   }
 
   /**
