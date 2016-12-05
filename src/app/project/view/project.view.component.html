@@ -16,7 +16,7 @@
       <md-grid-tile>
         <div>
           <h2>Вартість: {{project.cost}}₴</h2>
-          <h3>Менеджер: {{project.managerName}}</h3>
+          <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
           <p>Початок: {{project.dateStarted | date}}<br/>
           Кінець: {{project.dateEnded | date}}</p>
         </div>

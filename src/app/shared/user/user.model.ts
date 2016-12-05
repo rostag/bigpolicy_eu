@@ -8,7 +8,6 @@ export class UserModel {
 	image: String;
 	videoUrl: String;
 	logo: String;
-
-	//createdAt: Date
+  leaderId: String;
 
 };

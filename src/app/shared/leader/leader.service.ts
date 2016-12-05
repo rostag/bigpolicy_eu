@@ -31,7 +31,9 @@ export class LeaderService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    console.log('LeaderService Constructor')
+  }
 
   /**
    * Creates the Leader.
@@ -88,6 +90,17 @@ export class LeaderService {
    */
   getLeader(modelId: string): Observable<Response> {
     return this.getLeaders(modelId)
+  }
+
+  getLeaderByEmail(email: string): LeaderModel {
+    var foundLeader;
+    var leaders = this.models;
+      for (let l in leaders) {
+        if (leaders[l].email === email) {
+          foundLeader = leaders[l];
+        }
+      }
+    return foundLeader;
   }
 
   /**

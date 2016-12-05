@@ -135,7 +135,7 @@ export class SharerComponent implements OnInit {
 
     // Populate email properties on before share;
     this.emailToShare.html = this.emailHtml;
-    this.emailToShare.from = this.project.managerId;
+    this.emailToShare.from = this.project.managerEmail;
     this.emailToShare.subject = this.emailSubject;
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
 
@@ -178,7 +178,7 @@ export class SharerComponent implements OnInit {
             </p>
             <p>Щиро вдячний,<br>`
             + this.project.managerName + `<br>
-            <small>` + this.project.managerId + `</small></p>
+            <small>` + this.project.managerEmail + `</small></p>
             `
             +
             `
