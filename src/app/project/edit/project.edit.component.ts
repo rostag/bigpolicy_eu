@@ -31,10 +31,10 @@ export class ProjectEditComponent {
     this.project = new ProjectModel();
   }
 
-  getLeaderId() {
+  getLeader() {
     var leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
     console.log('fousnd leader id: ', leader);
-    return leader._id;
+    return leader;
   }
 
   /**
@@ -99,10 +99,11 @@ export class ProjectEditComponent {
       )
     } else {
       // Create new project
-      this.project.managerName = this.userService.userProfile['name'];
       // FIXME - Potential Race Condition
-      this.project.managerId = this.getLeaderId();
-      this.project.managerEmail = this.userService.userProfile['email'];
+      let leader = this.getLeader();
+      this.project.managerId = leader._id;
+      this.project.managerEmail = leader.email;
+      this.project.managerName = leader.name + ' ' + leader.surName;
       this.projectService.createProject(this.project)
       .subscribe(
         data => { this.gotoProject(data) },

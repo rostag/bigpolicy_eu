@@ -2,6 +2,7 @@
   <div *ngIf="userService.authenticated() && userService.userProfile">
     <md-card-title-group>
       <md-card-title>
+        <!-- FIXME Override User Profile Name with Leader Name ? -->
         <h1>
           {{userService.userProfile.name}}
           <md-card-subtitle>

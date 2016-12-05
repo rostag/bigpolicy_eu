@@ -9,6 +9,7 @@
   <span class="username">
     <a *ngIf="!userService.authenticated()" (click)="userService.login()">Login</a>
     <span *ngIf="userService.authenticated()" class="toolbar-username">
+      <!-- FIXME Override User Profile Name with Leader Name ? -->
       <a [routerLink]="['/profile']" >{{userService.userProfile ? userService.userProfile.name : ''}}
         <md-icon class="toolbar-inline-icon">account_circle</md-icon>
       </a>

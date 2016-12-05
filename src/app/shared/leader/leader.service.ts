@@ -21,7 +21,7 @@ export class LeaderService {
   private models;
 
   /**
-   * Contains the currently pending request.
+   * Contains the pending request.
    * @type {Observable<string[]>}
    */
   private request;

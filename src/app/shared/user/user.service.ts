@@ -28,12 +28,6 @@ export class UserService {
       email: ''
   };
 
-  current = {
-    project: {
-      title: 't'
-    }
-  };
-
   constructor(
 
   ) {

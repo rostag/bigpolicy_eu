@@ -45,7 +45,7 @@ DB.getLeader = function(id) {
   // return Leader.findById(id);
   var leader = Leader.findById(id, function (error, leader) {
     if(leader){
-      console.log('DB: got leader:', leader.email);
+      console.log('DB: got leader:', leader.email, ', id:', leader.id);
       leader.projects = DB.getLeaderProjects(leader.projects);
     }
   });
@@ -159,11 +159,11 @@ DB.createProject = function(dataObj) {
 
 DB.addProjectToLeader = function(error, savedProject) {
   // Add this project to the corresponding leader's array
-  console.log('find this project leader by email: ', savedProject.managerId);
+  console.log('find this project leader by leaderId: ', savedProject.managerId);
 
-  var leaderByEmailQuery  = Leader.where({ email: savedProject.managerId });
+  var leaderByIdQuery = Leader.where({ _id: savedProject.managerId });
 
-  leaderByEmailQuery.findOne( function (err, leader) {
+  leaderByIdQuery.findOne( function (err, leader) {
     if( leader ) {
       console.log('project leader found: ', leader.name);
       console.log('and his projects: ', leader.projects);
