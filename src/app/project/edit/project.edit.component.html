@@ -34,10 +34,11 @@
     </md-card-content>
 
     <p>
-        <button type="submit" md-raised-button (click)="saveProject()" color="primary">
-          <span *ngIf="!isUpdateMode">Додати</span>
-          <span *ngIf="isUpdateMode">Зберегти</span>
-          <span>проект</span></button>
+      <button type="submit" md-raised-button (click)="saveProject()" color="primary">
+        <span *ngIf="!isUpdateMode">Додати</span>
+        <span *ngIf="isUpdateMode">Зберегти</span>
+        <span>проект</span>
+      </button>
     </p>
 
 </md-card>

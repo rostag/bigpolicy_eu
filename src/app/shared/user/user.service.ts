@@ -1,6 +1,6 @@
 /* ===== ./auth.service.ts ===== */
-import {Injectable} from '@angular/core';
-import {tokenNotExpired} from 'angular2-jwt';
+import { Injectable } from '@angular/core';
+import { tokenNotExpired } from 'angular2-jwt';
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -23,18 +23,14 @@ export class UserService {
   private _isDemoMode = true;
 
   //Store profile object in auth class
-  userProfile: Object = {
+  userProfile: any = {
       name: '',
       email: ''
   };
 
-  current = {
-    project: {
-      title: 't'
-    }
-  }
+  constructor(
 
-  constructor() {
+  ) {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 

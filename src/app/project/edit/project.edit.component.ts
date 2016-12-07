@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
+import { LeaderService } from '../../shared/leader/leader.service';
 
 @Component({
   templateUrl: './project.edit.component.html',
   styleUrls: ['./project.edit.component.scss'],
-  providers: [ProjectService]
+  providers: [ProjectService, LeaderService]
 })
 
 export class ProjectEditComponent {
@@ -24,9 +25,16 @@ export class ProjectEditComponent {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private userService: UserService
+    private userService: UserService,
+    private leaderService: LeaderService
   ) {
     this.project = new ProjectModel();
+  }
+
+  getLeader() {
+    var leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
+    console.log('fousnd leader id: ', leader);
+    return leader;
   }
 
   /**
@@ -34,6 +42,7 @@ export class ProjectEditComponent {
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
+    this.leaderService.getLeaders().subscribe();
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
@@ -90,8 +99,11 @@ export class ProjectEditComponent {
       )
     } else {
       // Create new project
-      this.project.managerName = this.userService.userProfile['name'];
-      this.project.managerId = this.userService.userProfile['email'];
+      // FIXME - Potential Race Condition
+      let leader = this.getLeader();
+      this.project.managerId = leader._id;
+      this.project.managerEmail = leader.email;
+      this.project.managerName = leader.name + ' ' + leader.surName;
       this.projectService.createProject(this.project)
       .subscribe(
         data => { this.gotoProject(data) },

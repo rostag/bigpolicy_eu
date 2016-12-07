@@ -10,6 +10,7 @@ const UserSchema = new Schema({
 	image: { type: String },
 	videoUrl: { type: String },
 	logo: { type: String },
+	// leaderId: { type: String },
 
 	createdAt: { type: Date }
 });

@@ -12,6 +12,7 @@ import { TaskEditComponent } from './task/edit/index';
 import { TaskListComponent } from './task/list/index';
 import { TaskViewComponent } from './task/view/index';
 
+import { ProjectsComponent } from './project/landing/index';
 import { ProjectEditComponent } from './project/edit/index';
 import { ProjectListComponent } from './project/list/index';
 import { ProjectViewComponent } from './project/view/index';
@@ -46,6 +47,7 @@ import { VideoComponent } from './shared/video/video.component';
     TaskEditComponent,
     TaskViewComponent,
     TaskListComponent,
+    ProjectsComponent,
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,

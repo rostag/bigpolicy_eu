@@ -14,7 +14,7 @@ export class ShareService {
   private mailApiUrl = '/mail-api/';
 
   /**
-   * Contains the currently pending request.
+   * Contains the pending request.
    * @type {Observable<ProjectModel[]>}
    */
   private request;

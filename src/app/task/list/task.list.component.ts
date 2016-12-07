@@ -42,7 +42,7 @@ export class TaskListComponent implements OnChanges {
     });
   }
 
-  addTask(project) {
+  addTask() {
     this.isAddingTaskMode = true;
     return false;
   }

@@ -2,39 +2,39 @@ import { UserService } from '../user/user.service';
 
 export class LeaderModel {
 
-	_id: String;
+	_id: string;
 
 	// personal info
-	name: String;
-	parentName: String;
-	surName: String;
-	vision: String;
-	mission: String;
-	photo: String;
-	videoUrl: String;
-	logo: String;
-	email: String;
+	name: string;
+	parentName: string;
+	surName: string;
+	vision: string;
+	mission: string;
+	photo: string;
+	videoUrl: string;
+	logo: string;
+	email: string;
 	projects;
 
 	// political party membership
   // id of party from parties list
 	party: Number;
-	officialPost: String;
+	officialPost: string;
 
 	// other
-	socialNetworks: String;
-	skills: String;
+	socialNetworks: string;
+	skills: string;
 
 	// important personal documents
-	docActionPlan: String;
-	docElectionProgram: String;
-	docPropertyDeclaration: String;
-	docCriminalRecord: String;
-	docCorruptionRecord: String;
-	docPassport: String;
+	docActionPlan: string;
+	docElectionProgram: string;
+	docPropertyDeclaration: string;
+	docCriminalRecord: string;
+	docCorruptionRecord: string;
+	docPassport: string;
 
 	// end of documents
-	createdAt: String;
+	createdAt: string;
 
 	cash: Number = Math.random() * 1000;
 
