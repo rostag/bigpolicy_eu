@@ -10,7 +10,7 @@ module.exports = function(app){
 
   // FIXME_SEC
   var jwtCheck = jwt({
-    secret: 'ldrtNSJ_YB97SBoRJvTQtKMqCGoo79LHQvo2H7t28pyrIw5awS6P0FFKCNxMTx80',
+    secret: new Buffer('ldrtNSJ_YB97SBoRJvTQtKMqCGoo79LHQvo2H7t28pyrIw5awS6P0FFKCNxMTx80', 'base64'),
     audience: 'IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J'
   });
 
@@ -18,7 +18,7 @@ module.exports = function(app){
   app.use(bodyParser.json());                          // parse application/json
 
   // FIXME
-  // app.use('/leader-api', jwtCheck);
+  app.use('/leader-api', jwtCheck);
   // app.use('/project-api', jwtCheck);
 
   leaderApi(app, DB);

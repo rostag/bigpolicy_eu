@@ -67,7 +67,7 @@ export class UserService {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
     var koten = tokenNotExpired();
-    console.log('koten exiperd:', koten, tokenNotExpired);
+    // console.log('koten exiperd:', koten, tokenNotExpired);
     return koten;
   };
 
