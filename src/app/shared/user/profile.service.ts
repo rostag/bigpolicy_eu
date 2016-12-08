@@ -1,12 +1,12 @@
+import { AuthHttp } from 'angular2-jwt';
+import { Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-// import { localStorage } from '../localstorage/localStorage';
 import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ProfileService {
   constructor(
-    private http: Http,
+    private http: AuthHttp,
     private userService: UserService
   ) {}
 

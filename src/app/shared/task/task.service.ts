@@ -1,5 +1,6 @@
+import { AuthHttp } from 'angular2-jwt';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
@@ -14,9 +15,11 @@ export class TaskService {
   private apiUrl = '/task-api/';
 
   /**
-   * Creates a new TaskService with the injected Http
+   * Creates a new TaskService with the injected AuthHttp
    */
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) {
+
+  }
 
   /**
    * Creates the Task

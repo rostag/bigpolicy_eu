@@ -1,9 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
+
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -75,7 +77,8 @@ import { VideoComponent } from './shared/video/video.component';
     // MdIconRegistry,
     LoggedInGuard,
     UserService,
-    ShareService
+    ShareService,
+    AUTH_PROVIDERS
   ],
   bootstrap: [AppComponent]
 })

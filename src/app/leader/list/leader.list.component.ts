@@ -1,6 +1,7 @@
+import { AuthHttp } from 'angular2-jwt';
 import { Component } from '@angular/core';
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 
 import { UserService } from '../../shared/user/user.service';
 
@@ -18,7 +19,7 @@ export class LeaderListComponent {
     private leaders = []
 
     constructor(
-      private http: Http,
+      private http: AuthHttp,
       private leaderService: LeaderService,
       private user: UserService
     ) {}

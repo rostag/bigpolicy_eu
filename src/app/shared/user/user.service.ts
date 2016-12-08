@@ -36,6 +36,7 @@ export class UserService {
 
     // Add callback for the Lock `authenticated` event
     this.lock.on("authenticated", (authResult) => {
+      console.log('got token: ', authResult.idToken);
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -65,7 +66,9 @@ export class UserService {
   public authenticated() {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
-    return tokenNotExpired();
+    var koten = tokenNotExpired();
+    console.log('koten exiperd:', koten, tokenNotExpired);
+    return koten;
   };
 
   public logout() {

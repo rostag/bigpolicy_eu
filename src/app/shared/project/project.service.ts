@@ -1,5 +1,6 @@
+import { AuthHttp } from 'angular2-jwt';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
@@ -15,11 +16,11 @@ export class ProjectService {
   private apiUrl = '/project-api/';
 
   /**
-   * Creates a new ProjectService with the injected Http.
-   * @param {Http} http - The injected Http.
+   * Creates a new ProjectService with the injected AuthHttp.
+   * @param {AuthHttp} http - The injected AuthHttp.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: AuthHttp) {}
 
   /**
    * Creates the Project.

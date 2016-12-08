@@ -1,9 +1,10 @@
 import 'rxjs/Rx';
+import { AuthHttp } from 'angular2-jwt';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -32,7 +33,7 @@ export class TaskListComponent implements OnChanges {
   constructor(
     private taskService: TaskService,
     private user: UserService,
-    private http: Http
+    private http: AuthHttp
   ) {}
 
   requestTasks(projectId) {
