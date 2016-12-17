@@ -48,7 +48,7 @@ module.exports = function(app, DB){
   // WIP
   /**
    * Gets all tasks for the given project:
-   * /project-api/id/tasks
+   * /task-api/project/id
    */
   .get('/project/:projectId', function (req, res) {
     DB.getProject( req.params.projectId )

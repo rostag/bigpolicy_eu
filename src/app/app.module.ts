@@ -12,6 +12,7 @@ import { TaskEditComponent } from './task/edit/index';
 import { TaskListComponent } from './task/list/index';
 import { TaskViewComponent } from './task/view/index';
 
+import { ProjectsComponent } from './project/landing/index';
 import { ProjectEditComponent } from './project/edit/index';
 import { ProjectListComponent } from './project/list/index';
 import { ProjectViewComponent } from './project/view/index';
@@ -29,7 +30,10 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
+import { LeaderService } from './shared/leader/leader.service';
+import { ProjectService } from './shared/project/project.service';
 import { ShareService } from './shared/sharer/share.service';
+import { TaskService } from './shared/task/task.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -46,6 +50,7 @@ import { VideoComponent } from './shared/video/video.component';
     TaskEditComponent,
     TaskViewComponent,
     TaskListComponent,
+    ProjectsComponent,
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,
@@ -73,6 +78,9 @@ import { VideoComponent } from './shared/video/video.component';
     // MdIconRegistry,
     LoggedInGuard,
     UserService,
+    LeaderService,
+    ProjectService,
+    TaskService,    
     ShareService
   ],
   bootstrap: [AppComponent]

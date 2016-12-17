@@ -4,7 +4,8 @@ export class ProjectModel {
   description: string;
   cost: number = 1;
   managerName: string = 'John Doe';
-  managerId: string = 'johndoe@mail.com';
+  managerId: string = '';
+  managerEmail: string = '';
   iconURL: string;
   dateStarted: Date = new Date();
   dateEnded: Date = new Date();
@@ -24,6 +25,7 @@ export class ProjectModel {
       cost: this.cost,
       managerName: this.managerName,
       managerId: this.managerId,
+      managerEmail: this.managerEmail,
       dateStarted: this.startDateInputValue,
       dateEnded: this.endDateInputValue,
       iconURL: this.iconURL,

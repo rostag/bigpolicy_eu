@@ -2,13 +2,15 @@
   <span class="logo">
     <a [routerLink]="['/']">
       <md-icon class="toolbar-inline-icon">group_work</md-icon>
-      BigPolicy <span *ngIf="userService.isDemoMode">[DEMO]</span>
+      <span *ngIf="userService.isDemoMode">Demo:</span>
+      BigPolicy
     </a>
   </span>
 
   <span class="username">
     <a *ngIf="!userService.authenticated()" (click)="userService.login()">Login</a>
     <span *ngIf="userService.authenticated()" class="toolbar-username">
+      <!-- FIXME Override User Profile Name with Leader Name ? -->
       <a [routerLink]="['/profile']" >{{userService.userProfile ? userService.userProfile.name : ''}}
         <md-icon class="toolbar-inline-icon">account_circle</md-icon>
       </a>
@@ -22,6 +24,6 @@
 </md-toolbar>
 
 <md-menu x-position="before" #menu="mdMenu">
-  <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle theme</button>
-  <button md-menu-item (click)="userService.setDemoMode()">.</button>
+  <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle Theme</button>
+  <button md-menu-item (click)="userService.setDemoMode()">Demo Mode</button>
 </md-menu>
