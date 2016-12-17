@@ -20,7 +20,7 @@ export class UserService {
     this._isDemoMode = value;
   }
 
-  private _isDemoMode = true;
+  private _isDemoMode = false;
 
   //Store profile object in auth class
   userProfile: any = {
@@ -52,9 +52,22 @@ export class UserService {
     });
   };
 
-  public hasEditPermissions() {
+  public hasEditPermissions(leaderProjectOrTask) {
     // FIXME it's being called too often, as log below shows
-    return this.isDemoMode || ( this.userProfile && this.userProfile['email'] === 'rostislav.siryk@gmail.com' );
+    return this.isDemoMode || this.isAdmin() || this.isOwner(leaderProjectOrTask);
+  }
+
+  private isAdmin() {
+    return this.userProfile && this.userProfile['email'] === 'rostislav.siryk@gmail.com'
+  }
+
+  private isOwner(leaderProjectOrTask) {
+    if (!this.authenticated()) {
+      return false;
+    }
+    let userEmail = this.userProfile && this.userProfile['email'] || '';
+    console.log('owner mail: ', userEmail);
+    return userEmail === leaderProjectOrTask['email'] || userEmail === leaderProjectOrTask['managerEmail'];
   }
 
   public login() {
@@ -65,6 +78,7 @@ export class UserService {
   public authenticated() {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
+    // console.log('authenticated, tokenNotExpired: ', tokenNotExpired())
     return tokenNotExpired();
   };
 
