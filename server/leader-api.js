@@ -6,7 +6,7 @@ module.exports = function(app, DB){
   // Routes order is important
 
   router.post('/', function (req, res) {
-      DB.createLeader(req.body)
+    DB.createLeader(req.body)
       .catch(function (err) {
           res.send(err);
       }).then(function (data) {
@@ -49,6 +49,7 @@ module.exports = function(app, DB){
    * /leader-api/
    */
   .get('*', function (req, res)     {
+    // console.log('jwt check:', app.jwtCheck.active());
       DB.listLeaders()
       .then(function (data) {
           res.json(data);
@@ -71,7 +72,6 @@ module.exports = function(app, DB){
           res.json(err);
       });
   });
-
 
   app.use('/leader-api', router);
 

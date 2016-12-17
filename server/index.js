@@ -5,21 +5,20 @@ module.exports = function(app){
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
   var bodyParser = require('body-parser');
-  var jwt = require('express-jwt');
   var DB = require('./mongo/database');
 
   // FIXME_SEC
-  var jwtCheck = jwt({
-    secret: new Buffer('ldrtNSJ_YB97SBoRJvTQtKMqCGoo79LHQvo2H7t28pyrIw5awS6P0FFKCNxMTx80', 'base64'),
-    audience: 'IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J'
-  });
+  // var jwt = require('express-jwt');
+  // var jwtCheck = jwt({
+  //   secret: new Buffer('ldrtNSJ_YB97SBoRJvTQtKMqCGoo79LHQvo2H7t28pyrIw5awS6P0FFKCNxMTx80', 'base64'),
+  //   audience: 'IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J'
+  // });
+
+  // app.use('/leader-api', jwtCheck);
+  // app.use('/project-api', jwtCheck);
 
   app.use(bodyParser.urlencoded({'extended':'true'})); // parse application/x-www-form-urlencoded
   app.use(bodyParser.json());                          // parse application/json
-
-  // FIXME
-  app.use('/leader-api', jwtCheck);
-  // app.use('/project-api', jwtCheck);
 
   leaderApi(app, DB);
   projectApi(app, DB);
