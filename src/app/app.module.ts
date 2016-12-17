@@ -30,7 +30,10 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
+import { LeaderService } from './shared/leader/leader.service';
+import { ProjectService } from './shared/project/project.service';
 import { ShareService } from './shared/sharer/share.service';
+import { TaskService } from './shared/task/task.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -75,6 +78,9 @@ import { VideoComponent } from './shared/video/video.component';
     // MdIconRegistry,
     LoggedInGuard,
     UserService,
+    LeaderService,
+    ProjectService,
+    TaskService,    
     ShareService
   ],
   bootstrap: [AppComponent]

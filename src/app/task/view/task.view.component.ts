@@ -31,7 +31,7 @@ export class TaskViewComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('View Task by ID from route params:', id)
+        // console.log('View Task by ID from route params:', id)
         if (id) {
           this.taskService.getTask(id)
           .subscribe( data => {
