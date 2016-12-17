@@ -35,6 +35,18 @@ export class ProjectService {
         .map(res => res.json())
   }
 
+  static _cachedProjects = [];
+
+  static cacheProject(project) {
+    this._cachedProjects[project._id] = project;
+    // console.log('cache project: ', this._cachedProjects[project._id]);
+  }
+
+  static getCachedProject(projectId) {
+    // console.log('get cached project by id:', projectId, ': ', this._cachedProjects[projectId]);
+    return this._cachedProjects[projectId] || {};
+  }
+
   /**
    * Get all projects from DB by given leaderId or projectId
    * Returns an Observable for the HTTP GET request.

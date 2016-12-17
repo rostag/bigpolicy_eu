@@ -59,6 +59,7 @@ export class ProjectViewComponent {
     // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
     this.project = new ProjectModel();
     this.project.parseData(data);
+    ProjectService.cacheProject(this.project);
   }
 
   /**

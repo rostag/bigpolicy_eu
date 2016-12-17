@@ -2,10 +2,10 @@
 
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
-        <a href><md-icon>thumb_up</md-icon></a>
+        <!-- FIXME <a href><md-icon>thumb_up</md-icon></a>
         <a href><md-icon>share</md-icon></a>
-        <em>{{leader.cash}}₴</em>
-        <md-card-subtitle>Дніпро</md-card-subtitle>
+        <em>{{leader.cash}}₴</em> -->
+        <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
           <button md-raised-button color="accent" disabled>+70₴</button>
           <button md-raised-button color="accent" disabled>+3700₴</button>
           <button md-raised-button color="accent" disabled>+7000₴</button>
@@ -22,15 +22,15 @@
       <br><br>
       <h3>Візія:</h3> {{leader.vision}}
 
-      <h2>Навички та вміння:</h2>
+      <!-- FIXME <h2>Навички та вміння:</h2>
       <p>Аналітик, соціальний підприємець та консультант</p>
-      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p>
+      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
 
-      <h2>Документи:</h2>
+      <!-- FIXME <h2>Документи:</h2>
       <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
-      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація
+      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
 
       <br />
       <br />
@@ -48,7 +48,7 @@
     </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="user.hasEditPermissions()">
+    <p class="admin" *ngIf="user.hasEditPermissions(leader)">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
     </p>
