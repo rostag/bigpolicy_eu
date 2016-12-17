@@ -28,6 +28,7 @@ export class LeaderEditComponent {
    * like `id` in leader/:id/edit)
    */
   ngOnInit() {
+    // FIXME
     var p = this.userService.userProfile;
     let fullname = p ? p['name'] : '';
     this.leader.name = fullname.split(' ')[0];
@@ -87,7 +88,6 @@ export class LeaderEditComponent {
       )
     } else {
       // Create new leader
-      // let n = this.userService.userProfile['name'].split(' ');
       this.leader.email = this.userService.userProfile['email'];
       this.leaderService.createLeader(this.leader)
       .subscribe(

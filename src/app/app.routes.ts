@@ -12,6 +12,7 @@ import { LeaderEditComponent } from './leader/edit/index';
 import { LeaderListComponent } from './leader/list/index';
 import { LeaderViewComponent } from './leader/view/index';
 
+import { ProjectsComponent } from './project/landing/index';
 import { ProjectEditComponent } from './project/edit/index';
 import { ProjectListComponent } from './project/list/index';
 import { ProjectViewComponent } from './project/view/index';
@@ -33,7 +34,7 @@ export const routes: Routes = [
   { path: 'task/:id', component: TaskViewComponent },
 
   { path: 'leaders', component: LeaderListComponent },
-  { path: 'projects', component: ProjectListComponent },
+  { path: 'projects', component: ProjectsComponent },
   { path: 'tasks', component: TaskListComponent },
   { path: 'add-leader', component: LeaderEditComponent },
   { path: 'add-project', component: ProjectEditComponent },

@@ -15,27 +15,11 @@ export class ProjectService {
   private apiUrl = '/project-api/';
 
   /**
-   * The array of initial projects provided by the service.
-   * @type {Array}
-   */
-  projects;
-
-  /**
-   * Contains the currently pending request.
-   * @type {Observable<ProjectModel[]>}
-   */
-  private request;
-
-  /**
    * Creates a new ProjectService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {
-
-    this.projects = [];
-
-  }
+  constructor(private http: Http) {}
 
   /**
    * Creates the Project.
@@ -51,46 +35,54 @@ export class ProjectService {
         .map(res => res.json())
   }
 
+  static _cachedProjects = [];
+
+  static cacheProject(project) {
+    this._cachedProjects[project._id] = project;
+    // console.log('cache project: ', this._cachedProjects[project._id]);
+  }
+
+  static getCachedProject(projectId) {
+    // console.log('get cached project by id:', projectId, ': ', this._cachedProjects[projectId]);
+    return this._cachedProjects[projectId] || {};
+  }
+
   /**
-   * Get all models from DB
+   * Get all projects from DB by given leaderId or projectId
    * Returns an Observable for the HTTP GET request.
-   * If there was a previous successful request
-   * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjects(modelId: string = ''): Observable<Response> {
-    if (this.projects && this.projects.length) {
-      return Observable.from([this.projects]);
-    }
+  getProjects(projectId: string = '', leaderId: string = '', maxCount: number = 10): Observable<Response> {
 
-    if (!this.request) {
-      this.request = this.http.get(this.apiUrl + modelId)
-        .map((res:Response) => {
-          this.projects = res.json()
-          if (this.projects.forEach) {
-            this.projects.forEach((project) => {
-              project.dateStarted = new Date(project['dateStarted'])
-              project.dateEnded = new Date(project['dateEnded'])
-            })
-          }
-          else {
-            this.projects.dateStarted = new Date(this.projects['dateStarted'])
-            this.projects.dateEnded = new Date(this.projects['dateEnded'])
-          }
-          // console.log('Projects loaded, response: ', this.projects)
-          return this.projects
-        })
-    }
-    return this.request;
+    var requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
 
-    // return this.http.get(this.apiUrl).map((res:Response) => res.json());
+    console.info('Project Service: get by', requestUrl);
+
+    var reponseObservable = this.http.get(requestUrl)
+      .map((res: Response) => {
+        let projects = res.json()
+        if (projects.forEach) {
+          projects.forEach(project => this.convertTime(project))
+        }
+        else {
+          this.convertTime(projects)
+        }
+        console.log('Projects loaded, response: ', projects)
+        return projects
+      })
+    return reponseObservable;
+  }
+
+  private convertTime(task) {
+    task.dateStarted = new Date(task['dateStarted']);
+    task.dateEnded = new Date(task['dateEnded']);
   }
 
   /**
    * Get a model from DB or from cache.
    */
-  getProject(modelId: string): Observable<Response> {
-    return this.getProjects(modelId)
+  getProject(projectId: string): Observable<Response> {
+    return this.getProjects(projectId)
   }
 
   /**

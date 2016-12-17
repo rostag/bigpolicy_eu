@@ -16,7 +16,7 @@
       <md-grid-tile>
         <div>
           <h2>Вартість: {{project.cost}}₴</h2>
-          <h3>Менеджер: {{project.managerName}}</h3>
+          <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
           <p>Початок: {{project.dateStarted | date}}<br/>
           Кінець: {{project.dateEnded | date}}</p>
         </div>
@@ -30,7 +30,7 @@
     <task-list [project]="project"></task-list>
     <!-- /Project Tasks -->
 
-    <p *ngIf="user.hasEditPermissions()" class="admin project-toolbar">
+    <p *ngIf="user.hasEditPermissions(project)" class="admin project-toolbar">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати</button></a>
       <!-- TODO Enable it -->
       <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити проект</button></a>
