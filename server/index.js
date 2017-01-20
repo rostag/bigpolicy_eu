@@ -1,9 +1,10 @@
 module.exports = function(app){
 
-  var mailApi = require('./mail-api');
   var taskApi = require('./task-api');
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
+  var mailApi = require('./mail-api');
+  var liqpayApi = require('./liqpay-api');
   var bodyParser = require('body-parser');
 
   const DB = require('./mongo/database');
@@ -15,6 +16,7 @@ module.exports = function(app){
   projectApi(app, DB);
   taskApi(app, DB);
   mailApi(app, DB);
+  liqpayApi(app, DB);
 
   // Send spa file if unmatched and then register it at the very end of the chain
   app.use(function (req,res) {

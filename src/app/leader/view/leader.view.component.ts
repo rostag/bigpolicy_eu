@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { DonationModel, DonationService } from '../../shared/donate/index';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './leader.view.component.html',
   styleUrls: ['./leader.view.component.scss'],
-  providers: [LeaderService, UserService]
+  providers: [LeaderService, UserService, DonationModel]
 })
 
 export class LeaderViewComponent {
@@ -20,6 +21,7 @@ export class LeaderViewComponent {
     private router: Router,
     private route: ActivatedRoute,
     private leaderService: LeaderService,
+    private donationService: DonationService,
     private user: UserService
   ){}
 
@@ -52,6 +54,15 @@ export class LeaderViewComponent {
   setLeader(data){
     console.log('got leader: ', data);
     this.leader = data;
+  }
+
+  private donateLeader(leader: LeaderModel, amount) {
+    console.log('donateLeader:', leader, amount);
+
+    // TODO
+    this.donationService.donateLeader(amount);
+
+    return false;
   }
 
   /**
