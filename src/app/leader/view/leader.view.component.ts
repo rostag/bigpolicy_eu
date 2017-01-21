@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   templateUrl: './leader.view.component.html',
   styleUrls: ['./leader.view.component.scss'],
-  providers: [LeaderService, UserService, DonationModel]
+  providers: [LeaderService, UserService]
 })
 
 export class LeaderViewComponent {
@@ -56,11 +56,19 @@ export class LeaderViewComponent {
     this.leader = data;
   }
 
-  private donateLeader(leader: LeaderModel, amount) {
-    console.log('donateLeader:', leader, amount);
+  private donateLeader(amount) {
+    console.log('donateLeader:', this.leader, amount);
 
+    var donation = new DonationModel();
+    donation.targetType = 'leader';
+    donation.targetId = this.leader._id;
+    donation.amount = amount;
+    donation.dateStarted = new Date();
+    donation.description = 'to ' + this.leader.name + this.leader.surName;
     // TODO
-    this.donationService.donateLeader(amount);
+    donation.donorId = '';
+
+    this.donationService.donateLeader(donation);
 
     return false;
   }

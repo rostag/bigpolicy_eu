@@ -27,7 +27,7 @@ export class DonationService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  donateLeader(model:DonationModel) {
+  donateLeader(model: DonationModel) {
 
     console.log('Donate leader: ', model._id);
 
