@@ -8,13 +8,16 @@ module.exports = function(app){
   var bodyParser = require('body-parser');
 
   const DB = require('./mongo/database');
+  const DBLeader = require('./mongo/db-leader');
+  const DBProject = require('./mongo/db-project');
+  const DBTask = require('./mongo/db-task');
 
   app.use(bodyParser.urlencoded({'extended':'true'})); // parse application/x-www-form-urlencoded
   app.use(bodyParser.json());                          // parse application/json
 
-  leaderApi(app, DB);
-  projectApi(app, DB);
-  taskApi(app, DB);
+  leaderApi(app, DBLeader);
+  projectApi(app, DBProject, DBLeader);
+  taskApi(app, DBTask, DBProject);
   mailApi(app, DB);
   liqpayApi(app, DB);
 
