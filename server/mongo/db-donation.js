@@ -66,13 +66,14 @@ DBDonation.addDonationToTarget = function(error, savedDonation) {
 
   targetByIdQuery.findOne( function (err, target) {
     if (target) {
-      console.log('new donation: ', savedDonation._id);
+      console.log('New donation: ', savedDonation._id);
       console.log('\tdonation\'s target found: ', target._id);
       console.log('\t\tand it\'s donations: ', target.donations);
       target.donations.push(savedDonation.id);
       console.log('\t\t+plus updated: ', target.donations);
 
-      target.update({ donations: target.donations }, function (error, target){
+      // FIXME implement scheduled cash re-calculation
+      target.update({ donations: target.donations, totalDonationsReceived: target.totalDonationsReceived + savedDonation.amount }, function (error, target){
         console.log('\tadded donation to target');
       })
     }

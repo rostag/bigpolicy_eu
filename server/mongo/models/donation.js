@@ -12,7 +12,8 @@ const DonationSchema = new Schema({
   	amount: { type: Number, required: true },
   	dateStarted: { type: Date, required: true },
   	dateCompleted: { type: String },
-  	description: { type: String, required: true }
+  	description: { type: String, required: true },
+    virtual: { type: Boolean, default: true }
 
 });
 

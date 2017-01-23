@@ -20,6 +20,8 @@ const LeaderSchema = new Schema({
 	logo: { type: String },
 	email: { type: String, required: true },
 	projects: { type: Array },
+	donations: { type: Array },
+	totalDonationsReceived: { type: Number },
 
 	// political party membership
 	// id of party from parties lst

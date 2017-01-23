@@ -11,6 +11,8 @@ export class TaskModel {
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
+  donations;
+  totalDonationsReceived: Number = 0;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -25,7 +27,8 @@ export class TaskModel {
       dateStarted: this.startDateInputValue,
       dateEnded: this.endDateInputValue,
       iconURL: this.iconURL,
-      videoUrl: this.videoUrl
+      videoUrl: this.videoUrl,
+      totalDonationsReceived: this.totalDonationsReceived
     })
   }
 

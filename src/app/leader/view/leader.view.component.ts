@@ -59,6 +59,8 @@ export class LeaderViewComponent {
   private donateLeader(amount) {
     console.log('donateLeader:', this.leader, amount);
 
+    this.leader.totalDonationsReceived += amount;
+
     var donation = new DonationModel();
     donation.targetType = 'leader';
     donation.targetId = this.leader._id;

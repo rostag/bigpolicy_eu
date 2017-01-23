@@ -16,9 +16,10 @@ export class LandingComponent {
     private leaderService: LeaderService
   ) {}
 
+  // FIXME calculate total donations
   app = {
     donors: 0,
-    cash: 0,
+    totalDonationsReceived: 0,
     projects: [],
     leaders: []
   }

@@ -11,6 +11,7 @@ export class DonationModel {
 	dateStarted: Date;
 	dateCompleted: Date;
 	description: string;
+	virtual: boolean = false;
 
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);
 	endDateInputValue: string = this.toDateInputValue(this.dateCompleted);
