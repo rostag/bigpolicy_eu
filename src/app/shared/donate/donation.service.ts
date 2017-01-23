@@ -29,21 +29,21 @@ export class DonationService {
    */
   donateLeader(model: DonationModel) {
 
-    console.log('Donate leader: ', model._id);
+    console.log('Donate leader: ', model.toString());
 
     var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.apiUrl + '/donate', body, options)
-        .map(res => console.log('Leader donated:', res.json()))
-        .catch(this.handleError)
-        .subscribe((res) => {});
+    return this.http.post(this.apiUrl + 'donate', body, options)
+      .map(res => console.log('Leader donated:', res.json()))
+      .catch(this.handleError)
+      .subscribe((res) => {});
   }
 
   private handleError(error: Response) {
-      console.error("Error occured:", error);
-      return Observable.throw(error.json().error || 'Server error');
+    console.error("Error occured:", error);
+    return Observable.throw(error.json().error || 'Server error');
   }
 }

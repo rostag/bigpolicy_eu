@@ -22,7 +22,7 @@ export class VideoComponent {
       var match = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
       this.youTubeId = (match && match[7].length == 11) ? match[7] : null;
 
-      // Set safe media URL, TODO: BP_SECURITY
+      // FIXME_SEC Set safe media URL
       this.safeMediaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         this.youTubeId
           ? 'https://www.youtube.com/embed/' + this.youTubeId
@@ -31,8 +31,8 @@ export class VideoComponent {
 
       // Set thumb URL by video
       this.thumbUrl = this.youTubeId
-          ? 'http://img.youtube.com/vi/' + this.youTubeId + '/0.jpg'
-          : 'assets/img/project/project-placeholder.png';
+        ? 'http://img.youtube.com/vi/' + this.youTubeId + '/0.jpg'
+        : 'assets/img/project/project-placeholder.png';
     }
   };
 

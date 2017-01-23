@@ -21,9 +21,11 @@ module.exports = function(app, DB){
   router.post('/donate', function (req, res) {
 
     // TODO
-    // DB.createLeader(req.body)
 
-    console.log('𝖄 • LiqPay::donate:', req, res);
+    console.log('𝖄 • LiqPay::donate');
+
+    // Write transaction to DB
+    DB.createDonation(req.body);
 
     // var html = liqpay.cnb_form({
     //   'action'        : 'pay',

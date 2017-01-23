@@ -62,11 +62,11 @@ export class LeaderViewComponent {
     var donation = new DonationModel();
     donation.targetType = 'leader';
     donation.targetId = this.leader._id;
+    // FIXME
+    donation.donorId = 'sandbox';
     donation.amount = amount;
     donation.dateStarted = new Date();
     donation.description = 'to ' + this.leader.name + this.leader.surName;
-    // TODO
-    donation.donorId = '';
 
     this.donationService.donateLeader(donation);
 

@@ -1,16 +1,16 @@
-////////////////////////////////////////////////////
+//******************************************************************************
 //
-// L E A D E R S H I P
+// L E A D E R
 //
-////////////////////////////////////////////////////
+//******************************************************************************
 
 var DBLeader = {};
 
 // mongoose models
 var Leader = require('./models/leader');
 
+
 DBLeader.getLeader = function(id) {
-  // return Leader.findById(id);
   var leader = Leader.findById(id, function (error, leader) {
     if(leader){
       console.log('DBLeader: got leader:', leader.email, ', id:', leader.id);
@@ -78,58 +78,36 @@ DBLeader.deleteLeader = function(id) {
     return Leader.findById(id).remove();
 }
 
-
-
-/*
-
-------------------------------Leader API examples
+/* Leader API examples
 
 *** To get all leaders list -
 
 GET localhost:4200/leader-api
 
-
-
 *** To get one particular leader -
-
 GET localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
 
-
-
 *** To create new leader -
-
 POST localhost:4200/leader-api
-
 with x-www-form-urlencoded pairs
 
 name - Name of leader
 surName - Surname of leader
 etc.
 
-
-
-*** To update leader info -
-
+*** To update leader info
 PUT localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-
 with x-www-form-urlencoded pairs
 
 name - Name of leader
 surName - Surname of leader
 etc.
-
-
 
 *** To delete leader -
-
 DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
 
-
-
 *** To delete all leaders (DEV PURPOSES!)
-
 DELETE localhost:4200/leader-api/allleaders?secret=19863
-
 */
 
 module.exports = DBLeader;

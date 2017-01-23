@@ -1,3 +1,3 @@
 module.exports = function(){
-    return {appName: 'BigPolicy'};
+    return { appName: 'BigPolicy' };
 }();

@@ -1,6 +1,6 @@
 //******************************************************************************
 //
-//    T A S K
+// T A S K
 //
 //******************************************************************************
 
@@ -14,6 +14,7 @@ DBTask.getTask = function(id) {
     return Task.findById(id);
 }
 
+// Will return a list of items with given ids, if ids are provided, or all items
 DBTask.listTasks = function(taskIds) {
   return taskIds
     ? Task.find({ '_id': { $in: taskIds } })
@@ -34,9 +35,9 @@ DBTask.createTask = function(dataObj) {
   }
 
   if(!data) data = {};
-    const model = new Task(data);
-    var saved = model.save(DBTask.addTaskToProject);
-    return model.save(saved);
+  const model = new Task(data);
+  var saved = model.save(DBTask.addTaskToProject);
+  return model.save(saved);
 }
 
 DBTask.addTaskToProject = function(error, savedTask) {
@@ -60,9 +61,7 @@ DBTask.addTaskToProject = function(error, savedTask) {
   });
 }
 
-// WIP
 DBTask.updateTask = function(id, data) {
-  console.info('DBTask: Update task:', id, data);
 
   if ( !data.title || !data.description ) {
     throw ( 'DBTask: Invalid task cannot be saved. Either title or description is missed.')
@@ -71,6 +70,7 @@ DBTask.updateTask = function(id, data) {
   if(!data) {
     data = {}
   };
+
   return Task.findById(id, function(err, model) {
     if(err || !model){
       return;
@@ -83,7 +83,7 @@ DBTask.updateTask = function(id, data) {
 }
 
 DBTask.deleteTask = function(id) {
-    return Task.findById(id).remove();
+  return Task.findById(id).remove();
 }
 
 module.exports = DBTask;

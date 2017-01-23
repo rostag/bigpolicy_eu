@@ -48,6 +48,5 @@ module.exports = function(){
     } catch (error) {
 			console.log('error during creation:', error)
 		}
-
     return mongoose.model('Leader');
 }();
