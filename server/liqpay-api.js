@@ -9,36 +9,58 @@ module.exports = function(app, DB){
   var express = require('express');
   var router = express.Router();
 
-  // var LiqPay = require('liqpay');
+  var LiqPay = require('liqpay-sdk');
 
   // FIXME_SEC
   var public_key = '77061351482';
   var private_key = 'v26xvBR6w6h9JVxGKLCSDzHnHg6GpIEoQeECKhuG';
-  // var liqpay = new LiqPay(public_key, private_key);
+
+  var liqpay = new LiqPay(public_key, private_key);
+
+  router.post('/getform', function (req, res) {
+
+    console.log('𝖄 • LiqPay::getform');
+
+    var d;
+
+    // FIXME Dirty workaround
+    for ( var item in req.body ) {
+      d = JSON.parse(item);
+    }
+
+    if(!d) d = {};
+
+    console.log('Data:', d);
+
+    var description = 'Test donation: ' + d.amount + ' from ' + d.donorId + ' to ' + d.targetId + ', type ' + d.targetType;
+
+    var form_html = liqpay.cnb_form({
+      'action'        : 'pay',
+      'amount'        : d.amount,
+      'currency'      : 'UAH',
+      'description'   : description,
+      'order_id'      : 'bp_donation_',
+      'version'       : '3',
+      'sandbox'       : '1',
+      'language'      : 'ua'
+    });
+
+    var enc_html = encodeURIComponent(form_html);
+
+    console.log('𝖄 • LiqPay form html = ', form_html, '\n\n', enc_html);
+
+    res.send( enc_html );
+
+  });
 
   // Send a donation to the specified recipient.
   // All params passed via req.
   router.post('/donate', function (req, res) {
 
-    // TODO
-
-    console.log('𝖄 • LiqPay::donate');
+    console.log('𝖄 • LiqPay::donate', liqpay);
 
     // Write transaction to DB
     DB.createDonation(req.body);
-
-    // var html = liqpay.cnb_form({
-    //   'action'        : 'pay',
-    //   'amount'        : '1',
-    //   'currency'      : 'UAH',
-    //   'description'   : 'Test transaction description',
-    //   'order_id'      : 'test_order_id_1',
-    //   'version'       : '3',
-    //   'sandbox'       : '1'
-    // });
-
-    // console.log('𝖄 • LiqPay::html:', html);
-
   });
 
   app.use('/liqpay-api', router);

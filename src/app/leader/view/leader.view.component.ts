@@ -56,6 +56,27 @@ export class LeaderViewComponent {
     this.leader = data;
   }
 
+  private getDonationForm(amount) {
+    console.log('getDonationForm:', this.leader, amount);
+
+    var donation = new DonationModel();
+    donation.targetType = 'leader';
+    donation.targetId = this.leader._id;
+    // FIXME Use real donor
+    donation.donorId = 'sandbox';
+    donation.amount = amount;
+    donation.dateStarted = new Date();
+    donation.description = 'to ' + this.leader.name + this.leader.surName;
+
+    var proxySub = this.donationService.requireDonationForm(donation)
+      .subscribe((res) => {
+        console.log('LEADER Got donation form:', res)
+        proxySub.unsubscribe();
+      });
+
+    return proxySub;
+  }
+
   private donateLeader(amount) {
     console.log('donateLeader:', this.leader, amount);
 

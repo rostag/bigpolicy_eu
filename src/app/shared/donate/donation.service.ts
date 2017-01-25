@@ -24,8 +24,26 @@ export class DonationService {
   }
 
   /**
-   * Deletes a model by performing a request with DELETE HTTP method.
-   * @param LeaderModel A Leader to delete
+   * Requires donation form
+   * @param DonationModel A Donation to send
+   */
+  requireDonationForm(model: DonationModel) {
+
+    console.log('Get Donation Form: ', model.toString());
+
+    var body: string = encodeURIComponent(model.toString());
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.apiUrl + 'getform', body, options)
+      .map(res => console.log('Form HTML:', res.json()))
+      .catch(this.handleError)
+  }
+
+  /**
+   * Donates a leader
+   * @param DonationModel A Donation to send
    */
   donateLeader(model: DonationModel) {
 

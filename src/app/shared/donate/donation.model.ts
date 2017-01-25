@@ -1,9 +1,10 @@
 export class DonationModel {
 	// TODO
 	_id: string;
+	virtual: boolean = false;
 	donorId: string;
 	targetId: string;
-	// transactionId in external system
+	// FIXME transactionId in external system
 	externalId: string;
 	// Leader, Project, or Task
 	targetType: string;
@@ -11,8 +12,6 @@ export class DonationModel {
 	dateStarted: Date;
 	dateCompleted: Date;
 	description: string;
-	virtual: boolean = false;
-
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);
 	endDateInputValue: string = this.toDateInputValue(this.dateCompleted);
 
@@ -23,6 +22,7 @@ export class DonationModel {
 	toString() {
 		return JSON.stringify({
 			donorId: this.donorId,
+			virtual: this.virtual,
 			targetId: this.targetId,
 			externalId: this.externalId,
 			targetType: this.targetType,
