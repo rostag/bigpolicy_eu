@@ -3,6 +3,7 @@ import { LeaderModel, LeaderService } from '../../shared/leader/index';
 import { DonationModel, DonationService } from '../../shared/donate/index';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './leader.view.component.html',
@@ -22,7 +23,8 @@ export class LeaderViewComponent {
     private route: ActivatedRoute,
     private leaderService: LeaderService,
     private donationService: DonationService,
-    private user: UserService
+    private user: UserService,
+    private sanitizer: DomSanitizer
   ){}
 
   /**
@@ -56,6 +58,8 @@ export class LeaderViewComponent {
     this.leader = data;
   }
 
+  private donationFormHtml: SafeHtml = 'frmm';
+
   private getDonationForm(amount) {
     console.log('getDonationForm:', this.leader, amount);
 
@@ -69,9 +73,16 @@ export class LeaderViewComponent {
     donation.description = 'to ' + this.leader.name + this.leader.surName;
 
     var proxySub = this.donationService.requireDonationForm(donation)
+      .map(res => {
+        console.log('Form HTML:', res)
+        return res;
+      })
+      // .catch(this.handleError)
       .subscribe((res) => {
-        console.log('LEADER Got donation form:', res)
+        // -BGPLCXX-
+        console.log('LEADER Got donation form:', decodeURIComponent(res["_body"]))
         proxySub.unsubscribe();
+        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
       });
 
     return proxySub;
@@ -92,6 +103,9 @@ export class LeaderViewComponent {
     donation.description = 'to ' + this.leader.name + this.leader.surName;
 
     this.donationService.donateLeader(donation);
+
+    // if not virtual transaction
+    this.getDonationForm(amount);
 
     return false;
   }

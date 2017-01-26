@@ -13,14 +13,14 @@
           <button md-raised-button color="accent" disabled>+7000₴</button>
       </md-card-title>
 
-      <!-- <div [innerHTML]="getDonationForm(70)"></div> -->
-      <button (click)="getDonationForm(70)" md-raised-button color="accent">getForm(+70₴)</button>
-
+      <!-- <button (click)="getDonationForm(70)" md-raised-button color="accent">getForm(+70₴)</button> -->
 
       <!-- state="iframed.leader"  -->
       <bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></bp-video>
 
     </md-card-title-group>
+
+    <div [innerHTML]="donationFormHtml">frm</div>
 
     <md-card-content>
 

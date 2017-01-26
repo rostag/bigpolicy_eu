@@ -27,6 +27,25 @@ export class DonationService {
    * Requires donation form
    * @param DonationModel A Donation to send
    */
+  requireSign(model: DonationModel) {
+
+    console.log('Get Signature for: ', model.toString());
+
+    var body: string = encodeURIComponent(model.toString());
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.apiUrl + 'getsgndta', body, options)
+      .map(res => console.log('Got sign:', res))
+      .catch(this.handleError)
+  }
+
+  // FIXME UNUSED
+  /**
+   * Requires donation form
+   * @param DonationModel A Donation to send
+   */
   requireDonationForm(model: DonationModel) {
 
     console.log('Get Donation Form: ', model.toString());
@@ -37,8 +56,6 @@ export class DonationService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl + 'getform', body, options)
-      .map(res => console.log('Form HTML:', res.json()))
-      .catch(this.handleError)
   }
 
   /**
