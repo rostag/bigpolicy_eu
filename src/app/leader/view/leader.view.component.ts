@@ -58,7 +58,7 @@ export class LeaderViewComponent {
     this.leader = data;
   }
 
-  private donationFormHtml: SafeHtml = 'frmm';
+  private donationFormHtml: SafeHtml = '';
 
   private getDonationForm(amount) {
     console.log('getDonationForm:', this.leader, amount);
@@ -72,7 +72,8 @@ export class LeaderViewComponent {
     donation.dateStarted = new Date();
     donation.description = 'to ' + this.leader.name + this.leader.surName;
 
-    var proxySub = this.donationService.requireDonationForm(donation)
+    var proxySub = this.donationService.requireSign(donation)
+    // var proxySub = this.donationService.requireDonationForm(donation)
       .map(res => {
         console.log('Form HTML:', res)
         return res;
@@ -80,9 +81,17 @@ export class LeaderViewComponent {
       // .catch(this.handleError)
       .subscribe((res) => {
         // -BGPLCXX-
-        console.log('LEADER Got donation form:', decodeURIComponent(res["_body"]))
+        var sgndta = res["_body"].split('-BGPLCXX-');
+        var formStr = '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
+          sgndta[0] + '" /><input type="hidden" name="signature" value="' +
+          sgndta[1] + '" />' +
+          // '<input type="image" src="//static.liqpay.com/buttons/p1ru.radius.png" name="btn_text" />'
+          '<button md-raised-button color="accent">+70₴</button>'
+          + '</form>';
+        // console.log('LEADER Got donation form:', decodeURIComponent(res["_body"]))
         proxySub.unsubscribe();
-        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
+        // this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
+        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr)
       });
 
     return proxySub;

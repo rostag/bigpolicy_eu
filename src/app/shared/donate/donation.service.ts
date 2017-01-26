@@ -37,8 +37,6 @@ export class DonationService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl + 'getsgndta', body, options)
-      .map(res => console.log('Got sign:', res))
-      .catch(this.handleError)
   }
 
   // FIXME UNUSED
