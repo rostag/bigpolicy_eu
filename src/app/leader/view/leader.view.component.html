@@ -8,10 +8,10 @@
         -->
         <em>{{leader.totalDonationsReceived}}₴</em>
         <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
-          <button *ngIf="donationFormHtml==''" (click)="donateLeader(70)" md-raised-button color="accent">+70₴</button>
+          <!-- <button *ngIf="donationFormHtml==''" (click)="donateLeader(70)" md-raised-button color="accent">+70₴</button> -->
           <div [innerHTML]="donationFormHtml"></div>
-          <button md-raised-button color="accent" disabled>+3700₴</button>
-          <button md-raised-button color="accent" disabled>+7000₴</button>
+          <!-- <button md-raised-button color="accent" disabled>+3700₴</button> -->
+          <!-- <button md-raised-button color="accent" disabled>+7000₴</button> -->
       </md-card-title>
 
       <!-- <button (click)="getDonationForm(70)" md-raised-button color="accent">getForm(+70₴)</button> -->

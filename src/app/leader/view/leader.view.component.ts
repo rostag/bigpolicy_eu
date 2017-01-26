@@ -40,7 +40,8 @@ export class LeaderViewComponent {
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
-              this.setLeader(data)
+              this.setLeader(data);
+              this.getDonationForm(70)
             },
             err => console.error(err),
             () => {}
@@ -82,11 +83,12 @@ export class LeaderViewComponent {
       .subscribe((res) => {
         // -BGPLCXX-
         var sgndta = res["_body"].split('-BGPLCXX-');
-        var formStr = '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
+        var formStr =
+        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
           sgndta[0] + '" /><input type="hidden" name="signature" value="' +
           sgndta[1] + '" />' +
           // '<input type="image" src="//static.liqpay.com/buttons/p1ru.radius.png" name="btn_text" />'
-          '<button md-raised-button color="accent">+70₴</button>'
+          '<button md-raised-button color="accent">Підтримати (70 UAH)</button>'
           + '</form>';
         // console.log('LEADER Got donation form:', decodeURIComponent(res["_body"]))
         proxySub.unsubscribe();
