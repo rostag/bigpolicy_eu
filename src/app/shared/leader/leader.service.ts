@@ -31,9 +31,7 @@ export class LeaderService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {
-    console.log('LeaderService Constructor')
-  }
+  constructor(private http: Http) {}
 
   /**
    * Creates the Leader.

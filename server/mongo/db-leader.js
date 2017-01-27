@@ -13,7 +13,6 @@ var Leader = require('./models/leader');
 DBLeader.getLeader = function(id) {
   var leader = Leader.findById(id, function (error, leader) {
     if(leader){
-      console.log('DBLeader: got leader:', leader.email, ', id:', leader.id);
       leader.projects = DBLeader.getLeaderProjects(leader.projects);
     }
   });

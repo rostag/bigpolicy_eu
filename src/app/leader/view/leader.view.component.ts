@@ -32,7 +32,6 @@ export class LeaderViewComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('View Leader by ID from route params:', id)
         if (id) {
           this.leaderService.getLeader(id)
           .subscribe(
@@ -51,7 +50,6 @@ export class LeaderViewComponent {
    * @param {data} Loaded leader data
    */
   setLeader(data){
-    console.log('got leader: ', data);
     this.leader = data;
   }
 

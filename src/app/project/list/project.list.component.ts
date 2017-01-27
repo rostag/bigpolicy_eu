@@ -23,7 +23,6 @@ export class ProjectListComponent implements OnChanges {
   private isAddingTaskMode: boolean = false;
 
   ngOnChanges(changes) {
-    console.log("changes:", changes);
     if (changes.leaderId && changes.leaderId.currentValue ) {
       this.requestProjects(changes.leaderId.currentValue)
     } else if (changes.maxCount && changes.maxCount.currentValue) {

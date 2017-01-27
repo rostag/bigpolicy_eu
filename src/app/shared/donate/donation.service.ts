@@ -7,7 +7,8 @@ import 'rxjs/add/operator/map';
 import { DonationModel } from './donation.model';
 
 /**
- * Provides the Leader service with methods to create, read, update and delete models.
+ * Provides the donation service with methods to create, read, update and delete models.
+ * Forwards donation requests to liqpay
  */
 @Injectable()
 export class DonationService {
@@ -19,23 +20,17 @@ export class DonationService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {
-    console.log('DonationService Constructor')
-  }
+  constructor(private http: Http) {}
 
   /**
    * Requires donation form
    * @param DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
-
-    console.log('Get Signature for: ', model.toString());
-
     var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
-
     return this.http.post(this.apiUrl + 'getsgndta', body, options)
   }
 
@@ -45,24 +40,21 @@ export class DonationService {
    * @param DonationModel A Donation to send
    */
   requireDonationForm(model: DonationModel) {
-
-    console.log('Get Donation Form: ', model.toString());
-
     var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.apiUrl + 'getform', body, options)
+    return this.http.post(this.apiUrl + 'getliqform', body, options)
   }
 
+  // TODO Rename to createDonation
   /**
-   * Donates a leader
+   * Donates a target
    * @param DonationModel A Donation to send
    */
-  donateLeader(model: DonationModel) {
+  donateTarget(model: DonationModel) {
 
-    console.log('Donate leader: ', model.toString());
+    console.log('Donate target: ', model.toString());
 
     var body: string = encodeURIComponent(model.toString());
     let headers = new Headers();
@@ -70,7 +62,7 @@ export class DonationService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl + 'donate', body, options)
-      .map(res => console.log('Leader donated:', res.json()))
+      .map(res => console.log('Target donated:', res.json()))
       .catch(this.handleError)
       .subscribe((res) => {});
   }
