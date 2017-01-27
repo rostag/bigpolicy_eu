@@ -15,6 +15,8 @@ export class LeaderModel {
 	logo: string;
 	email: string;
 	projects;
+	donations;
+	totalDonationsReceived: Number = 0;
 
 	// political party membership
   // id of party from parties list
@@ -36,7 +38,6 @@ export class LeaderModel {
 	// end of documents
 	createdAt: string;
 
-	cash: Number = Math.random() * 1000;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -47,27 +48,28 @@ export class LeaderModel {
 		 // FIXME -- Somehow it stops saving if switch to next string instead of bulky code
      // return JSON.stringify( this );
      return JSON.stringify({
-       "name": this.name,
-       "surName": this.surName,
-       "parentName": this.parentName = ' ',
-       "vision": this.vision,
-       "mission": this.mission,
-       "photo": this.photo,
-       "videoUrl": this.videoUrl,
-       "logo": this.logo,
-       "email": this.email,
-       "projects": this.projects,
-       "party": this.party,
-       "officialPost": this.officialPost,
-       "socialNetworks": this.socialNetworks,
-       "skills": this.skills,
-       "docActionPlan": this.docActionPlan,
-       "docElectionProgram": this.docElectionProgram,
-       "docPropertyDeclaration": this.docPropertyDeclaration,
-       "docCriminalRecord": this.docCriminalRecord,
-       "docCorruptionRecord": this.docCorruptionRecord,
-       "docPassport": this.docPassport,
- 			"cash": this.cash
+       name: this.name,
+       surName: this.surName,
+       parentName: this.parentName = ' ',
+       vision: this.vision,
+       mission: this.mission,
+       photo: this.photo,
+       videoUrl: this.videoUrl,
+       logo: this.logo,
+       email: this.email,
+       party: this.party,
+       officialPost: this.officialPost,
+       socialNetworks: this.socialNetworks,
+       skills: this.skills,
+       docActionPlan: this.docActionPlan,
+       docElectionProgram: this.docElectionProgram,
+       docPropertyDeclaration: this.docPropertyDeclaration,
+       docCriminalRecord: this.docCriminalRecord,
+       docCorruptionRecord: this.docCorruptionRecord,
+       docPassport: this.docPassport,
+			 totalDonationsReceived: this.totalDonationsReceived,
+			 projects: this.projects,
+			 donations: this.donations
      })
    }
 

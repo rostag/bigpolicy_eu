@@ -21,6 +21,8 @@ const ProjectSchema = new Schema({
 	videoUrl: { type: String },
 	logo: { type: String },
 	tasks: { type: Array },
+	donations: { type: Array },
+	totalDonationsReceived: { type: Number },
 
 	createdAt: { type: Date }
 });

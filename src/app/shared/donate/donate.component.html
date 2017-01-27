@@ -1,0 +1,10 @@
+<div>
+  <button *ngIf="!readyToDonate" (click)="donateLeader(amount)" md-raised-button color="accent">{{label + ' ' + this.amount + ' UAH'}}</button>
+
+  <div *ngIf="readyToDonate" >
+      <p>Увага — після натискання на кнопку нижче Вас буде автоматично переадресовано на сторінку платіжної системи, де ви зможете зробити переказ одним зі зручним для Вас способів. Натисніть кнопку, що продовжити: </p>
+      <div [innerHTML]="donationFormHtml"></div>
+  </div>
+  <!-- <button md-raised-button color="accent" disabled>+3700₴</button> -->
+  <!-- <button md-raised-button color="accent" disabled>+7000₴</button> -->
+</div>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { DonateComponent } from '../../shared/donate/index';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -36,7 +37,7 @@ export class LeaderViewComponent {
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
-              this.setLeader(data)
+              this.setLeader(data);
             },
             err => console.error(err),
             () => {}

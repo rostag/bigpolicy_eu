@@ -13,6 +13,8 @@ export class ProjectModel {
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
   videoUrl: string = '';
   tasks;
+  donations;
+  totalDonationsReceived: Number = 0;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -30,7 +32,8 @@ export class ProjectModel {
       dateEnded: this.endDateInputValue,
       iconURL: this.iconURL,
       videoUrl: this.videoUrl,
-      tasks: this.tasks
+      tasks: this.tasks,
+      totalDonationsReceived: this.totalDonationsReceived
     })
   }
 

@@ -1,4 +1,4 @@
-module.exports = function(app, DB){
+module.exports = function(app, DB, DBLeader){
 
   var express = require('express');
   var router = express.Router();
@@ -51,7 +51,7 @@ module.exports = function(app, DB){
    * /project-api/leader/id
    */
   .get('/leader/:leaderId', function (req, res) {
-    DB.getLeader( req.params.leaderId )
+    DBLeader.getLeader( req.params.leaderId )
       .then( (leader) => {
         DB.listProjects(leader.projects)
           .then( data => res.json(data))
