@@ -8,6 +8,8 @@ var DBDonation = {};
 
 // mongoose models
 var Leader = require('./models/leader');
+var Project = require('./models/project');
+var Task = require('./models/task');
 var Donation = require('./models/donation');
 
 DBDonation.getDonation = function(id) {
@@ -56,10 +58,10 @@ DBDonation.addDonationToTarget = function(error, savedDonation) {
   if (savedDonation.targetType === 'leader') {
     targetByIdQuery = Leader.where({ _id: savedDonation.targetId });
     // addDonationToLeader
-  } else if (data.targetType === 'project') {
+  } else if (savedDonation.targetType === 'project') {
     // addDonationToProject
     targetByIdQuery = Project.where({ _id: savedDonation.targetId });
-  } else if (data.targetType === 'task'){
+  } else if (savedDonation.targetType === 'task'){
     // addDonationToTask
     targetByIdQuery = Task.where({ _id: savedDonation.targetId });
   }

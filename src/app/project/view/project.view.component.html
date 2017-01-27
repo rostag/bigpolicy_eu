@@ -15,6 +15,7 @@
       </md-grid-tile>
       <md-grid-tile>
         <div>
+          <bp-donate [label]="'Підтримати проект:'" [amount]="72" [target]="project" [targetType]="'project'"></bp-donate>
           <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
           <h2>Зібрано: {{project.totalDonationsReceived}} / {{project.cost}}₴</h2>
           <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>

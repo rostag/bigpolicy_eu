@@ -20,7 +20,7 @@ import { NgForm } from '@angular/forms';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements OnInit {
+export class SharerComponent {
 
   @Input() sharerIsVisible: boolean = false;
 
@@ -102,8 +102,6 @@ export class SharerComponent implements OnInit {
   constructor(
     private shareService: ShareService
   ) {}
-
-  ngOnInit() { }
 
   /*
    * Overriding model videoUrl by email videoUrl

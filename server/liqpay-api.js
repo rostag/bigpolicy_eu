@@ -16,16 +16,13 @@ module.exports = function(app, DB){
     for ( var item in req.body ) {
       d = JSON.parse(item);
     }
-    // var d = JSON.parse(req.body.keys[0]);
-
-    var description = 'Test donation: ' + d.amount + ' from ' + d.donorId + ' to ' + d.targetId + ', type ' + d.targetType;
 
     return {
       'action'        : 'pay',
       'amount'        : d.amount,
       'currency'      : 'UAH',
-      'description'   : description,
-      'order_id'      : 'bp_donation_',
+      'description'   : d.description,
+      'order_id'      : d.externalId,
       'version'       : '3',
       'sandbox'       : '1',
       'language'      : 'ru'
