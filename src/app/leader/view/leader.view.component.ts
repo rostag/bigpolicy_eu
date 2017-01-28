@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { DonateComponent } from '../../shared/donate/index';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -31,12 +32,11 @@ export class LeaderViewComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('View Leader by ID from route params:', id)
         if (id) {
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
-              this.setLeader(data)
+              this.setLeader(data);
             },
             err => console.error(err),
             () => {}
@@ -50,7 +50,6 @@ export class LeaderViewComponent {
    * @param {data} Loaded leader data
    */
   setLeader(data){
-    console.log('got leader: ', data);
     this.leader = data;
   }
 

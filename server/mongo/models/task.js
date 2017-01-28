@@ -18,6 +18,8 @@ const TaskSchema = new Schema({
 	image: { type: String },
 	videoUrl: { type: String },
 	logo: { type: String },
+	donations: { type: Array },
+	totalDonationsReceived: { type: Number },
 
 	createdAt: { type: Date }
 });

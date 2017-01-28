@@ -1,4 +1,4 @@
-module.exports = function(app, DB){
+module.exports = function(app, DB, DBProject){
 
   var express = require('express');
   var router = express.Router();
@@ -51,7 +51,7 @@ module.exports = function(app, DB){
    * /task-api/project/id
    */
   .get('/project/:projectId', function (req, res) {
-    DB.getProject( req.params.projectId )
+    DBProject.getProject( req.params.projectId )
       .then( (project) => {
         DB.listTasks(project.tasks)
           .then( data => res.json(data))

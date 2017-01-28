@@ -2,13 +2,15 @@
 
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
-        <!-- FIXME <a href><md-icon>thumb_up</md-icon></a>
+        <!-- FIXME
+        <a href><md-icon>thumb_up</md-icon></a>
         <a href><md-icon>share</md-icon></a>
-        <em>{{leader.cash}}₴</em> -->
+        -->
+        <em>{{leader.totalDonationsReceived}}₴</em>
         <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
-          <button md-raised-button color="accent" disabled>+70₴</button>
-          <button md-raised-button color="accent" disabled>+3700₴</button>
-          <button md-raised-button color="accent" disabled>+7000₴</button>
+
+        <bp-donate [amount]="71" [target]="leader" [targetType]="'leader'"></bp-donate>
+
       </md-card-title>
 
       <!-- state="iframed.leader"  -->

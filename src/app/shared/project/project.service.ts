@@ -56,8 +56,6 @@ export class ProjectService {
 
     var requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
 
-    console.info('Project Service: get by', requestUrl);
-
     var reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
         let projects = res.json()

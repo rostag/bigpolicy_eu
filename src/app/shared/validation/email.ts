@@ -19,7 +19,6 @@ export class ForbiddenValidatorDirective implements Validator, OnChanges {
   private valFn = Validators.nullValidator;
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(changes['validateEmail']);
     const change = changes['validateEmail'];
     if (change) {
       const val: string | RegExp = change.currentValue;

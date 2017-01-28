@@ -12,7 +12,10 @@
       </md-grid-tile>
       <md-grid-tile>
         <div>
-          <h2>Вартість: {{task.cost}}₴</h2>
+          <!-- FIXME -->
+          <bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></bp-donate>
+          <!-- -->
+          <h2>Зібрано: {{task.totalDonationsReceived}} / {{task.cost}}₴</h2>
           <h3><a [routerLink]="['/project/',task.projectId]">До проекту</a></h3>
           <p>Початок: {{task.dateStarted | date}}<br/>
           Кінець: {{task.dateEnded | date}}</p>

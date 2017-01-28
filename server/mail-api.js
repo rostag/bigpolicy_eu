@@ -5,7 +5,7 @@ module.exports = function(app, DB){
   var express = require('express');
   var router = express.Router();
 
-  // FIXME Check for BP_SECURITY
+  // FIXME_SEC
   var mailgun_api_key = 'key-fbb7eae260ccda81270645824316856a';
   var mailgun_domain = 'bigpolicy.eu';
 

@@ -20,7 +20,7 @@ rhc show-app live --gears quota
 
 `rhc app-tidy -a qa`
 
-Deletes all the contents of the log and /tmp directory on the gears to free up disk space. Useful to give you some disk space when your app has run out of space
+Deletes all the contents of the log and /tmp directory on the gears to free up disk space. Useful to give you some disk space when your app has run out of it.
 
 
 ### See also:

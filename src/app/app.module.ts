@@ -32,13 +32,15 @@ import { routing } from './app.routes';
 import { UserService } from './shared/user/user.service';
 import { LeaderService } from './shared/leader/leader.service';
 import { ProjectService } from './shared/project/project.service';
-import { ShareService } from './shared/sharer/share.service';
 import { TaskService } from './shared/task/task.service';
+import { ShareService } from './shared/sharer/share.service';
+import { DonationService } from './shared/donate/donation.service';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { AppComponent } from './app.component';
 import { SharerComponent } from './shared/sharer/sharer.component';
+import { DonateComponent } from './shared/donate/donate.component';
 
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
@@ -62,6 +64,7 @@ import { VideoComponent } from './shared/video/video.component';
     AboutComponent,
     LandingComponent,
     SharerComponent,
+    DonateComponent,
     ForbiddenValidatorDirective,
     VideoComponent,
     AppComponent
@@ -80,8 +83,9 @@ import { VideoComponent } from './shared/video/video.component';
     UserService,
     LeaderService,
     ProjectService,
-    TaskService,    
-    ShareService
+    TaskService,
+    ShareService,
+    DonationService
   ],
   bootstrap: [AppComponent]
 })
