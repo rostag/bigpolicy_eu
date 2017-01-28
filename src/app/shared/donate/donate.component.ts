@@ -33,7 +33,7 @@ export class DonateComponent implements OnChanges {
    */
   ngOnChanges(changes){
     if(changes.target) {
-      this.getDonationForm();
+      //
     }
   }
 
@@ -44,6 +44,7 @@ export class DonateComponent implements OnChanges {
     this.donationService.createDonation(this.getDonationModel());
     // TODO if not virtual transaction
     this.readyToDonate = true;
+    this.getDonationForm();
     return false;
   }
 
@@ -59,9 +60,11 @@ export class DonateComponent implements OnChanges {
     d.donorId = userProfile && userProfile['email'] || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
+    console.log('#### window.location: ', window.location.href);
+    d.result_url = window.location.href;
 
     if (this.targetType === 'leader') {
-      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + ' (' + this.targetType +'). Донор: ' + donorName + '. \nДякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + '. Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'project') {
       d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'task') {
@@ -69,15 +72,12 @@ export class DonateComponent implements OnChanges {
     }
 
     // order_id
+    // FIXME add mongo ID here
     d.externalId = 'bp_donation_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
 
     return d;
   }
 
-  /**
-   * TODO server_url	no	String	URL API в Вашем магазине для уведомлений об изменении статуса платежа (сервер->сервер). Максимальная длина 510 символов. Подробнее
-   * TODO result_url	no	String	URL в Вашем магазине на который покупатель будет переадресован после завершения покупки. Максимальная длина 510 символов.
-   */
   private getDonationForm() {
     return this.donationService.requireSign(this.getDonationModel())
       .map(res => {

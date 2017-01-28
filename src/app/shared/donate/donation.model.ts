@@ -17,6 +17,10 @@ export class DonationModel {
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);
 	endDateInputValue: string = this.toDateInputValue(this.dateCompleted);
 
+	// Not stored in DB. Used as backlink for liqpay.
+	result_url: String;
+
+
 	/**
 	 * It's necessary to have a string representation for sending it to DB
 	 * @returns String Serialized Donation
@@ -31,7 +35,8 @@ export class DonationModel {
 			amount: this.amount,
 			dateStarted: this.toDateInputValue(this.dateStarted),
 			dateEnded: this.toDateInputValue(this.dateCompleted),
-			description: this.description
+			description: this.description,
+			result_url: this.result_url
 		})
 	}
 
