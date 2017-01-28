@@ -41,6 +41,32 @@ module.exports = function(app, DB){
     res.send( dta + '-BGPLCXX-' + sgn );
   });
 
+  /**
+   * TODO server_url	no	String	URL API в Вашем магазине для уведомлений об изменении статуса платежа (сервер->сервер). Максимальная длина 510 символов. Подробнее
+   * TODO result_url	no	String	URL в Вашем магазине на который покупатель будет переадресован после завершения покупки. Максимальная длина 510 символов.
+   */
+
+  /**
+   * FIXME implement checking the transaction status.
+   * action	yes	String	status
+   * order_id	yes	String	Уникальный ID покупки в Вашем магазине.Максимальная длина 255 символов.
+   * https://www.liqpay.com/ru/doc/status
+   */
+  router.post('/check-donation-status', function (req, res) {
+    var prm = getParamsFromRequestData(req);
+    // console.log('𝖄 • LiqPay::check-status', prn.order_id);
+
+    liqpay.api("request", {
+      "action"   : "status",
+      "version"  : "3",
+      "order_id" : prm.order_id
+    }, function( json ){
+      console.log( json.status );
+      // res.send( dta + '-BGPLCXX-' + sgn );
+    });
+
+  });
+
   // FIXME UNUSED
   router.post('/getliqform', function (req, res) {
     res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));

@@ -4,12 +4,14 @@ export class DonationModel {
 	virtual: boolean = false;
 	donorId: string;
 	targetId: string;
-	// FIXME transactionId in external system
+	// FIXME transactionId in external system. Use for completeness check.
 	externalId: string;
 	// Leader, Project, or Task
 	targetType: string;
 	amount: number;
 	dateStarted: Date;
+	// FIXME Indirect pointer to transaction completeness.
+	// Fill this date after transaction has been completeted in external payment system
 	dateCompleted: Date;
 	description: string;
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);

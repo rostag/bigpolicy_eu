@@ -1,16 +1,17 @@
 import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { DonationModel, DonationService } from './index';
+import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'bp-donate',
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
-  providers: [DonationService]
+  providers: [DonationService, UserService]
 })
 
-  export class DonateComponent implements OnChanges {
+export class DonateComponent implements OnChanges {
 
   // FIXME Implement DonationTarget interface
   @Input() target: any;
@@ -23,7 +24,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
   constructor(
     private sanitizer: DomSanitizer,
-    private donationService: DonationService
+    private donationService: DonationService,
+    private userService: UserService
   ){}
 
   /**
@@ -47,21 +49,23 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
   private getDonationModel() {
     var d = new DonationModel();
+    var userProfile = this.userService.userProfile;
+    var donorName = userProfile && userProfile['name'] || 'Анонімний донор';
 
     // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
-    // FIXME Use real donor
-    d.donorId = 'Анонімний донор';
+    // FIXME Use real donor when logged in
+    d.donorId = userProfile && userProfile['email'] || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
 
     if (this.targetType === 'leader') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + ' (' + this.targetType +'). Донор: ' + d.donorId + '. \nДякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + ' (' + this.targetType +'). Донор: ' + donorName + '. \nДякуємо!';
     } else if (this.targetType === 'project') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + d.donorId + '. Дякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'task') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + d.donorId + '. Дякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     }
 
     // order_id
@@ -70,6 +74,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     return d;
   }
 
+  /**
+   * TODO server_url	no	String	URL API в Вашем магазине для уведомлений об изменении статуса платежа (сервер->сервер). Максимальная длина 510 символов. Подробнее
+   * TODO result_url	no	String	URL в Вашем магазине на который покупатель будет переадресован после завершения покупки. Максимальная длина 510 символов.
+   */
   private getDonationForm() {
     return this.donationService.requireSign(this.getDonationModel())
       .map(res => {

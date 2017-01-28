@@ -6,7 +6,7 @@ const DonationSchema = new Schema({
   virtual: { type: Boolean, default: true },
 	donorId: { type: String, required: true },
 	targetId: { type: String, required: true },
-	// transactionId in external system
+	// transaction id in external payment system, like order_id in liqpay
 	externalId: { type: String },
 	// Leader, Project, or Task
 	targetType: { type: String, required: true },
