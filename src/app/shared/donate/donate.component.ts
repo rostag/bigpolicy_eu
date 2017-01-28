@@ -39,7 +39,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     console.log('onDonateTarget:', this.target, this.amount);
     this.target.totalDonationsReceived += this.amount;
     // FIXME implement order status check
-    this.donationService.donateTarget(this.getDonationModel());
+    this.donationService.createDonation(this.getDonationModel());
     // TODO if not virtual transaction
     this.readyToDonate = true;
     return false;

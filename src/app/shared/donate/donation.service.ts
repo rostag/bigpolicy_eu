@@ -23,15 +23,25 @@ export class DonationService {
   constructor(private http: Http) {}
 
   /**
+   * Create a donation for target
+   * @param DonationModel A Donation to create
+   */
+  createDonation(model: DonationModel) {
+    console.log('Create Donation: ', model.toString());
+    var p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options)
+      .map(res => {})
+      .catch(this.handleError)
+      .subscribe((res) => {});
+  }
+
+  /**
    * Requires donation form
    * @param DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.apiUrl + 'getsgndta', body, options)
+    var p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options)
   }
 
   // FIXME UNUSED
@@ -40,31 +50,20 @@ export class DonationService {
    * @param DonationModel A Donation to send
    */
   requireDonationForm(model: DonationModel) {
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.apiUrl + 'getliqform', body, options)
+    var p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
   }
 
-  // TODO Rename to createDonation
   /**
-   * Donates a target
-   * @param DonationModel A Donation to send
+   * Internal utility to get post data
    */
-  donateTarget(model: DonationModel) {
-
-    console.log('Donate target: ', model.toString());
-
-    var body: string = encodeURIComponent(model.toString());
+  private getPostData(model: DonationModel) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.apiUrl + 'donate', body, options)
-      .map(res => console.log('Target donated:', res.json()))
-      .catch(this.handleError)
-      .subscribe((res) => {});
+    return {
+      body: encodeURIComponent(model.toString()),
+      options: new RequestOptions({ headers: headers })
+    }
   }
 
   private handleError(error: Response) {

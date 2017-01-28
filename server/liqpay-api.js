@@ -29,7 +29,7 @@ module.exports = function(app, DB){
     * Create a donation to the specified target in DB.
     * All params passed via req.
     */
-  router.post('/donate', function (req, res) {
+  router.post('/create-donation', function (req, res) {
     DB.createDonation(req.body);
   });
 
@@ -47,6 +47,6 @@ module.exports = function(app, DB){
   });
 
   app.use('/liqpay-api', router);
-  
+
   console.log('𝖄 • LiqPay connected.');
 }
