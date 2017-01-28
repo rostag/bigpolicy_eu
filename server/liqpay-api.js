@@ -20,7 +20,7 @@ module.exports = function(app, DB){
       'description'   : d.description,
       'order_id'      : d.externalId,
       'version'       : '3',
-      'sandbox'       : '1',
+      // 'sandbox'       : '1', // FIXME DEV TEST
       'language'      : 'uk'
     }
   }
