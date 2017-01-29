@@ -16,6 +16,16 @@ DBDonation.getDonation = function(id) {
     return Donation.findById(id);
 }
 
+DBDonation.getDonationTarget = function( targetId, targetType ) {
+  if (targetType === 'leader') {
+    return Leader.findById(targetId);
+  } else if (targetType === 'project') {
+     return Project.findById(targetId);
+  } else if (targetType === 'task') {
+    return Task.findById(targetId);
+  }
+}
+
 // Will return a list of items with given ids, if ids are provided, or all items
 DBDonation.listDonations = function(donationIds) {
   return donationIds

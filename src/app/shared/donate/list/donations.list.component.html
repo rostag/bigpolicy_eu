@@ -1,0 +1,28 @@
+<md-card-content>
+<!-- <md-card> -->
+  <md-card-actions>
+    <md-toolbar class="add-toolbar" color="accent">Дотації для "{{target.name || target.title}}"
+      <span class="add-fill-remaining"></span>
+      <!-- <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && user.hasEditPermissions(project)" color="primary">Додати захід</button> -->
+    </md-toolbar>
+  </md-card-actions>
+
+    <md-list>
+       <md-list-item *ngFor="let donation of donations | async">
+         <!-- <h3 md-line><a [routerLink]="['/donation/' + donation._id]"><b>{{donation.title}}</b></a></h3> -->
+         <p md-line>
+           <small>{{donation.description}}</small>
+         </p>
+         <p md-line>
+          <!-- FIXME <b>₴{{donation.amount}}.</b>{{donation.dateStarted | date}} - {{donation.dateCompleted | date}} -->
+         </p>
+         <!-- TODO let admin to delete, user to cancel -->
+         <!-- <p *ngIf="user.hasEditPermissions(donation)" class="admin" style="min-width:4em;">
+           <a [routerLink]="['/donation/' + donation._id + '/edit']"><md-icon>edit</md-icon></a>
+           <a href (click)="deleteTask(donation)"><md-icon>delete</md-icon></a>
+         </p> -->
+      </md-list-item>
+    </md-list>
+
+</md-card-content>
+<!-- </md-card> -->

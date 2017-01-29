@@ -1,4 +1,6 @@
+// , DBLeader, DBProject, DBTask
 module.exports = function(app, DB){
+  // FIXME Rename to donate-api
   var express = require('express');
   var router = express.Router();
   var LiqPay = require('liqpay-sdk');
@@ -34,6 +36,27 @@ module.exports = function(app, DB){
   router.post('/create-donation', function (req, res) {
     DB.createDonation(req.body);
   });
+
+  // FIXME WIP
+  /**
+   * Gets all donations for the given target:
+   *  /liqpay-api/target/leader/id
+   *  /liqpay-api/target/project/id
+   *  /liqpay-api/target/task/id
+   */
+  router.get('/target/:targetType/:targetId', function (req, res) {
+    DB.getDonationTarget( req.params.targetId, req.params.targetType )
+      .then( (target) => {
+        DB.listDonations(target.donations)
+          .then( data => {
+            console.log('List donations:', target.donations);
+            res.json(data)
+          })
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err))
+  })
+
 
   /**
   * TODO server_url	no	String	URL API в Вашем магазине для уведомлений об изменении статуса платежа (сервер->сервер). Максимальная длина 510 символов. Подробнее
