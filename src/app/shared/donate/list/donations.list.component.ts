@@ -16,13 +16,15 @@ export class DonationsListComponent implements OnChanges {
 
   // FIXME Implement interface for targets as Leaader, Project, Task
   @Input() target: any;
+  // Either Leader, Project or Task
+  @Input() targetType: string;
 
   private donations: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
 
   ngOnChanges(changes) {
     var target = changes.target.currentValue;
     if (target && target._id) {
-      this.requestDonations(target._id)
+      this.requestDonations(target)
     }
   }
 
@@ -31,8 +33,8 @@ export class DonationsListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  requestDonations(projectId) {
-    var proxySub = this.donationService.getDonations('', projectId).subscribe(donations => {
+  requestDonations(target) {
+    var proxySub = this.donationService.getDonations('', target._id, this.targetType).subscribe(donations => {
       this.donations.next(donations);
       proxySub.unsubscribe();
     });

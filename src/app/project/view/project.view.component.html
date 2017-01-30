@@ -17,7 +17,7 @@
       <md-grid-tile>
         <div>
           <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
-          <h2>Зібрано: {{project.totalDonationsReceived || 0}} / {{project.cost}}₴</h2>
+          <h2>Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</h2>
           <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
           <p>Початок: {{project.dateStarted | date}}<br/>
           Кінець: {{project.dateEnded | date}}</p>

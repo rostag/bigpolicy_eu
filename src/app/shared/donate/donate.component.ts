@@ -21,6 +21,7 @@ export class DonateComponent implements OnChanges {
 
   private donationFormHtml: SafeHtml = '';
   private readyToDonate: boolean = false;
+  private donationsListVisible: boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -37,13 +38,13 @@ export class DonateComponent implements OnChanges {
     }
   }
 
-  private onDonateTarget() {
-    console.log('onDonateTarget:', this.target, this.amount);
+  private onDonateToggle() {
+    console.log('onDonateToggle:', this.target, this.amount);
     this.target.totalDonationsReceived += this.amount;
     // FIXME implement order status check
     this.donationService.createDonation(this.getDonationModel());
     // TODO if not virtual transaction
-    this.readyToDonate = true;
+    this.readyToDonate = !this.readyToDonate;
     this.getDonationForm();
     return false;
   }
@@ -92,6 +93,10 @@ export class DonateComponent implements OnChanges {
         '</form>';
         this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr)
       });
+  }
+
+  private onToggleDonationsList() {
+    this.donationsListVisible = !this.donationsListVisible;
   }
 
   // UNUSED

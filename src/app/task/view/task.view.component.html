@@ -15,7 +15,7 @@
       </md-grid-tile>
       <md-grid-tile>
         <div>
-          <h2>Зібрано: {{task.totalDonationsReceived || 0}} / {{task.cost}}₴</h2>
+          <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
           <h3><a [routerLink]="['/project/',task.projectId]">До проекту</a></h3>
           <p>Початок: {{task.dateStarted | date}}<br/>
           Кінець: {{task.dateEnded | date}}</p>

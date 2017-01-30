@@ -17,6 +17,7 @@ DBDonation.getDonation = function(id) {
 }
 
 DBDonation.getDonationTarget = function( targetId, targetType ) {
+  // console.log('getDonationTarget:', targetId, targetType)
   if (targetType === 'leader') {
     return Leader.findById(targetId);
   } else if (targetType === 'project') {
@@ -40,7 +41,7 @@ DBDonation.createDonation = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  console.log('DBDonation: createDonation', data)
+  // console.log('DBDonation: createDonation', data)
 
   if(!data) data = {};
 
@@ -60,10 +61,13 @@ DBDonation.createDonation = function(dataObj) {
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {
   // Add this donation to the corresponding target's array
-  console.log('find this donation target by target type', savedDonation);
   // console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
 
   var targetByIdQuery;
+
+  if (!savedDonation) {
+    return;
+  }
 
   if (savedDonation.targetType === 'leader') {
     targetByIdQuery = Leader.where({ _id: savedDonation.targetId });
@@ -78,9 +82,9 @@ DBDonation.addDonationToTarget = function(error, savedDonation) {
 
   targetByIdQuery.findOne( function (err, target) {
     if (target) {
-      console.log('New donation: ', savedDonation._id, ', target found: ', target._id);
       target.donations.push(savedDonation.id);
-      // console.log('\t\t+plus updated: ', target.donations);
+      // console.log('New donation: ', savedDonation._id, ', target found: ', target._id);
+      // console.log('\t\Target updated: ', target.donations);
 
       // FIXME implement scheduled cash re-calculation
       var totalDonationsReceived = target.totalDonationsReceived || 0;

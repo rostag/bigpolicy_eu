@@ -49,7 +49,7 @@ module.exports = function(app, DB){
       .then( (target) => {
         DB.listDonations(target.donations)
           .then( data => {
-            console.log('List donations:', target.donations);
+            // console.log('List donations:', target.donations);
             res.json(data)
           })
           .catch( err => res.json(err))
@@ -67,7 +67,7 @@ module.exports = function(app, DB){
     var prm = getParamsFromRequestData(req);
     var sgn = liqpay.cnb_signature(prm);
 		var dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
-    console.log('𝖄 • LiqPay::getsgndta:: ', prm);
+    // console.log('𝖄 • LiqPay::getsgndta:: ', prm);
     res.send( dta + '-BGPLCXX-' + sgn );
   });
 
@@ -86,7 +86,7 @@ module.exports = function(app, DB){
       "version"  : "3",
       "order_id" : prm.order_id
     }, function( json ){
-      console.log( json.status );
+      // console.log( json.status );
       // res.send( dta + '-BGPLCXX-' + sgn );
     });
 
