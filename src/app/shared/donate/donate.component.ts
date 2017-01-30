@@ -61,8 +61,10 @@ export class DonateComponent implements OnChanges {
     d.donorId = userProfile && userProfile['email'] || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
-    console.log('#### window.location: ', window.location.href);
-    d.result_url = window.location.href;
+    var wl = window.location;
+    d.server_url = wl.protocol + '//' + wl.host;
+    d.result_url = wl.href;
+    console.log('##server_url: ', d.server_url);
 
     if (this.targetType === 'leader') {
       d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + '. Донор: ' + donorName + '. Дякуємо!';
@@ -71,10 +73,6 @@ export class DonateComponent implements OnChanges {
     } else if (this.targetType === 'task') {
       d.description = 'Переказ ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     }
-
-    // order_id
-    // FIXME add mongo ID here
-    d.externalId = 'bp_donation_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
 
     return d;
   }
@@ -100,13 +98,13 @@ export class DonateComponent implements OnChanges {
   }
 
   // UNUSED
-  private requireDonationForm() {
-    return this.donationService.requireDonationForm(this.getDonationModel())
-      .map(res => {
-        return res;
-      })
-      .subscribe((res) => {
-        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
-      });
-  }
+  // private requireDonationForm() {
+  //   return this.donationService.requireDonationForm(this.getDonationModel())
+  //     .map(res => {
+  //       return res;
+  //     })
+  //     .subscribe((res) => {
+  //       this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
+  //     });
+  // }
 }

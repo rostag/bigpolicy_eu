@@ -9,6 +9,8 @@ module.exports = function(app, DB){
   var private_key = 'v26xvBR6w6h9JVxGKLCSDzHnHg6GpIEoQeECKhuG';
   var liqpay = new LiqPay(public_key, private_key);
 
+  const url = require('url');
+
   function getParamsFromRequestData(req) {
     var d;
     console.log('------------ body: ', req.body);
@@ -25,7 +27,8 @@ module.exports = function(app, DB){
       'version'       : '3',
       'sandbox'       : '1', // FIXME DEV TEST
       'language'      : 'uk',
-      'result_url'    : d.result_url
+      'result_url'    : d.result_url,
+      'server_url'    : d.server_url + '/liqpay-api/post-donation-status'
     }
   }
 
@@ -34,7 +37,8 @@ module.exports = function(app, DB){
     * All params passed via req.
     */
   router.post('/create-donation', function (req, res) {
-    DB.createDonation(req.body);
+    var donationId = DB.createDonation(req.body);
+    res.send(donationId);
   });
 
   // FIXME WIP
@@ -58,44 +62,87 @@ module.exports = function(app, DB){
   })
 
 
-  /**
-  * TODO server_url	no	String	URL API в Вашем магазине для уведомлений об изменении статуса платежа (сервер->сервер). Максимальная длина 510 символов. Подробнее
-  * TODO result_url	no	String	URL в Вашем магазине на который покупатель будет переадресован после завершения покупки. Максимальная длина 510 символов.
-  */
-
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
+
+    console.log('𝖄 • LiqPay::getsgndta::URL::', prm.server_url);
+
     var sgn = liqpay.cnb_signature(prm);
+    // FIXME use Buffer.from instead
 		var dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
-    // console.log('𝖄 • LiqPay::getsgndta:: ', prm);
     res.send( dta + '-BGPLCXX-' + sgn );
   });
 
   /**
-   * FIXME implement checking the transaction status.
+   * Callback 3.0 public
+   * https://www.liqpay.com/ru/doc/callback
+   * Уведомление о смене статуса платежа server->server
+   * После смены статуса платежа, если был указан параметр server_url, на API
+   * будет отправлен POST запрос с двумя параметрами data и signature, где:
+   *  data - результат функции base64_encode( $json_string )
+   *  signature - результат функции base64_encode( sha1( $private_key . $data . $private_key, 1 ) )
+   *
+   **/
+
+   /*
+    Buffer.from('{"status": "success", "err_code": "0", "err_description": "errdesc", "version": "3", "order_id":"bpdon___id_588eb596aec5311f687643d6__amt_70__from_rostislav.siryk@gmail.com__to_58453220a9dd58cbb28f900d__type_leader__t_1485747606482"}').toString('base64')
+   */
+   router.post('/post-donation-status', function (req, res) {
+    var dta = Buffer.from(req.body['data'], 'base64').toString('utf8');
+    var sgn = Buffer.from(req.body['signature'], 'base64').toString('utf8');
+
+    try {
+      var jsn = JSON.parse(dta);
+      var sts = jsn.status;
+      var oid = jsn.order_id;
+      var donatonId = oid.substring('bpdon___id_'.length, oid.indexOf('__amt_'));
+
+      console.log('--> donatonId:', donatonId, sts);
+
+      // Проверка Callback сигнатуры
+      var sign = liqpay.str_to_sign(private_key + dta + private_key);
+
+      if ( sign === sgn ) {
+        // write proper value to DB
+        DB.updateDonation(donatonId, {
+          "status": sts
+        });
+      } else {
+        console.error('signature is incorrect:', sgn);
+      }
+
+    } catch (e) {
+      console.log('Errro:', e);
+    }
+
+    res.send('ok');
+   });
+
+  /**
+   * TODO implement checking the transaction status.
    * action	yes	String	status
    * order_id	yes	String	Уникальный ID покупки в Вашем магазине.Максимальная длина 255 символов.
    * https://www.liqpay.com/ru/doc/status
    */
-  router.post('/check-donation-status', function (req, res) {
-    var prm = getParamsFromRequestData(req);
-    // console.log('𝖄 • LiqPay::check-status', prn.order_id);
+  // router.post('/check-donation-status', function (req, res) {
+  //   var prm = getParamsFromRequestData(req);
+  //   // console.log('𝖄 • LiqPay::check-status', prn.order_id);
+  //
+  //   liqpay.api("request", {
+  //     "action"   : "status",
+  //     "version"  : "3",
+  //     "order_id" : prm.order_id
+  //   }, function( json ){
+  //     // console.log( json.status );
+  //     // res.send( dta + '-BGPLCXX-' + sgn );
+  //   });
+  //
+  // });
 
-    liqpay.api("request", {
-      "action"   : "status",
-      "version"  : "3",
-      "order_id" : prm.order_id
-    }, function( json ){
-      // console.log( json.status );
-      // res.send( dta + '-BGPLCXX-' + sgn );
-    });
-
-  });
-
-  // FIXME UNUSED
-  router.post('/getliqform', function (req, res) {
-    res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));
-  });
+  // // FIXME UNUSED
+  // router.post('/getliqform', function (req, res) {
+  //   res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));
+  // });
 
   app.use('/liqpay-api', router);
 

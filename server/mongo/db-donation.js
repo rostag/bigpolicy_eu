@@ -34,29 +34,36 @@ DBDonation.listDonations = function(donationIds) {
     : Donation.find()
 }
 
-DBDonation.createDonation = function(dataObj) {
-  var data = dataObj;
-
-  for ( var item in dataObj ) {
+DBDonation.createDonation = function(data) {
+  for ( var item in data ) {
     data = JSON.parse(item);
   }
 
-  // console.log('DBDonation: createDonation', data)
-
   if(!data) data = {};
 
-  var saved;
-  var model;
-
   try {
-    model = new Donation(data);
+    var model = new Donation(data);
+    // we use mongo ID here, to use it later as back reference for order_id in liqpay order status callback
+    model.externalId = 'bpdon___id_' + model._id + '__amt_' + model.amount + '__from_' + model.donorId + '__to_' + model.targetId + '__type_' + model.targetType + '__t_' + Date.now();
   } catch (error){
     throw ( 'DBDonation: Invalid donation cannot be saved.')
   }
 
-  saved = model.save(DBDonation.addDonationToTarget);
+  return model.save(model.save(DBDonation.addDonationToTarget));
+}
 
-  return model.save(saved);
+DBDonation.updateDonation = function(id, data) {
+  console.log('DBDonation: updateDonation', data)
+
+  return Donation.findById(id, function(err, model) {
+    if (err || !model || !data) {
+      return;
+    }
+    for (var field in data) {
+      model[field] = data[field]
+    }
+    return model.save();
+  });
 }
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {

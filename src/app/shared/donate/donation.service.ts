@@ -27,7 +27,7 @@ export class DonationService {
    * @param DonationModel A Donation to create
    */
   createDonation(model: DonationModel) {
-    console.log('Create Donation: ', model.toString());
+    // console.log('Create Donation: ', model.toString());
     var p = this.getPostData(model);
     return this.http.post(this.apiUrl + 'create-donation', p.body, p.options)
       .map(res => {})
@@ -110,8 +110,8 @@ export class DonationService {
    * Requires donation form
    * @param DonationModel A Donation to send
    */
-  requireDonationForm(model: DonationModel) {
-    var p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
-  }
+  // requireDonationForm(model: DonationModel) {
+  //   var p = this.getPostData(model);
+  //   return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
+  // }
 }

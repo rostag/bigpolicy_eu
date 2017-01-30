@@ -16,9 +16,11 @@ export class DonationModel {
 	description: string;
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);
 	endDateInputValue: string = this.toDateInputValue(this.dateCompleted);
+	status: string = 'unfinished';
 
 	// Not stored in DB. Used as backlink for liqpay.
 	result_url: String;
+	server_url: String;
 
 
 	/**
@@ -36,7 +38,9 @@ export class DonationModel {
 			dateStarted: this.toDateInputValue(this.dateStarted),
 			dateEnded: this.toDateInputValue(this.dateCompleted),
 			description: this.description,
-			result_url: this.result_url
+			result_url: this.result_url,
+			server_url: this.server_url,
+			status: this.status
 		})
 	}
 
