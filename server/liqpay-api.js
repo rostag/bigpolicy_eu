@@ -41,7 +41,6 @@ module.exports = function(app, DB){
     res.send(donationId);
   });
 
-  // FIXME WIP
   /**
    * Gets all donations for the given target:
    *  /liqpay-api/target/leader/id
@@ -65,7 +64,7 @@ module.exports = function(app, DB){
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
 
-    console.log('𝖄 • LiqPay::getsgndta::URL::', prm.server_url);
+    console.log('𝖄 • LiqPay::getsgndta::URL::', prm);
 
     var sgn = liqpay.cnb_signature(prm);
     // FIXME use Buffer.from instead
