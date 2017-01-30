@@ -88,7 +88,7 @@ module.exports = function(app, DB){
     Buffer.from('{"status": "success", "err_code": "0", "err_description": "errdesc", "version": "3", "order_id":"bpdon___id_588eb596aec5311f687643d6__amt_70__from_rostislav.siryk@gmail.com__to_58453220a9dd58cbb28f900d__type_leader__t_1485747606482"}').toString('base64')
    */
    router.post('/post-donation-status', function (req, res) {
-    var dta = Buffer.from(req.body['data'], 'base64').toString('ascii');
+    var dta = Buffer.from(req.body['data'], 'base64').toString('utf8');
     var sgn = Buffer.from(req.body['signature'], 'base64').toString('ascii');
 
     try {
