@@ -17,6 +17,11 @@ module.exports = function(app, DB){
     for ( var item in req.body ) {
       d = JSON.parse(item);
     }
+
+    // we use mongo ID here, to use it later as back reference for order_id in liqpay order status callback
+    d.externalId = 'bpdon___id_' + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
+    console.log('getParamsFromRequestData. externalId = ', d.externalId);
+
     // FIXME SANDBOX
     return {
       'action'        : 'pay',
@@ -84,7 +89,7 @@ module.exports = function(app, DB){
    **/
 
    /*
-    Buffer.from('{"status": "success", "err_code": "0", "err_description": "errdesc", "version": "3", "order_id":"bpdon___id_588eb596aec5311f687643d6__amt_70__from_rostislav.siryk@gmail.com__to_58453220a9dd58cbb28f900d__type_leader__t_1485747606482"}').toString('base64')
+    Buffer.from('{"status": "success", "err_code": "0", "err_description": "errdesc", "version": "3", "order_id":"bpdon___id_58925e146b54fe5e678050df__amt_70__from_rostislav.siryk@gmail.com__to_58453220a9dd58cbb28f900d__type_leader__t_1485987348590"}').toString('base64')
    */
    router.post('/post-donation-status', function (req, res) {
     var dta = Buffer.from(req.body['data'], 'base64').toString();
