@@ -29,6 +29,7 @@ export class DonationModel {
 	 */
 	toString() {
 		return JSON.stringify({
+			_id: this._id,
 			donorId: this.donorId,
 			virtual: this.virtual,
 			targetId: this.targetId,

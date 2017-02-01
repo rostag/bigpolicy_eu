@@ -47,7 +47,9 @@ DBDonation.createDonation = function(data) {
     throw ( 'DBDonation: Invalid donation cannot be saved.')
   }
 
-  return model.save(model.save(DBDonation.addDonationToTarget));
+  model.save(DBDonation.addDonationToTarget);
+
+  return model._id;
 }
 
 DBDonation.updateDonation = function(id, data) {

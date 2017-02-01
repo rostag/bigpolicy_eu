@@ -27,12 +27,8 @@ export class DonationService {
    * @param DonationModel A Donation to create
    */
   createDonation(model: DonationModel) {
-    // console.log('Create Donation: ', model.toString());
     var p = this.getPostData(model);
     return this.http.post(this.apiUrl + 'create-donation', p.body, p.options)
-      .map(res => {})
-      .catch(this.handleError)
-      .subscribe((res) => {});
   }
 
   // TODO: implement local cache
@@ -98,11 +94,6 @@ export class DonationService {
       body: encodeURIComponent(model.toString()),
       options: new RequestOptions({ headers: headers })
     }
-  }
-
-  private handleError(error: Response) {
-    console.error("Error occured:", error);
-    return Observable.throw(error.json().error || 'Server error');
   }
 
   // FIXME UNUSED
