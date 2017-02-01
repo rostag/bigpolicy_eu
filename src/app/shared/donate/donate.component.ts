@@ -42,11 +42,16 @@ export class DonateComponent implements OnChanges {
     console.log('onDonateToggle:', this.target, this.amount);
     this.target.totalDonationsReceived += this.amount;
     // FIXME implement order status check
-    this.donationService.createDonation(this.getDonationModel());
-    // TODO if not virtual transaction
-    this.readyToDonate = !this.readyToDonate;
-    this.getDonationForm();
-    return false;
+    this.donationService.createDonation(this.getDonationModel())
+      .subscribe((res) => {
+        var b = res['_body'];
+        var id = b.substring(1, b.length - 1);
+        // TODO if not virtual transaction
+        this.readyToDonate = !this.readyToDonate;
+        this.getDonationForm(id);
+      });
+
+      return false;
   }
 
   private getDonationModel() {
@@ -77,8 +82,10 @@ export class DonateComponent implements OnChanges {
     return d;
   }
 
-  private getDonationForm() {
-    return this.donationService.requireSign(this.getDonationModel())
+  private getDonationForm(_id) {
+    var model = this.getDonationModel();
+    model._id = _id;
+    return this.donationService.requireSign(model)
       .map(res => {
         return res;
       })
