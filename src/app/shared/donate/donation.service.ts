@@ -7,7 +7,8 @@ import 'rxjs/add/operator/map';
 import { DonationModel } from './donation.model';
 
 /**
- * Provides the Leader service with methods to create, read, update and delete models.
+ * Provides the donation service with methods to create, read, update and delete models.
+ * Forwards donation requests to liqpay
  */
 @Injectable()
 export class DonationService {
@@ -19,24 +20,80 @@ export class DonationService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {
-    console.log('DonationService Constructor')
+  constructor(private http: Http) {}
+
+  /**
+   * Create a donation for target
+   * @param DonationModel A Donation to create
+   */
+  createDonation(model: DonationModel) {
+    var p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options)
   }
+
+  // TODO: implement local cache
+
+  /**
+   * Get all models from DB by donation id or target id
+   * Returns an Observable for the HTTP GET request.
+   * @return {string[]} The Observable for the HTTP request.
+   */
+  getDonations(donationId: string = '', targetId: string = '', targetType: string = 'leader'): Observable<any> {
+
+    // FIXME Implement interface and adopt three types of targets
+    var requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
+
+    console.info('Donation Service: get by', requestUrl);
+
+    var reponseObservable = this.http.get(requestUrl)
+      .map((res: Response) => {
+        let donations = res.json();
+        if (donations.forEach) {
+          donations.forEach(donation => this.convertTime(donation))
+        }
+        else {
+          this.convertTime(donations)
+        }
+        return donations
+      })
+      return reponseObservable;
+  }
+
+  private convertTime(donation) {
+    donation.dateStarted = new Date(donation['dateStarted']);
+    donation.dateCompleted = new Date(donation['dateCompleted']);
+  }
+
+  /**
+   * Get a model from DB or from cache.
+   */
+  getDonation(donationId: string): Observable<Response> {
+    return this.getDonations(donationId)
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // LIQ
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Requires donation form
    * @param DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
+    var p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options)
+  }
 
-    console.log('Get Signature for: ', model.toString());
-
-    var body: string = encodeURIComponent(model.toString());
+  /**
+   * Internal utility to get post data
+   */
+  private getPostData(model: DonationModel) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.apiUrl + 'getsgndta', body, options)
+    return {
+      body: encodeURIComponent(model.toString()),
+      options: new RequestOptions({ headers: headers })
+    }
   }
 
   // FIXME UNUSED
@@ -44,39 +101,8 @@ export class DonationService {
    * Requires donation form
    * @param DonationModel A Donation to send
    */
-  requireDonationForm(model: DonationModel) {
-
-    console.log('Get Donation Form: ', model.toString());
-
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.apiUrl + 'getform', body, options)
-  }
-
-  /**
-   * Donates a leader
-   * @param DonationModel A Donation to send
-   */
-  donateLeader(model: DonationModel) {
-
-    console.log('Donate leader: ', model.toString());
-
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.apiUrl + 'donate', body, options)
-      .map(res => console.log('Leader donated:', res.json()))
-      .catch(this.handleError)
-      .subscribe((res) => {});
-  }
-
-  private handleError(error: Response) {
-    console.error("Error occured:", error);
-    return Observable.throw(error.json().error || 'Server error');
-  }
+  // requireDonationForm(model: DonationModel) {
+  //   var p = this.getPostData(model);
+  //   return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
+  // }
 }

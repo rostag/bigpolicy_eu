@@ -2,14 +2,17 @@
 
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
+        <br />
+        
         <!-- FIXME
-        <a href><md-icon>thumb_up</md-icon></a>
-        <a href><md-icon>share</md-icon></a>
+          <a href><md-icon>thumb_up</md-icon></a>
+          <a href><md-icon>share</md-icon></a>
+          <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
         -->
-        <em>{{leader.totalDonationsReceived}}₴</em>
-        <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
 
-        <bp-donate [amount]="71" [target]="leader" [targetType]="'leader'"></bp-donate>
+        <p>
+          <bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></bp-donate>
+        </p>
 
       </md-card-title>
 

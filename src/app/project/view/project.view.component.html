@@ -5,6 +5,7 @@
     <bp-sharer #sharer [project]="project"></bp-sharer>
 
     <h1>{{project.title}}</h1>
+    <bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></bp-donate>
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile>
@@ -15,9 +16,8 @@
       </md-grid-tile>
       <md-grid-tile>
         <div>
-          <bp-donate [label]="'Підтримати проект:'" [amount]="72" [target]="project" [targetType]="'project'"></bp-donate>
           <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
-          <h2>Зібрано: {{project.totalDonationsReceived}} / {{project.cost}}₴</h2>
+          <h2>Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</h2>
           <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
           <p>Початок: {{project.dateStarted | date}}<br/>
           Кінець: {{project.dateEnded | date}}</p>

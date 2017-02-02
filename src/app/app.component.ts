@@ -19,7 +19,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit(){
-    console.log('• app init, user service: ', this.userService, this.projectService);
+    console.log('• BP app init, user service: ', this.userService);
   }
 
   user: UserModel

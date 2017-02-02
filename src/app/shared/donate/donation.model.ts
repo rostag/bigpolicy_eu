@@ -4,16 +4,24 @@ export class DonationModel {
 	virtual: boolean = false;
 	donorId: string;
 	targetId: string;
-	// FIXME transactionId in external system
+	// FIXME transactionId in external system. Use for completeness check.
 	externalId: string;
 	// Leader, Project, or Task
 	targetType: string;
 	amount: number;
 	dateStarted: Date;
+	// FIXME Indirect pointer to transaction completeness.
+	// Fill this date after transaction has been completeted in external payment system
 	dateCompleted: Date;
 	description: string;
 	startDateInputValue: string = this.toDateInputValue(this.dateStarted);
 	endDateInputValue: string = this.toDateInputValue(this.dateCompleted);
+	status: string = 'unfinished';
+
+	// Not stored in DB. Used as backlink for liqpay.
+	result_url: String;
+	server_url: String;
+
 
 	/**
 	 * It's necessary to have a string representation for sending it to DB
@@ -21,6 +29,7 @@ export class DonationModel {
 	 */
 	toString() {
 		return JSON.stringify({
+			_id: this._id,
 			donorId: this.donorId,
 			virtual: this.virtual,
 			targetId: this.targetId,
@@ -29,7 +38,10 @@ export class DonationModel {
 			amount: this.amount,
 			dateStarted: this.toDateInputValue(this.dateStarted),
 			dateEnded: this.toDateInputValue(this.dateCompleted),
-			description: this.description
+			description: this.description,
+			result_url: this.result_url,
+			server_url: this.server_url,
+			status: this.status
 		})
 	}
 

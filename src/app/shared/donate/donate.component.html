@@ -1,10 +1,14 @@
 <div>
-  <button *ngIf="!readyToDonate" (click)="donateLeader(amount)" md-raised-button color="accent">{{label + ' ' + this.amount + ' UAH'}}</button>
-
+  <button *ngIf="!readyToDonate" (click)="onDonateToggle()" md-raised-button color="accent">{{label + ' ' + this.amount + ' UAH'}}</button>
+  <button *ngIf="!readyToDonate && target.totalDonationsReceived>0" (click)="onToggleDonationsList()" md-button color="accent">Усього: {{target.totalDonationsReceived || 0}} UAH</button>
   <div *ngIf="readyToDonate" >
-      <p>Увага — після натискання на кнопку нижче Вас буде автоматично переадресовано на сторінку платіжної системи, де ви зможете зробити переказ одним зі зручним для Вас способів. Натисніть кнопку, що продовжити: </p>
       <div [innerHTML]="donationFormHtml"></div>
+      <p>Увага: натиснувши кнопку "Переказати", Ви перейдете на сторінку оплати,
+        щоб переказати кошти у зручний для Вас спосіб.
+      </p>
+      <button (click)="onDonateToggle()" md-button>X</button>
   </div>
-  <!-- <button md-raised-button color="accent" disabled>+3700₴</button> -->
-  <!-- <button md-raised-button color="accent" disabled>+7000₴</button> -->
+
+  <donations-list [target]="target" [targetType]="targetType" *ngIf="donationsListVisible" ></donations-list>
+
 </div>

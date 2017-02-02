@@ -1,16 +1,17 @@
 import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { DonationModel, DonationService } from './index';
+import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'bp-donate',
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
-  providers: [DonationService]
+  providers: [DonationService, UserService]
 })
 
-  export class DonateComponent implements OnChanges {
+export class DonateComponent implements OnChanges {
 
   // FIXME Implement DonationTarget interface
   @Input() target: any;
@@ -19,91 +20,98 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   @Input() label: string = 'Підтримати:';
 
   private donationFormHtml: SafeHtml = '';
-
   private readyToDonate: boolean = false;
+  private donationsListVisible: boolean = false;
 
   constructor(
-        private sanitizer: DomSanitizer,
-        private donationService: DonationService
-  ) {}
+    private sanitizer: DomSanitizer,
+    private donationService: DonationService,
+    private userService: UserService
+  ){}
 
+  /**
+   * Populate target properties when it's ready from parent component
+   */
   ngOnChanges(changes){
     if(changes.target) {
-      // console.log('doing crazy stuff here', this.target, changes.target);
-      this.getDonationForm();
+      //
     }
   }
 
-  private getDonationForm() {
-    console.log('getDonationForm:', this.target, this.amount);
-
-    var donation = this.prepareDonation();
-
-    var proxySub = this.donationService.requireSign(donation)
-    // var proxySub = this.donationService.requireDonationForm(donation)
-      .map(res => {
-        console.log('Form HTML:', res)
-        return res;
-      })
-      // .catch(this.handleError)
+  private onDonateToggle() {
+    console.log('onDonateToggle:', this.target, this.amount);
+    this.target.totalDonationsReceived += this.amount;
+    // FIXME implement order status check
+    this.donationService.createDonation(this.getDonationModel())
       .subscribe((res) => {
-        // -BGPLCXX-
-        var sgndta = res["_body"].split('-BGPLCXX-');
-        var formStr =
-        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
-          sgndta[0] + '" /><input type="hidden" name="signature" value="' +
-          sgndta[1] + '" />' +
-          // '<input type="image" src="//static.liqpay.com/buttons/p1ru.radius.png" name="btn_text" />'
-          '<button md-raised-button color="accent">Переказати '+ this.amount +' UAH</button>'
-          + '</form>';
-        // console.log('Got donation form:', decodeURIComponent(res["_body"]))
-        proxySub.unsubscribe();
-        // this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
-        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr)
+        var b = res['_body'];
+        var id = b.substring(1, b.length - 1);
+        // TODO if not virtual transaction
+        this.readyToDonate = !this.readyToDonate;
+        this.getDonationForm(id);
       });
 
-    return proxySub;
+      return false;
   }
 
-  private prepareDonation() {
-
+  private getDonationModel() {
     var d = new DonationModel();
+    var userProfile = this.userService.userProfile;
+    var donorName = userProfile && userProfile['name'] || 'Анонімний донор';
 
     // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
-    // FIXME Use real donor
-    d.donorId = 'Анонімний донор';
+    // FIXME Use real donor when logged in
+    d.donorId = userProfile && userProfile['email'] || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
+    var wl = window.location;
+    d.server_url = wl.protocol + '//' + wl.host;
+    d.result_url = wl.href;
+    console.log('##server_url: ', d.server_url);
 
     if (this.targetType === 'leader') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + ' (' + this.targetType +'). Донор: ' + d.donorId + '. \nДякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + '. Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'project') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + d.donorId + '. Дякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'task') {
-      d.description = 'Переказати ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + d.donorId + '. Дякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     }
-
-    // order_id
-    d.externalId = 'bp_donation_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType;
 
     return d;
   }
 
-  private donateLeader() {
-    console.log('donateLeader:', this.target, this.amount);
-
-    this.target.totalDonationsReceived += this.amount;
-
-    var d = this.prepareDonation();
-
-    this.donationService.donateLeader(d);
-
-    // if not virtual transaction
-    this.readyToDonate = true;
-
-    return false;
+  private getDonationForm(_id) {
+    var model = this.getDonationModel();
+    model._id = _id;
+    return this.donationService.requireSign(model)
+      .map(res => {
+        return res;
+      })
+      .subscribe((res) => {
+        var sgndta = res["_body"].split('-BGPLCXX-');
+        var formStr =
+        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
+          sgndta[0] + '" /><input type="hidden" name="signature" value="' +
+          sgndta[1] + '" /><button md-raised-button color="accent">Переказати '+ this.amount +' UAH</button>' +
+        '</form>';
+        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr)
+      });
   }
 
+  private onToggleDonationsList() {
+    this.donationsListVisible = !this.donationsListVisible;
+  }
+
+  // UNUSED
+  // private requireDonationForm() {
+  //   return this.donationService.requireDonationForm(this.getDonationModel())
+  //     .map(res => {
+  //       return res;
+  //     })
+  //     .subscribe((res) => {
+  //       this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
+  //     });
+  // }
 }

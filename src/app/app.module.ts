@@ -41,6 +41,7 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 import { AppComponent } from './app.component';
 import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
+import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
@@ -65,6 +66,7 @@ import { VideoComponent } from './shared/video/video.component';
     LandingComponent,
     SharerComponent,
     DonateComponent,
+    DonationsListComponent,
     ForbiddenValidatorDirective,
     VideoComponent,
     AppComponent

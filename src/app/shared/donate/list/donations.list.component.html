@@ -1,0 +1,36 @@
+<md-card>
+
+  <md-card-title>
+
+    <md-toolbar class="add-toolbar" color="accent">
+      Усі зроблені внески.
+      <!-- TODO Усього зроблено внесків: {{donations.length | async}} -->
+      <span class="add-fill-remaining"></span>
+      Сума: {{target.totalDonationsReceived}} UAH
+      <!-- <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && user.hasEditPermissions(project)" color="primary">Додати захід</button> -->
+    </md-toolbar>
+
+  </md-card-title>
+
+  <md-card-content>
+
+    <md-list>
+      <ol>
+       <md-list-item *ngFor="let donation of donations | async">
+         <li>
+           <small>{{donation.description}} {{donation.dateStarted | date}}, {{donation.status}}</small>
+           <!-- FIXME Show completeness status {{donation.dateCompleted | date}} -->
+           <!-- TODO Add individual donation view <h3 md-line><a [routerLink]="['/donation/' + donation._id]"><b>{{donation.title}}</b></a></h3> -->
+           <!-- TODO let admin to delete donation, user to cancel -->
+           <!-- <p *ngIf="user.hasEditPermissions(donation)" class="admin" style="min-width:4em;">
+             <a [routerLink]="['/donation/' + donation._id + '/edit']"><md-icon>edit</md-icon></a>
+             <a href (click)="deleteTask(donation)"><md-icon>delete</md-icon></a>
+           </p> -->
+       </li>
+      </md-list-item>
+      </ol>
+    </md-list>
+
+  </md-card-content>
+
+</md-card>
