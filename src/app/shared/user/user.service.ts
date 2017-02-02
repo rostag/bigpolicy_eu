@@ -84,8 +84,12 @@ export class UserService {
 
   private isOwner(item) {
     let userEmail = this.userProfile && this.userProfile['email'] || '';
+
+    let isLeaderOwnedBy = userEmail === item['managerEmail'];
+    let isProjectOwnedBy = userEmail === item['email'];
     let isTaskOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
-    return this.authenticated() && ( isTaskOwnedBy || userEmail === item['email'] || userEmail === item['managerEmail'] );
+
+    return this.authenticated() && ( isTaskOwnedBy || isProjectOwnedBy || isLeaderOwnedBy );
   }
 
   public login() {
