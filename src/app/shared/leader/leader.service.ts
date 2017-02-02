@@ -93,11 +93,11 @@ export class LeaderService {
   getLeaderByEmail(email: string): LeaderModel {
     var foundLeader;
     var leaders = this.models;
-      for (let l in leaders) {
-        if (leaders[l].email === email) {
-          foundLeader = leaders[l];
-        }
+    for (let l in leaders) {
+      if (leaders[l].email === email) {
+        foundLeader = leaders[l];
       }
+    }
     return foundLeader;
   }
 
