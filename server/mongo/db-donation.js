@@ -60,24 +60,24 @@ DBDonation.updateDonation = function(id, data) {
   console.log('DBDonation: updateDonation', id, data)
 
   return Donation.findById(id, function(err, model) {
-    console.log(' -> err, model', err, model)
+    console.log(' -> virtual: ', model.virtual, model)
     if (err || !model || !data) {
       return;
     }
     for (var field in data) {
-      console.log(' -> field:', field, model[field])
+      console.log(' -> field:', field, data[field])
       model[field] = data[field]
     }
     model.save();
     if (!model.virtual) {
-      DBDonation.addDonationToTarget(model);
+      DBDonation.addDonationToTarget(null, model);
     }
   });
 }
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {
   // Add this donation to the corresponding target's array
-  // console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
+  console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
 
   var targetByIdQuery;
 
