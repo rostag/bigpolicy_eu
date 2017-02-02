@@ -31,9 +31,8 @@ export class ProjectEditComponent {
     this.project = new ProjectModel();
   }
 
-  getLeader() {
+  private getLeader() {
     var leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
-    console.log('fousnd leader id: ', leader);
     return leader;
   }
 
@@ -46,7 +45,7 @@ export class ProjectEditComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('Project Editor by ID from route params:', id)
+        // console.log('Project Editor by ID from route params:', id)
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)

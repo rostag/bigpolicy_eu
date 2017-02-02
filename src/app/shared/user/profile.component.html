@@ -18,6 +18,17 @@
       <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
       <!-- <h4>You are logged in</h4> -->
     </md-card-content>
+
+    <md-card>
+      <md-card-title>
+        Проекти:
+      </md-card-title>
+      <md-card-content>
+        <project-list [leaderId]="leader._id">
+        </project-list>
+      </md-card-content>
+    </md-card>
+
     <md-card-actions>
       <p class="admin">
         <a [routerLink] = "['/leaders']"><button md-raised-button color="accent">Редагувати</button></a>
