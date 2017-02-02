@@ -47,7 +47,11 @@ DBDonation.createDonation = function(data) {
     throw ( 'DBDonation: Invalid donation cannot be saved.')
   }
 
-  model.save(DBDonation.addDonationToTarget);
+  model.save();
+
+  if (model.virtual) {
+    DBDonation.addDonationToTarget(model);
+  }
 
   return model._id;
 }
@@ -56,7 +60,7 @@ DBDonation.updateDonation = function(id, data) {
   console.log('DBDonation: updateDonation', id, data)
 
   return Donation.findById(id, function(err, model) {
-    console.log(' -> updateDonation', err, model)
+    console.log(' -> err, model', err, model)
     if (err || !model || !data) {
       return;
     }
@@ -64,7 +68,10 @@ DBDonation.updateDonation = function(id, data) {
       console.log(' -> field:', field, model[field])
       model[field] = data[field]
     }
-    return model.save();
+    model.save();
+    if (!model.virtual) {
+      DBDonation.addDonationToTarget(model);
+    }
   });
 }
 

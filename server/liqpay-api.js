@@ -13,14 +13,14 @@ module.exports = function(app, DB){
 
   function getParamsFromRequestData(req) {
     var d;
-    console.log('------------ body: ', req.body);
+    // console.log('------------ body: ', req.body);
     for ( var item in req.body ) {
       d = JSON.parse(item);
     }
 
     // we use mongo ID here, to use it later as back reference for order_id in liqpay order status callback
     d.externalId = 'bpdon___id_' + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
-    console.log('getParamsFromRequestData. externalId = ', d.externalId);
+    // console.log('getParamsFromRequestData. externalId = ', d.externalId);
 
     // FIXME SANDBOX
     return {
