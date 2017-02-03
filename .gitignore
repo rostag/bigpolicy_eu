@@ -18,8 +18,16 @@
 *.iml
 .project
 .classpath
+.c9/
 *.launch
 .settings/
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
 /.sass-cache
@@ -28,6 +36,7 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+/typings
 
 # e2e
 /e2e/*.js
