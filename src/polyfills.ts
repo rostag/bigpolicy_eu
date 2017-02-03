@@ -31,7 +31,8 @@ import 'zone.js/dist/zone';
 
 // Date, currency, decimal and percent pipes
 // Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
-// import 'intl';
+import 'intl';
+import 'intl/locale-data/jsonp/en.js';
 
 // NgClass on SVG elements
 // Needed for: IE10, IE11
