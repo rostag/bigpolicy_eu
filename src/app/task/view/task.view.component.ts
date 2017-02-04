@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -9,9 +9,9 @@ import { UserService } from '../../shared/user/user.service';
   providers: [TaskService, UserService]
 })
 
-export class TaskViewComponent {
+export class TaskViewComponent implements OnInit {
 
-  task: TaskModel = new TaskModel()
+  task: TaskModel = new TaskModel();
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -21,7 +21,7 @@ export class TaskViewComponent {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private user: UserService
-  ){}
+  ) {}
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -35,17 +35,17 @@ export class TaskViewComponent {
         if (id) {
           this.taskService.getTask(id)
           .subscribe( data => {
-            this.setTask(data)
-          })
+            this.setTask(data);
+          });
         }
-      })
+      });
   }
 
   /**
    * Task loading handler
    * @param {data} Loaded task data
    */
-  setTask(data){
+  setTask(data) {
     this.task = data;
   }
 
@@ -53,7 +53,7 @@ export class TaskViewComponent {
    * Remove this task
    * @param {task} Task being viewed
    */
-  private deleteTask(task: TaskModel) {
+  deleteTask(task: TaskModel) {
     // Delete from DB
     this.taskService.deleteTask(task);
 

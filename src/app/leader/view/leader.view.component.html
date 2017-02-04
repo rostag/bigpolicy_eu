@@ -3,7 +3,7 @@
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
         <br />
-        
+
         <!-- FIXME
           <a href><md-icon>thumb_up</md-icon></a>
           <a href><md-icon>share</md-icon></a>
@@ -11,13 +11,13 @@
         -->
 
         <p>
-          <bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></bp-donate>
+          <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
         </p>
 
       </md-card-title>
 
       <!-- state="iframed.leader"  -->
-      <bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></bp-video>
+      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></app-bp-video>
 
     </md-card-title-group>
 
@@ -46,8 +46,8 @@
         Проекти:
       </md-card-title>
       <md-card-content>
-        <project-list [leaderId]="leader._id">
-        </project-list>
+        <app-project-list [leaderId]="leader._id">
+        </app-project-list>
       </md-card-content>
 
     </md-card-content>

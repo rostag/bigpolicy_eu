@@ -47,7 +47,7 @@
 ### 22.08.2016
 
 User Model Added. Router extracted
-Added Profile Service, Profile View, LocalStorage for auth control
+Added Profile Service, Profile View for auth control
 Local storage support added
 Auth0 dependencies added
 RC1-RC4 migration done

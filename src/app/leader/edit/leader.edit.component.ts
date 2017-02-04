@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
@@ -10,17 +10,17 @@ import { UserService } from '../../shared/user/user.service';
   providers: [LeaderService]
   })
 
-export class LeaderEditComponent {
+export class LeaderEditComponent implements OnInit {
 
-  private leader: LeaderModel = new LeaderModel();
+  leader: LeaderModel = new LeaderModel();
 
-  private isUpdateMode: boolean = false;
+  private isUpdateMode = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private leaderService: LeaderService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   /**
@@ -29,24 +29,24 @@ export class LeaderEditComponent {
    */
   ngOnInit() {
     // FIXME
-    var p = this.userService.userProfile;
-    let fullname = p ? p['name'] : '';
+    const p = this.userService.userProfile;
+    const fullname = p ? p['name'] : '';
     this.leader.name = fullname.split(' ')[0];
     this.leader.surName = fullname.split(' ')[1];
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('Leader Editor by ID from route params:', id)
+        console.log('Leader Editor by ID from route params:', id);
         if (id) {
           this.isUpdateMode = true;
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
-              this.setLeader(data)
+              this.setLeader(data);
             },
             err => console.error(err),
             () => {}
-          )
+          );
         }
       });
   }
@@ -55,20 +55,20 @@ export class LeaderEditComponent {
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data){
-    this.leader = new LeaderModel()
-    this.leader.parseData(data)
+  setLeader(data) {
+    this.leader = new LeaderModel();
+    this.leader.parseData(data);
   }
 
   /**
    * Remove this leader
    * @param {leader} Leader being viewed
    */
-  private deleteLeader(leader: LeaderModel) {
+  deleteLeader(leader: LeaderModel) {
     // Delete from DB
-    this.leaderService.deleteLeader(leader)
+    this.leaderService.deleteLeader(leader);
 
-    this.router.navigate(['/leaders'])
+    this.router.navigate(['/leaders']);
     return false;
   }
 
@@ -82,28 +82,28 @@ export class LeaderEditComponent {
       // Update existing leader:
       this.leaderService.updateLeader(this.leader)
       .subscribe(
-        data => { this.gotoLeader(data) },
-        err => (err) => console.error('Leader update error: ', err),
+        data => { this.gotoLeader(data); },
+        err => (er) => console.error('Leader update error: ', er),
         () => {}
-      )
+      );
     } else {
       // Create new leader
       this.leader.email = this.userService.userProfile['email'];
       this.leaderService.createLeader(this.leader)
       .subscribe(
-        data => { this.gotoLeader(data) },
-        err => (err) => console.error('Leader creation error: ', err),
+        data => { this.gotoLeader(data); },
+        err => (er) => console.error('Leader creation error: ', er),
         () => {}
-      )
+      );
     }
-    return false
+    return false;
   }
 
-  gotoLeader(leader){
-    var leaderId = leader._id
+  gotoLeader(leader) {
+    const leaderId = leader._id;
     if (leaderId) {
       this.router.navigate(['/leader', leaderId]).then(_ => {
-        //navigation is done
+        // navigation is done
       });
     }
   }

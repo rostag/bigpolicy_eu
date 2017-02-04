@@ -29,13 +29,13 @@ export class UserService {
     return this._isDemoMode;
   }
 
-  public set isDemoMode ( value : boolean ) {
+  public set isDemoMode ( value: boolean ) {
     this._isDemoMode = value;
   }
 
   private _isDemoMode = false;
 
-  //Store profile object in auth class
+  // Store profile object in auth class
   userProfile: any = {
       name: '',
       email: ''
@@ -48,7 +48,7 @@ export class UserService {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
     // Add callback for the Lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
 
       // console.log('Authenticated, lock.showSignin =', this.lock.showSignin);
@@ -74,7 +74,7 @@ export class UserService {
 
   public authenticated() {
     // Check if there's an unexpired JWT
-    // This searches for an item in localStorage with key == 'id_token'
+    // This searches for an item in local storage with key == 'id_token'
     return tokenNotExpired();
   };
 
@@ -83,11 +83,11 @@ export class UserService {
   }
 
   private isOwner(item) {
-    let userEmail = this.userProfile && this.userProfile['email'] || '';
+    const userEmail = this.userProfile && this.userProfile['email'] || '';
 
-    let isLeaderOwnedBy = userEmail === item['managerEmail'];
-    let isProjectOwnedBy = userEmail === item['email'];
-    let isTaskOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
+    const isLeaderOwnedBy = userEmail === item['managerEmail'];
+    const isProjectOwnedBy = userEmail === item['email'];
+    const isTaskOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
 
     return this.authenticated() && ( isTaskOwnedBy || isProjectOwnedBy || isLeaderOwnedBy );
   }
@@ -98,7 +98,7 @@ export class UserService {
   };
 
   public logout() {
-    // Remove token from localStorage
+    // Remove token from local storage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     this.userProfile = undefined;

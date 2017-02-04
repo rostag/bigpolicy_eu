@@ -1,20 +1,15 @@
-import { Component } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project/index';
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
 
 @Component({
-  selector: 'bp-landing',
+  selector: 'app-bp-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./skeleton.css', './landing.component.scss'],
   providers: [ProjectService, LeaderService]
 })
 
-export class LandingComponent {
-
-  constructor(
-    private projectService: ProjectService,
-    private leaderService: LeaderService
-  ) {}
+export class LandingComponent implements OnInit {
 
   // FIXME calculate total donations
   app = {
@@ -22,11 +17,16 @@ export class LandingComponent {
     totalDonationsReceived: 0,
     projects: [],
     leaders: []
-  }
+  };
+
+  constructor(
+    private projectService: ProjectService,
+    private leaderService: LeaderService
+  ) {}
 
   ngOnInit() {
-    this.getProjects()
-    this.getLeaders()
+    this.getProjects();
+    this.getLeaders();
   }
 
   getLeaders() {
@@ -39,8 +39,8 @@ export class LandingComponent {
   }
 
   private setLeaders(data) {
-    this.app.leaders = data
-    return data
+    this.app.leaders = data;
+    return data;
   }
 
   getProjects() {
@@ -53,8 +53,8 @@ export class LandingComponent {
   }
 
   private setProjects(data) {
-    this.app.projects = data
-    return data
+    this.app.projects = data;
+    return data;
   }
 
   supportLeader() {

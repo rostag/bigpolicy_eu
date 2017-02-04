@@ -11,7 +11,7 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
 }
 
 @Directive({
-  selector: '[validateEmail]',
+  selector: '[appValidateEmail]',
   providers: [{provide: NG_VALIDATORS, useExisting: ForbiddenValidatorDirective, multi: true}]
 })
 export class ForbiddenValidatorDirective implements Validator, OnChanges {
