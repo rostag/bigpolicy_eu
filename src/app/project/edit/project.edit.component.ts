@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProjectModel, ProjectService } from '../../shared/project/index';
@@ -11,13 +11,13 @@ import { LeaderService } from '../../shared/leader/leader.service';
   providers: [ProjectService, LeaderService]
 })
 
-export class ProjectEditComponent {
+export class ProjectEditComponent implements OnInit {
 
   get showTasks(): boolean {
       return this.isUpdateMode;
   };
 
-  private isUpdateMode: boolean = false;
+  private isUpdateMode = false;
 
   project: ProjectModel;
 
@@ -32,7 +32,7 @@ export class ProjectEditComponent {
   }
 
   private getLeader() {
-    var leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
+    const leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
     return leader;
   }
 
@@ -51,11 +51,11 @@ export class ProjectEditComponent {
           this.projectService.getProject(id)
           .subscribe(
             data => {
-              this.setProject(data)
+              this.setProject(data);
             },
             err => console.error(err),
             () => {}
-          )
+          );
         }
       });
   }
@@ -64,7 +64,7 @@ export class ProjectEditComponent {
    * Project loading handler
    * @param {data} Loaded project data
    */
-  setProject(data){
+  setProject(data) {
     // Immutability
     this.project = new ProjectModel();
     this.project.parseData(data);
@@ -76,9 +76,9 @@ export class ProjectEditComponent {
    */
   private deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project)
+    this.projectService.deleteProject(project);
 
-    this.router.navigate(['/projects'])
+    this.router.navigate(['/projects']);
     return false;
   }
 
@@ -92,34 +92,34 @@ export class ProjectEditComponent {
       // Update existing project
       this.projectService.updateProject(this.project)
       .subscribe(
-        data => { this.gotoProject(data) },
-        err => (err) => console.error('Project update error: ', err),
+        data => { this.gotoProject(data); },
+        err => (er) => console.error('Project update error: ', er),
         () => {}
-      )
+      );
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      let leader = this.getLeader();
+      const leader = this.getLeader();
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
       this.projectService.createProject(this.project)
       .subscribe(
-        data => { this.gotoProject(data) },
-        err => (err) => console.error('Project creation error: ', err),
+        data => { this.gotoProject(data); },
+        err => (er) => console.error('Project creation error: ', er),
         () => {}
-      )
+      );
     }
-    return false
+    return false;
   }
 
-  gotoProject(project){
-    var projectId = project._id
+  gotoProject(project) {
+    const projectId = project._id;
     if (projectId) {
-      console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId)
+      console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId);
       this.router.navigate(['/project', projectId]).then(_ => {
-        //navigation is done
-      })
+        // navigation is done
+      });
     }
   }
 }

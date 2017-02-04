@@ -2,16 +2,16 @@ export class ProjectModel {
   _id: string;
   title: string;
   description: string;
-  cost: number = 1;
-  managerName: string = 'John Doe';
-  managerId: string = '';
-  managerEmail: string = '';
+  cost = 1;
+  managerName = 'John Doe';
+  managerId = '';
+  managerEmail = '';
   iconURL: string;
   dateStarted: Date = new Date();
   dateEnded: Date = new Date();
   startDateInputValue: string = this.toDateInputValue(this.dateStarted);
   endDateInputValue: string = this.toDateInputValue(this.dateEnded);
-  videoUrl: string = '';
+  videoUrl = '';
   tasks;
   donations;
   totalDonationsReceived: Number = 0;
@@ -34,7 +34,7 @@ export class ProjectModel {
       videoUrl: this.videoUrl,
       tasks: this.tasks,
       totalDonationsReceived: this.totalDonationsReceived
-    })
+    });
   }
 
   /**
@@ -42,17 +42,19 @@ export class ProjectModel {
    * TODO implement pipes for dates parsing
    */
   parseData(data) {
-    for (var item in data) {
-      this[item] = data[item]
+    for (const item in data) {
+      if (data.hasOwnProperty(item)) {
+        this[item] = data[item];
+      }
     }
     this.startDateInputValue = this.toDateInputValue(this.dateStarted);
     this.endDateInputValue = this.toDateInputValue(this.dateEnded);
   }
 
   private toDateInputValue(dateToParse) {
-    var date = new Date(dateToParse)
-    var local = new Date(dateToParse)
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-    return local.toJSON().slice(0,10)
+    const date = new Date(dateToParse);
+    const local = new Date(dateToParse);
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return local.toJSON().slice(0, 10);
   }
 }

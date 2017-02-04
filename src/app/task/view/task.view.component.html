@@ -3,14 +3,14 @@
 
     <h1>{{task.title}}</h1>
     <!-- FIXME -->
-    <bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></bp-donate>
+    <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
     <!-- -->
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile>
 
         <!-- TODO: state="iFramed.Task"  -->
-        <bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></bp-video>
+        <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
 
       </md-grid-tile>
       <md-grid-tile>

@@ -2,16 +2,16 @@
 
   <md-card-content>
 
-    <bp-sharer #sharer [project]="project"></bp-sharer>
+    <app-bp-sharer #sharer [project]="project"></app-bp-sharer>
 
     <h1>{{project.title}}</h1>
-    <bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></bp-donate>
+    <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
 
     <md-grid-list cols="2" rowHeight="255" id="stats">
       <md-grid-tile>
 
         <!-- state="iFramed.Project" -->
-        <bp-video [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></bp-video>
+        <app-bp-video [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
 
       </md-grid-tile>
       <md-grid-tile>
@@ -29,7 +29,7 @@
     <p>{{project.description}}</p>
 
     <!-- Project Tasks -->
-    <task-list [project]="project"></task-list>
+    <app-task-list [project]="project"></app-task-list>
     <!-- /Project Tasks -->
 
     <p *ngIf="user.hasEditPermissions(project)" class="admin project-toolbar">

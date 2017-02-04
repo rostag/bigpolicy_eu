@@ -8,15 +8,15 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  private leader: LeaderModel = new LeaderModel();
+  leader: LeaderModel = new LeaderModel();
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private leaderService: LeaderService
   ) {
-    console.info('Profile constructor')
+    console.log('Profile constructor');
   }
 
   ngOnInit() {
@@ -24,12 +24,12 @@ export class ProfileComponent {
     this.leaderService.getLeaders()
     .subscribe(
       data => {
-        var email = this.userService.userProfile && this.userService.userProfile['email'];
-        console.info('Profile got leader', email);
+        const email = this.userService.userProfile && this.userService.userProfile['email'];
+        console.log('Profile got leader', email);
         this.leader = this.leaderService.getLeaderByEmail(email);
       },
       err => console.error(err),
       () => {}
-    )
+    );
   }
 }

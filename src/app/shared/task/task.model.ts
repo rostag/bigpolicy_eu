@@ -1,9 +1,9 @@
 export class TaskModel {
-  _id:string;
+  _id: string;
   title: string;
   description: string;
-  cost: number = 1;
-  projectId: string = '';
+  cost = 1;
+  projectId = '';
   project = null;
   iconURL: string;
   videoUrl: string;
@@ -29,25 +29,28 @@ export class TaskModel {
       iconURL: this.iconURL,
       videoUrl: this.videoUrl,
       totalDonationsReceived: this.totalDonationsReceived
-    })
+    });
   }
 
   /**
    * Populate model from a json representation loaded from DB
    */
   parseData(data) {
-    for (var item in data) {
-      this[item] = data[item]
+    for (const item in data) {
+      if (data.hasOwnProperty(item)) {
+        this[item] = data[item];
+      }
     }
     this.startDateInputValue = this.toDateInputValue(this.dateStarted);
     this.endDateInputValue = this.toDateInputValue(this.dateEnded);
   }
 
+  // FIXME Convert to Utility function
   private toDateInputValue(dateToParse) {
-    var date = new Date(dateToParse)
-    var local = new Date(dateToParse)
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-    return local.toJSON().slice(0,10)
+    const date = new Date(dateToParse);
+    const local = new Date(dateToParse);
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return local.toJSON().slice(0, 10);
   }
 
 }

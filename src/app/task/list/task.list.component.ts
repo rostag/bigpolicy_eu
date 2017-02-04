@@ -7,7 +7,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
-  selector: 'task-list',
+  selector: 'app-task-list',
   templateUrl: './task.list.component.html',
   styleUrls: ['./task.list.component.scss'],
   providers: [TaskService, UserService],
@@ -18,14 +18,14 @@ export class TaskListComponent implements OnChanges {
 
   @Input() project: ProjectModel;
 
-  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
+  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
-  private isAddingTaskMode: boolean = false;
+  private isAddingTaskMode = false;
 
   ngOnChanges(changes) {
-    var project = changes.project.currentValue;
+    const project = changes.project.currentValue;
     if (project && project._id) {
-      this.requestTasks(project._id)
+      this.requestTasks(project._id);
     }
   }
 
@@ -36,7 +36,7 @@ export class TaskListComponent implements OnChanges {
   ) {}
 
   requestTasks(projectId) {
-    var proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
+    const proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
       this.tasks.next(tasks);
       proxySub.unsubscribe();
     });
@@ -47,11 +47,11 @@ export class TaskListComponent implements OnChanges {
     return false;
   }
 
-  private deleteTask(taskToRemove: any) {
+  deleteTask(taskToRemove: any) {
     // Delete in UI
-    var updatedTasks;
+    let updatedTasks;
     this.tasks.subscribe ( tasks => {
-      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id)
+      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id);
     });
     this.tasks.next( updatedTasks );
 

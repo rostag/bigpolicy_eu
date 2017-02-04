@@ -27,8 +27,8 @@ export class DonationService {
    * @param DonationModel A Donation to create
    */
   createDonation(model: DonationModel) {
-    var p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options)
+    const p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options);
   }
 
   // TODO: implement local cache
@@ -38,24 +38,23 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonations(donationId: string = '', targetId: string = '', targetType: string = 'leader'): Observable<any> {
+  getDonations(donationId = '', targetId = '', targetType = 'leader'): Observable<any> {
 
     // FIXME Implement interface and adopt three types of targets
-    var requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
+    const requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
 
-    console.info('Donation Service: get by', requestUrl);
+    console.log('Donation Service: get by', requestUrl);
 
-    var reponseObservable = this.http.get(requestUrl)
+    const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
-        let donations = res.json();
+        const donations = res.json();
         if (donations.forEach) {
-          donations.forEach(donation => this.convertTime(donation))
+          donations.forEach(donation => this.convertTime(donation));
+        } else {
+          this.convertTime(donations);
         }
-        else {
-          this.convertTime(donations)
-        }
-        return donations
-      })
+        return donations;
+      });
       return reponseObservable;
   }
 
@@ -68,7 +67,7 @@ export class DonationService {
    * Get a model from DB or from cache.
    */
   getDonation(donationId: string): Observable<Response> {
-    return this.getDonations(donationId)
+    return this.getDonations(donationId);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -80,20 +79,20 @@ export class DonationService {
    * @param DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
-    var p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options)
+    const p = this.getPostData(model);
+    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options);
   }
 
   /**
    * Internal utility to get post data
    */
   private getPostData(model: DonationModel) {
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
       options: new RequestOptions({ headers: headers })
-    }
+    };
   }
 
   // FIXME UNUSED

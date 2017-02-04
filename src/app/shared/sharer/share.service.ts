@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import { ProjectModel } from '../project/project.model'
+import { ProjectModel } from '../project/project.model';
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.
@@ -32,18 +32,18 @@ export class ShareService {
    * @param ProjectModel A Project to share
    */
   share(modelToShare: any): Observable<Response> {
-    var body: string = encodeURIComponent(JSON.stringify(modelToShare));
-    let headers = new Headers();
+    const body: string = encodeURIComponent(JSON.stringify(modelToShare));
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json())
+    const options = new RequestOptions({ headers: headers });
+    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json());
 
     // TODO: Upsert model in DB:
     // model.events.push({'type': 'share'});
   }
 
   private handleError(error: Response) {
-      console.error("Error occured:", error);
+      console.error('Error occured:', error);
       return Observable.throw(error.json().error || 'Server error');
   }
 
@@ -56,14 +56,14 @@ export class ShareService {
    * Default Thumbnail Image: Full-Size (480x360)
    */
   getYouTubeThumbnail(url, thumbType: string) {
-    var videoId: string = this.getYouTubeId(url);
-    var prefix = 'http://img.youtube.com/vi/';
-    var thumbs: any = {
+    const videoId: string = this.getYouTubeId(url);
+    const prefix = 'http://img.youtube.com/vi/';
+    const thumbs: any = {
       small1: '/1.jpg',
       small2: '/2.jpg',
       small3: '/3.jpg',
       full: '/0.jpg'
-    }
+    };
     return videoId !== null
       ? '<a href="' + this.getUrl() + '" ><img src="' + prefix + videoId + thumbs[thumbType] + '" /></a>'
       : '';
@@ -85,10 +85,10 @@ export class ShareService {
       http://youtu.be/0zM3nApSvMg
       @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
     */
-  getYouTubeId(url: string = ''): string{
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : null;
+  getYouTubeId(url = ''): string {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[7].length === 11) ? match[7] : null;
   }
 
 }
