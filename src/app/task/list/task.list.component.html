@@ -8,8 +8,8 @@
   </md-card-actions>
 
   <!-- Add task -->
-  <bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
-  </bp-task-edit>
+  <app-bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
+  </app-bp-task-edit>
 
     <md-list>
        <md-list-item *ngFor="let task of tasks | async">

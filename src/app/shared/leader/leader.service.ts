@@ -38,13 +38,13 @@ export class LeaderService {
    * @param {LeaderModel} model - The Leader to create.
    */
   createLeader(model: LeaderModel): Observable<Response> {
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
+    const body: string = encodeURIComponent(model.toString());
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
+    const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl, body, options)
-        .map(res => res.json())
+        .map(res => res.json());
   }
 
   /**
@@ -54,7 +54,7 @@ export class LeaderService {
    * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getLeaders(modelId: string = ''): Observable<Response> {
+  getLeaders(modelId = ''): Observable<Response> {
     // TODO: Local caching
     if (this.models && this.models.length) {
       return Observable.from([this.models]);
@@ -62,8 +62,8 @@ export class LeaderService {
 
     if (!this.request) {
       this.request = this.http.get(this.apiUrl + modelId)
-        .map((res:Response) => {
-          this.models = res.json()
+        .map((res: Response) => {
+          this.models = res.json();
 
           // if (this.models.forEach) {
           //   this.models.forEach((leader) => {
@@ -77,8 +77,8 @@ export class LeaderService {
           // }
 
           // console.log('Leaders loaded, response: ', this.models)
-          return this.models
-        })
+          return this.models;
+        });
     }
     return this.request;
   }
@@ -87,13 +87,13 @@ export class LeaderService {
    * Get a model from DB or from cache.
    */
   getLeader(modelId: string): Observable<Response> {
-    return this.getLeaders(modelId)
+    return this.getLeaders(modelId);
   }
 
   getLeaderByEmail(email: string): LeaderModel {
-    var foundLeader;
-    var leaders = this.models;
-    for (let l in leaders) {
+    const leaders = this.models;
+    let foundLeader;
+    for (const l in leaders) {
       if (leaders[l].email === email) {
         foundLeader = leaders[l];
       }
@@ -105,20 +105,20 @@ export class LeaderService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param LeaderModel A Leader to update
    */
-  updateLeader(model:LeaderModel):Observable<Response> {
-    let headers = new Headers();
+  updateLeader(model: LeaderModel): Observable<Response> {
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
-        .map(res => res.json())
-        .catch(this.handleError)
+      .map(res => res.json())
+      .catch(this.handleError);
   }
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  deleteLeader(model:LeaderModel) {
+  deleteLeader(model: LeaderModel) {
     this.http.delete(this.apiUrl + model._id)
         .map(res => console.log('Leader deleted:', res.json()))
         .catch(this.handleError)
@@ -126,11 +126,11 @@ export class LeaderService {
   }
 
   get(): Observable<Response> {
-    return this.getLeaders()
+    return this.getLeaders();
   }
 
   private handleError(error: Response) {
-      console.error("Error occured:", error);
+      console.error('Error occured: ', error);
       return Observable.throw(error.json().error || 'Server error');
   }
 }

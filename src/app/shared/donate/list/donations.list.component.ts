@@ -5,7 +5,7 @@ import { DonationModel, DonationService } from '../index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
-  selector: 'donations-list',
+  selector: 'app-donations-list',
   templateUrl: './donations.list.component.html',
   styleUrls: ['./donations.list.component.scss'],
   providers: [DonationService],
@@ -19,12 +19,12 @@ export class DonationsListComponent implements OnChanges {
   // Either Leader, Project or Task
   @Input() targetType: string;
 
-  private donations: BehaviorSubject<any> = new BehaviorSubject([{title:'Loading...'}]);
+  private donations: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
   ngOnChanges(changes) {
-    var target = changes.target.currentValue;
+    const target = changes.target.currentValue;
     if (target && target._id) {
-      this.requestDonations(target)
+      this.requestDonations(target);
     }
   }
 
@@ -34,7 +34,7 @@ export class DonationsListComponent implements OnChanges {
   ) {}
 
   requestDonations(target) {
-    var proxySub = this.donationService.getDonations('', target._id, this.targetType).subscribe(donations => {
+    const proxySub = this.donationService.getDonations('', target._id, this.targetType).subscribe(donations => {
       this.donations.next(donations);
       proxySub.unsubscribe();
     });

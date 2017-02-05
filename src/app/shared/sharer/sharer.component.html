@@ -3,11 +3,11 @@
   <button *ngIf="!sharerIsVisible" md-raised-button color="accent">Поширити</button>
 </a>
 <!-- TODO уведення декількох адрес через кому -->
-<md-card class="share-card" [class.displayBlock]="sharerIsVisible"
+<md-card class="share-card" [class.display-block]="sharerIsVisible"
   [@visibilityChanged]="sharerIsVisible"
   >
 
-  <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
+  <form #shareForm="ngForm" >
 
     <div style="float:right;margin-top: -0.75em;margin-right: 0">
       <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
@@ -31,7 +31,7 @@
       class="wide bt-input"
       (blur)="handleInputBlur($event)"
       #toEmailElement
-      validateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+      appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
       <md-placeholder>
         Кому:
       </md-placeholder>

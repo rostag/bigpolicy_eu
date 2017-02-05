@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
 // FIXME: Avoid Double-declaration (it's also in Module)
 import { UserService } from './shared/user/user.service';
@@ -10,17 +10,18 @@ import { ProjectService } from './shared/project/project.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   title = 'BigPolicy';
+  user: UserModel;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private projectService: ProjectService
   ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     console.log('• BP app init, user service: ', this.userService);
   }
 
-  user: UserModel
 }

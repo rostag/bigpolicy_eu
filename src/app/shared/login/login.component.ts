@@ -9,17 +9,18 @@ import { UserService } from '../user/user.service';
 
 export class LoginComponent {
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private router: Router
   ) {}
 
+  // FIXME TO BE REMOVED
   //  listen to the result of the login and after a success redirect the user to the home page
-  onSubmit(email, password) {
+  // onSubmit(email, password) {
     // this.userService.login()
     // .subscribe((result) => {
     //   if (result) {
     //     this.router.navigate(['']);
     //   }
     // });
-  }
+  // }
 }
