@@ -32,13 +32,10 @@ export class LeaderViewComponent implements OnInit {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('loeader:', id);
         if (id) {
-          console.log(' 2 loeader:', id);
           this.leaderService.getLeader(id)
           .subscribe(
             data => {
-              console.log(' 3 loeader:', data);
               this.setLeader(data);
             },
             err => console.error(err),

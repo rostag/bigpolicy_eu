@@ -62,7 +62,6 @@ export class DonateComponent implements OnChanges {
     // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
-    // FIXME Use real donor when logged in
     d.donorId = this.userService.getEmail() || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();

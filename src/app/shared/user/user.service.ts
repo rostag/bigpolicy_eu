@@ -9,7 +9,21 @@ declare var Auth0Lock: any;
 @Injectable()
 export class UserService {
 
+  /*
+   * Leader matching the current user by email.
+   */
+  leader: LeaderModel = new LeaderModel();
+
+  // Store profile object in auth class
+  userProfile: any = {
+    name: '',
+    email: ''
+  };
+
   // Configure Auth0
+  // FIXME Redirect user to special place, not just landing
+  // 1. Redirect to Leader creation if user was in the process of creation
+  // 2. E.T.C.
   options = {
       auth: {
           redirectUrl: location.protocol + '//' + location.hostname + ':' + location.port,
@@ -22,14 +36,6 @@ export class UserService {
   };
 
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
-
-  // Store profile object in auth class
-  userProfile: any = {
-      name: '',
-      email: ''
-  };
-
-  leader: LeaderModel = new LeaderModel();
 
   constructor(
     public projectService: ProjectService,
@@ -62,31 +68,24 @@ export class UserService {
   };
 
   /**
-   * Finds the leader in DB.
-   * If found, associates it with user.
+   * FIXME - Optimize to seach by email in DB, not by loading all leaders
+   * Requests the leader from DB by email.
+   * If found, saves it via callback as userService.leader propery.
    */
   public requestLeader(email) {
-    console.log('User Service, Get Leader by Email: ', email);
-
     this.leaderService.getLeaderByEmail(email,
-      ( leader ) => {
-        console.log('User Service, Got Leader: ', leader );
+      (leader) => {
+        console.log('User Service, got leader:', leader );
         this.leader = leader;
       }
     );
   }
 
-  public getLeader() {
-    return this.leader;
-  }
-
+  /**
+   * Returns true if leader matching by email has been found in DB
+   */
   public isLeader() {
-    return !!this.getLeader();
-  }
-
-  public isCurrentUser(leaderProjectOrTask) {
-    // FIXME it's being called too often, as log below shows
-    return this.isOwner(leaderProjectOrTask);
+    return !!this.leader;
   }
 
   public hasEditPermissions(leaderProjectOrTask) {
@@ -94,20 +93,32 @@ export class UserService {
     return this.isAdmin() || this.isOwner(leaderProjectOrTask);
   }
 
+  /**
+   * Returns email of logged in user.
+   */
   public getEmail(): string {
     return this.userProfile && this.userProfile['email'];
   }
 
+  /**
+   * Returns true if user is logged in.
+   */
   public authenticated() {
     // Check if there's an unexpired JWT
     // This searches for an item in local storage with key == 'id_token'
     return tokenNotExpired();
   };
 
+  /**
+   * Returns true if user is logged in and his admin is in the admin list.
+   */
   private isAdmin() {
     return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
   }
 
+  /**
+   * Returns true if current user is owner of given leader, project or task by email
+   */
   private isOwner(item) {
     const userEmail = this.getEmail() || '';
 
@@ -118,16 +129,20 @@ export class UserService {
     return this.authenticated() && ( isTaskOwnedBy || isProjectOwnedBy || isLeaderOwnedBy );
   }
 
+  /**
+   * Call the Auth0 show method to display the login widget.
+   * TODO Extend
+   */
   public login() {
-    // Call the show method to display the widget.
     this.lock.show();
   };
 
+  /**
+   * De-authenticates currently logged in user by removing token from local storage.
+   */
   public logout() {
-    // Remove token from local storage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     this.userProfile = undefined;
   };
-
 }

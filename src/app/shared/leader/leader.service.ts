@@ -21,12 +21,6 @@ export class LeaderService {
   private models;
 
   /**
-   * Contains the pending request.
-   * @type {Observable<string[]>}
-   */
-  private request;
-
-  /**
    * Creates a new LeaderService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
@@ -59,18 +53,11 @@ export class LeaderService {
     if (this.models && this.models.length) {
       return Observable.from([this.models]);
     }
-
-        console.log('gegegeet lerader:', modelId);
-
-    // if (!this.request) {
-      console.log('!!!!!!!!!!!!gegegeet lerader:', modelId);
-      this.request = this.http.get(this.apiUrl + modelId)
-        .map((res: Response) => {
-          this.models = res.json();
-          return this.models;
-        });
-    // }
-    return this.request;
+    return this.http.get(this.apiUrl + modelId)
+      .map((res: Response) => {
+        this.models = res.json();
+        return this.models;
+      });
   }
 
   /**
