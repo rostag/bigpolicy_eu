@@ -22,7 +22,6 @@ import { LeaderListComponent } from './leader/list/index';
 import { LeaderViewComponent } from './leader/view/index';
 
 import { ProfileComponent } from './shared/user/profile.component';
-import { LoginComponent } from './shared/login/login.component';
 import { AboutComponent } from './about/index';
 import { LandingComponent } from './landing/index';
 
@@ -61,7 +60,6 @@ import { VideoComponent } from './shared/video/video.component';
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
-    LoginComponent,
     AboutComponent,
     LandingComponent,
     SharerComponent,

@@ -88,7 +88,7 @@ export class LeaderEditComponent implements OnInit {
       );
     } else {
       // Create new leader
-      this.leader.email = this.userService.userProfile['email'];
+      this.leader.email = this.userService.getEmail();
       this.leaderService.createLeader(this.leader)
       .subscribe(
         data => { this.gotoLeader(data); },

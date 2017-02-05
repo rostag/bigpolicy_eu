@@ -3,12 +3,11 @@
     <md-card-title-group>
       <md-card-title>
         <!-- FIXME Override User Profile Name with Leader Name ? -->
-        <h1>
-          {{userService.userProfile.name}}
-          <md-card-subtitle>
-            {{userService.userProfile.email}}
-          </md-card-subtitle>
-        </h1>
+        {{userService.userProfile.name}}
+        <md-chip-list>
+          <md-chip>{{userService.userProfile.email}}</md-chip>
+          <md-chip *ngIf="userService.isAdmin()"><strong>Адміністратор</strong></md-chip>
+        </md-chip-list>
       </md-card-title>
       <img md-card-md-image [src]="userService.userProfile.picture">
     </md-card-title-group>
@@ -16,15 +15,21 @@
       <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
       <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
       <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+
       <!-- <h4>You are logged in</h4> -->
     </md-card-content>
+
+    <h2>Lідер: </h2>
+    <p>{{userService.leader.firstName}}</p>
+
+
 
     <md-card>
       <md-card-title>
         Проекти:
       </md-card-title>
       <md-card-content>
-        <app-project-list [leaderId]="leader._id">
+        <app-project-list [leaderId]="userService.leader._id">
         </app-project-list>
       </md-card-content>
     </md-card>
@@ -36,5 +41,25 @@
       </p>
     </md-card-actions>
   </div>
-  <h4 *ngIf="!userService.authenticated()">Ви не зайшли в систему. Натисніть 'Вхід', щоб зайти</h4>
+  <div *ngIf="!userService.authenticated()">
+    <h4>Ви не зайшли в систему</h4>
+    <p>
+      Авторизовані користувачі можуть:
+    </p>
+    <ul>
+      <li>
+        створювати проекти
+      </li>
+      <li>
+        ставати лідерами
+      </li>
+      <li>
+        користуватися іншими розширеними фунціями системи.
+      </li>
+    </ul>
+    <p>
+      Будь ласка, натисніть "Увійти", для авторизації.
+    </p>
+    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+  </div>
 </md-card>

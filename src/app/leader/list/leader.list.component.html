@@ -24,7 +24,11 @@
           <md-card class="leader-list">
             <md-card-title-group>
               <img md-card-avatar src="assets/img/avatar-generic.png">
-              <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
+              <md-card-title>{{leader.name}} {{leader.surName}}
+                <span *ngIf="user.isCurrentUser(leader)">
+                  (я)
+                </span>
+              </md-card-title>
               <md-card-title></md-card-title>
             </md-card-title-group>
             <md-card-content>

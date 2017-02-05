@@ -60,26 +60,16 @@ export class LeaderService {
       return Observable.from([this.models]);
     }
 
-    if (!this.request) {
+        console.log('gegegeet lerader:', modelId);
+
+    // if (!this.request) {
+      console.log('!!!!!!!!!!!!gegegeet lerader:', modelId);
       this.request = this.http.get(this.apiUrl + modelId)
         .map((res: Response) => {
           this.models = res.json();
-
-          // if (this.models.forEach) {
-          //   this.models.forEach((leader) => {
-          //     leader = new LeaderModel();
-          //     leader.parseData(res);
-          //   })
-          // }
-          // else {
-          //   let leader = new LeaderModel();
-          //   leader.parseData(res);
-          // }
-
-          // console.log('Leaders loaded, response: ', this.models)
           return this.models;
         });
-    }
+    // }
     return this.request;
   }
 
@@ -90,7 +80,14 @@ export class LeaderService {
     return this.getLeaders(modelId);
   }
 
-  getLeaderByEmail(email: string): LeaderModel {
+  getLeaderByEmail(email: string, callback) {
+    // TODO Optimize - use caching, no need to load leaders each time
+    this.getLeaders().subscribe((result) => {;
+      callback(this.findCachedLeaderByEmail(email));
+    });
+  }
+
+  findCachedLeaderByEmail(email: string): LeaderModel {
     const leaders = this.models;
     let foundLeader;
     for (const l in leaders) {

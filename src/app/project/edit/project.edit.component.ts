@@ -31,11 +31,6 @@ export class ProjectEditComponent implements OnInit {
     this.project = new ProjectModel();
   }
 
-  private getLeader() {
-    const leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
-    return leader;
-  }
-
   /**
    * Initialization Event Handler, used to parse route params
    * like `id` in project/:id/edit)
@@ -99,7 +94,7 @@ export class ProjectEditComponent implements OnInit {
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      const leader = this.getLeader();
+      const leader = this.leaderService.findCachedLeaderByEmail(this.userService.getEmail());
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
