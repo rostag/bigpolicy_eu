@@ -12,7 +12,7 @@ export class UserService {
   /*
    * Leader matching the current user by email.
    */
-  leader: LeaderModel = new LeaderModel();
+  leader: LeaderModel;
 
   // Store profile object in auth class
   userProfile: any = {
@@ -75,10 +75,19 @@ export class UserService {
   public requestLeader(email) {
     this.leaderService.getLeaderByEmail(email,
       (leader) => {
-        console.log('User Service, got leader:', leader );
         this.leader = leader;
+        this.showStatus();
       }
     );
+  }
+
+  public showStatus() {
+    console.log('User service – status:');
+    console.log('\tIs authenticated:', this.authenticated());
+    console.log('\tIs admin:', this.isAdmin());
+    console.log('\tIs leader:', this.isLeader());
+    console.log('\tLeader:', this.leader);
+    console.log('\tEmail:', this.getEmail());
   }
 
   /**
@@ -122,8 +131,8 @@ export class UserService {
   private isOwner(item) {
     const userEmail = this.getEmail() || '';
 
-    const isLeaderOwnedBy = userEmail === item['managerEmail'];
-    const isProjectOwnedBy = userEmail === item['email'];
+    const isProjectOwnedBy = userEmail === item['managerEmail'] && this.isLeader();
+    const isLeaderOwnedBy = userEmail === item['email'];
     const isTaskOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
 
     return this.authenticated() && ( isTaskOwnedBy || isProjectOwnedBy || isLeaderOwnedBy );

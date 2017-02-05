@@ -71,7 +71,19 @@ Now Project can be shared via Email, Mailgun service is used
 
 Now Video can be addd to Leader, Video, and Task.
 
+### 2017-02-05 17:13
 
+Feature:
+
+Donations via LiqPay - initial version.
+Virtual Payments - initial version.
+Payments history - initial version.
+Leader - User matching.
+WIP: FTUX.
+
+Bugfixes:
+- fixed login error (now user properly redirected).
+- Display in Safari.
 
 ## Rough TODO Further integrations:
 
