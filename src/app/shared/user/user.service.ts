@@ -72,13 +72,14 @@ export class UserService {
    * Requests the leader from DB by email.
    * If found, saves it via callback as userService.leader propery.
    */
-  public requestLeader(email) {
-    this.leaderService.getLeaderByEmail(email,
-      (leader) => {
-        this.leader = leader;
-        this.showStatus();
-      }
-    );
+  private requestLeader(email) {
+    this.leaderService.getLeaderByEmail(email)
+      .subscribe(
+        (leader) => {
+          this.leader = leader;
+          this.showStatus();
+        }
+      );
   }
 
   public showStatus() {

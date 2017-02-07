@@ -9,7 +9,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class ProfileComponent implements OnInit {
 
-
   constructor(
     public userService: UserService,
   ) {

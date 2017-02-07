@@ -45,6 +45,19 @@ module.exports = function(app, DB){
   })
 
   /**
+   * Gets the Leader by email, example:
+   * /leader-api/email/foo@bar.com
+   */
+  .get('/email/:email', function (req, res) {
+    if (req.params.email) {
+      DB.findLeaderByEmail(req.params.email)
+      .then(function (data) {
+        res.json(data);
+      });
+    }
+  })
+
+  /**
    * Gets all leaders, example:
    * /leader-api/
    */

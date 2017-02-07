@@ -131,9 +131,9 @@
     -->
 
     <md-toolbar class="add-toolbar" color="#fff">
-      <button md-raised-button color="primary" type="submit" (click)="saveLeader()">Готово</button>
-      <span class="add-fill-remaining"></span>
       <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
+      <span class="add-fill-remaining"></span>
+      <button md-raised-button color="primary" type="submit" (click)="saveLeader()">Готово</button>
       <button md-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leader)">Видалити</button>
     </md-toolbar>
 
