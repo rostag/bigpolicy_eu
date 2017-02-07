@@ -57,6 +57,7 @@ export class LeaderEditComponent implements OnInit {
    */
   setLeader(data) {
     this.leader = new LeaderModel();
+    this.leaderService.setLeaderForUser(this.leader);
     this.leader.parseData(data);
   }
 

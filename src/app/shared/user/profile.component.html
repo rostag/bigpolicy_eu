@@ -19,13 +19,12 @@
       <!-- <h4>You are logged in</h4> -->
     </md-card-content>
 
-
-    <md-card *ngIf="userService.leader">
+    <md-card *ngIf="profileLeader">
       <md-card-title>
-        Лідер: {{userService.leader.name}}. Проекти:
+        Лідер: {{profileLeader.name}}. Проекти:
       </md-card-title>
       <md-card-content>
-        <app-project-list [leaderId]="userService.leader._id">
+        <app-project-list [leaderId]="profileLeader._id">
         </app-project-list>
       </md-card-content>
     </md-card>
@@ -58,4 +57,8 @@
     </p>
     <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
   </div>
+
+  <!-- <app-project-list [maxCount]="10">
+  </app-project-list> -->
+
 </md-card>

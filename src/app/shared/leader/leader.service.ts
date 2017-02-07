@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { LeaderModel } from './leader.model';
 
@@ -12,7 +13,12 @@ import { LeaderModel } from './leader.model';
 @Injectable()
 export class LeaderService {
 
+  leader: LeaderModel;
+
   private apiUrl = '/leader-api/';
+  private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
+
+  leaderStream = this.leaderSource.asObservable();
 
   /**
    * The array of models provided by the service.
@@ -25,7 +31,9 @@ export class LeaderService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http
+  ) {}
 
   /**
    * Creates the Leader.
@@ -38,7 +46,7 @@ export class LeaderService {
     const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl, body, options)
-        .map(res => res.json());
+      .map(res => res.json());
   }
 
   /**
@@ -64,26 +72,33 @@ export class LeaderService {
    * Get a model from DB or from cache.
    */
   getLeader(modelId: string): Observable<Response> {
-    return this.getLeaders(modelId);
+    const leader = this.getLeaders(modelId);
+    return leader;
   }
 
-  /**
-   * Find leader in DB by email
-   */
-  getLeaderByEmail(email: string): Observable<LeaderModel> {
+   /**
+    * Seaches for leader by user email in DB
+    * If found, saves it via callback as userService.leader propery.
+    */
+  setLeaderByEmail(email: string) {
     // this.getLeaders().subscribe((result) => {;
     //   callback(this.findCachedLeaderByEmail(email));
     // });
 
     // Optimize - use caching, no need to load leaders each time
-    const leader = this.findCachedLeaderByEmail(email);
+    let leader: any = this.findCachedLeaderByEmail(email);
     if (leader) {
-      return Observable.from([leader]);
+      leader = Observable.from([leader]);
+    } else {
+      leader = this.http.get(this.apiUrl + 'email/' + email);
     }
-    return this.http.get(this.apiUrl + 'email/' + email)
-      .map((res: Response) => {
-        return res.json();
-      });
+
+    leader.map((res: Response) => {
+      return res.json();
+    })
+    .subscribe(
+      (lead) => this.setLeaderForUser(lead)
+    );
   }
 
   /**
@@ -137,15 +152,25 @@ export class LeaderService {
     this.http.delete(this.apiUrl + model._id)
         .map(res => console.log('Leader deleted:', res.json()))
         .catch(this.handleError)
-        .subscribe((res) => {});
+        .subscribe((res) => {
+          this.setLeaderForUser(null);
+        });
   }
 
   get(): Observable<Response> {
     return this.getLeaders();
   }
 
+  setLeaderForUser(leader) {
+    console.log('Set Leader for User:', leader);
+    this.leader = leader;
+    // Notify observers;
+    // http://stackoverflow.com/questions/34376854/delegation-eventemitter-or-observable-in-angular2/35568924#35568924
+    this.leaderSource.next(leader);
+  }
+
   private handleError(error: Response) {
-      console.error('Error occured: ', error);
-      return Observable.throw(error.json().error || 'Server error');
+    console.error('Error occured: ', error);
+    return Observable.throw(error.json().error || 'Server error');
   }
 }

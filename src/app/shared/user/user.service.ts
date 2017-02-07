@@ -9,11 +9,6 @@ declare var Auth0Lock: any;
 @Injectable()
 export class UserService {
 
-  /*
-   * Leader matching the current user by email.
-   */
-  leader: LeaderModel;
-
   // Store profile object in auth class
   userProfile: any = {
     name: '',
@@ -44,7 +39,8 @@ export class UserService {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
-    this.requestLeader(this.getEmail());
+    console.log('>>> USER SERV CONSTRUKT');
+    this.leaderService.setLeaderByEmail(this.getEmail());
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
@@ -62,40 +58,26 @@ export class UserService {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-        this.requestLeader(this.getEmail());
+        this.leaderService.setLeaderByEmail(this.getEmail());
+        this.showStatus();
       });
     });
   };
-
-  /**
-   * FIXME - Optimize to seach by email in DB, not by loading all leaders
-   * Requests the leader from DB by email.
-   * If found, saves it via callback as userService.leader propery.
-   */
-  private requestLeader(email) {
-    this.leaderService.getLeaderByEmail(email)
-      .subscribe(
-        (leader) => {
-          this.leader = leader;
-          this.showStatus();
-        }
-      );
-  }
 
   public showStatus() {
     console.log('User service – status:');
     console.log('\tIs authenticated:', this.authenticated());
     console.log('\tIs admin:', this.isAdmin());
-    console.log('\tIs leader:', this.isLeader());
-    console.log('\tLeader:', this.leader);
+    console.log('\tHas leader:', this.hasLeader());
+    console.log('\tLeader:', this.leaderService.leader);
     console.log('\tEmail:', this.getEmail());
   }
 
   /**
    * Returns true if leader matching by email has been found in DB
    */
-  public isLeader() {
-    return !!this.leader;
+  public hasLeader() {
+    return !!this.leaderService.leader;
   }
 
   public hasEditPermissions(leaderProjectOrTask) {
@@ -132,11 +114,11 @@ export class UserService {
   private isOwner(item) {
     const userEmail = this.getEmail() || '';
 
-    const isProjectOwnedBy = userEmail === item['managerEmail'] && this.isLeader();
-    const isLeaderOwnedBy = userEmail === item['email'];
-    const isTaskOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
+    const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
+    const leaderIsOwnedBy = userEmail === item['email'];
+    const taskIsOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
 
-    return this.authenticated() && ( isTaskOwnedBy || isProjectOwnedBy || isLeaderOwnedBy );
+    return this.authenticated() && ( taskIsOwnedBy || projectIsOwnedBy || leaderIsOwnedBy );
   }
 
   /**
