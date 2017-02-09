@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
         this.showCreateLeaderButton = this.userService.authenticated() && !this.userService.hasLeader();
-        console.log('SUB NEXT NAVBAR:', this.showCreateLeaderButton );
+        console.log('>>> Navbar SUBSCRIPTION:', this.showCreateLeaderButton );
       });
   }
 

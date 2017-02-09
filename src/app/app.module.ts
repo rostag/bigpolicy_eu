@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
+import { CoreModule } from './core.module';
+// import { CommonModule } from '@angular/common';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -75,7 +77,9 @@ import { VideoComponent } from './shared/video/video.component';
     RouterModule,
     FormsModule,
     MaterialModule.forRoot(),
-    HttpModule
+    HttpModule,
+    // CommonModule,
+    CoreModule // will provide service
   ],
   providers: [
     // MdIconRegistry,

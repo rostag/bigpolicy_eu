@@ -7,8 +7,7 @@ import { UserService } from '../../shared/user/user.service';
 @Component({
   selector: 'app-leader-list',
   templateUrl: './leader.list.component.html',
-  styleUrls: ['./leader.list.component.scss'],
-  providers: [LeaderService, UserService]
+  styleUrls: ['./leader.list.component.scss']
 })
 
 export class LeaderListComponent implements OnInit {

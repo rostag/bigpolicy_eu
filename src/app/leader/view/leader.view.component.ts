@@ -6,8 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './leader.view.component.html',
-  styleUrls: ['./leader.view.component.scss'],
-  providers: [LeaderService, UserService]
+  styleUrls: ['./leader.view.component.scss']
 })
 
 export class LeaderViewComponent implements OnInit {

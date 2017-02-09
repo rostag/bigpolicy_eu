@@ -33,7 +33,9 @@ export class LeaderService {
    */
   constructor(
     private http: Http
-  ) {}
+  ) {
+    console.log('leader service constructor');
+  }
 
   /**
    * Creates the Leader.
@@ -58,9 +60,9 @@ export class LeaderService {
    */
   getLeaders(modelId = ''): Observable<Response> {
     // TODO: Local caching
-    if (this.models && this.models.length) {
-      return Observable.from([this.models]);
-    }
+    // if (this.models && this.models.length) {
+    //   return Observable.from([this.models]);
+    // }
     return this.http.get(this.apiUrl + modelId)
       .map((res: Response) => {
         this.models = res.json();
@@ -85,13 +87,13 @@ export class LeaderService {
     //   callback(this.findCachedLeaderByEmail(email));
     // });
 
-    // Optimize - use caching, no need to load leaders each time
+    // FIXME Optimize - use caching, no need to load leaders each time
     let leader: any = this.findCachedLeaderByEmail(email);
-    if (leader) {
-      leader = Observable.from([leader]);
-    } else {
+    // if (leader) {
+    //   leader = Observable.from({leader});
+    // } else {
       leader = this.http.get(this.apiUrl + 'email/' + email);
-    }
+    // }
 
     leader.map((res: Response) => {
       return res.json();
@@ -150,11 +152,14 @@ export class LeaderService {
    */
   deleteLeader(model: LeaderModel) {
     this.http.delete(this.apiUrl + model._id)
-        .map(res => console.log('Leader deleted:', res.json()))
-        .catch(this.handleError)
-        .subscribe((res) => {
-          this.setLeaderForUser(null);
-        });
+      .map(res => {
+        console.log('Leader deleted:', res.json());
+        return res;
+      })
+      .catch( this.handleError )
+      .subscribe((res) => {
+        this.setLeaderForUser(null);
+      });
   }
 
   get(): Observable<Response> {
@@ -162,7 +167,7 @@ export class LeaderService {
   }
 
   setLeaderForUser(leader) {
-    console.log('Set Leader for User:', leader);
+    console.log('>> Leader service set leader for user:', leader);
     this.leader = leader;
     // Notify observers;
     // http://stackoverflow.com/questions/34376854/delegation-eventemitter-or-observable-in-angular2/35568924#35568924

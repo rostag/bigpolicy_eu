@@ -39,7 +39,7 @@ export class UserService {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
-    console.log('>>> USER SERV CONSTRUKT');
+    console.log('> User service construktor');
     this.leaderService.setLeaderByEmail(this.getEmail());
 
     // Add callback for the Lock `authenticated` event

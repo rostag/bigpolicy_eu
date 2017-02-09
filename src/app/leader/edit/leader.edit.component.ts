@@ -6,8 +6,7 @@ import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './leader.edit.component.html',
-  styleUrls: ['./leader.edit.component.scss'],
-  providers: [LeaderService]
+  styleUrls: ['./leader.edit.component.scss']
   })
 
 export class LeaderEditComponent implements OnInit {

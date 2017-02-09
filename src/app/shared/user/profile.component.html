@@ -21,20 +21,21 @@
 
     <md-card *ngIf="profileLeader">
       <md-card-title>
-        Лідер: {{profileLeader.name}}. Проекти:
+        Лідер: {{profileLeader.name}} {{profileLeader.surName}}
       </md-card-title>
       <md-card-content>
+        <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
         <app-project-list [leaderId]="profileLeader._id">
         </app-project-list>
       </md-card-content>
+      <md-card-actions>
+        <span *ngIf="userService.hasEditPermissions(profileLeader)">
+          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+        </span>
+      </md-card-actions>
     </md-card>
 
-    <md-card-actions>
-      <p class="admin">
-        <a [routerLink] = "['/leaders']"><button md-raised-button color="accent">Редагувати</button></a>
-        <!-- <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a> -->
-      </p>
-    </md-card-actions>
+
   </div>
   <div *ngIf="!userService.authenticated()">
     <h4>Ви не зайшли в систему</h4>

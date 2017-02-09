@@ -5,8 +5,7 @@ import { LeaderService, LeaderModel } from '../../shared/leader/index';
 @Component({
   selector: 'app-bp-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./skeleton.css', './landing.component.scss'],
-  providers: [ProjectService, LeaderService]
+  styleUrls: ['./skeleton.css', './landing.component.scss']
 })
 
 export class LandingComponent implements OnInit {
