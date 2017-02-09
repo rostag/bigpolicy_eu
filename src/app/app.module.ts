@@ -84,10 +84,10 @@ import { VideoComponent } from './shared/video/video.component';
   providers: [
     // MdIconRegistry,
     LoggedInGuard,
-    UserService,
-    LeaderService,
-    ProjectService,
-    TaskService,
+    // UserService,
+    // LeaderService,
+    // ProjectService,
+    // TaskService,
     ShareService,
     DonationService
   ],

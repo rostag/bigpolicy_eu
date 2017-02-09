@@ -8,7 +8,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   selector: 'app-bp-donate',
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
-  providers: [DonationService, UserService]
+  providers: [DonationService]
 })
 
 export class DonateComponent implements OnChanges {

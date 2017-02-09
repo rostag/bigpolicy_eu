@@ -1,11 +1,12 @@
 import { OnInit, Component } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project/index';
-import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { ProjectService, ProjectModel } from '../../shared/project';
+import { LeaderService, LeaderModel } from '../../shared/leader';
+import { UserService } from '../../shared/user';
 
 @Component({
   selector: 'app-bp-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./skeleton.css', './landing.component.scss']
+  styleUrls: ['./skeleton.css', './landing.component.scss'],
 })
 
 export class LandingComponent implements OnInit {
@@ -20,7 +21,8 @@ export class LandingComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
@@ -21,8 +21,9 @@ export class UserService {
   // 2. E.T.C.
   options = {
       auth: {
-          redirectUrl: location.protocol + '//' + location.hostname + ':' + location.port,
+          redirectUrl: location.protocol + '//' + location.hostname + ':' + location.port + '/profile',
           responseType: 'token'
+          // language: 'ua'
           // params: {
           //     state: '[your_state_value]',
           //     scope: 'openid user_id name nickname email picture'
@@ -30,6 +31,7 @@ export class UserService {
       }
   };
 
+  // FIXME_SEC
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
 
   constructor(
@@ -60,8 +62,14 @@ export class UserService {
         this.userProfile = profile;
         this.leaderService.setLeaderByEmail(this.getEmail());
         this.showStatus();
+
+        this.tryToContinueLeaderRegistration();
       });
     });
+
+    if (this.authenticated) {
+      this.showStatus();
+    }
   };
 
   public showStatus() {
@@ -71,6 +79,7 @@ export class UserService {
     console.log('\tHas leader:', this.hasLeader());
     console.log('\tLeader:', this.leaderService.leader);
     console.log('\tEmail:', this.getEmail());
+    console.log('\tSaved Leader Registration:', localStorage.getItem('BigPolicyLeaderRegistration'));
   }
 
   /**
@@ -126,6 +135,7 @@ export class UserService {
    * TODO Extend
    */
   public login() {
+    // FIXME_SEC
     this.lock.show();
   };
 
@@ -137,4 +147,40 @@ export class UserService {
     localStorage.removeItem('profile');
     this.userProfile = undefined;
   };
+
+  private tryToContinueLeaderRegistration() {
+    const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');
+
+    if (this.authenticated() && !this.hasLeader() && !!localLeader) {
+      console.log('continue leader registration: ', localLeader);
+
+      const leader = new LeaderModel();
+      const leaderJson = JSON.parse(localLeader);
+      leader.parseData(leaderJson);
+      leader.email = this.getEmail();
+
+      console.log('Parsed leader: ', leader);
+
+      // FIXME Duplicated code from the LeaderEditComponent
+      this.leaderService.createLeader(leader)
+      .subscribe(
+        data => {
+          console.log('Finalizing leader registration, cleaning localLeader');
+          localStorage.removeItem('BigPolicyLeaderRegistration');
+          this.leaderService.gotoLeaderView(data);
+        },
+        err => (er) => console.error('Leader creation error: ', er),
+        () => {}
+      );
+    } else {
+      console.log('DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+    }
+  }
+
+  // FIXME Implement unsubscribing
+  // ngOnDestroy() {
+  //   console.log('UNSUB: UserService');
+  //   this.subscription.unsubscribe();
+  // }
+
 }

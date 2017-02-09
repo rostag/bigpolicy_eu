@@ -9,7 +9,6 @@ import { UserService } from '../../shared/user/user.service';
   selector: 'app-project-list',
   templateUrl: './project.list.component.html',
   styleUrls: ['./project.list.component.scss'],
-  providers: [ProjectService, UserService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

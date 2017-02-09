@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { LeaderModel } from './leader.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /**
  * Provides the Leader service with methods to create, read, update and delete models.
@@ -32,7 +32,8 @@ export class LeaderService {
    * @constructor
    */
   constructor(
-    private http: Http
+    private http: Http,
+    private router: Router
   ) {
     console.log('leader service constructor');
   }
@@ -177,5 +178,16 @@ export class LeaderService {
   private handleError(error: Response) {
     console.error('Error occured: ', error);
     return Observable.throw(error.json().error || 'Server error');
+  }
+
+  // FIXME
+  gotoLeaderView(leader) {
+    this.setLeaderForUser(null);
+    const leaderId = leader._id;
+    if (leaderId) {
+      this.router.navigate(['/leader', leaderId]).then(_ => {
+        // navigation is done
+      });
+    }
   }
 }

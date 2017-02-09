@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 
+import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
@@ -19,7 +21,8 @@ export class LeaderEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private leaderService: LeaderService,
-    public userService: UserService
+    public userService: UserService,
+    public snackBar: MdSnackBar
   ) {}
 
   /**
@@ -36,9 +39,11 @@ export class LeaderEditComponent implements OnInit {
       .map(params => params['id'])
       .subscribe((id) => {
         console.log('Leader Editor by ID from route params:', id);
-        if (id) {
-          this.isUpdateMode = true;
-          this.leaderService.getLeader(id)
+
+        // TODO Test unauthorised user can't see the page
+        if (id && this.userService.authenticated()) {
+           this.isUpdateMode = true;
+           this.leaderService.getLeader(id)
           .subscribe(
             data => {
               this.setLeader(data);
@@ -77,21 +82,33 @@ export class LeaderEditComponent implements OnInit {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   // FIXME: Complete Leader processing
-  saveLeader(): boolean {
+  onSaveLeaderClick(): boolean {
     if (this.isUpdateMode) {
       // Update existing leader:
       this.leaderService.updateLeader(this.leader)
       .subscribe(
-        data => { this.gotoLeader(data); },
+        data => { this.leaderService.gotoLeaderView(data); },
         err => (er) => console.error('Leader update error: ', er),
         () => {}
       );
     } else {
       // Create new leader
+
+      // FTUX: If user's unauthorised, save him to localStorage, continue after login
+      if ( !this.userService.authenticated()) {
+        console.log('≥≥≥ unauthorised, saving to localStorage');
+        this.saveToLocalStorage(this.leader);
+        this.showRegistrationIsNeededWarning();
+        return false;
+      }
+
+      // FTUX End
+
+      // If user is authorized already
       this.leader.email = this.userService.getEmail();
       this.leaderService.createLeader(this.leader)
       .subscribe(
-        data => { this.gotoLeader(data); },
+        data => { this.leaderService.gotoLeaderView(data); },
         err => (er) => console.error('Leader creation error: ', er),
         () => {}
       );
@@ -99,12 +116,37 @@ export class LeaderEditComponent implements OnInit {
     return false;
   }
 
-  gotoLeader(leader) {
-    const leaderId = leader._id;
-    if (leaderId) {
-      this.router.navigate(['/leader', leaderId]).then(_ => {
-        // navigation is done
-      });
-    }
+  /**
+   * FTUX - Lazy Leader Registration.
+   * Save Leader to LocalStorage to let unauthorised user to start registration
+   */
+  saveToLocalStorage(leader) {
+    localStorage.setItem('BigPolicyLeaderRegistration', leader);
+  }
+
+  showRegistrationIsNeededWarning() {
+    // Simple message with an action.
+    const snackBarRef = this.snackBar.open([
+      'Для завершення реєстрації лідера необхідно увійти в систему. ',
+      'Будь ласка, натисніть кнопку "Продовжити"'].join('\n'),
+    'Продовжити');
+
+    // In either case, an MdSnackBarRef is returned. This can be used to dismiss
+    // the snack-bar or to recieve notification of when the snack-bar is dismissed.
+    // For simple messages with an action, the MdSnackBarRef exposes an observable for when the action is triggered.
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('Заходимо у систему');
+      this.userService.login();
+    });
+
+    // Dismissal
+    // snackBarRef.dismiss();
+
+    // A snack-bar can also be given a duration via the optional configuration object:
+
+    // snackBarRef.open('Message archived', 'Undo', {
+    //   duration: 3000
+    // });
   }
 }
