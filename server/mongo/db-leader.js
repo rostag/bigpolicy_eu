@@ -12,10 +12,22 @@ var Leader = require('./models/leader');
 
 DBLeader.getLeader = function(id) {
   var leader = Leader.findById(id, function (error, leader) {
-    if(leader){
+    if (leader) {
       leader.projects = DBLeader.getLeaderProjects(leader.projects);
     }
   });
+  return leader;
+}
+
+DBLeader.findLeaderByEmail = function(email) {
+  var leader = Leader.findOne({ 'email': email }, function (err, leader) {
+    if (err) {
+      return handleError(err);
+    }
+    if (leader) {
+      leader.projects = DBLeader.getLeaderProjects(leader.projects);
+    }
+  });  
   return leader;
 }
 

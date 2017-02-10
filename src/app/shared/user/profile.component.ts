@@ -1,35 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from './user.service';
-import { LeaderService, LeaderModel } from '../leader/index';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LeaderService } from '../leader';
+import { UserService } from '.';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
-  leader: LeaderModel = new LeaderModel();
+  profileLeader;
+  subscription: Subscription;
 
   constructor(
-    public userService: UserService,
-    private leaderService: LeaderService
-  ) {
-    console.log('Profile constructor');
-  }
+    public leaderService: LeaderService,
+    public userService: UserService
+  ) {}
 
   ngOnInit() {
-    // Optimize, use caching, no need to load leaders eah time
-    this.leaderService.getLeaders()
-    .subscribe(
-      data => {
-        const email = this.userService.userProfile && this.userService.userProfile['email'];
-        console.log('Profile got leader', email);
-        this.leader = this.leaderService.getLeaderByEmail(email);
-      },
-      err => console.error(err),
-      () => {}
-    );
+    this.subscription = this.leaderService.leaderStream
+      .subscribe(item => {
+        this.profileLeader = item;
+      });
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component is destroyed
+    this.subscription.unsubscribe();
   }
 }

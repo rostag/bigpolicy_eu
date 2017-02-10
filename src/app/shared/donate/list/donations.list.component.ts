@@ -8,8 +8,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
   selector: 'app-donations-list',
   templateUrl: './donations.list.component.html',
   styleUrls: ['./donations.list.component.scss'],
-  providers: [DonationService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DonationService]
 })
 
 export class DonationsListComponent implements OnChanges {

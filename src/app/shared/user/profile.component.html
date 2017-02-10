@@ -3,12 +3,11 @@
     <md-card-title-group>
       <md-card-title>
         <!-- FIXME Override User Profile Name with Leader Name ? -->
-        <h1>
-          {{userService.userProfile.name}}
-          <md-card-subtitle>
-            {{userService.userProfile.email}}
-          </md-card-subtitle>
-        </h1>
+        {{userService.userProfile.name}}
+        <md-chip-list>
+          <md-chip>{{userService.userProfile.email}}</md-chip>
+          <md-chip *ngIf="userService.isAdmin()"><strong>Адміністратор</strong></md-chip>
+        </md-chip-list>
       </md-card-title>
       <img md-card-md-image [src]="userService.userProfile.picture">
     </md-card-title-group>
@@ -16,25 +15,50 @@
       <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
       <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
       <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+
       <!-- <h4>You are logged in</h4> -->
     </md-card-content>
 
-    <md-card>
+    <md-card *ngIf="profileLeader">
       <md-card-title>
-        Проекти:
+        Лідер: {{profileLeader.name}} {{profileLeader.surName}}
       </md-card-title>
       <md-card-content>
-        <app-project-list [leaderId]="leader._id">
+        <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
+        <app-project-list [leaderId]="profileLeader._id">
         </app-project-list>
       </md-card-content>
+      <md-card-actions>
+        <span *ngIf="userService.hasEditPermissions(profileLeader)">
+          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+        </span>
+      </md-card-actions>
     </md-card>
-
-    <md-card-actions>
-      <p class="admin">
-        <a [routerLink] = "['/leaders']"><button md-raised-button color="accent">Редагувати</button></a>
-        <!-- <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a> -->
-      </p>
-    </md-card-actions>
   </div>
-  <h4 *ngIf="!userService.authenticated()">Ви не зайшли в систему. Натисніть 'Вхід', щоб зайти</h4>
+
+  <div *ngIf="!userService.authenticated()">
+    <h4>Ви не зайшли в систему</h4>
+    <p>
+      Авторизовані користувачі можуть:
+    </p>
+    <ul>
+      <li>
+        створювати проекти
+      </li>
+      <li>
+        ставати лідерами
+      </li>
+      <li>
+        користуватися іншими розширеними фунціями системи.
+      </li>
+    </ul>
+    <p>
+      Будь ласка, натисніть "Увійти", для авторизації.
+    </p>
+    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+  </div>
+
+  <!-- <app-project-list [maxCount]="10">
+  </app-project-list> -->
+
 </md-card>

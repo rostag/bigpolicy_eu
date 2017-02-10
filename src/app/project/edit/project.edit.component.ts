@@ -7,8 +7,7 @@ import { LeaderService } from '../../shared/leader/leader.service';
 
 @Component({
   templateUrl: './project.edit.component.html',
-  styleUrls: ['./project.edit.component.scss'],
-  providers: [ProjectService, LeaderService]
+  styleUrls: ['./project.edit.component.scss']
 })
 
 export class ProjectEditComponent implements OnInit {
@@ -29,11 +28,6 @@ export class ProjectEditComponent implements OnInit {
     private leaderService: LeaderService
   ) {
     this.project = new ProjectModel();
-  }
-
-  private getLeader() {
-    const leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
-    return leader;
   }
 
   /**
@@ -99,7 +93,10 @@ export class ProjectEditComponent implements OnInit {
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      const leader = this.getLeader();
+      const leader = this.leaderService.leader;
+      if (!leader) {
+        return false;
+      }
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
