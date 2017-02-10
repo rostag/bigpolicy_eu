@@ -93,7 +93,10 @@ export class ProjectEditComponent implements OnInit {
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      const leader = this.leaderService.findCachedLeaderByEmail(this.userService.getEmail());
+      const leader = this.leaderService.leader;
+      if (!leader) {
+        return false;
+      }
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;

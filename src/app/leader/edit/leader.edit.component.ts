@@ -61,7 +61,6 @@ export class LeaderEditComponent implements OnInit {
    */
   setLeader(data) {
     this.leader = new LeaderModel();
-    this.leaderService.setLeaderForUser(this.leader);
     this.leader.parseData(data);
   }
 
@@ -96,22 +95,12 @@ export class LeaderEditComponent implements OnInit {
 
       // FTUX: If user's unauthorised, save him to localStorage, continue after login
       if ( !this.userService.authenticated()) {
-        console.log('≥≥≥ unauthorised, saving to localStorage');
         this.saveToLocalStorage(this.leader);
-        this.showRegistrationIsNeededWarning();
         return false;
       }
 
-      // FTUX End
-
-      // If user is authorized already
-      this.leader.email = this.userService.getEmail();
-      this.leaderService.createLeader(this.leader)
-      .subscribe(
-        data => { this.leaderService.gotoLeaderView(data); },
-        err => (er) => console.error('Leader creation error: ', er),
-        () => {}
-      );
+      // NO FTUX - user is authorized already
+      this.leaderService.createLeader(this.leader, this.userService.getEmail());
     }
     return false;
   }
@@ -121,14 +110,16 @@ export class LeaderEditComponent implements OnInit {
    * Save Leader to LocalStorage to let unauthorised user to start registration
    */
   saveToLocalStorage(leader) {
+    console.log('≥≥≥ unauthorised, saving to localStorage');
     localStorage.setItem('BigPolicyLeaderRegistration', leader);
+    this.showRegistrationIsNeededWarning();
   }
 
   showRegistrationIsNeededWarning() {
     // Simple message with an action.
     const snackBarRef = this.snackBar.open([
       'Для завершення реєстрації лідера необхідно увійти в систему. ',
-      'Будь ласка, натисніть кнопку "Продовжити"'].join('\n'),
+      'Будь ласка, натисніть кнопку "Продовжити"'].join('<br><br>'),
     'Продовжити');
 
     // In either case, an MdSnackBarRef is returned. This can be used to dismiss

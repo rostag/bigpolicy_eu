@@ -18,9 +18,9 @@ import { TaskService } from './shared/task';
   ],
   providers: [
     // singleton services
+    UserService,
     LeaderService,
     ProjectService,
-    UserService,
     TaskService
   ]
 })

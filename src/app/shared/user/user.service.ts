@@ -42,7 +42,7 @@ export class UserService {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
     console.log('> User service construktor');
-    this.leaderService.setLeaderByEmail(this.getEmail());
+    this.leaderService.findLeaderByEmail(this.getEmail());
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
@@ -60,7 +60,7 @@ export class UserService {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-        this.leaderService.setLeaderByEmail(this.getEmail());
+        this.leaderService.findLeaderByEmail(this.getEmail());
         this.showStatus();
 
         this.tryToContinueLeaderRegistration();
@@ -150,30 +150,15 @@ export class UserService {
 
   private tryToContinueLeaderRegistration() {
     const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');
-
     if (this.authenticated() && !this.hasLeader() && !!localLeader) {
-      console.log('continue leader registration: ', localLeader);
 
       const leader = new LeaderModel();
-      const leaderJson = JSON.parse(localLeader);
-      leader.parseData(leaderJson);
-      leader.email = this.getEmail();
+      leader.parseData(JSON.parse(localLeader));
+      console.log('FTUX: continue leader registration, parsed leader: ', leader);
 
-      console.log('Parsed leader: ', leader);
-
-      // FIXME Duplicated code from the LeaderEditComponent
-      this.leaderService.createLeader(leader)
-      .subscribe(
-        data => {
-          console.log('Finalizing leader registration, cleaning localLeader');
-          localStorage.removeItem('BigPolicyLeaderRegistration');
-          this.leaderService.gotoLeaderView(data);
-        },
-        err => (er) => console.error('Leader creation error: ', er),
-        () => {}
-      );
+      this.leaderService.createLeader(leader, this.getEmail());
     } else {
-      console.log('DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+      console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
     }
   }
 

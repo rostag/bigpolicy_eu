@@ -42,14 +42,26 @@ export class LeaderService {
    * Creates the Leader.
    * @param {LeaderModel} model - The Leader to create.
    */
-  createLeader(model: LeaderModel): Observable<Response> {
+  createLeader(model: LeaderModel, email) {
+    model.email = email;
     const body: string = encodeURIComponent(model.toString());
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.apiUrl, body, options)
-      .map(res => res.json());
+    this.http.post(this.apiUrl, body, options)
+      .map(res => res.json())
+      .subscribe(
+        data => {
+          // Normal Save
+          this.gotoLeaderView(data);
+          // Post-FTUX
+          console.log('Finalizing leader registration, cleaning localLeader');
+          localStorage.removeItem('BigPolicyLeaderRegistration');
+        },
+        err => (er) => console.error('Leader creation error: ', er),
+        () => {}
+      );
   }
 
   /**
@@ -83,25 +95,19 @@ export class LeaderService {
     * Seaches for leader by user email in DB
     * If found, saves it via callback as userService.leader propery.
     */
-  setLeaderByEmail(email: string) {
-    // this.getLeaders().subscribe((result) => {;
-    //   callback(this.findCachedLeaderByEmail(email));
-    // });
+  findLeaderByEmail(email: string) {
 
     // FIXME Optimize - use caching, no need to load leaders each time
-    let leader: any = this.findCachedLeaderByEmail(email);
+    // let leader: any = this.findCachedLeaderByEmail(email);
     // if (leader) {
     //   leader = Observable.from({leader});
     // } else {
-      leader = this.http.get(this.apiUrl + 'email/' + email);
     // }
 
-    leader.map((res: Response) => {
+    this.http.get(this.apiUrl + 'email/' + email).map((res: Response) => {
       return res.json();
     })
-    .subscribe(
-      (lead) => this.setLeaderForUser(lead)
-    );
+    .subscribe( lead => this.setLeaderForUser(lead));
   }
 
   /**
@@ -123,7 +129,7 @@ export class LeaderService {
   //     });
   // }
 
-  findCachedLeaderByEmail(email: string): LeaderModel {
+  private findCachedLeaderByEmail(email: string): LeaderModel {
     const leaders = this.models;
     let foundLeader;
     for (const l in leaders) {
@@ -167,7 +173,7 @@ export class LeaderService {
     return this.getLeaders();
   }
 
-  setLeaderForUser(leader) {
+  private setLeaderForUser(leader) {
     console.log('>> Leader service set leader for user:', leader);
     this.leader = leader;
     // Notify observers;
@@ -180,9 +186,8 @@ export class LeaderService {
     return Observable.throw(error.json().error || 'Server error');
   }
 
-  // FIXME
   gotoLeaderView(leader) {
-    this.setLeaderForUser(null);
+    this.setLeaderForUser(leader);
     const leaderId = leader._id;
     if (leaderId) {
       this.router.navigate(['/leader', leaderId]).then(_ => {
