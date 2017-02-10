@@ -1,10 +1,8 @@
 import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
-
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -22,7 +20,7 @@ export class LeaderEditComponent implements OnInit {
     private router: Router,
     private leaderService: LeaderService,
     public userService: UserService,
-    public snackBar: MdSnackBar
+    public dialog: MdDialog
   ) {}
 
   /**
@@ -116,28 +114,32 @@ export class LeaderEditComponent implements OnInit {
   }
 
   showRegistrationIsNeededWarning() {
-    // Simple message with an action.
-    const snackBarRef = this.snackBar.open([
-      'Для завершення реєстрації лідера необхідно увійти в систему. ',
-      'Будь ласка, натисніть кнопку "Продовжити"'].join('<br><br>'),
-    'Продовжити');
-
-    // In either case, an MdSnackBarRef is returned. This can be used to dismiss
-    // the snack-bar or to recieve notification of when the snack-bar is dismissed.
-    // For simple messages with an action, the MdSnackBarRef exposes an observable for when the action is triggered.
-
-    snackBarRef.afterDismissed().subscribe(() => {
-      console.log('Заходимо у систему');
-      this.userService.login();
-    });
-
-    // Dismissal
-    // snackBarRef.dismiss();
-
-    // A snack-bar can also be given a duration via the optional configuration object:
-
-    // snackBarRef.open('Message archived', 'Undo', {
-    //   duration: 3000
-    // });
+    const dialogRef = this.dialog.open(ContinueRegistrationDialogComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Заходимо у систему');
+        this.userService.login();
+      });
   }
+}
+
+@Component({
+  selector: 'app-dialog-result-example-dialog',
+  template: `
+      <h2 md-dialog-title>Потрібна авторизація</h2>
+      <md-dialog-content>
+        <p>
+          Для завершення реєстрації треба увійти в систему — натисніть "Продовжити"'
+        </p>
+      </md-dialog-content>
+      <md-dialog-actions [attr.align]="actionsAlignment">
+        <button
+          md-raised-button
+          color="primary"
+          md-dialog-close>Продовжити</button>
+      </md-dialog-actions>
+  `,
+})
+export class ContinueRegistrationDialogComponent {
+  actionsAlignment: string;
+  constructor(public dialog: MdDialog) { }
 }

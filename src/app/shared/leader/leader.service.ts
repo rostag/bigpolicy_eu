@@ -95,7 +95,7 @@ export class LeaderService {
     * Seaches for leader by user email in DB
     * If found, saves it via callback as userService.leader propery.
     */
-  findLeaderByEmail(email: string) {
+  requestLeaderByEmail(email: string): Observable<Response> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
@@ -104,10 +104,14 @@ export class LeaderService {
     // } else {
     // }
 
-    this.http.get(this.apiUrl + 'email/' + email).map((res: Response) => {
-      return res.json();
-    })
-    .subscribe( lead => this.setLeaderForUser(lead));
+    const leaderResponse = this.http.get(this.apiUrl + 'email/' + email)
+      .map((res: Response) => {
+        return res.json();
+      });
+
+    leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
+
+    return leaderResponse;
   }
 
   /**

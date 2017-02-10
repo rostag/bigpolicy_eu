@@ -42,7 +42,7 @@ export class UserService {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
     console.log('> User service construktor');
-    this.leaderService.findLeaderByEmail(this.getEmail());
+    this.leaderService.requestLeaderByEmail(this.getEmail());
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
@@ -60,10 +60,13 @@ export class UserService {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-        this.leaderService.findLeaderByEmail(this.getEmail());
-        this.showStatus();
 
-        this.tryToContinueLeaderRegistration();
+        this.leaderService.requestLeaderByEmail(this.getEmail())
+          .subscribe( leaderResponse => {
+            this.showStatus();
+            this.tryToContinueLeaderRegistration();
+          }
+        );
       });
     });
 

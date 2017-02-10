@@ -22,18 +22,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('SUBSCRIBE: Navbar' );
-
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
         this.showCreateLeaderButton = this.userService.authenticated() && !this.userService.hasLeader();
-        console.log('>>> Navbar SUBSCRIPTION:', this.showCreateLeaderButton );
       });
   }
 
   ngOnDestroy() {
     // prevent memory leak when component is destroyed
-    console.log('UNSUBSCRIBE: Navbar');
     this.subscription.unsubscribe();
   }
 }

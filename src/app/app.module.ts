@@ -46,6 +46,7 @@ import { DonationsListComponent } from './shared/donate/list/donations.list.comp
 
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
+import { ContinueRegistrationDialogComponent } from './leader/edit';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { VideoComponent } from './shared/video/video.component';
     DonationsListComponent,
     ForbiddenValidatorDirective,
     VideoComponent,
-    AppComponent
+    AppComponent,
+    ContinueRegistrationDialogComponent
   ],
   imports: [
     routing,
@@ -90,6 +92,9 @@ import { VideoComponent } from './shared/video/video.component';
     // TaskService,
     ShareService,
     DonationService
+  ],
+  entryComponents: [
+    ContinueRegistrationDialogComponent,
   ],
   bootstrap: [AppComponent]
 })
