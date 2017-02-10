@@ -7,7 +7,6 @@ import { NgForm } from '@angular/forms';
   selector: 'app-bp-sharer',
   templateUrl: './sharer.component.html',
   styleUrls: ['./sharer.component.scss'],
-  providers: [ShareService],
   animations: [
     trigger('visibilityChanged', [
       state('true' , style({ opacity: 1 })),
@@ -15,7 +14,8 @@ import { NgForm } from '@angular/forms';
       transition('1 => 0', animate('600ms')),
       transition('0 => 1', animate('400ms'))
     ])
-  ]
+  ],
+  providers: [ShareService]
 })
 
 // TODO: Add subject generator

@@ -10,7 +10,6 @@ import { UserService } from '../../shared/user/user.service';
   selector: 'app-task-list',
   templateUrl: './task.list.component.html',
   styleUrls: ['./task.list.component.scss'],
-  providers: [TaskService, UserService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

@@ -8,7 +8,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   selector: 'app-bp-donate',
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
-  providers: [DonationService, UserService]
+  providers: [DonationService]
 })
 
 export class DonateComponent implements OnChanges {
@@ -62,8 +62,7 @@ export class DonateComponent implements OnChanges {
     // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
-    // FIXME Use real donor when logged in
-    d.donorId = userProfile && userProfile['email'] || 'Anonymous';
+    d.donorId = this.userService.getEmail() || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
     const wl = window.location;

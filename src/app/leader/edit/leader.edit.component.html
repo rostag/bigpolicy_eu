@@ -131,45 +131,12 @@
     -->
 
     <md-toolbar class="add-toolbar" color="#fff">
-      <button md-raised-button color="primary" type="submit" (click)="saveLeader()">Готово</button>
-      <span class="add-fill-remaining"></span>
       <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
+      <span class="add-fill-remaining"></span>
+      <button md-raised-button color="primary" type="submit" (click)="onSaveLeaderClick()">Готово</button>
       <button md-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leader)">Видалити</button>
     </md-toolbar>
 
   </md-card-content>
   </form>
 </md-card>
-
-<!--
-
-  JUST SOME SNIPPETS TO BE REUSED
-
-  PREFILL LIKE ADDRESS:
-
-    <p>
-      <md-input [ngModelOptions]="{standalone: true}" class="demo-full-width" placeholder="Як виглядає проблема для тебе?" value="Твоя особиста візія і думки"></md-input>
-    </p>
-
-    <md-input [ngModelOptions]="{standalone: true}" style="width: 100%" [(ngModel)]="newName" placeholder="Як виглядає проблема для тебе?"
-    value="Твоя особиста візія і думки"></md-input>
-
-    <md-input-container>
-      <label>Color</label>
-      <input type="text" ng-model="color" md-maxlength="10">
-    </md-input-container>
-
-    <md-input class="demo-full-width" placeholder="Company (disabled)" disabled value="Google">
-    </md-input>
-
-    <table style="width: 100%" cellspacing="0"><tr>
-      <td><md-input [ngModelOptions]="{standalone: true}"class="demo-full-width" placeholder="City" value="Mountain View"></md-input></td>
-      <td><md-input [ngModelOptions]="{standalone: true}"class="demo-full-width" placeholder="State" maxLength="2" value="CA"></md-input></td>
-      <td><md-input [ngModelOptions]="{standalone: true}" #postalCode class="demo-full-width" maxLength="5"
-                    placeholder="Postal Code"
-                    value="94043">
-        <md-hint align="end">{{postalCode.characterCount}} / 5</md-hint>
-      </md-input></td>
-    </tr></table>
-
--->

@@ -5,8 +5,7 @@ import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './task.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './task.view.component.scss'],
-  providers: [TaskService, UserService]
+  styleUrls: ['../../../assets/css/skeleton.css', './task.view.component.scss']
 })
 
 export class TaskViewComponent implements OnInit {
