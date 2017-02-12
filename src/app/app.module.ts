@@ -31,7 +31,7 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
-import { LeaderService } from './shared/leader/leader.service';
+// import { LeaderService } from './shared/leader/leader.service';
 import { ProjectService } from './shared/project/project.service';
 import { TaskService } from './shared/task/task.service';
 import { ShareService } from './shared/sharer/share.service';
