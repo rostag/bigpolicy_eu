@@ -1,0 +1,11 @@
+<p>
+  realtime works!
+</p>
+
+<p>Drive API Quickstart</p>
+
+<!--Add buttons to initiate auth sequence and sign out-->
+<button *ngIf="authorizeButtonDisplay" (click)="handleAuthClick()">Authorize</button>
+<button *ngIf="signoutButtonDisplay" (click)="handleSignoutClick()">Sign Out</button>
+
+<pre id="content"></pre>

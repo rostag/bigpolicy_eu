@@ -1,4 +1,4 @@
-///<reference path="./realtime/index.d.ts" />
+// /<reference path="./realtime/index.d.ts" />
 // /<reference path="../../../../typings/globals/google-drive-realtime-api/index.d.ts" />
 
 /* Download the declaration file (*.d.ts) for the Google Drive Realtime API here:
@@ -15,11 +15,7 @@ Then you need to import the module's features. One way to do this is with the fo
 Then you can access the module's classes under the Drive namespace:
   Drive.Collaborator,
   Drive.CollaborativeObject, and so on. */
-'use strict';
-import * as Drive from 'gapi.drive.realtime';
 
-// import CollaborativeObjectType from 'gapi.drive.realtime';
-// import Collaborator from 'gapi.drive.realtime';
 
 import { Injectable } from '@angular/core';
 
@@ -28,6 +24,7 @@ export class DriveService {
 
   constructor (
     // private coolab: Collaborator
+    // private t: BPAppType
   ) {
     console.log('√√√ Hi, from Drive Service');
   }
@@ -35,5 +32,4 @@ export class DriveService {
   checkConnection() {
     console.log('Drive Service: checkConnection');
   }
-
 }
