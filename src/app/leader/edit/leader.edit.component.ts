@@ -38,7 +38,7 @@ export class LeaderEditComponent implements OnInit {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('Leader Editor by ID from route params:', id);
+        // console.log('Leader Editor by ID from route params:', id);
 
         // TODO Test unauthorised user can't see the page
         if (id && this.userService.authenticated()) {

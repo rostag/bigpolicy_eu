@@ -26,7 +26,7 @@ export class DriveService {
     // private coolab: Collaborator
     // private t: BPAppType
   ) {
-    console.log('√√√ Hi, from Drive Service');
+    console.log('✇ Hi, from Drive Service ✇');
   }
 
   checkConnection() {

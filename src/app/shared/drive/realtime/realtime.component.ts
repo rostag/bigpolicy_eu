@@ -12,20 +12,16 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 })
 export class RealtimeComponent implements AfterViewInit {
 
-    // authorizeButton = document.getElementById('authorize-button');
-    // signoutButton = document.getElementById('signout-button');
-    authorizeButtonDisplay = true;
-    signoutButtonDisplay = false;
+    gdrive_authorize = false;
+    gdrive_signout = false;
+
+    filelist = [];
 
     /**
-     *  On load, called to load the auth2 library and API client library.
-     */
-    handleClientLoad() {
-      gapi.load('client:auth2', () => { this.initClient(this); });
-    }
-
+    * On component load, call to load the auth2 library.
+    */
     ngAfterViewInit() {
-      this.handleClientLoad();
+      gapi.load('client:auth2', () => { this.initClient(this); });
     }
 
     /**
@@ -33,15 +29,19 @@ export class RealtimeComponent implements AfterViewInit {
      *  listeners.
      */
     initClient(that) {
-      // Client ID and API key from the Developer Console
       const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
       const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+      const SCOPES = [
+        'https://www.googleapis.com/auth/drive.metadata.readonly',
+        'https://www.googleapis.com/auth/drive.file',
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file',
+        'https://www.googleapis.com/auth/drive.appdata'
+      ];
 
       console.log('this is ', this);
       // console.log('that is ', that);
@@ -65,12 +65,12 @@ export class RealtimeComponent implements AfterViewInit {
      */
     updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
-        this.authorizeButtonDisplay = false;
-        this.signoutButtonDisplay = true;
+        this.gdrive_authorize = false;
+        this.gdrive_signout = true;
         this.listFiles();
       } else {
-        this.authorizeButtonDisplay = true;
-        this.signoutButtonDisplay = false;
+        this.gdrive_authorize = true;
+        this.gdrive_signout = false;
       }
       console.log('is signed in: ', isSignedIn);
     }
@@ -90,16 +90,19 @@ export class RealtimeComponent implements AfterViewInit {
       gapi.auth2.getAuthInstance().signOut();
     }
 
+    // handleAddFileClick(event) {
+    //   this.createFile();
+    // }
+
     /**
      * Append a pre element to the body containing the given message
      * as its text node. Used to display the results of the API call.
      *
      * @param {string} message Text to be placed in pre element.
      */
-    appendPre(message) {
-      const pre = document.getElementById('content');
-      const textContent = document.createTextNode(message + '\n');
-      pre.appendChild(textContent);
+    addFileToList(file) {
+      console.log('adding to file list:', file);
+      this.filelist.push(file);
     }
 
     /**
@@ -108,18 +111,25 @@ export class RealtimeComponent implements AfterViewInit {
     listFiles() {
       gapi.client.drive.files.list({
         'pageSize': 10,
-        'fields': 'nextPageToken, files(id, name)'
+        'fields': 'nextPageToken, files(id, name, size)'
       }).then( (response) => {
-        this.appendPre('Files:');
         const files = response.result.files;
         if (files && files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            this.appendPre(file.name + ' (' + file.id + ')');
+            this.addFileToList(file);
           }
-        } else {
-          this.appendPre('No files found.');
         }
       });
     }
+
+    // createFile() {
+    //   gapi.client.drive.files.create({
+    //     // uploadType: ,
+    //     ignoreDefaultVisibility: true,
+    //     useContentAsIndexableText: true
+    //   }).then( (response) => {
+    //     console.log('response:', response);
+    //   });
+    // }
 }
