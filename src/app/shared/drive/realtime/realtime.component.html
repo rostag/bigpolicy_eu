@@ -1,11 +1,14 @@
-<p>
-  realtime works!
-</p>
+<p>Drive</p>
 
-<p>Drive API Quickstart</p>
+<button *ngIf="gdrive_authorize" (click)="handleAuthClick()">Authorize</button>
+<button *ngIf="gdrive_signout" (click)="handleSignoutClick()">Sign Out</button>
 
-<!--Add buttons to initiate auth sequence and sign out-->
-<button *ngIf="authorizeButtonDisplay" (click)="handleAuthClick()">Authorize</button>
-<button *ngIf="signoutButtonDisplay" (click)="handleSignoutClick()">Sign Out</button>
+<!-- {{filelist}} -->
 
-<pre id="content"></pre>
+<ol>
+  <li *ngFor="let file of files">
+    {{file.name}} <small><a href="#" [id]="file.id">#</a></small>, {{file.size}}
+  </li>
+</ol>
+
+<button md-raised-button (click)="handleAddFileClick">Add File</button>

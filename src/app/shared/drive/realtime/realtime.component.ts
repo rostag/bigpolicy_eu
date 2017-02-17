@@ -3,19 +3,25 @@
 /// <reference path="../../../../../node_modules/@types/google-drive-realtime-api/index.d.ts" />
 /// <reference path="./google-drive-api.d.ts" />
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-bp-realtime',
   templateUrl: './realtime.component.html',
-  styleUrls: ['./realtime.component.css']
+  styleUrls: ['./realtime.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RealtimeComponent implements AfterViewInit {
 
-    // authorizeButton = document.getElementById('authorize-button');
-    // signoutButton = document.getElementById('signout-button');
-    authorizeButtonDisplay = true;
-    signoutButtonDisplay = false;
+    gdrive_authorize = true;
+    gdrive_signout = false;
+
+    @Input() files;
+    @Input() filelist;
+
+    constructor(
+      private ref: ChangeDetectorRef
+    ) {}
 
     /**
      *  On load, called to load the auth2 library and API client library.
@@ -65,12 +71,12 @@ export class RealtimeComponent implements AfterViewInit {
      */
     updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
-        this.authorizeButtonDisplay = false;
-        this.signoutButtonDisplay = true;
+        this.gdrive_authorize = false;
+        this.gdrive_signout = true;
         this.listFiles();
       } else {
-        this.authorizeButtonDisplay = true;
-        this.signoutButtonDisplay = false;
+        this.gdrive_authorize = true;
+        this.gdrive_signout = false;
       }
       console.log('is signed in: ', isSignedIn);
     }
@@ -90,35 +96,42 @@ export class RealtimeComponent implements AfterViewInit {
       gapi.auth2.getAuthInstance().signOut();
     }
 
-    /**
-     * Append a pre element to the body containing the given message
-     * as its text node. Used to display the results of the API call.
-     *
-     * @param {string} message Text to be placed in pre element.
-     */
-    appendPre(message) {
-      const pre = document.getElementById('content');
-      const textContent = document.createTextNode(message + '\n');
-      pre.appendChild(textContent);
+    handleAddFileClick(event) {
+      this.createFile();
+      return false;
+    }
+
+    createFile() {
+      gapi.client.drive.files.create({
+        ignoreDefaultVisibility: true,
+        useContentAsIndexableText: true
+      }).then( (response) => {
+        console.log('response:', response);
+      });
     }
 
     /**
      * Print files.
      */
     listFiles() {
+      const filesz = [];
+      let filelist = '';
       gapi.client.drive.files.list({
         'pageSize': 10,
         'fields': 'nextPageToken, files(id, name)'
       }).then( (response) => {
-        this.appendPre('Files:');
         const files = response.result.files;
         if (files && files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            this.appendPre(file.name + ' (' + file.id + ')');
+            filesz.push(file);
+            filelist += '<li>' + file.name + '</li>';
           }
-        } else {
-          this.appendPre('No files found.');
+          this.files = filesz;
+          this.filelist = filelist;
+          console.log('Filelist:', filelist);
+          this.ref.markForCheck();
+          this.ref.detectChanges();
         }
       });
     }
