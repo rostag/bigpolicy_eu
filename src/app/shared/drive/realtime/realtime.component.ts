@@ -1,7 +1,7 @@
-/// <reference path="../../../../../node_modules/@types/gapi/index.d.ts" />
-/// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts" />
-/// <reference path="../../../../../node_modules/@types/google-drive-realtime-api/index.d.ts" />
-/// <reference path="./google-drive-api.d.ts" />
+/// <reference path="../../../../../node_modules/@types/gapi/index.d.ts"/>
+/// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
+/// <reference path="../../../../../node_modules/@types/google-drive-realtime-api/index.d.ts"/>
+/// <reference path="./google-drive-api.d.ts"/>
 
 import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
@@ -11,7 +11,13 @@ import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStra
   styleUrls: ['./realtime.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class RealtimeComponent implements AfterViewInit {
+
+  savedSignInUserInfo: gapi.auth2.GoogleUser = null;
+
+  fileToUpload = null;
+  fileToUploadName = '';
 
   gdrive_authorize = true;
   gdrive_signout = false;
@@ -38,6 +44,7 @@ export class RealtimeComponent implements AfterViewInit {
    *  On load, called to load the auth2 library and API client library.
    */
   handleClientLoad() {
+    console.log('gapi:', gapi);
     gapi.load('client:auth2', () => { this.initClient(this); });
   }
 
@@ -88,12 +95,13 @@ export class RealtimeComponent implements AfterViewInit {
     if (isSignedIn) {
       this.gdrive_authorize = false;
       this.gdrive_signout = true;
+      this.savedSignInUserInfo = gapi.auth2.getAuthInstance().currentUser.get();
       this.listFiles();
     } else {
       this.gdrive_authorize = true;
       this.gdrive_signout = false;
     }
-    console.log('is signed in: ', isSignedIn);
+    console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
 
   /**
@@ -114,7 +122,8 @@ export class RealtimeComponent implements AfterViewInit {
   handleAddFileClick(event) {
     // this.createFile();
 
-    this.createFileWithJSONContent( 'BP_' + Math.round(Math.random() * 100) + '_', {'hi': 'hi'}, res => console.log(res) );
+    // this.createFileWithJSONContent( 'BP_' + Math.round(Math.random() * 100) + '_', {'hi': 'hi'}, res => console.log(res) );
+    this.uploadFile();
 
     return false;
   }
@@ -146,6 +155,104 @@ export class RealtimeComponent implements AfterViewInit {
     const multipartRequestBody =
           delimiter +
           'Content-Type: application/json\r\n\r\n' +
+          JSON.stringify(metadata) +
+          delimiter +
+          'Content-Type: ' + contentType + '\r\n\r\n' +
+          data +
+          close_delim;
+
+    const request = gapi.client.request({
+          'path': '/upload/drive/v3/files',
+          'method': 'POST',
+          'params': {'uploadType': 'multipart'},
+          'headers': {
+            'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+          },
+          'body': multipartRequestBody});
+      if (!callback) {
+        callback = function(file) {
+          console.log(file);
+        };
+      }
+      request.execute(callback);
+  }
+
+  handleUploadFilenameChange(evt, a, b) {
+    const fullPath = evt.target.value;
+    if (fullPath) {
+      const startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+      let filename = fullPath.substring(startIndex);
+      if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+        filename = filename.substring(1);
+      }
+      this.fileToUpload = evt.target.files[0];
+      this.fileToUploadName = filename;
+      console.log('filename:', filename, this.fileToUpload);
+    }
+  }
+
+  // http://stackoverflow.com/questions/36786426/google-drive-api-file-upload-and-file-name
+  // WIP WIP
+  uploadFile() {
+      const form = new FormData();
+      const xhttp = new XMLHttpRequest();
+      xhttp.responseType = 'blob';
+      const fileID = this.fileToUploadName;
+      const apiKeyId = 'AIzaSyD6GbxeupHdtNng-xWPw5Y2N1oRvj7OdFk';
+
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
+          console.log('Uploaded');
+        } else if (xhttp.readyState === 4 ) {
+          console.log('Upload result:', xhttp.status, xhttp.response);
+        }
+
+      };
+      xhttp.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media', true);
+      xhttp.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+      xhttp.send(this.fileToUpload);
+  }
+
+  // WIP / DEPRECATED
+  uploadFile2() {
+    const fileMetadata = {
+      name: this.fileToUploadName
+    };
+    const media = {
+      // mimeType: 'image/jpeg',
+      body: this.fileToUpload
+    };
+    gapi.client.drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: 'id'
+    })
+    .then( (err, file) => {
+        if (err) {
+        // Handle error
+        console.log(' error: ', err);
+      } else {
+        console.log('File Id: ', file.id);
+      }
+    });
+  }
+
+  // WIP WIP WIP
+  uploadDocFile(name, data, callback) {
+    const boundary = '-------314159265358979323846';
+    const delimiter = '\r\n--' + boundary + '\r\n';
+    const close_delim = '\r\n--' + boundary + '--';
+
+    const contentType = 'application/msword';
+
+    const metadata = {
+      'name': name,
+      'mimeType': contentType
+    };
+
+    const multipartRequestBody =
+          delimiter +
+          'Content-Type: ' + contentType + '\r\n\r\n' +
           JSON.stringify(metadata) +
           delimiter +
           'Content-Type: ' + contentType + '\r\n\r\n' +
