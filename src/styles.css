@@ -36,3 +36,7 @@ md-list-item h3 a:active {
 md-list-item h3 a:hover {
   text-decoration: underline;
 }
+
+md-icon.pointer {
+  cursor: pointer;
+}

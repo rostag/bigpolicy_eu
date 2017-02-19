@@ -123,7 +123,7 @@ export class RealtimeComponent implements AfterViewInit {
     // this.createFile();
 
     // this.createFileWithJSONContent( 'BP_' + Math.round(Math.random() * 100) + '_', {'hi': 'hi'}, res => console.log(res) );
-    this.uploadFile();
+    this.uploadFile2();
 
     return false;
   }
@@ -307,7 +307,7 @@ export class RealtimeComponent implements AfterViewInit {
     const filesz = [];
     let filelist = '';
     gapi.client.drive.files.list({
-      'pageSize': 10,
+      'pageSize': 5,
       'fields': 'nextPageToken, files(id, name)'
     }).then( (response) => {
       const files = response.result.files;
