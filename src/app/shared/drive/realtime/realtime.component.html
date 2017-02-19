@@ -1,19 +1,27 @@
-<h2>Файли</h2>
+<md-card>
+  <md-toolbar color="primary">
+    <span>Файли та документи</span>
+    <span class="add-fill-remaining"></span>
+    <md-icon *ngIf="gdrive_authorize" (click)="handleAuthClick()" class="pointer">account_circle</md-icon>
+    <md-icon *ngIf="gdrive_signout" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon>
+  </md-toolbar>
 
-<!-- <button md-raised-button (click)="handleAddFileClick">Add File</button> -->
+  <!-- <img md-card-image src="assets/img/examples/shiba2.jpg"> -->
+  <md-list>
+    <md-list-item *ngFor="let file of files">
+      <!-- TODO File link should open document preview -->
+      <md-icon color="warn">insert_drive_file</md-icon>{{file.name}}&nbsp;<a href="#" [id]="file.id">#</a>
+    </md-list-item>
+  </md-list>
 
-<p>Авторизація</p>
+  <md-card-content>
+    <p>
+      <input type="file" (change)="handleUploadFilenameChange($event)">
+      <button md-button *ngIf="fileToUpload != null" (click)="handleAddFileClick()"><md-icon>insert drive file</md-icon>Завантажити</button>
+    </p>
+  </md-card-content>
 
-<!--Add buttons to initiate auth sequence and sign out-->
-<button *ngIf="gdrive_authorize" (click)="handleAuthClick()">Authorize</button>
-<button *ngIf="gdrive_signout" (click)="handleSignoutClick()">Sign Out</button>
+  <md-card-actions>
+  </md-card-actions>
 
-<ol>
-
-  <li *ngFor="let file of filelist">
-    {{file.name}} - <a href="#" [id]="file.id">#</a>, {{file.size}}
-  </li>
-
-</ol>
-
-<pre id="content"></pre>
+</md-card>
