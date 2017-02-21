@@ -166,23 +166,21 @@ export class RealtimeComponent implements AfterViewInit {
   };
 
   /**
-   * Print files.
+   * Create a list of files loaded from gdrive.
    */
   listFiles() {
     const filesz = [];
-    let filelist = '';
     gapi.client.drive.files.list({
-      'pageSize': 5,
-      'fields': 'nextPageToken, files(id, name)'
-    }).then( (response) => {
+      'pageSize': 7,
+      'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
+
+    }).then((response) => {
       const files = response.result.files;
       if (files && files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
           this.files.push(file);
-          filelist += '<li>' + file.name + '</li>';
         }
-        // this.files = filesz;
         this.ref.markForCheck();
         this.ref.detectChanges();
       }
