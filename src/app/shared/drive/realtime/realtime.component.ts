@@ -5,6 +5,8 @@
 
 import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
+import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
+
 @Component({
   selector: 'app-bp-realtime',
   templateUrl: './realtime.component.html',
@@ -35,6 +37,8 @@ export class RealtimeComponent implements AfterViewInit {
   };
 
   file = this.DEFAULT_FILE;
+
+  urlToUpload = '';
 
   constructor(
     private ref: ChangeDetectorRef
@@ -122,8 +126,15 @@ export class RealtimeComponent implements AfterViewInit {
   handleAddFileClick(event) {
     // this.createFile();
 
-    // this.createFileWithJSONContent( 'BP_' + Math.round(Math.random() * 100) + '_', {'hi': 'hi'}, res => console.log(res) );
-    this.uploadFile();
+    this.upload();
+    // this.uploadFile3(this.fileToUpload);
+    // this.uploadFileMultipart();
+    // this.uploadFile();
+    // this.createFileWithJSONContent('BP_1', {'hi': 'hi'}, res => console.log(res));
+    // this.preupload(
+    //   'https://www.googleapis.com/upload/drive/v3/files?uploadType=media',
+    //   this.savedSignInUserInfo.getAuthResponse().access_token
+    // );
 
     return false;
   }
@@ -191,31 +202,97 @@ export class RealtimeComponent implements AfterViewInit {
     }
   }
 
-  // http://stackoverflow.com/questions/36786426/google-drive-api-file-upload-and-file-name
-  // WIP WIP
-  uploadFile() {
-      const form = new FormData();
-      const xhttp = new XMLHttpRequest();
-      xhttp.responseType = 'blob';
-      const apiKeyId = 'AIzaSyD6GbxeupHdtNng-xWPw5Y2N1oRvj7OdFk';
+  uploadFile3(text, callback = null) {
 
-      xhttp.onreadystatechange = function() {
-        if (xhttp.readyState === 4 && xhttp.status === 200) {
-          console.log('Uploaded');
-        } else if (xhttp.readyState === 4 ) {
-          console.log('Upload result:', xhttp.status, xhttp.response);
+      const boundary = '287032381131322';
+      const delimiter = '\r\n--' + boundary + '\r\n';
+      const close_delim = '\r\n--' + boundary + '--';
+
+      const contentType = this.fileToUpload.type || 'multipart/form-data';
+      const metadata = {
+        'mimeType': contentType,
+        'name': this.fileToUploadName,
+        'description': 'Oh my file =)'
+      };
+
+      const reader = new FileReader();
+
+      reader.onload = function(evt: any) {
+        // xhr.send(evt.target.result);
+
+        console.log('reader', contentType, evt);
+
+        const multipartRequestBody =
+            delimiter +  'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter + 'Content-Type: ' + contentType + '\r\n' + '\r\n' +
+            evt.target.result +
+            close_delim;
+
+        if (!callback) {
+          callback = function(file) { console.log('Update Complete ', file); };
         }
 
+        gapi.client.request({
+          'path': 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
+          'method': 'POST',
+          'params': {'uploadType': 'multipart'},
+          'headers': {'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'},
+          'body': multipartRequestBody,
+          callback: callback
+        });
       };
-      xhttp.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media&originalFileName=' + 'BP_', true);
-      xhttp.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
-      xhttp.send(this.fileToUpload);
+      reader.readAsBinaryString(text);
+    }
+
+  // WIP
+  uploadFileMultipart() {
+    const form = new FormData();
+    const xhttp = new XMLHttpRequest();
+    xhttp.responseType = 'blob';
+
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState === 4 && xhttp.status === 200) {
+        console.log('Uploaded');
+      } else if (xhttp.readyState === 4 ) {
+        console.log('Upload result:', xhttp.status, xhttp.response);
+      }
+    };
+
+    const formData: any = new FormData();
+    formData.append('myFile', this.fileToUpload);
+    // formData.append('title', 'file_name.extension');
+    // formData.append('mimeType', 'mime/type');
+    // formData.append('description', 'Stuff about the file');
+
+    xhttp.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', true);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+    xhttp.send(this.fileToUpload);
+    // xhttp.send(formData);
+  }
+
+  uploadFile() {
+    const form = new FormData();
+    const xhttp = new XMLHttpRequest();
+    xhttp.responseType = 'blob';
+
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState === 4 && xhttp.status === 200) {
+        console.log('Uploaded');
+      } else if (xhttp.readyState === 4 ) {
+        console.log('Upload result:', xhttp.status, xhttp.response);
+      }
+
+    };
+    xhttp.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media', true);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+    xhttp.send(this.fileToUpload);
   }
 
   /**
    * Initiate the upload.
    */
-  preupload(url, token, size, contentType) {
+  preupload(url, token) {
     const self = this;
     const xhr = new XMLHttpRequest();
     const fileMetadata = {
@@ -226,8 +303,8 @@ export class RealtimeComponent implements AfterViewInit {
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-Upload-Content-Length', size);
-    xhr.setRequestHeader('X-Upload-Content-Type', contentType);
+    // xhr.setRequestHeader('X-Upload-Content-Length', size);
+    // xhr.setRequestHeader('X-Upload-Content-Type', contentType);
 
     xhr.onload = function(e) {
       const location = e.target.getResponseHeader('Location');
@@ -299,6 +376,57 @@ export class RealtimeComponent implements AfterViewInit {
       //   location.search('');
       //   location.replace();
       // }
+    };
+
+
+    /**
+     * Initiate the upload.
+     */
+    upload() {
+      const self = this;
+      const xhr = new XMLHttpRequest();
+
+      const metadata = {
+        'name': this.fileToUpload.name,
+        'title': this.fileToUpload.name,
+        'mimeType': this.fileToUpload.type,
+        'description': 'Stuff about the file'
+      };
+
+      xhr.open('POST', 'https://www.googleapis.com/drive/v3/files?uploadType=multipart', true);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-Upload-Content-Length', this.fileToUpload.size);
+      xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
+
+      xhr.onload = (e: any) => {
+        const resp = JSON.parse(e.target.response);
+        console.log('upload e:', e, resp);
+        this.sendFile(resp.id);
+      };
+      xhr.onerror = (err) => console.log('upload error:', err);
+      xhr.send(JSON.stringify(metadata));
+    };
+
+    /**
+     * Send the actual file content.
+     *
+     * @private
+     */
+    sendFile(fileId) {
+      const content = this.fileToUpload;
+      const end = this.fileToUpload.size;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('PATCH', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId, true);
+      xhr.setRequestHeader('Content-Type', this.fileToUpload.type);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+      // xhr.setRequestHeader('Content-Range', 'bytes ' + 0 + '-' + (this.fileToUpload.size - 1) + '/' + this.fileToUpload.size);
+      xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
+      // xhr.setRequestHeader('X-Upload-Content-Length', this.fileToUpload.size);
+      xhr.onload = (res) => console.log('upload res:', res);
+      xhr.onerror = (err) => console.log('upload error:', err);
+      xhr.send(content);
     };
 
   /**
