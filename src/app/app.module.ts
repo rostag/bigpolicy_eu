@@ -47,7 +47,7 @@ import { DonationsListComponent } from './shared/donate/list/donations.list.comp
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
-import { RealtimeComponent } from './shared/drive/realtime/realtime.component';
+import { FilesComponent } from './shared/drive/files/files.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import { RealtimeComponent } from './shared/drive/realtime/realtime.component';
     VideoComponent,
     AppComponent,
     ContinueRegistrationDialogComponent,
-    RealtimeComponent
+    FilesComponent
   ],
   imports: [
     routing,

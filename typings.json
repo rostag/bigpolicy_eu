@@ -1,5 +1,0 @@
-{
-  "globalDependencies": {
-    "google-drive-realtime-api": "registry:dt/google-drive-realtime-api#0.0.0+20161122230850"
-  }
-}

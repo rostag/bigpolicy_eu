@@ -1,6 +1,3 @@
-// /<reference path="./realtime/index.d.ts" />
-// /<reference path="../../../../typings/globals/google-drive-realtime-api/index.d.ts" />
-
 /* Download the declaration file (*.d.ts) for the Google Drive Realtime API here:
 https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/google-drive-realtime-api
 http://stackoverflow.com/questions/35374878/angular-2-with-google-drive-realtime-api

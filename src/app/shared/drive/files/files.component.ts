@@ -1,23 +1,23 @@
 /// <reference path="../../../../../node_modules/@types/gapi/index.d.ts"/>
 /// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
-/// <reference path="../../../../../node_modules/@types/google-drive-realtime-api/index.d.ts"/>
 /// <reference path="./google-drive-api.d.ts"/>
 import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 
 @Component({
-  selector: 'app-bp-realtime',
-  templateUrl: './realtime.component.html',
-  styleUrls: ['./realtime.component.css'],
+  selector: 'app-bp-files',
+  templateUrl: './files.component.html',
+  styleUrls: ['./files.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class RealtimeComponent implements AfterViewInit {
+export class FilesComponent implements AfterViewInit {
 
   savedSignInUserInfo: gapi.auth2.GoogleUser = null;
 
   fileToUpload = null;
   fileToUploadName = '';
+  folderForUploads = null;
 
   gdrive_authorize = true;
   gdrive_signout = false;
@@ -41,6 +41,7 @@ export class RealtimeComponent implements AfterViewInit {
    *  listeners.
    */
   initClient(that) {
+    // FIXME_SEC
     // Client ID and API key from the Developer Console
     const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
 
@@ -77,7 +78,7 @@ export class RealtimeComponent implements AfterViewInit {
       this.gdrive_authorize = false;
       this.gdrive_signout = true;
       this.savedSignInUserInfo = gapi.auth2.getAuthInstance().currentUser.get();
-      this.listFiles();
+      this.getFiles();
     } else {
       this.gdrive_authorize = true;
       this.gdrive_signout = false;
@@ -101,7 +102,7 @@ export class RealtimeComponent implements AfterViewInit {
   }
 
   handleAddFileClick(event) {
-    this.upload();
+    this.initUpload();
     return false;
   }
 
@@ -121,15 +122,17 @@ export class RealtimeComponent implements AfterViewInit {
   /**
    * Initiate the upload.
    */
-  upload() {
+  initUpload() {
     const self = this;
     const xhr = new XMLHttpRequest();
+    const file = this.fileToUpload;
 
     const metadata = {
-      'name': this.fileToUpload.name,
-      'title': this.fileToUpload.name,
-      'mimeType': this.fileToUpload.type,
-      'description': 'Stuff about the file'
+      'name': file.name,
+      'title': file.name,
+      'mimeType': file.type,
+      'description': 'Stuff about the file',
+      parents: [ this.folderForUploads.id ]
     };
 
     xhr.open('POST', 'https://www.googleapis.com/drive/v3/files?uploadType=multipart', true);
@@ -146,12 +149,61 @@ export class RealtimeComponent implements AfterViewInit {
     xhr.send(JSON.stringify(metadata));
   };
 
+  getFiles() {
+    this.getFolder();
+  }
+
+  // 'BigPolicy Files'
+  getFolder() {
+    const folderMetadata = {
+      q: 'name = "BigPolicy Files"',
+      fields: 'nextPageToken, files(id, name)'
+      // pageToken: pageToken
+    };
+
+    console.log('Get folder:', folderMetadata);
+
+    gapi.client.drive.files.list(folderMetadata)
+      .execute((resp, raw_resp) => {
+        const folder = resp.files[0];
+        if ( !folder ) {
+          this.createFolder();
+          return;
+        }
+        this.initFolder(folder);
+      });
+
+    }
+
+    initFolder(folder) {
+      this.folderForUploads = folder;
+      console.log('GOT Folder Id: ', this.folderForUploads);
+      this.listFiles();
+    }
+
+  createFolder() {
+    const fileMetadata = {
+      'name' : 'BigPolicy Files',
+      'mimeType' : 'application/vnd.google-apps.folder',
+    };
+
+    gapi.client.drive.files.create({
+       resource: fileMetadata,
+       fields: 'id'
+    }, null).execute((resp, raw_resp) => {
+        console.log('Created Folder Id: ', resp);
+        // this.folderForUploads = resp;
+        this.initFolder(resp);
+    });
+  }
+
   /**
    * Send the actual file content.
    *
    * @private
    */
   sendFile(fileId) {
+    this.fileToUpload.id = fileId;
     const content = this.fileToUpload;
     const end = this.fileToUpload.size;
 
@@ -171,9 +223,10 @@ export class RealtimeComponent implements AfterViewInit {
   listFiles() {
     const filesz = [];
     gapi.client.drive.files.list({
+      'q': '"' + this.folderForUploads.id + '" in parents',
+      // resp.files[0]
       'pageSize': 7,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
-
     }).then((response) => {
       const files = response.result.files;
       if (files && files.length > 0) {
@@ -185,5 +238,26 @@ export class RealtimeComponent implements AfterViewInit {
         this.ref.detectChanges();
       }
     });
+  }
+
+  // WIP
+  updateFiles() {
+    const fileId = this.fileToUpload.id;
+  //   const fileId = '1sTWaJ_j7PkjzaBWtNc3IzovK5hQf21FbOw9yLeeLPNQ';
+  //   const folderId = '0BwwA4oUTeiV1TGRPeTVjaWRDY1E';
+  //   // Move the file to the new folder
+  //   // const previousParents = file.parents.join(',');
+  //   gapi.client.drive.files.update({
+  //     fileId: fileId,
+  //     addParents: folderId,
+  //     // removeParents: previousParents,
+  //     fields: 'id, parents'
+  //   }, (err, file) => {
+  //     if (err) {
+  //       // Handle error
+  //     } else {
+  //       // File moved.
+  //     }
+  //   });
   }
 }
