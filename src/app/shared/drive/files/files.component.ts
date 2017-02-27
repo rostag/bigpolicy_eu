@@ -24,6 +24,9 @@ export class FilesComponent implements AfterViewInit {
 
   files = [];
 
+  // TODO Parse user to get his GoogleDrive
+  @Input() user;
+
   constructor(
     private ref: ChangeDetectorRef
   ) {}
@@ -32,7 +35,7 @@ export class FilesComponent implements AfterViewInit {
   *  On load, called to load the auth2 library and API client library.
   */
   ngAfterViewInit() {
-    // console.log('gapi:', gapi);
+    console.log('user:', this.user);
     gapi.load('client:auth2', () => { this.initClient(this); });
   }
 
@@ -212,7 +215,7 @@ export class FilesComponent implements AfterViewInit {
     xhr.setRequestHeader('Content-Type', this.fileToUpload.type);
     xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
     xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
-    xhr.onload = (res) => console.log('upload res:', res);
+    xhr.onload = (res) => this.listFiles();
     xhr.onerror = (err) => console.log('upload error:', err);
     xhr.send(content);
   };
@@ -221,7 +224,7 @@ export class FilesComponent implements AfterViewInit {
    * Create a list of files loaded from gdrive.
    */
   listFiles() {
-    const filesz = [];
+    this.files = [];
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
       // resp.files[0]
