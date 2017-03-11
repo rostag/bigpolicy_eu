@@ -20,34 +20,29 @@
     </p> -->
 
     <div class="leaders-list">
-         <div *ngFor="let leader of leaders">
-          <md-card class="leader-list">
-            <md-card-title-group>
-              <img class="mat-card-avatar" md-card-avatar src="assets/img/avatar-generic.png">
-              <md-card-title>{{leader.name}} {{leader.surName}}
-                <span *ngIf="user.isOwner(leader)">
-                  (я)
-                </span>
-              </md-card-title>
-              <md-card-title></md-card-title>
-            </md-card-title-group>
-            <md-card-content>
-                <p>Візія: {{leader.vision}}</p>
-            </md-card-content>
-            <md-card-actions>
-              <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
-              <span *ngIf="user.hasEditPermissions(leader)">
-                <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-                <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
-              </span>
-            </md-card-actions>
-          </md-card>
-
-         <br />
-         <br />
-
-       </div>
-
+     <div *ngFor="let leader of leaders">
+      <md-card class="leader-card">
+        <md-card-title-group>
+          <img class="mat-card-avatar" md-card-avatar src="assets/img/avatar-generic.png">
+          <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
+            <span *ngIf="user.isOwner(leader)">
+              (я)
+            </span>
+          </md-card-title>
+          <md-card-title></md-card-title>
+        </md-card-title-group>
+        <md-card-content>
+            <p>Візія: {{leader.vision}}</p>
+        </md-card-content>
+        <md-card-actions>
+          <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
+          <span *ngIf="user.hasEditPermissions(leader)">
+            <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+            <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
+          </span>
+        </md-card-actions>
+      </md-card>
+     </div>
     </div>
   </md-card-content>
 </md-card>

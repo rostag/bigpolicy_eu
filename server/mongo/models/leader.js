@@ -20,6 +20,8 @@ const LeaderSchema = new Schema({
 	logo: { type: String },
 	email: { type: String, required: true },
 	projects: { type: Array },
+  // An array of cached Leader's files, which are stored in GDrive
+	leaderFiles: { type: Array },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
 

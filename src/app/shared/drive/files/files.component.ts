@@ -36,15 +36,23 @@ export class FilesComponent implements AfterViewInit {
     *  On load, called to load the auth2 library and API client library.
     */
   ngAfterViewInit() {
-    console.log('user:', this.user);
-    gapi.load('client:auth2', () => { this.initClient(this); });
+    const dummyFile = {
+      id: '',
+      webViewLink: '',
+      title: 'Loading files list...',
+      name: 'Loading files list...'
+    };
+
+    // this.updateFilesList([dummyFile]);
+
+    console.log('BP User:', this.user);
+    gapi.load('Client:auth2', () => { this.initClient(); });
   }
 
   /**
-   *  Initializes the API client library and sets up sign-in state
-   *  listeners.
+   *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
-  initClient(that) {
+  initClient() {
     // FIXME_SEC
     // Client ID and API key from the Developer Console
     const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
@@ -124,7 +132,7 @@ export class FilesComponent implements AfterViewInit {
   }
 
   /**
-   * Initiate the upload.
+   * Initiate the upload
    */
   initUpload() {
     const self = this;
@@ -153,54 +161,6 @@ export class FilesComponent implements AfterViewInit {
     xhr.send(JSON.stringify(metadata));
   };
 
-  getFiles() {
-    this.getFolder();
-  }
-
-  // 'BigPolicy Files'
-  getFolder() {
-    const folderMetadata = {
-      q: 'name = "BigPolicy Files"',
-      fields: 'nextPageToken, files(id, name)'
-      // pageToken: pageToken
-    };
-
-    console.log('Get folder:', folderMetadata);
-
-    gapi.client.drive.files.list(folderMetadata)
-      .execute((resp, raw_resp) => {
-        const folder = resp.files[0];
-        if ( !folder ) {
-          this.createFolder();
-          return;
-        }
-        this.initFolder(folder);
-      });
-
-    }
-
-    initFolder(folder) {
-      this.folderForUploads = folder;
-      console.log('GOT Folder Id: ', this.folderForUploads);
-      this.listFiles();
-    }
-
-  createFolder() {
-    const fileMetadata = {
-      'name' : 'BigPolicy Files',
-      'mimeType' : 'application/vnd.google-apps.folder',
-    };
-
-    gapi.client.drive.files.create({
-       resource: fileMetadata,
-       fields: 'id'
-    }, null).execute((resp, raw_resp) => {
-        console.log('Created Folder Id: ', resp);
-        // this.folderForUploads = resp;
-        this.initFolder(resp);
-    });
-  }
-
   /**
    * Send the actual file content.
    *
@@ -221,14 +181,61 @@ export class FilesComponent implements AfterViewInit {
     xhr.send(content);
   };
 
+  getFiles() {
+    this.getFolder();
+  }
+
+  /**
+   * Gets the 'BigPolicy Files' folder for given user or creates if there's no such folder
+   */
+  getFolder() {
+    const folderMetadata = {
+      q: 'name = "BigPolicy Files"',
+      fields: 'nextPageToken, files(id, name)'
+      // pageToken: pageToken
+    };
+
+    console.log('Get folder:', folderMetadata);
+
+    gapi.client.drive.files.list(folderMetadata)
+      .execute((resp, raw_resp) => {
+        const folder = resp.files[0];
+        if ( !folder ) {
+          this.createFolder();
+          return;
+        }
+        this.initFolder(folder);
+      });
+  }
+
+  initFolder(folder) {
+    this.folderForUploads = folder;
+    console.log('GOT Folder Id: ', this.folderForUploads);
+    this.listFiles();
+  }
+
+  createFolder() {
+    const fileMetadata = {
+      'name' : 'BigPolicy Files',
+      'mimeType' : 'application/vnd.google-apps.folder',
+    };
+
+    gapi.client.drive.files.create({
+       resource: fileMetadata,
+       fields: 'id'
+    }, null).execute((resp, raw_resp) => {
+        console.log('Created Folder Id: ', resp);
+        // this.folderForUploads = resp;
+        this.initFolder(resp);
+    });
+  }
+
   /**
    * Create a list of files loaded from gdrive.
    */
   listFiles() {
-    this.files = [];
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
-      // resp.files[0]
       'pageSize': 7,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
     }).then((response) => {
@@ -236,12 +243,18 @@ export class FilesComponent implements AfterViewInit {
       if (files && files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
-          this.files.push(file);
+          files.push(file);
         }
-        this.ref.markForCheck();
-        this.ref.detectChanges();
+        this.updateFilesList(files);
       }
     });
+  }
+
+  private updateFilesList(files: Array<any>) {
+    console.log('Update Files List:', files);
+    this.files = files;
+    this.ref.markForCheck();
+    this.ref.detectChanges();
   }
 
   // WIP

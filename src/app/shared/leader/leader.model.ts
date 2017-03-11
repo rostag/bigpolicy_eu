@@ -16,6 +16,7 @@ export class LeaderModel {
   email: string;
   projects;
   donations;
+  leaderFiles;
   totalDonationsReceived: Number = 0;
 
 	// political party membership
@@ -69,7 +70,8 @@ export class LeaderModel {
       docPassport: this.docPassport,
       totalDonationsReceived: this.totalDonationsReceived,
       projects: this.projects,
-      donations: this.donations
+      donations: this.donations,
+      leaderFiles: this.leaderFiles
     });
   }
 
