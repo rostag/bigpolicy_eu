@@ -31,7 +31,7 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
-import { LeaderService } from './shared/leader/leader.service';
+// import { LeaderService } from './shared/leader/leader.service';
 import { ProjectService } from './shared/project/project.service';
 import { TaskService } from './shared/task/task.service';
 import { ShareService } from './shared/sharer/share.service';
@@ -47,6 +47,7 @@ import { DonationsListComponent } from './shared/donate/list/donations.list.comp
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
+import { FilesComponent } from './shared/drive/files/files.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ContinueRegistrationDialogComponent } from './leader/edit';
     ForbiddenValidatorDirective,
     VideoComponent,
     AppComponent,
-    ContinueRegistrationDialogComponent
+    ContinueRegistrationDialogComponent,
+    FilesComponent
   ],
   imports: [
     routing,
@@ -94,7 +96,7 @@ import { ContinueRegistrationDialogComponent } from './leader/edit';
     DonationService
   ],
   entryComponents: [
-    ContinueRegistrationDialogComponent,
+    ContinueRegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

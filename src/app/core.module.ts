@@ -5,6 +5,7 @@ import { LeaderService } from './shared/leader';
 import { ProjectService } from './shared/project';
 import { UserService } from './shared/user';
 import { TaskService } from './shared/task';
+import { DriveService } from './shared/drive';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { TaskService } from './shared/task';
     UserService,
     LeaderService,
     ProjectService,
-    TaskService
+    TaskService,
+    DriveService
   ]
 })
 
