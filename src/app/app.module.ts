@@ -80,7 +80,7 @@ import { FilesComponent } from './shared/drive/files/files.component';
     BrowserModule,
     RouterModule,
     FormsModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     HttpModule,
     // CommonModule,
     CoreModule // will provide service
