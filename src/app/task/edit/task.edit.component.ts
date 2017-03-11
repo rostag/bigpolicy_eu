@@ -16,7 +16,7 @@ export class TaskEditComponent implements OnInit {
   @Input() projectId = '';
   // @Input() project: ProjectModel;
 
-  private isUpdateMode = false;
+  isUpdateMode = false;
 
   task: TaskModel;
 

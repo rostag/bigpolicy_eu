@@ -16,7 +16,7 @@ export class ProjectEditComponent implements OnInit {
       return this.isUpdateMode;
   };
 
-  private isUpdateMode = false;
+  isUpdateMode = false;
 
   project: ProjectModel;
 

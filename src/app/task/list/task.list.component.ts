@@ -17,9 +17,9 @@ export class TaskListComponent implements OnChanges {
 
   @Input() project: ProjectModel;
 
-  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  isAddingTaskMode = false;
 
-  private isAddingTaskMode = false;
+  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
   ngOnChanges(changes) {
     const project = changes.project.currentValue;
@@ -29,8 +29,8 @@ export class TaskListComponent implements OnChanges {
   }
 
   constructor(
+    userService: UserService,
     private taskService: TaskService,
-    private user: UserService,
     private http: Http
   ) {}
 

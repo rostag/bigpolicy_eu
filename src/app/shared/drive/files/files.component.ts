@@ -26,7 +26,7 @@ export class FilesComponent implements AfterViewInit {
   files = [];
 
   // TODO Parse user to get his GoogleDrive
-  @Input() user;
+  @Input() userService;
 
   constructor(
     private ref: ChangeDetectorRef
@@ -46,7 +46,7 @@ export class FilesComponent implements AfterViewInit {
 
     this.updateFilesList([dummyFile]);
 
-    console.log('BP User:', this.user);
+    console.log('BP User:', this.userService);
 
     gapi.load('client:auth2', () => { this.initClient(this); });
   }

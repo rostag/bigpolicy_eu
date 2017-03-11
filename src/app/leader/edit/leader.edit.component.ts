@@ -14,7 +14,7 @@ export class LeaderEditComponent implements OnInit {
 
   leader: LeaderModel = new LeaderModel();
 
-  private isUpdateMode = false;
+  isUpdateMode = false;
 
   constructor(
     private route: ActivatedRoute,

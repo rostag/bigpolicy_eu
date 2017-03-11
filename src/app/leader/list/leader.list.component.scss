@@ -1,10 +1,12 @@
 .leaders-list {
-  md-card-title a {
-    text-decoration: none;
-  }
+  md-card-title {
+    a {
+      text-decoration: none;
+    }
 
-  md-card-title a:hover {
-    text-decoration: none;
+    a:hover {
+      text-decoration: underline;
+    }
   }
 }
 
