@@ -24,7 +24,7 @@
     <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
-    <md-input
+    <md-input-container><input mdInput
       [(ngModel)]="toEmail"
       name="toEmail"
       id="toEmail"
@@ -35,20 +35,20 @@
       <md-placeholder>
         Кому:
       </md-placeholder>
-    </md-input>
+    </md-input-container>
 
     <div *ngIf="formErrors.toEmail" class="alert alert-danger">
       {{ formErrors.toEmail }}
     </div>
 
-    <md-input
+    <md-input-container><input mdInput
       disabled
       [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
       class="wide bt-input">
       <md-placeholder>
         Тема:
       </md-placeholder>
-    </md-input>
+    </md-input-container>
 
 
     <div class="bp-textarea-wrapper">
@@ -64,7 +64,7 @@
       </textarea>
     </div>
 
-    <md-input
+    <md-input-container><input mdInput
       [(ngModel)]="videoUrl"
       id="videoUrl"
       name="videoUrl"
@@ -72,7 +72,7 @@
       <md-placeholder>
         Відео (посилання):
       </md-placeholder>
-    </md-input>
+    </md-input-container>
   </form>
 
   <md-card-content *ngIf="showEmailPreview" class="email-preview">

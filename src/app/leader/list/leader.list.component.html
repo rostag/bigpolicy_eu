@@ -23,7 +23,7 @@
          <div *ngFor="let leader of leaders">
           <md-card class="leader-list">
             <md-card-title-group>
-              <img md-card-avatar src="assets/img/avatar-generic.png">
+              <img class="mat-card-avatar" md-card-avatar src="assets/img/avatar-generic.png">
               <md-card-title>{{leader.name}} {{leader.surName}}
                 <span *ngIf="user.isOwner(leader)">
                   (я)

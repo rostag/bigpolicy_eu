@@ -9,25 +9,26 @@
          захід
       </md-card-title>
 
-      <md-input required [(ngModel)]="task.title" characterCounter placeholder="Назва заходу:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <md-input-container><input mdInput required [(ngModel)]="task.title" characterCounter placeholder="Назва заходу:" hintLabel="" [ngModelOptions]="{standalone: true}" > </md-input-container>
 
-      <md-textarea required [(ngModel)]="task.description" rows="3" placeholder="Опиши захід:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-textarea>
+      <md-input-container><textarea mdInput required [(ngModel)]="task.description" rows="3" placeholder="Опиши захід:" hintLabel="" [ngModelOptions]="{standalone: true}" >
+
+      </textarea></md-input-container>
 
       <!-- TODO: Use existing video control to auto-extend functionality on input -->
-      <md-input video-control [(ngModel)]="task.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <md-input-container><input mdInput video-control [(ngModel)]="task.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" > </md-input-container>
 
-      <md-input required [(ngModel)]="task.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" >
-       <span md-prefix>Який його бюджет?</span>
-       <span md-suffix>.00 </span>
-      </md-input>
+      <md-input-container>
+        <input mdInput required [(ngModel)]="task.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" mdPrefix="Який його бюджет?" mdSuffix=".00">
+      </md-input-container>
 
       <table style="width: 100%" cellspacing="0"><tr>
-       <td><md-input type="date" [(ngModel)]="task.startDateInputValue" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
-          <div md-prefix>Дата початку:&nbsp;</div>
-       </md-input></td>
-       <td><md-input type="date" [(ngModel)]="task.endDateInputValue" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
-          <div md-prefix>Дата завершення:&nbsp;</div>
-       </md-input></td>
+       <td><md-input-container><input mdInput type="date" [(ngModel)]="task.startDateInputValue" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
+          <div mdPrefix>Дата початку:&nbsp;</div>
+       </md-input-container></td>
+       <td><md-input-container><input mdInput type="date" [(ngModel)]="task.endDateInputValue" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
+          <div mdPrefix>Дата завершення:&nbsp;</div>
+       </md-input-container></td>
       </tr></table>
 
       <p>
