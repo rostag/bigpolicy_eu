@@ -1,0 +1,23 @@
+:host {
+  padding: 1em;
+}
+
+.files-card {
+  margin-top: 2em;
+}
+
+.file-list {
+  margin-bottom: 1em;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .file-icon {
+    margin-right: .25em;
+  }
+}

@@ -8,7 +8,7 @@ import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 @Component({
   selector: 'app-bp-files',
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.css'],
+  styleUrls: ['./files.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -33,26 +33,35 @@ export class FilesComponent implements AfterViewInit {
   ) {}
 
   /**
-    *  On load, called to load the auth2 library and API client library.
-    */
+   * On load, called to load the auth2 library and API client library.
+   */
   ngAfterViewInit() {
+
     const dummyFile = {
       id: '',
       webViewLink: '',
-      title: 'Loading files list...',
-      name: 'Loading files list...'
+      title: 'Завантажую список файлів...',
+      name: 'Завантажую список файлів...'
     };
 
-    // this.updateFilesList([dummyFile]);
+    this.updateFilesList([dummyFile]);
 
     console.log('BP User:', this.user);
-    gapi.load('Client:auth2', () => { this.initClient(); });
+
+    gapi.load('client:auth2', () => { this.initClient(this); });
+  }
+
+  private updateFilesList(files: Array<any>) {
+    console.log('Update Files List:', files);
+    this.files = files;
+    this.ref.markForCheck();
+    this.ref.detectChanges();
   }
 
   /**
    *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
-  initClient() {
+  initClient(that) {
     // FIXME_SEC
     // Client ID and API key from the Developer Console
     const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
@@ -113,6 +122,12 @@ export class FilesComponent implements AfterViewInit {
     gapi.auth2.getAuthInstance().signOut();
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Uploading User's files
+  // ---------------------------------------------------------------------------
+
+
   handleAddFileClick(event) {
     this.initUpload();
     return false;
@@ -132,7 +147,7 @@ export class FilesComponent implements AfterViewInit {
   }
 
   /**
-   * Initiate the upload
+   * Initiate the upload.
    */
   initUpload() {
     const self = this;
@@ -180,6 +195,10 @@ export class FilesComponent implements AfterViewInit {
     xhr.onerror = (err) => console.log('upload error:', err);
     xhr.send(content);
   };
+
+  // ---------------------------------------------------------------------------
+  // Listing User's files
+  // ---------------------------------------------------------------------------
 
   getFiles() {
     this.getFolder();
@@ -236,25 +255,20 @@ export class FilesComponent implements AfterViewInit {
   listFiles() {
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
+      // resp.files[0]
       'pageSize': 7,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
     }).then((response) => {
-      const files = response.result.files;
-      if (files && files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
+      const files = [];
+      const responseFiles = response.result.files;
+      if (responseFiles && responseFiles.length > 0) {
+        for (let i = 0; i < responseFiles.length; i++) {
+          const file = responseFiles[i];
           files.push(file);
         }
         this.updateFilesList(files);
       }
     });
-  }
-
-  private updateFilesList(files: Array<any>) {
-    console.log('Update Files List:', files);
-    this.files = files;
-    this.ref.markForCheck();
-    this.ref.detectChanges();
   }
 
   // WIP
