@@ -60,8 +60,7 @@ Added Leader Email - form User Profile
 
 # Migration to Final: Angular2, Angular CLI and Material 2
 
-Project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14.
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Project was generated with Angular CLI version 1.0.0-beta.14. Use `ng --help` or go check out the [README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ### 21.10.2016 - Sharer
 
@@ -84,6 +83,11 @@ WIP: FTUX.
 Bugfixes:
 - fixed login error (now user properly redirected).
 - Display in Safari.
+
+### 2017-03-11
+
+Migrated to Angular CLI version 1.0.0.rc-1
+
 
 ## Rough TODO Further integrations:
 
