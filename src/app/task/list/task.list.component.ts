@@ -29,7 +29,7 @@ export class TaskListComponent implements OnChanges {
   }
 
   constructor(
-    userService: UserService,
+    public userService: UserService,
     private taskService: TaskService,
     private http: Http
   ) {}

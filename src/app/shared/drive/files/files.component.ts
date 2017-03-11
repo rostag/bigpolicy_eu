@@ -52,7 +52,6 @@ export class FilesComponent implements AfterViewInit {
   }
 
   private updateFilesList(files: Array<any>) {
-    console.log('Update Files List:', files);
     this.files = files;
     this.ref.markForCheck();
     this.ref.detectChanges();

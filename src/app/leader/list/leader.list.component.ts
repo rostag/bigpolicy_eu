@@ -17,7 +17,7 @@ export class LeaderListComponent implements OnInit {
     private leaders = [];
 
     constructor(
-      userService: UserService,
+      public userService: UserService,
       private http: Http,
       private leaderService: LeaderService
     ) {}

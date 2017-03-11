@@ -16,7 +16,7 @@ export class TaskViewComponent implements OnInit {
    * Dependency Injection: route (for reading params later)
    */
   constructor(
-    userService: UserService,
+    public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private taskService: TaskService

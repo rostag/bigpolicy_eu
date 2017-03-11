@@ -30,7 +30,7 @@ export class ProjectListComponent implements OnChanges {
   }
 
   constructor(
-    userService: UserService,
+    public userService: UserService,
     private projectService: ProjectService,
     private http: Http
   ) {}

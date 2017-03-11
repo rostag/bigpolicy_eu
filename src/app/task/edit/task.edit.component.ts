@@ -23,8 +23,7 @@ export class TaskEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService,
-    private userService: UserService
+    private taskService: TaskService
   ) {
     this.task = new TaskModel();
   }

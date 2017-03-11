@@ -42,7 +42,7 @@
 
       <!-- WIP -->
 
-      <div *ngIf="leader.hasProjects()">
+      <div *ngIf="leader.projects && leader.projects.length > 0">
         <md-card-title>
           Проекти:
         </md-card-title>

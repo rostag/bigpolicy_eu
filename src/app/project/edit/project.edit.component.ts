@@ -24,7 +24,6 @@ export class ProjectEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private userService: UserService,
     private leaderService: LeaderService
   ) {
     this.project = new ProjectModel();

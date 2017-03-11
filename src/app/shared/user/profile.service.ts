@@ -6,8 +6,8 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class ProfileService {
   constructor(
-    private http: Http,
-    userService: UserService
+    public userService: UserService,
+    private http: Http
   ) {}
 
   getProfile() {

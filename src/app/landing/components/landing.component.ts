@@ -20,7 +20,7 @@ export class LandingComponent implements OnInit {
   };
 
   constructor(
-    userService: UserService,
+    public userService: UserService,
     private projectService: ProjectService,
     private leaderService: LeaderService
   ) {}

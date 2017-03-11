@@ -85,8 +85,4 @@ export class LeaderModel {
       }
     }
   }
-
-  hasProjects(): boolean {
-    return this.projects && this.project.length > 0;
-  }
 }
