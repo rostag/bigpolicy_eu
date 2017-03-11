@@ -1,6 +1,7 @@
 /// <reference path="../../../../../node_modules/@types/gapi/index.d.ts"/>
 /// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
 /// <reference path="./google-drive-api.d.ts"/>
+
 import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 
@@ -32,8 +33,8 @@ export class FilesComponent implements AfterViewInit {
   ) {}
 
   /**
-  *  On load, called to load the auth2 library and API client library.
-  */
+    *  On load, called to load the auth2 library and API client library.
+    */
   ngAfterViewInit() {
     console.log('user:', this.user);
     gapi.load('client:auth2', () => { this.initClient(this); });
