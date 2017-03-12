@@ -20,8 +20,7 @@ export class FilesComponent implements AfterViewInit {
   fileToUploadName = '';
   folderForUploads = null;
 
-  gdrive_authorize = true;
-  gdrive_signout = false;
+  gdrive_authorized = false;
 
   files = [];
 
@@ -94,14 +93,13 @@ export class FilesComponent implements AfterViewInit {
    *  appropriately. After a sign-in, the API is called.
    */
   updateSigninStatus(isSignedIn) {
+    this.gdrive_authorized = isSignedIn;
     if (isSignedIn) {
-      this.gdrive_authorize = false;
-      this.gdrive_signout = true;
       this.savedSignInUserInfo = gapi.auth2.getAuthInstance().currentUser.get();
       this.getFiles();
     } else {
-      this.gdrive_authorize = true;
-      this.gdrive_signout = false;
+      console.log('All the saints are signed out');
+      this.updateFilesList([{}]);
     }
     console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
@@ -112,20 +110,21 @@ export class FilesComponent implements AfterViewInit {
   handleAuthClick(event) {
     console.log('All the saints are signing in');
     gapi.auth2.getAuthInstance().signIn();
+    return false;
   }
 
   /**
    *  Sign out the user upon button click.
    */
   handleSignoutClick(event) {
+    console.log('All the saints are signing out');
     gapi.auth2.getAuthInstance().signOut();
+    return false;
   }
-
 
   // ---------------------------------------------------------------------------
   // Uploading User's files
   // ---------------------------------------------------------------------------
-
 
   handleAddFileClick(event) {
     this.initUpload();

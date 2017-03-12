@@ -1,24 +1,32 @@
 <md-card class="files-card">
   <md-toolbar color="primary">
     <span>Файли та документи</span>
-    <span class="add-fill-remaining"></span>
-    <md-icon *ngIf="gdrive_authorize" (click)="handleAuthClick()" class="pointer">account_circle</md-icon>
-    <md-icon *ngIf="gdrive_signout" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon>
   </md-toolbar>
 
-  <!-- <img md-card-image src="assets/img/examples/shiba2.jpg"> -->
-  <md-list class="file-list">
-    <md-list-item *ngFor="let file of files">
-      <!-- TODO File link should open document preview -->
-      <md-icon color="warn" title="{{file.id}}" class="file-icon">insert_drive_file</md-icon><a href="{{file.webViewLink}}" title="{{file.mimeType}}" target="_blank">{{file.name}}</a>
-    </md-list-item>
-  </md-list>
+  <md-card-content class="files-card-content">
 
-  <md-card-content>
-    <p>
-      <input type="file" (change)="handleUploadFilenameChange($event)">
-      <button md-button *ngIf="fileToUpload != null" (click)="handleAddFileClick()"><md-icon>insert drive file</md-icon>Завантажити</button>
+    <p *ngIf="!gdrive_authorized" class="gdrive-invitation">
+      Щоб користуватися файлами, треба <a href="#" (click)="handleAuthClick()">авторизуватися у Google Drive</a>
     </p>
+
+    <div *ngIf="gdrive_authorized">
+      <md-list class="file-list">
+        <md-list-item *ngFor="let file of files">
+          <!-- TODO File link should open document preview -->
+          <md-icon color="warn" title="{{file.id}}" class="file-icon">insert_drive_file</md-icon><a href="{{file.webViewLink}}" title="{{file.mimeType}}" target="_blank">{{file.name}}</a>
+        </md-list-item>
+      </md-list>
+
+      <div>
+        <input type="file" (change)="handleUploadFilenameChange($event)">
+        <button md-button *ngIf="fileToUpload != null" (click)="handleAddFileClick()">Завантажити файл</button>
+        <p class="signout-link"><a href="#" (click)="handleSignoutClick()">Вийти з Google Drive</a></p>
+      </div>
+    </div>
+
+    <!-- <md-icon class="pointer">account_circle</md-icon>
+    <md-icon *ngIf="gdrive_authorized" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon> -->
+
   </md-card-content>
 
   <md-card-actions>

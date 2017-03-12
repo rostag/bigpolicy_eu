@@ -6,6 +6,10 @@
   margin-top: 2em;
 }
 
+.files-card-content {
+  margin-bottom: 0;
+}
+
 .file-list {
   margin-bottom: 1em;
 
@@ -19,5 +23,24 @@
 
   .file-icon {
     margin-right: .25em;
+  }
+
+}
+
+.gdrive-invitation {
+  padding: 2em 2em 1em;
+  text-align: center;
+}
+
+.signout-link {
+  font-size: .85em;
+  text-align: right;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 }
