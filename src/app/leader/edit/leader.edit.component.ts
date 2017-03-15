@@ -83,6 +83,21 @@ export class LeaderEditComponent implements OnInit {
    */
   // FIXME: Complete Leader processing
   onSaveLeaderClick(): boolean {
+    // FIXME - Dummy test for leader's files saving
+    const files = [];
+    const links = ['http://goo.com/1/file.txt', 'http://foobar.com/2/file.html' ];
+    const titles = ['Text File', 'HTML File' ];
+    for (let i = 0; i < links.length; i++) {
+      const file = {
+        link: links[i],
+        title: titles[i],
+        name: titles[i]
+      };
+      files.push(file);
+    }
+    this.leader.leaderFiles = files;
+    console.log('Leader files to save:', this.leader.leaderFiles);
+
     if (this.isUpdateMode) {
       // Update existing leader:
       this.leaderService.updateLeader(this.leader)

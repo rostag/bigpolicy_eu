@@ -48,6 +48,7 @@ import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesComponent } from './shared/drive/files/files.component';
+import { FilesViewComponent } from './shared/files/view/files.view.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { FilesComponent } from './shared/drive/files/files.component';
     VideoComponent,
     AppComponent,
     ContinueRegistrationDialogComponent,
-    FilesComponent
+    FilesComponent,
+    FilesViewComponent
   ],
   imports: [
     routing,

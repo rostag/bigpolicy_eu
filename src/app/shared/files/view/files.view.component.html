@@ -1,0 +1,18 @@
+<md-card class="files-card">
+  <md-toolbar color="primary">
+    <span>Файли та документи</span>
+  </md-toolbar>
+
+  <md-card-content class="files-card-content">
+
+    <md-list class="file-list">
+      <md-list-item *ngFor="let file of files">
+        <!-- TODO File link should open document preview -->
+        <md-icon color="warn" title="{{file.title}}" class="file-icon">insert_drive_file</md-icon>
+        <a href="{{file.link}}" title="{{file.title}}" target="_blank">{{file.name}}</a>
+      </md-list-item>
+    </md-list>
+
+  </md-card-content>
+
+</md-card>

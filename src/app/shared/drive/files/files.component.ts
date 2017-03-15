@@ -101,7 +101,7 @@ export class FilesComponent implements AfterViewInit {
       console.log('All the saints are signed out');
       this.updateFilesList([{}]);
     }
-    console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
+    // console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
 
   /**
@@ -212,7 +212,7 @@ export class FilesComponent implements AfterViewInit {
       // pageToken: pageToken
     };
 
-    console.log('Get folder:', folderMetadata);
+    // console.log('Get folder:', folderMetadata);
 
     gapi.client.drive.files.list(folderMetadata)
       .execute((resp, raw_resp) => {
@@ -227,7 +227,7 @@ export class FilesComponent implements AfterViewInit {
 
   initFolder(folder) {
     this.folderForUploads = folder;
-    console.log('GOT Folder Id: ', this.folderForUploads);
+    console.log('Got Folder Id: ', this.folderForUploads);
     this.listFiles();
   }
 
