@@ -5,13 +5,14 @@
         <!-- FIXME Override User Profile Name with Leader Name ? -->
         {{userService.userProfile.name}}
         <md-chip-list>
-          <md-chip>{{userService.userProfile.email}}</md-chip>
+          <md-chip>Зареєстрований</md-chip>
           <md-chip *ngIf="userService.isAdmin()"><strong>Адміністратор</strong></md-chip>
         </md-chip-list>
       </md-card-title>
       <img md-card-md-image [src]="userService.userProfile.picture">
     </md-card-title-group>
     <md-card-content>
+      <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
       <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
       <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
       <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>

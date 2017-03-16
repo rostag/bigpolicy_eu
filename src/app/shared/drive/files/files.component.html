@@ -1,12 +1,15 @@
 <md-card class="files-card">
   <md-toolbar color="primary">
     <span>Файли та документи</span>
+    <!-- <span class="add-fill-remaining"></span>
+    <md-icon *ngIf="gdrive_authorize" (click)="handleAuthClick()" class="pointer">account_circle</md-icon>
+    <md-icon *ngIf="gdrive_signout" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon> -->
   </md-toolbar>
 
   <md-card-content class="files-card-content">
 
     <p *ngIf="!gdrive_authorized" class="gdrive-invitation">
-      Щоб користуватися файлами, треба <a href="#" (click)="handleAuthClick()">авторизуватися у Google Drive</a>
+      Щоб редагувати свої файли, треба <a href="#" (click)="handleAuthClick()">авторизуватися у Google Drive</a>.
     </p>
 
     <div *ngIf="gdrive_authorized">
@@ -20,16 +23,12 @@
       <div>
         <input type="file" (change)="handleUploadFilenameChange($event)">
         <button md-button *ngIf="fileToUpload != null" (click)="handleAddFileClick()">Завантажити файл</button>
-        <p class="signout-link"><a href="#" (click)="handleSignoutClick()">Вийти з Google Drive</a></p>
+        <p class="signout-link">
+          <a href="#" (click)="handleSignoutClick()">Вийти з Google Drive</a>
+          (<span *ngIf="userService.isAdmin()">{{savedSignInUserInfo.getBasicProfile().getEmail()}}</span>)
+        </p>
       </div>
     </div>
 
-    <!-- <md-icon class="pointer">account_circle</md-icon>
-    <md-icon *ngIf="gdrive_authorized" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon> -->
-
   </md-card-content>
-
-  <md-card-actions>
-  </md-card-actions>
-
 </md-card>
