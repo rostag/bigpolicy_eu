@@ -32,7 +32,7 @@
     <app-task-list [project]="project"></app-task-list>
     <!-- /Project Tasks -->
 
-    <p *ngIf="user.hasEditPermissions(project)" class="admin project-toolbar">
+    <p *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати</button></a>
       <!-- TODO Enable it -->
       <a href (click) = "deleteProject(project)"><button md-raised-button color="warn">Видалити проект</button></a>

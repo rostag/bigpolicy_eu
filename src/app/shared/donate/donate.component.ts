@@ -20,8 +20,8 @@ export class DonateComponent implements OnChanges {
   @Input() label = 'Підтримати:';
 
   donationFormHtml: SafeHtml = '';
-  private readyToDonate = false;
-  private donationsListVisible = false;
+  readyToDonate = false;
+  donationsListVisible = false;
 
   constructor(
     private sanitizer: DomSanitizer,

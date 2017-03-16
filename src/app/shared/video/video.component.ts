@@ -14,6 +14,7 @@ export class VideoComponent {
 
   @Input() placeholderUrl: string;
 
+  // FIXME_SEC
   // Main input, a media (video) url
   @Input()
   set videoUrl(url: string) {
@@ -36,9 +37,9 @@ export class VideoComponent {
     }
   };
 
+  youTubeId;
   safeMediaUrl;
   private thumbUrl;
-  private youTubeId;
 
   constructor( private sanitizer: DomSanitizer ) { }
 }

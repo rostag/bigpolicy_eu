@@ -18,7 +18,7 @@ Idea was validated on EGAP Hackaton Challenge with support of bright experts and
 
 #### Install Typescript and Angular CLI
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14. At the moment of this writing TS1.9 nightly build is needed in order to compile typescript due to [updates to Angular 2 Router](http://victorsavkin.com/post/145672529346/angular-router#comment-2723686096). Install it:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli). Typescript 2.0 is needed in order to compile  it:
 
 `npm install -g typescript@next`
 
@@ -59,7 +59,7 @@ mongod.exe --dbpath "path_to_bin_mongo_folder"
 This will show waiting for connections message on the console output, which indicates that the mongod.exe process is running successfully.
 14 OCTOBER 11:58
 
-#### Run Angular-CLI Server
+#### Run Angular CLI Server
 
 At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, node serves as web + mongodb. Run ng to build, telling it to watch and rebuild sources:
 
@@ -96,7 +96,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 ### Further help
 
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Use `ng --help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ### How to contribute?
 

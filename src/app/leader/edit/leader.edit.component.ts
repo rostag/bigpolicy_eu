@@ -1,8 +1,9 @@
 import { OnInit, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LeaderService, LeaderModel } from '../../shared/leader/index';
-import { UserService } from '../../shared/user/user.service';
+import { LeaderService, LeaderModel } from '../../shared/leader';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DriveService } from '../../shared/drive';
+import { UserService } from '../../shared/user';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -13,14 +14,15 @@ export class LeaderEditComponent implements OnInit {
 
   leader: LeaderModel = new LeaderModel();
 
-  private isUpdateMode = false;
+  isUpdateMode = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private leaderService: LeaderService,
     public userService: UserService,
-    public dialog: MdDialog
+    public dialog: MdDialog,
+    public driveService: DriveService
   ) {}
 
   /**
@@ -36,7 +38,7 @@ export class LeaderEditComponent implements OnInit {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('Leader Editor by ID from route params:', id);
+        // console.log('Leader Editor by ID from route params:', id);
 
         // TODO Test unauthorised user can't see the page
         if (id && this.userService.authenticated()) {
@@ -60,6 +62,7 @@ export class LeaderEditComponent implements OnInit {
   setLeader(data) {
     this.leader = new LeaderModel();
     this.leader.parseData(data);
+    this.driveService.checkConnection();
   }
 
   /**
@@ -72,6 +75,20 @@ export class LeaderEditComponent implements OnInit {
 
     this.router.navigate(['/leaders']);
     return false;
+  }
+
+  /**
+   * Prepares Leader's file list, received by event from file list editor, for saving.
+   */
+  onFileListUpdate(fileList: Array<any>) {
+    const files = [];
+    for (let i = 0; i < fileList.length; i++) {
+      files.push({
+        link: fileList[i].webViewLink,
+        name: fileList[i].name
+      });
+    }
+    this.leader.leaderFiles = files;
   }
 
   /**
@@ -122,6 +139,9 @@ export class LeaderEditComponent implements OnInit {
   }
 }
 
+/**
+  * Below is the dialog for FTUX's lazy registration, user authorisation request
+  */
 @Component({
   selector: 'app-dialog-result-example-dialog',
   template: `

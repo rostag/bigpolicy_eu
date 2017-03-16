@@ -16,15 +16,14 @@ export class TaskEditComponent implements OnInit {
   @Input() projectId = '';
   // @Input() project: ProjectModel;
 
-  private isUpdateMode = false;
+  isUpdateMode = false;
 
   task: TaskModel;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService,
-    private userService: UserService
+    private taskService: TaskService
   ) {
     this.task = new TaskModel();
   }

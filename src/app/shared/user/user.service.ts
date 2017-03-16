@@ -41,7 +41,6 @@ export class UserService {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
-    console.log('> User service construktor');
     this.leaderService.requestLeaderByEmail(this.getEmail());
 
     // Add callback for the Lock `authenticated` event
@@ -76,13 +75,10 @@ export class UserService {
   };
 
   public showStatus() {
-    console.log('User service – status:');
-    console.log('\tIs authenticated:', this.authenticated());
-    console.log('\tIs admin:', this.isAdmin());
-    console.log('\tHas leader:', this.hasLeader());
-    console.log('\tLeader:', this.leaderService.leader);
-    console.log('\tEmail:', this.getEmail());
-    console.log('\tSaved Leader Registration:', localStorage.getItem('BigPolicyLeaderRegistration'));
+    console.log('User service ', this.getEmail() );
+    console.log('\tIs authd:', this.authenticated(), ' Is admin:', this.isAdmin());
+    console.log('\tHas leader:', this.hasLeader(), '\tLeader:', this.leaderService.leader);
+    console.log('\tSaved registration:', localStorage.getItem('BigPolicyLeaderRegistration'));
   }
 
   /**
