@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
+import { CoreModule } from './core.module';
+// import { CommonModule } from '@angular/common';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -22,7 +24,6 @@ import { LeaderListComponent } from './leader/list/index';
 import { LeaderViewComponent } from './leader/view/index';
 
 import { ProfileComponent } from './shared/user/profile.component';
-import { LoginComponent } from './shared/login/login.component';
 import { AboutComponent } from './about/index';
 import { LandingComponent } from './landing/index';
 
@@ -30,7 +31,7 @@ import { routing } from './app.routes';
 
 // Services
 import { UserService } from './shared/user/user.service';
-import { LeaderService } from './shared/leader/leader.service';
+// import { LeaderService } from './shared/leader/leader.service';
 import { ProjectService } from './shared/project/project.service';
 import { TaskService } from './shared/task/task.service';
 import { ShareService } from './shared/sharer/share.service';
@@ -45,6 +46,9 @@ import { DonationsListComponent } from './shared/donate/list/donations.list.comp
 
 import { ForbiddenValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
+import { ContinueRegistrationDialogComponent } from './leader/edit';
+import { FilesEditComponent } from './shared/drive/files/files.edit.component';
+import { FilesViewComponent } from './shared/files/view/files.view.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +65,6 @@ import { VideoComponent } from './shared/video/video.component';
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
-    LoginComponent,
     AboutComponent,
     LandingComponent,
     SharerComponent,
@@ -69,25 +72,33 @@ import { VideoComponent } from './shared/video/video.component';
     DonationsListComponent,
     ForbiddenValidatorDirective,
     VideoComponent,
-    AppComponent
+    AppComponent,
+    ContinueRegistrationDialogComponent,
+    FilesEditComponent,
+    FilesViewComponent
   ],
   imports: [
     routing,
     BrowserModule,
     RouterModule,
     FormsModule,
-    MaterialModule.forRoot(),
-    HttpModule
+    MaterialModule,
+    HttpModule,
+    // CommonModule,
+    CoreModule // will provide service
   ],
   providers: [
     // MdIconRegistry,
     LoggedInGuard,
-    UserService,
-    LeaderService,
-    ProjectService,
-    TaskService,
+    // UserService,
+    // LeaderService,
+    // ProjectService,
+    // TaskService,
     ShareService,
     DonationService
+  ],
+  entryComponents: [
+    ContinueRegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

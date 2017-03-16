@@ -5,6 +5,9 @@ module.exports = function(app, DB){
 
   // Routes order is important
 
+  /**
+   * Creates a Leader
+   */
   router.post('/', function (req, res) {
       DB.createLeader(req.body)
       .catch(function (err) {
@@ -14,8 +17,11 @@ module.exports = function(app, DB){
       });
   })
 
+  /**
+   * Updates a Leader
+   */
   .put('/:id', function(req, res) {
-      DB.updateLeader(req.params.id,req.body)
+      DB.updateLeader(req.params.id, req.body)
       .then(function (data) {
           res.json(data);
       })
@@ -24,6 +30,9 @@ module.exports = function(app, DB){
   	});
   })
 
+  /**
+   * Deletes a Leader by ID
+   */
   .delete('/:id', function (req, res) {
       DB.deleteLeader(req.params.id)
       .then(function (data) {
@@ -42,6 +51,19 @@ module.exports = function(app, DB){
               res.json(data || []);
           });
       }
+  })
+
+  /**
+   * Gets the Leader by email, example:
+   * /leader-api/email/foo@bar.com
+   */
+  .get('/email/:email', function (req, res) {
+    if (req.params.email) {
+      DB.findLeaderByEmail(req.params.email)
+      .then(function (data) {
+        res.json(data);
+      });
+    }
   })
 
   /**
@@ -71,7 +93,6 @@ module.exports = function(app, DB){
           res.json(err);
       });
   });
-
 
   app.use('/leader-api', router);
 

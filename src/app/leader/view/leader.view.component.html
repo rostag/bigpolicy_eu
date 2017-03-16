@@ -1,9 +1,8 @@
 <md-card>
-
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
         <br />
-        
+
         <!-- FIXME
           <a href><md-icon>thumb_up</md-icon></a>
           <a href><md-icon>share</md-icon></a>
@@ -11,13 +10,13 @@
         -->
 
         <p>
-          <bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></bp-donate>
+          <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
         </p>
 
       </md-card-title>
 
       <!-- state="iframed.leader"  -->
-      <bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></bp-video>
+      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></app-bp-video>
 
     </md-card-title-group>
 
@@ -31,29 +30,29 @@
       <p>Аналітик, соціальний підприємець та консультант</p>
       <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
 
-      <!-- FIXME <h2>Документи:</h2>
-      <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
+      <app-files-view [files]="leader.leaderFiles"></app-files-view>
+
+      <!-- <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
 
-      <br />
-      <br />
-
       <!-- WIP -->
 
-      <md-card-title>
-        Проекти:
-      </md-card-title>
-      <md-card-content>
-        <project-list [leaderId]="leader._id">
-        </project-list>
-      </md-card-content>
+      <div *ngIf="leader.projects && leader.projects.length > 0">
+        <md-card-title>
+          Проекти:
+        </md-card-title>
+        <md-card-content>
+          <app-project-list [leaderId]="leader._id">
+          </app-project-list>
+        </md-card-content>
+      </div>
 
     </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="user.hasEditPermissions(leader)">
+    <p class="admin" *ngIf="userService.hasEditPermissions(leader)">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
     </p>

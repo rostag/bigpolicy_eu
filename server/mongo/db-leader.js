@@ -12,7 +12,19 @@ var Leader = require('./models/leader');
 
 DBLeader.getLeader = function(id) {
   var leader = Leader.findById(id, function (error, leader) {
-    if(leader){
+    if (leader) {
+      leader.projects = DBLeader.getLeaderProjects(leader.projects);
+    }
+  });
+  return leader;
+}
+
+DBLeader.findLeaderByEmail = function(email) {
+  var leader = Leader.findOne({ 'email': email }, function (err, leader) {
+    if (err) {
+      return handleError(err);
+    }
+    if (leader) {
       leader.projects = DBLeader.getLeaderProjects(leader.projects);
     }
   });
@@ -28,12 +40,11 @@ DBLeader.getLeaderProjects = function (projects) {
       // console.log('DBLeader: project found:', project);
     });
   }
-
   return projects;
 }
 
 DBLeader.listLeaders = function(id) {
-    return Leader.find()
+    return Leader.find();
     // .exec();
 }
 
@@ -48,7 +59,7 @@ DBLeader.createLeader = function(dataObj) {
     throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
   }
 
-  if(!data) data = {};
+  if ( !data ) data = {};
   const model = new Leader(data);
   var saved = model.save();
   var saved2 = model.save(saved);
@@ -61,7 +72,7 @@ DBLeader.updateLeader = function(id,data) {
     throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
   }
 
-  if(!data) data = {};
+  if ( !data ) data = {};
   return Leader.findById(id, function(err, model) {
     if(err || !model){
       return;
@@ -77,7 +88,7 @@ DBLeader.deleteLeader = function(id) {
     return Leader.findById(id).remove();
 }
 
-/* Leader API examples
+/* Leader API usage examples
 
 *** To get all leaders list -
 

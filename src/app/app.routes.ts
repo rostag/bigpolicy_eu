@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
-import { LoginComponent } from './shared/login/login.component';
 import { ProfileComponent } from '././shared/user/profile.component';
 
 import { AboutComponent } from './about/index';
@@ -43,7 +42,6 @@ export const routes: Routes = [
   // The guard is added as an array, multiple guards will be executed in a sequence
   // and only let the user see the page if all of them returns or resolves to true.
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
-  { path: 'login', component: LoginComponent },
 
   { path: 'about', component: AboutComponent },
   { path: '', component: LandingComponent }

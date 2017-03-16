@@ -5,10 +5,10 @@ import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'bp-donate',
+  selector: 'app-bp-donate',
   templateUrl: './donate.component.html',
   styleUrls: ['./donate.component.scss'],
-  providers: [DonationService, UserService]
+  providers: [DonationService]
 })
 
 export class DonateComponent implements OnChanges {
@@ -16,36 +16,36 @@ export class DonateComponent implements OnChanges {
   // FIXME Implement DonationTarget interface
   @Input() target: any;
   @Input() amount: number;
-  @Input() targetType: string = 'leader';
-  @Input() label: string = 'Підтримати:';
+  @Input() targetType = 'leader';
+  @Input() label = 'Підтримати:';
 
-  private donationFormHtml: SafeHtml = '';
-  private readyToDonate: boolean = false;
-  private donationsListVisible: boolean = false;
+  donationFormHtml: SafeHtml = '';
+  readyToDonate = false;
+  donationsListVisible = false;
 
   constructor(
     private sanitizer: DomSanitizer,
     private donationService: DonationService,
     private userService: UserService
-  ){}
+  ) {}
 
   /**
    * Populate target properties when it's ready from parent component
    */
-  ngOnChanges(changes){
-    if(changes.target) {
+  ngOnChanges(changes) {
+    if (changes.target) {
       //
     }
   }
 
-  private onDonateToggle() {
+  onDonateToggle() {
     console.log('onDonateToggle:', this.target, this.amount);
     this.target.totalDonationsReceived += this.amount;
     // FIXME implement order status check
     this.donationService.createDonation(this.getDonationModel())
       .subscribe((res) => {
-        var b = res['_body'];
-        var id = b.substring(1, b.length - 1);
+        const b = res['_body'];
+        const id = b.substring(1, b.length - 1);
         // TODO if not virtual transaction
         this.readyToDonate = !this.readyToDonate;
         this.getDonationForm(id);
@@ -55,24 +55,24 @@ export class DonateComponent implements OnChanges {
   }
 
   private getDonationModel() {
-    var d = new DonationModel();
-    var userProfile = this.userService.userProfile;
-    var donorName = userProfile && userProfile['name'] || 'Анонімний донор';
+    const d = new DonationModel();
+    const userProfile = this.userService.userProfile;
+    const donorName = userProfile && userProfile['name'] || 'Анонімний донор';
 
     // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
-    // FIXME Use real donor when logged in
-    d.donorId = userProfile && userProfile['email'] || 'Anonymous';
+    d.donorId = this.userService.getEmail() || 'Anonymous';
     d.amount = this.amount;
     d.dateStarted = new Date();
-    var wl = window.location;
+    const wl = window.location;
     d.server_url = wl.protocol + '//' + wl.host;
     d.result_url = wl.href;
     console.log('##server_url: ', d.server_url);
 
     if (this.targetType === 'leader') {
-      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName + '. Донор: ' + donorName + '. Дякуємо!';
+      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName +
+      '. Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'project') {
       d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'task') {
@@ -83,24 +83,24 @@ export class DonateComponent implements OnChanges {
   }
 
   private getDonationForm(_id) {
-    var model = this.getDonationModel();
+    const model = this.getDonationModel();
     model._id = _id;
     return this.donationService.requireSign(model)
       .map(res => {
         return res;
       })
       .subscribe((res) => {
-        var sgndta = res["_body"].split('-BGPLCXX-');
-        var formStr =
-        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" value="' +
-          sgndta[0] + '" /><input type="hidden" name="signature" value="' +
-          sgndta[1] + '" /><button md-raised-button color="accent">Переказати '+ this.amount +' UAH</button>' +
+        const sgndta = res['_body'].split('-BGPLCXX-');
+        const formStr =
+        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
+          'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' +
+          sgndta[1] + '" /><button md-raised-button color="accent">Переказати ' + this.amount + ' UAH</button>' +
         '</form>';
-        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr)
+        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr);
       });
   }
 
-  private onToggleDonationsList() {
+  onToggleDonationsList() {
     this.donationsListVisible = !this.donationsListVisible;
   }
 

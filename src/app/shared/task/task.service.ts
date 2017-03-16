@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import { TaskModel } from './task.model'
+import { TaskModel } from './task.model';
 
 /**
  * This class provides the TaskList service with methods to get and save tasks.
@@ -23,13 +23,13 @@ export class TaskService {
    * @param {TaskModel} model - The Task to create.
    */
   createTask(model: TaskModel): Observable<Response> {
-    var body: string = encodeURIComponent(model.toString());
-    let headers = new Headers();
+    const body: string = encodeURIComponent(model.toString());
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    let options = new RequestOptions({ headers: headers });
+    const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl, body, options)
-        .map(res => res.json())
+        .map(res => res.json());
   }
 
   // TODO: implement local cache
@@ -39,23 +39,19 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasks(taskId: string = '', projectId: string = ''): Observable<any> {
+  getTasks(taskId = '', projectId = ''): Observable<any> {
+    const requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : taskId);
 
-    var requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : taskId);
-
-    console.info('Task Service: get by', requestUrl);
-
-    var reponseObservable = this.http.get(requestUrl)
+    const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
-        let tasks = res.json();
+        const tasks = res.json();
         if (tasks.forEach) {
-          tasks.forEach(task => this.convertTime(task))
+          tasks.forEach(task => this.convertTime(task));
+        } else {
+          this.convertTime(tasks);
         }
-        else {
-          this.convertTime(tasks)
-        }
-        return tasks
-      })
+        return tasks;
+      });
       return reponseObservable;
   }
 
@@ -68,7 +64,7 @@ export class TaskService {
    * Get a model from DB or from cache.
    */
   getTask(taskId: string): Observable<Response> {
-    return this.getTasks(taskId)
+    return this.getTasks(taskId);
   }
 
   /**
@@ -76,12 +72,12 @@ export class TaskService {
    * @param TaskModel A Task to update
    */
   updateTask(model: TaskModel): Observable<Response> {
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
-        .map(res => res.json())
-        .catch(this.handleError)
+      .map(res => res.json())
+      .catch(this.handleError);
   }
 
   /**
@@ -96,7 +92,7 @@ export class TaskService {
   }
 
   private handleError(error: Response) {
-      console.error("Error occured:", error);
+      console.error('Error occured:', error);
       return Observable.throw(error.json().error || 'Server error');
   }
 }

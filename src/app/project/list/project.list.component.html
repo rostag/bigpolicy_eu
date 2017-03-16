@@ -1,4 +1,5 @@
 <md-list>
+  <!-- Usage: <app-project-list [leaderId]="123" [maxCount]="100"></app-project-list> -->
   <md-list-item *ngFor="let project of projects | async">
     <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
     <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
@@ -8,9 +9,30 @@
     <p md-line>
       <small>{{project.description}}</small>
     </p>
-    <p *ngIf="user.hasEditPermissions(project)" class="admin" style="min-width:4em;">
+    <p *ngIf="userService.hasEditPermissions(project)" class="admin" style="min-width:4em;">
       <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
       <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
     </p>
   </md-list-item>
+  <!-- TODO Also show Projects as Cards / Thumbs -->
+
+  <!--
+  <div *ngFor="let project of app.projects">
+    <md-card>
+      <md-card-header>
+        <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+        <md-card-title>{{project.title}}</md-card-title>
+        <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
+      </md-card-header>
+      <md-card-content>
+          {{project.description}}
+          <br/>
+          <br/>
+          <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
+      </md-card-content>
+      <md-card-actions>
+        <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
+      </md-card-actions>
+    </md-card>
+  </div> -->
 </md-list>

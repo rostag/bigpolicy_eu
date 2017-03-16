@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProjectModel, ProjectService } from '../../shared/project/index';
@@ -7,17 +7,16 @@ import { LeaderService } from '../../shared/leader/leader.service';
 
 @Component({
   templateUrl: './project.edit.component.html',
-  styleUrls: ['./project.edit.component.scss'],
-  providers: [ProjectService, LeaderService]
+  styleUrls: ['./project.edit.component.scss']
 })
 
-export class ProjectEditComponent {
+export class ProjectEditComponent implements OnInit {
 
   get showTasks(): boolean {
       return this.isUpdateMode;
   };
 
-  private isUpdateMode: boolean = false;
+  isUpdateMode = false;
 
   project: ProjectModel;
 
@@ -25,16 +24,9 @@ export class ProjectEditComponent {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private userService: UserService,
     private leaderService: LeaderService
   ) {
     this.project = new ProjectModel();
-  }
-
-  getLeader() {
-    var leader = this.leaderService.getLeaderByEmail(this.userService.userProfile['email']);
-    console.log('fousnd leader id: ', leader);
-    return leader;
   }
 
   /**
@@ -46,17 +38,17 @@ export class ProjectEditComponent {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        console.log('Project Editor by ID from route params:', id)
+        // console.log('Project Editor by ID from route params:', id)
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)
           .subscribe(
             data => {
-              this.setProject(data)
+              this.setProject(data);
             },
             err => console.error(err),
             () => {}
-          )
+          );
         }
       });
   }
@@ -65,7 +57,7 @@ export class ProjectEditComponent {
    * Project loading handler
    * @param {data} Loaded project data
    */
-  setProject(data){
+  setProject(data) {
     // Immutability
     this.project = new ProjectModel();
     this.project.parseData(data);
@@ -77,9 +69,9 @@ export class ProjectEditComponent {
    */
   private deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project)
+    this.projectService.deleteProject(project);
 
-    this.router.navigate(['/projects'])
+    this.router.navigate(['/projects']);
     return false;
   }
 
@@ -93,34 +85,37 @@ export class ProjectEditComponent {
       // Update existing project
       this.projectService.updateProject(this.project)
       .subscribe(
-        data => { this.gotoProject(data) },
-        err => (err) => console.error('Project update error: ', err),
+        data => { this.gotoProject(data); },
+        err => (er) => console.error('Project update error: ', er),
         () => {}
-      )
+      );
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      let leader = this.getLeader();
+      const leader = this.leaderService.leader;
+      if (!leader) {
+        return false;
+      }
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
       this.projectService.createProject(this.project)
       .subscribe(
-        data => { this.gotoProject(data) },
-        err => (err) => console.error('Project creation error: ', err),
+        data => { this.gotoProject(data); },
+        err => (er) => console.error('Project creation error: ', er),
         () => {}
-      )
+      );
     }
-    return false
+    return false;
   }
 
-  gotoProject(project){
-    var projectId = project._id
+  gotoProject(project) {
+    const projectId = project._id;
     if (projectId) {
-      console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId)
+      console.log('𝕱 𝕱 𝕱 Go to project by ID: ', projectId);
       this.router.navigate(['/project', projectId]).then(_ => {
-        //navigation is done
-      })
+        // navigation is done
+      });
     }
   }
 }

@@ -7,28 +7,29 @@
          проект
       </md-card-title>
 
-      <md-input required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input>
+      <md-input-container><input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input-container>
       <!-- Add a md-autosize directive to auto-extend functionality on input -->
-      <md-textarea required class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-textarea>
-      <!-- <md-input required [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input> -->
-      <md-input video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input>
+      <md-input-container><textarea mdInput required class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}">
 
-      <md-input required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" value="1" >
-       <span md-prefix>Який бюджет тобі на це потрібен?</span>
-       <span md-suffix>.00 </span>
-      </md-input>
+      </textarea></md-input-container>
+      <!-- <md-input-container><input mdInput required [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input-container> -->
+      <md-input-container><input mdInput video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input-container>
+
+      <md-input-container>
+        <input mdInput required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" value="1" mdPrefix="Який бюджет тобі на це потрібен?" mdSuffix=".00">
+      </md-input-container>
 
       <table style="width: 100%" cellspacing="0"><tr>
-       <td><md-input type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
-          <div md-prefix>Дата початку:&nbsp;</div>
-       </md-input></td>
-       <td><md-input type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
-          <div md-prefix>Дата завершення:&nbsp;</div>
-       </md-input></td>
+       <td><md-input-container><input mdInput type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
+          <div mdPrefix>Дата початку:&nbsp;</div>
+       </md-input-container></td>
+       <td><md-input-container><input mdInput type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
+          <div mdPrefix>Дата завершення:&nbsp;</div>
+       </md-input-container></td>
       </tr></table>
 
       <!-- Project Tasks -->
-      <task-list [project]="project" *ngIf="showTasks"></task-list>
+      <app-task-list [project]="project" *ngIf="showTasks"></app-task-list>
       <!-- /Project Tasks -->
 
     </md-card-content>

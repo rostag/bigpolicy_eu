@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'bp-video',
+  selector: 'app-bp-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss']
 })
@@ -10,17 +10,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class VideoComponent {
 
   // Unused at the moment, but will be needed for images alt text
-  @Input() title: string = '';
+  @Input() title = '';
 
   @Input() placeholderUrl: string;
 
+  // FIXME_SEC
   // Main input, a media (video) url
   @Input()
   set videoUrl(url: string) {
     if (url) {
       // Set YouTube ID
-      var match = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
-      this.youTubeId = (match && match[7].length == 11) ? match[7] : null;
+      const match = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
+      this.youTubeId = (match && match[7].length === 11) ? match[7] : null;
 
       // FIXME_SEC Set safe media URL
       this.safeMediaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -36,9 +37,9 @@ export class VideoComponent {
     }
   };
 
-  private safeMediaUrl;
+  youTubeId;
+  safeMediaUrl;
   private thumbUrl;
-  private youTubeId;
 
   constructor( private sanitizer: DomSanitizer ) { }
 }

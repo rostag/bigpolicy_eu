@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'bp-about',
+  selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['../../../assets/css/skeleton.css', './about.component.scss']
 })

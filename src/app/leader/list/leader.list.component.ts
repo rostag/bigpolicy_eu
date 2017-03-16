@@ -1,30 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
-  selector: 'leader-list',
+  selector: 'app-leader-list',
   templateUrl: './leader.list.component.html',
-  styleUrls: ['./leader.list.component.scss'],
-  providers: [LeaderService, UserService]
+  styleUrls: ['./leader.list.component.scss']
 })
 
-export class LeaderListComponent {
+export class LeaderListComponent implements OnInit {
 
-    private leadersUrl = '/leader-api/'
+    private leadersUrl = '/leader-api/';
 
-    private leaders = []
+    private leaders = [];
 
     constructor(
+      public userService: UserService,
       private http: Http,
-      private leaderService: LeaderService,
-      private user: UserService
+      private leaderService: LeaderService
     ) {}
 
     ngOnInit() {
-      this.getLeaders()
+      this.getLeaders();
     }
 
     getLeaders() {
@@ -38,16 +37,16 @@ export class LeaderListComponent {
 
     private setLeaders(data) {
       this.leaders = data;
-      return data
+      return data;
     }
 
-    private deleteLeader(leader: LeaderModel) {
+    deleteLeader(leader: LeaderModel) {
       // Delete from UI Model:
-      var leaderToRemoveIndex = this.leaders.indexOf(leader)
-      this.leaders.splice(leaderToRemoveIndex, 1)
+      const leaderToRemoveIndex = this.leaders.indexOf(leader);
+      this.leaders.splice(leaderToRemoveIndex, 1);
 
       // Delete from DB
-      this.leaderService.deleteLeader(leader)
+      this.leaderService.deleteLeader(leader);
       return false;
     }
 }

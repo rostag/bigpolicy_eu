@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 @Component({
-  selector: 'project-view',
+  selector: 'app-project-view',
   templateUrl: './project.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss'],
-  providers: [ProjectService, UserService]
+  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss']
 })
 
-export class ProjectViewComponent {
+export class ProjectViewComponent implements OnInit {
 
   project: ProjectModel = new ProjectModel();
 
@@ -18,11 +17,11 @@ export class ProjectViewComponent {
   * Dependency Injection: route (for reading params later)
   */
   constructor(
+    public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService,
-    private user: UserService
-  ){}
+    private projectService: ProjectService
+  ) {}
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -34,7 +33,7 @@ export class ProjectViewComponent {
       .subscribe((id) => {
         // console.log('View Project by ID from route params:', id)
         this.loadProject(id);
-      })
+      });
   }
 
   loadProject(id) {
@@ -42,11 +41,11 @@ export class ProjectViewComponent {
       this.projectService.getProject(id)
       .subscribe(
         data => {
-          this.setProject(data)
+          this.setProject(data);
         },
         err => console.error(err),
         () => {}
-      )
+      );
     }
   }
 
@@ -54,7 +53,7 @@ export class ProjectViewComponent {
    * Project loading handler
    * @param {data} Loaded project data
    */
-  setProject(data){
+  setProject(data) {
     // Immutability, explanation:
     // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
     this.project = new ProjectModel();
@@ -66,11 +65,11 @@ export class ProjectViewComponent {
    * Remove this project
    * @param {project} Project being viewed
    */
-  private deleteProject(project: ProjectModel) {
+  deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project)
+    this.projectService.deleteProject(project);
 
-    this.router.navigate(['/projects'])
+    this.router.navigate(['/projects']);
     return false;
   }
 

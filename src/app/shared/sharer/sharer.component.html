@@ -3,11 +3,11 @@
   <button *ngIf="!sharerIsVisible" md-raised-button color="accent">Поширити</button>
 </a>
 <!-- TODO уведення декількох адрес через кому -->
-<md-card class="share-card" [class.displayBlock]="sharerIsVisible"
+<md-card class="share-card" [class.display-block]="sharerIsVisible"
   [@visibilityChanged]="sharerIsVisible"
   >
 
-  <form #shareForm="ngForm" (ngSubmit)="onSubmit()" >
+  <form #shareForm="ngForm" >
 
     <div style="float:right;margin-top: -0.75em;margin-right: 0">
       <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
@@ -24,31 +24,31 @@
     <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
-    <md-input
+    <md-input-container><input mdInput
       [(ngModel)]="toEmail"
       name="toEmail"
       id="toEmail"
       class="wide bt-input"
       (blur)="handleInputBlur($event)"
       #toEmailElement
-      validateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+      appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
       <md-placeholder>
         Кому:
       </md-placeholder>
-    </md-input>
+    </md-input-container>
 
     <div *ngIf="formErrors.toEmail" class="alert alert-danger">
       {{ formErrors.toEmail }}
     </div>
 
-    <md-input
+    <md-input-container><input mdInput
       disabled
       [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
       class="wide bt-input">
       <md-placeholder>
         Тема:
       </md-placeholder>
-    </md-input>
+    </md-input-container>
 
 
     <div class="bp-textarea-wrapper">
@@ -64,7 +64,7 @@
       </textarea>
     </div>
 
-    <md-input
+    <md-input-container><input mdInput
       [(ngModel)]="videoUrl"
       id="videoUrl"
       name="videoUrl"
@@ -72,7 +72,7 @@
       <md-placeholder>
         Відео (посилання):
       </md-placeholder>
-    </md-input>
+    </md-input-container>
   </form>
 
   <md-card-content *ngIf="showEmailPreview" class="email-preview">

@@ -4,10 +4,9 @@ import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'bp-sharer',
+  selector: 'app-bp-sharer',
   templateUrl: './sharer.component.html',
-  styleUrls: ['./sharer.component.css'],
-  providers: [ShareService],
+  styleUrls: ['./sharer.component.scss'],
   animations: [
     trigger('visibilityChanged', [
       state('true' , style({ opacity: 1 })),
@@ -15,29 +14,41 @@ import { NgForm } from '@angular/forms';
       transition('1 => 0', animate('600ms')),
       transition('0 => 1', animate('400ms'))
     ])
-  ]
+  ],
+  providers: [ShareService]
 })
 
 // TODO: Add subject generator
 
-export class SharerComponent {
+export class SharerComponent implements AfterViewChecked {
 
-  @Input() sharerIsVisible: boolean = false;
+  @Input() sharerIsVisible = false;
 
   @Input() project: ProjectModel;
 
   formStatus = '';
-  emailSent: boolean = false;
+  emailSent = false;
   emailSendError;
 
   toEmail: string;
-  textToReader: string = 'Друже, хочу поділитися з тобою своїм задумом: ';
+  textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
-  showEmailPreview: boolean = true;
-  showHtmlPreview: boolean = false;
+  showEmailPreview = true;
+  showHtmlPreview = false;
 
   shareForm: NgForm;
   @ViewChild('shareForm') currentForm: NgForm;
+
+  formErrors = {
+    'toEmail': ''
+  };
+
+  validationMessages = {
+    'toEmail': {
+      'required': 'Будь ласка, заповніть поле',
+      'validateEmail': 'Будь ласка, уведіть коректну адресу'
+    }
+  };
 
   // Model to be shared.
   // Here, the videoUrl may be overridden before share:
@@ -47,9 +58,9 @@ export class SharerComponent {
     subject: '',
     html: '',
     videoUrl: ''
-  }
+  };
 
-  getFormState(stateName){
+  getFormState(stateName) {
     return this.formStatus === stateName;
   }
 
@@ -66,38 +77,33 @@ export class SharerComponent {
    }
   }
 
-  handleInputBlur(e){
+  handleInputBlur(e) {
     this.onValueChanged(e);
   }
 
   onValueChanged(data?: any) {
-   if (!this.shareForm) { return; }
+   if (!this.shareForm) {
+     return;
+   }
    const form = this.shareForm.form;
 
    for (const field in this.formErrors) {
-     // clear previous error message (if any)
-     this.formErrors[field] = '';
-     const control = form.get(field);
+     if (this.formErrors.hasOwnProperty(field)) {
+       // clear previous error message (if any)
+       this.formErrors[field] = '';
+       const control = form.get(field);
 
-     if (control && (control.dirty || control.touched) && !control.valid) {
-       const messages = this.validationMessages[field];
-       for (const key in control.errors) {
-         this.formErrors[field] += messages[key] + ' ';
+       if (control && (control.dirty || control.touched) && !control.valid) {
+         const messages = this.validationMessages[field];
+         for (const key in control.errors) {
+           if (control.errors.hasOwnProperty(key)) {
+             this.formErrors[field] += messages[key] + ' ';
+           }
+         }
        }
      }
    }
   }
-
-  formErrors = {
-    'toEmail': ''
-  };
-
-  validationMessages = {
-    'toEmail': {
-      'required': 'Будь ласка, заповніть поле',
-      'validateEmail': 'Будь ласка, уведіть коректну адресу'
-    }
-  };
 
   constructor(
     private shareService: ShareService
@@ -108,7 +114,7 @@ export class SharerComponent {
    */
   get videoUrl(): string {
     // FIXME it's called too often
-    return this.emailToShare.videoUrl || this.project.videoUrl || ''
+    return this.emailToShare.videoUrl || this.project.videoUrl || '';
   };
 
   set videoUrl(url: string) {
@@ -116,14 +122,14 @@ export class SharerComponent {
   };
 
   get emailSubject(): string {
-    return 'Проект "' + this.project.title + '" - BigPolicy'
+    return 'Проект "' + this.project.title + '" - BigPolicy';
   }
 
   /**
    * Share this project
    * @param {project} Project being viewed
    */
-  private shareItem() {
+  shareItem() {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -141,11 +147,11 @@ export class SharerComponent {
       .subscribe(
         data => {
           this.formStatus = 'emailSent';
-          console.log('Project Shared', data)
+          console.log('Project Shared', data);
         },
-        err => (err) => {
+        err => (er) => {
           this.formStatus = 'emailSendError';
-          console.error('Project creation error: ', err)
+          console.error('Project creation error: ', er);
         },
         () => {}
       );
@@ -156,7 +162,7 @@ export class SharerComponent {
   /**
    * Populate email properties on project before share or preview;
    */
-  private get emailHtml() {
+  get emailHtml() {
     return  this.textToReader
             + `<h1 align="center" class="emailH1">
             `
@@ -183,28 +189,22 @@ export class SharerComponent {
             <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
-  private autoExpand(e) {
+  autoExpand(e) {
+    // FIXME Replace with ng2 auto-expand
     console.log('auto expa: ', e);
 
-    var textField = typeof e === 'object' ? e.target : document.getElementById(e);
+    const textField = typeof e === 'object' ? e.target : document.getElementById(e);
 
-    if (textField.clientHeight < textField.scrollHeight)
-    {
-      textField.style.height = textField.scrollHeight + "px";
-      if (textField.clientHeight < textField.scrollHeight)
-      {
+    if (textField.clientHeight < textField.scrollHeight) {
+      textField.style.height = textField.scrollHeight + 'px';
+      if (textField.clientHeight < textField.scrollHeight) {
         textField.style.height =
-          (textField.scrollHeight * 2 - textField.clientHeight) + "px";
+          (textField.scrollHeight * 2 - textField.clientHeight) + 'px';
       }
     }
-
-    // text.field.innerHt
-
-		// var scrollHeight = element.scrollHeight - 1; // replace 1 by the sum of padding-top and padding-bottom
-    // element.style.height =  scrollHeight + "px";
   };
 
-  private showSharer() {
+  showSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
     return false;
   }
@@ -214,7 +214,7 @@ export class SharerComponent {
     return false;
   }
 
-  private toggleHtmlPreview() {
+  toggleHtmlPreview() {
     this.showHtmlPreview = !this.showHtmlPreview;
     return false;
   }

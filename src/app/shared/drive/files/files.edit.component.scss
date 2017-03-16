@@ -1,0 +1,47 @@
+:host {
+  padding: 1em;
+}
+
+.files-card {
+  margin-top: 2em;
+}
+
+.files-card-content {
+  margin-bottom: 0;
+}
+
+.file-list {
+  margin-bottom: 1em;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .file-icon {
+    margin-right: .25em;
+  }
+
+}
+
+.gdrive-invitation {
+  padding: 3em 2em 1em;
+  text-align: center;
+}
+
+.signout-link {
+  float: right;
+  font-size: .85em;
+  text-align: right;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
