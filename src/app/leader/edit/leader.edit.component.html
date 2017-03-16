@@ -38,8 +38,8 @@
         </div>
 
         <!-- User should only be able to edit his own files, thus matching his email in gdrive -->
-        <app-bp-files *ngIf="userService.isOwner(leader)" [userService]="userService"></app-bp-files>
-        <app-files-view  *ngIf="!userService.isOwner(leader)" [files]="leader.leaderFiles"></app-files-view>
+        <app-bp-files *ngIf="userService.isOwner(leader)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
+        <app-files-view  *ngIf="!userService.isOwner(leader)" [files]="leader.leaderFiles" ></app-files-view>
 
       </md-card-content>
 

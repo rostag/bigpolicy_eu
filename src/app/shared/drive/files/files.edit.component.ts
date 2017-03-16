@@ -5,8 +5,9 @@
 // TODO Implement file deletion via UI
 // FIXME Check on file list refresh — now, trashed files are still visible
 
-import { Component, OnInit, AfterViewInit, ViewChild, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
+import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
+         ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-bp-files',
@@ -18,24 +19,20 @@ import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 export class FilesEditComponent implements AfterViewInit {
 
   savedSignInUserInfo: gapi.auth2.GoogleUser = null;
+  gdrive_authorized = false;
 
   fileToUpload = null;
   fileToUploadName = '';
   folderForUploads = null;
   uploadInProgress = false;
-
-  gdrive_authorized = false;
-
-  files = [];
-
-  @ViewChild('fileInput') fileInput;
+  fileList = [];
 
   // TODO Parse user to get his GoogleDrive
   @Input() userService;
+  @Output() onFileListUpdate = new EventEmitter<Array<any>>();
+  @ViewChild('fileInput') fileInput;
 
-  constructor(
-    private ref: ChangeDetectorRef
-  ) {}
+  constructor( private ref: ChangeDetectorRef ) {}
 
   /**
    * On load, called to load the auth2 library and API client library.
@@ -46,7 +43,8 @@ export class FilesEditComponent implements AfterViewInit {
   }
 
   private updateFilesList(files: Array<any>) {
-    this.files = files;
+    this.fileList = files;
+    this.onFileListUpdate.emit(this.fileList);
     this.updateUIOnChange();
   }
 
@@ -276,7 +274,6 @@ export class FilesEditComponent implements AfterViewInit {
   listFiles() {
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
-      // resp.files[0]
       'pageSize': 7,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
     }).then((response) => {

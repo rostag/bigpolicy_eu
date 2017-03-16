@@ -13,8 +13,8 @@
     <md-list class="file-list">
       <md-list-item *ngFor="let file of files">
         <!-- TODO File link should open document preview -->
-        <md-icon color="warn" title="{{file.title}}" class="file-icon">insert_drive_file</md-icon>
-        <a href="{{file.link}}" title="{{file.title}}" target="_blank">{{file.name}}</a>
+        <md-icon color="warn" title="{{file.name}}" class="file-icon">insert_drive_file</md-icon>
+        <a href="{{file.link}}" title="{{file.name}}" target="_blank">{{file.name}}</a>
       </md-list-item>
     </md-list>
 

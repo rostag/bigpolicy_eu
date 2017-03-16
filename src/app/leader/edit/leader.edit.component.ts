@@ -78,26 +78,25 @@ export class LeaderEditComponent implements OnInit {
   }
 
   /**
+   * Prepares Leader's file list, received by event from file list editor, for saving.
+   */
+  onFileListUpdate(fileList: Array<any>) {
+    const files = [];
+    for (let i = 0; i < fileList.length; i++) {
+      files.push({
+        link: fileList[i].webViewLink,
+        name: fileList[i].name
+      });
+    }
+    this.leader.leaderFiles = files;
+  }
+
+  /**
    * Saves new or edited leader by asking one of two service methods for DB.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   // FIXME: Complete Leader processing
   onSaveLeaderClick(): boolean {
-    // FIXME - Dummy test for leader's files saving
-    const files = [];
-    const links = ['http://goo.com/1/file.txt', 'http://foobar.com/2/file.html' ];
-    const titles = ['Text File', 'HTML File' ];
-    for (let i = 0; i < links.length; i++) {
-      const file = {
-        link: links[i],
-        title: titles[i],
-        name: titles[i]
-      };
-      files.push(file);
-    }
-    this.leader.leaderFiles = files;
-    console.log('Leader files to save:', this.leader.leaderFiles);
-
     if (this.isUpdateMode) {
       // Update existing leader:
       this.leaderService.updateLeader(this.leader)
@@ -140,6 +139,9 @@ export class LeaderEditComponent implements OnInit {
   }
 }
 
+/**
+  * Below is the dialog for FTUX's lazy registration, user authorisation request
+  */
 @Component({
   selector: 'app-dialog-result-example-dialog',
   template: `
