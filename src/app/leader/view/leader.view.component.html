@@ -1,5 +1,4 @@
 <md-card>
-
     <md-card-title-group>
       <md-card-title>{{leader.name}} {{leader.surName}}
         <br />
@@ -31,19 +30,16 @@
       <p>Аналітик, соціальний підприємець та консультант</p>
       <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
 
-      <app-bp-files [user]="user"></app-bp-files>
+      <app-files-view [files]="leader.leaderFiles"></app-files-view>
 
       <!-- <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
 
-      <br />
-      <br />
-
       <!-- WIP -->
 
-      <div>
+      <div *ngIf="leader.projects && leader.projects.length > 0">
         <md-card-title>
           Проекти:
         </md-card-title>
@@ -56,7 +52,7 @@
     </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="user.hasEditPermissions(leader)">
+    <p class="admin" *ngIf="userService.hasEditPermissions(leader)">
       <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
       <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
     </p>

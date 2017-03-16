@@ -17,10 +17,10 @@ export class ProjectViewComponent implements OnInit {
   * Dependency Injection: route (for reading params later)
   */
   constructor(
+    public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService,
-    private user: UserService
+    private projectService: ProjectService
   ) {}
 
   /**

@@ -19,7 +19,7 @@ export class ProjectListComponent implements OnChanges {
 
   private projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
-  private isAddingTaskMode = false;
+  isAddingTaskMode = false;
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ) {
@@ -30,8 +30,8 @@ export class ProjectListComponent implements OnChanges {
   }
 
   constructor(
+    public userService: UserService,
     private projectService: ProjectService,
-    private user: UserService,
     private http: Http
   ) {}
 

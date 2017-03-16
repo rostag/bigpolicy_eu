@@ -2,47 +2,59 @@
 /// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
 /// <reference path="./google-drive-api.d.ts"/>
 
-import { Component, OnInit, AfterViewInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+// TODO Implement file deletion via UI
+// FIXME Check on file list refresh — now, trashed files are still visible
+
 import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
+import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
+         ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-bp-files',
-  templateUrl: './files.component.html',
-  styleUrls: ['./files.component.css'],
+  templateUrl: './files.edit.component.html',
+  styleUrls: ['./files.edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FilesComponent implements AfterViewInit {
+export class FilesEditComponent implements AfterViewInit {
 
   savedSignInUserInfo: gapi.auth2.GoogleUser = null;
+  gdrive_authorized = false;
 
   fileToUpload = null;
   fileToUploadName = '';
   folderForUploads = null;
-
-  gdrive_authorize = true;
-  gdrive_signout = false;
-
-  files = [];
+  uploadInProgress = false;
+  fileList = [];
 
   // TODO Parse user to get his GoogleDrive
-  @Input() user;
+  @Input() userService;
+  @Output() onFileListUpdate = new EventEmitter<Array<any>>();
+  @ViewChild('fileInput') fileInput;
 
-  constructor(
-    private ref: ChangeDetectorRef
-  ) {}
+  constructor( private ref: ChangeDetectorRef ) {}
 
   /**
-    *  On load, called to load the auth2 library and API client library.
-    */
+   * On load, called to load the auth2 library and API client library.
+   */
   ngAfterViewInit() {
-    console.log('user:', this.user);
+    console.log('BP User:', this.userService);
     gapi.load('client:auth2', () => { this.initClient(this); });
   }
 
+  private updateFilesList(files: Array<any>) {
+    this.fileList = files;
+    this.onFileListUpdate.emit(this.fileList);
+    this.updateUIOnChange();
+  }
+
+  private updateUIOnChange() {
+    this.ref.markForCheck();
+    this.ref.detectChanges();
+  }
+
   /**
-   *  Initializes the API client library and sets up sign-in state
-   *  listeners.
+   *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
   initClient(that) {
     // FIXME_SEC
@@ -78,16 +90,15 @@ export class FilesComponent implements AfterViewInit {
    *  appropriately. After a sign-in, the API is called.
    */
   updateSigninStatus(isSignedIn) {
+    this.gdrive_authorized = isSignedIn;
     if (isSignedIn) {
-      this.gdrive_authorize = false;
-      this.gdrive_signout = true;
       this.savedSignInUserInfo = gapi.auth2.getAuthInstance().currentUser.get();
       this.getFiles();
     } else {
-      this.gdrive_authorize = true;
-      this.gdrive_signout = false;
+      console.log('All the saints are signed out');
+      this.updateFilesList([{}]);
     }
-    console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
+    // console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
 
   /**
@@ -96,21 +107,27 @@ export class FilesComponent implements AfterViewInit {
   handleAuthClick(event) {
     console.log('All the saints are signing in');
     gapi.auth2.getAuthInstance().signIn();
+    return false;
   }
 
   /**
    *  Sign out the user upon button click.
    */
   handleSignoutClick(event) {
+    console.log('All the saints are signing out');
     gapi.auth2.getAuthInstance().signOut();
-  }
-
-  handleAddFileClick(event) {
-    this.initUpload();
     return false;
   }
 
-  handleUploadFilenameChange(evt, a, b) {
+  // ---------------------------------------------------------------------------
+  // Uploading User's files
+  // ---------------------------------------------------------------------------
+
+  handleSelectFileClick() {
+    this.fileInput.nativeElement.click();
+  }
+
+  handleUploadFilenameChange(evt) {
     const fullPath = evt.target.value;
     if (fullPath) {
       const startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
@@ -120,7 +137,13 @@ export class FilesComponent implements AfterViewInit {
       }
       this.fileToUpload = evt.target.files[0];
       this.fileToUploadName = filename;
+      this.updateUIOnChange();
     }
+  }
+
+  handleUploadFileClick(event) {
+    this.initUpload();
+    return false;
   }
 
   /**
@@ -130,12 +153,15 @@ export class FilesComponent implements AfterViewInit {
     const self = this;
     const xhr = new XMLHttpRequest();
     const file = this.fileToUpload;
+    this.uploadInProgress = true;
+    this.updateUIOnChange();
 
+    // FIXME Add description
     const metadata = {
       'name': file.name,
       'title': file.name,
       'mimeType': file.type,
-      'description': 'Stuff about the file',
+      'description': 'This file was uploaded via BigPolicy',
       parents: [ this.folderForUploads.id ]
     };
 
@@ -149,15 +175,57 @@ export class FilesComponent implements AfterViewInit {
       const resp = JSON.parse(e.target.response);
       this.sendFile(resp.id);
     };
-    xhr.onerror = (err) => console.log('upload error:', err);
+    xhr.onerror = (err) => console.log('Upload error:', err);
     xhr.send(JSON.stringify(metadata));
   };
 
+  /**
+   * Send the actual file content.
+   *
+   * @private
+   */
+  sendFile(fileId) {
+    this.fileToUpload.id = fileId;
+    const content = this.fileToUpload;
+    const end = this.fileToUpload.size;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('PATCH', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId, true);
+    xhr.setRequestHeader('Content-Type', this.fileToUpload.type);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
+    xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
+    xhr.onload = (res) => this.onFileUploadComplete();
+    xhr.onerror = (err) => console.log('Upload error:', err);
+    xhr.send(content);
+  };
+
+  onFileUploadComplete() {
+    this.fileToUpload = null;
+    this.fileToUploadName = '';
+    this.uploadInProgress = false;
+    this.listFiles();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Listing User's files
+  // ---------------------------------------------------------------------------
+
   getFiles() {
+    const preloaderFile = {
+      id: '',
+      webViewLink: '',
+      title: 'Завантажую список файлів...',
+      name: 'Завантажую список файлів...'
+    };
+
+    this.updateFilesList([preloaderFile]);
+
     this.getFolder();
   }
 
-  // 'BigPolicy Files'
+  /**
+   * Gets the 'BigPolicy Files' folder for given user or creates if there's no such folder
+   */
   getFolder() {
     const folderMetadata = {
       q: 'name = "BigPolicy Files"',
@@ -165,7 +233,7 @@ export class FilesComponent implements AfterViewInit {
       // pageToken: pageToken
     };
 
-    console.log('Get folder:', folderMetadata);
+    // console.log('Get folder:', folderMetadata);
 
     gapi.client.drive.files.list(folderMetadata)
       .execute((resp, raw_resp) => {
@@ -176,14 +244,13 @@ export class FilesComponent implements AfterViewInit {
         }
         this.initFolder(folder);
       });
+  }
 
-    }
-
-    initFolder(folder) {
-      this.folderForUploads = folder;
-      console.log('GOT Folder Id: ', this.folderForUploads);
-      this.listFiles();
-    }
+  initFolder(folder) {
+    this.folderForUploads = folder;
+    console.log('Got Folder Id: ', this.folderForUploads);
+    this.listFiles();
+  }
 
   createFolder() {
     const fileMetadata = {
@@ -202,66 +269,23 @@ export class FilesComponent implements AfterViewInit {
   }
 
   /**
-   * Send the actual file content.
-   *
-   * @private
-   */
-  sendFile(fileId) {
-    this.fileToUpload.id = fileId;
-    const content = this.fileToUpload;
-    const end = this.fileToUpload.size;
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('PATCH', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId, true);
-    xhr.setRequestHeader('Content-Type', this.fileToUpload.type);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
-    xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
-    xhr.onload = (res) => this.listFiles();
-    xhr.onerror = (err) => console.log('upload error:', err);
-    xhr.send(content);
-  };
-
-  /**
    * Create a list of files loaded from gdrive.
    */
   listFiles() {
-    this.files = [];
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
-      // resp.files[0]
       'pageSize': 7,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
     }).then((response) => {
-      const files = response.result.files;
-      if (files && files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          this.files.push(file);
+      const files = [];
+      const responseFiles = response.result.files;
+      if (responseFiles && responseFiles.length > 0) {
+        for (let i = 0; i < responseFiles.length; i++) {
+          const file = responseFiles[i];
+          files.push(file);
         }
-        this.ref.markForCheck();
-        this.ref.detectChanges();
+        this.updateFilesList(files);
       }
     });
-  }
-
-  // WIP
-  updateFiles() {
-    const fileId = this.fileToUpload.id;
-  //   const fileId = '1sTWaJ_j7PkjzaBWtNc3IzovK5hQf21FbOw9yLeeLPNQ';
-  //   const folderId = '0BwwA4oUTeiV1TGRPeTVjaWRDY1E';
-  //   // Move the file to the new folder
-  //   // const previousParents = file.parents.join(',');
-  //   gapi.client.drive.files.update({
-  //     fileId: fileId,
-  //     addParents: folderId,
-  //     // removeParents: previousParents,
-  //     fields: 'id, parents'
-  //   }, (err, file) => {
-  //     if (err) {
-  //       // Handle error
-  //     } else {
-  //       // File moved.
-  //     }
-  //   });
   }
 }

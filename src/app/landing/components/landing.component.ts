@@ -20,9 +20,9 @@ export class LandingComponent implements OnInit {
   };
 
   constructor(
+    public userService: UserService,
     private projectService: ProjectService,
-    private leaderService: LeaderService,
-    private userService: UserService
+    private leaderService: LeaderService
   ) {}
 
   ngOnInit() {

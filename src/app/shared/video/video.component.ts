@@ -37,9 +37,9 @@ export class VideoComponent {
     }
   };
 
+  youTubeId;
   safeMediaUrl;
   private thumbUrl;
-  private youTubeId;
 
   constructor( private sanitizer: DomSanitizer ) { }
 }

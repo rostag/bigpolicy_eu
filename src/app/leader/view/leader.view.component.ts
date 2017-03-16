@@ -17,10 +17,10 @@ export class LeaderViewComponent implements OnInit {
    * Dependency Injection: route (for reading params later)
    */
   constructor(
+    public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leaderService: LeaderService,
-    private user: UserService
+    private leaderService: LeaderService
   ) {}
 
   /**

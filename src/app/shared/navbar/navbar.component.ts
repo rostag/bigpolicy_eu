@@ -17,8 +17,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    public leaderService: LeaderService,
-    private userService: UserService
+    public userService: UserService,
+    public leaderService: LeaderService
   ) {}
 
   ngOnInit() {

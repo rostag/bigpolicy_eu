@@ -1,2 +1,15 @@
 .leaders-list {
+  md-card-title {
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.leader-card {
+  margin-bottom: 1em;
 }
