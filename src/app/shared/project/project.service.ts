@@ -64,7 +64,7 @@ export class ProjectService {
         } else {
           this.convertTime(projects);
         }
-        console.log('Projects loaded, response: ', projects);
+        // console.log('Projects loaded, response: ', projects);
         return projects;
       });
     return reponseObservable;
