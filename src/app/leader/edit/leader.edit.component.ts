@@ -70,7 +70,7 @@ export class LeaderEditComponent implements OnInit {
    * @param {leader} Leader being viewed
    */
   deleteLeader(leader: LeaderModel) {
-    // Delete from DB
+    // Delete Leader from DB
     this.leaderService.deleteLeader(leader);
 
     this.router.navigate(['/leaders']);

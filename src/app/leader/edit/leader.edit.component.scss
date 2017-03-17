@@ -1,19 +1,25 @@
 .leader-edit-card {
   padding: 0;
+
+  md-card-content {
+    padding: 24px;
+  }
 }
 
-.leader-edit-card md-card-content {
-  padding: 24px;
-}
-
-.grid {
-  border-style: solid;
-}
-
-.one {
-  width: 30%;
-}
-
-input, textarea {
+md-input-container,
+input,
+textarea {
   width: 100%;
+}
+
+.leader-edit-basic-details {
+  height: 160px;
+}
+
+.problem-statement {
+  // margin-top: 100px;
+}
+
+.leader-names-input {
+  margin: -1em 3em 0;
 }

@@ -24,7 +24,8 @@
     <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
-    <md-input-container><input mdInput
+    <md-input-container>
+      <input mdInput
       [(ngModel)]="toEmail"
       name="toEmail"
       id="toEmail"

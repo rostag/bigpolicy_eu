@@ -1,4 +1,34 @@
-.project-edit-card input,
-.project-edit-card textarea {
+input,
+textarea,
+md-input-container {
   width: 100%;
+}
+
+.cost-and-dates {
+  align-items: flex-end;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+
+  * {
+    line-height: 1.5;
+  }
+
+  md-icon {
+    font-size: 1.3em;
+    vertical-align: bottom;
+  }
+}
+
+.cost {
+  width: 24%;
+
+  input {
+    text-align: right;
+  }
+}
+
+.dates {
+  margin-left: 2%;
+  width: 36%;
 }
