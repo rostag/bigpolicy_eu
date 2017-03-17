@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit,
+  ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
+import { MdTextareaAutosize } from '@angular/material';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -20,7 +22,7 @@ import { NgForm } from '@angular/forms';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements AfterViewChecked, OnInit {
+export class SharerComponent implements AfterViewChecked, AfterViewInit {
 
   @Input() sharerIsVisible = false;
 
@@ -31,7 +33,7 @@ export class SharerComponent implements AfterViewChecked, OnInit {
   emailSendError;
 
   toEmail: string;
-  textToReader: string;
+  textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
   showEmailPreview = true;
   showHtmlPreview = false;
@@ -39,6 +41,9 @@ export class SharerComponent implements AfterViewChecked, OnInit {
   shareForm: NgForm;
 
   @ViewChild('shareForm') currentForm: NgForm;
+
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  @ViewChild(MdTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -64,8 +69,9 @@ export class SharerComponent implements AfterViewChecked, OnInit {
     private shareService: ShareService
   ) {}
 
-  ngOnInit() {
-    this.textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  ngAfterViewInit() {
+    this.resizableTextArea.element.nativeElement.style.height = 'auto';
   }
 
   ngAfterViewChecked() {
@@ -195,11 +201,6 @@ export class SharerComponent implements AfterViewChecked, OnInit {
 
   showSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
-    return false;
-  }
-
-  private toggleEmailPreview() {
-    this.showEmailPreview = !this.showEmailPreview;
     return false;
   }
 

@@ -53,8 +53,9 @@
     <md-input-container class="wide">
       <md-placeholder>Текст:</md-placeholder>
       <textarea mdInput mdTextareaAutosize class="mailtext"
-        [(ngModel)]="textToReader" id="textToReader" name="textToReader">
-        {{textToReader}}
+        [(ngModel)]="textToReader" id="textToReader" name="textToReader"
+        #resizableTextArea
+        >
       </textarea>
     </md-input-container>
 
