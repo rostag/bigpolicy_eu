@@ -7,33 +7,37 @@
     </md-card-title>
 
       <!--LOGO OF LEADER-->
+
+      <!-- FIXME Make Mobile-friendly -->
       <md-card-content>
-        <md-card-header>
-          <button md-mini-fab  class="md-24" >
+        <md-card-header class="leader-edit-basic-details">
+          <button md-mini-fab class="md-24" >
             <md-icon color="white">file_upload</md-icon>
           </button>
           <img md-card-md-image src="assets/img/avatar-generic.png">
-          <p style="margin:-1em 3em 0 1em;">
+          <div class="leader-names-input">
             <md-input-container><input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input-container>
             <md-input-container><input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input-container>
             <!-- TODO: Use existing video control to auto-extend functionality on input -->
-            <md-input-container><input mdInput video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input-container>
-          </p>
+            <md-input-container hintLabel="Посилання на відео YouTube" ><input mdInput video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" ></md-input-container>
+          </div>
         </md-card-header>
 
-        <div style="margin-top:100px;">
+        <div class="problem-statement">
 
-        <h3>Як виглядає проблема для тебе?</h3>
+          <h3>Як виглядає проблема для тебе?</h3>
 
-          <md-input-container><textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.vision" placeholder="Твоя особиста візія і думки" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}">
-
-          </textarea></md-input-container>
+          <md-input-container>
+            <textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.vision" placeholder="Твоя особиста візія і думки" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}">
+            </textarea>
+          </md-input-container>
 
           <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
-          <md-input-container><textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.mission" placeholder="Твоя місія" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}" >
-
-          </textarea></md-input-container>
+          <md-input-container>
+            <textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.mission" placeholder="Твоя місія" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}" >
+            </textarea>
+          </md-input-container>
 
         </div>
 
@@ -138,9 +142,9 @@
     -->
 
     <md-toolbar class="add-toolbar" color="#fff">
-      <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button>
-      <span class="add-fill-remaining"></span>
       <button md-raised-button color="primary" type="submit" (click)="onSaveLeaderClick()">Готово</button>
+      <!-- <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button> -->
+      <span class="add-fill-remaining"></span>
       <button md-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leader)">Видалити</button>
     </md-toolbar>
 

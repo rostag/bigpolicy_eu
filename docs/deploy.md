@@ -81,4 +81,15 @@ This will start deployment process on OS app after push and application will be 
 *2. Error:* 'Not found' on the main page.
 *Cause, Root cause, Solution, Final Solution:* The same as in #1
 
+### Recent deploy notes
+
+remote: ┌─────────────────────────────────────────────────────────────────────────────────────────┐
+remote: │                                 npm update check failed                                 │
+remote: │                           Try running with sudo or get access                           │
+remote: │                          to the local update config store via                           │
+remote: │ sudo chown -R $USER:$(id -gn $USER) /var/lib/openshift/57add04f7628e19d630000f8/.config │
+remote: └─────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
 ### Questions? Ask @rostag
