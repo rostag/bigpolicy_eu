@@ -22,11 +22,12 @@ $cred: #0f0;
   z-index: 100;
 }
 
+// For toggling the sharer
 .display-block {
   display: block;
 }
 
-.share-show {
+.show-sharer-button {
   position: absolute;
   right: 2em;
   z-index: 120;
@@ -40,23 +41,16 @@ h2 {
   margin: .5em 0 .25em;
 }
 
+h3 {
+  border-bottom: dotted 1px $lgray;
+  border-top: dotted 9px $lgray;
+  margin-bottom: 2em;
+  padding: 1em 0;
+}
+
 .email-subject {
   color: #sgray;
-  font-size: 14px;
-
-  .span {
-    color: $agray;
-    text-align: right;
-  }
 }
-
-.textarea-label {
-  color: $transp;
-  display: block;
-  font-size: .75em;
-  margin: 1.4em 0 0;
-}
-
 
 .bt-input {
   margin-top: 1em;
@@ -66,55 +60,13 @@ h2 {
   width: 100%;
 }
 
-.video-input {
-  display: none;
-  position: absolute;
-}
-
-.bp-textarea-wrapper {
-  left: 1.7em;
-  position: absolute;
-  right: 1.7em;
-  top: 12.9em;
-}
-
-.bp-textarea {
-  border: 0 solid transparent;
-  border-bottom: 1px solid $lgray;
-  box-sizing: border-box;
+.mailtext {
   color: $cblack;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 14px;
-  height: 20px;
-  letter-spacing: normal;
-  line-height: 120%;
-  outline: none;
-  overflow: hidden;
-  padding: 0;
-  padding-bottom: 1px;
   width: 100%;
-
-  :focus {
-    border-bottom: 2px solid $sgray;
-    color: $sgray;
-    padding-bottom: 0;
-  }
 }
-
-
-// .email-description {
-//   color: $lgray;
-// }
 
 .email-preview {
-  font-size: 18px;
-  line-height: 120%;
-  margin-top: 1em;
-}
-
-.mailtext {
-  font-size: 18px;
-  line-height: 120%;
+  margin-top: 2em;
 }
 
 .bp-pre-html {

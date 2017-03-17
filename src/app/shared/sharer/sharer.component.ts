@@ -20,7 +20,7 @@ import { NgForm } from '@angular/forms';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements AfterViewChecked {
+export class SharerComponent implements AfterViewChecked, OnInit {
 
   @Input() sharerIsVisible = false;
 
@@ -31,12 +31,13 @@ export class SharerComponent implements AfterViewChecked {
   emailSendError;
 
   toEmail: string;
-  textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
+  textToReader: string;
 
   showEmailPreview = true;
   showHtmlPreview = false;
 
   shareForm: NgForm;
+
   @ViewChild('shareForm') currentForm: NgForm;
 
   formErrors = {
@@ -50,8 +51,7 @@ export class SharerComponent implements AfterViewChecked {
     }
   };
 
-  // Model to be shared.
-  // Here, the videoUrl may be overridden before share:
+  // Model to share. Here, the videoUrl may be overridden before share:
   emailToShare: any = {
     from: '',
     toEmails: {},
@@ -60,12 +60,20 @@ export class SharerComponent implements AfterViewChecked {
     videoUrl: ''
   };
 
-  getFormState(stateName) {
-    return this.formStatus === stateName;
+  constructor(
+    private shareService: ShareService
+  ) {}
+
+  ngOnInit() {
+    this.textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
   }
 
   ngAfterViewChecked() {
    this.formChanged();
+  }
+
+  getFormState(stateName) {
+    return this.formStatus === stateName;
   }
 
   formChanged() {
@@ -104,10 +112,6 @@ export class SharerComponent implements AfterViewChecked {
      }
    }
   }
-
-  constructor(
-    private shareService: ShareService
-  ) {}
 
   /*
    * Overriding model videoUrl by email videoUrl
@@ -188,21 +192,6 @@ export class SharerComponent implements AfterViewChecked {
             `
             <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
-
-  autoExpand(e) {
-    // FIXME Replace with ng2 auto-expand
-    console.log('auto expa: ', e);
-
-    const textField = typeof e === 'object' ? e.target : document.getElementById(e);
-
-    if (textField.clientHeight < textField.scrollHeight) {
-      textField.style.height = textField.scrollHeight + 'px';
-      if (textField.clientHeight < textField.scrollHeight) {
-        textField.style.height =
-          (textField.scrollHeight * 2 - textField.clientHeight) + 'px';
-      }
-    }
-  };
 
   showSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;

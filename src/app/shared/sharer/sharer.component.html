@@ -1,11 +1,10 @@
 <!-- Show Sharer Button -->
-<a href (click)="showSharer()" class="share-show">
+<a href (click)="showSharer()" class="show-sharer-button">
   <button *ngIf="!sharerIsVisible" md-raised-button color="accent">Поширити</button>
 </a>
+
 <!-- TODO уведення декількох адрес через кому -->
-<md-card class="share-card" [class.display-block]="sharerIsVisible"
-  [@visibilityChanged]="sharerIsVisible"
-  >
+<md-card class="share-card" [class.display-block]="sharerIsVisible" [@visibilityChanged]="sharerIsVisible">
 
   <form #shareForm="ngForm" >
 
@@ -24,60 +23,46 @@
     <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
-    <md-input-container>
-      <input mdInput
-      [(ngModel)]="toEmail"
-      name="toEmail"
-      id="toEmail"
-      class="wide bt-input"
-      (blur)="handleInputBlur($event)"
-      #toEmailElement
-      appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
-      <md-placeholder>
-        Кому:
-      </md-placeholder>
+    <!-- 'To' email -->
+    <!-- FIXME Make Validation Great Again -->
+    <!-- FIXME Test it -->
+    <md-input-container class="wide">
+      <md-placeholder>Кому:</md-placeholder>
+      <input mdInput [(ngModel)]="toEmail" name="toEmail" id="toEmail"
+        class="wide bt-input" (blur)="handleInputBlur($event)"
+        appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
     </md-input-container>
 
     <div *ngIf="formErrors.toEmail" class="alert alert-danger">
-      {{ formErrors.toEmail }}
+      {{formErrors.toEmail}}
     </div>
 
-    <md-input-container><input mdInput
-      disabled
-      [ngModel]="emailSubject" id="emailSubject" name="emailSubject"
-      class="wide bt-input">
-      <md-placeholder>
-        Тема:
-      </md-placeholder>
+    <!-- Subject (disabled) -->
+    <md-input-container class="wide">
+      <md-placeholder>Тема:</md-placeholder>
+      <input mdInput disabled class="wide" [ngModel]="emailSubject" id="emailSubject" name="emailSubject">
     </md-input-container>
 
+    <!-- Video -->
+    <md-input-container class="wide">
+      <md-placeholder>Відео (посилання):</md-placeholder>
+      <input mdInput [(ngModel)]="videoUrl" id="videoUrl" name="videoUrl" class="wide bt-input video-input">
+    </md-input-container>
 
-    <div class="bp-textarea-wrapper">
-      <label for="textToReader" class="textarea-label">Текст:</label>
-
-      <textarea
-        [(ngModel)]="textToReader"
-        class="bp-textarea mailtext"
-        id="textToReader"
-        name="textToReader"
-        (keydown)="autoExpand('textToReader')">
+    <!-- Message text -->
+    <md-input-container class="wide">
+      <md-placeholder>Текст:</md-placeholder>
+      <textarea mdInput mdTextareaAutosize class="mailtext"
+        [(ngModel)]="textToReader" id="textToReader" name="textToReader">
         {{textToReader}}
       </textarea>
-    </div>
-
-    <md-input-container><input mdInput
-      [(ngModel)]="videoUrl"
-      id="videoUrl"
-      name="videoUrl"
-      class="wide bt-input video-input">
-      <md-placeholder>
-        Відео (посилання):
-      </md-placeholder>
     </md-input-container>
+
   </form>
 
   <md-card-content *ngIf="showEmailPreview" class="email-preview">
-    <p [innerHTML]="emailHtml" class="bp-pre"></p>
+    <h3>Так буде виглядати повідомлення, яке отримає адресат:</h3>
+    <p [innerHTML]="emailHtml"></p>
   </md-card-content>
 
 </md-card>
