@@ -6,7 +6,6 @@
 $agray: #bbb;
 $lgray: #eee;
 $sgray: #777;
-$transp: rgba(0, 0, 0, .38);
 $reddish: #f44336;
 $cblack: #000;
 $cred: #0f0;
@@ -31,6 +30,10 @@ $cred: #0f0;
   position: absolute;
   right: 2em;
   z-index: 120;
+}
+
+.email-input:invalid {
+  color: $reddish;
 }
 
 h1 {
@@ -61,7 +64,6 @@ h3 {
 }
 
 .mailtext {
-  color: $cblack;
   width: 100%;
 }
 
