@@ -21,6 +21,18 @@ DBProject.listProjects = function(projectIds) {
     : Project.find();
 }
 
+DBProject.getPage = function (offset, limit) {
+  console.log('DBProject.getPage, offset =', offset, 'limit =', limit);
+  return Project.paginate({}, { offset: parseInt(offset), limit: parseInt(limit) },
+    function(err, result) {
+      console.log('=> error:', err, '\n=> result: ', result);
+      // result.docs
+      // result.total
+      // result.limit - 10
+      // result.offset - 20
+    });
+}
+
 DBProject.createProject = function(dataObj) {
   var data = dataObj;
 

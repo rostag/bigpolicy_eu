@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core.module';
-// import { CommonModule } from '@angular/common';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';

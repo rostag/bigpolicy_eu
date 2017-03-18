@@ -34,6 +34,8 @@
     "liqpay-sdk": "^3.1.0",
     "mailgun-js": "0.5",
     "mongoose": "^4.5.2",
+    "mongoose-paginate": "^5.0.3",
+    "ng2-pagination": "^2.0.1",
     "rxjs": "^5.1.0",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.7.6"
