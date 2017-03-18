@@ -6,7 +6,7 @@
 <!-- TODO Let user enter few addresses, separated by comma or semicolon -->
 <md-card class="share-card" [class.display-block]="sharerIsVisible" [@visibilityChanged]="sharerIsVisible">
 
-  <form #shareForm="ngForm" (ngSubmit)="shareItem()">
+  <form #shareForm="ngForm" (ngSubmit)="shareItem(shareForm.value)">
 
     <!-- Buttons -->
     <div style="float:right;margin-top: -0.75em;margin-right: 0">
@@ -22,17 +22,16 @@
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
     <!-- 'To' email -->
-    <!-- FIXME Make Validation Great Again -->
-    <!-- FIXME Test it -->
+    <!-- FIXME E2E Test validator -->
     <md-input-container class="wide">
       <md-placeholder>Кому:</md-placeholder>
-      <input type="email" mdInput [(ngModel)]="toEmail" name="toEmail"
+      <input mdInput appValidateEmail [(ngModel)]="toEmail" name="toEmail"
         class="wide bt-input email-input" (blur)="handleInputBlur($event)"
-        appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+        [class.invalid]="formErrors.toEmail">
     </md-input-container>
 
     <!-- Validation error display -->
-    <div *ngIf="formErrors.toEmail" class="alert alert-danger">
+    <div *ngIf="formErrors.toEmail" class="validation-error">
       {{formErrors.toEmail}}
     </div>
 
@@ -72,7 +71,7 @@
     <button (click)="toggleHtmlPreview()" *ngIf="!showHtmlPreview" md-button>Показати HTML</button>
     <button (click)="toggleHtmlPreview()" *ngIf="showHtmlPreview" md-raised-button>Сховати HTML</button>
     <button (click)="toggleSharer()" md-button>Відмінити</button>
-    <button (click)="shareItem()" md-raised-button color="accent" class="bt-input">Надіслати листа</button>
+    <button (click)="shareItem(shareForm.value)" md-raised-button color="accent" class="bt-input">Надіслати листа</button>
   </div>
 
 </md-card>

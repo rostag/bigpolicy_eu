@@ -32,8 +32,15 @@ $cred: #0f0;
   z-index: 120;
 }
 
-.email-input:invalid {
+.email-input.invalid {
   color: $reddish;
+}
+
+.validation-error {
+  color: $reddish;
+  margin-top: -1em;
+  padding-bottom: 1em;
+  position: relative;
 }
 
 h1 {
@@ -81,13 +88,4 @@ h3 {
   margin: 2em 0 1em;
   padding: 1em;
   width: 100%;
-}
-
-.alert,
-.alert-danger {
-  color: $reddish;
-  float: right;
-  font-size: .9em;
-  margin-top: -2.3em;
-  position: relative;
 }

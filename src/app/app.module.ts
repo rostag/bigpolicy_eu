@@ -41,7 +41,7 @@ import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
 import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
-import { EmailValidatorDirective } from './shared/validation/email';
+import { EmailValidatorDirective } from './shared/validation/email.validator';
 import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
