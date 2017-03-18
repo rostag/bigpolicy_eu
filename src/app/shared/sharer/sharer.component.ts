@@ -156,26 +156,20 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
     this.emailToShare.videoUrl = this.videoUrl;
 
-    console.log('emailToShare:', this.emailToShare);
-    console.log('form value :', formValue);
+    this.shareService.share(this.emailToShare)
+      .subscribe(
+        data => {
+          this.formStatus = 'emailSent';
+          console.log('Project Shared', data);
+        },
+        err => (er) => {
+          this.formStatus = 'emailSendError';
+          console.error('Project sharing error: ', er);
+        },
+        () => {}
+      );
 
-    // FIXME Remove after validation debugging
     return false;
-
-    // this.shareService.share(this.emailToShare)
-    //   .subscribe(
-    //     data => {
-    //       this.formStatus = 'emailSent';
-    //       console.log('Project Shared', data);
-    //     },
-    //     err => (er) => {
-    //       this.formStatus = 'emailSendError';
-    //       console.error('Project sharing error: ', er);
-    //     },
-    //     () => {}
-    //   );
-    //
-    // return false;
   }
 
   /**
