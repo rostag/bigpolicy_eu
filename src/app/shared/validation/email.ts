@@ -3,6 +3,7 @@ import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } fr
 
 /** A hero's name can't match the given regular expression */
 export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  console.log('Validator, forbiddenNameValidator, nameRe =', nameRe);
   return (control: AbstractControl): {[key: string]: any} => {
     const name = control.value;
     const no = nameRe.test(name);
@@ -12,13 +13,14 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
 
 @Directive({
   selector: '[appValidateEmail]',
-  providers: [{provide: NG_VALIDATORS, useExisting: ForbiddenValidatorDirective, multi: true}]
+  providers: [{provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true}]
 })
-export class ForbiddenValidatorDirective implements Validator, OnChanges {
+export class EmailValidatorDirective implements Validator, OnChanges {
   @Input() validateEmail: string;
   private valFn = Validators.nullValidator;
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('Validator, changes =', changes);
     const change = changes['validateEmail'];
     if (change) {
       const val: string | RegExp = change.currentValue;
@@ -30,14 +32,7 @@ export class ForbiddenValidatorDirective implements Validator, OnChanges {
   }
 
   validate(control: AbstractControl): {[key: string]: any} {
+    console.log('Validator, validate: control =', control);
     return this.valFn(control);
   }
 }
-
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

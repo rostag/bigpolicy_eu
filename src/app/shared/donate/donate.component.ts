@@ -82,6 +82,7 @@ export class DonateComponent implements OnChanges {
     return d;
   }
 
+  // FIXME Fix Button Display
   private getDonationForm(_id) {
     const model = this.getDonationModel();
     model._id = _id;

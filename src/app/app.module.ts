@@ -30,12 +30,9 @@ import { LandingComponent } from './landing/index';
 import { routing } from './app.routes';
 
 // Services
-import { UserService } from './shared/user/user.service';
-// import { LeaderService } from './shared/leader/leader.service';
-import { ProjectService } from './shared/project/project.service';
-import { TaskService } from './shared/task/task.service';
 import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
+// rest are shared via CoreModule
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -44,7 +41,7 @@ import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
 import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
-import { ForbiddenValidatorDirective } from './shared/validation/email';
+import { EmailValidatorDirective } from './shared/validation/email';
 import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
@@ -70,7 +67,7 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
-    ForbiddenValidatorDirective,
+    EmailValidatorDirective,
     VideoComponent,
     AppComponent,
     ContinueRegistrationDialogComponent,
@@ -84,16 +81,10 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
     FormsModule,
     MaterialModule,
     HttpModule,
-    // CommonModule,
-    CoreModule // will provide service
+    CoreModule // will provide services
   ],
   providers: [
-    // MdIconRegistry,
     LoggedInGuard,
-    // UserService,
-    // LeaderService,
-    // ProjectService,
-    // TaskService,
     ShareService,
     DonationService
   ],

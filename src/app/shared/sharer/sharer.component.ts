@@ -151,22 +151,29 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
     this.emailToShare.html = this.emailHtml;
     this.emailToShare.from = this.project.managerEmail;
     this.emailToShare.subject = this.emailSubject;
+    this.emailToShare.toEmails = {};
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
+    this.emailToShare.videoUrl = this.videoUrl;
 
-    this.shareService.share(this.emailToShare)
-      .subscribe(
-        data => {
-          this.formStatus = 'emailSent';
-          console.log('Project Shared', data);
-        },
-        err => (er) => {
-          this.formStatus = 'emailSendError';
-          console.error('Project creation error: ', er);
-        },
-        () => {}
-      );
+    console.log('emailToShare:', this.emailToShare);
 
+    // FIXME Remove after validation debugging
     return false;
+
+    // this.shareService.share(this.emailToShare)
+    //   .subscribe(
+    //     data => {
+    //       this.formStatus = 'emailSent';
+    //       console.log('Project Shared', data);
+    //     },
+    //     err => (er) => {
+    //       this.formStatus = 'emailSendError';
+    //       console.error('Project sharing error: ', er);
+    //     },
+    //     () => {}
+    //   );
+    //
+    // return false;
   }
 
   /**
@@ -199,7 +206,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
             <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
-  showSharer() {
+  toggleSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
     return false;
   }

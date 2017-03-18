@@ -1,17 +1,17 @@
 <!-- Show/Hide Sharer Button -->
-<a href (click)="showSharer()" class="show-sharer-button">
+<a href (click)="toggleSharer()" class="show-sharer-button">
   <button *ngIf="!sharerIsVisible" md-raised-button color="accent">Поширити</button>
 </a>
 
 <!-- TODO Let user enter few addresses, separated by comma or semicolon -->
 <md-card class="share-card" [class.display-block]="sharerIsVisible" [@visibilityChanged]="sharerIsVisible">
 
-  <form #shareForm="ngForm" >
+  <form #shareForm="ngForm" (ngSubmit)="shareItem()">
 
     <!-- Buttons -->
     <div style="float:right;margin-top: -0.75em;margin-right: 0">
-      <a href (click)="showSharer()"><button md-button>Відмінити</button></a>
-      <a href (click)="shareItem()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
+      <button (click)="toggleSharer()" md-button>Відмінити</button>
+      <button type="submit" md-raised-button color="accent" class="bt-input">Надіслати листа</button>
     </div>
 
     <!-- Show sending status -->
@@ -26,7 +26,7 @@
     <!-- FIXME Test it -->
     <md-input-container class="wide">
       <md-placeholder>Кому:</md-placeholder>
-      <input type="email" mdInput [(ngModel)]="toEmail" name="toEmail" id="toEmail"
+      <input type="email" mdInput [(ngModel)]="toEmail" name="toEmail"
         class="wide bt-input email-input" (blur)="handleInputBlur($event)"
         appValidateEmail="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
     </md-input-container>
@@ -39,20 +39,20 @@
     <!-- Subject (disabled) -->
     <md-input-container class="wide">
       <md-placeholder>Тема:</md-placeholder>
-      <input mdInput disabled class="wide" [ngModel]="emailSubject" id="emailSubject" name="emailSubject">
+      <input mdInput disabled class="wide" [ngModel]="emailSubject" name="emailSubject">
     </md-input-container>
 
     <!-- Video -->
     <md-input-container class="wide">
       <md-placeholder>Відео (посилання):</md-placeholder>
-      <input mdInput [(ngModel)]="videoUrl" id="videoUrl" name="videoUrl" class="wide bt-input video-input">
+      <input mdInput [(ngModel)]="videoUrl" name="videoUrl" class="wide bt-input video-input">
     </md-input-container>
 
     <!-- Message text -->
     <md-input-container class="wide">
       <md-placeholder>Текст:</md-placeholder>
       <textarea mdInput mdTextareaAutosize #resizableTextArea class="mailtext"
-        [(ngModel)]="textToReader" id="textToReader" name="textToReader">
+        [(ngModel)]="textToReader" name="textToReader">
       </textarea>
     </md-input-container>
 
@@ -69,10 +69,10 @@
 
   <!-- Buttons -->
   <div style="float:right">
-    <a *ngIf="!showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-button>Показати HTML</button></a>
-    <a *ngIf="showHtmlPreview" href (click)="toggleHtmlPreview()"><button md-raised-button>Сховати HTML</button></a>
-    <a href (click)="showSharer()"><button md-button>Відмінити</button></a>
-    <a href (click)="shareItem()"><button md-raised-button color="accent" class="bt-input">Надіслати листа</button></a>
+    <button (click)="toggleHtmlPreview()" *ngIf="!showHtmlPreview" md-button>Показати HTML</button>
+    <button (click)="toggleHtmlPreview()" *ngIf="showHtmlPreview" md-raised-button>Сховати HTML</button>
+    <button (click)="toggleSharer()" md-button>Відмінити</button>
+    <button (click)="shareItem()" md-raised-button color="accent" class="bt-input">Надіслати листа</button>
   </div>
 
 </md-card>
