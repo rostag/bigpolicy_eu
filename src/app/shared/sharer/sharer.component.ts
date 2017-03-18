@@ -107,6 +107,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
        this.formErrors[field] = '';
        const control = form.get(field);
 
+       // Here's the complex logic for which we needed this method
        if (control && (control.dirty || control.touched) && !control.valid) {
          const messages = this.validationMessages[field];
          for (const key in control.errors) {
@@ -136,10 +137,10 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
   }
 
   /**
-   * Share this project
-   * @param {project} Project being viewed
+   * Send the form
+   * @param {formValue} Form value to share
    */
-  shareItem() {
+  shareItem(formValue) {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -156,6 +157,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
     this.emailToShare.videoUrl = this.videoUrl;
 
     console.log('emailToShare:', this.emailToShare);
+    console.log('form value :', formValue);
 
     // FIXME Remove after validation debugging
     return false;
