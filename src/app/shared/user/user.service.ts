@@ -53,7 +53,7 @@ export class UserService {
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
           // Handle error
-          alert(error);
+          console.log(error);
           return;
         }
 
