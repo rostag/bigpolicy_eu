@@ -1,7 +1,5 @@
 //******************************************************************************
-//
 // P R O J E C T
-//
 //******************************************************************************
 
 var DBProject = {};
@@ -26,9 +24,6 @@ DBProject.getPage = function (leaderProjectIds, page, limit) {
   return leaderProjectIds
     ? Project.paginate({ '_id': { $in: leaderProjectIds } }, { page: parseInt(page), limit: parseInt(limit) })
     : Project.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
-    // function(err, result) {
-    //   // console.log('=> error:', err, '\n=> result: ', result);
-    // });
 }
 
 DBProject.createProject = function(dataObj) {
