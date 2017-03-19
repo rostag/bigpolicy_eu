@@ -48,19 +48,9 @@ export class DonationService {
     const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
         const donations = res.json();
-        if (donations.forEach) {
-          donations.forEach(donation => this.convertTime(donation));
-        } else {
-          this.convertTime(donations);
-        }
         return donations;
       });
       return reponseObservable;
-  }
-
-  private convertTime(donation) {
-    donation.dateStarted = new Date(donation['dateStarted']);
-    donation.dateCompleted = new Date(donation['dateCompleted']);
   }
 
   /**
