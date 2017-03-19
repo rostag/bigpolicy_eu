@@ -1,5 +1,6 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -15,17 +16,24 @@ import { UserService } from '../../shared/user/user.service';
 export class ProjectListComponent implements OnChanges {
 
   @Input() leaderId;
-  @Input() maxCount = 100;
+  @Input() pageSize = 5;
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public itemsPage = {
+    docs: this.projects,
+    limit: this.pageSize,
+    page: 1,
+    pages: 0,
+    total: 0
+  };
 
   isAddingTaskMode = false;
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ) {
-      this.requestProjects(changes.leaderId.currentValue);
-    } else if (changes.maxCount && changes.maxCount.currentValue) {
-      this.requestProjects(null, changes.maxCount.currentValue);
+      this.requestProjects(changes.leaderId.currentValue, 1, this.pageSize);
+    } else if (changes.pageSize && changes.pageSize.currentValue) {
+      this.requestProjects(null, 1, changes.pageSize.currentValue);
     }
   }
 
@@ -35,16 +43,20 @@ export class ProjectListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  pageChanged(event) {
-    console.log('page changed:', event);
+  pageChanged(pageNumber) {
+    console.log('page changed:', pageNumber);
+    this.requestProjects(null, pageNumber, this.pageSize);
   }
 
   // WIP
-  requestProjects(leaderId = '', maxCount = 100) {
-    const offset = 0;
-    const proxySub = this.projectService.getProjectsPage(null, leaderId, offset, maxCount).subscribe(projects => {
-      console.log('next projects:', projects);
-      this.projects.next(projects);
+  requestProjects(leaderId = '', pageNumber = 1, pageSize = 5) {
+    const proxySub = this.projectService.getProjectsPage(null, leaderId, pageNumber, pageSize).subscribe(responsePage => {
+      console.log('Next, responsePage:', responsePage);
+      this.itemsPage.docs.next(responsePage['docs']);
+      this.itemsPage.limit = responsePage['limit'];
+      this.itemsPage.page = responsePage['page'];
+      this.itemsPage.pages = responsePage['pages'];
+      this.itemsPage.total = responsePage['total'];
       proxySub.unsubscribe();
     });
   }

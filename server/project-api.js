@@ -64,9 +64,9 @@ module.exports = function(app, DB, DBLeader){
    * Gets page of projects, example:
    * /project-api/page/1/1
    */
-  .get('/page/:offset/:limit', function (req, res) {
-    console.log('project-api/get page, offset =', req.params.offset, 'page =', req.params.limit);
-      DB.getPage(req.params.offset, req.params.limit)
+  .get('/page/:page/:limit', function (req, res) {
+    console.log('project-api/get page #', req.params.page, ', limit =', req.params.limit);
+      DB.getPage(req.params.page, req.params.limit)
       .then(function (data) {
           res.json(data);
       })

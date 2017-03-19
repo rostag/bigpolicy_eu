@@ -52,7 +52,7 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, offset = null, limit = null): Observable<Response> {
+  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null): Observable<Response> {
 
     // FIXME
     /*
@@ -66,7 +66,7 @@ export class ProjectService {
         /project-api/leader/:leaderId/
     */
 
-    console.log('getProjectsPage:', projectId, leaderId, offset, limit);
+    console.log('getProjectsPage:', projectId, leaderId, page, limit);
 
     // All projects:                    /project-api/
     let requestUrl = this.apiUrl;
@@ -81,26 +81,26 @@ export class ProjectService {
       requestUrl = this.apiUrl + 'leader/' + leaderId;
     }
 
-    // Page of projects:                /project-api/page/:offset/:limit
-    if (offset !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + offset + '/' + limit;
+    // Page of projects:                /project-api/page/:page/:limit
+    if (page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
     }
 
     // TODO:
-    // Page of projects for a Leader:   /project-api/leader/page/:offset/:limit
+    // Page of projects for a Leader:   /project-api/leader/page/:page/:limit
     // OR:
-    // Page of projects for a Leader:   /project-api/page/leader/:offset/:limit
+    // Page of projects for a Leader:   /project-api/page/leader/:page/:limit
 
     const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
-        const response = res.json();
+        const responsePage = res.json();
+        // const result = response;
         // Whether an array or single item is returned
-        let result = response;
-        if (response.docs) {
-          result = response.docs;
-        }
-        console.log('Projects loaded, response: ', response);
-        return result;
+        // if (response.docs) {
+        // result = response.docs;
+        // }
+        console.log('Projects Page loaded, response: ', responsePage);
+        return responsePage;
       });
     return reponseObservable;
   }
