@@ -94,8 +94,19 @@ Donations feature:
 
  * Migrated to Angular CLI version 1.0.0.rc-1
 
-###
+### 2017-03-19 08:00
 
  * Ng2PaginationModule added
+  * Front: https://github.com/michaelbromley/ng2-pagination
+  * Back: https://github.com/edwardhotchkiss/mongoose-paginate
  * ProjectService uses pagination
  * HomeComponent and it's route added
+
+### ### 2017-03-19 08:00
+
+TODO:
+
+-> Ng CLi update
+-> Get rid of date conversion in service
+-> Get rid of extra date fields in Project model
+-> Fix project pagination
