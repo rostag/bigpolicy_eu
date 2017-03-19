@@ -1,3 +1,4 @@
+<h2>{{projects.total}}</h2>
 <md-list>
   <!-- Usage: <app-project-list [leaderId]="123" [maxCount]="100"></app-project-list> -->
   <md-list-item *ngFor="let project of projects | async">
@@ -14,6 +15,16 @@
       <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
     </p>
   </md-list-item>
+
+  <pagination-controls
+                      (pageChange)="pageChanged($event)"
+                      [maxSize]="5"
+                      directionLinks="true"
+                      previousLabel="Previous"
+                      nextLabel="Next">
+                      autoHide="true"
+  </pagination-controls>
+
   <!-- TODO Also show Projects as Cards / Thumbs -->
 
   <!--

@@ -1,7 +1,7 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project/index';
+import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
@@ -17,7 +17,7 @@ export class ProjectListComponent implements OnChanges {
   @Input() leaderId;
   @Input() maxCount = 100;
 
-  private projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
   isAddingTaskMode = false;
 
@@ -35,9 +35,15 @@ export class ProjectListComponent implements OnChanges {
     private http: Http
   ) {}
 
+  pageChanged(event) {
+    console.log('page changed:', event);
+  }
+
   // WIP
   requestProjects(leaderId = '', maxCount = 100) {
-    const proxySub = this.projectService.getProjects('', leaderId, maxCount).subscribe(projects => {
+    const offset = 0;
+    const proxySub = this.projectService.getProjectsPage(null, leaderId, offset, maxCount).subscribe(projects => {
+      console.log('next projects:', projects);
       this.projects.next(projects);
       proxySub.unsubscribe();
     });

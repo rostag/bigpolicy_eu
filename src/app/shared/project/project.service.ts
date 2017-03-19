@@ -52,20 +52,59 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjects(projectId = '', leaderId = '', maxCount = 10): Observable<Response> {
+  getProjectsPage(projectId = null, leaderId = null, offset = null, limit = null): Observable<Response> {
 
-    const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
+    // FIXME
+    /*
+      WAS: const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
+
+      All projects:
+        /project-api/
+      Project by id:
+        /project-api/:projectId
+      Projects for Leader:
+        /project-api/leader/:leaderId/
+    */
+
+    console.log('getProjectsPage:', projectId, leaderId, offset, limit);
+
+    // All projects:                    /project-api/
+    let requestUrl = this.apiUrl;
+
+    // Project by id:                   /project-api/:projectId
+    if (projectId) {
+      requestUrl = this.apiUrl + projectId;
+    }
+
+    // Projects for Leader:             /project-api/leader/:leaderId/
+    if (leaderId) {
+      requestUrl = this.apiUrl + 'leader/' + leaderId;
+    }
+
+    // Page of projects:                /project-api/page/:offset/:limit
+    if (offset !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + offset + '/' + limit;
+    }
+
+    // TODO:
+    // Page of projects for a Leader:   /project-api/leader/page/:offset/:limit
+    // OR:
+    // Page of projects for a Leader:   /project-api/page/leader/:offset/:limit
 
     const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
-        const projects = res.json();
-        if (projects.forEach) {
-          projects.forEach(project => this.convertTime(project));
+        let result;
+        // Converting too early?
+        const response = res.json();
+        if (response.docs && response.docs.forEach) {
+          response.docs.forEach(project => this.convertTime(project));
+          result = response.docs;
         } else {
-          this.convertTime(projects);
+          this.convertTime(response);
+          result = response;
         }
-        // console.log('Projects loaded, response: ', projects);
-        return projects;
+        // console.log('Projects loaded, response: ', response);
+        return result;
       });
     return reponseObservable;
   }
@@ -79,7 +118,7 @@ export class ProjectService {
    * Get a model from DB or from cache.
    */
   getProject(projectId: string): Observable<Response> {
-    return this.getProjects(projectId);
+    return this.getProjectsPage(projectId);
   }
 
   /**

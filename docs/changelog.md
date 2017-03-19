@@ -80,7 +80,7 @@ Donations feature:
  * Leader - User matching.
  * WIP: FTUX for Registration.
 
-Bugfixes:
+ * * Bugfixes:
 
  * fixed login error (now user properly redirected).
  * Display in Safari.
@@ -93,3 +93,9 @@ Bugfixes:
 ### 2017-03-11
 
  * Migrated to Angular CLI version 1.0.0.rc-1
+
+###
+
+ * Ng2PaginationModule added
+ * ProjectService uses pagination
+ * HomeComponent and it's route added
