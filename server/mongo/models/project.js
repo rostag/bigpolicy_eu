@@ -1,6 +1,6 @@
-var mongoose     = require('mongoose');
+var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
-var Schema       = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 /**
  *  TODO
@@ -10,29 +10,28 @@ var Schema       = mongoose.Schema;
  */
 
 const projectSchema = new Schema({
-	title: { type: String, required: true  },
-	description: { type: String, required: true  },
+	title: { type: String, required: true },
+	description: { type: String, required: true },
 	managerName: { type: String },
 	managerId: { type: String },
 	managerEmail: { type: String },
-	cost: { type: String, required: true  },
-	dateStarted: { type: Date, required: true  },
-	dateEnded: { type: Date, required: true  },
+	cost: { type: String, required: true },
+	dateStarted: { type: Date, required: true },
+	dateEnded: { type: Date, required: true },
 	image: { type: String },
 	videoUrl: { type: String },
 	logo: { type: String },
 	tasks: { type: Array },
 	donations: { type: Array },
-	totalDonationsReceived: { type: Number },
-	createdAt: { type: Date }
+	totalDonationsReceived: { type: Number }
 });
 
 projectSchema.plugin(mongoosePaginate);
 
 module.exports = function(){
-    try {
-      mongoose.model('Project', projectSchema);
-    } catch (error) {
-    }
-    return mongoose.model('Project');
+  try {
+    mongoose.model('Project', projectSchema);
+  } catch (error) {
+  }
+  return mongoose.model('Project');
 }();

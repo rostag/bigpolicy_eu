@@ -109,9 +109,9 @@ export class ProjectService {
     return reponseObservable;
   }
 
-  private convertTime(task) {
-    task.dateStarted = new Date(task['dateStarted']);
-    task.dateEnded = new Date(task['dateEnded']);
+  private convertTime(item) {
+    item.dateStarted = new Date(item['dateStarted']);
+    item.dateEnded = new Date(item['dateEnded']);
   }
 
   /**

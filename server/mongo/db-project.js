@@ -67,7 +67,7 @@ DBProject.addProjectToLeader = function(error, savedProject) {
       // console.log('and his updated projects: ', leader.projects);
 
       leader.update({ projects: leader.projects }, function (error, leader){
-        //  console.log('added project to leader');
+      //  console.log('added project to leader');
       })
     }
   });

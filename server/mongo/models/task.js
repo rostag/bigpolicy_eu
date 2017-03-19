@@ -20,8 +20,6 @@ const TaskSchema = new Schema({
 	logo: { type: String },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
-
-	createdAt: { type: Date }
 });
 
 module.exports = function(){

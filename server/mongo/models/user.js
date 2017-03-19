@@ -9,10 +9,7 @@ const UserSchema = new Schema({
   twitterId: { type: String },
 	image: { type: String },
 	videoUrl: { type: String },
-	logo: { type: String },
-	// leaderId: { type: String },
-
-	createdAt: { type: Date }
+	logo: { type: String }
 });
 
 module.exports = function(){

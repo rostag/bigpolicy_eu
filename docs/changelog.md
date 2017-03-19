@@ -106,7 +106,7 @@ Donations feature:
 
 TODO:
 
--> Ng CLi update
+-> Ng CLi update to RC2
 -> Get rid of date conversion in service
 -> Get rid of extra date fields in Project model
 -> Fix project pagination
