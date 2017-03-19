@@ -45,19 +45,9 @@ export class TaskService {
     const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
         const tasks = res.json();
-        if (tasks.forEach) {
-          tasks.forEach(task => this.convertTime(task));
-        } else {
-          this.convertTime(tasks);
-        }
         return tasks;
       });
       return reponseObservable;
-  }
-
-  private convertTime(task) {
-    task.dateStarted = new Date(task['dateStarted']);
-    task.dateEnded = new Date(task['dateEnded']);
   }
 
   /**

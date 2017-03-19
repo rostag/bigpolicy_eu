@@ -32,11 +32,11 @@
 
         <md-input-container class="dates">
           <div mdPrefix><md-icon>date_range</md-icon>Початок:&nbsp;</div>
-          <input mdInput type="date" [(ngModel)]="task.startDateInputValue" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
+          <input mdInput type="date" [(ngModel)]="task.dateStarted" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
         </md-input-container>
         <md-input-container class="dates">
           <div mdPrefix>Завершення:&nbsp;</div>
-          <input mdInput type="date" [(ngModel)]="task.endDateInputValue" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
+          <input mdInput type="date" [(ngModel)]="task.dateEnded" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
          </md-input-container>
        </div>
 
