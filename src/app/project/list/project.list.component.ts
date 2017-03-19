@@ -1,6 +1,5 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';

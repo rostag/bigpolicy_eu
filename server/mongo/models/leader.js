@@ -1,14 +1,14 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-/*
-	// TODO
-	Define ranges:
-		1) range of each value will be defined after coordination (with front-end)
-		2) documents fields will be adjusted after coordination (with host place)
-*/
+/**
+ *  TODO: Define ranges
+ *    1) range of each value will be defined
+ *    2) documents fields will be adjusted
+ */
 
-const LeaderSchema = new Schema({
+const leaderSchema = new Schema({
 	// personal info
 	name: { type: String, required: true },
 	parentName: { type: String },
@@ -43,11 +43,13 @@ const LeaderSchema = new Schema({
 	docPassport: { type: String },
 });
 
+leaderSchema.plugin(mongoosePaginate);
+
 module.exports = function(){
-    try {
-        mongoose.model('Leader', LeaderSchema);
-    } catch (error) {
-			console.log('error during creation:', error)
-		}
-    return mongoose.model('Leader');
+  try {
+    mongoose.model('Leader', leaderSchema);
+  } catch (error) {
+		console.log('Error during creation:', error)
+	}
+  return mongoose.model('Leader');
 }();

@@ -59,7 +59,6 @@ export class LeaderViewComponent implements OnInit {
   deleteLeader(leader: LeaderModel) {
     // Delete from DB
     this.leaderService.deleteLeader(leader);
-
     this.router.navigate(['/leaders']);
     return false;
   }

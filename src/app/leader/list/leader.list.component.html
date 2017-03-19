@@ -1,3 +1,4 @@
+<!-- Usage: <app-leader-list [groupId]="123" [pageSize]="10"></app-leader-list> -->
 <md-card>
   <md-card-title>Лідери</md-card-title>
   <md-card-content>
@@ -20,7 +21,12 @@
     </p> -->
 
     <div class="leaders-list">
-     <div *ngFor="let leader of leaders">
+     <div *ngFor="let leader of itemsPage.docs | async | paginate: {
+                                                           id: 'itemsPage',
+                                                           itemsPerPage: this.pageSize,
+                                                           currentPage: itemsPage.page,
+                                                           totalItems: itemsPage.total
+                                                         }">
       <md-card class="leader-card">
         <md-card-title-group>
           <img class="mat-card-avatar" md-card-avatar src="assets/img/avatar-generic.png">
@@ -43,6 +49,20 @@
         </md-card-actions>
       </md-card>
      </div>
+
+     <pagination-controls
+       id = "itemsPage"
+       (pageChange)="pageChanged($event)"
+       [maxSize]="5"
+       directionLinks="true"
+       previousLabel="Previous"
+       nextLabel="Next"
+       autoHide="true"
+       >
+    </pagination-controls>
+
+    <p>Усього лідерів: {{itemsPage.total}}</p>
     </div>
+
   </md-card-content>
 </md-card>
