@@ -7,10 +7,9 @@ export class ProjectModel {
   managerId = '';
   managerEmail = '';
   iconURL: string;
-  dateStarted: Date = new Date();
-  dateEnded: Date = new Date();
-  startDateInputValue: string = this.toDateInputValue(this.dateStarted);
-  endDateInputValue: string = this.toDateInputValue(this.dateEnded);
+  // String type is used for conversion between DB and Date input formats
+  dateStarted: string = this.toDateInputValue(new Date());
+  dateEnded: string = this.toDateInputValue(new Date());
   videoUrl = '';
   tasks;
   donations;
@@ -28,8 +27,8 @@ export class ProjectModel {
       managerName: this.managerName,
       managerId: this.managerId,
       managerEmail: this.managerEmail,
-      dateStarted: this.startDateInputValue,
-      dateEnded: this.endDateInputValue,
+      dateStarted: this.dateStarted,
+      dateEnded: this.dateEnded,
       iconURL: this.iconURL,
       videoUrl: this.videoUrl,
       tasks: this.tasks,
@@ -38,8 +37,7 @@ export class ProjectModel {
   }
 
   /**
-   * Populate model from a json representation loaded from DB
-   * TODO implement pipes for dates parsing
+   * Populates model from a JSON representation loaded from DB
    */
   parseData(data) {
     for (const item in data) {
@@ -47,14 +45,19 @@ export class ProjectModel {
         this[item] = data[item];
       }
     }
-    this.startDateInputValue = this.toDateInputValue(this.dateStarted);
-    this.endDateInputValue = this.toDateInputValue(this.dateEnded);
+    this.dateStarted = this.toDateInputValue(this.dateStarted);
+    this.dateEnded = this.toDateInputValue(this.dateEnded);
   }
 
+/**
+ * Adopts date from Mongo DB format for UI datepicker
+ */
   private toDateInputValue(dateToParse) {
     const date = new Date(dateToParse);
     const local = new Date(dateToParse);
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
+    console.log('===>local:', local, local.toJSON().slice(0, 10));
     return local.toJSON().slice(0, 10);
   }
 }

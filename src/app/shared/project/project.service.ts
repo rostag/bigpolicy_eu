@@ -93,25 +93,16 @@ export class ProjectService {
 
     const reponseObservable = this.http.get(requestUrl)
       .map((res: Response) => {
-        let result;
-        // Converting too early?
         const response = res.json();
-        if (response.docs && response.docs.forEach) {
-          response.docs.forEach(project => this.convertTime(project));
+        // Whether an array or single item is returned
+        let result = response;
+        if (response.docs) {
           result = response.docs;
-        } else {
-          this.convertTime(response);
-          result = response;
         }
-        // console.log('Projects loaded, response: ', response);
+        console.log('Projects loaded, response: ', response);
         return result;
       });
     return reponseObservable;
-  }
-
-  private convertTime(item) {
-    item.dateStarted = new Date(item['dateStarted']);
-    item.dateEnded = new Date(item['dateEnded']);
   }
 
   /**

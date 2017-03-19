@@ -29,12 +29,12 @@
 
       <md-input-container class="dates">
         <div mdPrefix><md-icon>date_range</md-icon>Початок:&nbsp;</div>
-        <input mdInput type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
+        <input mdInput type="date" [(ngModel)]="project.dateStarted" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
       </md-input-container>
 
       <md-input-container class="dates">
         <div mdPrefix>Завершення:&nbsp;</div>
-        <input mdInput type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
+        <input mdInput type="date" [(ngModel)]="project.dateEnded" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
       </md-input-container>
      </div>
 
