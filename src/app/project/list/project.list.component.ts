@@ -29,6 +29,12 @@ export class ProjectListComponent implements OnChanges {
 
   isAddingTaskMode = false;
 
+  constructor(
+    public userService: UserService,
+    private projectService: ProjectService,
+    private http: Http
+  ) {}
+
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ) {
       this.requestProjects();
@@ -37,18 +43,11 @@ export class ProjectListComponent implements OnChanges {
     }
   }
 
-  constructor(
-    public userService: UserService,
-    private projectService: ProjectService,
-    private http: Http
-  ) {}
-
   pageChanged(pageNumber) {
     this.itemsPage.page = pageNumber;
     this.requestProjects();
   }
 
-  // WIP
   requestProjects() {
     const proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize)
       .subscribe(responsePage => {

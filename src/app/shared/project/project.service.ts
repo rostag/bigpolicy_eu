@@ -11,11 +11,20 @@ import { ProjectModel } from './project.model';
 @Injectable()
 export class ProjectService {
 
+  // TODO Implement caching
+  static _cachedProjects = [];
+
   private apiUrl = '/project-api/';
 
-  // TODO Implement caching
-  // static cacheProject(project) {}
-  // static getCachedProject(projectId) {}
+  static cacheProject(project) {
+    this._cachedProjects[project._id] = project;
+    // console.log('cache project: ', this._cachedProjects[project._id]);
+  }
+
+  static getCachedProject(projectId) {
+    // console.log('get cached project by id:', projectId, ': ', this._cachedProjects[projectId]);
+    return this._cachedProjects[projectId] || {};
+  }
 
   /**
    * Creates a new ProjectService with the injected Http.
@@ -39,7 +48,7 @@ export class ProjectService {
   }
 
   /**
-   * Gets projects page from DB by given projectId, leaderId, page and limit
+   * Gets Projects page from DB by given projectId, leaderId, page and limit
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */

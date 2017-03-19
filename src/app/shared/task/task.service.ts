@@ -19,8 +19,8 @@ export class TaskService {
   constructor(private http: Http) { }
 
   /**
-   * Creates the Task
-   * @param {TaskModel} model - The Task to create.
+   * Creates new Task in DB
+   * @param {TaskModel} model Task model to create.
    */
   createTask(model: TaskModel): Observable<Response> {
     const body: string = encodeURIComponent(model.toString());
@@ -35,26 +35,46 @@ export class TaskService {
   // TODO: implement local cache
 
   /**
-   * Get all models from DB by task id or project id
+   * Gets tasks page from DB by given taskId, projectId, page and limit
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasks(taskId = '', projectId = ''): Observable<any> {
-    const requestUrl = this.apiUrl + (projectId ? 'project/' + projectId : taskId);
+  getTasksPage(taskId = null, projectId = null, page = null, limit = null): Observable<Response> {
 
-    const reponseObservable = this.http.get(requestUrl)
-      .map((res: Response) => {
-        const tasks = res.json();
-        return tasks;
+    // All tasks:                    /task-api/
+    let requestUrl = this.apiUrl;
+
+    // Task by id:                   /task-api/:taskId
+    if (taskId) {
+      requestUrl = this.apiUrl + taskId;
+    }
+    // Page of tasks:                /task-api/page/:page/:limit
+    if (page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+    }
+    // All Tasks for Leader:         /task-api/project/:projectId/
+    if (projectId) {
+      requestUrl = this.apiUrl + 'project/' + projectId;
+    }
+    // Page of tasks for Leader:     /task-api/project/:projectId/page/:page/:limit
+    if (page !== null && limit !== null && projectId !== null) {
+      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit;
+    }
+
+    console.log('getTasksPage:', taskId, projectId, page, limit);
+
+    return this.http.get(requestUrl)
+      .map((responsePage: Response) => {
+        console.log('Tasks Page loaded, response: ', responsePage);
+        return responsePage.json();
       });
-      return reponseObservable;
   }
 
   /**
-   * Get a model from DB or from cache.
+   * Returns single Task from DB, reuses getTasksPage.
    */
   getTask(taskId: string): Observable<Response> {
-    return this.getTasks(taskId);
+    return this.getTasksPage(taskId);
   }
 
   /**

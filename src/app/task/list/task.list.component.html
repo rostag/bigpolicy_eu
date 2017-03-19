@@ -1,5 +1,5 @@
 <md-card-content>
-<!-- <md-card> -->
+  <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
   <md-card-actions>
     <md-toolbar class="add-toolbar" color="accent">Заходи проекту "{{project.title}}"
       <span class="add-fill-remaining"></span>
@@ -12,7 +12,13 @@
   </app-bp-task-edit>
 
     <md-list>
-       <md-list-item *ngFor="let task of tasks | async">
+       <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
+                                                                   id: 'itemsPage',
+                                                                   itemsPerPage: this.pageSize,
+                                                                   currentPage: itemsPage.page,
+                                                                   totalItems: itemsPage.total
+                                                                 }">
+
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
          <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>
@@ -27,6 +33,17 @@
          </p>
       </md-list-item>
     </md-list>
+
+    <pagination-controls
+                        id = "itemsPage"
+                        (pageChange)="pageChanged($event)"
+                        [maxSize]="5"
+                        directionLinks="true"
+                        autoHide="true"
+                        >
+    </pagination-controls>
+
+    <h3>Усього заходів: {{itemsPage.total}}</h3>
 
 </md-card-content>
 <!-- </md-card> -->

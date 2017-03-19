@@ -1,14 +1,15 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-/*
-	// TODO
-	Define ranges:
-		1) range of each value will be defined after coordination (with front-end)
-		2) documents fields will be adjusted after coordination (with host place)
-*/
+/**
+ *  TODO
+ *  Define ranges:
+ *    1) range of each value will be defined
+ *    2) documents fields will be adjusted
+ */
 
-const TaskSchema = new Schema({
+const taskSchema = new Schema({
 	title: { type: String, required: true  },
 	description: { type: String, required: true  },
 	projectId: { type: String, required: true },
@@ -22,10 +23,12 @@ const TaskSchema = new Schema({
 	totalDonationsReceived: { type: Number },
 });
 
-module.exports = function(){
-    try {
-        mongoose.model('Task', TaskSchema);
-    } catch (error) {}
+taskSchema.plugin(mongoosePaginate);
 
-    return mongoose.model('Task');
+module.exports = function(){
+  try {
+    mongoose.model('Task', taskSchema);
+  } catch (error) {
+  }
+  return mongoose.model('Task');
 }();

@@ -70,7 +70,7 @@ module.exports = function(app, DB, DBLeader){
 
   /**
    * Gets page of projects for the given leader, example:
-   * /project-api/leader/leaderId/1/1
+   * /project-api/leader/leaderId/page/1/1
    */
   .get('/leader/:leaderId/page/:page/:limit', function (req, res) {
     DBLeader.getLeader( req.params.leaderId )

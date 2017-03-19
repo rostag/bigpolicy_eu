@@ -8,22 +8,30 @@ var DBProject = {};
 var Project = require('./models/project');
 var Leader = require('./models/leader');
 
+/**
+ * Returns single Project by given project id
+ */
 DBProject.getProject = function(id) {
    return Project.findById(id);
 }
 
-// Will return a list of items with given ids, if ids are provided, or all items
-DBProject.listProjects = function(leaderProjectIds) {
-  return leaderProjectIds
-    ? Project.find({ '_id': { $in: leaderProjectIds } })
-    : Project.find();
-}
-
+/**
+ * Returns a page of Projects by given leader project ids (if present), page number and limit
+ */
 DBProject.getPage = function (leaderProjectIds, page, limit) {
   // console.log('DBProject.getPage, leaderProjectIds =', leaderProjectIds, ', page =', page, 'limit =', limit);
   return leaderProjectIds
     ? Project.paginate({ '_id': { $in: leaderProjectIds } }, { page: parseInt(page), limit: parseInt(limit) })
     : Project.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+}
+
+/**
+ * Returns all projects by given leader project ids (if provided), or just all projects
+ */
+DBProject.listProjects = function(leaderProjectIds) {
+  return leaderProjectIds
+    ? Project.find({ '_id': { $in: leaderProjectIds } })
+    : Project.find();
 }
 
 DBProject.createProject = function(dataObj) {
