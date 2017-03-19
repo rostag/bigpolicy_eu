@@ -16,8 +16,8 @@ DBDonation.getDonation = function(id) {
     return Donation.findById(id);
 }
 
-DBDonation.getDonationTarget = function( targetId, targetType ) {
-  // console.log('getDonationTarget:', targetId, targetType)
+DBDonation.getDonationTarget = function( targetType, targetId ) {
+  // console.log('getDonationTarget:', targetType, targetId )
   if (targetType === 'leader') {
     return Leader.findById(targetId);
   } else if (targetType === 'project') {
@@ -29,6 +29,7 @@ DBDonation.getDonationTarget = function( targetId, targetType ) {
 
 // Will return a list of items with given ids, if ids are provided, or all items
 DBDonation.listDonations = function(donationIds) {
+  // console.log('DBDonation.listDonations (by id):', donationIds )
   return donationIds
     ? Donation.find({ '_id': { $in: donationIds } })
     : Donation.find()
@@ -49,18 +50,20 @@ DBDonation.createDonation = function(data) {
 
   model.save();
 
-  if (model.virtual) {
-    DBDonation.addDonationToTarget(model);
-  }
+  // if (model.virtual) {
+  DBDonation.addDonationToTarget(null, model);
+  // }
+
+  console.log('Donation is virtual:', model.virtual);
 
   return model._id;
 }
 
-DBDonation.updateDonation = function(id, data) {
-  console.log('DBDonation: updateDonation', id, data)
+DBDonation.updateDonationStatus = function(id, data) {
+  console.log('DBDonation: updateDonationStatus', id, data)
 
   return Donation.findById(id, function(err, model) {
-    console.log(' -> virtual: ', model.virtual, model)
+    // console.log(' -> virtual: ', model.virtual, model)
     if (err || !model || !data) {
       return;
     }
@@ -69,9 +72,10 @@ DBDonation.updateDonation = function(id, data) {
       model[field] = data[field]
     }
     model.save();
-    if (!model.virtual) {
-      DBDonation.addDonationToTarget(null, model);
-    }
+
+    // if (!model.virtual) {
+    // DBDonation.addDonationToTarget(null, model);
+    // }
   });
 }
 
@@ -86,8 +90,8 @@ DBDonation.addDonationToTarget = function(error, savedDonation) {
   }
 
   if (savedDonation.targetType === 'leader') {
-    targetByIdQuery = Leader.where({ _id: savedDonation.targetId });
     // addDonationToLeader
+    targetByIdQuery = Leader.where({ _id: savedDonation.targetId });
   } else if (savedDonation.targetType === 'project') {
     // addDonationToProject
     targetByIdQuery = Project.where({ _id: savedDonation.targetId });
