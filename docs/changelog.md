@@ -75,7 +75,7 @@
 Donations feature:
 
  * Donations via LiqPay - initial version.
- * Virtual Payments - initial version.
+ * Virtual payments - initial version.
  * Payments history - initial version.
  * Leader - User matching.
  * WIP: FTUX for Registration.
