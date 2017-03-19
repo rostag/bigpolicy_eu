@@ -104,9 +104,14 @@ Donations feature:
 
 ### ### 2017-03-19 08:00
 
+ * Ng CLi update to RC2
+ * Get rid of date conversion in service
+ * Get rid of extra date fields in Project model
+ * Fix project pagination
+ * Leader's project pagination
+
 TODO:
 
--> Ng CLi update to RC2
--> Get rid of date conversion in service
--> Get rid of extra date fields in Project model
--> Fix project pagination
+ * Leaders pagination
+ * Tasks pagination
+ * Landing UX

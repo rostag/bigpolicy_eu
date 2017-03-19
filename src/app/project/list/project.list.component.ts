@@ -31,9 +31,9 @@ export class ProjectListComponent implements OnChanges {
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ) {
-      this.requestProjects(changes.leaderId.currentValue, 1, this.pageSize);
+      this.requestProjects();
     } else if (changes.pageSize && changes.pageSize.currentValue) {
-      this.requestProjects(null, 1, changes.pageSize.currentValue);
+      this.requestProjects();
     }
   }
 
@@ -44,21 +44,22 @@ export class ProjectListComponent implements OnChanges {
   ) {}
 
   pageChanged(pageNumber) {
-    console.log('page changed:', pageNumber);
-    this.requestProjects(null, pageNumber, this.pageSize);
+    this.itemsPage.page = pageNumber;
+    this.requestProjects();
   }
 
   // WIP
-  requestProjects(leaderId = '', pageNumber = 1, pageSize = 5) {
-    const proxySub = this.projectService.getProjectsPage(null, leaderId, pageNumber, pageSize).subscribe(responsePage => {
-      console.log('Next, responsePage:', responsePage);
-      this.itemsPage.docs.next(responsePage['docs']);
-      this.itemsPage.limit = responsePage['limit'];
-      this.itemsPage.page = responsePage['page'];
-      this.itemsPage.pages = responsePage['pages'];
-      this.itemsPage.total = responsePage['total'];
-      proxySub.unsubscribe();
-    });
+  requestProjects() {
+    const proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize)
+      .subscribe(responsePage => {
+        // console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
   }
 
   deleteProject(projectToRemove: ProjectModel) {

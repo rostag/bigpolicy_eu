@@ -53,17 +53,12 @@ export class ProjectService {
    * @return {string[]} The Observable for the HTTP request.
    */
   getProjectsPage(projectId = null, leaderId = null, page = null, limit = null): Observable<Response> {
-
-    // FIXME
     /*
-      WAS: const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
-
-      All projects:
-        /project-api/
-      Project by id:
-        /project-api/:projectId
-      Projects for Leader:
-        /project-api/leader/:leaderId/
+      WAS:
+      All projects:         /project-api/
+      Project by id:        /project-api/:projectId
+      Projects for Leader:  /project-api/leader/:leaderId/
+      - const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
     */
 
     console.log('getProjectsPage:', projectId, leaderId, page, limit);
@@ -76,31 +71,26 @@ export class ProjectService {
       requestUrl = this.apiUrl + projectId;
     }
 
-    // Projects for Leader:             /project-api/leader/:leaderId/
-    if (leaderId) {
-      requestUrl = this.apiUrl + 'leader/' + leaderId;
-    }
-
     // Page of projects:                /project-api/page/:page/:limit
     if (page !== null && limit !== null) {
       requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
     }
 
-    // TODO:
-    // Page of projects for a Leader:   /project-api/leader/page/:page/:limit
-    // OR:
-    // Page of projects for a Leader:   /project-api/page/leader/:page/:limit
+    // All Projects for Leader:         /project-api/leader/:leaderId/
+    if (leaderId) {
+      requestUrl = this.apiUrl + 'leader/' + leaderId;
+    }
 
+    // Page of projects for Leader:     /project-api/leader/:leaderId/page/:page/:limit
+    if (page !== null && limit !== null && leaderId !== null) {
+      requestUrl = this.apiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit;
+    }
+
+    // Whether an array or single item is returned
     const reponseObservable = this.http.get(requestUrl)
-      .map((res: Response) => {
-        const responsePage = res.json();
-        // const result = response;
-        // Whether an array or single item is returned
-        // if (response.docs) {
-        // result = response.docs;
-        // }
+      .map((responsePage: Response) => {
         console.log('Projects Page loaded, response: ', responsePage);
-        return responsePage;
+        return responsePage.json();
       });
     return reponseObservable;
   }

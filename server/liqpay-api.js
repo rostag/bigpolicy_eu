@@ -53,7 +53,7 @@ module.exports = function(app, DB){
    *  /liqpay-api/target/task/id
    */
   router.get('/target/:targetType/:targetId', function (req, res) {
-    console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
+    // console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
     DB.getDonationTarget( req.params.targetType, req.params.targetId )
       .then( (target) => {
         DB.listDonations(target.donations)
@@ -104,7 +104,7 @@ module.exports = function(app, DB){
       var oid = jsn.order_id;
       var donatonId = oid.substring('bpdon___id_'.length, oid.indexOf('__amt_'));
 
-      console.log('--> donationId:', donatonId, sts);
+      // console.log('--> donationId:', donatonId, sts);
 
       // Check Callback signature
       var sign = liqpay.str_to_sign(private_key + dta + private_key);
@@ -120,7 +120,7 @@ module.exports = function(app, DB){
       }
 
     } catch (e) {
-      console.log('Errro:', e);
+      console.log('Error:', e);
     }
 
     res.send('ok');
