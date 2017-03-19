@@ -18,7 +18,9 @@
       <ol>
        <md-list-item *ngFor="let donation of donations | async">
          <li>
-           <small>{{donation.description}} {{donation.dateStarted | date}}, {{donation.status}}</small>
+           <small>{{donation.description}} {{donation.dateStarted | date}}, {{donation.status}}
+             <span *ngIf="donation.status == 'sandbox'">(){{donation.dateCompleted | date}})</span>
+           </small>
            <!-- FIXME Show completeness status {{donation.dateCompleted | date}} -->
            <!-- TODO Add individual donation view <h3 md-line><a [routerLink]="['/donation/' + donation._id]"><b>{{donation.title}}</b></a></h3> -->
            <!-- TODO let admin to delete donation, user to cancel -->

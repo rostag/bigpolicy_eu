@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 // FIXME
 var options = {  server: { poolSize: 5 } };
 
-// for livereloading purposes
+// FIXME for livereloading purposes
 try {
   console.error('Establishing mongoose connection:');
     if (process.env.OPENSHIFT_MONGODB_DB_URL) {

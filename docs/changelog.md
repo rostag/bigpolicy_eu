@@ -75,12 +75,12 @@
 Donations feature:
 
  * Donations via LiqPay - initial version.
- * Virtual Payments - initial version.
+ * Virtual payments - initial version.
  * Payments history - initial version.
  * Leader - User matching.
  * WIP: FTUX for Registration.
 
-Bugfixes:
+ * * Bugfixes:
 
  * fixed login error (now user properly redirected).
  * Display in Safari.
@@ -93,3 +93,25 @@ Bugfixes:
 ### 2017-03-11
 
  * Migrated to Angular CLI version 1.0.0.rc-1
+
+### 2017-03-19 08:00
+
+ * Ng2PaginationModule added
+  * Front: https://github.com/michaelbromley/ng2-pagination
+  * Back: https://github.com/edwardhotchkiss/mongoose-paginate
+ * ProjectService uses pagination
+ * HomeComponent and it's route added
+
+### ### 2017-03-19 08:00
+
+ * Ng CLi update to RC2
+ * Get rid of date conversion in service
+ * Get rid of extra date fields in Project model
+ * Fix project pagination
+ * Leader's project pagination
+
+TODO:
+
+ * Leaders pagination
+ * Tasks pagination
+ * Landing UX

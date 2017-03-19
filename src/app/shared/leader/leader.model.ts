@@ -36,9 +36,6 @@ export class LeaderModel {
   docCorruptionRecord: string;
   docPassport: string;
 
-  // end of documents
-  createdAt: string;
-
 
   /**
    * It's necessary to have a string representation for sending it to DB

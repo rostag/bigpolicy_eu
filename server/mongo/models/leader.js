@@ -41,9 +41,6 @@ const LeaderSchema = new Schema({
 	docCriminalRecord: { type: String },
 	docCorruptionRecord: { type: String },
 	docPassport: { type: String },
-
-	// end of documents
-	createdAt: { type: Date }
 });
 
 module.exports = function(){

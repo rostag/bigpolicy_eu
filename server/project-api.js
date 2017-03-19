@@ -45,7 +45,6 @@ module.exports = function(app, DB, DBLeader){
       }
   })
 
-  // WIP
   /**
    * Gets all projects for the given leader:
    * /project-api/leader/id
@@ -57,14 +56,43 @@ module.exports = function(app, DB, DBLeader){
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })
-      .catch( err => res.json(err))
+      .catch( err => res.json(err));
+  })
+
+  /**
+   * Gets page of projects for the given leader:
+   * /project-api/leader/id
+   */
+  .get('/leader/:leaderId/page/:page/:limit', function (req, res) {
+    DBLeader.getLeader( req.params.leaderId )
+      .then((leader) => {
+        DB.getPage(leader.projects, req.params.page, req.params.limit)
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err));
+  })
+
+  /**
+   * Gets page of projects, example:
+   * /project-api/page/1/1
+   */
+  .get('/page/:page/:limit', function (req, res) {
+    // console.log('project-api/get page #', req.params.page, ', limit =', req.params.limit);
+    DB.getPage(null, req.params.page, req.params.limit)
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function(err){
+        res.json(err);
+      });
   })
 
   /**
    * Gets all projects, example:
    * /project-api/
    */
-  .get('*', function (req, res)     {
+  .get('*', function (req, res) {
       DB.listProjects()
       .then(function (data) {
           res.json(data);

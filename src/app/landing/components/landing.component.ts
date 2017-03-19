@@ -44,8 +44,9 @@ export class LandingComponent implements OnInit {
     return data;
   }
 
+  // FIXME PG_MIGRATION
   getProjects() {
-    this.projectService.getProjects()
+    this.projectService.getProjectsPage()
       .subscribe(
         data => this.setProjects(data),
         err => console.error(err),

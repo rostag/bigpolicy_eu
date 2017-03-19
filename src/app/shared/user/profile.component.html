@@ -26,7 +26,7 @@
       </md-card-title>
       <md-card-content>
         <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
-        <app-project-list [leaderId]="profileLeader._id">
+        <app-project-list [leaderId]="profileLeader._id" pageSize="2">
         </app-project-list>
       </md-card-content>
       <md-card-actions>
@@ -58,8 +58,5 @@
     </p>
     <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
   </div>
-
-  <!-- <app-project-list [maxCount]="10">
-  </app-project-list> -->
 
 </md-card>

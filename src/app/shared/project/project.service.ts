@@ -52,34 +52,54 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjects(projectId = '', leaderId = '', maxCount = 10): Observable<Response> {
+  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null): Observable<Response> {
+    /*
+      WAS:
+      All projects:         /project-api/
+      Project by id:        /project-api/:projectId
+      Projects for Leader:  /project-api/leader/:leaderId/
+      - const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
+    */
 
-    const requestUrl = this.apiUrl + (leaderId ? 'leader/' + leaderId : projectId);
+    console.log('getProjectsPage:', projectId, leaderId, page, limit);
 
+    // All projects:                    /project-api/
+    let requestUrl = this.apiUrl;
+
+    // Project by id:                   /project-api/:projectId
+    if (projectId) {
+      requestUrl = this.apiUrl + projectId;
+    }
+
+    // Page of projects:                /project-api/page/:page/:limit
+    if (page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+    }
+
+    // All Projects for Leader:         /project-api/leader/:leaderId/
+    if (leaderId) {
+      requestUrl = this.apiUrl + 'leader/' + leaderId;
+    }
+
+    // Page of projects for Leader:     /project-api/leader/:leaderId/page/:page/:limit
+    if (page !== null && limit !== null && leaderId !== null) {
+      requestUrl = this.apiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit;
+    }
+
+    // Whether an array or single item is returned
     const reponseObservable = this.http.get(requestUrl)
-      .map((res: Response) => {
-        const projects = res.json();
-        if (projects.forEach) {
-          projects.forEach(project => this.convertTime(project));
-        } else {
-          this.convertTime(projects);
-        }
-        // console.log('Projects loaded, response: ', projects);
-        return projects;
+      .map((responsePage: Response) => {
+        console.log('Projects Page loaded, response: ', responsePage);
+        return responsePage.json();
       });
     return reponseObservable;
-  }
-
-  private convertTime(task) {
-    task.dateStarted = new Date(task['dateStarted']);
-    task.dateEnded = new Date(task['dateEnded']);
   }
 
   /**
    * Get a model from DB or from cache.
    */
   getProject(projectId: string): Observable<Response> {
-    return this.getProjects(projectId);
+    return this.getProjectsPage(projectId);
   }
 
   /**

@@ -15,10 +15,20 @@ DBProject.getProject = function(id) {
 }
 
 // Will return a list of items with given ids, if ids are provided, or all items
-DBProject.listProjects = function(projectIds) {
-  return projectIds
-    ? Project.find({ '_id': { $in: projectIds } })
+DBProject.listProjects = function(leaderProjectIds) {
+  return leaderProjectIds
+    ? Project.find({ '_id': { $in: leaderProjectIds } })
     : Project.find();
+}
+
+DBProject.getPage = function (leaderProjectIds, page, limit) {
+  // console.log('DBProject.getPage, leaderProjectIds =', leaderProjectIds, ', page =', page, 'limit =', limit);
+  return leaderProjectIds
+    ? Project.paginate({ '_id': { $in: leaderProjectIds } }, { page: parseInt(page), limit: parseInt(limit) })
+    : Project.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+    // function(err, result) {
+    //   // console.log('=> error:', err, '\n=> result: ', result);
+    // });
 }
 
 DBProject.createProject = function(dataObj) {
@@ -28,7 +38,7 @@ DBProject.createProject = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  console.log('DBProject: CreateProject: ', data)
+  // console.log('DBProject: CreateProject: ', data)
 
   if ( !data.title || !data.description ) {
     throw ( 'DBProject: Invalid project cannot be saved. Either title or description is missed.')
@@ -55,7 +65,7 @@ DBProject.addProjectToLeader = function(error, savedProject) {
       // console.log('and his updated projects: ', leader.projects);
 
       leader.update({ projects: leader.projects }, function (error, leader){
-        //  console.log('added project to leader');
+      //  console.log('added project to leader');
       })
     }
   });

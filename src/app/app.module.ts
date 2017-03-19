@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core.module';
-// import { CommonModule } from '@angular/common';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -46,6 +46,7 @@ import { VideoComponent } from './shared/video/video.component';
 import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
     AppComponent,
     ContinueRegistrationDialogComponent,
     FilesEditComponent,
-    FilesViewComponent
+    FilesViewComponent,
+    HomeComponent
   ],
   imports: [
     routing,
@@ -81,6 +83,7 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
     FormsModule,
     MaterialModule,
     HttpModule,
+    Ng2PaginationModule,
     CoreModule // will provide services
   ],
   providers: [

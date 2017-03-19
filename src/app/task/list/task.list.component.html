@@ -16,7 +16,7 @@
          <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
          <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>
-          <b>{{task.cost}} UAH.</b> {{task.dateEnded | date}} - {{task.dateStarted | date}}
+          <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
          </p>
          <p md-line>
            <small>{{task.description}}</small>
