@@ -26,13 +26,14 @@ DBTask.getPage = function (projectTaskIds, page, limit) {
 }
 
 /**
+ * OBSOLETE
  * Returns all tasks by given project task ids (if provided), or just all tasks
  */
-DBTask.listTasks = function(taskIds) {
-  return taskIds
-    ? Task.find({ '_id': { $in: taskIds } })
-    : Task.find()
-}
+// DBTask.listTasks = function(taskIds) {
+//   return taskIds
+//     ? Task.find({ '_id': { $in: taskIds } })
+//     : Task.find()
+// }
 
 DBTask.createTask = function(dataObj) {
   var data = dataObj;

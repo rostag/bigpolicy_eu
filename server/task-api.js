@@ -55,19 +55,19 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * OBSOLETE
    * Gets all tasks for the given project:
    * /task-api/project/id
    */
-  .get('/project/:projectId', function (req, res) {
-    DBProject.getProject( req.params.projectId )
-      .then( (project) => {
-        DB.listTasks(project.tasks)
-          .then( data => res.json(data))
-          .catch( err => res.json(err))
-      })
-      .catch( err => res.json(err))
-  })
-
+  // .get('/project/:projectId', function (req, res) {
+  //   DBProject.getProject( req.params.projectId )
+  //     .then( (project) => {
+  //       DB.listTasks(project.tasks)
+  //         .then( data => res.json(data))
+  //         .catch( err => res.json(err))
+  //     })
+  //     .catch( err => res.json(err))
+  // })
 
   /**
    * Gets page of tasks for the given project, example:
@@ -88,7 +88,7 @@ module.exports = function(app, DB, DBProject){
    * /task-api/page/1/1
    */
   .get('/page/:page/:limit', function (req, res) {
-    console.log('task-api/get page #', req.params.page, ', limit =', req.params.limit);
+    // console.log('task-api/get page #', req.params.page, ', limit =', req.params.limit);
     DB.getPage(null, req.params.page, req.params.limit)
       .then(function (data) {
         res.json(data);
@@ -99,18 +99,19 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * OBSOLETE
    * Gets all tasks, example:
    * /task-api/
    */
-  .get('*', function (req, res)     {
-      DB.listTasks()
-      .then(function (data) {
-          res.json(data);
-      })
-      .catch(function(err){
-          res.json(err);
-      });
-  });
+  // .get('*', function (req, res)     {
+  //     DB.listTasks()
+  //     .then(function (data) {
+  //         res.json(data);
+  //     })
+  //     .catch(function(err){
+  //         res.json(err);
+  //     });
+  // });
 
   app.use('/task-api', router);
 

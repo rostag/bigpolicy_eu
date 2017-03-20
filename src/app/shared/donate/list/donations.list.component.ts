@@ -19,12 +19,23 @@ export class DonationsListComponent implements OnChanges {
   // Either Leader, Project or Task
   @Input() targetType: string;
 
-  private donations: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  @Input() pageSize = 5;
+
+  public items: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public itemsPage = {
+    docs: this.items,
+    limit: this.pageSize,
+    page: 1,
+    pages: 0,
+    total: 0
+  };
 
   ngOnChanges(changes) {
     const target = changes.target.currentValue;
     if (target && target._id) {
-      this.requestDonations(target);
+      this.requestItems();
+    } else if (changes.pageSize && changes.pageSize.currentValue) {
+      this.requestItems();
     }
   }
 
@@ -33,11 +44,31 @@ export class DonationsListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  requestDonations(target) {
-    const proxySub = this.donationService.getDonations('', target._id, this.targetType).subscribe(donations => {
-      this.donations.next(donations);
-      proxySub.unsubscribe();
-    });
+  pageChanged(pageNumber) {
+    this.itemsPage.page = pageNumber;
+    this.requestItems();
   }
+
+  // FIXME REMOVE CODE DUPLICATION
+  requestItems() {
+    const proxySub = this.donationService.getDonationsPage(null, this.target._id, this.targetType, this.itemsPage.page, this.pageSize)
+      .subscribe(responsePage => {
+        console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
+  }
+
+// OBSOLETE
+  // private requestDonations() {
+  //   const proxySub = this.donationService.getDonations('', this.target._id, this.targetType, ).subscribe(donations => {
+  //     this.donations.next(donations);
+  //     proxySub.unsubscribe();
+  //   });
+  // }
 
 }

@@ -13,7 +13,7 @@
 
     <md-list>
        <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
-                                                                   id: 'itemsPage',
+                                                                   id: 'taskItemsPage',
                                                                    itemsPerPage: this.pageSize,
                                                                    currentPage: itemsPage.page,
                                                                    totalItems: itemsPage.total
@@ -35,7 +35,7 @@
     </md-list>
 
     <pagination-controls
-                        id = "itemsPage"
+                        id = "taskItemsPage"
                         (pageChange)="pageChanged($event)"
                         [maxSize]="5"
                         directionLinks="true"
@@ -43,7 +43,6 @@
                         >
     </pagination-controls>
 
-    <h3>Усього заходів: {{itemsPage.total}}</h3>
+    <p>Усього заходів: {{itemsPage.total}}</p>
 
 </md-card-content>
-<!-- </md-card> -->

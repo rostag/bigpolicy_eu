@@ -22,7 +22,7 @@
 
     <div class="leaders-list">
      <div *ngFor="let leader of itemsPage.docs | async | paginate: {
-                                                           id: 'itemsPage',
+                                                           id: 'leaderItemsPage',
                                                            itemsPerPage: this.pageSize,
                                                            currentPage: itemsPage.page,
                                                            totalItems: itemsPage.total
@@ -51,7 +51,7 @@
      </div>
 
      <pagination-controls
-       id = "itemsPage"
+       id = "leaderItemsPage"
        (pageChange)="pageChanged($event)"
        [maxSize]="5"
        directionLinks="true"

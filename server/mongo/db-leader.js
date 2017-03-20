@@ -40,11 +40,12 @@ DBLeader.getPage = function (partyLeaderIds, page, limit) {
 }
 
 /**
+ * OBSOLETE
  * Returns all leaders
  */
-DBLeader.listLeaders = function() {
-  return Leader.find();
-}
+// DBLeader.listLeaders = function() {
+//   return Leader.find();
+// }
 
 DBLeader.createLeader = function(dataObj) {
   var data = dataObj;

@@ -97,18 +97,19 @@ module.exports = function(app, DB){
   })
 
   /**
+   * OBSOLETE
    * Gets all leaders, example:
    * /leader-api/
    */
-  .get('*', function (req, res)     {
-    DB.listLeaders()
-    .then(function (data) {
-      res.json(data);
-    })
-    .catch(function(err){
-      res.json(err);
-    });
-  })
+  // .get('*', function (req, res)     {
+  //   DB.listLeaders()
+  //   .then(function (data) {
+  //     res.json(data);
+  //   })
+  //   .catch(function(err){
+  //     res.json(err);
+  //   });
+  // })
 
   /**
    * Gets all projects for leader, example:

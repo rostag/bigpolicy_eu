@@ -1,11 +1,11 @@
 <md-list>
   <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
   <md-list-item *ngFor="let project of itemsPage.docs | async | paginate: {
-                                                      id: 'itemsPage',
-                                                      itemsPerPage: this.pageSize,
-                                                      currentPage: itemsPage.page,
-                                                      totalItems: itemsPage.total
-                                                    }">
+                                                                            id: 'projectItemsPage',
+                                                                            itemsPerPage: this.pageSize,
+                                                                            currentPage: itemsPage.page,
+                                                                            totalItems: itemsPage.total
+                                                                          }">
     <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
     <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
     <p md-line>
@@ -44,7 +44,7 @@
 </md-list>
 
 <pagination-controls
-                    id = "itemsPage"
+                    id = "projectItemsPage"
                     (pageChange)="pageChanged($event)"
                     [maxSize]="5"
                     directionLinks="true"

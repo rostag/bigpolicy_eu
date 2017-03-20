@@ -26,13 +26,14 @@ DBProject.getPage = function (leaderProjectIds, page, limit) {
 }
 
 /**
+ * OBSOLETE
  * Returns all projects by given leader project ids (if provided), or just all projects
  */
-DBProject.listProjects = function(leaderProjectIds) {
-  return leaderProjectIds
-    ? Project.find({ '_id': { $in: leaderProjectIds } })
-    : Project.find();
-}
+// DBProject.listProjects = function(leaderProjectIds) {
+//   return leaderProjectIds
+//     ? Project.find({ '_id': { $in: leaderProjectIds } })
+//     : Project.find();
+// }
 
 DBProject.createProject = function(dataObj) {
   var data = dataObj;

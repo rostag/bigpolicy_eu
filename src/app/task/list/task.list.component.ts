@@ -18,7 +18,6 @@ export class TaskListComponent implements OnChanges {
   @Input() project: ProjectModel;
   @Input() pageSize = 5;
 
-  // private tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
     docs: this.tasks,
