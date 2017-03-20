@@ -63,31 +63,55 @@ export class LeaderService {
   }
 
   /**
-   * Get all models from DB
+   * Gets Leaders page from DB by given leaderId, groupId, page and limit
    * Returns an Observable for the HTTP GET request.
-   * If there was a previous successful request
-   * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  getLeaders(modelId = ''): Observable<Response> {
-    // TODO: Local caching
-    // if (this.models && this.models.length) {
-    //   return Observable.from([this.models]);
-    // }
-    return this.http.get(this.apiUrl + modelId)
-      .map((res: Response) => {
-        this.models = res.json();
-        return this.models;
+  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null): Observable<Response> {
+
+    // All leaders:                    /leader-api/
+    let requestUrl = this.apiUrl;
+
+    // Leader by id:                   /leader-api/:leaderId
+    if (leaderId) {
+      requestUrl = this.apiUrl + leaderId;
+    }
+    // Page of leaders:                /leader-api/page/:page/:limit
+    if (page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+    }
+    // RESERVED: All Leaders for Group:         /leader-api/group/:groupId/
+    if (groupId) {
+      requestUrl = this.apiUrl + 'group/' + groupId;
+    }
+    // Page of leaders for Leader:     /leader-api/group/:groupId/page/:page/:limit
+    if (page !== null && limit !== null && groupId !== null) {
+      requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    }
+
+    // console.log('getLeadersPage:', leaderId, groupId, page, limit);
+
+    return this.http.get(requestUrl)
+      .map((responsePage: Response) => {
+        // console.log('Leaders Page loaded, response: ', responsePage);
+        return responsePage.json();
       });
   }
 
   /**
-   * Get a model from DB or from cache.
+   * Returns single leader from DB, reuses getLeadersPage.
    */
-  getLeader(modelId: string): Observable<Response> {
-    const leader = this.getLeaders(modelId);
-    return leader;
+  getLeader(leaderId: string): Observable<Response> {
+    return this.getLeadersPage(leaderId);
   }
+
+
+
+
+
+
+
+
 
    /**
     * Seaches for leader by user email in DB
@@ -172,7 +196,7 @@ export class LeaderService {
   }
 
   get(): Observable<Response> {
-    return this.getLeaders();
+    return this.getLeadersPage();
   }
 
   private setLeaderForUser(leader) {

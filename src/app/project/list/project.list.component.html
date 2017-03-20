@@ -1,11 +1,11 @@
 <md-list>
   <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
   <md-list-item *ngFor="let project of itemsPage.docs | async | paginate: {
-                                                      id: 'itemsPage',
-                                                      itemsPerPage: this.pageSize,
-                                                      currentPage: itemsPage.page,
-                                                      totalItems: itemsPage.total
-                                                    }">
+                                                                            id: 'projectItemsPage',
+                                                                            itemsPerPage: this.pageSize,
+                                                                            currentPage: itemsPage.page,
+                                                                            totalItems: itemsPage.total
+                                                                          }">
     <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
     <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
     <p md-line>
@@ -19,19 +19,6 @@
       <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
     </p>
   </md-list-item>
-
-  <pagination-controls
-                      id = "itemsPage"
-                      (pageChange)="pageChanged($event)"
-                      [maxSize]="5"
-                      directionLinks="true"
-                      previousLabel="Previous"
-                      nextLabel="Next"
-                      autoHide="true"
-                      >
-  </pagination-controls>
-
-  <h3>Кількість проектів: {{itemsPage.total}}</h3>
 
   <!-- TODO Also show Projects as Cards / Thumbs -->
 
@@ -55,3 +42,16 @@
     </md-card>
   </div> -->
 </md-list>
+
+<pagination-controls
+                    id = "projectItemsPage"
+                    (pageChange)="pageChanged($event)"
+                    [maxSize]="5"
+                    directionLinks="true"
+                    previousLabel="Previous"
+                    nextLabel="Next"
+                    autoHide="true"
+                    >
+</pagination-controls>
+
+<p>Кількість проектів: {{itemsPage.total}}</p>

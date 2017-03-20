@@ -72,7 +72,6 @@ export class LeaderEditComponent implements OnInit {
   deleteLeader(leader: LeaderModel) {
     // Delete Leader from DB
     this.leaderService.deleteLeader(leader);
-
     this.router.navigate(['/leaders']);
     return false;
   }

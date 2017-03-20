@@ -9,35 +9,35 @@ module.exports = function(app, DB){
    * Creates a Leader
    */
   router.post('/', function (req, res) {
-      DB.createLeader(req.body)
-      .catch(function (err) {
-          res.send(err);
-      }).then(function (data) {
-          res.json(data);
-      });
+    DB.createLeader(req.body)
+    .catch(function (err) {
+      res.send(err);
+    }).then(function (data) {
+      res.json(data);
+    });
   })
 
   /**
    * Updates a Leader
    */
   .put('/:id', function(req, res) {
-      DB.updateLeader(req.params.id, req.body)
-      .then(function (data) {
-          res.json(data);
-      })
-      .catch(function(err){
-  	    res.json(err);
-  	});
+    DB.updateLeader(req.params.id, req.body)
+    .then(function (data) {
+      res.json(data);
+    })
+    .catch(function(err){
+	    res.json(err);
+	});
   })
 
   /**
    * Deletes a Leader by ID
    */
   .delete('/:id', function (req, res) {
-      DB.deleteLeader(req.params.id)
-      .then(function (data) {
-          res.json(data);
-      });
+    DB.deleteLeader(req.params.id)
+    .then(function (data) {
+      res.json(data);
+    });
   })
 
   /**
@@ -45,12 +45,12 @@ module.exports = function(app, DB){
    * /leader-api/57a64e2b3a5bfb3b48e6fd1b
    */
   .get('/:id', function (req, res) {
-      if (req.params.id) {
-          DB.getLeader(req.params.id)
-          .then(function (data) {
-              res.json(data || []);
-          });
-      }
+    if (req.params.id) {
+      DB.getLeader(req.params.id)
+      .then(function (data) {
+        res.json(data || []);
+      });
+    }
   })
 
   /**
@@ -67,34 +67,63 @@ module.exports = function(app, DB){
   })
 
   /**
+   * NOT USED - reserved for future
+   * Gets page of leaders for the given party, example:
+   * /leader-api/party/partyId/page/1/1
+   */
+  .get('/party/:partyId/page/:page/:limit', function (req, res) {
+    DBLeader.getLeader( req.params.leaderId )
+      .then((leader) => {
+        DB.getPage(party.leaders, req.params.page, req.params.limit)
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
+      })
+      .catch( err => res.json(err));
+  })
+
+  /**
+   * Gets page of Leaders, example:
+   * /leader-api/page/1/1
+   */
+  .get('/page/:page/:limit', function (req, res) {
+    // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit);
+    DB.getPage(null, req.params.page, req.params.limit)
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function(err){
+        res.json(err);
+      });
+  })
+
+  /**
+   * OBSOLETE
    * Gets all leaders, example:
    * /leader-api/
    */
-  .get('*', function (req, res)     {
-      DB.listLeaders()
-      .then(function (data) {
-          res.json(data);
-      })
-      .catch(function(err){
-          res.json(err);
-      });
-  })
+  // .get('*', function (req, res)     {
+  //   DB.listLeaders()
+  //   .then(function (data) {
+  //     res.json(data);
+  //   })
+  //   .catch(function(err){
+  //     res.json(err);
+  //   });
+  // })
 
   /**
    * Gets all projects for leader, example:
    * /leader-api/id/projects
    */
   .get('/:id/projects', function (req, res)     {
-      DB.listProjects(req.params.id)
-      .then(function (data) {
-          res.json(data);
-      })
-      .catch(function(err){
-          res.json(err);
-      });
+    DB.listProjects(req.params.id)
+    .then(function (data) {
+      res.json(data);
+    })
+    .catch(function(err){
+      res.json(err);
+    });
   });
 
   app.use('/leader-api', router);
-
-  // end of module
 }

@@ -31,7 +31,7 @@ export class LandingComponent implements OnInit {
   }
 
   getLeaders() {
-    this.leaderService.getLeaders()
+    this.leaderService.getLeadersPage()
       .subscribe(
         data => this.setLeaders(data),
         err => console.error(err),

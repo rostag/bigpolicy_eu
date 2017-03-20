@@ -1,7 +1,5 @@
 //******************************************************************************
-//
 // D O N A T I O N
-//
 //******************************************************************************
 
 var DBDonation = {};
@@ -27,13 +25,24 @@ DBDonation.getDonationTarget = function( targetType, targetId ) {
   }
 }
 
-// Will return a list of items with given ids, if ids are provided, or all items
-DBDonation.listDonations = function(donationIds) {
-  // console.log('DBDonation.listDonations (by id):', donationIds )
-  return donationIds
-    ? Donation.find({ '_id': { $in: donationIds } })
-    : Donation.find()
+/**
+ * Returns a page of donations by given target donation ids (if present), page number and limit
+ */
+DBDonation.getPage = function (targetDonationIds, page, limit) {
+  // console.log('DBDonation.getPage, targetDonationIds =', targetDonationIds.length, ', page =', page, 'limit =', limit);
+  return targetDonationIds
+    ? Donation.paginate({ '_id': { $in: targetDonationIds } }, { page: parseInt(page), limit: parseInt(limit) })
+    : Donation.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
 }
+
+// OBSOLETE
+// Will return a list of items with given ids, if ids are provided, or all items
+// DBDonation.listDonations = function(donationIds) {
+//   // console.log('DBDonation.listDonations (by id):', donationIds )
+//   return donationIds
+//     ? Donation.find({ '_id': { $in: donationIds } })
+//     : Donation.find()
+// }
 
 DBDonation.createDonation = function(data) {
   for ( var item in data ) {
@@ -54,7 +63,7 @@ DBDonation.createDonation = function(data) {
   DBDonation.addDonationToTarget(null, model);
   // }
 
-  console.log('Donation is virtual:', model.virtual);
+  // console.log('Donation is virtual:', model.virtual);
 
   return model._id;
 }
@@ -81,7 +90,7 @@ DBDonation.updateDonationStatus = function(id, data) {
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {
   // Add this donation to the corresponding target's array
-  console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
+  // console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
 
   var targetByIdQuery;
 

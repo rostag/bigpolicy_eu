@@ -1,6 +1,4 @@
-// , DBLeader, DBProject, DBTask
 module.exports = function(app, DB){
-  // FIXME Rename to donate-api
   var express = require('express');
   var router = express.Router();
   var LiqPay = require('liqpay-sdk');
@@ -13,7 +11,6 @@ module.exports = function(app, DB){
 
   function getParamsFromRequestData(req) {
     var d;
-    // console.log('------------ body: ', req.body);
     for ( var item in req.body ) {
       d = JSON.parse(item);
     }
@@ -52,11 +49,11 @@ module.exports = function(app, DB){
    *  /liqpay-api/target/project/id
    *  /liqpay-api/target/task/id
    */
-  router.get('/target/:targetType/:targetId', function (req, res) {
+  router.get('/target/:targetType/:targetId/page/:page/:limit', function (req, res) {
     // console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
     DB.getDonationTarget( req.params.targetType, req.params.targetId )
       .then( (target) => {
-        DB.listDonations(target.donations)
+        DB.getPage(target.donations, req.params.page, req.params.limit)
           .then( data => {
             // console.log('List donations:', data, target.donations);
             res.json(data)
@@ -68,6 +65,29 @@ module.exports = function(app, DB){
       })
       .catch( err => res.json(err))
   })
+
+  /**
+   * Gets all donations for the given target:
+   *  /liqpay-api/target/leader/id
+   *  /liqpay-api/target/project/id
+   *  /liqpay-api/target/task/id
+   */
+  // router.get('/target/:targetType/:targetId', function (req, res) {
+  //   // console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
+  //   DB.getDonationTarget( req.params.targetType, req.params.targetId )
+  //     .then( (target) => {
+  //       DB.listDonations(target.donations)
+  //         .then( data => {
+  //           // console.log('List donations:', data, target.donations);
+  //           res.json(data)
+  //         })
+  //         .catch( err => {
+  //           // console.log('List donations: error: ', err);
+  //           res.json(err)
+  //         })
+  //     })
+  //     .catch( err => res.json(err))
+  // })
 
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
@@ -103,8 +123,6 @@ module.exports = function(app, DB){
       var sts = jsn.status;
       var oid = jsn.order_id;
       var donatonId = oid.substring('bpdon___id_'.length, oid.indexOf('__amt_'));
-
-      // console.log('--> donationId:', donatonId, sts);
 
       // Check Callback signature
       var sign = liqpay.str_to_sign(private_key + dta + private_key);

@@ -9,6 +9,6 @@
       <button (click)="onDonateToggle()" md-button>Відмінити</button>
   </div>
 
-  <app-donations-list [target]="target" [targetType]="targetType" *ngIf="donationsListVisible" ></app-donations-list>
+  <app-donations-list [target]="target" [targetType]="targetType" [pageSize]="10" *ngIf="donationsListVisible" ></app-donations-list>
 
 </div>

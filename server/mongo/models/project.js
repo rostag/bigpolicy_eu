@@ -1,10 +1,9 @@
-var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 /**
- *  TODO
- *  Define ranges:
+ *  TODO: Define ranges
  *    1) range of each value will be defined
  *    2) documents fields will be adjusted
  */

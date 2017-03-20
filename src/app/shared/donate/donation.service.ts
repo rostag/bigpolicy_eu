@@ -38,26 +38,48 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonations(donationId = '', targetId = '', targetType = 'leader'): Observable<any> {
+  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null): Observable<any> {
 
     // FIXME Implement interface and adopt three types of targets
-    const requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
+    // const requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
+
+    // All donations:                    /liqpay-api/
+    let requestUrl = this.apiUrl;
+
+    // Donation by id:                   /liqpay-api/target/:targetType/:targetId
+    if (donationId) {
+      requestUrl = this.apiUrl + donationId;
+    }
+    // Page of donations:                /liqpay-api/page/:page/:limit
+    if (page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+    }
+    // All Donations for Target:         /liqpay-api/target/:targetType/:targetId
+    if (targetId !== null && targetType !== null) {
+      requestUrl = this.apiUrl + 'target/' + targetType + '/' + targetId;
+    }
+    // Page of Donations for Target:     /liqpay-api/target/:targetType/:targetId/page/:page/:limit
+    if (targetId !== null && targetType !== null && page !== null && limit !== null) {
+      requestUrl = this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit;
+    }
+
+    // console.log('Donation Service: get by:', projectId, leaderId, page, limit);
 
     console.log('Donation Service: get by', requestUrl);
 
-    const reponseObservable = this.http.get(requestUrl)
-      .map((res: Response) => {
-        const donations = res.json();
+    const responseObservable = this.http.get(requestUrl)
+      .map((responsePage: Response) => {
+        const donations = responsePage.json();
         return donations;
       });
-      return reponseObservable;
+      return responseObservable;
   }
 
   /**
    * Get a model from DB or from cache.
    */
   getDonation(donationId: string): Observable<Response> {
-    return this.getDonations(donationId);
+    return this.getDonationsPage(donationId);
   }
 
   //////////////////////////////////////////////////////////////////////////////

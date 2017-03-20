@@ -1,7 +1,5 @@
 //******************************************************************************
-//
 // T A S K
-//
 //******************************************************************************
 
 var DBTask = {};
@@ -10,16 +8,32 @@ var DBTask = {};
 var Project = require('./models/project');
 var Task = require('./models/task');
 
+/**
+ * Returns single Task by given task id
+ */
 DBTask.getTask = function(id) {
     return Task.findById(id);
 }
 
-// Will return a list of items with given ids, if ids are provided, or all items
-DBTask.listTasks = function(taskIds) {
-  return taskIds
-    ? Task.find({ '_id': { $in: taskIds } })
-    : Task.find()
+/**
+ * Returns a page of tasks by given project task ids (if present), page number and limit
+ */
+DBTask.getPage = function (projectTaskIds, page, limit) {
+  // console.log('DBTask.getPage, projectTaskIds =', projectTaskIds, ', page =', page, 'limit =', limit);
+  return projectTaskIds
+    ? Task.paginate({ '_id': { $in: projectTaskIds } }, { page: parseInt(page), limit: parseInt(limit) })
+    : Task.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
 }
+
+/**
+ * OBSOLETE
+ * Returns all tasks by given project task ids (if provided), or just all tasks
+ */
+// DBTask.listTasks = function(taskIds) {
+//   return taskIds
+//     ? Task.find({ '_id': { $in: taskIds } })
+//     : Task.find()
+// }
 
 DBTask.createTask = function(dataObj) {
   var data = dataObj;

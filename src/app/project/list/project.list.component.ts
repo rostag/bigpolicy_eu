@@ -1,6 +1,5 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -29,6 +28,12 @@ export class ProjectListComponent implements OnChanges {
 
   isAddingTaskMode = false;
 
+  constructor(
+    public userService: UserService,
+    private projectService: ProjectService,
+    private http: Http
+  ) {}
+
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ) {
       this.requestProjects();
@@ -37,18 +42,11 @@ export class ProjectListComponent implements OnChanges {
     }
   }
 
-  constructor(
-    public userService: UserService,
-    private projectService: ProjectService,
-    private http: Http
-  ) {}
-
   pageChanged(pageNumber) {
     this.itemsPage.page = pageNumber;
     this.requestProjects();
   }
 
-  // WIP
   requestProjects() {
     const proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize)
       .subscribe(responsePage => {

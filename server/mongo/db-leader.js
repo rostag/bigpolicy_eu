@@ -1,7 +1,5 @@
 //******************************************************************************
-//
 // L E A D E R
-//
 //******************************************************************************
 
 var DBLeader = {};
@@ -9,44 +7,45 @@ var DBLeader = {};
 // mongoose models
 var Leader = require('./models/leader');
 
-
+/**
+ * Returns single Leader by id
+ */
 DBLeader.getLeader = function(id) {
-  var leader = Leader.findById(id, function (error, leader) {
-    if (leader) {
-      leader.projects = DBLeader.getLeaderProjects(leader.projects);
-    }
-  });
-  return leader;
+  return Leader.findById(id);
 }
 
+/**
+ * Returns single Leader by email
+ */
 DBLeader.findLeaderByEmail = function(email) {
   var leader = Leader.findOne({ 'email': email }, function (err, leader) {
     if (err) {
       return handleError(err);
     }
-    if (leader) {
-      leader.projects = DBLeader.getLeaderProjects(leader.projects);
-    }
   });
   return leader;
 }
 
-DBLeader.getLeaderProjects = function (projects) {
-  if (projects) {
-    // console.log('DBLeader: get leader projects:', projects);
-
-    // WIP
-    projects.forEach (function (project) {
-      // console.log('DBLeader: project found:', project);
-    });
-  }
-  return projects;
+/**
+ * Returns a page of Leaders by given patyu leader ids (if present), page number and limit
+ * @param ownerLeaderIds Not used currently, reserved for future use (by party)
+ * @param page Page number to get from DB
+ * @param limit Items per page to get from DB
+ */
+DBLeader.getPage = function (partyLeaderIds, page, limit) {
+  // console.log('DBLeader.getPage, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit);
+  return partyLeaderIds
+    ? Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) })
+    : Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
 }
 
-DBLeader.listLeaders = function(id) {
-    return Leader.find();
-    // .exec();
-}
+/**
+ * OBSOLETE
+ * Returns all leaders
+ */
+// DBLeader.listLeaders = function() {
+//   return Leader.find();
+// }
 
 DBLeader.createLeader = function(dataObj) {
   var data = dataObj;
@@ -85,7 +84,7 @@ DBLeader.updateLeader = function(id,data) {
 }
 
 DBLeader.deleteLeader = function(id) {
-    return Leader.findById(id).remove();
+  return Leader.findById(id).remove();
 }
 
 /* Leader API usage examples

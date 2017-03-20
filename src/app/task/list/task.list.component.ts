@@ -16,17 +16,18 @@ import { UserService } from '../../shared/user/user.service';
 export class TaskListComponent implements OnChanges {
 
   @Input() project: ProjectModel;
+  @Input() pageSize = 5;
+
+  public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public itemsPage = {
+    docs: this.tasks,
+    limit: this.pageSize,
+    page: 1,
+    pages: 0,
+    total: 0
+  };
 
   isAddingTaskMode = false;
-
-  private tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
-
-  ngOnChanges(changes) {
-    const project = changes.project.currentValue;
-    if (project && project._id) {
-      this.requestTasks(project._id);
-    }
-  }
 
   constructor(
     public userService: UserService,
@@ -34,11 +35,31 @@ export class TaskListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  requestTasks(projectId) {
-    const proxySub = this.taskService.getTasks('', projectId).subscribe(tasks => {
-      this.tasks.next(tasks);
-      proxySub.unsubscribe();
-    });
+  ngOnChanges(changes) {
+    const project = changes.project.currentValue;
+    if (project && project._id) {
+      this.requestTasks();
+    } else if (changes.pageSize && changes.pageSize.currentValue) {
+      this.requestTasks();
+    }
+  }
+
+  pageChanged(pageNumber) {
+    this.itemsPage.page = pageNumber;
+    this.requestTasks();
+  }
+
+  requestTasks() {
+    const proxySub = this.taskService.getTasksPage(null, this.project._id, this.itemsPage.page, this.pageSize)
+      .subscribe(responsePage => {
+        console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
   }
 
   addTask() {
