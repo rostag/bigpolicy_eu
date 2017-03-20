@@ -124,8 +124,6 @@ module.exports = function(app, DB){
       var oid = jsn.order_id;
       var donatonId = oid.substring('bpdon___id_'.length, oid.indexOf('__amt_'));
 
-      // console.log('--> donationId:', donatonId, sts);
-
       // Check Callback signature
       var sign = liqpay.str_to_sign(private_key + dta + private_key);
 
