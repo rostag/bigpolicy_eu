@@ -49,7 +49,7 @@ DBLeader.getPage = function (partyLeaderIds, page, limit) {
 
 DBLeader.createLeader = function(dataObj) {
   var data = dataObj;
-  console.log('DBLeader: createLeader: ', data)
+  // console.log('DBLeader: createLeader: ', data)
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }

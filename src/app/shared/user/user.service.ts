@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
@@ -35,8 +35,8 @@ export class UserService {
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
 
   constructor(
-    public projectService: ProjectService,
-    public leaderService: LeaderService
+    public leaderService: LeaderService,
+    public projectService: ProjectService
   ) {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
@@ -75,10 +75,14 @@ export class UserService {
   };
 
   public showStatus() {
-    console.log('User service ', this.getEmail() );
-    console.log('\tIs authd:', this.authenticated(), ' Is admin:', this.isAdmin());
-    console.log('\tHas leader:', this.hasLeader(), '\tLeader:', this.leaderService.leader);
-    console.log('\tSaved registration:', localStorage.getItem('BigPolicyLeaderRegistration'));
+    const status =
+      `Email: ` + this.getEmail() +
+      `\nAuthenticated: ` + this.authenticated() +
+      `\nHas Leader: ` +  this.hasLeader() +
+      `\nIs Admin: ` +  this.isAdmin() +
+      `\nLeader: ` + this.leaderService.leader +
+      `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
+    console.log('User status: ' + status);
   }
 
   /**
@@ -160,11 +164,4 @@ export class UserService {
       console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
     }
   }
-
-  // FIXME Implement unsubscribing
-  // ngOnDestroy() {
-  //   console.log('UNSUB: UserService');
-  //   this.subscription.unsubscribe();
-  // }
-
 }
