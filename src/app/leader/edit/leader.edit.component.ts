@@ -146,9 +146,7 @@ export class LeaderEditComponent implements OnInit {
   template: `
       <h2 md-dialog-title>Потрібна авторизація</h2>
       <md-dialog-content>
-        <p>
-          Для завершення реєстрації треба увійти в систему — натисніть "Продовжити"'
-        </p>
+          Для завершення реєстрації треба увійти в систему — натиcни "Продовжити"'
       </md-dialog-content>
       <md-dialog-actions [attr.align]="actionsAlignment">
         <button

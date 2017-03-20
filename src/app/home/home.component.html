@@ -1,12 +1,30 @@
 <h1>WIP WIP WIP</h1>
 
+<!-- TODO FTUX - Section for leaders without a project -->
+<!-- TODO FTUX - Section for projects without tasks -->
+
+<!-- TODO FTUX - AUTH - This section is visible to anonymous only -->
+<!-- <div *ngIf="!userService.authenticated()"> -->
+
+  <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+  <div *ngIf="!userService.hasLeader()">
+    <a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a>
+  </div>
+
+  <!-- FTUX - LEADER END -->
+
+<!-- </div> --> <!-- TODO FTUX - AUTH END -->
+
+
+
+
 <!-- LOGO // TBU -->
 <!-- NAV // TBU -->
 
 <!--
     MOBILE
       TBD: Два горизонтальні квадрати,
-      TBD: Меню — 4 полосочки-квардатика під лого, Потій йдут 2 блоки — проекти та лідери
+      TBD: Меню — 4 полосочки-квадратика під лого, Потій йдут 2 блоки — проекти та лідери
         -->
 
 <!--
