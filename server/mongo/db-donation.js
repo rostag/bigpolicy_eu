@@ -63,7 +63,7 @@ DBDonation.createDonation = function(data) {
   DBDonation.addDonationToTarget(null, model);
   // }
 
-  console.log('Donation is virtual:', model.virtual);
+  // console.log('Donation is virtual:', model.virtual);
 
   return model._id;
 }
@@ -90,7 +90,7 @@ DBDonation.updateDonationStatus = function(id, data) {
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {
   // Add this donation to the corresponding target's array
-  console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
+  // console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
 
   var targetByIdQuery;
 
