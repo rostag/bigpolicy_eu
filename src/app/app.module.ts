@@ -43,7 +43,6 @@ import { DonationsListComponent } from './shared/donate/list/donations.list.comp
 
 import { EmailValidatorDirective } from './shared/validation/email.validator';
 import { VideoComponent } from './shared/video/video.component';
-import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
 import { HomeComponent } from './home/home.component';
@@ -71,7 +70,6 @@ import { HomeComponent } from './home/home.component';
     EmailValidatorDirective,
     VideoComponent,
     AppComponent,
-    ContinueRegistrationDialogComponent,
     FilesEditComponent,
     FilesViewComponent,
     HomeComponent
@@ -81,18 +79,15 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     RouterModule,
     FormsModule,
-    MaterialModule,
     HttpModule,
     Ng2PaginationModule,
+    MaterialModule,
     CoreModule // will provide services
   ],
   providers: [
     LoggedInGuard,
     ShareService,
     DonationService
-  ],
-  entryComponents: [
-    ContinueRegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

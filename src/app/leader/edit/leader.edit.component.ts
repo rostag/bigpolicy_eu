@@ -1,8 +1,8 @@
 import { OnInit, Component } from '@angular/core';
 import { LeaderService, LeaderModel } from '../../shared/leader';
-import { MdDialog, MdDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DriveService } from '../../shared/drive';
+import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user';
 
 @Component({
@@ -21,8 +21,8 @@ export class LeaderEditComponent implements OnInit {
     private router: Router,
     private leaderService: LeaderService,
     public userService: UserService,
-    public dialog: MdDialog,
-    public driveService: DriveService
+    public driveService: DriveService,
+    private dialogService: DialogService
   ) {}
 
   /**
@@ -130,35 +130,17 @@ export class LeaderEditComponent implements OnInit {
   }
 
   showRegistrationIsNeededWarning() {
-    const dialogRef = this.dialog.open(ContinueRegistrationDialogComponent);
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Заходимо у систему');
-        this.userService.login();
-      });
-  }
-}
+    this.dialogService
+       .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
+       .subscribe(res => {
+         console.log('Заходимо у систему');
+         this.userService.login();
+       });
+   }
 
-/**
-  * Below is the dialog for FTUX's lazy registration, user authorisation request
-  */
-@Component({
-  selector: 'app-dialog-result-example-dialog',
-  template: `
-      <h2 md-dialog-title>Потрібна авторизація</h2>
-      <md-dialog-content>
-        <p>
-          Для завершення реєстрації треба увійти в систему — натисніть "Продовжити"'
-        </p>
-      </md-dialog-content>
-      <md-dialog-actions [attr.align]="actionsAlignment">
-        <button
-          md-raised-button
-          color="primary"
-          md-dialog-close>Продовжити</button>
-      </md-dialog-actions>
-  `,
-})
-export class ContinueRegistrationDialogComponent {
-  actionsAlignment: string;
-  constructor(public dialog: MdDialog) { }
+  // const dialogRef = this.dialog.open(DialogComponent);
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('Заходимо у систему');
+  //     this.userService.login();
+  //   });
 }

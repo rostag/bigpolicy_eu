@@ -42,7 +42,7 @@ DBTask.createTask = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  console.log('DBTask: createTask', data)
+  // console.log('DBTask: createTask', data)
 
   if ( !data.title || !data.description ) {
     throw ( 'DBTask: Invalid task cannot be saved. Either title or description is missed.')

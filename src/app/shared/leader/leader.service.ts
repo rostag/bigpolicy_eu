@@ -67,8 +67,9 @@ export class LeaderService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null): Observable<Response> {
+  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
 
+    // OBSOLETE
     // All leaders:                    /leader-api/
     let requestUrl = this.apiUrl;
 
@@ -76,20 +77,20 @@ export class LeaderService {
     if (leaderId) {
       requestUrl = this.apiUrl + leaderId;
     }
-    // Page of leaders:                /leader-api/page/:page/:limit
+    // Page of leaders:                /leader-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-    // RESERVED: All Leaders for Group:         /leader-api/group/:groupId/
-    if (groupId) {
-      requestUrl = this.apiUrl + 'group/' + groupId;
-    }
-    // Page of leaders for Leader:     /leader-api/group/:groupId/page/:page/:limit
-    if (page !== null && limit !== null && groupId !== null) {
-      requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
-    }
+    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // if (groupId) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId;
+    // }
+    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
 
-    // console.log('getLeadersPage:', leaderId, groupId, page, limit);
+    // console.log('get Leaders Page:', leaderId, groupId, page, limit);
 
     return this.http.get(requestUrl)
       .map((responsePage: Response) => {
@@ -99,24 +100,16 @@ export class LeaderService {
   }
 
   /**
-   * Returns single leader from DB, reuses getLeadersPage.
+   * Returns single leader from DB.
    */
   getLeader(leaderId: string): Observable<Response> {
     return this.getLeadersPage(leaderId);
   }
 
-
-
-
-
-
-
-
-
-   /**
-    * Seaches for leader by user email in DB
-    * If found, saves it via callback as userService.leader propery.
-    */
+  /**
+   * Seaches for leader by user email in DB
+   * If found, saves it via callback as userService.leader propery.
+   */
   requestLeaderByEmail(email: string): Observable<Response> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
@@ -195,11 +188,15 @@ export class LeaderService {
       });
   }
 
-  get(): Observable<Response> {
-    return this.getLeadersPage();
-  }
+  // OBSOLETE
+  // get(): Observable<Response> {
+  //   return this.getLeadersPage();
+  // }
 
   private setLeaderForUser(leader) {
+    if (!leader) {
+      return;
+    }
     console.log('👤 Leader service. Set leader for ', leader.email);
     this.leader = leader;
     // Notify observers;
