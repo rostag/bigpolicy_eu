@@ -41,6 +41,7 @@ module.exports = function(app, DB){
   })
 
   /**
+   * TODO OBSOLETIZE - by using more generic approach
    * Gets the Leader by ID, example:
    * /leader-api/57a64e2b3a5bfb3b48e6fd1b
    */
@@ -54,6 +55,7 @@ module.exports = function(app, DB){
   })
 
   /**
+   * TODO OBSOLETIZE - by using more generic approach (below)
    * Gets the Leader by email, example:
    * /leader-api/email/foo@bar.com
    */
@@ -67,27 +69,12 @@ module.exports = function(app, DB){
   })
 
   /**
-   * NOT USED - reserved for future
-   * Gets page of leaders for the given party, example:
-   * /leader-api/party/partyId/page/1/1
-   */
-  .get('/party/:partyId/page/:page/:limit', function (req, res) {
-    DBLeader.getLeader( req.params.leaderId )
-      .then((leader) => {
-        DB.getPage(party.leaders, req.params.page, req.params.limit)
-          .then( data => res.json(data))
-          .catch( err => res.json(err))
-      })
-      .catch( err => res.json(err));
-  })
-
-  /**
    * Gets page of Leaders, example:
    * /leader-api/page/1/1
    */
-  .get('/page/:page/:limit', function (req, res) {
-    // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit);
-    DB.getPage(null, req.params.page, req.params.limit)
+  .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
+    // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit, ', dbQuery =', decodeURIComponent(req.params.dbQuery));
+    DB.getPageOfLeaders(null, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
       .then(function (data) {
         res.json(data);
       })
@@ -95,6 +82,21 @@ module.exports = function(app, DB){
         res.json(err);
       });
   })
+
+  /**
+  * NOT USED - reserved for future
+  * Gets page of leaders for the given party, example:
+  * /leader-api/party/partyId/page/1/1
+  */
+  // .get('/party/:partyId/page/:page/:limit', function (req, res) {
+  //   DBLeader.getPageOfLeaders( req.params.leaderId )
+  //     .then((leader) => {
+  //       DB.getPage(party.leaders, req.params.page, req.params.limit)
+  //         .then( data => res.json(data))
+  //         .catch( err => res.json(err))
+  //     })
+  //     .catch( err => res.json(err));
+  // })
 
   /**
    * OBSOLETE

@@ -6,16 +6,13 @@
 <!-- TODO FTUX - AUTH - This section is visible to anonymous only -->
 <!-- <div *ngIf="!userService.authenticated()"> -->
 
-  <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-  <div *ngIf="!userService.hasLeader()">
-    <a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a>
-  </div>
-
-  <!-- FTUX - LEADER END -->
+<!-- FTUX - LEADER - Section is visible to non-leaders only -->
+<p *ngIf="!userService.hasLeader()">
+  Lazy registration test: <a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a>
+</p>
+<!-- /FTUX - LEADER END -->
 
 <!-- </div> --> <!-- TODO FTUX - AUTH END -->
-
-
 
 
 <!-- LOGO // TBU -->
@@ -38,6 +35,9 @@
       TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
       TBD: on Hover, Button Rendedered in MD Style
         -->
+
+        <app-leader-list [pageSize]="1" dbQuery='{"totalDonationsReceived": 0}'></app-leader-list>
+
 
 <h2>Як це працює?</h2>
 

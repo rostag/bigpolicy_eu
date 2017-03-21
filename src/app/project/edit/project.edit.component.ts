@@ -34,7 +34,6 @@ export class ProjectEditComponent implements OnInit {
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
-    this.leaderService.getLeadersPage().subscribe();
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
@@ -50,7 +49,8 @@ export class ProjectEditComponent implements OnInit {
             () => {}
           );
         }
-      });
+      }
+    );
   }
 
   /**

@@ -2,6 +2,8 @@
 // L E A D E R
 //******************************************************************************
 
+var mongoose = require('mongoose');
+
 var DBLeader = {};
 
 // mongoose models
@@ -32,11 +34,22 @@ DBLeader.findLeaderByEmail = function(email) {
  * @param page Page number to get from DB
  * @param limit Items per page to get from DB
  */
-DBLeader.getPage = function (partyLeaderIds, page, limit) {
-  // console.log('DBLeader.getPage, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit);
-  return partyLeaderIds
-    ? Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) })
-    : Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
+  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
+
+  // parse query
+  var jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  // console.log('JWON =', jsonQuery);
+
+  if (dbQuery) {
+    return Leader.paginate(jsonQuery, { page: parseInt(page), limit: parseInt(limit) });
+  }
+
+  if (partyLeaderIds) {
+    return Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
+  }
+
+  return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
 }
 
 /**
