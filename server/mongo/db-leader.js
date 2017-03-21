@@ -35,9 +35,9 @@ DBLeader.findLeaderByEmail = function(email) {
  * @param limit Items per page to get from DB
  */
 DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
-  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
 
   // parse query
+  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
   var jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
   // console.log('JWON =', jsonQuery);
 

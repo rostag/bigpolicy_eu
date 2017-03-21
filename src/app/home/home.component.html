@@ -36,8 +36,20 @@
       TBD: on Hover, Button Rendedered in MD Style
         -->
 
-        <app-leader-list [pageSize]="1" dbQuery='{"totalDonationsReceived": 0}'></app-leader-list>
+<!-- here, mongoDb query can be used like this:
+http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1
+{ "$where": "this.projects.length > 2" }
+{ "totalDonationsReceived": 0 }
+{ "projects": { $size: 2 } }
 
+etc
+
+ -->
+
+<h3>Тест: Показати діячів, які мають більше 2 проектів</h3>
+<pre>"$where": "this.projects.length > 2"</pre>
+
+<app-leader-list [pageSize]="12" dbQuery='{ "$where": "this.projects.length > 2" }'></app-leader-list>
 
 <h2>Як це працює?</h2>
 
@@ -45,6 +57,7 @@
 
 <div>// TBD: Use stories from #89 Step 1 > Step 2 > Step 3 >
 
+<br />
 <br />
 
 <img src="https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png" style="width:100%" />
