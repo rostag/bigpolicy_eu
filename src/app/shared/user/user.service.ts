@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
+import { DialogService } from '../../shared/dialog/dialog.service';
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -36,7 +37,8 @@ export class UserService {
 
   constructor(
     public leaderService: LeaderService,
-    public projectService: ProjectService
+    public projectService: ProjectService,
+    private dialogService: DialogService
   ) {
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
@@ -159,9 +161,29 @@ export class UserService {
       leader.parseData(JSON.parse(localLeader));
       console.log('FTUX: continue leader registration, parsed leader: ', leader);
 
-      this.leaderService.createLeader(leader, this.getEmail());
+      // on registration success
+      this.dialogService
+        .confirm('Вітаємо!', 'Ти успішно завершив реєстрацію в системі.')
+        .subscribe(res => {
+          this.leaderService.createLeader(leader, this.getEmail());
+      });
     } else {
-      console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+      // on registration failure — leader with that email is registered already
+      if (!!localLeader) {
+        this.dialogService
+          .confirm('Існуючий користувач?', 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!')
+          .subscribe(res => {
+            console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+            // Cleanup
+            localStorage.removeItem('BigPolicyLeaderRegistration');
+        });
+      } else {
+        this.dialogService
+          .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
+          .subscribe(res => {
+            console.log('Logged in: ', this.authenticated(), this.hasLeader(), localLeader);
+        });
+      }
     }
   }
 }
