@@ -200,6 +200,9 @@ export class LeaderService {
   }
 
   private setLeaderForUser(leader) {
+    if (!leader) {
+      return;
+    }
     console.log('👤 Leader service. Set leader for ', leader.email);
     this.leader = leader;
     // Notify observers;
