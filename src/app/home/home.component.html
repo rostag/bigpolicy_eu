@@ -6,16 +6,13 @@
 <!-- TODO FTUX - AUTH - This section is visible to anonymous only -->
 <!-- <div *ngIf="!userService.authenticated()"> -->
 
-  <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-  <div *ngIf="!userService.hasLeader()">
-    <a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a>
-  </div>
-
-  <!-- FTUX - LEADER END -->
+<!-- FTUX - LEADER - Section is visible to non-leaders only -->
+<p *ngIf="!userService.hasLeader()">
+  Lazy registration test: <a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a>
+</p>
+<!-- /FTUX - LEADER END -->
 
 <!-- </div> --> <!-- TODO FTUX - AUTH END -->
-
-
 
 
 <!-- LOGO // TBU -->
@@ -39,12 +36,28 @@
       TBD: on Hover, Button Rendedered in MD Style
         -->
 
+<!-- here, mongoDb query can be used like this:
+http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1
+{ "$where": "this.projects.length > 2" }
+{ "totalDonationsReceived": 0 }
+{ "projects": { $size: 2 } }
+
+etc
+
+ -->
+
+<h3>Тест: Показати діячів, які мають більше 2 проектів</h3>
+<pre>"$where": "this.projects.length > 2"</pre>
+
+<app-leader-list [pageSize]="12" dbQuery='{ "$where": "this.projects.length > 2" }'></app-leader-list>
+
 <h2>Як це працює?</h2>
 
 <br />
 
 <div>// TBD: Use stories from #89 Step 1 > Step 2 > Step 3 >
 
+<br />
 <br />
 
 <img src="https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png" style="width:100%" />

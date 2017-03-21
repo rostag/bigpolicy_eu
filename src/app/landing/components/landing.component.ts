@@ -27,17 +27,18 @@ export class LandingComponent implements OnInit {
 
   ngOnInit() {
     this.getProjects();
-    this.getLeaders();
+    // this.getLeaders();
   }
 
-  getLeaders() {
-    this.leaderService.getLeadersPage()
-      .subscribe(
-        data => this.setLeaders(data),
-        err => console.error(err),
-        () => this.app.leaders
-      );
-  }
+  // OBSOLETE
+  // getLeaders() {
+  //   this.leaderService.getLeadersPage()
+  //     .subscribe(
+  //       data => this.setLeaders(data),
+  //       err => console.error(err),
+  //       () => this.app.leaders
+  //     );
+  // }
 
   private setLeaders(data) {
     this.app.leaders = data;

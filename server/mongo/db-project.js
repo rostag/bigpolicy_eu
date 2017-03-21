@@ -96,6 +96,7 @@ DBProject.updateProject = function(id,data) {
   });
 }
 
+// FIXME Need to delete a reference in Leader's projects array also
 DBProject.deleteProject = function(id) {
   return Project.findById(id).remove();
 }
