@@ -46,8 +46,7 @@ etc
 
  -->
 
-<h3>Тест: Показати діячів, які мають більше 2 проектів</h3>
-<pre>"$where": "this.projects.length > 2"</pre>
+<h3>Діячі, що мають більше 2 проектів (тест):</h3>
 
 <app-leader-list [pageSize]="12" dbQuery='{ "$where": "this.projects.length > 2" }'></app-leader-list>
 
