@@ -54,7 +54,7 @@ export class LeaderService {
           // Normal Save
           this.gotoLeaderView(data);
           // Post-FTUX
-          console.log('Finalizing leader registration, cleaning localLeader');
+          // console.log('Finalizing leader registration, cleaning localLeader');
           localStorage.removeItem('BigPolicyLeaderRegistration');
         },
         err => (er) => console.error('Leader creation error: ', er),

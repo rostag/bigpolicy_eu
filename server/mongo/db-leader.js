@@ -3,65 +3,13 @@
 //******************************************************************************
 
 var mongoose = require('mongoose');
-
+var Leader = require('./models/leader');
 var DBLeader = {};
 
-// mongoose models
-var Leader = require('./models/leader');
-
 /**
- * Returns single Leader by id
+ * Creates a Leader by provided data
+ * @param dataObj Properties object of Leader to be created
  */
-DBLeader.getLeader = function(id) {
-  return Leader.findById(id);
-}
-
-/**
- * OBSOLETE
- * Returns single Leader by email
- */
-// DBLeader.findLeaderByEmail = function(email) {
-//   var leader = Leader.findOne({ 'email': email }, function (err, leader) {
-//     if (err) {
-//       return handleError(err);
-//     }
-//   });
-//   return leader;
-// }
-
-/**
- * Returns a page of Leaders by given patyu leader ids (if present), page number and limit
- * @param ownerLeaderIds Not used currently, reserved for future use (by party)
- * @param page Page number to get from DB
- * @param limit Items per page to get from DB
- * @param dbQuery DB Query to perform for filtering the results, searching etc
- */
-DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
-
-  // parse query
-  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
-  var jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
-  // console.log('JWON =', jsonQuery);
-
-  if (dbQuery) {
-    return Leader.paginate(jsonQuery, { page: parseInt(page), limit: parseInt(limit) });
-  }
-
-  if (partyLeaderIds) {
-    return Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
-  }
-
-  return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
-}
-
-/**
- * OBSOLETE
- * Returns all leaders
- */
-// DBLeader.listLeaders = function() {
-//   return Leader.find();
-// }
-
 DBLeader.createLeader = function(dataObj) {
   var data = dataObj;
   // console.log('DBLeader: createLeader: ', data)
@@ -81,7 +29,43 @@ DBLeader.createLeader = function(dataObj) {
   return saved2;
 }
 
-DBLeader.updateLeader = function(id,data) {
+/**
+ * Returns single Leader by ID
+ */
+DBLeader.getLeader = function(id) {
+  return Leader.findById(id);
+}
+
+/**
+ * Returns a page of Leaders by given patyu leader ids (if present), page number and limit
+ * @param ownerLeaderIds Not used currently, reserved for future use (by party)
+ * @param page Page number to get from DB
+ * @param limit Items per page to get from DB
+ * @param dbQuery DB Query to perform for filtering the results, searching etc
+ */
+DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
+  // parse query
+  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
+  var jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  // console.log('JWON =', jsonQuery);
+
+  if (dbQuery) {
+    return Leader.paginate(jsonQuery, { page: parseInt(page), limit: parseInt(limit) });
+  }
+
+  if (partyLeaderIds) {
+    return Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
+  }
+
+  return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+}
+
+/**
+ * Creates a Leader by provided ID and data
+ * @param id Leader ID to update
+ * @param dataObj Properties object of Leader to be created
+ */
+DBLeader.updateLeader = function(id, data) {
   if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
     throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
   }
@@ -98,9 +82,16 @@ DBLeader.updateLeader = function(id,data) {
   });
 }
 
+/**
+ * Deletes a Leader by ID
+ * @param id Leader ID to delete from DB
+ */
 DBLeader.deleteLeader = function(id) {
   return Leader.findById(id).remove();
 }
+
+module.exports = DBLeader;
+
 
 /* Leader API usage examples
 
@@ -134,4 +125,25 @@ DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
 DELETE localhost:4200/leader-api/allleaders?secret=19863
 */
 
-module.exports = DBLeader;
+// OBSOLETE
+
+/**
+ * OBSOLETE
+ * Returns single Leader by email
+ */
+// DBLeader.findLeaderByEmail = function(email) {
+//   var leader = Leader.findOne({ 'email': email }, function (err, leader) {
+//     if (err) {
+//       return handleError(err);
+//     }
+//   });
+//   return leader;
+// }
+
+/**
+ * OBSOLETE
+ * Returns all leaders
+ */
+// DBLeader.listLeaders = function() {
+//   return Leader.find();
+// }
