@@ -25,7 +25,7 @@
         Лідер: {{profileLeader.name}} {{profileLeader.surName}}
       </md-card-title>
       <md-card-content>
-        <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
+        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
         <app-project-list [leaderId]="profileLeader._id" pageSize="2">
         </app-project-list>
       </md-card-content>

@@ -6,6 +6,8 @@
 BP_APP_VERSION_ID=`node app-version.js`
 
 echo "--------------------------------------"
+echo "----------B I G D E P L O Y-----------"
+echo "--------------------------------------"
 echo "Version increase to $BP_APP_VERSION_ID"
 echo "--------------------------------------"
 
@@ -31,3 +33,9 @@ git push deploy-qa deploy-qa --force
 
 # safely switch to temporary branch
 git checkout -B feat-temp
+
+echo "----------B I G D E P L O Y-----------"
+echo " ---------------      --------------- "
+echo "    ------------  🇺🇦   -----------    "
+echo "             -------------            "
+echo "                                      "

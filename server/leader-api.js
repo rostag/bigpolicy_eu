@@ -41,7 +41,6 @@ module.exports = function(app, DB){
   })
 
   /**
-   * TODO OBSOLETIZE - by using more generic approach
    * Gets the Leader by ID, example:
    * /leader-api/57a64e2b3a5bfb3b48e6fd1b
    */
@@ -59,14 +58,14 @@ module.exports = function(app, DB){
    * Gets the Leader by email, example:
    * /leader-api/email/foo@bar.com
    */
-  .get('/email/:email', function (req, res) {
-    if (req.params.email) {
-      DB.findLeaderByEmail(req.params.email)
-      .then(function (data) {
-        res.json(data);
-      });
-    }
-  })
+  // .get('/email/:email', function (req, res) {
+  //   if (req.params.email) {
+  //     DB.findLeaderByEmail(req.params.email)
+  //     .then(function (data) {
+  //       res.json(data);
+  //     });
+  //   }
+  // })
 
   /**
    * Gets page of Leaders, example:
@@ -84,8 +83,8 @@ module.exports = function(app, DB){
   })
 
   /**
-  * NOT USED - reserved for future
-  * Gets page of leaders for the given party, example:
+  * RESERVED - For future use
+  * Gets page of leaders for the given group / party, example:
   * /leader-api/party/partyId/page/1/1
   */
   // .get('/party/:partyId/page/:page/:limit', function (req, res) {
@@ -114,18 +113,20 @@ module.exports = function(app, DB){
   // })
 
   /**
+   * OBSOLETE
+   * TODO Check it's not needed
    * Gets all projects for leader, example:
    * /leader-api/id/projects
    */
-  .get('/:id/projects', function (req, res)     {
-    DB.listProjects(req.params.id)
-    .then(function (data) {
-      res.json(data);
-    })
-    .catch(function(err){
-      res.json(err);
-    });
-  });
+  // .get('/:id/projects', function (req, res)     {
+  //   DB.listProjects(req.params.id)
+  //   .then(function (data) {
+  //     res.json(data);
+  //   })
+  //   .catch(function(err){
+  //     res.json(err);
+  //   });
+  // });
 
   app.use('/leader-api', router);
 }

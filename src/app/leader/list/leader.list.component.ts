@@ -22,8 +22,6 @@ export class LeaderListComponent implements OnInit, OnChanges {
   // Reserved for future use
   @Input() groupId;
 
-  private leadersUrl = '/leader-api/';
-
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
     docs: this.leaders,
