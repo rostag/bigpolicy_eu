@@ -45,28 +45,28 @@ module.exports = function(app, DB){
    * Gets the Leader by ID, example:
    * /leader-api/57a64e2b3a5bfb3b48e6fd1b
    */
-  .get('/:id', function (req, res) {
-    if (req.params.id) {
-      DB.getLeader(req.params.id)
-      .then(function (data) {
-        res.json(data || []);
-      });
-    }
-  })
+  // .get('/:id', function (req, res) {
+  //   if (req.params.id) {
+  //     DB.getLeader(req.params.id)
+  //     .then(function (data) {
+  //       res.json(data || []);
+  //     });
+  //   }
+  // })
 
   /**
    * TODO OBSOLETIZE - by using more generic approach (below)
    * Gets the Leader by email, example:
    * /leader-api/email/foo@bar.com
    */
-  .get('/email/:email', function (req, res) {
-    if (req.params.email) {
-      DB.findLeaderByEmail(req.params.email)
-      .then(function (data) {
-        res.json(data);
-      });
-    }
-  })
+  // .get('/email/:email', function (req, res) {
+  //   if (req.params.email) {
+  //     DB.findLeaderByEmail(req.params.email)
+  //     .then(function (data) {
+  //       res.json(data);
+  //     });
+  //   }
+  // })
 
   /**
    * Gets page of Leaders, example:
