@@ -102,13 +102,23 @@ Donations feature:
  * ProjectService uses pagination
  * HomeComponent and it's route added
 
-### ### 2017-03-19 08:00
+### 2017-03-19 08:00
 
  * Ng CLi update to RC2
  * Get rid of date conversion in service
  * Get rid of extra date fields in Project model
  * Fix project pagination
  * Leader's project pagination
+
+### 2017-03-20
+
+ * Leaders filtering by arbitrary criteria is implemented between UI and DB
+
+### 2017-03-21
+
+ * Automatic versioning implemented as combination of ts/node app and bash deployment script. Version id is injected in both git log and app homepage
+
+ 
 
 TODO:
 

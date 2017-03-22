@@ -5,7 +5,9 @@
 # Get the version number from output of version increasing script
 BP_APP_VERSION_ID=`node app-version.js`
 
+echo "--------------------------------------"
 echo "Version increase to $BP_APP_VERSION_ID"
+echo "--------------------------------------"
 
 git add . && git commit -m "Version increase to $BP_APP_VERSION_ID"
 
