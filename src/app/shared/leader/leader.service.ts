@@ -69,9 +69,7 @@ export class LeaderService {
    */
   getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
 
-    // OBSOLETE
-    // All leaders:                    /leader-api/
-    let requestUrl = this.apiUrl;
+    let requestUrl;
 
     // Leader by id:                   /leader-api/:leaderId
     if (leaderId) {
@@ -119,11 +117,14 @@ export class LeaderService {
     // } else {
     // }
 
-    const leaderResponse = this.http.get(this.apiUrl + 'email/' + email)
-      .map((res: Response) => {
-        return res.json();
-      });
+    // const leaderResponse = this.http.get(this.apiUrl + 'email/' + email)
+    //   .map((res: Response) => {
+    //     return res.json();
+    //   });
+    //
+    // leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
 
+    const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
     leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
 
     return leaderResponse;

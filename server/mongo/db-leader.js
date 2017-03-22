@@ -17,22 +17,24 @@ DBLeader.getLeader = function(id) {
 }
 
 /**
+ * OBSOLETE
  * Returns single Leader by email
  */
-DBLeader.findLeaderByEmail = function(email) {
-  var leader = Leader.findOne({ 'email': email }, function (err, leader) {
-    if (err) {
-      return handleError(err);
-    }
-  });
-  return leader;
-}
+// DBLeader.findLeaderByEmail = function(email) {
+//   var leader = Leader.findOne({ 'email': email }, function (err, leader) {
+//     if (err) {
+//       return handleError(err);
+//     }
+//   });
+//   return leader;
+// }
 
 /**
  * Returns a page of Leaders by given patyu leader ids (if present), page number and limit
  * @param ownerLeaderIds Not used currently, reserved for future use (by party)
  * @param page Page number to get from DB
  * @param limit Items per page to get from DB
+ * @param dbQuery DB Query to perform for filtering the results, searching etc
  */
 DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
 
