@@ -58,6 +58,7 @@
     "tslint": "~4.5.0",
     "typescript": "~2.0.0",
     "@types/gapi.auth2": "0.0.34",
-    "@types/google-drive-realtime-api": "0.0.33"
+    "@types/google-drive-realtime-api": "0.0.33",
+    "jsonfile": "^2.4.0"
   }
 }
