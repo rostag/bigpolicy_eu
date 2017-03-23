@@ -15,7 +15,7 @@ export class LeaderService {
 
   leader: LeaderModel;
 
-  private apiUrl = '/leader-api/';
+  private leaderApiUrl = '/leader-api/';
   private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
 
   leaderStream = this.leaderSource.asObservable();
@@ -47,14 +47,14 @@ export class LeaderService {
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options = new RequestOptions({ headers: headers });
 
-    this.http.post(this.apiUrl, body, options)
+    this.http.post(this.leaderApiUrl, body, options)
       .map(res => res.json())
       .subscribe(
         data => {
           // Normal Save
           this.gotoLeaderView(data);
           // Post-FTUX
-          console.log('Finalizing leader registration, cleaning localLeader');
+          // console.log('Finalizing leader registration, cleaning localLeader');
           localStorage.removeItem('BigPolicyLeaderRegistration');
         },
         err => (er) => console.error('Leader creation error: ', er),
@@ -71,13 +71,16 @@ export class LeaderService {
 
     let requestUrl;
 
-    // Leader by id:                   /leader-api/:leaderId
+    // Leader by ID
+    // leader-api/:leaderId
     if (leaderId) {
-      requestUrl = this.apiUrl + leaderId;
+      requestUrl = this.leaderApiUrl + leaderId;
     }
-    // Page of leaders:                /leader-api/page/:page/:limit/q/:dbQuery
+
+    // Page of Leaders
+    // leader-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
     // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
     // if (groupId) {
@@ -86,6 +89,16 @@ export class LeaderService {
     // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
     // if (page !== null && limit !== null && groupId !== null) {
     //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
+
+    // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.leaderApiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
+
+    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // if (groupId) {
+    //   requestUrl = this.leaderApiUrl + 'group/' + groupId;
     // }
 
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
@@ -117,7 +130,7 @@ export class LeaderService {
     // } else {
     // }
 
-    // const leaderResponse = this.http.get(this.apiUrl + 'email/' + email)
+    // const leaderResponse = this.http.get(this.leaderApiUrl + 'email/' + email)
     //   .map((res: Response) => {
     //     return res.json();
     //   });
@@ -125,7 +138,7 @@ export class LeaderService {
     // leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
 
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
-    leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
+    leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }
@@ -142,7 +155,7 @@ export class LeaderService {
   //   if (this.models && this.models.length) {
   //     return Observable.from([this.models]);
   //   }
-  //   return this.http.get(this.apiUrl + modelId)
+  //   return this.http.get(this.leaderApiUrl + modelId)
   //     .map((res: Response) => {
   //       this.models = res.json();
   //       return this.models;
@@ -168,7 +181,7 @@ export class LeaderService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
+    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -178,7 +191,7 @@ export class LeaderService {
    * @param LeaderModel A Leader to delete
    */
   deleteLeader(model: LeaderModel) {
-    this.http.delete(this.apiUrl + model._id)
+    this.http.delete(this.leaderApiUrl + model._id)
       .map(res => {
         console.log('Leader deleted:', res.json());
         return res;

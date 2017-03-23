@@ -92,7 +92,7 @@ module.exports = function(app, DB){
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
 
-    console.log('𝖄 • LiqPay::getsgndta::URL::', prm);
+    console.log('  • LiqPay::getsgndta::URL::', prm);
 
     var sgn = liqpay.cnb_signature(prm);
     // FIXME use Buffer.from instead
@@ -152,7 +152,7 @@ module.exports = function(app, DB){
    */
   // router.post('/check-donation-status', function (req, res) {
   //   var prm = getParamsFromRequestData(req);
-  //   // console.log('𝖄 • LiqPay::check-status', prn.order_id);
+  //   // console.log(' • LiqPay::check-status', prn.order_id);
   //
   //   liqpay.api("request", {
   //     "action"   : "status",
@@ -172,5 +172,5 @@ module.exports = function(app, DB){
 
   app.use('/liqpay-api', router);
 
-  console.log('𝖄 • LiqPay connected.');
+  console.log('  • LiqPay connected.');
 }

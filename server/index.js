@@ -27,7 +27,7 @@ module.exports = function(app){
     res.sendFile('/dist/index.html', { root: '.' });
   });
 
-  console.log('𝖄 • Middleware connected.');
+  console.log('  • Middleware connected.');
 
   return DB;
 }

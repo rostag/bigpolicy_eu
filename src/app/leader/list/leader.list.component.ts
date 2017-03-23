@@ -16,13 +16,11 @@ export class LeaderListComponent implements OnInit, OnChanges {
   // How many leaders to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // For searching for leaders in db
+  // For searching leaders in DB
   @Input() dbQuery = '{}';
 
   // Reserved for future use
   @Input() groupId;
-
-  private leadersUrl = '/leader-api/';
 
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
@@ -57,7 +55,12 @@ export class LeaderListComponent implements OnInit, OnChanges {
   }
 
   requestLeaders() {
-    const proxySub = this.leaderService.getLeadersPage(null, this.groupId, this.itemsPage.page, this.pageSize, this.dbQuery)
+    const proxySub = this.leaderService.getLeadersPage(
+        null,
+        this.groupId,
+        this.itemsPage.page,
+        this.pageSize,
+        this.dbQuery)
       .subscribe(responsePage => {
         // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);

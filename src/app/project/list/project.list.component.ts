@@ -14,8 +14,17 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectListComponent implements OnChanges {
 
-  @Input() leaderId;
+  // List title
+  @Input() title = '';
+
+  // How many leaders to show and to request from db in single turn
   @Input() pageSize = 5;
+
+  // For searching leaders in DB
+  @Input() dbQuery = '{}';
+
+  // An ID of the Leader managing the project
+  @Input() leaderId;
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
@@ -35,9 +44,9 @@ export class ProjectListComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes) {
-    if (changes.leaderId && changes.leaderId.currentValue ) {
-      this.requestProjects();
-    } else if (changes.pageSize && changes.pageSize.currentValue) {
+    if (changes.leaderId && changes.leaderId.currentValue ||
+        changes.pageSize && changes.pageSize.currentValue ||
+        changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestProjects();
     }
   }
@@ -48,7 +57,12 @@ export class ProjectListComponent implements OnChanges {
   }
 
   requestProjects() {
-    const proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize)
+    const proxySub = this.projectService.getProjectsPage(
+        null,
+        this.leaderId,
+        this.itemsPage.page,
+        this.pageSize,
+        this.dbQuery)
       .subscribe(responsePage => {
         // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);

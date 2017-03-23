@@ -14,7 +14,7 @@ export class ProjectService {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private apiUrl = '/project-api/';
+  private projectApiUrl = '/project-api/';
 
   static cacheProject(project) {
     this._cachedProjects[project._id] = project;
@@ -42,7 +42,7 @@ export class ProjectService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options = new RequestOptions({ headers: headers });
-    return this.http.post(this.apiUrl, body, options)
+    return this.http.post(this.projectApiUrl, body, options)
       .map(res => res.json()
     );
   }
@@ -52,29 +52,31 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null): Observable<Response> {
+  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
 
     // All projects:                    /project-api/
-    let requestUrl = this.apiUrl;
+    let requestUrl;
 
-    // Project by id:                   /project-api/:projectId
+    // Project by ID :: project-api/:projectId
     if (projectId) {
-      requestUrl = this.apiUrl + projectId;
+      requestUrl = this.projectApiUrl + projectId;
     }
-    // Page of projects:                /project-api/page/:page/:limit
+    // Page of Projects :: project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+      requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-    // All Projects for Leader:         /project-api/leader/:leaderId/
-    if (leaderId) {
-      requestUrl = this.apiUrl + 'leader/' + leaderId;
-    }
-    // Page of projects for Leader:     /project-api/leader/:leaderId/page/:page/:limit
+    // Page of Projects for Leader :: project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
-      requestUrl = this.apiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit;
+      requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // console.log('getProjectsPage:', projectId, leaderId, page, limit);
+    // OBSOLETE requestUrl = this.projectApiUrl;
+    // OBSOLETE All Projects for Leader:         /project-api/leader/:leaderId/
+    // if (leaderId) {
+    //   requestUrl = this.projectApiUrl + 'leader/' + leaderId;
+    // }
+
+    // console.log('get Projects Page:', projectId, leaderId, page, limit);
 
     return this.http.get(requestUrl)
       .map((responsePage: Response) => {
@@ -84,7 +86,7 @@ export class ProjectService {
   }
 
   /**
-   * Returns single project from DB, reuses getProjectsPage.
+   * Returns single project from DB
    */
   getProject(projectId: string): Observable<Response> {
     return this.getProjectsPage(projectId);
@@ -99,7 +101,7 @@ export class ProjectService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
+    return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -109,7 +111,7 @@ export class ProjectService {
    * @param ProjectModel Project to delete
    */
   deleteProject(model: ProjectModel) {
-    this.http.delete(this.apiUrl + model._id)
+    this.http.delete(this.projectApiUrl + model._id)
       .map(res => console.log('Project deleted:', res.json()))
       .catch(this.handleError)
       .subscribe((res) => {});

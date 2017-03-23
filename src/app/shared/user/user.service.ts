@@ -41,7 +41,7 @@ export class UserService {
     private dialogService: DialogService
   ) {
     // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
 
     this.leaderService.requestLeaderByEmail(this.getEmail());
 
@@ -59,7 +59,7 @@ export class UserService {
           return;
         }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
+        localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
         this.userProfile = profile;
 
         this.leaderService.requestLeaderByEmail(this.getEmail())
@@ -149,7 +149,8 @@ export class UserService {
    */
   public logout() {
     localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
+    localStorage.removeItem('BigPolicyProfile');
+    localStorage.removeItem('BigPolicyLeaderRegistration');
     this.userProfile = undefined;
   };
 
