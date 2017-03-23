@@ -110,6 +110,7 @@ var ProfileComponent = (function () {
         var _this = this;
         this.subscription = this.leaderService.leaderStream
             .subscribe(function (item) {
+            console.log('ProfileComponent. set profile leader:', item);
             _this.profileLeader = item;
         });
     };
@@ -198,7 +199,7 @@ var UserService = (function () {
         // FIXME_SEC
         this.lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
         // Set userProfile attribute of already saved profile
-        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
         this.leaderService.requestLeaderByEmail(this.getEmail());
         // Add callback for the Lock `authenticated` event
         this.lock.on('authenticated', function (authResult) {
@@ -211,7 +212,7 @@ var UserService = (function () {
                     console.log(error);
                     return;
                 }
-                localStorage.setItem('profile', JSON.stringify(profile));
+                localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
                 _this.userProfile = profile;
                 _this.leaderService.requestLeaderByEmail(_this.getEmail())
                     .subscribe(function (leaderResponse) {
@@ -289,7 +290,8 @@ var UserService = (function () {
      */
     UserService.prototype.logout = function () {
         localStorage.removeItem('id_token');
-        localStorage.removeItem('profile');
+        localStorage.removeItem('BigPolicyProfile');
+        localStorage.removeItem('BigPolicyLeaderRegistration');
         this.userProfile = undefined;
     };
     ;
@@ -876,7 +878,7 @@ var LeaderService = (function () {
     function LeaderService(http, router) {
         this.http = http;
         this.router = router;
-        this.apiUrl = '/leader-api/';
+        this.leaderApiUrl = '/leader-api/';
         this.leaderSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["BehaviorSubject"](this.leader);
         this.leaderStream = this.leaderSource.asObservable();
     }
@@ -891,13 +893,13 @@ var LeaderService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        this.http.post(this.apiUrl, body, options)
+        this.http.post(this.leaderApiUrl, body, options)
             .map(function (res) { return res.json(); })
             .subscribe(function (data) {
             // Normal Save
             _this.gotoLeaderView(data);
             // Post-FTUX
-            console.log('Finalizing leader registration, cleaning localLeader');
+            // console.log('Finalizing leader registration, cleaning localLeader');
             localStorage.removeItem('BigPolicyLeaderRegistration');
         }, function (err) { return function (er) { return console.error('Leader creation error: ', er); }; }, function () { });
     };
@@ -913,13 +915,15 @@ var LeaderService = (function () {
         if (limit === void 0) { limit = null; }
         if (dbQuery === void 0) { dbQuery = '{}'; }
         var requestUrl;
-        // Leader by id:                   /leader-api/:leaderId
+        // Leader by ID
+        // leader-api/:leaderId
         if (leaderId) {
-            requestUrl = this.apiUrl + leaderId;
+            requestUrl = this.leaderApiUrl + leaderId;
         }
-        // Page of leaders:                /leader-api/page/:page/:limit/q/:dbQuery
+        // Page of Leaders
+        // leader-api/page/:page/:limit/q/:dbQuery
         if (page !== null && limit !== null) {
-            requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+            requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
         }
         // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
         // if (groupId) {
@@ -928,6 +932,14 @@ var LeaderService = (function () {
         // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
         // if (page !== null && limit !== null && groupId !== null) {
         //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+        // }
+        // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+        // if (page !== null && limit !== null && groupId !== null) {
+        //   requestUrl = this.leaderApiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+        // }
+        // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+        // if (groupId) {
+        //   requestUrl = this.leaderApiUrl + 'group/' + groupId;
         // }
         // console.log('get Leaders Page:', leaderId, groupId, page, limit);
         return this.http.get(requestUrl)
@@ -954,14 +966,14 @@ var LeaderService = (function () {
         // } else {
         // }
         var _this = this;
-        // const leaderResponse = this.http.get(this.apiUrl + 'email/' + email)
+        // const leaderResponse = this.http.get(this.leaderApiUrl + 'email/' + email)
         //   .map((res: Response) => {
         //     return res.json();
         //   });
         //
         // leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
         var leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
-        leaderResponse.subscribe(function (lead) { return _this.setLeaderForUser(lead); });
+        leaderResponse.subscribe(function (leader) { return _this.setLeaderForUser(leader['docs'][0]); });
         return leaderResponse;
     };
     /**
@@ -976,7 +988,7 @@ var LeaderService = (function () {
     //   if (this.models && this.models.length) {
     //     return Observable.from([this.models]);
     //   }
-    //   return this.http.get(this.apiUrl + modelId)
+    //   return this.http.get(this.leaderApiUrl + modelId)
     //     .map((res: Response) => {
     //       this.models = res.json();
     //       return this.models;
@@ -999,7 +1011,7 @@ var LeaderService = (function () {
     LeaderService.prototype.updateLeader = function (model) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
+        return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
@@ -1009,7 +1021,7 @@ var LeaderService = (function () {
      */
     LeaderService.prototype.deleteLeader = function (model) {
         var _this = this;
-        this.http.delete(this.apiUrl + model._id)
+        this.http.delete(this.leaderApiUrl + model._id)
             .map(function (res) {
             console.log('Leader deleted:', res.json());
             return res;
@@ -1138,7 +1150,7 @@ var ProjectService = (function () {
      */
     function ProjectService(http) {
         this.http = http;
-        this.apiUrl = '/project-api/';
+        this.projectApiUrl = '/project-api/';
     }
     ProjectService.cacheProject = function (project) {
         this._cachedProjects[project._id] = project;
@@ -1157,7 +1169,7 @@ var ProjectService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.http.post(this.apiUrl, body, options)
+        return this.http.post(this.projectApiUrl, body, options)
             .map(function (res) { return res.json(); });
     };
     /**
@@ -1165,30 +1177,32 @@ var ProjectService = (function () {
      * Returns an Observable for the HTTP GET request.
      * @return {string[]} The Observable for the HTTP request.
      */
-    ProjectService.prototype.getProjectsPage = function (projectId, leaderId, page, limit) {
+    ProjectService.prototype.getProjectsPage = function (projectId, leaderId, page, limit, dbQuery) {
         if (projectId === void 0) { projectId = null; }
         if (leaderId === void 0) { leaderId = null; }
         if (page === void 0) { page = null; }
         if (limit === void 0) { limit = null; }
+        if (dbQuery === void 0) { dbQuery = '{}'; }
         // All projects:                    /project-api/
-        var requestUrl = this.apiUrl;
-        // Project by id:                   /project-api/:projectId
+        var requestUrl;
+        // Project by ID :: project-api/:projectId
         if (projectId) {
-            requestUrl = this.apiUrl + projectId;
+            requestUrl = this.projectApiUrl + projectId;
         }
-        // Page of projects:                /project-api/page/:page/:limit
+        // Page of Projects :: project-api/page/:page/:limit/q/:dbQuery
         if (page !== null && limit !== null) {
-            requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
+            requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
         }
-        // All Projects for Leader:         /project-api/leader/:leaderId/
-        if (leaderId) {
-            requestUrl = this.apiUrl + 'leader/' + leaderId;
-        }
-        // Page of projects for Leader:     /project-api/leader/:leaderId/page/:page/:limit
+        // Page of Projects for Leader :: project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
         if (page !== null && limit !== null && leaderId !== null) {
-            requestUrl = this.apiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit;
+            requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
         }
-        // console.log('getProjectsPage:', projectId, leaderId, page, limit);
+        // OBSOLETE requestUrl = this.projectApiUrl;
+        // OBSOLETE All Projects for Leader:         /project-api/leader/:leaderId/
+        // if (leaderId) {
+        //   requestUrl = this.projectApiUrl + 'leader/' + leaderId;
+        // }
+        // console.log('get Projects Page:', projectId, leaderId, page, limit);
         return this.http.get(requestUrl)
             .map(function (responsePage) {
             // console.log('Projects Page loaded, response: ', responsePage);
@@ -1196,7 +1210,7 @@ var ProjectService = (function () {
         });
     };
     /**
-     * Returns single project from DB, reuses getProjectsPage.
+     * Returns single project from DB
      */
     ProjectService.prototype.getProject = function (projectId) {
         return this.getProjectsPage(projectId);
@@ -1209,7 +1223,7 @@ var ProjectService = (function () {
         // TODO Consider encoding the body like in create project above
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
+        return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
@@ -1218,7 +1232,7 @@ var ProjectService = (function () {
      * @param ProjectModel Project to delete
      */
     ProjectService.prototype.deleteProject = function (model) {
-        this.http.delete(this.apiUrl + model._id)
+        this.http.delete(this.projectApiUrl + model._id)
             .map(function (res) { return console.log('Project deleted:', res.json()); })
             .catch(this.handleError)
             .subscribe(function (res) { });
@@ -1789,12 +1803,12 @@ var LandingComponent = (function () {
         };
     }
     LandingComponent.prototype.ngOnInit = function () {
-        this.getProjects();
+        // this.getProjects();
         // this.getLeaders();
     };
     // OBSOLETE
     // getLeaders() {
-    //   this.leaderService.getLeadersPage()
+    //   this.leaderService.get LeadersPage()
     //     .subscribe(
     //       data => this.setLeaders(data),
     //       err => console.error(err),
@@ -1806,11 +1820,15 @@ var LandingComponent = (function () {
         return data;
     };
     // FIXME PG_MIGRATION
-    LandingComponent.prototype.getProjects = function () {
-        var _this = this;
-        this.projectService.getProjectsPage()
-            .subscribe(function (data) { return _this.setProjects(data); }, function (err) { return console.error(err); }, function () { return _this.app.projects; });
-    };
+    // OBSOLETE
+    // getProjects() {
+    //   this.projectService.get ProjectsPage()
+    //     .subscribe(
+    //       data => this.setProjects(data),
+    //       err => console.error(err),
+    //       () => this.app.projects
+    //     );
+    // }
     LandingComponent.prototype.setProjects = function (data) {
         this.app.projects = data;
         return data;
@@ -2026,9 +2044,8 @@ var LeaderListComponent = (function () {
         this.leaderService = leaderService;
         // How many leaders to show and to request from db in single turn
         this.pageSize = 5;
-        // For searching for leaders in db
+        // For searching leaders in DB
         this.dbQuery = '{}';
-        this.leadersUrl = '/leader-api/';
         this.leaders = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"]([{ title: 'Loading...' }]);
         this.itemsPage = {
             docs: this.leaders,
@@ -2389,7 +2406,12 @@ var ProjectListComponent = (function () {
         this.userService = userService;
         this.projectService = projectService;
         this.http = http;
+        // List title
+        this.title = '';
+        // How many leaders to show and to request from db in single turn
         this.pageSize = 5;
+        // For searching leaders in DB
+        this.dbQuery = '{}';
         this.projects = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"]([{ title: 'Loading...' }]);
         this.itemsPage = {
             docs: this.projects,
@@ -2401,10 +2423,9 @@ var ProjectListComponent = (function () {
         this.isAddingTaskMode = false;
     }
     ProjectListComponent.prototype.ngOnChanges = function (changes) {
-        if (changes.leaderId && changes.leaderId.currentValue) {
-            this.requestProjects();
-        }
-        else if (changes.pageSize && changes.pageSize.currentValue) {
+        if (changes.leaderId && changes.leaderId.currentValue ||
+            changes.pageSize && changes.pageSize.currentValue ||
+            changes.dbQuery && changes.dbQuery.currentValue) {
             this.requestProjects();
         }
     };
@@ -2414,7 +2435,7 @@ var ProjectListComponent = (function () {
     };
     ProjectListComponent.prototype.requestProjects = function () {
         var _this = this;
-        var proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize)
+        var proxySub = this.projectService.getProjectsPage(null, this.leaderId, this.itemsPage.page, this.pageSize, this.dbQuery)
             .subscribe(function (responsePage) {
             // console.log('Next, responsePage:', responsePage);
             _this.itemsPage.docs.next(responsePage['docs']);
@@ -2441,11 +2462,19 @@ var ProjectListComponent = (function () {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Input"])(), 
         __metadata('design:type', Object)
-    ], ProjectListComponent.prototype, "leaderId", void 0);
+    ], ProjectListComponent.prototype, "title", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], ProjectListComponent.prototype, "pageSize", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], ProjectListComponent.prototype, "dbQuery", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], ProjectListComponent.prototype, "leaderId", void 0);
     ProjectListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'app-project-list',
@@ -4677,7 +4706,7 @@ module.exports = module.exports.toString();
 /***/ (function(module, exports) {
 
 module.exports = {
-	"app-version": "1.0.11"
+	"app-version": "1.0.12"
 };
 
 /***/ }),
@@ -4699,7 +4728,7 @@ module.exports = "<div [class.bp-dark-theme]=\"toolbar.isDarkTheme\">\n\n  <app-
 /***/ 962:
 /***/ (function(module, exports) {
 
-module.exports = "<h1>WIP WIP WIP</h1>\n\n<!-- TODO FTUX - Section for leaders without a project -->\n<!-- TODO FTUX - Section for projects without tasks -->\n\n<!-- TODO FTUX - AUTH - This section is visible to anonymous only -->\n<!-- <div *ngIf=\"!userService.authenticated()\"> -->\n\n<!-- FTUX - LEADER - Section is visible to non-leaders only -->\n<p *ngIf=\"!userService.hasLeader()\">\n  Lazy registration test: <a [routerLink]=\"['/add-leader']\">Зголошуйся в активні діячі</a>\n</p>\n<!-- /FTUX - LEADER END -->\n\n<!-- </div> --> <!-- TODO FTUX - AUTH END -->\n\n\n<!-- LOGO // TBU -->\n<!-- NAV // TBU -->\n\n<!--\n    MOBILE\n      TBD: Два горизонтальні квадрати,\n      TBD: Меню — 4 полосочки-квадратика під лого, Потій йдут 2 блоки — проекти та лідери\n        -->\n\n<!--\n    ALL PROJECTS\n      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом\n      TBD: on Hover, Button Rendedered in MD Style\n        -->\n\n<!--\n    ALL LEADERS\n      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом\n      TBD: on Hover, Button Rendedered in MD Style\n        -->\n\n<!-- here, mongoDb query can be used like this:\nhttp://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1\n{ \"$where\": \"this.projects.length > 2\" }\n{ \"totalDonationsReceived\": 0 }\n{ \"projects\": { $size: 2 } }\n\netc\n\n -->\n\n<h3>Діячі, що мають більше 2 проектів (тест):</h3>\n\n<app-leader-list [pageSize]=\"12\" dbQuery='{ \"$where\": \"this.projects.length > 2\" }'></app-leader-list>\n\n<h2>Як це працює?</h2>\n\n<br />\n\n<div>// TBD: Use stories from #89 Step 1 > Step 2 > Step 3 >\n\n<br />\n<br />\n\n<img src=\"https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png\" style=\"width:100%\" />\n\n<br />\n<br />\n<br />\n\n</div>\n<!--\n  Показуємо 6 активних проектів на 1 табі\n  і також рандомно — 6 лідерів на другій табі\n                                            -->\n\n<md-tab-group>\n  <md-tab label=\"Проекти\">\n    <app-project-list [pageSize]=\"5\"></app-project-list>\n    <button md-button md-raised-button color=\"primary\">Всі проекти</button>\n  </md-tab>\n  <md-tab label=\"Політики\">\n    <app-leader-list [pageSize]=\"5\"></app-leader-list>\n    <button md-raised-button color=\"primary\">Всі лідери</button>\n  </md-tab>\n</md-tab-group>\n\n<p>\n  BigPolicy — платформа прямої демократії. Твої політики для тебе і від тебе.\n</p>\n\n<h2>Останні проекти</h2>\n<!-- Останні проекти та політики — це зменшені мініатюри без -->\n\n<div>//TBD</div>\n\n<h2>Нові політики</h2>\n<!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->\n\n<div>\n  //TBC:\n  Не дуже гарно виходить — нові у самому низу, треба подумати\n</div>\n\n<h2>Контакти</h2>\n\n<div>//TBD</div>\n"
+module.exports = "<h1>WIP WIP WIP</h1>\n\n<!-- TODO FTUX - Section for leaders without a project -->\n<!-- TODO FTUX - Section for projects without tasks -->\n\n<!-- TODO FTUX - AUTH - This section is visible to anonymous only -->\n<!-- <div *ngIf=\"!userService.authenticated()\"> -->\n\n<!-- FTUX - LEADER - Section is visible to non-leaders only -->\n<p *ngIf=\"!userService.hasLeader()\">\n  Lazy registration test: <a [routerLink]=\"['/add-leader']\">Зголошуйся в активні діячі</a>\n</p>\n<!-- /FTUX - LEADER END -->\n\n<!-- </div> --> <!-- TODO FTUX - AUTH END -->\n\n\n<!-- LOGO // TBU -->\n<!-- NAV // TBU -->\n\n<!--\n    MOBILE\n      TBD: Два горизонтальні квадрати,\n      TBD: Меню — 4 полосочки-квадратика під лого, Потій йдут 2 блоки — проекти та лідери\n        -->\n\n<!--\n    ALL PROJECTS\n      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом\n      TBD: on Hover, Button Rendedered in MD Style\n        -->\n\n<!--\n    ALL LEADERS\n      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом\n      TBD: on Hover, Button Rendedered in MD Style\n        -->\n\n<!-- here, mongoDb query can be used like this:\nhttp://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1\n{ \"$where\": \"this.projects.length > 2\" }\n{ \"totalDonationsReceived\": 0 }\n{ \"projects\": { $size: 2 } }\n\netc\n\n -->\n\n<h3>Діячі, що мають більше 2 проектів (тест):</h3>\n\n<app-leader-list [pageSize]=\"2\" dbQuery='{ \"$where\": \"this.projects.length > 2\" }'></app-leader-list>\n\n<h3>Проекти, що мають більше 3 заходів:</h3>\n<app-project-list [pageSize]=\"2\" dbQuery='{ \"$where\": \"this.tasks.length > 3\" }'></app-project-list>\n\n<h2>Як це працює?</h2>\n\n<br />\n\n<div>// TBD: Use stories from #89 Step 1 > Step 2 > Step 3 >\n\n<br />\n<br />\n\n<img src=\"https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png\" style=\"width:100%\" />\n\n<br />\n<br />\n<br />\n\n</div>\n<!--\n  Показуємо 6 активних проектів на 1 табі\n  і також рандомно — 6 лідерів на другій табі\n                                            -->\n\n<md-tab-group>\n  <md-tab label=\"Проекти\">\n    <app-project-list [pageSize]=\"5\"></app-project-list>\n    <button md-button md-raised-button color=\"primary\">Всі проекти</button>\n  </md-tab>\n  <md-tab label=\"Політики\">\n    <app-leader-list [pageSize]=\"5\"></app-leader-list>\n    <button md-raised-button color=\"primary\">Всі лідери</button>\n  </md-tab>\n</md-tab-group>\n\n<p>\n  BigPolicy — платформа прямої демократії. Твої політики для тебе і від тебе.\n</p>\n\n<h2>Останні проекти</h2>\n<!-- Останні проекти та політики — це зменшені мініатюри без -->\n\n<div>//TBD</div>\n\n<h2>Нові політики</h2>\n<!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->\n\n<div>\n  //TBC:\n  Не дуже гарно виходить — нові у самому низу, треба подумати\n</div>\n\n<h2>Контакти</h2>\n\n<div>//TBD</div>\n"
 
 /***/ }),
 
@@ -4713,7 +4742,7 @@ module.exports = "<div class=\"bp-landing numbers\">\n  <md-card class=\"md-card
 /***/ 964:
 /***/ (function(module, exports) {
 
-module.exports = "<md-card class=\"leader-edit-card\">\n  <form>\n  <md-card-content>\n    <md-card-title>\n      <span *ngIf=\"!isUpdateMode\">Стати діячем</span>\n      <span *ngIf=\"isUpdateMode\">Редагувати діяча</span>\n    </md-card-title>\n\n      <!--LOGO OF LEADER-->\n\n      <!-- FIXME Make Mobile-friendly with Flexbox -->\n      <md-card-content>\n        <md-card-header class=\"leader-edit-basic-details\">\n          <button md-mini-fab class=\"md-24\" >\n            <md-icon color=\"white\">file_upload</md-icon>\n          </button>\n          <img md-card-md-image src=\"assets/img/avatar-generic.png\">\n          <div class=\"leader-names-input\">\n            <md-input-container>\n              <input mdInput required [ngModelOptions]=\"{standalone: true}\" [(ngModel)]=\"leader.name\" placeholder=\"Ім'я\" style=\"width: 100%\">\n            </md-input-container>\n            <md-input-container>\n              <input mdInput required [ngModelOptions]=\"{standalone: true}\" [(ngModel)]=\"leader.surName\" placeholder=\"Прізвище\" style=\"width: 100%\">\n            </md-input-container>\n            <!-- TODO: Use existing video control to auto-extend functionality on input -->\n            <md-input-container hintLabel=\"Посилання на відео YouTube\" >\n              <input mdInput video-control [(ngModel)]=\"leader.videoUrl\" placeholder=\"Відео:\" [ngModelOptions]=\"{standalone: true}\" >\n            </md-input-container>\n          </div>\n        </md-card-header>\n\n        <div class=\"problem-statement\">\n\n          <h3>Як виглядає проблема для тебе?</h3>\n\n          <md-input-container>\n            <textarea mdInput mdTextareaAutosize required maxLength=\"1000\" [(ngModel)]=\"leader.vision\" placeholder=\"Твоя особиста візія і думки\" characterCounter [ngModelOptions]=\"{standalone: true}\">\n            </textarea>\n          </md-input-container>\n\n          <h3>Який аспект проблеми ти хочеш вирішити?</h3>\n\n          <md-input-container>\n            <textarea mdInput mdTextareaAutosize required maxLength=\"1000\" [(ngModel)]=\"leader.mission\" placeholder=\"Твоя місія\" characterCounter [ngModelOptions]=\"{standalone: true}\" >\n            </textarea>\n          </md-input-container>\n\n        </div>\n\n        <!-- User should only be able to edit his own files, thus matching his email in gdrive -->\n        <app-bp-files *ngIf=\"userService.isOwner(leader)\" [userService]=\"userService\" (onFileListUpdate)=\"onFileListUpdate($event)\"></app-bp-files>\n        <app-files-view  *ngIf=\"!userService.isOwner(leader)\" [files]=\"leader.leaderFiles\" ></app-files-view>\n\n      </md-card-content>\n\n      <!--\n\n      <md-toolbar class=\"add-toolbar\" color=\"primary\">Проекти\n        <span class=\"add-fill-remaining\"></span>\n        <span *ngIf=\"isUpdateMode\">\n          <button disabled='disabled' md-raised-button (click)=\"addProject()\" color=\"accent\">Додати проект</button>\n        </span>\n      </md-toolbar>\n\n      <md-card-content>\n        <h3>Як ти вирішиш цю проблему?</h3>\n\n        <md-input-container>\n          <input mdInput name=\"description\" characterCounter style=\"width: 100%;\" placeholder=\"Опиши свій проект: \" hintLabel=\"\">\n        </md-input-container>\n\n        <md-input-container>\n          <input mdInput name=\"amount\" placeholder=\"Сума, грн\" align=\"end\" mdPrefix=\"Який бюджет тобі на це потрібен? UAH&nbsp;\" mdSuffix=\"00\">\n        </md-input-container>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"primary\">Твоя програма\n        <span class=\"add-fill-remaining\"></span>\n        <span *ngIf=\"isUpdateMode\">\n          <button disabled='disabled' md-raised-button (click)=\"addProject()\" color=\"accent\">Додати ще одну ціль</button>\n        </span>\n      </md-toolbar>\n\n      <md-card-content>\n        <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:\n        <md-input-container>\n          <input mdInput name=\"name\" [(ngModel)]=\"name\" type=\"text\" placeholder=\"Опиши коротко\">\n        </md-input-container>*\n\n        <p>\n          Другорядна ціль:\n          <md-input-container>\n            <input mdInput name=\"name\" [(ngModel)]=\"name\" type=\"text\" placeholder=\"Опиши коротко\">\n          </md-input-container>*\n        </p>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"white\">Додатково</md-toolbar>\n\n      <md-card-content>\n        <md-card-title>\n          Належиш до партії?\n          <md-input-container>\n            <input mdInput name=\"party\" type=\"text\" placeholder=\"Вкажи партію\">\n          </md-input-container>\n        </md-card-title>\n\n        <md-card-title>\n          Офіційна посада:\n          <md-input-container>\n            <input mdInput name=\"title\" type=\"text\" placeholder=\"Вкажи свою посаду\">\n          </md-input-container>\n        </md-card-title>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"accent\">Твої профілі у соцмережах:\n        <span class=\"add-fill-remaining\"></span>\n        <button md-button><md-icon>add</md-icon>Додати</button>\n      </md-toolbar>\n\n      <md-card-content>\n        <md-card-title>\n          Профілі не вказано\n        </md-card-title>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"white\">\n        <h2>Завантаж необхідні документи:</h2>\n      </md-toolbar>\n\n      <md-card-content>\n        <ul>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Програма дій</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Передвиборча програма</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Скан паспорту</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Довідка про судимості</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Антикорупційні документи</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Публічна майнова декларація</a></li>\n      </ul>\n      </md-card-content>\n\n      <ul style=\"list-style-type:none\">\n        <li>\n          <md-checkbox [checked]=\"false\" align=\"start\">\n            Я даю згоду на обробку моїх персональних данних.\n          </md-checkbox>\n        </li>\n        <li>\n          <md-checkbox [checked]=\"false\" align=\"start\">\n            Я погоджуюся з умовами роботи BigPolicy\n          </md-checkbox>\n        </li>\n      </ul>\n      <br>\n\n    -->\n\n    <md-toolbar class=\"add-toolbar\" color=\"#fff\">\n      <button md-raised-button color=\"primary\" type=\"submit\" (click)=\"onSaveLeaderClick()\">Готово</button>\n      <!-- <button md-raised-button disabled color=\"accent\">Як буде виглядати моя сторінка?</button> -->\n      <span class=\"add-fill-remaining\"></span>\n      <button md-button *ngIf=\"isUpdateMode\" color=\"warn\" (click)=\"deleteLeader(leader)\">Видалити</button>\n    </md-toolbar>\n\n  </md-card-content>\n  </form>\n</md-card>\n"
+module.exports = "<md-card class=\"leader-edit-card\">\n  <form>\n  <md-card-content>\n    <md-card-title>\n      <span *ngIf=\"!isUpdateMode\">Стати діячем</span>\n      <span *ngIf=\"isUpdateMode\">Редагувати діяча</span>\n    </md-card-title>\n\n      <!--LOGO OF LEADER-->\n\n      <!-- FIXME Make Mobile-friendly with Flexbox -->\n      <md-card-content>\n        <md-card-header class=\"leader-edit-basic-details\">\n          <button md-mini-fab class=\"md-24\" >\n            <md-icon color=\"white\">file_upload</md-icon>\n          </button>\n          <img md-card-md-image src=\"assets/img/avatar-generic.png\">\n          <div class=\"leader-names-input\">\n            <md-input-container>\n              <input mdInput required [ngModelOptions]=\"{standalone: true}\" [(ngModel)]=\"leader.name\" placeholder=\"Ім'я\" style=\"width: 100%\">\n            </md-input-container>\n            <md-input-container>\n              <input mdInput required [ngModelOptions]=\"{standalone: true}\" [(ngModel)]=\"leader.surName\" placeholder=\"Прізвище\" style=\"width: 100%\">\n            </md-input-container>\n            <!-- TODO: Use existing video control to auto-extend functionality on input -->\n            <md-input-container hintLabel=\"Посилання на відео YouTube\" >\n              <input mdInput video-control [(ngModel)]=\"leader.videoUrl\" placeholder=\"Відео:\" [ngModelOptions]=\"{standalone: true}\" >\n            </md-input-container>\n          </div>\n        </md-card-header>\n\n        <div class=\"problem-statement\">\n\n          <h3>Як виглядає проблема для тебе?</h3>\n\n          <md-input-container>\n            <textarea mdInput mdTextareaAutosize required maxLength=\"1000\" [(ngModel)]=\"leader.vision\" placeholder=\"Твоя особиста візія і думки\" characterCounter [ngModelOptions]=\"{standalone: true}\">\n            </textarea>\n          </md-input-container>\n\n          <h3>Який аспект проблеми ти хочеш вирішити?</h3>\n\n          <md-input-container>\n            <textarea mdInput mdTextareaAutosize required maxLength=\"1000\" [(ngModel)]=\"leader.mission\" placeholder=\"Твоя місія\" characterCounter [ngModelOptions]=\"{standalone: true}\" >\n            </textarea>\n          </md-input-container>\n\n        </div>\n\n        <!-- User should only be able to edit his own files, thus matching his email in gdrive -->\n        <div *ngIf=\"isUpdateMode\">\n          <app-bp-files *ngIf=\"userService.isOwner(leader)\" [userService]=\"userService\" (onFileListUpdate)=\"onFileListUpdate($event)\"></app-bp-files>\n          <app-files-view *ngIf=\"!userService.isOwner(leader)\" [files]=\"leader.leaderFiles\" ></app-files-view>\n        </div>\n\n      </md-card-content>\n\n      <!--\n\n      <md-toolbar class=\"add-toolbar\" color=\"primary\">Проекти\n        <span class=\"add-fill-remaining\"></span>\n        <span *ngIf=\"isUpdateMode\">\n          <button disabled='disabled' md-raised-button (click)=\"addProject()\" color=\"accent\">Додати проект</button>\n        </span>\n      </md-toolbar>\n\n      <md-card-content>\n        <h3>Як ти вирішиш цю проблему?</h3>\n\n        <md-input-container>\n          <input mdInput name=\"description\" characterCounter style=\"width: 100%;\" placeholder=\"Опиши свій проект: \" hintLabel=\"\">\n        </md-input-container>\n\n        <md-input-container>\n          <input mdInput name=\"amount\" placeholder=\"Сума, грн\" align=\"end\" mdPrefix=\"Який бюджет тобі на це потрібен? UAH&nbsp;\" mdSuffix=\"00\">\n        </md-input-container>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"primary\">Твоя програма\n        <span class=\"add-fill-remaining\"></span>\n        <span *ngIf=\"isUpdateMode\">\n          <button disabled='disabled' md-raised-button (click)=\"addProject()\" color=\"accent\">Додати ще одну ціль</button>\n        </span>\n      </md-toolbar>\n\n      <md-card-content>\n        <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:\n        <md-input-container>\n          <input mdInput name=\"name\" [(ngModel)]=\"name\" type=\"text\" placeholder=\"Опиши коротко\">\n        </md-input-container>*\n\n        <p>\n          Другорядна ціль:\n          <md-input-container>\n            <input mdInput name=\"name\" [(ngModel)]=\"name\" type=\"text\" placeholder=\"Опиши коротко\">\n          </md-input-container>*\n        </p>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"white\">Додатково</md-toolbar>\n\n      <md-card-content>\n        <md-card-title>\n          Належиш до партії?\n          <md-input-container>\n            <input mdInput name=\"party\" type=\"text\" placeholder=\"Вкажи партію\">\n          </md-input-container>\n        </md-card-title>\n\n        <md-card-title>\n          Офіційна посада:\n          <md-input-container>\n            <input mdInput name=\"title\" type=\"text\" placeholder=\"Вкажи свою посаду\">\n          </md-input-container>\n        </md-card-title>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"accent\">Твої профілі у соцмережах:\n        <span class=\"add-fill-remaining\"></span>\n        <button md-button><md-icon>add</md-icon>Додати</button>\n      </md-toolbar>\n\n      <md-card-content>\n        <md-card-title>\n          Профілі не вказано\n        </md-card-title>\n      </md-card-content>\n\n      <md-toolbar class=\"add-toolbar\" color=\"white\">\n        <h2>Завантаж необхідні документи:</h2>\n      </md-toolbar>\n\n      <md-card-content>\n        <ul>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Програма дій</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Передвиборча програма</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Скан паспорту</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Довідка про судимості</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Антикорупційні документи</a></li>\n        <li><a><md-icon color=\"primary\">attach_file</md-icon>Публічна майнова декларація</a></li>\n      </ul>\n      </md-card-content>\n\n      <ul style=\"list-style-type:none\">\n        <li>\n          <md-checkbox [checked]=\"false\" align=\"start\">\n            Я даю згоду на обробку моїх персональних данних.\n          </md-checkbox>\n        </li>\n        <li>\n          <md-checkbox [checked]=\"false\" align=\"start\">\n            Я погоджуюся з умовами роботи BigPolicy\n          </md-checkbox>\n        </li>\n      </ul>\n      <br>\n\n    -->\n\n    <md-toolbar class=\"add-toolbar\" color=\"#fff\">\n      <button md-raised-button color=\"primary\" type=\"submit\" (click)=\"onSaveLeaderClick()\">Готово</button>\n      <!-- <button md-raised-button disabled color=\"accent\">Як буде виглядати моя сторінка?</button> -->\n      <span class=\"add-fill-remaining\"></span>\n      <button md-button *ngIf=\"isUpdateMode\" color=\"warn\" (click)=\"deleteLeader(leader)\">Видалити</button>\n    </md-toolbar>\n\n  </md-card-content>\n  </form>\n</md-card>\n"
 
 /***/ }),
 
@@ -4748,7 +4777,7 @@ module.exports = "<md-card>\n  <md-card-title>Проекти</md-card-title>\n  
 /***/ 969:
 /***/ (function(module, exports) {
 
-module.exports = "<md-list>\n  <!-- Usage: <app-project-list [leaderId]=\"123\" [pageSize]=\"10\"></app-project-list> -->\n  <md-list-item *ngFor=\"let project of itemsPage.docs | async | paginate: {\n                                                                            id: 'projectItemsPage',\n                                                                            itemsPerPage: this.pageSize,\n                                                                            currentPage: itemsPage.page,\n                                                                            totalItems: itemsPage.total\n                                                                          }\">\n    <img md-list-avatar src=\"assets/img/avatar.jpg\" alt=\"{{project.title}}\">\n    <h3 md-line><a [routerLink]=\"['/project/' + project._id]\"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>\n    <p md-line>\n      {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH\n    </p>\n    <p md-line>\n      <small>{{project.description}}</small>\n    </p>\n    <p *ngIf=\"userService.hasEditPermissions(project)\" class=\"admin\" style=\"min-width:4em;\">\n      <a [routerLink]=\"['/project/' + project._id + '/edit']\"><md-icon>edit</md-icon></a>\n      <a href (click)=\"deleteProject(project)\"><md-icon>delete</md-icon></a>\n    </p>\n  </md-list-item>\n\n  <!-- TODO Also show Projects as Cards / Thumbs -->\n\n  <!--\n  <div *ngFor=\"let project of app.projects\">\n    <md-card>\n      <md-card-header>\n        <img md-card-avatar src=\"assets/img/avatar-generic.png\" alt=\"{{project.title}}\">\n        <md-card-title>{{project.title}}</md-card-title>\n        <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>\n      </md-card-header>\n      <md-card-content>\n          {{project.description}}\n          <br/>\n          <br/>\n          <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>\n      </md-card-content>\n      <md-card-actions>\n        <a [routerLink]=\"['/project/' + project._id]\"><button md-button color=\"primary\">Підтримати</button></a>\n      </md-card-actions>\n    </md-card>\n  </div> -->\n</md-list>\n\n<pagination-controls\n                    id = \"projectItemsPage\"\n                    (pageChange)=\"pageChanged($event)\"\n                    [maxSize]=\"5\"\n                    directionLinks=\"true\"\n                    previousLabel=\"Previous\"\n                    nextLabel=\"Next\"\n                    autoHide=\"true\"\n                    >\n</pagination-controls>\n\n<p>Кількість проектів: {{itemsPage.total}}</p>\n"
+module.exports = "<h2 *ngIf=\"title !== ''\">{{title}}</h2>\n\n<md-list>\n  <!-- Usage: <app-project-list [leaderId]=\"123\" [pageSize]=\"10\"></app-project-list> -->\n  <md-list-item *ngFor=\"let project of itemsPage.docs | async | paginate: {\n                                                                            id: 'projectItemsPage',\n                                                                            itemsPerPage: this.pageSize,\n                                                                            currentPage: itemsPage.page,\n                                                                            totalItems: itemsPage.total\n                                                                          }\">\n    <img md-list-avatar src=\"assets/img/avatar.jpg\" alt=\"{{project.title}}\">\n    <h3 md-line><a [routerLink]=\"['/project/' + project._id]\"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>\n    <p md-line>\n      {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH\n    </p>\n    <p md-line>\n      <small>{{project.description}}</small>\n    </p>\n    <p *ngIf=\"userService.hasEditPermissions(project)\" class=\"admin\" style=\"min-width:4em;\">\n      <a [routerLink]=\"['/project/' + project._id + '/edit']\"><md-icon>edit</md-icon></a>\n      <a href (click)=\"deleteProject(project)\"><md-icon>delete</md-icon></a>\n    </p>\n  </md-list-item>\n\n  <!-- TODO Also show Projects as Cards / Thumbs -->\n\n  <!--\n  <div *ngFor=\"let project of app.projects\">\n    <md-card>\n      <md-card-header>\n        <img md-card-avatar src=\"assets/img/avatar-generic.png\" alt=\"{{project.title}}\">\n        <md-card-title>{{project.title}}</md-card-title>\n        <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>\n      </md-card-header>\n      <md-card-content>\n          {{project.description}}\n          <br/>\n          <br/>\n          <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>\n      </md-card-content>\n      <md-card-actions>\n        <a [routerLink]=\"['/project/' + project._id]\"><button md-button color=\"primary\">Підтримати</button></a>\n      </md-card-actions>\n    </md-card>\n  </div> -->\n</md-list>\n\n<pagination-controls\n                    id = \"projectItemsPage\"\n                    (pageChange)=\"pageChanged($event)\"\n                    [maxSize]=\"5\"\n                    directionLinks=\"true\"\n                    previousLabel=\"Previous\"\n                    nextLabel=\"Next\"\n                    autoHide=\"true\"\n                    >\n</pagination-controls>\n\n<p>Кількість проектів: {{itemsPage.total}}</p>\n"
 
 /***/ }),
 
@@ -4811,7 +4840,7 @@ module.exports = "<md-toolbar color=\"primary\">\n  <span class=\"logo\">\n    <
 /***/ 978:
 /***/ (function(module, exports) {
 
-module.exports = "<md-card>\n  <div *ngIf=\"userService.authenticated() && userService.userProfile\">\n    <md-card-title-group>\n      <md-card-title>\n        <!-- FIXME Override User Profile Name with Leader Name ? -->\n        {{userService.userProfile.name}}\n        <md-chip-list>\n          <md-chip>Зареєстрований</md-chip>\n          <md-chip *ngIf=\"userService.isAdmin()\"><strong>Адміністратор</strong></md-chip>\n        </md-chip-list>\n      </md-card-title>\n      <img md-card-md-image [src]=\"userService.userProfile.picture\">\n    </md-card-title-group>\n    <md-card-content>\n      <p><strong>Email: </strong> {{userService.userProfile.email}}</p>\n      <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>\n      <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>\n      <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>\n\n      <!-- <h4>You are logged in</h4> -->\n    </md-card-content>\n\n    <md-card *ngIf=\"profileLeader\">\n      <md-card-title>\n        Лідер: {{profileLeader.name}} {{profileLeader.surName}}\n      </md-card-title>\n      <md-card-content>\n        <h2 *ngIf=\"profileLeader.projects.length > 0\">Проекти:</h2>\n        <app-project-list [leaderId]=\"profileLeader._id\" pageSize=\"2\">\n        </app-project-list>\n      </md-card-content>\n      <md-card-actions>\n        <span *ngIf=\"userService.hasEditPermissions(profileLeader)\">\n          <a [routerLink] = \"['/leader/' + profileLeader._id + '/edit']\"><button md-button color=\"accent\">Редагувати</button></a>\n        </span>\n      </md-card-actions>\n    </md-card>\n  </div>\n\n  <div *ngIf=\"!userService.authenticated()\">\n    <h4>Ви не зайшли в систему</h4>\n    <p>\n      Авторизовані користувачі можуть:\n    </p>\n    <ul>\n      <li>\n        створювати проекти\n      </li>\n      <li>\n        ставати лідерами\n      </li>\n      <li>\n        користуватися іншими розширеними фунціями системи.\n      </li>\n    </ul>\n    <p>\n      Будь ласка, натисніть \"Увійти\", для авторизації.\n    </p>\n    <a (click)=\"userService.login()\"><button md-raised-button color=\"accent\">Увійти</button></a>\n  </div>\n\n</md-card>\n"
+module.exports = "<md-card>\n  <div *ngIf=\"userService.authenticated() && userService.userProfile\">\n    <md-card-title-group>\n      <md-card-title>\n        <!-- FIXME Override User Profile Name with Leader Name ? -->\n        {{userService.userProfile.name}}\n        <md-chip-list>\n          <md-chip>Зареєстрований</md-chip>\n          <md-chip *ngIf=\"userService.isAdmin()\"><strong>Адміністратор</strong></md-chip>\n        </md-chip-list>\n      </md-card-title>\n      <img md-card-md-image [src]=\"userService.userProfile.picture\">\n    </md-card-title-group>\n    <md-card-content>\n      <p><strong>Email: </strong> {{userService.userProfile.email}}</p>\n      <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>\n      <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>\n      <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>\n\n      <!-- <h4>You are logged in</h4> -->\n    </md-card-content>\n\n    <md-card *ngIf=\"profileLeader\">\n      <md-card-title>\n        Лідер: {{profileLeader.name}} {{profileLeader.surName}}\n      </md-card-title>\n      <md-card-content>\n        <!-- FIXME <h2 *ngIf=\"profileLeader.projects && profileLeader.projects.length > 0\">Проекти:</h2> -->\n        <!-- <app-project-list [leaderId]=\"profileLeader._id\" pageSize=\"2\" > -->\n        <app-project-list title=\"Проекти з заходами\" [leaderId]=\"profileLeader._id\" pageSize=\"3\" dbQuery='{ \"$where\": \"this.tasks.length > 0\" }'>\n        </app-project-list>\n\n        <app-project-list title=\"Проекти без заходів\" [leaderId]=\"profileLeader._id\" pageSize=\"3\" dbQuery='{ \"$where\": \"this.tasks.length < 1\" }'>\n        </app-project-list>\n      </md-card-content>\n      <md-card-actions>\n        <span *ngIf=\"userService.hasEditPermissions(profileLeader)\">\n          <a [routerLink] = \"['/leader/' + profileLeader._id + '/edit']\"><button md-button color=\"accent\">Редагувати</button></a>\n        </span>\n      </md-card-actions>\n    </md-card>\n  </div>\n\n  <div *ngIf=\"!userService.authenticated()\">\n    <h4>Ви не зайшли в систему</h4>\n    <p>\n      Авторизовані користувачі можуть:\n    </p>\n    <ul>\n      <li>\n        створювати проекти\n      </li>\n      <li>\n        ставати лідерами\n      </li>\n      <li>\n        користуватися іншими розширеними фунціями системи.\n      </li>\n    </ul>\n    <p>\n      Будь ласка, натисніть \"Увійти\", для авторизації.\n    </p>\n    <a (click)=\"userService.login()\"><button md-raised-button color=\"accent\">Увійти</button></a>\n  </div>\n\n</md-card>\n"
 
 /***/ }),
 
