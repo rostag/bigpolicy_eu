@@ -25,14 +25,15 @@ export class LandingComponent implements OnInit {
     private leaderService: LeaderService
   ) {}
 
+
   ngOnInit() {
-    this.getProjects();
+    // this.getProjects();
     // this.getLeaders();
   }
 
   // OBSOLETE
   // getLeaders() {
-  //   this.leaderService.getLeadersPage()
+  //   this.leaderService.get LeadersPage()
   //     .subscribe(
   //       data => this.setLeaders(data),
   //       err => console.error(err),
@@ -46,14 +47,15 @@ export class LandingComponent implements OnInit {
   }
 
   // FIXME PG_MIGRATION
-  getProjects() {
-    this.projectService.getProjectsPage()
-      .subscribe(
-        data => this.setProjects(data),
-        err => console.error(err),
-        () => this.app.projects
-      );
-  }
+  // OBSOLETE
+  // getProjects() {
+  //   this.projectService.get ProjectsPage()
+  //     .subscribe(
+  //       data => this.setProjects(data),
+  //       err => console.error(err),
+  //       () => this.app.projects
+  //     );
+  // }
 
   private setProjects(data) {
     this.app.projects = data;

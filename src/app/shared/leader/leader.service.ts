@@ -71,21 +71,26 @@ export class LeaderService {
 
     let requestUrl;
 
-    // Leader by id:                   /leader-api/:leaderId
+    // Leader by ID
+    // leader-api/:leaderId
     if (leaderId) {
       requestUrl = this.leaderApiUrl + leaderId;
     }
-    // Page of leaders:                /leader-api/page/:page/:limit/q/:dbQuery
+
+    // Page of Leaders
+    // leader-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
+
+    // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.leaderApiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
+
     // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
     // if (groupId) {
     //   requestUrl = this.leaderApiUrl + 'group/' + groupId;
-    // }
-    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
-    // if (page !== null && limit !== null && groupId !== null) {
-    //   requestUrl = this.leaderApiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
     // }
 
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
@@ -125,7 +130,7 @@ export class LeaderService {
     // leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
 
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
-    leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
+    leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }

@@ -113,12 +113,19 @@ Donations feature:
 ### 2017-03-20
 
  * Leaders filtering by arbitrary criteria is implemented between UI and DB
+ * Oh home, show Leader having more than 2 projects etc.
+ * User and Leader registration UX
 
 ### 2017-03-21
 
- * Automatic versioning implemented as combination of ts/node app and bash deployment script. Version id is injected in both git log and app homepage
+ * Automatic versioning implemented as combination of ts/node app and bash deployment script.
+ * Version id is injected in both git log and app homepage
 
- 
+### 2017-03-21
+
+ * Projects filtering by arbitrary criteria is implemented between UI and DB
+ * On Profile page, Projects are divided into the ones with tasks and the ones lacking it.
+
 
 TODO:
 

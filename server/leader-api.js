@@ -32,7 +32,7 @@ module.exports = function(app, DB){
 
   /**
    * Gets page of Leaders, example:
-   * /leader-api/page/1/1
+   * /leader-api/page/1/1/q/:dbQuery
    */
   .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
     // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit, ', dbQuery =', decodeURIComponent(req.params.dbQuery));
@@ -66,7 +66,7 @@ module.exports = function(app, DB){
     .then(function (data) {
       res.json(data);
     });
-  })
+  });
 
   app.use('/leader-api', router);
 

@@ -9,7 +9,7 @@ var options = {  server: { poolSize: 5 } };
 
 // FIXME for livereloading purposes
 try {
-  console.log('𝖄 • Mongoose connection:');
+  console.log('  𝖄 Mongoose connection:');
     if (process.env.OPENSHIFT_MONGODB_DB_URL) {
         console.error('    Remote: ' + process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME);
         // FIXME_SEC

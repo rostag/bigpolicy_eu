@@ -48,7 +48,10 @@ etc
 
 <h3>Діячі, що мають більше 2 проектів (тест):</h3>
 
-<app-leader-list [pageSize]="12" dbQuery='{ "$where": "this.projects.length > 2" }'></app-leader-list>
+<app-leader-list [pageSize]="2" dbQuery='{ "$where": "this.projects.length > 2" }'></app-leader-list>
+
+<h3>Проекти, що мають більше 3 заходів:</h3>
+<app-project-list [pageSize]="2" dbQuery='{ "$where": "this.tasks.length > 3" }'></app-project-list>
 
 <h2>Як це працює?</h2>
 

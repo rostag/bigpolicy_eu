@@ -3,38 +3,13 @@
 //******************************************************************************
 
 var DBProject = {};
-
-// mongoose models
 var Project = require('./models/project');
 var Leader = require('./models/leader');
 
 /**
- * Returns single Project by given project id
+ * Creates a Project by provided data
+ * @param dataObj Properties object of Project to be created
  */
-DBProject.getProject = function(id) {
-   return Project.findById(id);
-}
-
-/**
- * Returns a page of Projects by given leader project ids (if present), page number and limit
- */
-DBProject.getPage = function (leaderProjectIds, page, limit) {
-  // console.log('DBProject.getPage, leaderProjectIds =', leaderProjectIds, ', page =', page, 'limit =', limit);
-  return leaderProjectIds
-    ? Project.paginate({ '_id': { $in: leaderProjectIds } }, { page: parseInt(page), limit: parseInt(limit) })
-    : Project.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
-}
-
-/**
- * OBSOLETE
- * Returns all projects by given leader project ids (if provided), or just all projects
- */
-// DBProject.listProjects = function(leaderProjectIds) {
-//   return leaderProjectIds
-//     ? Project.find({ '_id': { $in: leaderProjectIds } })
-//     : Project.find();
-// }
-
 DBProject.createProject = function(dataObj) {
   var data = dataObj;
 
@@ -54,25 +29,37 @@ DBProject.createProject = function(dataObj) {
   return model.save(saved);
 }
 
-DBProject.addProjectToLeader = function(error, savedProject) {
-  // Add this project to the corresponding leader's array
-  // console.log('find this project leader by leaderId: ', savedProject.managerId);
+/**
+ * Returns single Project by ID
+ */
+DBProject.getProject = function(id) {
+   return Project.findById(id);
+}
 
-  var leaderByIdQuery = Leader.where({ _id: savedProject.managerId });
+/**
+ * Returns a page of Projects either by given ids (if present), page number and limit, or DB query
+ * @param projectIds project ID's to retrieve
+ * @param page Page number to get from DB
+ * @param limit Items per page to get from DB
+ * @param dbQuery DB query to perform for filtering the results, searching etc
+ */
+DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
+  // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 
-  leaderByIdQuery.findOne( function (err, leader) {
-    if( leader ) {
-      // console.log('project leader found: ', leader.name);
-      // console.log('and his projects: ', leader.projects);
-      // console.log('new project: ', savedProject._id);
-      leader.projects.push(savedProject.id);
-      // console.log('and his updated projects: ', leader.projects);
+  var jsonQuery = {};
 
-      leader.update({ projects: leader.projects }, function (error, leader){
-      //  console.log('added project to leader');
-      })
-    }
-  });
+  // Populate DB query from params
+  if (dbQuery) {
+    jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  }
+
+  // Add project ID's to DB query
+  if (projectIds) {
+    jsonQuery['_id'] = { $in: projectIds };
+  }
+
+  // console.log('jsonQuery =', jsonQuery);
+  return Project.paginate(jsonQuery, { page: parseInt(page), limit: parseInt(limit) });
 }
 
 DBProject.updateProject = function(id,data) {
@@ -96,9 +83,42 @@ DBProject.updateProject = function(id,data) {
   });
 }
 
+DBProject.addProjectToLeader = function(error, savedProject) {
+  // Add this project to the corresponding leader's array
+  // console.log('find this project leader by leaderId: ', savedProject.managerId);
+
+  var leaderByIdQuery = Leader.where({ _id: savedProject.managerId });
+
+  leaderByIdQuery.findOne( function (err, leader) {
+    if( leader ) {
+      // console.log('project leader found: ', leader.name);
+      // console.log('and his projects: ', leader.projects);
+      // console.log('new project: ', savedProject._id);
+      leader.projects.push(savedProject.id);
+      // console.log('and his updated projects: ', leader.projects);
+
+      leader.update({ projects: leader.projects }, function (error, leader){
+      //  console.log('added project to leader');
+      })
+    }
+  });
+}
+
 // FIXME Need to delete a reference in Leader's projects array also
 DBProject.deleteProject = function(id) {
   return Project.findById(id).remove();
 }
 
 module.exports = DBProject;
+
+// OBSOLETE
+
+/**
+ * OBSOLETE
+ * Returns all projects by given leader project ids (if provided), or just all projects
+ */
+// DBProject.listProjects = function(leaderProjectIds) {
+//   return leaderProjectIds
+//     ? Project.find({ '_id': { $in: leaderProjectIds } })
+//     : Project.find();
+// }

@@ -37,7 +37,7 @@ DBLeader.getLeader = function(id) {
 }
 
 /**
- * Returns a page of Leaders by given patyu leader ids (if present), page number and limit
+ * Returns a page of Leaders either by given leader ids (if present), page number and limit, or query to db
  * @param ownerLeaderIds Not used currently, reserved for future use (by party)
  * @param page Page number to get from DB
  * @param limit Items per page to get from DB
