@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HomeComponent } from './home.component';
 
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,24 +22,22 @@ import { CoreModule } from '../core.module';
 // http://stackoverflow.com/questions/39577920/angular-2-unit-testing-components-with-routerlink/39579009#39579009
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HomeComponent, LeaderListComponent, ProjectListComponent,
-        ],
-      imports: [ RouterTestingModule, MaterialModule, Ng2PaginationModule, CoreModule ]
-      // providers: [ UserService, LeaderService ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  // let component: HomeComponent;
+  // let fixture: ComponentFixture<HomeComponent>;
+  //
+  // beforeEach(async(() => {
+  //   TestBed.configureTestingModule({
+  //     declarations: [ HomeComponent, LeaderListComponent, ProjectListComponent],
+  //     imports: [ RouterTestingModule, MaterialModule, Ng2PaginationModule, CoreModule ]
+  //   })
+  //   .compileComponents();
+  // }));
+  //
+  // beforeEach(() => {
+  //   fixture = TestBed.createComponent(HomeComponent);
+  //   component = fixture.componentInstance;
+  //   fixture.detectChanges();
+  // });
 
   it('FIXME should create', () => {
     // expect(component).toBeTruthy();

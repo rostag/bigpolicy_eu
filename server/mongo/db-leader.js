@@ -46,11 +46,10 @@ DBLeader.getLeader = function(id) {
 DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
   // parse query
   // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
-  var jsonQuery = JSON.parse(dbQuery.replace(/\'/g, '"'));
-  // console.log('JWON =', jsonQuery);
+  var query = JSON.parse(dbQuery.replace(/\'/g, '"'));
 
   if (dbQuery) {
-    return Leader.paginate(jsonQuery, { page: parseInt(page), limit: parseInt(limit) });
+    return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
   }
 
   if (partyLeaderIds) {

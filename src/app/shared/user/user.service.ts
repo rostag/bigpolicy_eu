@@ -22,7 +22,7 @@ export class UserService {
   // 2. E.T.C.
   options = {
       auth: {
-          redirectUrl: location.protocol + '//' + location.hostname + ':' + location.port + '/profile',
+          redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
           responseType: 'token'
           // language: 'ua'
           // params: {

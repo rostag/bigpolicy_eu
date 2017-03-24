@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LeaderModel } from './leader.model';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LeaderModel } from './leader.model';
-import { ActivatedRoute, Router } from '@angular/router';
 
 /**
  * Provides the Leader service with methods to create, read, update and delete models.
@@ -194,10 +194,15 @@ export class LeaderService {
       });
   }
 
-  // OBSOLETE
-  // get(): Observable<Response> {
-  //   return this.getLeadersPage();
-  // }
+  gotoLeaderView(leader) {
+    this.setLeaderForUser(leader);
+    const leaderId = leader._id;
+    if (leaderId) {
+      this.router.navigate(['/leader', leaderId]).then(_ => {
+        // navigation is done
+      });
+    }
+  }
 
   private setLeaderForUser(leader) {
     if (!leader) {
@@ -213,15 +218,5 @@ export class LeaderService {
   private handleError(error: Response) {
     console.error('Error occured: ', error);
     return Observable.throw(error.json().error || 'Server error');
-  }
-
-  gotoLeaderView(leader) {
-    this.setLeaderForUser(leader);
-    const leaderId = leader._id;
-    if (leaderId) {
-      this.router.navigate(['/leader', leaderId]).then(_ => {
-        // navigation is done
-      });
-    }
   }
 }
