@@ -25,8 +25,8 @@ const leaderSchema = new Schema({
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
 
-	// political party membership
-	// id of party from parties lst
+	// group membership
+	// leader's party id
 	party: { type: Number },
 	officialPost: { type: String },
 

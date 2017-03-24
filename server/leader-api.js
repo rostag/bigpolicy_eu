@@ -19,7 +19,7 @@ module.exports = function(app, DB){
 
   /**
    * Gets the Leader by ID, example:
-   * /leader-api/57a64e2b3a5bfb3b48e6fd1b
+   * leader-api/58cf0b7d4256ee60fd1261a
    */
   .get('/:id', function (req, res) {
     if (req.params.id) {
@@ -32,7 +32,10 @@ module.exports = function(app, DB){
 
   /**
    * Gets page of Leaders, example:
-   * /leader-api/page/1/1/q/:dbQuery
+   * First page, 5 docs:
+   * leader-api/page/1/5/q/%7B%7D
+   * Leader by email:
+   * leader-api/page/1/1/q/%7B%20%22email%22%3A%20%22rostyslav.siryk%40gmail.com%22%20%7D
    */
   .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
     // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit, ', dbQuery =', decodeURIComponent(req.params.dbQuery));
@@ -75,13 +78,13 @@ module.exports = function(app, DB){
 
   /**
   * RESERVED - For future use
-  * Gets page of leaders for the given group / party, example:
-  * /leader-api/party/partyId/page/1/1
+  * Gets page of leaders for the given group, example:
+  * /leader-api/group/groupId/page/1/1
   */
-  // .get('/party/:partyId/page/:page/:limit', function (req, res) {
+  // .get('/group/:groupId/page/:page/:limit', function (req, res) {
   //   DBLeader.getPageOfLeaders( req.params.leaderId )
   //     .then((leader) => {
-  //       DB.getPage(party.leaders, req.params.page, req.params.limit)
+  //       DB.getPage(group.leaders, req.params.page, req.params.limit)
   //         .then( data => res.json(data))
   //         .catch( err => res.json(err))
   //     })

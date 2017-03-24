@@ -48,19 +48,17 @@ DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
 
   var query = {};
 
-  // Populate DB query from params
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
   if (dbQuery) {
     query = JSON.parse(dbQuery.replace(/\'/g, '"'));
   }
 
-  // Add project ID's to DB query
+  // If passed, use project IDs in query
   if (projectIds) {
     query['_id'] = { $in: projectIds };
   }
 
   // console.log('query =', query);
-  // please see documentation for query param here:
-  // https://github.com/edwardhotchkiss/mongoose-paginate
   return Project.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 

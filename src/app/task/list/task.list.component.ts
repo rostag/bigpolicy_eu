@@ -15,8 +15,17 @@ import { UserService } from '../../shared/user/user.service';
 
 export class TaskListComponent implements OnChanges {
 
-  @Input() project: ProjectModel;
+  // TODO List title
+  @Input() title = '';
+
+  // How many tasks to show and to request from db in single turn
   @Input() pageSize = 5;
+
+  // For searching leaders in DB
+  @Input() dbQuery = '{}';
+
+  // An project this task list belongs to
+  @Input() project: ProjectModel;
 
   public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
@@ -37,9 +46,9 @@ export class TaskListComponent implements OnChanges {
 
   ngOnChanges(changes) {
     const project = changes.project.currentValue;
-    if (project && project._id) {
-      this.requestTasks();
-    } else if (changes.pageSize && changes.pageSize.currentValue) {
+    if (project && project._id ||
+        changes.pageSize && changes.pageSize.currentValue ||
+        changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestTasks();
     }
   }
@@ -50,7 +59,13 @@ export class TaskListComponent implements OnChanges {
   }
 
   requestTasks() {
-    const proxySub = this.taskService.getTasksPage(null, this.project._id, this.itemsPage.page, this.pageSize)
+    const proxySub = this.taskService.getTasksPage(
+      null,
+      this.project._id,
+      this.itemsPage.page,
+      this.pageSize,
+      this.dbQuery
+    )
       .subscribe(responsePage => {
         console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);

@@ -38,25 +38,30 @@ DBLeader.getLeader = function(id) {
 
 /**
  * Returns a page of Leaders either by given leader ids (if present), page number and limit, or query to db
- * @param ownerLeaderIds Not used currently, reserved for future use (by party)
+ * @param ownerLeaderIds Not used currently, reserved for future use (by group)
  * @param page Page number to get from DB
  * @param limit Items per page to get from DB
  * @param dbQuery DB Query to perform for filtering the results, searching etc
  */
-DBLeader.getPageOfLeaders = function (partyLeaderIds, page, limit, dbQuery) {
+DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
   // parse query
-  // console.log('DBLeader.getPageOfLeaders, partyLeaderIds =', partyLeaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
-  var query = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  // console.log('DBLeader.getPageOfLeaders, leaderIds =', leaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
+  var query = {};
 
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
   if (dbQuery) {
-    return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
+    query = JSON.parse(dbQuery.replace(/\'/g, '"'))
   }
 
-  if (partyLeaderIds) {
-    return Leader.paginate({ '_id': { $in: partyLeaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
+  // If passed, use project IDs in query
+  if (leaderIds) {
+    query['_id'] = { $in: projectIds };
   }
 
-  return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+  // return Leader.paginate({ '_id': { $in: leaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
+  // return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+
+  return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
 /**

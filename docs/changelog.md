@@ -126,6 +126,11 @@ Donations feature:
  * Projects filtering by arbitrary criteria is implemented between UI and DB
  * On Profile page, Projects are divided into the ones with tasks and the ones lacking it.
 
+###
+
+ *
+ * Заходи проекту, Закороткий опис
+ *
 
 TODO:
 
