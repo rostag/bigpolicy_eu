@@ -71,12 +71,12 @@ module.exports = function(app, DB, DBProject){
 
   /**
    * Gets page of tasks for the given project, example:
-   * /task-api/project/projectId/page/1/1
+   * /task-api/project/projectId/page/1/1/q/:dbQuery
    */
-  .get('/project/:projectId/page/:page/:limit', function (req, res) {
+  .get('/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
     DBProject.getProject( req.params.projectId )
       .then((project) => {
-        DB.getPage(project.tasks, req.params.page, req.params.limit)
+        DB.getPage(project.tasks, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })
@@ -85,11 +85,11 @@ module.exports = function(app, DB, DBProject){
 
   /**
    * Gets page of tasks, example:
-   * /task-api/page/1/1
+   * /task-api/page/1/1/q/:dbQuery
    */
-  .get('/page/:page/:limit', function (req, res) {
+  .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
     // console.log('task-api/get page #', req.params.page, ', limit =', req.params.limit);
-    DB.getPage(null, req.params.page, req.params.limit)
+    DB.getPage(null, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
       .then(function (data) {
         res.json(data);
       })

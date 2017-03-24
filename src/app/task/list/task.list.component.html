@@ -1,7 +1,10 @@
 <!-- Usage: <app-task-list [project]="project" [pageSize]="10"></app-task-list> -->
+
+<!-- <h2 *ngIf="title !== ''">{{title}}</h2> -->
+
 <md-card-content>
   <md-card-actions>
-    <md-toolbar class="add-toolbar" color="accent">Заходи проекту "{{project.title}}"
+    <md-toolbar class="add-toolbar" color="accent"><span *ngIf="title !== ''">{{title}}</span>
       <span class="add-fill-remaining"></span>
       <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">Додати захід</button>
     </md-toolbar>
