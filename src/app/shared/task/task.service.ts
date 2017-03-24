@@ -39,29 +39,32 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasksPage(taskId = null, projectId = null, page = null, limit = null): Observable<Response> {
+  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
 
-    // All tasks:                    /task-api/
-    let requestUrl = this.apiUrl;
+    let requestUrl;
 
-    // Task by id:                   /task-api/:taskId
+    // Task by ID :: task-api/:taskId
     if (taskId) {
       requestUrl = this.apiUrl + taskId;
     }
-    // Page of tasks:                /task-api/page/:page/:limit
+
+    // Page of Tasks :: task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
-    }
-    // All Tasks for Leader:         /task-api/project/:projectId/
-    if (projectId) {
-      requestUrl = this.apiUrl + 'project/' + projectId;
-    }
-    // Page of tasks for Leader:     /task-api/project/:projectId/page/:page/:limit
-    if (page !== null && limit !== null && projectId !== null) {
-      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit;
+      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    console.log('getTasksPage:', taskId, projectId, page, limit);
+    // Page of tasks for Project :: task-api/project/:projectId/page/:page/:limit/q/:dbQuery
+    if (page !== null && limit !== null && projectId !== null) {
+      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+    }
+
+    // OBSOLETE
+    // All Tasks for Project:         /task-api/project/:projectId/
+    // if (projectId) {
+    //   requestUrl = this.apiUrl + 'project/' + projectId;
+    // }
+
+    console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
       .map((responsePage: Response) => {

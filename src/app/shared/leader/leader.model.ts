@@ -19,7 +19,6 @@ export class LeaderModel {
   leaderFiles;
   totalDonationsReceived: Number = 0;
 
-	// political party membership
   // id of party from parties list
   party: Number;
   officialPost: string;

@@ -16,13 +16,28 @@ DBTask.getTask = function(id) {
 }
 
 /**
- * Returns a page of tasks by given project task ids (if present), page number and limit
+* Returns a page of Tasks either by given ids (if present), page number and limit, or DB query
+* @param taskIds Task ID's to retrieve
+* @param page Page number to get from DB
+* @param limit Items per page to get from DB
+* @param dbQuery DB query to perform for filtering the results, searching etc
  */
-DBTask.getPage = function (projectTaskIds, page, limit) {
-  // console.log('DBTask.getPage, projectTaskIds =', projectTaskIds, ', page =', page, 'limit =', limit);
-  return projectTaskIds
-    ? Task.paginate({ '_id': { $in: projectTaskIds } }, { page: parseInt(page), limit: parseInt(limit) })
-    : Task.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+DBTask.getPage = function (taskIds, page, limit, dbQuery) {
+  // console.log('DBTask.getPage, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
+  var query = {};
+
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
+  if (dbQuery) {
+    query = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  }
+
+  // If passed, use project IDs in query
+  if (taskIds) {
+    query['_id'] = { $in: taskIds };
+  }
+
+  // console.log('query =', query);
+  return Task.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
 /**

@@ -54,17 +54,18 @@ export class ProjectService {
    */
   getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
 
-    // All projects:                    /project-api/
     let requestUrl;
 
     // Project by ID :: project-api/:projectId
     if (projectId) {
       requestUrl = this.projectApiUrl + projectId;
     }
+
     // Page of Projects :: project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
+
     // Page of Projects for Leader :: project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
       requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
