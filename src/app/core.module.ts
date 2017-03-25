@@ -9,11 +9,13 @@ import { DriveService } from './shared/drive';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { DialogService } from './shared/dialog/dialog.service';
 import { MaterialModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    CommonModule,
     MaterialModule,
-    CommonModule
+    BrowserAnimationsModule
   ],
   exports: [
     // components we want to make available
