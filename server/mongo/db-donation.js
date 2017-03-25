@@ -15,7 +15,7 @@ DBDonation.getDonation = function(id) {
 }
 
 DBDonation.getDonationTarget = function( targetType, targetId ) {
-  console.log('getDonationTarget:', targetType, targetId )
+  // console.log('getDonationTarget:', targetType, targetId )
   if (targetType === 'leader') {
     return Leader.findById(targetId);
   } else if (targetType === 'project') {
@@ -33,7 +33,7 @@ DBDonation.getDonationTarget = function( targetType, targetId ) {
  * @param dbQuery DB query to perform for filtering the results, searching etc
  */
 DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
-  console.log('DBDonation.get page of Donations, donationIds =', donationIds.length, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
+  // console.log('DBDonation.get page of Donations, donationIds =', donationIds.length, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 
   var query = {};
 
@@ -47,7 +47,7 @@ DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
     query['_id'] = { $in: donationIds };
   }
 
-  console.log('query =', query);
+  // console.log('query =', query);
   return Donation.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
