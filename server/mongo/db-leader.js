@@ -58,9 +58,7 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
     query['_id'] = { $in: projectIds };
   }
 
-  // return Leader.paginate({ '_id': { $in: leaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
-  // return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
-
+  // console.log('query:', query);
   return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 

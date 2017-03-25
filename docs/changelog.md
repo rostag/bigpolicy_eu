@@ -125,16 +125,19 @@ Donations feature:
 
  * Projects filtering by arbitrary criteria is implemented between UI and DB
  * On Profile page, Projects are divided into the ones with tasks and the ones lacking it.
+ * Leaders pagination
+ * Tasks pagination
 
-###
+### 2017-03-23
 
  * Leader service test added
  * Tasks filtering implemented
  * Заходи проекту, Закороткий опис
 
+### 2017-03-24
 
-TODO:
+ * Donations filtering by arbitrary criteria is implemented between UI and DB
 
- * Leaders pagination
- * Tasks pagination
+### TODO/WIP:
+
  * Landing UX

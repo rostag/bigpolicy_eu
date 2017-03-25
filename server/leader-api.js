@@ -38,8 +38,9 @@ module.exports = function(app, DB){
    * leader-api/page/1/1/q/%7B%20%22email%22%3A%20%22rostyslav.siryk%40gmail.com%22%20%7D
    */
   .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
-    // console.log('leader-api/get page #', req.params.page, ', limit =', req.params.limit, ', dbQuery =', decodeURIComponent(req.params.dbQuery));
-    DB.getPageOfLeaders(null, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
+    var p = req.params;
+    // console.log('leader-api/get page #', p.page, ', limit =', p.limit, ', dbQuery =', decodeURIComponent(p.dbQuery));
+    DB.getPageOfLeaders(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
       .then(function (data) {
         res.json(data);
       })
@@ -82,9 +83,9 @@ module.exports = function(app, DB){
   * /leader-api/group/groupId/page/1/1
   */
   // .get('/group/:groupId/page/:page/:limit', function (req, res) {
-  //   DBLeader.getPageOfLeaders( req.params.leaderId )
+  //   DBLeader.getPageOfLeaders( p.leaderId )
   //     .then((leader) => {
-  //       DB.getPage(group.leaders, req.params.page, req.params.limit)
+  //       DB.getPageOfLeaders(group.leaders, p.page, p.limit)
   //         .then( data => res.json(data))
   //         .catch( err => res.json(err))
   //     })
@@ -112,8 +113,8 @@ module.exports = function(app, DB){
    * /leader-api/email/foo@bar.com
    */
   // .get('/email/:email', function (req, res) {
-  //   if (req.params.email) {
-  //     DB.findLeaderByEmail(req.params.email)
+  //   if (p.email) {
+  //     DB.findLeaderByEmail(p.email)
   //     .then(function (data) {
   //       res.json(data);
   //     });
@@ -127,7 +128,7 @@ module.exports = function(app, DB){
    * /leader-api/id/projects
    */
   // .get('/:id/projects', function (req, res)     {
-  //   DB.listProjects(req.params.id)
+  //   DB.listProjects(p.id)
   //   .then(function (data) {
   //     res.json(data);
   //   })

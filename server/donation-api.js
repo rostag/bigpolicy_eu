@@ -30,7 +30,7 @@ module.exports = function(app, DB){
       'sandbox'       : '1', // FIXME DEV TEST
       'language'      : 'uk',
       'result_url'    : d.result_url,
-      'server_url'    : d.server_url + '/liqpay-api/post-donation-status'
+      'server_url'    : d.server_url + '/donation-api/post-donation-status'
     }
   }
 
@@ -45,21 +45,23 @@ module.exports = function(app, DB){
 
   /**
    * Gets all donations for the given target:
-   *  /liqpay-api/target/leader/id
-   *  /liqpay-api/target/project/id
-   *  /liqpay-api/target/task/id
+   *    donation-api/target/leader/id/1/10/q/{}
+   *    donation-api/target/project/id/1/10/q/{}
+   *    donation-api/target/task/id/1/10/q/{}
    */
-  router.get('/target/:targetType/:targetId/page/:page/:limit', function (req, res) {
-    // console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
-    DB.getDonationTarget( req.params.targetType, req.params.targetId )
+  router.get('/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
+
+    var p = req.params;
+    // console.log('donation-api/get: ' + JSON.stringify(p, null, '  ') );
+    DB.getDonationTarget( p.targetType, p.targetId )
       .then( (target) => {
-        DB.getPage(target.donations, req.params.page, req.params.limit)
+        DB.getPageOfDonations(target.donations, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => {
-            // console.log('List donations:', data, target.donations);
+            // console.log('Got page of donations:', data, target.donations);
             res.json(data)
           })
           .catch( err => {
-            // console.log('List donations: error: ', err);
+            console.log('Error of getting donations page:', err);
             res.json(err)
           })
       })
@@ -67,14 +69,15 @@ module.exports = function(app, DB){
   })
 
   /**
+   * OBSOLETE
    * Gets all donations for the given target:
-   *  /liqpay-api/target/leader/id
-   *  /liqpay-api/target/project/id
-   *  /liqpay-api/target/task/id
+   *  /donation-api/target/leader/id
+   *  /donation-api/target/project/id
+   *  /donation-api/target/task/id
    */
   // router.get('/target/:targetType/:targetId', function (req, res) {
-  //   // console.log('liqpay-api/get/target/' + req.params.targetType + '/' + req.params.targetId );
-  //   DB.getDonationTarget( req.params.targetType, req.params.targetId )
+  //   // console.log('donation-api/get/target/' + p.targetType + '/' + p.targetId );
+  //   DB.getDonationTarget( p.targetType, p.targetId )
   //     .then( (target) => {
   //       DB.listDonations(target.donations)
   //         .then( data => {
@@ -165,12 +168,12 @@ module.exports = function(app, DB){
   //
   // });
 
-  // // FIXME UNUSED
+  // // FIXME UNUSED OBSOLETE
   // router.post('/getliqform', function (req, res) {
   //   res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));
   // });
 
-  app.use('/liqpay-api', router);
+  app.use('/donation-api', router);
 
   console.log('  • LiqPay connected.');
 }

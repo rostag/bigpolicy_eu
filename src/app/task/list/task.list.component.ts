@@ -15,13 +15,13 @@ import { UserService } from '../../shared/user/user.service';
 
 export class TaskListComponent implements OnChanges {
 
-  // TODO List title
+  // List title
   @Input() title = '';
 
   // How many tasks to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // For searching leaders in DB
+  // For searching in DB
   @Input() dbQuery = '{}';
 
   // An project this task list belongs to
@@ -67,7 +67,7 @@ export class TaskListComponent implements OnChanges {
       this.dbQuery
     )
       .subscribe(responsePage => {
-        console.log('Next, responsePage:', responsePage);
+        // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);
         this.itemsPage.limit = responsePage['limit'];
         this.itemsPage.page = responsePage['page'];

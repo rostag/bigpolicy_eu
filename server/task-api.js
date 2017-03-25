@@ -60,7 +60,7 @@ module.exports = function(app, DB, DBProject){
    * /task-api/project/id
    */
   // .get('/project/:projectId', function (req, res) {
-  //   DBProject.getProject( req.params.projectId )
+  //   DBProject.getProject( p.projectId )
   //     .then( (project) => {
   //       DB.listTasks(project.tasks)
   //         .then( data => res.json(data))
@@ -74,9 +74,10 @@ module.exports = function(app, DB, DBProject){
    * /task-api/project/projectId/page/1/1/q/:dbQuery
    */
   .get('/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
-    DBProject.getProject( req.params.projectId )
+    var p = req.params;
+    DBProject.getProject( p.projectId )
       .then((project) => {
-        DB.getPage(project.tasks, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
+        DB.getPageOfTasks(project.tasks, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })
@@ -88,8 +89,9 @@ module.exports = function(app, DB, DBProject){
    * /task-api/page/1/1/q/:dbQuery
    */
   .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
-    // console.log('task-api/get page #', req.params.page, ', limit =', req.params.limit);
-    DB.getPage(null, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
+    var p = req.params;
+    // console.log('task-api/get page #', p.page, ', limit =', p.limit);
+    DB.getPageOfTasks(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
       .then(function (data) {
         res.json(data);
       })

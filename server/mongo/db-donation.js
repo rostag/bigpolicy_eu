@@ -15,7 +15,7 @@ DBDonation.getDonation = function(id) {
 }
 
 DBDonation.getDonationTarget = function( targetType, targetId ) {
-  // console.log('getDonationTarget:', targetType, targetId )
+  console.log('getDonationTarget:', targetType, targetId )
   if (targetType === 'leader') {
     return Leader.findById(targetId);
   } else if (targetType === 'project') {
@@ -26,13 +26,29 @@ DBDonation.getDonationTarget = function( targetType, targetId ) {
 }
 
 /**
- * Returns a page of donations by given target donation ids (if present), page number and limit
+ * Returns a page of Donations either by given ids (if present), page number and limit, or DB query
+ * @param donationIds Donation ID's to retrieve
+ * @param page Page number to get from DB
+ * @param limit Items per page to get from DB
+ * @param dbQuery DB query to perform for filtering the results, searching etc
  */
-DBDonation.getPage = function (targetDonationIds, page, limit) {
-  // console.log('DBDonation.getPage, targetDonationIds =', targetDonationIds.length, ', page =', page, 'limit =', limit);
-  return targetDonationIds
-    ? Donation.paginate({ '_id': { $in: targetDonationIds } }, { page: parseInt(page), limit: parseInt(limit) })
-    : Donation.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
+DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
+  console.log('DBDonation.get page of Donations, donationIds =', donationIds.length, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
+
+  var query = {};
+
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
+  if (dbQuery) {
+    query = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  }
+
+  // If passed, use donation IDs in query
+  if (donationIds) {
+    query['_id'] = { $in: donationIds };
+  }
+
+  console.log('query =', query);
+  return Donation.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
 // OBSOLETE

@@ -4,7 +4,7 @@ module.exports = function(app){
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
   var mailApi = require('./mail-api');
-  var liqpayApi = require('./liqpay-api');
+  var liqpayApi = require('./donation-api');
   var bodyParser = require('body-parser');
 
   const DB = require('./mongo/database');
