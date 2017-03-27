@@ -13,7 +13,7 @@ import { DonationModel } from './donation.model';
 @Injectable()
 export class DonationService {
 
-  private apiUrl = '/liqpay-api/';
+  private apiUrl = '/donation-api/';
 
   /**
    * Creates a new DonationService with the injected Http.
@@ -34,36 +34,19 @@ export class DonationService {
   // TODO: implement local cache
 
   /**
-   * Get all models from DB by donation id or target id
+   * Gets page of donations for given target type and ID
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null): Observable<any> {
+  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null, dbQuery = '{}'): Observable<any> {
+    // FIXME Implement interface for three types of targets
+    let requestUrl;
 
-    // FIXME Implement interface and adopt three types of targets
-    // const requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
-
-    // All donations:                    /liqpay-api/
-    let requestUrl = this.apiUrl;
-
-    // Donation by id:                   /liqpay-api/target/:targetType/:targetId
-    if (donationId) {
-      requestUrl = this.apiUrl + donationId;
-    }
-    // Page of donations:                /liqpay-api/page/:page/:limit
-    if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit;
-    }
-    // All Donations for Target:         /liqpay-api/target/:targetType/:targetId
-    if (targetId !== null && targetType !== null) {
-      requestUrl = this.apiUrl + 'target/' + targetType + '/' + targetId;
-    }
-    // Page of Donations for Target:     /liqpay-api/target/:targetType/:targetId/page/:page/:limit
+    // Page of Donations for Target:     /donation-api/target/:targetType/:targetId/page/:page/:limit
     if (targetId !== null && targetType !== null && page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit;
+      requestUrl =
+        this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-
-    // console.log('Donation Service: get by:', projectId, leaderId, page, limit);
 
     console.log('Donation Service: get by', requestUrl);
 
@@ -107,7 +90,7 @@ export class DonationService {
     };
   }
 
-  // FIXME UNUSED
+  // FIXME UNUSED OBSOLETE
   /**
    * Requires donation form
    * @param DonationModel A Donation to send

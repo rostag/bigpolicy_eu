@@ -1,6 +1,4 @@
-<!-- Usage: <app-task-list [project]="project" [pageSize]="10"></app-task-list> -->
-
-<!-- <h2 *ngIf="title !== ''">{{title}}</h2> -->
+<!-- Usage: <app-task-list title="Given title" [project]="project" [pageSize]="10" dbQuery="{}"></app-task-list> -->
 
 <md-card-content>
   <md-card-actions>
@@ -22,7 +20,8 @@
                                                                    totalItems: itemsPage.total
                                                                  }">
 
-         <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
+         <!-- TODO Implemenent task photo upload and display -->
+         <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}"> -->
          <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>
           <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}

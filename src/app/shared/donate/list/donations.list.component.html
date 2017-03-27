@@ -1,12 +1,12 @@
 <!-- Usage:
-  <app-donations-list  [target]="target" [targetType]="targetType" [pageSize]="10"></app-donations-list>
+  <app-donations-list title="Given title" [target]="target" [targetType]="targetType" [pageSize]="10" dbQuery="{}"></app-donations-list>
 -->
 <md-card>
 
   <md-card-title>
 
     <md-toolbar class="add-toolbar" color="accent">
-      Усі зроблені внески.
+      <span *ngIf="title !== ''">{{title}}</span>
       <!-- TODO Усього зроблено внесків: {{donations.length | async}} -->
       <span class="add-fill-remaining"></span>
       Сума: {{target.totalDonationsReceived}} UAH

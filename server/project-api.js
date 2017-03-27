@@ -74,10 +74,11 @@ module.exports = function(app, DB, DBLeader){
    * /project-api/leader/leaderId/page/1/1/q/:dbQuery
    */
   .get('/leader/:leaderId/page/:page/:limit/q/:dbQuery', function (req, res) {
-    // console.log('project-api/get projects page for leader #', req.params.leaderId);
-    DBLeader.getLeader( req.params.leaderId )
+    var p = req.params;
+    // console.log('project-api/get projects page for leader #', p.leaderId);
+    DBLeader.getLeader( p.leaderId )
       .then((leader) => {
-        DB.getPageOfProjects(leader.projects, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
+        DB.getPageOfProjects(leader.projects, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })
@@ -89,8 +90,9 @@ module.exports = function(app, DB, DBLeader){
    * /project-api/page/1/1/q/:dbQuery
    */
   .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
-    // console.log('project-api/get page #', req.params.page, ', limit =', req.params.limit);
-    DB.getPageOfProjects(null, req.params.page, req.params.limit, decodeURIComponent(req.params.dbQuery))
+    var p = req.params;
+    // console.log('project-api/get page #', p.page, ', limit =', p.limit);
+    DB.getPageOfProjects(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
       .then( data => res.json(data))
       .catch( err => res.json(err));
   });

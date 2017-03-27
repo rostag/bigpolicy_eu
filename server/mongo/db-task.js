@@ -22,8 +22,8 @@ DBTask.getTask = function(id) {
 * @param limit Items per page to get from DB
 * @param dbQuery DB query to perform for filtering the results, searching etc
  */
-DBTask.getPage = function (taskIds, page, limit, dbQuery) {
-  // console.log('DBTask.getPage, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
+DBTask.getPageOfTasks = function (taskIds, page, limit, dbQuery) {
+  // console.log('DBTask.getPage of Tasks, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
   var query = {};
 
   // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate

@@ -16,7 +16,7 @@
       </md-card-title>
 
       <!-- state="iframed.leader"  -->
-      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/avatar.jpg"></app-bp-video>
+      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="{{leader.photo || 'assets/img/avatar.jpg'}}"></app-bp-video>
 
     </md-card-title-group>
 

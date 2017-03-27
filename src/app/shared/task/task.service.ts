@@ -64,11 +64,11 @@ export class TaskService {
     //   requestUrl = this.apiUrl + 'project/' + projectId;
     // }
 
-    console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
+    // console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
       .map((responsePage: Response) => {
-        console.log('Tasks Page loaded, response: ', responsePage);
+        // console.log('Tasks Page loaded, response: ', responsePage);
         return responsePage.json();
       });
   }

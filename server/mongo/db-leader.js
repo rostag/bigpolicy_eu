@@ -58,9 +58,7 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
     query['_id'] = { $in: projectIds };
   }
 
-  // return Leader.paginate({ '_id': { $in: leaderIds } }, { page: parseInt(page), limit: parseInt(limit) });
-  // return Leader.paginate({}, { page: parseInt(page), limit: parseInt(limit) });
-
+  // console.log('query:', query);
   return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
@@ -95,59 +93,3 @@ DBLeader.deleteLeader = function(id) {
 }
 
 module.exports = DBLeader;
-
-
-/* Leader API usage examples
-
-*** To get all leaders list -
-
-GET localhost:4200/leader-api
-
-*** To get one particular leader -
-GET localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-
-*** To create new leader -
-POST localhost:4200/leader-api
-with x-www-form-urlencoded pairs
-
-name - Name of leader
-surName - Surname of leader
-etc.
-
-*** To update leader info
-PUT localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-with x-www-form-urlencoded pairs
-
-name - Name of leader
-surName - Surname of leader
-etc.
-
-*** To delete leader -
-DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-
-*** To delete all leaders (DEV PURPOSES!)
-DELETE localhost:4200/leader-api/allleaders?secret=19863
-*/
-
-// OBSOLETE
-
-/**
- * OBSOLETE
- * Returns single Leader by email
- */
-// DBLeader.findLeaderByEmail = function(email) {
-//   var leader = Leader.findOne({ 'email': email }, function (err, leader) {
-//     if (err) {
-//       return handleError(err);
-//     }
-//   });
-//   return leader;
-// }
-
-/**
- * OBSOLETE
- * Returns all leaders
- */
-// DBLeader.listLeaders = function() {
-//   return Leader.find();
-// }
