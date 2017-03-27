@@ -21,14 +21,15 @@ module.exports = function(app, DB){
    * Gets the Leader by ID, example:
    * leader-api/58cf0b7d4256ee60fd1261a
    */
-  // .get('/:id', function (req, res) {
-  //   if (req.params.id) {
-  //     DB.getLeader(req.params.id)
-  //     .then(function (data) {
-  //       res.json(data || []);
-  //     });
-  //   }
-  // })
+  .get('/:id', function (req, res) {
+    if (req.params.id) {
+      console.log('get leader by id:', req.params.id);
+      DB.getLeader(req.params.id)
+      .then(function (data) {
+        res.json(data || []);
+      });
+    }
+  })
 
   /**
    * Gets page of Leaders, example:

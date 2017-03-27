@@ -33,6 +33,7 @@ DBLeader.createLeader = function(dataObj) {
  * Returns single Leader by ID
  */
 DBLeader.getLeader = function(id) {
+  console.log('DB::getLeader, id:', id);
   return Leader.findById(id);
 }
 
