@@ -20,7 +20,8 @@
                                                                    totalItems: itemsPage.total
                                                                  }">
 
-         <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
+         <!-- TODO Implemenent task photo upload and display -->
+         <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}"> -->
          <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
          <p md-line>
           <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}

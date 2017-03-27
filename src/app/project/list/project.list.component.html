@@ -8,7 +8,11 @@
                                                                             currentPage: itemsPage.page,
                                                                             totalItems: itemsPage.total
                                                                           }">
-    <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}">
+    <!-- TODO Implement Project Photo uploads -->
+    <!-- <app-avatar md-list-avatar [src]="project.photo || 'assets/img/project-generic.png'"></app-avatar> -->
+    <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}"> -->
+    <!-- <md-icon color="accent">assignment</md-icon> -->
+
     <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
     <p md-line>
       {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH
