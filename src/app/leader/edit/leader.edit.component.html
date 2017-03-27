@@ -11,9 +11,8 @@
       <!-- FIXME Make Mobile-friendly with Flexbox -->
       <md-card-content>
         <md-card-header class="leader-edit-basic-details">
-          <button md-mini-fab class="md-24" >
-            <md-icon color="white">file_upload</md-icon>
-          </button>
+          <!-- FIXME - process temp_reg_id in FTUX process -->
+          <app-uploader folder="bp-files/users/{{leader._id || 'tmp_user_reg_id'}}/avatars" listFiles="no" buttonType="fab"></app-uploader>
           <img md-card-md-image src="assets/img/avatar-generic.png">
           <div class="leader-names-input">
             <md-input-container>

@@ -10,20 +10,33 @@ import { DialogComponent } from './shared/dialog/dialog.component';
 import { DialogService } from './shared/dialog/dialog.service';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UploaderComponent } from './shared/uploader/uploader.component';
+import { AngularFireModule } from 'angularfire2';
+
+export const firebaseConfig = {
+  apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
+  authDomain: 'testbase-eb57f.firebaseapp.com',
+  databaseURL: 'https://testbase-eb57f.firebaseio.com',
+  storageBucket: 'testbase-eb57f.appspot.com',
+  messagingSenderId: '780191546457'
+};
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   exports: [
     // components we want to make available
-    DialogComponent
+    DialogComponent,
+    UploaderComponent
   ],
   declarations: [
     // components to use in this module
-    DialogComponent
+    DialogComponent,
+    UploaderComponent
   ],
   providers: [
     // singleton services

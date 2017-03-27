@@ -38,7 +38,9 @@
     "mailgun-js": "0.5",
     "googleapis": "^16.1.0",
     "liqpay-sdk": "^3.1.0",
-    "intl": "^1.2.5"
+    "intl": "^1.2.5",
+    "firebase": "^3.7.3",
+    "angularfire2": "^2.0.0-beta.8"
   },
   "devDependencies": {
     "@angular/cli": "^1.0.0",

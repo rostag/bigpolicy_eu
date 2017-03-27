@@ -80,14 +80,12 @@ Donations feature:
  * Leader - User matching.
  * WIP: FTUX for Registration.
 
- * * Bugfixes:
-
- * fixed login error (now user properly redirected).
- * Display in Safari.
+ * Fixed login error (now user properly redirected).
+ * Fixed display in Safari.
 
 ### 2017-02-17
 
- * Store users' files in their own GDrive, in the 'BigPolicy Files' folder.
+ * Store Users' documents in their own GDrive, in the 'BigPolicy Files' folder.
  * If there's no such folder, it will be created for given user.
 
 ### 2017-03-11
@@ -137,7 +135,12 @@ Donations feature:
 ### 2017-03-24
 
  * Donations filtering by arbitrary criteria is implemented between UI and DB
+ * Upgraded to Angular 4
 
-### TODO/WIP:
+### 2017-03-26
 
+ * FireBase added
+ * AngularFire Uploader added for Leader's photos
+
+ ### TODO/WIP:
  * Landing UX

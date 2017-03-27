@@ -248,7 +248,7 @@ export class FilesEditComponent implements AfterViewInit {
 
   initFolder(folder) {
     this.folderForUploads = folder;
-    console.log('Got Folder Id: ', this.folderForUploads);
+    console.log('Got Drive Folder Id: ', this.folderForUploads);
     this.listFiles();
   }
 
