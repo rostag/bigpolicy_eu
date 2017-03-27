@@ -12,6 +12,7 @@ import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
+import { AvatarComponent } from './shared/avatar/avatar.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -31,12 +32,14 @@ export const firebaseConfig = {
   exports: [
     // components we want to make available
     DialogComponent,
-    UploaderComponent
+    UploaderComponent,
+    AvatarComponent
   ],
   declarations: [
     // components to use in this module
     DialogComponent,
-    UploaderComponent
+    UploaderComponent,
+    AvatarComponent
   ],
   providers: [
     // singleton services

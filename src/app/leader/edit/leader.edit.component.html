@@ -12,8 +12,8 @@
       <md-card-content>
         <md-card-header class="leader-edit-basic-details">
           <!-- FIXME - process temp_reg_id in FTUX process -->
-          <app-uploader folder="bp-files/users/{{leader._id || 'tmp_user_reg_id'}}/avatars" listFiles="no" buttonType="fab"></app-uploader>
-          <img md-card-md-image src="assets/img/avatar-generic.png">
+          <app-uploader folder="bp-files/users/{{leader._id || 'tmp_user_reg_id'}}/avatars" listFiles="no" buttonType="fab" (uploadedFileUrlChange)="leader.onAvatarUrlChange($event)"></app-uploader>
+          <app-avatar [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-avatar>
           <div class="leader-names-input">
             <md-input-container>
               <input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%">

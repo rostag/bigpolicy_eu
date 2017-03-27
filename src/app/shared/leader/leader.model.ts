@@ -81,4 +81,10 @@ export class LeaderModel {
       }
     }
   }
+
+  onAvatarUrlChange(newUrlValue) {
+    console.log('Leader photo url:', newUrlValue);
+    this.photo = newUrlValue;
+    // assets/img/avatar-generic.png
+  }
 }
