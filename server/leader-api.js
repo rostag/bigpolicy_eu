@@ -23,6 +23,7 @@ module.exports = function(app, DB){
    */
   .get('/:id', function (req, res) {
     if (req.params.id) {
+      console.log('get leader by id:', req.params.id);
       DB.getLeader(req.params.id)
       .then(function (data) {
         res.json(data || []);
