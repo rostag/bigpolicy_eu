@@ -29,9 +29,15 @@ export class UploaderComponent implements OnChanges {
    */
   @Input() folder = 'bp-user-files';
 
-  @Input() listFiles = false;
+  @Input() listFiles = 'no';
 
-  @Input() buttonType = false;
+  listFilesOnStart = false;
+
+  // FIXME Why Oncnages were neded to bloody get rid of this for prod build:
+  // ERROR in /Users/rsiryk/dev/BP/bp/src/$$_gendir/app/shared/uploader/uploader.component.ngfactory.ts (1,1): Operator '===' cannot be applied to types 'boolean' and '"fab"'.
+  @Input() buttonType = 'nofab';
+
+  useFabButton = false;
 
   @ViewChild('fileInput') fileInput;
 
@@ -66,7 +72,16 @@ export class UploaderComponent implements OnChanges {
     // , public router: Router
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(changes) {
+
+    if (changes.buttonType) {
+      this.useFabButton = changes.buttonType.currentValue === 'fab';
+    }
+
+    if (changes.listFiles) {
+      this.listFilesOnStart = changes.listFiles.currentValue === 'yes';
+    }
+
     console.log('new values for folder');
     const storage = firebase.storage();
 
