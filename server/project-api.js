@@ -46,6 +46,7 @@ module.exports = function(app, DB, DBLeader){
    * /project-api/57a64e2b3a5bfb3b48e6fd1b
    */
   .get('/:id', function (req, res) {
+    console.log(`\n\nproject-api/${req.params.id}`);
     if (req.params.id) {
       DB.getProject(req.params.id)
       .then(function (data) {

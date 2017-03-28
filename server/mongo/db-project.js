@@ -32,8 +32,22 @@ DBProject.createProject = function(dataObj) {
 /**
  * Returns single Project by ID
  */
-DBProject.getProject = function(id) {
-   return Project.findById(id);
+DBProject.getProject = function(projectId) {
+   console.log('DB :: getProject, id:', projectId);
+
+   if (projectId === 'random') {
+     return Project.count().exec()
+       .then((cnt, err) => {
+         const rndm = Math.floor(Math.random() * cnt);
+         return Project.findOne().skip(rndm).exec()
+           .then((randomLeader, err) => {
+             console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
+             return randomLeader;
+           })
+       });
+   } else {
+     return Project.findById(projectId);
+   }
 }
 
 /**

@@ -1,0 +1,9 @@
+.leader-brief-card {
+  width: 400px;
+}
+
+.leader-brief-card-header-image {
+  /* Parametrize via leader photo */
+  /*background-image: url('assets/img/examples/shiba1.jpg');*/
+  background-size: cover;
+}
