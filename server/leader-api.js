@@ -23,12 +23,12 @@ module.exports = function(app, DB){
    */
   .get('/:id', function (req, res) {
     if (req.params.id) {
-      console.log('get leader by id:', req.params.id);
+      console.log('\n\nleader-api/', req.params.id);
       DB.getLeader(req.params.id)
-      .then(function (data) {
-        res.json(data || []);
-      });
-    }
+        .then(function (data) {
+          res.json(data || []);
+        });
+      }
   })
 
   /**

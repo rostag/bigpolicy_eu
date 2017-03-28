@@ -32,9 +32,25 @@ DBLeader.createLeader = function(dataObj) {
 /**
  * Returns single Leader by ID
  */
-DBLeader.getLeader = function(id) {
-  console.log('DB::getLeader, id:', id);
-  return Leader.findById(id);
+DBLeader.getLeader = function(leaderId) {
+  console.log('DB :: getLeader, id:', leaderId);
+
+  if (leaderId === 'random') {
+    // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
+    // db.mycoll.aggregate( { $sample: { size: 1 } } );
+    // See also for Mongoose: https://larry-price.com/blog/2014/09/15/fetching-random-mongoose-objects-the-simple-way
+    return Leader.count().exec()
+      .then((cnt, err) => {
+        const rndm = Math.floor(Math.random() * cnt);
+        return Leader.findOne().skip(rndm).exec()
+          .then((randomLeader, err) => {
+            // console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
+            return randomLeader;
+          })
+      });
+  } else {
+    return Leader.findById(leaderId);
+  }
 }
 
 /**
