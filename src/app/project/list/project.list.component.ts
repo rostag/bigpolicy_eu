@@ -63,7 +63,7 @@ export class ProjectListComponent implements OnChanges {
         this.itemsPage.page,
         this.pageSize,
         this.dbQuery)
-      .subscribe(responsePage => {
+      .subscribe( (responsePage: ProjectModel) => {
         // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);
         this.itemsPage.limit = responsePage['limit'];
