@@ -1,9 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
 
-// import { Http, Response, Headers, RequestOptions } from '@angular/http';
-// import { Observable } from 'rxjs/Observable';
-
 @Component({
   selector: 'app-leader-brief',
   templateUrl: './leader.brief.component.html',

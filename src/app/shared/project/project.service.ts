@@ -37,7 +37,7 @@ export class ProjectService {
    * Creates new Project.
    * @param {ProjectModel} model Project to create.
    */
-  createProject(model: ProjectModel): Observable<Response> {
+  createProject(model: ProjectModel): Observable<ProjectModel> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -52,7 +52,7 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
+  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
 
     let requestUrl;
 
@@ -89,7 +89,7 @@ export class ProjectService {
   /**
    * Returns single project from DB
    */
-  getProject(projectId: string): Observable<Response> {
+  getProject(projectId: string): Observable<ProjectModel> {
     return this.getProjectsPage(projectId);
   }
 
@@ -97,7 +97,7 @@ export class ProjectService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param ProjectModel A Project to update
    */
-  updateProject(model: ProjectModel): Observable<Response> {
+  updateProject(model: ProjectModel): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
