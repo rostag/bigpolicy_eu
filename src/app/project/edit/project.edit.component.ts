@@ -41,9 +41,9 @@ export class ProjectEditComponent implements OnInit {
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)
-          .subscribe(
-            data => {
-              this.setProject(data);
+            .subscribe((data: ProjectModel) => {
+              this.project = new ProjectModel();
+              this.project.parseData(data);
             },
             err => console.error(err),
             () => {}
@@ -51,16 +51,6 @@ export class ProjectEditComponent implements OnInit {
         }
       }
     );
-  }
-
-  /**
-   * Project loading handler
-   * @param {data} Loaded project data
-   */
-  setProject(data) {
-    // Immutability
-    this.project = new ProjectModel();
-    this.project.parseData(data);
   }
 
   /**

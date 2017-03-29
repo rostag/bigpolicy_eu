@@ -15,6 +15,7 @@ import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
 import { AvatarComponent } from './shared/avatar/avatar.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
+import { ProjectBriefComponent } from './project/brief/project.brief.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -37,14 +38,16 @@ export const firebaseConfig = {
     DialogComponent,
     UploaderComponent,
     AvatarComponent,
-    LeaderBriefComponent
+    LeaderBriefComponent,
+    ProjectBriefComponent
   ],
   declarations: [
     // components to use in this module
     DialogComponent,
     UploaderComponent,
     AvatarComponent,
-    LeaderBriefComponent
+    LeaderBriefComponent,
+    ProjectBriefComponent
   ],
   providers: [
     // singleton services
