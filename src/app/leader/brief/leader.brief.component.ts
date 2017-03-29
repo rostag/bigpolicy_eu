@@ -32,19 +32,10 @@ export class LeaderBriefComponent implements OnChanges {
     this.leaderService.getLeader(id)
     .subscribe(
       (data) => {
-          this.setLeader(data);
+          this.leader = data;
       },
       err => console.error(err),
       () => {}
     );
-  }
-
-  /**
-   * Leader loading handler
-   * @param {data} Loaded leader data
-   */
-  setLeader(data) {
-    console.log('set leader: ', data);
-    this.leader = data;
   }
 }

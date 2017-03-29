@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core.module';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -77,7 +76,6 @@ import { HomeComponent } from './home/home.component';
   imports: [
     routing,
     BrowserModule,
-    RouterModule,
     FormsModule,
     HttpModule,
     Ng2PaginationModule,
