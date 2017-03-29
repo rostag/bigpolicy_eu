@@ -1,0 +1,17 @@
+<md-card class="leader-brief-card">
+  <md-card-header>
+    <div md-card-avatar class="leader-brief-card-header-image"></div>
+    <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
+    <md-card-subtitle>{{leader.email}}</md-card-subtitle>
+  </md-card-header>
+  <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
+  <md-card-content>
+    <p>
+      {{leader.mission}}
+    </p>
+  </md-card-content>
+  <md-card-actions>
+    <a [routerLink]="['/leader/', leader._id]"><button md-button>ПІДТРИМАТИ</button></a>
+    <a [routerLink]="['/leaders']"><button md-button>УСІ ДІЯЧІ</button></a>
+  </md-card-actions>
+</md-card>

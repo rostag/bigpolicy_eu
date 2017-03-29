@@ -23,12 +23,12 @@ module.exports = function(app, DB){
    */
   .get('/:id', function (req, res) {
     if (req.params.id) {
-      console.log('get leader by id:', req.params.id);
+      console.log('\n\nleader-api/', req.params.id);
       DB.getLeader(req.params.id)
-      .then(function (data) {
-        res.json(data || []);
-      });
-    }
+        .then(function (data) {
+          res.json(data || []);
+        });
+      }
   })
 
   /**
@@ -51,7 +51,7 @@ module.exports = function(app, DB){
   })
 
   /**
-   * Updates a Leader
+   * Updates a Leader with given ID using provided data payload
    */
   .put('/:id', function(req, res) {
     DB.updateLeader(req.params.id, req.body)
@@ -60,7 +60,7 @@ module.exports = function(app, DB){
     })
     .catch(function(err){
 	    res.json(err);
-	});
+	   });
   })
 
   /**
