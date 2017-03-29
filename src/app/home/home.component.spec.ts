@@ -14,7 +14,7 @@ import { CoreModule } from '../core.module';
 
 // , PaginationInstance, PaginatePipe, PaginationControlsComponent, PaginationControlsDirective
 
-// You need to configure all the routing. For testing, rather than using the RouterModule,
+// You need to configure all the routing. For testing, rather than using the Router Module,
 // you can use the RouterTestingModule from @angular/router/testing, where you can set up some mock routes.
 // You will also need to import the CommonModule from @angular/common for your *ngFor.
 // Below is a complete passing test

@@ -4,6 +4,6 @@
 
 .leader-brief-card-header-image {
   /* Parametrize via leader photo */
-  background-image: url('../../../assets/img/leader/avatania.jpg');
+  background-image: url('../../../assets/img/avatar.jpg');
   background-size: cover;
 }
