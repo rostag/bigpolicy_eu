@@ -1,5 +1,6 @@
 // CoreModule.ts
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LeaderService } from './shared/leader';
 import { ProjectService } from './shared/project';
@@ -25,6 +26,7 @@ export const firebaseConfig = {
 
 @NgModule({
   imports: [
+    RouterModule,
     CommonModule,
     MaterialModule,
     BrowserAnimationsModule,
