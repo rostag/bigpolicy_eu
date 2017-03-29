@@ -67,7 +67,7 @@ export class LeaderService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
+  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<LeaderModel> {
 
     let requestUrl;
 
@@ -105,7 +105,7 @@ export class LeaderService {
   /**
    * Returns single leader from DB.
    */
-  getLeader(leaderId: string): Observable<Response> {
+  getLeader(leaderId: string): Observable<LeaderModel> {
     return this.getLeadersPage(leaderId);
   }
 
@@ -113,7 +113,7 @@ export class LeaderService {
    * Seaches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
-  requestLeaderByEmail(email: string): Observable<Response> {
+  requestLeaderByEmail(email: string): Observable<LeaderModel> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
@@ -123,7 +123,7 @@ export class LeaderService {
     // }
 
     // const leaderResponse = this.http.get(this.leaderApiUrl + 'email/' + email)
-    //   .map((res: Response) => {
+    //   .map((res: LeaderModel) => {
     //     return res.json();
     //   });
     //
@@ -142,13 +142,13 @@ export class LeaderService {
    * (the local models array is defined and has elements), the cached version is returned
    * @return {string[]} The Observable for the HTTP request.
    */
-  // getLeadeasdfafrs(modelId = ''): Observable<Response> {
+  // getLeadeasdfafrs(modelId = ''): Observable<LeaderModel> {
   //   // TODO: Local caching
   //   if (this.models && this.models.length) {
   //     return Observable.from([this.models]);
   //   }
   //   return this.http.get(this.leaderApiUrl + modelId)
-  //     .map((res: Response) => {
+  //     .map((res: LeaderModel) => {
   //       this.models = res.json();
   //       return this.models;
   //     });
@@ -169,7 +169,7 @@ export class LeaderService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param LeaderModel A Leader to update
    */
-  updateLeader(model: LeaderModel): Observable<Response> {
+  updateLeader(model: LeaderModel): Observable<LeaderModel> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
