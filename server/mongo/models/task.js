@@ -16,9 +16,8 @@ const taskSchema = new Schema({
 	cost: { type: String, required: true  },
 	dateStarted: { type: Date, required: true  },
 	dateEnded: { type: Date, required: true  },
-	image: { type: String },
+	imageUrl: { type: String },
 	videoUrl: { type: String },
-	logo: { type: String },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
 });

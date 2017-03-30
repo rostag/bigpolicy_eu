@@ -6,6 +6,5 @@ export class UserModel {
   twitterId: String;
   image: String;
   videoUrl: String;
-  logo: String;
   leaderId: String;
 };

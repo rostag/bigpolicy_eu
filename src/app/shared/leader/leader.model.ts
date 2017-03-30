@@ -12,7 +12,6 @@ export class LeaderModel {
   mission: string;
   photo: string;
   videoUrl: string;
-  logo: string;
   email: string;
   projects;
   donations;
@@ -35,7 +34,6 @@ export class LeaderModel {
   docCorruptionRecord: string;
   docPassport: string;
 
-
   /**
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
@@ -52,7 +50,6 @@ export class LeaderModel {
       mission: this.mission,
       photo: this.photo,
       videoUrl: this.videoUrl,
-      logo: this.logo,
       email: this.email,
       party: this.party,
       officialPost: this.officialPost,
@@ -82,9 +79,8 @@ export class LeaderModel {
     }
   }
 
-  onAvatarUrlChange(newUrlValue) {
+  onPhotoUrlChange(newUrlValue) {
     console.log('Leader photo url:', newUrlValue);
     this.photo = newUrlValue;
-    // assets/img/avatar-generic.png
   }
 }
