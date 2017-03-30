@@ -29,7 +29,7 @@
                                                          }">
       <md-card class="leader-card">
         <md-card-title-group>
-          <app-avatar md-card-avatar [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-avatar>
+          <app-image md-card-avatar [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
           <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
             <span *ngIf="userService.isOwner(leader)">
               (я)

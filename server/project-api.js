@@ -10,25 +10,25 @@ module.exports = function(app, DB, DBLeader){
    */
   router.post('/', function (req, res) {
     DB.createProject(req.body)
-    .catch(function (err) {
-      res.send(err);
-    })
-    .then(function (data) {
-      res.json(data);
-    });
+      .catch(function (err) {
+        res.send(err);
+      })
+      .then(function (data) {
+        res.json(data);
+      });
   })
 
   /**
    * Updates Project by ID
    */
   .put('/:id', function(req, res) {
-    DB.updateProject(req.params.id,req.body)
-    .then(function (data) {
-      res.json(data);
-    })
-    .catch(function(err){
-	    res.json(err);
-  	});
+    DB.updateProject(req.params.id, req.body)
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function(err){
+  	    res.json(err);
+    	});
   })
 
   /**
@@ -36,8 +36,8 @@ module.exports = function(app, DB, DBLeader){
    */
   .delete('/:id', function (req, res) {
     DB.deleteProject(req.params.id)
-    .then(function (data) {
-      res.json(data);
+      .then(function (data) {
+        res.json(data);
     });
   })
 
@@ -49,9 +49,9 @@ module.exports = function(app, DB, DBLeader){
     console.log(`\n\nproject-api/${req.params.id}`);
     if (req.params.id) {
       DB.getProject(req.params.id)
-      .then(function (data) {
-        res.json(data || []);
-      });
+        .then(function (data) {
+          res.json(data || []);
+        });
     }
   })
 

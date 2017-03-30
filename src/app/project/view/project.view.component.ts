@@ -42,6 +42,7 @@ export class ProjectViewComponent implements OnInit {
         .subscribe((data: ProjectModel) => {
           this.project = new ProjectModel();
           this.project.parseData(data);
+          ProjectService.cacheProject(this.project);
         },
         err => console.error(err),
         () => {}

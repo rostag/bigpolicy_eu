@@ -122,6 +122,7 @@ export class UserService {
     return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
   }
 
+  // FIXME_TEST In the first place
   /**
    * Returns true if current user is owner of given leader, project or task by email
    */
