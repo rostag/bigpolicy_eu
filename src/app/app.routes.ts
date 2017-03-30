@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { ProfileComponent } from '././shared/user/profile.component';
@@ -45,8 +44,8 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
 
   { path: 'about', component: AboutComponent },
+  { path: 'landing', component: LandingComponent },
   { path: '', component: HomeComponent }
-  // { path: '', component: LandingComponent }
 ];
 
 export const routing = RouterModule.forRoot(routes);

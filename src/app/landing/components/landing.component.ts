@@ -27,19 +27,19 @@ export class LandingComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.getProjects();
-    // this.getLeaders();
+    this.getProjects();
+    this.getLeaders();
   }
 
   // OBSOLETE
-  // getLeaders() {
-  //   this.leaderService.get LeadersPage()
-  //     .subscribe(
-  //       data => this.setLeaders(data),
-  //       err => console.error(err),
-  //       () => this.app.leaders
-  //     );
-  // }
+  getLeaders() {
+    this.leaderService.getLeadersPage(null, null, 1, 3)
+      .subscribe(
+        data => this.setLeaders(data['docs']),
+        err => console.error(err),
+        () => this.app.leaders
+      );
+  }
 
   private setLeaders(data) {
     this.app.leaders = data;
@@ -48,20 +48,20 @@ export class LandingComponent implements OnInit {
 
   // FIXME PG_MIGRATION
   // OBSOLETE
-  // getProjects() {
-  //   this.projectService.get ProjectsPage()
-  //     .subscribe(
-  //       data => this.setProjects(data),
-  //       err => console.error(err),
-  //       () => this.app.projects
-  //     );
-  // }
+  getProjects() {
+    this.projectService.getProjectsPage(null, null, 1, 3)
+      .subscribe(
+        data => this.setProjects(['data']),
+        err => console.error(err),
+        () => this.app.projects
+      );
+  }
 
-  // private setProjects(data) {
-  //   this.app.projects = data;
-  //   return data;
-  // }
-  //
+  private setProjects(data) {
+    this.app.projects = data;
+    return data;
+  }
+
   supportLeader() {
     console.log('support leader');
   }
