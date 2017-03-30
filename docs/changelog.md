@@ -144,3 +144,5 @@ Donations feature:
 
  ### TODO/WIP:
  * Landing UX
+ * Search by project / task / leader name etc.
+ 

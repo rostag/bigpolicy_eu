@@ -14,7 +14,6 @@
 
 <!-- </div> --> <!-- TODO FTUX - AUTH END -->
 
-
 <!--
     MOBILE
       TBD: Два горизонтальні квадрати,
@@ -43,14 +42,25 @@ etc
 
  -->
 
-<h3>Випадковий діяч:</h3>
+<div fxLayout='row'>
 
-<app-leader-brief leaderId="random"></app-leader-brief>
+  <div fxFlex='46%'>
+    <h3>Випадковий проект:</h3>
+    <app-project-brief projectId="random"></app-project-brief>
+  </div>
 
-<!-- <app-leader-list [pageSize]="1" dbQuery='{}'></app-leader-list> -->
+  <!-- <app-leader-list [pageSize]="1" dbQuery='{}'></app-leader-list> -->
 
-<h3>Випадковий проект:</h3>
-<app-project-brief projectId="58d08119772ee0389d5aa069"></app-project-brief>
+  <div fxFlex='12%'></div>
+
+  <div fxFlex='46%'>
+    <h3>Випадковий діяч:</h3>
+    <app-leader-brief leaderId="random"></app-leader-brief>
+  </div>
+
+  <div fxFlex='6%'></div>
+
+</div>
 
 <h2>Як це працює?</h2>
 
