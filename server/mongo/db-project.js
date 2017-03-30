@@ -19,11 +19,11 @@ DBProject.createProject = function(dataObj) {
 
   // console.log('DBProject: CreateProject: ', data)
 
-  if ( !data.title || !data.description ) {
-    throw ( 'DBProject: Invalid project cannot be saved. Either title or description is missed.')
+  if (!data.title || !data.description) {
+    throw ('DBProject: Invalid project cannot be saved. Either title or description is missed.')
   }
 
-  if(!data) data = {};
+  if (!data) data = {};
   const model = new Project(data);
   var saved = model.save(DBProject.addProjectToLeader);
   return model.save(saved);

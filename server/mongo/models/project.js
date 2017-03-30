@@ -17,9 +17,8 @@ const projectSchema = new Schema({
 	cost: { type: String, required: true },
 	dateStarted: { type: Date, required: true },
 	dateEnded: { type: Date, required: true },
-	image: { type: String },
 	videoUrl: { type: String },
-	logo: { type: String },
+	imageUrl: { type: String },
 	tasks: { type: Array },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number }

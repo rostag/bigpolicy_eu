@@ -4,7 +4,7 @@
     <md-card-title>{{project.title}}</md-card-title>
     <md-card-subtitle>{{project.dateStarted | date}} - {{project.dateEnded | date}}</md-card-subtitle>
   </md-card-header>
-  <img md-card-image src="{{project.photo || 'assets/img/project/project-placeholder.png'}}">
+  <img md-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   <md-card-content>
     <p>
       {{project.description}}

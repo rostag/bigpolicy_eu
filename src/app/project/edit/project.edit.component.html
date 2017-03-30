@@ -7,6 +7,9 @@
          проект
       </md-card-title>
 
+      <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no" buttonType="fab" (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
+      <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+
       <md-input-container>
         <input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" [ngModelOptions]="{standalone: true}">
       </md-input-container>

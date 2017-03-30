@@ -13,7 +13,7 @@ import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
-import { AvatarComponent } from './shared/avatar/avatar.component';
+import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
 
@@ -37,7 +37,7 @@ export const firebaseConfig = {
     // components we want to make available
     DialogComponent,
     UploaderComponent,
-    AvatarComponent,
+    ImageComponent,
     LeaderBriefComponent,
     ProjectBriefComponent
   ],
@@ -45,7 +45,7 @@ export const firebaseConfig = {
     // components to use in this module
     DialogComponent,
     UploaderComponent,
-    AvatarComponent,
+    ImageComponent,
     LeaderBriefComponent,
     ProjectBriefComponent
   ],

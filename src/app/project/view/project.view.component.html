@@ -11,6 +11,8 @@
       <md-grid-tile>
 
         <!-- state="iFramed.Project" -->
+        <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+
         <app-bp-video [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
 
       </md-grid-tile>
