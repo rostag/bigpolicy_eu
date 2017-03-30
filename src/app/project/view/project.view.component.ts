@@ -39,26 +39,15 @@ export class ProjectViewComponent implements OnInit {
   loadProject(id) {
     if (id) {
       this.projectService.getProject(id)
-      .subscribe(
-        data => {
-          this.setProject(data);
+        .subscribe((data: ProjectModel) => {
+          this.project = new ProjectModel();
+          this.project.parseData(data);
+          ProjectService.cacheProject(this.project);
         },
         err => console.error(err),
         () => {}
       );
     }
-  }
-
-  /**
-   * Project loading handler
-   * @param {data} Loaded project data
-   */
-  setProject(data) {
-    // Immutability, explanation:
-    // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
-    this.project = new ProjectModel();
-    this.project.parseData(data);
-    ProjectService.cacheProject(this.project);
   }
 
   /**

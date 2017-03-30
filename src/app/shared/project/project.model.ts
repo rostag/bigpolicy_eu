@@ -6,7 +6,7 @@ export class ProjectModel {
   managerName = 'John Doe';
   managerId = '';
   managerEmail = '';
-  iconURL: string;
+  imageUrl: string = '';
   // String type is used for conversion between DB and Date input formats
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
@@ -29,7 +29,7 @@ export class ProjectModel {
       managerEmail: this.managerEmail,
       dateStarted: this.dateStarted,
       dateEnded: this.dateEnded,
-      iconURL: this.iconURL,
+      imageUrl: this.imageUrl,
       videoUrl: this.videoUrl,
       tasks: this.tasks,
       totalDonationsReceived: this.totalDonationsReceived
@@ -58,5 +58,10 @@ export class ProjectModel {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
     return local.toJSON().slice(0, 10);
+  }
+
+  onImageUrlChange(newUrlValue) {
+    console.log('Project image url:', newUrlValue);
+    this.imageUrl = newUrlValue;
   }
 }

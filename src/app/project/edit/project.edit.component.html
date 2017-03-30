@@ -7,6 +7,9 @@
          проект
       </md-card-title>
 
+      <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no" buttonType="fab" (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
+      <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+
       <md-input-container>
         <input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" [ngModelOptions]="{standalone: true}">
       </md-input-container>
@@ -40,7 +43,7 @@
 
       <!-- Project Tasks -->
       <app-task-list title="Заходи проекту" [project]="project" *ngIf="showTasks"></app-task-list>
-      <app-task-list title="Закороткий опис" [project]="project" [pageSize]="3" dbQuery='{ "$where": "this.description.length < 3" }'></app-task-list>
+      <app-task-list title="Закороткий опис" [project]="project" *ngIf="showTasks" [pageSize]="3" dbQuery='{ "$where": "this.description.length < 3" }'></app-task-list>
       <!-- /Project Tasks -->
 
       <!-- TODO: Зробити окремі посилання на перегляд відфільтрованих заходів, проектів і т. д. -->
