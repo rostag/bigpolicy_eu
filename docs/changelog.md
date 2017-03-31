@@ -142,6 +142,24 @@ Donations feature:
  * FireBase added
  * AngularFire Uploader added for Leader's photos
 
+### 2017-03-27-31
+
+ * Projects list on landing page
+ * Leaders list on landing page
+ * User and Leader registration UX
+ * Leader, Projects and Tasks filtering from UI via DB
+ * Version and build number autoincrement and injection into app
+ * Testing started, leader service test added
+ * Upgrade to Angular 4
+ * File uploader done with Fab and Regular button styles using Firebase
+ * Leader photo display
+ * Getting random Leader and Project
+ * Leader brief display for Home page
+ * Leader data interface cleanup
+ * Project brief display
+ * Project image upload	and display
+ * Flex applied
+
 ###
  * Responsive Layout for Home Page
 
