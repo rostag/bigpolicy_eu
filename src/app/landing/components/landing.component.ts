@@ -57,11 +57,11 @@ export class LandingComponent implements OnInit {
       );
   }
 
-  // private setProjects(data) {
-  //   this.app.projects = data;
-  //   return data;
-  // }
-  //
+  private setProjects(data) {
+    this.app.projects = data;
+    return data;
+  }
+
   supportLeader() {
     console.log('support leader');
   }

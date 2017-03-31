@@ -7,28 +7,26 @@
     <h1>{{project.title}}</h1>
     <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
 
-    <md-grid-list cols="2" rowHeight="255" id="stats">
-      <md-grid-tile>
-
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+      <div fxFlex="50%">
         <!-- state="iFramed.Project" -->
-        <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+        <app-image class="project-image" [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+      </div>
 
-        <app-bp-video [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
-
-      </md-grid-tile>
-      <md-grid-tile>
-        <div>
-          <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
-          <h2>Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</h2>
-          <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
-          <p>Початок: {{project.dateStarted | date}}<br/>
-          Кінець: {{project.dateEnded | date}}</p>
-        </div>
-      </md-grid-tile>
-    </md-grid-list>
+      <div fxFlex="45%">
+        <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
+        <h2>Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</h2>
+        <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
+        <p>Початок: {{project.dateStarted | date}}<br/>
+        Кінець: {{project.dateEnded | date}}</p>
+      </div>
+    </div>
 
     <h2>Детальніше</h2>
     <p>{{project.description}}</p>
+
+    <!-- <h2>Відео до проекту</h2> -->
+    <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
 
     <!-- Project Tasks -->
     <app-task-list title="Заходи:" [project]="project" [pageSize]="3" ></app-task-list>
