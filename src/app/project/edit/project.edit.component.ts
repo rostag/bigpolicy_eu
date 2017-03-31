@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './project.edit.component.html',
@@ -24,7 +24,8 @@ export class ProjectEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private location: Location
   ) {
     this.project = new ProjectModel();
   }
@@ -107,5 +108,9 @@ export class ProjectEditComponent implements OnInit {
         // navigation is done
       });
     }
+  }
+
+  cancelEditing() {
+    this.location.back();
   }
 }
