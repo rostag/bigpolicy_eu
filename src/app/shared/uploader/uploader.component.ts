@@ -34,8 +34,11 @@ export class UploaderComponent implements OnChanges {
   listFilesOnStart = false;
 
   // FIXME Why Oncnages were neded to bloody get rid of this for prod build:
-  // ERROR in /Users/rsiryk/dev/BP/bp/src/$$_gendir/app/shared/uploader/uploader.component.ngfactory.ts (1,1): Operator '===' cannot be applied to types 'boolean' and '"fab"'.
+  // ERROR in /Users/rsiryk/dev/BP/bp/src/$$_gendir/app/shared/uploader/uploader.component.ngfactory.ts (1,1):
+  // Operator '===' cannot be applied to types 'boolean' and '"fab"'.
   @Input() buttonType = 'nofab';
+
+  @Input() buttonLabel = 'Завантажити фото';
 
   useFabButton = false;
 

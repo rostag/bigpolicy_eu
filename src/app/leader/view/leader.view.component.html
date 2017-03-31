@@ -1,30 +1,31 @@
 <md-card>
-    <md-card-title-group>
+    <!-- <md-card-title-group fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column"> -->
       <md-card-title>{{leader.name}} {{leader.surName}}
-        <br />
-
         <!-- FIXME
           <a href><md-icon>thumb_up</md-icon></a>
           <a href><md-icon>share</md-icon></a>
           <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
         -->
-
-        <p>
-          <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
-        </p>
-
       </md-card-title>
-
-      <!-- state="iframed.leader"  -->
-      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="{{leader.photo || 'assets/img/avatar.jpg'}}"></app-bp-video>
-
-    </md-card-title-group>
+    <!-- </md-card-title-group> -->
 
     <md-card-content>
 
-      <h3>Місія:</h3>{{leader.mission}}
-      <br><br>
-      <h3>Візія:</h3> {{leader.vision}}
+      <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+        <div fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="100%">
+          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+          <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
+        </div>
+        <div fxFlex="65%">
+          <h2>Місія:</h2>
+          <p>{{leader.mission}}</p>
+          <h2>Візія:</h2>
+          <p>{{leader.vision}}</p>
+        </div>
+      </div>
+
+      <!-- state="iframed.leader"  -->
+      <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="{{leader.photo || 'assets/img/avatar.jpg'}}"></app-bp-video>
 
       <!-- FIXME <h2>Навички та вміння:</h2>
       <p>Аналітик, соціальний підприємець та консультант</p>

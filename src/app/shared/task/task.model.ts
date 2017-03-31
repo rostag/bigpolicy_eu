@@ -5,7 +5,7 @@ export class TaskModel {
   cost = 1;
   projectId = '';
   project = null;
-  iconURL: string;
+  imageUrl: string;
   videoUrl: string;
   // String type is used for conversion between DB and Date input formats
   dateStarted: string = this.toDateInputValue(new Date());
@@ -25,7 +25,7 @@ export class TaskModel {
       projectId: this.projectId,
       dateStarted: this.dateStarted,
       dateEnded: this.dateEnded,
-      iconURL: this.iconURL,
+      imageUrl: this.imageUrl,
       videoUrl: this.videoUrl,
       totalDonationsReceived: this.totalDonationsReceived
     });

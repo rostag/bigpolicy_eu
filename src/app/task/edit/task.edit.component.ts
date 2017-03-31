@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ProjectModel } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -23,7 +23,8 @@ export class TaskEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private location: Location
   ) {
     this.task = new TaskModel();
   }
@@ -114,5 +115,9 @@ export class TaskEditComponent implements OnInit {
         // navigation is done
       });
     }
+  }
+
+  cancelEditing() {
+    this.location.back();
   }
 }
