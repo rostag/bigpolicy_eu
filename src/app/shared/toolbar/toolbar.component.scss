@@ -3,17 +3,23 @@ md-toolbar-row {
 }
 
 a {
-  cursor: pointer;
   color: #ffffff;
+  cursor: pointer;
   text-decoration: none;
 }
 
-a, span, p, div, .toolbar-inline-icon {
-  font-size: 1em;
-  vertical-align: middle;
+a,
+span,
+p,
+div {
+  font-size: 1.2rem;
+}
+
+.toolbar-inline-icon {
+  vertical-align: bottom;
 }
 
 .username {
-   flex: 1 1 auto;
-   text-align: right;
+  flex: 1 1 auto;
+  text-align: right;
 }

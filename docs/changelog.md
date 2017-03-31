@@ -142,7 +142,9 @@ Donations feature:
  * FireBase added
  * AngularFire Uploader added for Leader's photos
 
+###
+ * Responsive Layout for Home Page
+
  ### TODO/WIP:
  * Landing UX
  * Search by project / task / leader name etc.
- 

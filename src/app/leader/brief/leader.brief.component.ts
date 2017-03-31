@@ -4,7 +4,7 @@ import { LeaderModel, LeaderService } from '../../shared/leader/index';
 @Component({
   selector: 'app-leader-brief',
   templateUrl: './leader.brief.component.html',
-  styleUrls: ['./leader.brief.component.css']
+  styleUrls: ['./leader.brief.component.scss']
 })
 export class LeaderBriefComponent implements OnChanges {
 

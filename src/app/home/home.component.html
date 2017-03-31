@@ -1,4 +1,16 @@
-<h1>WIP WIP WIP</h1>
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1%" fxLayout.xs="column">
+  <h1>WIP</h1>
+  <h2>WIP</h2>
+  <h3>WIP</h3>
+  <h4>WIP</h4>
+  <h5>WIP</h5>
+  <h6>WIP</h6>
+  <h5>WIP</h5>
+  <h4>WIP</h4>
+  <h3>WIP</h3>
+  <h2>WIP</h2>
+  <h1>WIP</h1>
+</div>
 
 <!-- TODO FTUX - Section for leaders without a project -->
 <!-- TODO FTUX - Section for projects without tasks -->
@@ -32,6 +44,17 @@
       TBD: on Hover, Button Rendedered in MD Style
         -->
 
+<div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10%" fxLayout.sm="column" fxLayout.xs="column" >
+  <div fxFlex="50%">
+    <h3>Випадковий проект:</h3>
+    <app-project-brief projectId="random"></app-project-brief>
+  </div>
+  <div fxFlex="50%">
+    <h3>Випадковий діяч:</h3>
+    <app-leader-brief leaderId="random"></app-leader-brief>
+  </div>
+</div>
+
 <!-- here, mongoDb query can be used like this:
 http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1
 { "$where": "this.projects.length > 2" }
@@ -42,40 +65,22 @@ etc
 
  -->
 
-<div fxLayout='row'>
+ <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
-  <div fxFlex='46%'>
-    <h3>Випадковий проект:</h3>
-    <app-project-brief projectId="random"></app-project-brief>
-  </div>
-
-  <!-- <app-leader-list [pageSize]="1" dbQuery='{}'></app-leader-list> -->
-
-  <div fxFlex='12%'></div>
-
-  <div fxFlex='46%'>
-    <h3>Випадковий діяч:</h3>
-    <app-leader-brief leaderId="random"></app-leader-brief>
-  </div>
-
-  <div fxFlex='6%'></div>
-
-</div>
+<br /><br />
 
 <h2>Як це працює?</h2>
 
-<br />
-
-<div>// TBD: Use stories from #89 Step 1 > Step 2 > Step 3 >
+<!-- // TBD: Use stories from #89 Step 1 > Step 2 > Step 3 > -->
 
 <br />
-<br />
 
-<img src="https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png" style="width:100%" />
+<div>
 
-<br />
-<br />
-<br />
+
+  <img src="https://cloud.githubusercontent.com/assets/451410/24063696/a6130996-0b58-11e7-919f-e355446ce143.png" style="width:100%" />
+
+  <br /><br /><br />
 
 </div>
 
@@ -95,23 +100,37 @@ etc
   </md-tab>
 </md-tab-group>
 
+<br /> <br /> <br /> <br />
 <p>
-  BigPolicy — платформа прямої демократії. Твої політики для тебе і від тебе.
+    BigPolicy — платформа прямої демократії.
+    Твої політики для тебе і від тебе.
 </p>
 
-<h2>Останні проекти</h2>
+<!-- <h2>Останні проекти</h2> -->
 <!-- Останні проекти та політики — це зменшені мініатюри без -->
 
-<div>//TBD</div>
-
-<h2>Нові політики</h2>
+<!-- <h2>Нові політики</h2> -->
 <!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->
 
-<div>
+<!-- <div>
   //TBC:
   Не дуже гарно виходить — нові у самому низу, треба подумати
+</div> -->
+
+
+<div fxLayout="row" fxLayoutAlign="space-between top" fxLayoutGap="5%" fxLayout.sm="column" fxLayout.xs="column">
+  <div fxFlex="50%">
+    <h3>Контакти</h3>
+    <address>
+      м.&nbsp;Львів, вул.&nbsp;Наукова&nbsp;58, кв.&nbsp;28
+      <br>
+      +380 (93) 619-17-95
+      <br>
+      <a href="mailto:voice@bigpolicy.eu">voice@bigpolicy.eu</a>
+    </address>
+  </div>
+  <div fxFlex="50%">
+    <h3>Facebook</h3>
+    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="300" height="200" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+  </div>
 </div>
-
-<h2>Контакти</h2>
-
-<div>//TBD</div>

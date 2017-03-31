@@ -4,7 +4,7 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 @Component({
   selector: 'app-project-brief',
   templateUrl: './project.brief.component.html',
-  styleUrls: ['./project.brief.component.css']
+  styleUrls: ['./project.brief.component.scss']
 })
 export class ProjectBriefComponent implements OnChanges {
 
