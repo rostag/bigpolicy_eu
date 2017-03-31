@@ -28,17 +28,16 @@
                                                            totalItems: itemsPage.total
                                                          }">
       <md-card class="leader-card">
-        <md-card-title-group>
-          <app-image md-card-avatar [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-          <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
-            <span *ngIf="userService.isOwner(leader)">
-              (я)
-            </span>
-          </md-card-title>
-          <md-card-title></md-card-title>
-        </md-card-title-group>
-        <md-card-content>
-            <p>Візія: {{leader.vision}}</p>
+        <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
+          <span *ngIf="userService.isOwner(leader)">
+            (я)
+          </span>
+        </md-card-title>
+        <md-card-content fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+          <app-image fxFlex="35%" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+          <div>
+            <b>Візія:</b> {{leader.vision}}
+          </div>
         </md-card-content>
         <md-card-actions>
           <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>

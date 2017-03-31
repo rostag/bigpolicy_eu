@@ -28,7 +28,7 @@
     <div *ngIf="!useFabButton">
 
       <!-- Before file selected -->
-      <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" md-button><md-icon class="pointer">add</md-icon> Додати файл</button>
+      <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" md-button><md-icon class="pointer">add</md-icon> {{buttonLabel}}</button>
 
       <!-- After file selected -->
       <button *ngIf="fileToUpload != null && !uploadInProgress" (click)="handleUploadFileClick()" color="accent" md-raised-button>Завантажити файл {{fileToUploadName}}</button>

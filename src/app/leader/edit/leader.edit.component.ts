@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -22,7 +23,8 @@ export class LeaderEditComponent implements OnInit {
     private leaderService: LeaderService,
     public userService: UserService,
     public driveService: DriveService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private location: Location
   ) {}
 
   /**
@@ -138,9 +140,8 @@ export class LeaderEditComponent implements OnInit {
        });
    }
 
-  // const dialogRef = this.dialog.open(DialogComponent);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('Заходимо у систему');
-  //     this.userService.login();
-  //   });
+   cancelEditing() {
+     this.location.back();
+   }
+
 }
