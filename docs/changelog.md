@@ -75,21 +75,94 @@
 Donations feature:
 
  * Donations via LiqPay - initial version.
- * Virtual Payments - initial version.
+ * Virtual payments - initial version.
  * Payments history - initial version.
  * Leader - User matching.
  * WIP: FTUX for Registration.
 
-Bugfixes:
-
- * fixed login error (now user properly redirected).
- * Display in Safari.
+ * Fixed login error (now user properly redirected).
+ * Fixed display in Safari.
 
 ### 2017-02-17
 
- * Store users' files in their own GDrive, in the 'BigPolicy Files' folder.
+ * Store Users' documents in their own GDrive, in the 'BigPolicy Files' folder.
  * If there's no such folder, it will be created for given user.
 
 ### 2017-03-11
 
  * Migrated to Angular CLI version 1.0.0.rc-1
+
+### 2017-03-19 08:00
+
+ * Ng2PaginationModule added
+  * Front: https://github.com/michaelbromley/ng2-pagination
+  * Back: https://github.com/edwardhotchkiss/mongoose-paginate
+ * ProjectService uses pagination
+ * HomeComponent and it's route added
+
+### 2017-03-19 08:00
+
+ * Ng CLi update to RC2
+ * Get rid of date conversion in service
+ * Get rid of extra date fields in Project model
+ * Fix project pagination
+ * Leader's project pagination
+
+### 2017-03-20
+
+ * Leaders filtering by arbitrary criteria is implemented between UI and DB
+ * Oh home, show Leader having more than 2 projects etc.
+ * User and Leader registration UX
+
+### 2017-03-21
+
+ * Automatic versioning implemented as combination of ts/node app and bash deployment script.
+ * Version id is injected in both git log and app homepage
+
+### 2017-03-21
+
+ * Projects filtering by arbitrary criteria is implemented between UI and DB
+ * On Profile page, Projects are divided into the ones with tasks and the ones lacking it.
+ * Leaders pagination
+ * Tasks pagination
+
+### 2017-03-23
+
+ * Leader service test added
+ * Tasks filtering implemented
+ * Заходи проекту, Закороткий опис
+
+### 2017-03-24
+
+ * Donations filtering by arbitrary criteria is implemented between UI and DB
+ * Upgraded to Angular 4
+
+### 2017-03-26
+
+ * FireBase added
+ * AngularFire Uploader added for Leader's photos
+
+### 2017-03-27-31
+
+ * Projects list on landing page
+ * Leaders list on landing page
+ * User and Leader registration UX
+ * Leader, Projects and Tasks filtering from UI via DB
+ * Version and build number autoincrement and injection into app
+ * Testing started, leader service test added
+ * Upgrade to Angular 4
+ * File uploader done with Fab and Regular button styles using Firebase
+ * Leader photo display
+ * Getting random Leader and Project
+ * Leader brief display for Home page
+ * Leader data interface cleanup
+ * Project brief display
+ * Project image upload	and display
+ * Flex applied
+
+###
+ * Responsive Layout for Home Page
+
+ ### TODO/WIP:
+ * Landing UX
+ * Search by project / task / leader name etc.

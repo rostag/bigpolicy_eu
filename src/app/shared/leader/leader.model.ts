@@ -12,14 +12,12 @@ export class LeaderModel {
   mission: string;
   photo: string;
   videoUrl: string;
-  logo: string;
   email: string;
   projects;
   donations;
   leaderFiles;
   totalDonationsReceived: Number = 0;
 
-	// political party membership
   // id of party from parties list
   party: Number;
   officialPost: string;
@@ -35,10 +33,6 @@ export class LeaderModel {
   docCriminalRecord: string;
   docCorruptionRecord: string;
   docPassport: string;
-
-  // end of documents
-  createdAt: string;
-
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -56,7 +50,6 @@ export class LeaderModel {
       mission: this.mission,
       photo: this.photo,
       videoUrl: this.videoUrl,
-      logo: this.logo,
       email: this.email,
       party: this.party,
       officialPost: this.officialPost,
@@ -84,5 +77,10 @@ export class LeaderModel {
         this[item] = data[item];
       }
     }
+  }
+
+  onPhotoUrlChange(newUrlValue) {
+    console.log('Leader photo url:', newUrlValue);
+    this.photo = newUrlValue;
   }
 }

@@ -4,7 +4,7 @@ module.exports = function(app){
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
   var mailApi = require('./mail-api');
-  var liqpayApi = require('./liqpay-api');
+  var liqpayApi = require('./donation-api');
   var bodyParser = require('body-parser');
 
   const DB = require('./mongo/database');
@@ -27,7 +27,7 @@ module.exports = function(app){
     res.sendFile('/dist/index.html', { root: '.' });
   });
 
-  console.log('𝖄 • Middleware connected.');
+  console.log('  • Middleware connected.');
 
   return DB;
 }

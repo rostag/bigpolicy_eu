@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
+        // console.log('Navbar: showCreateLeaderButton =', this.showCreateLeaderButton);
         this.showCreateLeaderButton = this.userService.authenticated() && !this.userService.hasLeader();
       });
   }

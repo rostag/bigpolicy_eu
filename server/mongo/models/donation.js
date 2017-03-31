@@ -1,7 +1,8 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-const DonationSchema = new Schema({
+const donationSchema = new Schema({
 
   virtual: { type: Boolean, default: true },
 	donorId: { type: String, required: true },
@@ -15,12 +16,15 @@ const DonationSchema = new Schema({
 	dateCompleted: { type: String },
 	description: { type: String, required: true },
 	status: { type: String }
-
 });
 
+donationSchema.plugin(mongoosePaginate);
+
 module.exports = function(){
-    try {
-        mongoose.model('Donation', DonationSchema);
-    } catch (error) {}
-    return mongoose.model('Donation');
+  try {
+      mongoose.model('Donation', donationSchema);
+  } catch (error) {
+
+  }
+  return mongoose.model('Donation');
 }();

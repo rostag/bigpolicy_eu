@@ -1,6 +1,4 @@
-// , DBLeader, DBProject, DBTask
 module.exports = function(app, DB){
-  // FIXME Rename to donate-api
   var express = require('express');
   var router = express.Router();
   var LiqPay = require('liqpay-sdk');
@@ -13,7 +11,6 @@ module.exports = function(app, DB){
 
   function getParamsFromRequestData(req) {
     var d;
-    // console.log('------------ body: ', req.body);
     for ( var item in req.body ) {
       d = JSON.parse(item);
     }
@@ -33,7 +30,7 @@ module.exports = function(app, DB){
       'sandbox'       : '1', // FIXME DEV TEST
       'language'      : 'uk',
       'result_url'    : d.result_url,
-      'server_url'    : d.server_url + '/liqpay-api/post-donation-status'
+      'server_url'    : d.server_url + '/donation-api/post-donation-status'
     }
   }
 
@@ -48,28 +45,57 @@ module.exports = function(app, DB){
 
   /**
    * Gets all donations for the given target:
-   *  /liqpay-api/target/leader/id
-   *  /liqpay-api/target/project/id
-   *  /liqpay-api/target/task/id
+   *    donation-api/target/leader/id/1/10/q/{}
+   *    donation-api/target/project/id/1/10/q/{}
+   *    donation-api/target/task/id/1/10/q/{}
    */
-  router.get('/target/:targetType/:targetId', function (req, res) {
-    DB.getDonationTarget( req.params.targetId, req.params.targetType )
+  router.get('/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
+
+    var p = req.params;
+    // console.log('donation-api/get: ' + JSON.stringify(p, null, '  ') );
+    DB.getDonationTarget( p.targetType, p.targetId )
       .then( (target) => {
-        DB.listDonations(target.donations)
+        DB.getPageOfDonations(target.donations, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => {
-            // console.log('List donations:', target.donations);
+            // console.log('Got page of donations:', data, target.donations);
             res.json(data)
           })
-          .catch( err => res.json(err))
+          .catch( err => {
+            console.log('Error of getting donations page:', err);
+            res.json(err)
+          })
       })
       .catch( err => res.json(err))
   })
 
+  /**
+   * OBSOLETE
+   * Gets all donations for the given target:
+   *  /donation-api/target/leader/id
+   *  /donation-api/target/project/id
+   *  /donation-api/target/task/id
+   */
+  // router.get('/target/:targetType/:targetId', function (req, res) {
+  //   // console.log('donation-api/get/target/' + p.targetType + '/' + p.targetId );
+  //   DB.getDonationTarget( p.targetType, p.targetId )
+  //     .then( (target) => {
+  //       DB.listDonations(target.donations)
+  //         .then( data => {
+  //           // console.log('List donations:', data, target.donations);
+  //           res.json(data)
+  //         })
+  //         .catch( err => {
+  //           // console.log('List donations: error: ', err);
+  //           res.json(err)
+  //         })
+  //     })
+  //     .catch( err => res.json(err))
+  // })
 
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
 
-    console.log('𝖄 • LiqPay::getsgndta::URL::', prm);
+    console.log('  • LiqPay::getsgndta::URL::', prm);
 
     var sgn = liqpay.cnb_signature(prm);
     // FIXME use Buffer.from instead
@@ -101,15 +127,13 @@ module.exports = function(app, DB){
       var oid = jsn.order_id;
       var donatonId = oid.substring('bpdon___id_'.length, oid.indexOf('__amt_'));
 
-      console.log('--> donatonId:', donatonId, sts);
-
-      // Проверка Callback сигнатуры
+      // Check Callback signature
       var sign = liqpay.str_to_sign(private_key + dta + private_key);
 
       // FIXME_SEC Check sign
       if ( true /* sign === sgn */ ) {
         // write proper value to DB
-        DB.updateDonation(donatonId, {
+        DB.updateDonationStatus(donatonId, {
           "status": sts
         });
       } else {
@@ -117,7 +141,7 @@ module.exports = function(app, DB){
       }
 
     } catch (e) {
-      console.log('Errro:', e);
+      console.log('Error:', e);
     }
 
     res.send('ok');
@@ -131,7 +155,7 @@ module.exports = function(app, DB){
    */
   // router.post('/check-donation-status', function (req, res) {
   //   var prm = getParamsFromRequestData(req);
-  //   // console.log('𝖄 • LiqPay::check-status', prn.order_id);
+  //   // console.log(' • LiqPay::check-status', prn.order_id);
   //
   //   liqpay.api("request", {
   //     "action"   : "status",
@@ -144,12 +168,12 @@ module.exports = function(app, DB){
   //
   // });
 
-  // // FIXME UNUSED
+  // // FIXME UNUSED OBSOLETE
   // router.post('/getliqform', function (req, res) {
   //   res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));
   // });
 
-  app.use('/liqpay-api', router);
+  app.use('/donation-api', router);
 
-  console.log('𝖄 • LiqPay connected.');
+  console.log('  • LiqPay connected.');
 }

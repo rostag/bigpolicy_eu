@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit,
+  ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
+import { MdTextareaAutosize } from '@angular/material';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -20,7 +22,7 @@ import { NgForm } from '@angular/forms';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements AfterViewChecked {
+export class SharerComponent implements AfterViewChecked, AfterViewInit {
 
   @Input() sharerIsVisible = false;
 
@@ -37,7 +39,11 @@ export class SharerComponent implements AfterViewChecked {
   showHtmlPreview = false;
 
   shareForm: NgForm;
+
   @ViewChild('shareForm') currentForm: NgForm;
+
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  @ViewChild(MdTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -50,8 +56,7 @@ export class SharerComponent implements AfterViewChecked {
     }
   };
 
-  // Model to be shared.
-  // Here, the videoUrl may be overridden before share:
+  // Model to share. Here, the videoUrl may be overridden before share:
   emailToShare: any = {
     from: '',
     toEmails: {},
@@ -60,12 +65,21 @@ export class SharerComponent implements AfterViewChecked {
     videoUrl: ''
   };
 
-  getFormState(stateName) {
-    return this.formStatus === stateName;
+  constructor(
+    private shareService: ShareService
+  ) {}
+
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  ngAfterViewInit() {
+    this.resizableTextArea.element.nativeElement.style.height = 'auto';
   }
 
   ngAfterViewChecked() {
    this.formChanged();
+  }
+
+  getFormState(stateName) {
+    return this.formStatus === stateName;
   }
 
   formChanged() {
@@ -93,6 +107,7 @@ export class SharerComponent implements AfterViewChecked {
        this.formErrors[field] = '';
        const control = form.get(field);
 
+       // Here's the complex logic for which we needed this method
        if (control && (control.dirty || control.touched) && !control.valid) {
          const messages = this.validationMessages[field];
          for (const key in control.errors) {
@@ -104,10 +119,6 @@ export class SharerComponent implements AfterViewChecked {
      }
    }
   }
-
-  constructor(
-    private shareService: ShareService
-  ) {}
 
   /*
    * Overriding model videoUrl by email videoUrl
@@ -126,10 +137,10 @@ export class SharerComponent implements AfterViewChecked {
   }
 
   /**
-   * Share this project
-   * @param {project} Project being viewed
+   * Send the form
+   * @param {formValue} Form value to share
    */
-  shareItem() {
+  shareItem(formValue) {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -141,7 +152,9 @@ export class SharerComponent implements AfterViewChecked {
     this.emailToShare.html = this.emailHtml;
     this.emailToShare.from = this.project.managerEmail;
     this.emailToShare.subject = this.emailSubject;
+    this.emailToShare.toEmails = {};
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
+    this.emailToShare.videoUrl = this.videoUrl;
 
     this.shareService.share(this.emailToShare)
       .subscribe(
@@ -151,7 +164,7 @@ export class SharerComponent implements AfterViewChecked {
         },
         err => (er) => {
           this.formStatus = 'emailSendError';
-          console.error('Project creation error: ', er);
+          console.error('Project sharing error: ', er);
         },
         () => {}
       );
@@ -189,28 +202,8 @@ export class SharerComponent implements AfterViewChecked {
             <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
-  autoExpand(e) {
-    // FIXME Replace with ng2 auto-expand
-    console.log('auto expa: ', e);
-
-    const textField = typeof e === 'object' ? e.target : document.getElementById(e);
-
-    if (textField.clientHeight < textField.scrollHeight) {
-      textField.style.height = textField.scrollHeight + 'px';
-      if (textField.clientHeight < textField.scrollHeight) {
-        textField.style.height =
-          (textField.scrollHeight * 2 - textField.clientHeight) + 'px';
-      }
-    }
-  };
-
-  showSharer() {
+  toggleSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
-    return false;
-  }
-
-  private toggleEmailPreview() {
-    this.showEmailPreview = !this.showEmailPreview;
     return false;
   }
 

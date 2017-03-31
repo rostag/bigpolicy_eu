@@ -27,4 +27,4 @@ middleware(app);
 
 server.listen(port,hostname);
 
-console.log('𝖄 • BigPolicy is listening on http://' + hostname + ':' + port);
+console.log('  • BigPolicy is listening on http://' + hostname + ':' + port);

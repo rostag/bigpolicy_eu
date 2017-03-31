@@ -6,20 +6,23 @@
       <span *ngIf="isUpdateMode">Редагувати діяча</span>
     </md-card-title>
 
-      <!--LOGO OF LEADER-->
-
-      <!-- FIXME Make Mobile-friendly -->
+      <!-- FIXME Make Mobile-friendly with Flexbox -->
       <md-card-content>
         <md-card-header class="leader-edit-basic-details">
-          <button md-mini-fab class="md-24" >
-            <md-icon color="white">file_upload</md-icon>
-          </button>
-          <img md-card-md-image src="assets/img/avatar-generic.png">
+          <!-- FIXME - process temp_reg_id in FTUX process -->
+          <app-uploader folder="bp-files/users/{{leader._id || 'tmp_user_reg_id'}}/avatars" listFiles="no" buttonType="fab" (uploadedFileUrlChange)="leader.onPhotoUrlChange($event)"></app-uploader>
+          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
           <div class="leader-names-input">
-            <md-input-container><input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%"></md-input-container>
-            <md-input-container><input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%"></md-input-container>
+            <md-input-container>
+              <input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%">
+            </md-input-container>
+            <md-input-container>
+              <input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%">
+            </md-input-container>
             <!-- TODO: Use existing video control to auto-extend functionality on input -->
-            <md-input-container hintLabel="Посилання на відео YouTube" ><input mdInput video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" ></md-input-container>
+            <md-input-container hintLabel="Посилання на відео YouTube" >
+              <input mdInput video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" >
+            </md-input-container>
           </div>
         </md-card-header>
 
@@ -28,22 +31,24 @@
           <h3>Як виглядає проблема для тебе?</h3>
 
           <md-input-container>
-            <textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.vision" placeholder="Твоя особиста візія і думки" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}">
+            <textarea mdInput mdTextareaAutosize required maxLength="1000" [(ngModel)]="leader.vision" placeholder="Твоя особиста візія і думки" characterCounter [ngModelOptions]="{standalone: true}">
             </textarea>
           </md-input-container>
 
           <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
           <md-input-container>
-            <textarea mdInput required rows="3" maxLength="1000" [(ngModel)]="leader.mission" placeholder="Твоя місія" hintLabel="" characterCounter [ngModelOptions]="{standalone: true}" >
+            <textarea mdInput mdTextareaAutosize required maxLength="1000" [(ngModel)]="leader.mission" placeholder="Твоя місія" characterCounter [ngModelOptions]="{standalone: true}" >
             </textarea>
           </md-input-container>
 
         </div>
 
         <!-- User should only be able to edit his own files, thus matching his email in gdrive -->
-        <app-bp-files *ngIf="userService.isOwner(leader)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
-        <app-files-view  *ngIf="!userService.isOwner(leader)" [files]="leader.leaderFiles" ></app-files-view>
+        <div *ngIf="isUpdateMode">
+          <app-bp-files *ngIf="userService.isOwner(leader)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
+          <app-files-view *ngIf="!userService.isOwner(leader)" [files]="leader.leaderFiles" ></app-files-view>
+        </div>
 
       </md-card-content>
 
@@ -77,11 +82,15 @@
 
       <md-card-content>
         <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
-        <md-input-container><input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input-container>*
+        <md-input-container>
+          <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
+        </md-input-container>*
 
         <p>
           Другорядна ціль:
-          <md-input-container><input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко"></md-input-container>*
+          <md-input-container>
+            <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
+          </md-input-container>*
         </p>
       </md-card-content>
 
@@ -90,12 +99,16 @@
       <md-card-content>
         <md-card-title>
           Належиш до партії?
-          <md-input-container><input mdInput name="party" type="text" placeholder="Вкажи партію"></md-input-container>
+          <md-input-container>
+            <input mdInput name="party" type="text" placeholder="Вкажи партію">
+          </md-input-container>
         </md-card-title>
 
         <md-card-title>
           Офіційна посада:
-          <md-input-container><input mdInput name="title" type="text" placeholder="Вкажи свою посаду"></md-input-container>
+          <md-input-container>
+            <input mdInput name="title" type="text" placeholder="Вкажи свою посаду">
+          </md-input-container>
         </md-card-title>
       </md-card-content>
 

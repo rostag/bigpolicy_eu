@@ -34,7 +34,7 @@ module.exports = function(app, DB){
         console.log("Got an error whilst sending mail: ", err);
       }
       else {
-        console.log('𝖄 • Email sent to', data.to);
+        console.log('  • Email sent to', data.to);
       }
     })
     .then(function (data) {
@@ -47,6 +47,6 @@ module.exports = function(app, DB){
 
   app.use('/mail-api', router);
 
-  console.log('𝖄 • Mailgun loaded.');
+  console.log('  • Mailgun loaded.');
 
 }

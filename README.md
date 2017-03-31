@@ -8,7 +8,7 @@ Our goals for this tool are
 implement new culture in political landscape
 implement it on local and government level
 
-Idea was validated on EGAP Hackaton Challenge with support of bright experts and moving forward
+Idea was verified on EGAP Hackaton Challenge with support of bright experts and moving forward
 
 ![image](https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png?raw=true)
 

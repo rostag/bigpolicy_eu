@@ -10,8 +10,16 @@
     <router-outlet></router-outlet>
   </div>
 
-  <footer>Creative Commons and BigPolicy 2015-2017 v.1.0.5
-    <a [routerLink]="['/about']">Про проект</a>
+  <footer>Creative Commons and BigPolicy 2015-2017 v.{{version}}
+    <br/>
+    <p>
+      <a [routerLink]="['/about']">
+        <img width="80" class="logo" src="assets/img/logo.png" />
+      </a>
+    </p>
+    <p>
+      <a [routerLink]="['/about']">Про проект</a>
+    </p>
   </footer>
 
 </div>

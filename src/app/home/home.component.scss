@@ -1,0 +1,11 @@
+$llgrey: #eee;
+$lgrey: #ccc;
+$grey: #999;
+$gry: #555;
+
+app-home:host {
+  background-color: $llgrey;
+  box-sizing: border-box;
+  display: block;
+  padding: 2rem;
+}

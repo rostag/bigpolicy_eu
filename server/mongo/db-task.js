@@ -1,7 +1,5 @@
 //******************************************************************************
-//
 // T A S K
-//
 //******************************************************************************
 
 var DBTask = {};
@@ -10,16 +8,47 @@ var DBTask = {};
 var Project = require('./models/project');
 var Task = require('./models/task');
 
+/**
+ * Returns single Task by given task id
+ */
 DBTask.getTask = function(id) {
     return Task.findById(id);
 }
 
-// Will return a list of items with given ids, if ids are provided, or all items
-DBTask.listTasks = function(taskIds) {
-  return taskIds
-    ? Task.find({ '_id': { $in: taskIds } })
-    : Task.find()
+/**
+* Returns a page of Tasks either by given ids (if present), page number and limit, or DB query
+* @param taskIds Task ID's to retrieve
+* @param page Page number to get from DB
+* @param limit Items per page to get from DB
+* @param dbQuery DB query to perform for filtering the results, searching etc
+ */
+DBTask.getPageOfTasks = function (taskIds, page, limit, dbQuery) {
+  // console.log('DBTask.getPage of Tasks, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
+  var query = {};
+
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
+  if (dbQuery) {
+    query = JSON.parse(dbQuery.replace(/\'/g, '"'));
+  }
+
+  // If passed, use project IDs in query
+  if (taskIds) {
+    query['_id'] = { $in: taskIds };
+  }
+
+  // console.log('query =', query);
+  return Task.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
+
+/**
+ * OBSOLETE
+ * Returns all tasks by given project task ids (if provided), or just all tasks
+ */
+// DBTask.listTasks = function(taskIds) {
+//   return taskIds
+//     ? Task.find({ '_id': { $in: taskIds } })
+//     : Task.find()
+// }
 
 DBTask.createTask = function(dataObj) {
   var data = dataObj;
@@ -28,7 +57,7 @@ DBTask.createTask = function(dataObj) {
     data = JSON.parse(item);
   }
 
-  console.log('DBTask: createTask', data)
+  // console.log('DBTask: createTask', data)
 
   if ( !data.title || !data.description ) {
     throw ( 'DBTask: Invalid task cannot be saved. Either title or description is missed.')

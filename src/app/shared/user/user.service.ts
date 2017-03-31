@@ -1,7 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
+import { DialogService } from '../../shared/dialog/dialog.service';
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -21,7 +22,7 @@ export class UserService {
   // 2. E.T.C.
   options = {
       auth: {
-          redirectUrl: location.protocol + '//' + location.hostname + ':' + location.port + '/profile',
+          redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
           responseType: 'token'
           // language: 'ua'
           // params: {
@@ -35,11 +36,12 @@ export class UserService {
   lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
 
   constructor(
+    public leaderService: LeaderService,
     public projectService: ProjectService,
-    public leaderService: LeaderService
+    private dialogService: DialogService
   ) {
     // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
 
     this.leaderService.requestLeaderByEmail(this.getEmail());
 
@@ -53,11 +55,11 @@ export class UserService {
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
           // Handle error
-          alert(error);
+          console.log(error);
           return;
         }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
+        localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
         this.userProfile = profile;
 
         this.leaderService.requestLeaderByEmail(this.getEmail())
@@ -75,10 +77,14 @@ export class UserService {
   };
 
   public showStatus() {
-    console.log('User service ', this.getEmail() );
-    console.log('\tIs authd:', this.authenticated(), ' Is admin:', this.isAdmin());
-    console.log('\tHas leader:', this.hasLeader(), '\tLeader:', this.leaderService.leader);
-    console.log('\tSaved registration:', localStorage.getItem('BigPolicyLeaderRegistration'));
+    const status =
+      `Email: ` + this.getEmail() +
+      `\nAuthenticated: ` + this.authenticated() +
+      `\nHas Leader: ` +  this.hasLeader() +
+      `\nIs Admin: ` +  this.isAdmin() +
+      `\nLeader: ` + this.leaderService.leader +
+      `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
+    console.log('User status: ' + status);
   }
 
   /**
@@ -116,6 +122,7 @@ export class UserService {
     return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
   }
 
+  // FIXME_TEST In the first place
   /**
    * Returns true if current user is owner of given leader, project or task by email
    */
@@ -143,7 +150,8 @@ export class UserService {
    */
   public logout() {
     localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
+    localStorage.removeItem('BigPolicyProfile');
+    localStorage.removeItem('BigPolicyLeaderRegistration');
     this.userProfile = undefined;
   };
 
@@ -155,16 +163,29 @@ export class UserService {
       leader.parseData(JSON.parse(localLeader));
       console.log('FTUX: continue leader registration, parsed leader: ', leader);
 
-      this.leaderService.createLeader(leader, this.getEmail());
+      // on registration success
+      this.dialogService
+        .confirm('Вітаємо!', 'Ти успішно завершив реєстрацію в системі.')
+        .subscribe(res => {
+          this.leaderService.createLeader(leader, this.getEmail());
+      });
     } else {
-      console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+      // on registration failure — leader with that email is registered already
+      if (!!localLeader) {
+        this.dialogService
+          .confirm('Існуючий користувач?', 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!')
+          .subscribe(res => {
+            console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
+            // Cleanup
+            localStorage.removeItem('BigPolicyLeaderRegistration');
+        });
+      } else {
+        this.dialogService
+          .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
+          .subscribe(res => {
+            console.log('Logged in: ', this.authenticated(), this.hasLeader(), localLeader);
+        });
+      }
     }
   }
-
-  // FIXME Implement unsubscribing
-  // ngOnDestroy() {
-  //   console.log('UNSUB: UserService');
-  //   this.subscription.unsubscribe();
-  // }
-
 }

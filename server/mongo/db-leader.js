@@ -1,56 +1,18 @@
 //******************************************************************************
-//
 // L E A D E R
-//
 //******************************************************************************
 
+var mongoose = require('mongoose');
+var Leader = require('./models/leader');
 var DBLeader = {};
 
-// mongoose models
-var Leader = require('./models/leader');
-
-
-DBLeader.getLeader = function(id) {
-  var leader = Leader.findById(id, function (error, leader) {
-    if (leader) {
-      leader.projects = DBLeader.getLeaderProjects(leader.projects);
-    }
-  });
-  return leader;
-}
-
-DBLeader.findLeaderByEmail = function(email) {
-  var leader = Leader.findOne({ 'email': email }, function (err, leader) {
-    if (err) {
-      return handleError(err);
-    }
-    if (leader) {
-      leader.projects = DBLeader.getLeaderProjects(leader.projects);
-    }
-  });
-  return leader;
-}
-
-DBLeader.getLeaderProjects = function (projects) {
-  if (projects) {
-    // console.log('DBLeader: get leader projects:', projects);
-
-    // WIP
-    projects.forEach (function (project) {
-      // console.log('DBLeader: project found:', project);
-    });
-  }
-  return projects;
-}
-
-DBLeader.listLeaders = function(id) {
-    return Leader.find();
-    // .exec();
-}
-
+/**
+ * Creates a Leader by provided data
+ * @param dataObj Properties object of Leader to be created
+ */
 DBLeader.createLeader = function(dataObj) {
   var data = dataObj;
-  console.log('DBLeader: createLeader: ', data)
+  // console.log('DBLeader: createLeader: ', data)
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
@@ -67,7 +29,62 @@ DBLeader.createLeader = function(dataObj) {
   return saved2;
 }
 
-DBLeader.updateLeader = function(id,data) {
+/**
+ * Returns single Leader by ID
+ */
+DBLeader.getLeader = function(leaderId) {
+  console.log('DB :: getLeader, id:', leaderId);
+
+  if (leaderId === 'random') {
+    // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
+    // db.mycoll.aggregate( { $sample: { size: 1 } } );
+    // See also for Mongoose: https://larry-price.com/blog/2014/09/15/fetching-random-mongoose-objects-the-simple-way
+    return Leader.count().exec()
+      .then((cnt, err) => {
+        const rndm = Math.floor(Math.random() * cnt);
+        return Leader.findOne().skip(rndm).exec()
+          .then((randomLeader, err) => {
+            // console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
+            return randomLeader;
+          })
+      });
+  } else {
+    return Leader.findById(leaderId);
+  }
+}
+
+/**
+ * Returns a page of Leaders either by given leader ids (if present), page number and limit, or query to db
+ * @param ownerLeaderIds Not used currently, reserved for future use (by group)
+ * @param page Page number to get from DB
+ * @param limit Items per page to get from DB
+ * @param dbQuery DB Query to perform for filtering the results, searching etc
+ */
+DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
+  // parse query
+  // console.log('DBLeader.getPageOfLeaders, leaderIds =', leaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
+  var query = {};
+
+  // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
+  if (dbQuery) {
+    query = JSON.parse(dbQuery.replace(/\'/g, '"'))
+  }
+
+  // If passed, use project IDs in query
+  if (leaderIds) {
+    query['_id'] = { $in: projectIds };
+  }
+
+  // console.log('query:', query);
+  return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
+}
+
+/**
+ * Creates a Leader by provided ID and data
+ * @param id Leader ID to update
+ * @param dataObj Properties object of Leader to be created
+ */
+DBLeader.updateLeader = function(id, data) {
   if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
     throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
   }
@@ -84,40 +101,12 @@ DBLeader.updateLeader = function(id,data) {
   });
 }
 
+/**
+ * Deletes a Leader by ID
+ * @param id Leader ID to delete from DB
+ */
 DBLeader.deleteLeader = function(id) {
-    return Leader.findById(id).remove();
+  return Leader.findById(id).remove();
 }
-
-/* Leader API usage examples
-
-*** To get all leaders list -
-
-GET localhost:4200/leader-api
-
-*** To get one particular leader -
-GET localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-
-*** To create new leader -
-POST localhost:4200/leader-api
-with x-www-form-urlencoded pairs
-
-name - Name of leader
-surName - Surname of leader
-etc.
-
-*** To update leader info
-PUT localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-with x-www-form-urlencoded pairs
-
-name - Name of leader
-surName - Surname of leader
-etc.
-
-*** To delete leader -
-DELETE localhost:4200/leader-api/577e8e98a3b64bb01f6fcd62
-
-*** To delete all leaders (DEV PURPOSES!)
-DELETE localhost:4200/leader-api/allleaders?secret=19863
-*/
 
 module.exports = DBLeader;

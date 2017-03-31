@@ -1,11 +1,4 @@
-.project-view {
-}
-
-:host {
-  display: block;
-  padding: 2em;
-}
-
+// FIXME Move it to the main css
 h1 {
   font-size: 3em;
 }
@@ -22,4 +15,9 @@ h3 {
 
 .project-toolbar {
   margin-top: 2em;
+}
+
+.project-image,
+.project-video {
+  display: block;
 }

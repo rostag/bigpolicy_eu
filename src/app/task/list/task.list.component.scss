@@ -1,6 +1,5 @@
 :host {
   display: block;
-  padding: 0;
 }
 
 h1 {
@@ -9,8 +8,8 @@ h1 {
 
 h2 {
   font-size: 2em;
+  margin-top: .83em;
   padding-top: 0;
-  margin-top: 0.83em;
 }
 
 md-card-content > md-card-actions:first-child {

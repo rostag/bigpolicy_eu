@@ -1,0 +1,57 @@
+<form ngNoForm>
+
+  <!-- <input id="fileInput" name="fileInput" type="file" > <button (click)="initUpload()" type="button">Upload</button> -->
+
+  <div>
+    <input type="file" id="fileInput" name="fileInput" #fileInput (change)="handleUploadFilenameChange($event)" style="display: none">
+
+    <!-- For Fab-type button -->
+    <div *ngIf="useFabButton">
+
+      <!-- Before file selected -->
+      <button md-mini-fab class="size-fab-upload" *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick($event, true)">
+        <md-icon color="white">file_upload</md-icon>
+      </button>
+
+      <!-- After file selected — immediate 'Upload' starts -->
+
+      <!-- 'Uploading...' -->
+      <md-spinner mode="indeterminate" *ngIf="uploadInProgress" color="accent" class="size-fab-upload" ></md-spinner>
+
+      <!-- 'Uploaded!' -->
+      <button md-mini-fab class="size-fab-upload" *ngIf="uploadJustHaveFinished" disabled>
+        <md-icon color="accent">check_circle</md-icon>
+      </button>
+    </div>
+
+    <!-- For Regular button -->
+    <div *ngIf="!useFabButton">
+
+      <!-- Before file selected -->
+      <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" md-button><md-icon class="pointer">add</md-icon> Додати файл</button>
+
+      <!-- After file selected -->
+      <button *ngIf="fileToUpload != null && !uploadInProgress" (click)="handleUploadFileClick()" color="accent" md-raised-button>Завантажити файл {{fileToUploadName}}</button>
+
+      <!-- 'Uploading...' -->
+      <button *ngIf="fileToUpload != null && uploadInProgress" md-button disabled>Завантажую {{fileToUploadName}}...</button>
+
+      <md-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></md-progress-bar>
+
+      <!-- 'Uploaded!' -->
+      <button *ngIf="uploadJustHaveFinished" md-button disabled><md-icon color="accent">check_circle</md-icon> Файл завантажено</button>
+
+    </div>
+
+  </div>
+
+</form>
+
+<div *ngIf="listFilesOnStart">
+
+  <div *ngFor="let img of imageList | async" style="position:relative;width:100px;height:100px;float:left;display:flex;justify-content:center;align-items:center;">
+    <img [src]="img.downloadURL | async" style="max-width:100px; max-height:100px;">
+    <button (click)="delete(img)" style="position:absolute; top:2px; right:2px;">[x]</button>
+  </div>
+
+</div>

@@ -2,10 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core.module';
-// import { CommonModule } from '@angular/common';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 // Directives
 import { NavbarComponent, ToolbarComponent } from './shared/index';
@@ -30,12 +29,9 @@ import { LandingComponent } from './landing/index';
 import { routing } from './app.routes';
 
 // Services
-import { UserService } from './shared/user/user.service';
-// import { LeaderService } from './shared/leader/leader.service';
-import { ProjectService } from './shared/project/project.service';
-import { TaskService } from './shared/task/task.service';
 import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
+// rest are shared via CoreModule
 
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
@@ -44,11 +40,11 @@ import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
 import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
-import { ForbiddenValidatorDirective } from './shared/validation/email';
+import { EmailValidatorDirective } from './shared/validation/email.validator';
 import { VideoComponent } from './shared/video/video.component';
-import { ContinueRegistrationDialogComponent } from './leader/edit';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -70,35 +66,26 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
-    ForbiddenValidatorDirective,
+    EmailValidatorDirective,
     VideoComponent,
     AppComponent,
-    ContinueRegistrationDialogComponent,
     FilesEditComponent,
-    FilesViewComponent
+    FilesViewComponent,
+    HomeComponent
   ],
   imports: [
     routing,
     BrowserModule,
-    RouterModule,
     FormsModule,
-    MaterialModule,
     HttpModule,
-    // CommonModule,
-    CoreModule // will provide service
+    Ng2PaginationModule,
+    MaterialModule,
+    CoreModule // will provide services
   ],
   providers: [
-    // MdIconRegistry,
     LoggedInGuard,
-    // UserService,
-    // LeaderService,
-    // ProjectService,
-    // TaskService,
     ShareService,
     DonationService
-  ],
-  entryComponents: [
-    ContinueRegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

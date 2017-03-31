@@ -1,14 +1,14 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-/*
-	// TODO
-	Define ranges:
-		1) range of each value will be defined after coordination (with front-end)
-		2) documents fields will be adjusted after coordination (with host place)
-*/
+/**
+ *  TODO: Define ranges
+ *    1) range of each value will be defined
+ *    2) documents fields will be adjusted
+ */
 
-const LeaderSchema = new Schema({
+const leaderSchema = new Schema({
 	// personal info
 	name: { type: String, required: true },
 	parentName: { type: String },
@@ -17,7 +17,6 @@ const LeaderSchema = new Schema({
 	mission: { type: String, required: true },
 	photo: { type: String },
 	videoUrl: { type: String },
-	logo: { type: String },
 	email: { type: String, required: true },
 	projects: { type: Array },
   // An array of cached Leader's files, which are stored in GDrive
@@ -25,8 +24,8 @@ const LeaderSchema = new Schema({
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
 
-	// political party membership
-	// id of party from parties lst
+	// group membership
+	// leader's party id
 	party: { type: Number },
 	officialPost: { type: String },
 
@@ -41,16 +40,15 @@ const LeaderSchema = new Schema({
 	docCriminalRecord: { type: String },
 	docCorruptionRecord: { type: String },
 	docPassport: { type: String },
-
-	// end of documents
-	createdAt: { type: Date }
 });
 
+leaderSchema.plugin(mongoosePaginate);
+
 module.exports = function(){
-    try {
-        mongoose.model('Leader', LeaderSchema);
-    } catch (error) {
-			console.log('error during creation:', error)
-		}
-    return mongoose.model('Leader');
+  try {
+    mongoose.model('Leader', leaderSchema);
+  } catch (error) {
+		console.log('Error during creation:', error)
+	}
+  return mongoose.model('Leader');
 }();

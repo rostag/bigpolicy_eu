@@ -5,31 +5,40 @@ module.exports = function(app, DB, DBLeader){
 
   // Routes order is important
 
+  /**
+   * Creates new Project
+   */
   router.post('/', function (req, res) {
-      DB.createProject(req.body)
+    DB.createProject(req.body)
       .catch(function (err) {
-          res.send(err);
+        res.send(err);
       })
       .then(function (data) {
-          res.json(data);
+        res.json(data);
       });
   })
 
+  /**
+   * Updates Project by ID
+   */
   .put('/:id', function(req, res) {
-      DB.updateProject(req.params.id,req.body)
+    DB.updateProject(req.params.id, req.body)
       .then(function (data) {
-          res.json(data);
+        res.json(data);
       })
       .catch(function(err){
   	    res.json(err);
-  	});
+    	});
   })
 
+  /**
+   * Deletes Project by ID
+   */
   .delete('/:id', function (req, res) {
-      DB.deleteProject(req.params.id)
+    DB.deleteProject(req.params.id)
       .then(function (data) {
-          res.json(data);
-      });
+        res.json(data);
+    });
   })
 
   /**
@@ -37,44 +46,72 @@ module.exports = function(app, DB, DBLeader){
    * /project-api/57a64e2b3a5bfb3b48e6fd1b
    */
   .get('/:id', function (req, res) {
-      if (req.params.id) {
-          DB.getProject(req.params.id)
-          .then(function (data) {
-              res.json(data || []);
-          });
-      }
+    console.log(`\n\nproject-api/${req.params.id}`);
+    if (req.params.id) {
+      DB.getProject(req.params.id)
+        .then(function (data) {
+          res.json(data || []);
+        });
+    }
   })
 
-  // WIP
   /**
+   * OBSOLETE
    * Gets all projects for the given leader:
    * /project-api/leader/id
    */
-  .get('/leader/:leaderId', function (req, res) {
-    DBLeader.getLeader( req.params.leaderId )
-      .then( (leader) => {
-        DB.listProjects(leader.projects)
+  // .get('/leader/:leaderId', function (req, res) {
+  //   DBLeader.getLeader( req.params.leaderId )
+  //     .then( (leader) => {
+  //       DB.listProjects(leader.projects)
+  //         .then( data => res.json(data))
+  //         .catch( err => res.json(err))
+  //     })
+  //     .catch( err => res.json(err));
+  // })
+
+  /**
+   * Gets page of projects for the given leader, example:
+   * /project-api/leader/leaderId/page/1/1/q/:dbQuery
+   */
+  .get('/leader/:leaderId/page/:page/:limit/q/:dbQuery', function (req, res) {
+    var p = req.params;
+    // console.log('project-api/get projects page for leader #', p.leaderId);
+    DBLeader.getLeader( p.leaderId )
+      .then((leader) => {
+        DB.getPageOfProjects(leader.projects, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })
-      .catch( err => res.json(err))
+      .catch( err => res.json(err));
   })
 
   /**
-   * Gets all projects, example:
-   * /project-api/
+   * Gets page of projects, example:
+   * /project-api/page/1/1/q/:dbQuery
    */
-  .get('*', function (req, res)     {
-      DB.listProjects()
-      .then(function (data) {
-          res.json(data);
-      })
-      .catch(function(err){
-          res.json(err);
-      });
+  .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
+    var p = req.params;
+    // console.log('project-api/get page #', p.page, ', limit =', p.limit);
+    DB.getPageOfProjects(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
+      .then( data => res.json(data))
+      .catch( err => res.json(err));
   });
 
-  app.use('/project-api', router);
+  /**
+   * OBSOLETE
+   * Gets all projects
+   * /project-api/
+   */
+  // .get('*', function (req, res) {
+  //     DB.listProjects()
+  //     .then(function (data) {
+  //         res.json(data);
+  //     })
+  //     .catch(function(err){
+  //         res.json(err);
+  //     });
+  // });
 
-  // end of module
+  app.use('/project-api', router);
 }

@@ -25,8 +25,12 @@
         Лідер: {{profileLeader.name}} {{profileLeader.surName}}
       </md-card-title>
       <md-card-content>
-        <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
-        <app-project-list [leaderId]="profileLeader._id">
+        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
+        <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
+        <app-project-list title="Проекти з заходами" [leaderId]="profileLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+        </app-project-list>
+
+        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length < 1" }'>
         </app-project-list>
       </md-card-content>
       <md-card-actions>
@@ -58,8 +62,5 @@
     </p>
     <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
   </div>
-
-  <!-- <app-project-list [maxCount]="10">
-  </app-project-list> -->
 
 </md-card>

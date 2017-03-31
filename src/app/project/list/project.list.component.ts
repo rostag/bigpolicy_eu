@@ -1,7 +1,7 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project/index';
+import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
@@ -14,20 +14,28 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectListComponent implements OnChanges {
 
-  @Input() leaderId;
-  @Input() maxCount = 100;
+  // List title
+  @Input() title = '';
 
-  private projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  // How many leaders to show and to request from db in single turn
+  @Input() pageSize = 5;
+
+  // For searching leaders in DB
+  @Input() dbQuery = '{}';
+
+  // An ID of the Leader managing the project
+  @Input() leaderId;
+
+  public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public itemsPage = {
+    docs: this.projects,
+    limit: this.pageSize,
+    page: 1,
+    pages: 0,
+    total: 0
+  };
 
   isAddingTaskMode = false;
-
-  ngOnChanges(changes) {
-    if (changes.leaderId && changes.leaderId.currentValue ) {
-      this.requestProjects(changes.leaderId.currentValue);
-    } else if (changes.maxCount && changes.maxCount.currentValue) {
-      this.requestProjects(null, changes.maxCount.currentValue);
-    }
-  }
 
   constructor(
     public userService: UserService,
@@ -35,12 +43,35 @@ export class ProjectListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  // WIP
-  requestProjects(leaderId = '', maxCount = 100) {
-    const proxySub = this.projectService.getProjects('', leaderId, maxCount).subscribe(projects => {
-      this.projects.next(projects);
-      proxySub.unsubscribe();
-    });
+  ngOnChanges(changes) {
+    if (changes.leaderId && changes.leaderId.currentValue ||
+        changes.pageSize && changes.pageSize.currentValue ||
+        changes.dbQuery && changes.dbQuery.currentValue) {
+      this.requestProjects();
+    }
+  }
+
+  pageChanged(pageNumber) {
+    this.itemsPage.page = pageNumber;
+    this.requestProjects();
+  }
+
+  requestProjects() {
+    const proxySub = this.projectService.getProjectsPage(
+        null,
+        this.leaderId,
+        this.itemsPage.page,
+        this.pageSize,
+        this.dbQuery)
+      .subscribe( (responsePage: ProjectModel) => {
+        // console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
   }
 
   deleteProject(projectToRemove: ProjectModel) {

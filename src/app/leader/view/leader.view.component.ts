@@ -48,7 +48,8 @@ export class LeaderViewComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data) {
+  setLeader(data: LeaderModel) {
+    // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
     this.leader = data;
   }
 
@@ -59,7 +60,6 @@ export class LeaderViewComponent implements OnInit {
   deleteLeader(leader: LeaderModel) {
     // Delete from DB
     this.leaderService.deleteLeader(leader);
-
     this.router.navigate(['/leaders']);
     return false;
   }

@@ -34,7 +34,6 @@ export class ProjectEditComponent implements OnInit {
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
-    this.leaderService.getLeaders().subscribe();
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
@@ -42,25 +41,16 @@ export class ProjectEditComponent implements OnInit {
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)
-          .subscribe(
-            data => {
-              this.setProject(data);
+            .subscribe((data: ProjectModel) => {
+              this.project = new ProjectModel();
+              this.project.parseData(data);
             },
             err => console.error(err),
             () => {}
           );
         }
-      });
-  }
-
-  /**
-   * Project loading handler
-   * @param {data} Loaded project data
-   */
-  setProject(data) {
-    // Immutability
-    this.project = new ProjectModel();
-    this.project.parseData(data);
+      }
+    );
   }
 
   /**
