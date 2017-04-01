@@ -190,31 +190,44 @@ export class LeaderService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  deleteLeader(model: LeaderModel, navigateToList = true) {
-    // TODO: Re-assign deleted Leader's projects to special person
-    // showDeleteConfirmationDialog
-    this.dialogService
-    .confirm('Точно видалити?', 'Ця дія незворотня, продовжити?')
-    .subscribe(result => {
-      console.log('DEL_DERV :: Завершуємо видалення діяча', this.leader.email, result);
+  deleteLeader(model: LeaderModel, navigateToList = true): Observable<boolean> {
+    // Show Delete Confirmation Dialog
+    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
 
-      // Go Delete Leader
-      this.http.delete(this.leaderApiUrl + model._id)
-      .map(res => {
-        console.log('DEL_DERV :: Leader deleted:', res.json());
-        return res;
-      })
-      .catch( this.handleError )
-      .subscribe((res) => {
-        console.log('DEL_DERV :: Leader for user set to null');
-        this.setLeaderForUser(null);
-        // Moved from edit/view
-        if (navigateToList) {
-          this.router.navigate(['/leaders']);
-        }
-      });
+    dialogResult.subscribe(toDelete => {
+      if (toDelete === true) {
+
+        // TODO: Re-assign deleted Leader's projects to special person
+        const dialogReassignProjects = this.dialogService.confirm('Що робити з проектами?',
+          `Видаляючи діяча, мусимо вирішити, що робити з його проектами.
+          Можна їх видалити, а можна залишити у системі і вони перейдуть у розпорядження тичасової адміністрації.
+          Що робити з проектами?`,
+          'Видалити', 'Залишити у системі');
+
+          dialogReassignProjects.subscribe(toDeleteProjects => {
+          if (toDeleteProjects === true) {
+            // TODO Delete Projects Firebase data
+            // TODO Delete Projects in DB
+            console.log('// Delete projects also');
+          } else {
+            // TODO Reassign projects to admin leader
+            console.log('// Reassign projects to admin');
+          }
+          // Go Delete Leader
+          // TODO Delete Leader Firebase data
+          // this.http.delete(this.leaderApiUrl + model._id)
+          // .map(res => { return res; })
+          // .catch( this.handleError )
+          // .subscribe((res) => {
+          //   this.setLeaderForUser(null);
+          //   if (navigateToList) {
+          //     this.router.navigate(['/leaders']);
+          //   }
+          // });
+        });
+      }
     });
-    console.log('DEL_DERV :: Returning');
+    return dialogResult;
   }
 
   gotoLeaderView(leader) {
