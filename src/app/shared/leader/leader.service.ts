@@ -1,6 +1,8 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DialogService } from '../../shared/dialog/dialog.service';
+
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -33,7 +35,8 @@ export class LeaderService {
    */
   constructor(
     private http: Http,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {}
 
   /**
@@ -187,16 +190,31 @@ export class LeaderService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  deleteLeader(model: LeaderModel) {
-    this.http.delete(this.leaderApiUrl + model._id)
+  deleteLeader(model: LeaderModel, navigateToList = true) {
+    // TODO: Re-assign deleted Leader's projects to special person
+    // showDeleteConfirmationDialog
+    this.dialogService
+    .confirm('Точно видалити?', 'Ця дія незворотня, продовжити?')
+    .subscribe(result => {
+      console.log('DEL_DERV :: Завершуємо видалення діяча', this.leader.email, result);
+
+      // Go Delete Leader
+      this.http.delete(this.leaderApiUrl + model._id)
       .map(res => {
-        console.log('Leader deleted:', res.json());
+        console.log('DEL_DERV :: Leader deleted:', res.json());
         return res;
       })
       .catch( this.handleError )
       .subscribe((res) => {
+        console.log('DEL_DERV :: Leader for user set to null');
         this.setLeaderForUser(null);
+        // Moved from edit/view
+        if (navigateToList) {
+          this.router.navigate(['/leaders']);
+        }
       });
+    });
+    console.log('DEL_DERV :: Returning');
   }
 
   gotoLeaderView(leader) {
@@ -213,6 +231,7 @@ export class LeaderService {
     if (!leader) {
       return;
     }
+    // FIXME Impersonation happens - check with admin editing different leaders (and see Profile then)
     console.log('👤 Leader service. Set leader for ', leader.email);
     this.leader = leader;
     // Notify observers;

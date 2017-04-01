@@ -72,7 +72,6 @@ export class LeaderListComponent implements OnInit, OnChanges {
       });
   }
 
-  // TODO: Re-assign deleted Leader's projects to special person
   deleteLeader(leaderToRemove: LeaderModel) {
     // Delete in UI
     let updatedLeaders;
@@ -82,7 +81,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
     this.leaders.next( updatedLeaders );
 
     // Delete from DB
-    this.leaderService.deleteLeader(leaderToRemove);
+    this.leaderService.deleteLeader(leaderToRemove, false);
     return false;
   }
 }
