@@ -19,6 +19,22 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * Deletes multiple Tasks by IDs
+   */
+  .put('/bulk-delete', function(req, res) {
+    console.log('task-api.put/bulk-delete', req.body.ids);
+    DB.bulkDeleteTasks(req.body.ids)
+      .then(function (data) {
+        console.log('DONE task-api.put/bulk-delete', data);
+        res.json(data);
+      })
+      .catch(function(err){
+        res.json(err);
+      });
+  })
+
+
+  /**
    * Updates Task by ID
    */
   .put('/:id', function(req, res) {

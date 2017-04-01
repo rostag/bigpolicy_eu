@@ -108,6 +108,28 @@ export class ProjectService {
   }
 
   /**
+   * Updates multiple projects by performing a request with PUT HTTP method.
+   * @param ids Project IDs to update
+   * @param data The data to be applied during update in {field: name} format
+   */
+  bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
+    // TODO Consider encoding the body like in create project above
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = {
+      ids: ids,
+      data: data
+    };
+
+    console.log('Project service, try to update:', ids, data, JSON.stringify(body));
+
+    return this.http.put(this.projectApiUrl + 'bulk-update', JSON.stringify(body), {headers: headers})
+      .map(res => res.json() )
+      .catch( this.handleError );
+  }
+
+  /**
    * Deletes a Project by performing a request with DELETE HTTP method.
    * @param ProjectModel Project to delete
    */
@@ -116,6 +138,27 @@ export class ProjectService {
       .map(res => console.log('Project deleted:', res.json()))
       .catch(this.handleError)
       .subscribe((res) => {});
+  }
+
+  /**
+  * Deleted multiple projects by performing a request with DELETE HTTP method.
+  * @param ids Project IDs to update
+  * @param data The data to be applied during update in {field: name} format
+  */
+  bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
+    // TODO Consider encoding the body like in create project above
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = {
+      ids: ids
+    };
+
+    console.log('Project service, try to delete:', ids, JSON.stringify(body));
+
+    return this.http.put(this.projectApiUrl + 'bulk-delete', JSON.stringify(body), {headers: headers})
+    .map(res => res.json() )
+    .catch( this.handleError );
   }
 
   private handleError(error: Response) {

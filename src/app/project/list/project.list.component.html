@@ -12,7 +12,7 @@
     <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}"> -->
     <!-- <md-icon color="accent">assignment</md-icon> -->
 
-    <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}</a></h3>
+    <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}. Заходів: {{project.tasks?.length}}</a></h3>
     <p md-line>
       {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH
     </p>

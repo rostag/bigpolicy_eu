@@ -36,7 +36,10 @@
         <md-card-content fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
           <app-image fxFlex="35%" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
           <div>
-            <b>Візія:</b> {{leader.vision}}
+            <div>
+              <b>Візія:</b> {{leader.vision}}
+            </div>
+            Проектів: {{leader.projects?.length}}
           </div>
         </md-card-content>
         <md-card-actions>
