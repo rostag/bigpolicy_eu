@@ -54,13 +54,11 @@ export class LeaderViewComponent implements OnInit {
   }
 
   /**
-   * Remove this leader
-   * @param {leader} Leader being viewed
+   * Removes the leader from DB
+   * @param {leader} Leader to delete
    */
   deleteLeader(leader: LeaderModel) {
-    // Delete from DB
     this.leaderService.deleteLeader(leader);
-    this.router.navigate(['/leaders']);
     return false;
   }
 }

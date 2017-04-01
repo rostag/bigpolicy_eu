@@ -19,6 +19,22 @@ module.exports = function(app, DB, DBLeader){
   })
 
   /**
+   * Updates multiple Projects by ID using data provided
+   */
+  .put('/bulk-update', function(req, res) {
+    const r = req.body;
+    console.log('project-api.put/bulk-update', r.ids, r.data);
+    DB.bulkUpdateProjects(r.ids, r.data)
+      .then(function (data) {
+        // console.log('DONE project-api.put/bulk-update', data);
+        res.json(data);
+      })
+      .catch(function(err){
+  	    res.json(err);
+    	});
+  })
+
+  /**
    * Updates Project by ID
    */
   .put('/:id', function(req, res) {

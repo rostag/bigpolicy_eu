@@ -72,17 +72,18 @@ export class LeaderListComponent implements OnInit, OnChanges {
       });
   }
 
-  // TODO: Re-assign deleted Leader's projects to special person
   deleteLeader(leaderToRemove: LeaderModel) {
-    // Delete in UI
-    let updatedLeaders;
-    this.leaders.subscribe ( projects => {
-      updatedLeaders = projects.filter( project => project._id !== leaderToRemove._id);
-    });
-    this.leaders.next( updatedLeaders );
-
     // Delete from DB
-    this.leaderService.deleteLeader(leaderToRemove);
+    this.leaderService.deleteLeader(leaderToRemove, false).subscribe( dialogResult => {
+      if (dialogResult === true ) {
+        // Delete in UI
+        let updatedLeaders;
+        this.leaders.subscribe ( projects => {
+          updatedLeaders = projects.filter( project => project._id !== leaderToRemove._id);
+        });
+        this.leaders.next( updatedLeaders );
+      }
+    });
     return false;
   }
 }

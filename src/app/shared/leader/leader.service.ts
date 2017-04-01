@@ -1,6 +1,9 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DialogService } from '../../shared/dialog/dialog.service';
+import { ProjectService } from '../../shared/project/project.service';
+
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -33,7 +36,9 @@ export class LeaderService {
    */
   constructor(
     private http: Http,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService,
+    private projectService: ProjectService
   ) {}
 
   /**
@@ -195,16 +200,58 @@ export class LeaderService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
    */
-  deleteLeader(model: LeaderModel) {
-    this.http.delete(this.leaderApiUrl + model._id)
-      .map(res => {
-        console.log('Leader deleted:', res.json());
-        return res;
-      })
-      .catch( this.handleError )
-      .subscribe((res) => {
-        this.setLeaderForUser(null);
-      });
+  deleteLeader(model: LeaderModel, navigateToList = true): Observable<boolean> {
+    // Show Delete Confirmation Dialog
+    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+
+    dialogResult.subscribe(toDelete => {
+      if (toDelete === true) {
+
+        // TODO: Re-assign deleted Leader's projects to special person
+        const dialogReassignProjects = this.dialogService.confirm('Що робити з проектами?',
+          `Видаляючи діяча, мусимо вирішити, що робити з його проектами.
+          Можна їх видалити, а можна залишити у системі і вони перейдуть у розпорядження тичасової адміністрації.
+          Що робити з проектами?`,
+          'Видалити', 'Залишити у системі');
+
+          dialogReassignProjects.subscribe(toDeleteProjects => {
+          if (toDeleteProjects === true) {
+            // TODO Delete Projects Firebase data
+            // TODO Delete Projects in DB
+            // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+            // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+            // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+            console.log('// Delete projects also');
+          } else {
+            // TODO Reassign projects to admin leader
+            console.log('// Reassign projects to admin');
+            // this.leader._id
+            const leaderToPassOwnershipTo = this.leader;
+            const projectsUpdate = this.projectService.bulkUpdateProjects(this.leader.projects,
+              {
+                managerId: 'XX' + leaderToPassOwnershipTo._id,
+                managerEmail: 'XX' + leaderToPassOwnershipTo.email,
+                managerName: 'ZZ' + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
+              });
+            projectsUpdate.subscribe((updateResult) => {
+              console.log('Proects update result:', updateResult);
+            });
+          }
+          // Go Delete Leader
+          // TODO Delete Leader Firebase data
+          // this.http.delete(this.leaderApiUrl + model._id)
+          // .map(res => { return res; })
+          // .catch( this.handleError )
+          // .subscribe((res) => {
+          //   this.setLeaderForUser(null);
+          //   if (navigateToList) {
+          //     this.router.navigate(['/leaders']);
+          //   }
+          // });
+        });
+      }
+    });
+    return dialogResult;
   }
 
   gotoLeaderView(leader) {
@@ -221,6 +268,7 @@ export class LeaderService {
     if (!leader) {
       return;
     }
+    // FIXME Impersonation happens - check with admin editing different leaders (and see Profile then)
     console.log('👤 Leader service. Set leader for ', leader.email);
     this.leader = leader;
     // Notify observers;
