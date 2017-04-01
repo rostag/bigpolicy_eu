@@ -224,15 +224,16 @@ export class LeaderService {
             console.log('// Delete projects also');
           } else {
             // TODO Reassign projects to admin leader
-            // this.leader._id
+            // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
+            // FIXME This must be Admin or Placeholder! Zero Leader!
             const leaderToPassOwnershipTo = this.leader;
             const data = {
               managerId: 'FIXME ' + leaderToPassOwnershipTo._id,
               managerEmail: 'FIXME ' + leaderToPassOwnershipTo.email,
               managerName: 'FIXME ' + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
             };
-            console.log('// Reassign projects to admin, IDs:', this.leader.projects, ', Fields:', data);
-            const projectsUpdate = this.projectService.bulkUpdateProjects(this.leader.projects, data);
+            console.log('// Reassign projects to admin, IDs:', model.projects, ', Fields:', data);
+            const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, data);
             projectsUpdate.subscribe((updateResult) => {
               console.log('Proects update result:', updateResult);
             });
