@@ -5,6 +5,8 @@
 var DBProject = {};
 var Project = require('./models/project');
 var Leader = require('./models/leader');
+var mongoose = require('mongoose');
+const DBTask = require('./db-task');
 
 /**
  * Creates a Project by provided data
@@ -52,10 +54,10 @@ DBProject.getProject = function(projectId) {
 
 /**
  * Returns a page of Projects either by given ids (if present), page number and limit, or DB query
- * @param projectIds project ID's to retrieve
- * @param page Page number to get from DB
- * @param limit Items per page to get from DB
- * @param dbQuery DB query to perform for filtering the results, searching etc
+ * @param projectIds {Array} project ID's to retrieve
+ * @param page {number} Page number to get from DB
+ * @param limit {number} Items per page to get from DB
+ * @param dbQuery {string} DB query to perform for filtering the results, searching etc
  */
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
   // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
@@ -96,6 +98,27 @@ DBProject.updateProject = function(id,data) {
     return model.save();
   });
 }
+/**
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param ids Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
+ */
+ // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+ // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+ // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+DBProject.bulkUpdateProjects = function(ids, data) {
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  console.log('DBProject.bulkUpdateProjects:', ids, data);
+  for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+  }
+  return bulk.execute();
+}
 
 DBProject.addProjectToLeader = function(error, savedProject) {
   // Add this project to the corresponding leader's array
@@ -121,6 +144,44 @@ DBProject.addProjectToLeader = function(error, savedProject) {
 // FIXME Need to delete a reference in Leader's projects array also
 DBProject.deleteProject = function(id) {
   return Project.findById(id).remove();
+}
+
+DBProject.bulkDeleteProjects = function(projectIds) {
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  console.log('DBProject.bulkDeleteProjects:', projectIds.length);
+
+  // FIXME - how to get all projects
+  return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
+    console.log('got paged projects:', pagedProjects.total);
+
+    let taskIds = [];
+
+    for (var p = 0; p < pagedProjects.docs.length; p++) {
+      let project = pagedProjects.docs[p];
+      taskIds = taskIds.concat(project.tasks);
+      console.log('---------project task to delete added:', taskIds);
+    }
+
+    for (var i = 0; i < projectIds.length; i++) {
+      var id = projectIds[i];
+      bulk.find({
+        '_id': mongoose.Types.ObjectId(id)
+      }).remove();
+    }
+
+    var tasksExec;
+    if (taskIds.length > 0) {
+      tasksExec = DBTask.bulkDeleteTasks(taskIds)
+        .then(tasksDeleted => {
+          console.log('tasks deleted:', tasksDeleted);
+        })
+        .catch(function(err){
+          console.log('errro - tasks deleted:', tasksDeleted);
+        });
+    }
+    return bulk.execute();
+  });
+
 }
 
 module.exports = DBProject;

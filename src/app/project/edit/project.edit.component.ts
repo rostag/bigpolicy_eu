@@ -136,11 +136,19 @@ export class ProjectEditComponent implements OnInit {
   }
 
   setNewLeader(event) {
-    const l = event.value;
-    console.log(`set new laders `, l);
-    this.project.managerId = l._id;
-    this.project.managerName = l.name + ' ' + l.surName;
-    this.project.managerEmail = l.email;
-  }
+    const leaderModel = new LeaderModel();
+    leaderModel.parseData(event.value);
+    console.log(`set new laders `, leaderModel);
+    this.project.managerId = leaderModel._id;
+    this.project.managerName = leaderModel.name + ' ' + leaderModel.surName;
+    this.project.managerEmail = leaderModel.email;
 
+    // Save the project for leader also;
+    if ( leaderModel.projects.indexOf(this.project._id) === -1 ) {
+      leaderModel.projects.push(this.project._id);
+      this.leaderService.updateLeader(leaderModel)
+      .subscribe(leaderSaved => { console.log('Updated leader: ', leaderSaved.name); });
+    }
+    this.saveProject();
+  }
 }

@@ -2,6 +2,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DialogService } from '../../shared/dialog/dialog.service';
+import { ProjectService } from '../../shared/project/project.service';
 
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
@@ -36,7 +37,8 @@ export class LeaderService {
   constructor(
     private http: Http,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private projectService: ProjectService
   ) {}
 
   /**
@@ -90,6 +92,14 @@ export class LeaderService {
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
+    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // if (groupId) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId;
+    // }
+    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
 
     // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
     // if (page !== null && limit !== null && groupId !== null) {
@@ -207,23 +217,43 @@ export class LeaderService {
           dialogReassignProjects.subscribe(toDeleteProjects => {
           if (toDeleteProjects === true) {
             // TODO Delete Projects Firebase data
-            // TODO Delete Projects in DB
+            // TODO Delete Tasks in DB
+            // TODO Delete Donations in DB?
+            // TODO Delete Task Donations in DB?
+            // DONE Delete Projects in DB
+            const projectsDelete = this.projectService.bulkDeleteProjects(model.projects);
+            projectsDelete.subscribe((deleteResult) => {
+              console.log('Proects delete result:', deleteResult);
+            });
             console.log('// Delete projects also');
           } else {
             // TODO Reassign projects to admin leader
-            console.log('// Reassign projects to admin');
+            // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
+            // FIXME This must be Admin or Placeholder! Zero Leader!
+            const leaderToPassOwnershipTo = this.leader;
+            const debugPrefix = '';
+            const data = {
+              managerId: debugPrefix + leaderToPassOwnershipTo._id,
+              managerEmail: debugPrefix + leaderToPassOwnershipTo.email,
+              managerName: debugPrefix + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
+            };
+            console.log('// Reassign projects to admin, IDs:', model.projects, ', Fields:', data);
+            const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, data);
+            projectsUpdate.subscribe((updateResult) => {
+              console.log('Proects update result:', updateResult);
+            });
           }
-          // Go Delete Leader
+          // Delete Leader
           // TODO Delete Leader Firebase data
-          // this.http.delete(this.leaderApiUrl + model._id)
-          // .map(res => { return res; })
-          // .catch( this.handleError )
-          // .subscribe((res) => {
-          //   this.setLeaderForUser(null);
-          //   if (navigateToList) {
-          //     this.router.navigate(['/leaders']);
-          //   }
-          // });
+          this.http.delete(this.leaderApiUrl + model._id)
+          .map(res => { return res; })
+          .catch( this.handleError )
+          .subscribe((res) => {
+            this.setLeaderForUser(null);
+            if (navigateToList) {
+              this.router.navigate(['/leaders']);
+            }
+          });
         });
       }
     });
