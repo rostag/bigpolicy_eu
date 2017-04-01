@@ -31,7 +31,7 @@ export class ProjectEditComponent implements OnInit {
     private projectService: ProjectService,
     private leaderService: LeaderService,
     private location: Location,
-    private userService: UserService
+    public userService: UserService
   ) {
     this.project = new ProjectModel();
   }
