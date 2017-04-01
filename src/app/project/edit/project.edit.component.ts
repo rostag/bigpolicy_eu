@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { Location } from '@angular/common';
 
 @Component({
@@ -20,12 +21,17 @@ export class ProjectEditComponent implements OnInit {
 
   project: ProjectModel;
 
+  // Used for changing leaders by admin
+  leaders: Array<LeaderModel> = null;
+  selectedLeader: LeaderModel = new LeaderModel();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
     private leaderService: LeaderService,
-    private location: Location
+    private location: Location,
+    public userService: UserService
   ) {
     this.project = new ProjectModel();
   }
@@ -74,6 +80,7 @@ export class ProjectEditComponent implements OnInit {
   saveProject(): boolean {
     if (this.isUpdateMode) {
       // Update existing project
+      this.selectedLeader = this.leaderService.leader;
       this.projectService.updateProject(this.project)
       .subscribe(
         data => { this.gotoProject(data); },
@@ -113,4 +120,27 @@ export class ProjectEditComponent implements OnInit {
   cancelEditing() {
     this.location.back();
   }
+
+  requestLeaders() {
+    // this.userService.isAdmin()
+    this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
+      .subscribe((res) => {
+        this.leaders = res['docs'];
+        console.log('got leaders: ', this.leaders);
+        for (const d in this.leaders) {
+          if ( this.leaders.hasOwnProperty(d)) {
+            console.log('got leader: ', this.leaders[d]._id, this.leaders[d].name);
+          }
+        }
+      });
+  }
+
+  setNewLeader(event) {
+    const l = event.value;
+    console.log(`set new laders `, l);
+    this.project.managerId = l._id;
+    this.project.managerName = l.name + ' ' + l.surName;
+    this.project.managerEmail = l.email;
+  }
+
 }

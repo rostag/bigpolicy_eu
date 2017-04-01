@@ -65,7 +65,12 @@ export class LeaderService {
   /**
    * Gets Leaders page from DB by given leaderId, groupId, page and limit
    * Returns an Observable for the HTTP GET request.
-   * @return {string[]} The Observable for the HTTP request.
+   * @param leaderId Leader ID to get.
+   * @param groupId Group to get Leaders for. Unused.
+   * @param page Page number.
+   * @param limit Qualntity of items to get.
+   * @param dbQuery Database search query.
+   * @return {Observable<LeaderModel>} The Observable for the HTTP request.
    */
   getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<LeaderModel> {
 
