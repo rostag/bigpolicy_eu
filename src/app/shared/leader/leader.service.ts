@@ -92,6 +92,14 @@ export class LeaderService {
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
+    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // if (groupId) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId;
+    // }
+    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
 
     // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
     // if (page !== null && limit !== null && groupId !== null) {
@@ -216,15 +224,15 @@ export class LeaderService {
             console.log('// Delete projects also');
           } else {
             // TODO Reassign projects to admin leader
-            console.log('// Reassign projects to admin');
             // this.leader._id
             const leaderToPassOwnershipTo = this.leader;
-            const projectsUpdate = this.projectService.bulkUpdateProjects(this.leader.projects,
-              {
-                managerId: 'XX' + leaderToPassOwnershipTo._id,
-                managerEmail: 'XX' + leaderToPassOwnershipTo.email,
-                managerName: 'ZZ' + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
-              });
+            const data = {
+              managerId: 'FIXME ' + leaderToPassOwnershipTo._id,
+              managerEmail: 'FIXME ' + leaderToPassOwnershipTo.email,
+              managerName: 'FIXME ' + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
+            };
+            console.log('// Reassign projects to admin, IDs:', this.leader.projects, ', Fields:', data);
+            const projectsUpdate = this.projectService.bulkUpdateProjects(this.leader.projects, data);
             projectsUpdate.subscribe((updateResult) => {
               console.log('Proects update result:', updateResult);
             });
