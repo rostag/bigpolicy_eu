@@ -1,13 +1,11 @@
 <md-card>
-    <!-- <md-card-title-group fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column"> -->
-      <md-card-title>{{leader.name}} {{leader.surName}}
-        <!-- FIXME
-          <a href><md-icon>thumb_up</md-icon></a>
-          <a href><md-icon>share</md-icon></a>
-          <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
-        -->
-      </md-card-title>
-    <!-- </md-card-title-group> -->
+    <md-card-title>{{leader.name}} {{leader.surName}}
+      <!-- FIXME
+        <a href><md-icon>thumb_up</md-icon></a>
+        <a href><md-icon>share</md-icon></a>
+        <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
+      -->
+    </md-card-title>
 
     <md-card-content>
 
@@ -17,15 +15,23 @@
           <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
         </div>
         <div fxFlex="65%">
-          <h2>Місія:</h2>
-          <p>{{leader.mission}}</p>
-          <h2>Візія:</h2>
-          <p>{{leader.vision}}</p>
+          <div *ngIf="leader.projects && leader.projects.length > 0">
+            <md-card-title>
+              Проекти:
+            </md-card-title>
+            <md-card-content>
+              <app-project-list [leaderId]="leader._id" pageSize="15"></app-project-list>
+            </md-card-content>
+          </div>
         </div>
       </div>
 
-      <!-- state="iframed.leader"  -->
       <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="{{leader.photo || 'assets/img/avatar.jpg'}}"></app-bp-video>
+
+      <h2>Місія:</h2>
+      <p>{{leader.mission}}</p>
+      <h2>Візія:</h2>
+      <p>{{leader.vision}}</p>
 
       <!-- FIXME <h2>Навички та вміння:</h2>
       <p>Аналітик, соціальний підприємець та консультант</p>
@@ -37,17 +43,6 @@
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
-
-      <!-- WIP -->
-
-      <div *ngIf="leader.projects && leader.projects.length > 0">
-        <md-card-title>
-          Проекти:
-        </md-card-title>
-        <md-card-content>
-          <app-project-list [leaderId]="leader._id" pageSize="15"></app-project-list>
-        </md-card-content>
-      </div>
 
     </md-card-content>
 
