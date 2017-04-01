@@ -6,7 +6,7 @@ export class ProjectModel {
   managerName = 'John Doe';
   managerId = '';
   managerEmail = '';
-  imageUrl: string = '';
+  imageUrl = '';
   // String type is used for conversion between DB and Date input formats
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());

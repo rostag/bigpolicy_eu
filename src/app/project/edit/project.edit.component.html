@@ -52,7 +52,7 @@
 
     </md-card-content>
 
-    <p>
+    <md-toolbar class="add-toolbar" color="#fff">
       <button type="submit" md-raised-button (click)="saveProject()" color="primary">
         <span *ngIf="!isUpdateMode">Додати</span>
         <span *ngIf="isUpdateMode">Зберегти</span>
@@ -61,7 +61,21 @@
       <button md-button (click)="cancelEditing()" color="primary">
         Відмінити
       </button>
-    </p>
+
+      <span class="add-fill-remaining"></span>
+
+      <div *ngIf="userService.isAdmin()">
+        <button *ngIf="!leaders" md-button (click)="requestLeaders()">Змінити лідера</button>
+        <form *ngIf="leaders">
+          <md-select placeholder="Select new leader" (change)="setNewLeader($event)" name="leader">
+            <md-option *ngFor="let leader of leaders" [value]="leader">
+              {{leader.name}} {{leader.surName}}
+            </md-option>
+          </md-select>
+          <!-- <p>Selected Leader: {{selectedLeader.name}} {{selectedLeader.surName}} </p> -->
+        </form>
+      </div>
+    </md-toolbar>
 
 </md-card>
 </form>

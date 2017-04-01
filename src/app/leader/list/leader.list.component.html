@@ -20,8 +20,8 @@
       </select>
     </p> -->
 
-    <div class="leaders-list">
-     <div *ngFor="let leader of itemsPage.docs | async | paginate: {
+    <div class="leaders-list" fxLayout="column" fxLayoutWrap="" fxLayoutGap="3%" fxLayout.gt-sm="row" >
+     <div fxFlex="45%" fxFlex.gt-md="30%" *ngFor="let leader of itemsPage.docs | async | paginate: {
                                                            id: 'leaderItemsPage',
                                                            itemsPerPage: this.pageSize,
                                                            currentPage: itemsPage.page,
