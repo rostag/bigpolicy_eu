@@ -2,6 +2,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DialogService } from '../../shared/dialog/dialog.service';
+import { ProjectService } from '../../shared/project/project.service';
 
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
@@ -36,7 +37,8 @@ export class LeaderService {
   constructor(
     private http: Http,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private projectService: ProjectService
   ) {}
 
   /**
@@ -208,10 +210,24 @@ export class LeaderService {
           if (toDeleteProjects === true) {
             // TODO Delete Projects Firebase data
             // TODO Delete Projects in DB
+            // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+            // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+            // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
             console.log('// Delete projects also');
           } else {
             // TODO Reassign projects to admin leader
             console.log('// Reassign projects to admin');
+            // this.leader._id
+            const leaderToPassOwnershipTo = this.leader;
+            const projectsUpdate = this.projectService.bulkUpdateProjects(this.leader.projects,
+              {
+                managerId: 'XX' + leaderToPassOwnershipTo._id,
+                managerEmail: 'XX' + leaderToPassOwnershipTo.email,
+                managerName: 'ZZ' + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
+              });
+            projectsUpdate.subscribe((updateResult) => {
+              console.log('Proects update result:', updateResult);
+            });
           }
           // Go Delete Leader
           // TODO Delete Leader Firebase data

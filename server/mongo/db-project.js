@@ -5,6 +5,7 @@
 var DBProject = {};
 var Project = require('./models/project');
 var Leader = require('./models/leader');
+var mongoose = require('mongoose');
 
 /**
  * Creates a Project by provided data
@@ -95,6 +96,24 @@ DBProject.updateProject = function(id,data) {
     }
     return model.save();
   });
+}
+/**
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param ids Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
+ */
+DBProject.bulkUpdateProjects = function(ids, data) {
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  console.log('DBProject.bulkUpdateProjects:', ids, data);
+  for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+  }
+  return bulk.execute();
 }
 
 DBProject.addProjectToLeader = function(error, savedProject) {
