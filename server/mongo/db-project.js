@@ -106,13 +106,14 @@ DBProject.updateProject = function(id,data) {
  * Updates multiple Projects by given ID in one turn using provided {data}
  * @param projectIds Array of Project IDs.
  * @param data Data to set in format { managerId: value }
+ * @private
  */
- // TODO Check it better to refactor to make single method of update, merging this method with updateProject (above)
+ // TODO Check it's better to refactor to make single method of update, merging this method with updateProject (above)
  // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
  // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
  // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
 DBProject.bulkUpdateProjects = function(projectIds, data) {
-  console.log('DBProject.bulkUpdateProjects:', projectIds, data);
+  console.log('DBProject.bulk UpdateProjects:', projectIds, data);
   var bulk = Project.collection.initializeOrderedBulkOp();
   for (var i = 0; i < projectIds.length; i++) {
       var id = projectIds[i];
@@ -127,7 +128,6 @@ DBProject.bulkUpdateProjects = function(projectIds, data) {
   return bulk.execute();
 }
 
-// TODO The same approach for tasks
 /**
  * Adds or removes Projects to Leader by given Project and Leader IDs.
  * Used for reassigning project to another leader and on project or leader deletion)
@@ -152,14 +152,11 @@ DBProject.addOrRemoveProjectForLeader = function(projectIds, managerId, toRemove
       }
       console.log('\tNow projects: ', leader.projects);
 
-      leader.update({ projects: leader.projects },
-        function (error, leader) { console.log('< Leader projects updated');
-      })
+      leader.update({ projects: leader.projects }, (error, leader) => { console.log('< Leader projects updated'); });
     }
   });
 }
 
-// FIXME Need to do the same for tasks
 DBProject.deleteProject = function(id) {
   return Project.findById(id).then(project => {
     DBProject.addOrRemoveProjectForLeader([project._id], project.managerId, true);
@@ -167,22 +164,16 @@ DBProject.deleteProject = function(id) {
   });
 }
 
+// FIXME Need to do the same for tasks
 DBProject.bulkDeleteProjects = function(projectIds) {
   var bulk = Project.collection.initializeOrderedBulkOp();
-  console.log('DBProject.bulkDeleteProjects:', projectIds.length);
+  console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
 
   // FIXME - how to get all projects
   return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
-    console.log('got paged projects:', pagedProjects.total);
+    console.log(' - Got paged projects:', pagedProjects.total);
 
-    let taskIds = [];
-
-    for (var p = 0; p < pagedProjects.docs.length; p++) {
-      let project = pagedProjects.docs[p];
-      taskIds = taskIds.concat(project.tasks);
-      console.log('---------project task to delete added:', taskIds);
-    }
-
+    // Delete projects
     for (var i = 0; i < projectIds.length; i++) {
       var id = projectIds[i];
       bulk.find({
@@ -190,14 +181,22 @@ DBProject.bulkDeleteProjects = function(projectIds) {
       }).remove();
     }
 
+    // Gather all taskId's to delete together with Project
+    let taskIds = [];
+    for (var p = 0; p < pagedProjects.docs.length; p++) {
+      let project = pagedProjects.docs[p];
+      taskIds = taskIds.concat(project.tasks);
+      console.log(' - Project task to delete added:', taskIds);
+    }
+
     var tasksExec;
     if (taskIds.length > 0) {
       tasksExec = DBTask.bulkDeleteTasks(taskIds)
         .then(tasksDeleted => {
-          // console.log('tasks deleted:', tasksDeleted);
+          console.log('< Tasks deleted:', tasksDeleted);
         })
         .catch(function(err){
-          console.log('errro - tasks deleted:', tasksDeleted);
+          console.log('< Error of task deletion:', tasksDeleted);
         });
     }
     return bulk.execute();

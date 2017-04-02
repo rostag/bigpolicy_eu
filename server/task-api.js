@@ -19,6 +19,22 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * Updates multiple Tasks by ID using data provided
+   */
+  .put('/bulk-update', function(req, res) {
+    const r = req.body;
+    console.log('> task-api.put/bulk-update', r.ids, r.data);
+    DB.bulkUpdateTasks(r.ids, r.data)
+      .then(function (data) {
+        console.log('< task-api.put/bulk-update', data);
+        res.json(data);
+      })
+      .catch(function(err){
+  	    res.json(err);
+    	});
+  })
+
+  /**
    * Deletes multiple Tasks by IDs
    */
   .put('/bulk-delete', function(req, res) {
@@ -32,7 +48,6 @@ module.exports = function(app, DB, DBProject){
         res.json(err);
       });
   })
-
 
   /**
    * Updates Task by ID

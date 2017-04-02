@@ -21,7 +21,7 @@ export class ProjectEditComponent implements OnInit {
 
   project: ProjectModel;
 
-  // Used for changing leaders by admin
+  // FIXME Used for changing leaders by admin - Extract to separate component
   leaders: Array<LeaderModel> = null;
   currentLeader: LeaderModel = new LeaderModel();
 
@@ -61,14 +61,14 @@ export class ProjectEditComponent implements OnInit {
   }
 
   /**
-   * Remove this project
+   * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
    * @param {project} Project being viewed
    */
   private deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project);
+    this.projectService.deleteProject(project, true);
 
-    this.router.navigate(['/projects']);
+    // this.router.navigate(['/projects']);
     return false;
   }
 
@@ -122,7 +122,8 @@ export class ProjectEditComponent implements OnInit {
     this.location.back();
   }
 
-  requestLeaders() {
+  // FIXME Move to service / component
+  requestLeadersToSelectFrom() {
     // this.userService.isAdmin()
     this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
       .subscribe((res) => {
@@ -145,7 +146,7 @@ export class ProjectEditComponent implements OnInit {
    */
   // FIXME CHECK how to reuse projects Re-assign from leaderService.deleteLeader method
   // FIXME Move it to Service
-  setNewProjectLeader(event) {
+  moveProjectToOtherLeader(event) {
     const newLeader = new LeaderModel();
     newLeader.parseData(event.value);
     console.log(`> Move Project to: `, newLeader.email);

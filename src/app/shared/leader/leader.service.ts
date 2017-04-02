@@ -1,5 +1,5 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { ProjectService } from '../../shared/project/project.service';
@@ -196,6 +196,8 @@ export class LeaderService {
       .catch(this.handleError);
   }
 
+  // TODO Bulk Update Leaders.
+
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param LeaderModel A Leader to delete
@@ -210,8 +212,8 @@ export class LeaderService {
         this.finalizeLeaderDeletion(model, navigateToList);
 
         if (model.projects && model.projects.length > 0) {
-          this.dialogService.confirm('Що робити з проектами?', `У цього діяса є проекти. Видалити їх чи залишити у системі?
-            Тоді вони перейдуть у розпорядження тичасової адміністрації. Як вчинимо?`, 'Видалити', 'Залишити у системі')
+          this.dialogService.confirm('Що робити з проектами?', `У діяча є проекти. Видалити їх, чи залишити у системі, передавши
+            до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteProjects => {
             if (toDeleteProjects === true) {
               // Delete Projects and Tasks in DB
@@ -254,6 +256,7 @@ export class LeaderService {
     });
   }
 
+  // TODO Check if the same can be done for projects
   gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     const leaderId = leader._id;
