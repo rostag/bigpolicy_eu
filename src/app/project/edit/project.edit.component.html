@@ -67,7 +67,7 @@
       <div *ngIf="userService.isAdmin()">
         <button *ngIf="!leaders" md-button (click)="requestLeaders()">Змінити лідера</button>
         <form *ngIf="leaders">
-          <md-select placeholder="Select new leader" (change)="setNewLeader($event)" name="leader">
+          <md-select placeholder="Select new leader" (change)="setNewProjectLeader($event)" name="leader">
             <md-option *ngFor="let leader of leaders" [value]="leader">
               {{leader.name}} {{leader.surName}}
             </md-option>

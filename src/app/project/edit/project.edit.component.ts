@@ -23,7 +23,7 @@ export class ProjectEditComponent implements OnInit {
 
   // Used for changing leaders by admin
   leaders: Array<LeaderModel> = null;
-  selectedLeader: LeaderModel = new LeaderModel();
+  currentLeader: LeaderModel = new LeaderModel();
 
   constructor(
     private route: ActivatedRoute,
@@ -80,7 +80,8 @@ export class ProjectEditComponent implements OnInit {
   saveProject(): boolean {
     if (this.isUpdateMode) {
       // Update existing project
-      this.selectedLeader = this.leaderService.leader;
+      // FIXME
+      // this.selectedLeader = this.leaderService.leader;
       this.projectService.updateProject(this.project)
       .subscribe(
         data => { this.gotoProject(data); },
@@ -130,24 +131,41 @@ export class ProjectEditComponent implements OnInit {
         for (const d in this.leaders) {
           if ( this.leaders.hasOwnProperty(d)) {
             console.log('got leader: ', this.leaders[d]._id, this.leaders[d].name);
+            if ( this.project.managerId === this.leaders[d]._id) {
+              // Memorize current leader for later usage - we'll remove project from him:
+              this.currentLeader.parseData(this.leaders[d]);
+            }
           }
         }
       });
   }
 
-  setNewLeader(event) {
-    const leaderModel = new LeaderModel();
-    leaderModel.parseData(event.value);
-    console.log(`set new laders `, leaderModel);
-    this.project.managerId = leaderModel._id;
-    this.project.managerName = leaderModel.name + ' ' + leaderModel.surName;
-    this.project.managerEmail = leaderModel.email;
+  /**
+   * Assigns project to another leader
+   */
+  // FIXME CHECK how to reuse projects Re-assign from leaderService.deleteLeader method
+  setNewProjectLeader(event) {
+    const newLeaderModel = new LeaderModel();
+    newLeaderModel.parseData(event.value);
+    this.project.managerId = newLeaderModel._id;
+    this.project.managerName = newLeaderModel.name + ' ' + newLeaderModel.surName;
+    this.project.managerEmail = newLeaderModel.email;
+    console.log(`Set new Leader: `, newLeaderModel.email);
 
-    // Save the project for leader also;
-    if ( leaderModel.projects.indexOf(this.project._id) === -1 ) {
-      leaderModel.projects.push(this.project._id);
-      this.leaderService.updateLeader(leaderModel)
-      .subscribe(leaderSaved => { console.log('Updated leader: ', leaderSaved.name); });
+    // Save the project for new leader and delete from old:
+    if ( newLeaderModel.projects.indexOf(this.project._id) === -1 ) {
+      newLeaderModel.projects.push(this.project._id);
+      this.leaderService.updateLeader(newLeaderModel)
+      .subscribe(newLeaderSaved => {
+        console.log('Project added to new leader: ', newLeaderSaved.name);
+
+        // Remove project from old leader:
+        this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
+        this.leaderService.updateLeader(this.currentLeader)
+        .subscribe(oldLeaderSaved => {
+          console.log('Project removed from previous leader: ', oldLeaderSaved.name);
+        });
+      });
     }
     this.saveProject();
   }

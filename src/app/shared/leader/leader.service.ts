@@ -206,58 +206,52 @@ export class LeaderService {
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
+        // Delete Leader immediately and, if there are projects, re-assign them to other Leader (admin)
+        this.finalizeLeaderDeletion(model, navigateToList);
 
-        // TODO: Re-assign deleted Leader's projects to special person
-        const dialogReassignProjects = this.dialogService.confirm('Що робити з проектами?',
-          `Видаляючи діяча, мусимо вирішити, що робити з його проектами.
-          Можна їх видалити, а можна залишити у системі і вони перейдуть у розпорядження тичасової адміністрації.
-          Що робити з проектами?`,
-          'Видалити', 'Залишити у системі');
-
-          dialogReassignProjects.subscribe(toDeleteProjects => {
-          if (toDeleteProjects === true) {
-            // TODO Delete Projects Firebase data
-            // TODO Delete Tasks in DB
-            // TODO Delete Donations in DB?
-            // TODO Delete Task Donations in DB?
-            // DONE Delete Projects in DB
-            const projectsDelete = this.projectService.bulkDeleteProjects(model.projects);
-            projectsDelete.subscribe((deleteResult) => {
-              console.log('Proects delete result:', deleteResult);
-            });
-            console.log('// Delete projects also');
-          } else {
-            // TODO Reassign projects to admin leader
-            // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
-            // FIXME This must be Admin or Placeholder! Zero Leader!
-            const leaderToPassOwnershipTo = this.leader;
-            const debugPrefix = '';
-            const data = {
-              managerId: debugPrefix + leaderToPassOwnershipTo._id,
-              managerEmail: debugPrefix + leaderToPassOwnershipTo.email,
-              managerName: debugPrefix + leaderToPassOwnershipTo.name + ' ' + leaderToPassOwnershipTo.surName
-            };
-            console.log('// Reassign projects to admin, IDs:', model.projects, ', Fields:', data);
-            const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, data);
-            projectsUpdate.subscribe((updateResult) => {
-              console.log('Proects update result:', updateResult);
-            });
-          }
-          // Delete Leader
-          // TODO Delete Leader Firebase data
-          this.http.delete(this.leaderApiUrl + model._id)
-          .map(res => { return res; })
-          .catch( this.handleError )
-          .subscribe((res) => {
-            this.setLeaderForUser(null);
-            if (navigateToList) {
-              this.router.navigate(['/leaders']);
+        if (model.projects && model.projects.length > 0) {
+          this.dialogService.confirm('Що робити з проектами?', `У цього діяса є проекти. Видалити їх чи залишити у системі?
+            Тоді вони перейдуть у розпорядження тичасової адміністрації. Як вчинимо?`, 'Видалити', 'Залишити у системі')
+            .subscribe(toDeleteProjects => {
+            if (toDeleteProjects === true) {
+              // Delete Projects and Tasks in DB
+              // TODO Delete Projects Firebase data
+              // TODO Delete Donations and Task Donations?
+              this.projectService.bulkDeleteProjects(model.projects)
+              .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
+            } else {
+              // Reassign projects to another Leader (this/Admin)
+              // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
+              const newLeader = this.leader;
+              const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, {
+                managerId: newLeader._id,
+                managerEmail: newLeader.email,
+                managerName: newLeader.name + ' ' + newLeader.surName
+              });
+              projectsUpdate.subscribe((updateResult) => { console.log('Projects update result:', updateResult); });
             }
+            this.finalizeLeaderDeletion(model, navigateToList);
           });
-        });
+        } // If Project reassignment was needed
       }
     });
     return dialogResult;
+  }
+
+  /*
+   * Deletes Leader
+   */
+  finalizeLeaderDeletion(leaderModel: LeaderModel, navigateToList = true) {
+    // TODO Delete Leader Firebase data
+    this.http.delete(this.leaderApiUrl + leaderModel._id)
+    .map(res => { return res; })
+    .catch( this.handleError )
+    .subscribe((res) => {
+      this.setLeaderForUser(null);
+      if (navigateToList) {
+        this.router.navigate(['/leaders']);
+      }
+    });
   }
 
   gotoLeaderView(leader) {

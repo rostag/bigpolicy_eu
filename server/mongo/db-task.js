@@ -118,10 +118,10 @@ DBTask.deleteTask = function(id) {
 
 DBTask.bulkDeleteTasks = function(ids) {
   var bulk = Task.collection.initializeOrderedBulkOp();
-  console.log('DBTask.bulkDeleteTasks:', ids);
+  // console.log('DBTask.bulkDeleteTasks:', ids);
   for (var i = 0; i < ids.length; i++) {
     var id = ids[i];
-    console.log('DBTask.bulkDeleteTasks: ID=', id);
+    // console.log('DBTask.bulkDeleteTasks: ID=', id);
     bulk.find({
       '_id': mongoose.Types.ObjectId(id)
     }).remove();
