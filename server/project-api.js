@@ -35,6 +35,23 @@ module.exports = function(app, DB, DBLeader){
   })
 
   /**
+   * Deletes multiple Projects by IDs
+   */
+  .put('/bulk-delete', function(req, res) {
+    // console.log('project-api.put/bulk-delete', req.body.ids);
+
+    // TODO Delete associated Project' tasks
+    DB.bulkDeleteProjects(req.body.ids)
+      .then(function (data) {
+        // console.log('DONE project-api.put/bulk-delete', data);
+        res.json(data);
+      })
+      .catch(function(err){
+        res.json(err);
+      });
+  })
+
+  /**
    * Updates Project by ID
    */
   .put('/:id', function(req, res) {

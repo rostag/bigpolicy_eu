@@ -80,9 +80,9 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
 }
 
 /**
- * Creates a Leader by provided ID and data
- * @param id Leader ID to update
- * @param dataObj Properties object of Leader to be created
+ * Updates a Leader by provided ID and data
+ * @param id {string} Leader ID to update
+ * @param dataObj {Object} Properties object of Leader to be created
  */
 DBLeader.updateLeader = function(id, data) {
   if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {

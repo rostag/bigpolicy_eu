@@ -140,6 +140,27 @@ export class ProjectService {
       .subscribe((res) => {});
   }
 
+  /**
+  * Deleted multiple projects by performing a request with DELETE HTTP method.
+  * @param ids Project IDs to update
+  * @param data The data to be applied during update in {field: name} format
+  */
+  bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
+    // TODO Consider encoding the body like in create project above
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = {
+      ids: ids
+    };
+
+    console.log('Project service, try to delete:', ids, JSON.stringify(body));
+
+    return this.http.put(this.projectApiUrl + 'bulk-delete', JSON.stringify(body), {headers: headers})
+    .map(res => res.json() )
+    .catch( this.handleError );
+  }
+
   private handleError(error: Response) {
     console.error('Error occured:', error);
     return Observable.throw(error.json().error || 'Server error');

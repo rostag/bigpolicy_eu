@@ -8,8 +8,11 @@ export class DialogService {
 
   constructor(private dialog: MdDialog) { }
 
-    public confirm(title: string, message: string,
-      btnOkText: string = 'Ok', btnCancelText: string = 'Cancel',
+    public confirm(
+      title: string,
+      message: string,
+      btnOkText: string = 'Ok',
+      btnCancelText: string = 'Cancel',
       viewContainerRef?: ViewContainerRef): Observable<boolean> {
 
         // Docs: https://material.angular.io/components/component/dialog

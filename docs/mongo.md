@@ -18,3 +18,10 @@ If it's installed, you will get version info. Install MongoDB if it's missing.
 4. Run local server as usual:
 
   'ng serve'
+
+## Backup and restore your local Database
+
+```
+cd ~/dev/bp && mongodump --db=bigpolicy --out=./data-dump --verbose
+cd ~/dev/bp && mongorestore --db bigpolicy ./data-dump/bigpolicy --drop
+```
