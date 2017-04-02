@@ -75,9 +75,6 @@ module.exports = function(app, DB){
 
   app.use('/leader-api', router);
 
-  // OBSOLETE CODE
-  // TO BE REMOVED AFTER TESTING
-
   /**
    * RESERVED
    * Gets page of leaders for the given group, example:
@@ -92,5 +89,5 @@ module.exports = function(app, DB){
   //     })
   //     .catch( err => res.json(err));
   // })
-  
+
 }

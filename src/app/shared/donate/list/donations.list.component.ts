@@ -78,12 +78,4 @@ export class DonationsListComponent implements OnChanges {
       });
   }
 
-// OBSOLETE
-  // private requestDonations() {
-  //   const proxySub = this.donationService.getDonations('', this.target._id, this.targetType, ).subscribe(donations => {
-  //     this.donations.next(donations);
-  //     proxySub.unsubscribe();
-  //   });
-  // }
-
 }

@@ -92,24 +92,6 @@ export class LeaderService {
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
-    // if (groupId) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId;
-    // }
-    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
-    // if (page !== null && limit !== null && groupId !== null) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
-    // }
-
-    // RESERVED: Page of Leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
-    // if (page !== null && limit !== null && groupId !== null) {
-    //   requestUrl = this.leaderApiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
-    // }
-
-    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
-    // if (groupId) {
-    //   requestUrl = this.leaderApiUrl + 'group/' + groupId;
-    // }
 
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
 
@@ -140,37 +122,11 @@ export class LeaderService {
     // } else {
     // }
 
-    // const leaderResponse = this.http.get(this.leaderApiUrl + 'email/' + email)
-    //   .map((res: LeaderModel) => {
-    //     return res.json();
-    //   });
-    //
-    // leaderResponse.subscribe( lead => this.setLeaderForUser(lead));
-
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
     leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }
-
-  /**
-   * Get all models from DB
-   * Returns an Observable for the HTTP GET request.
-   * If there was a previous successful request
-   * (the local models array is defined and has elements), the cached version is returned
-   * @return {string[]} The Observable for the HTTP request.
-   */
-  // getLeadeasdfafrs(modelId = ''): Observable<LeaderModel> {
-  //   // TODO: Local caching
-  //   if (this.models && this.models.length) {
-  //     return Observable.from([this.models]);
-  //   }
-  //   return this.http.get(this.leaderApiUrl + modelId)
-  //     .map((res: LeaderModel) => {
-  //       this.models = res.json();
-  //       return this.models;
-  //     });
-  // }
 
   private findCachedLeaderByEmail(email: string): LeaderModel {
     const leaders = this.models;
@@ -196,7 +152,7 @@ export class LeaderService {
       .catch(this.handleError);
   }
 
-  // TODO Bulk Update Leaders.
+  // TODO Bulk Update Leaders (Like Project and Tasks).
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.

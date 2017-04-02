@@ -51,15 +51,6 @@ DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
   return Donation.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
-// OBSOLETE
-// Will return a list of items with given ids, if ids are provided, or all items
-// DBDonation.listDonations = function(donationIds) {
-//   // console.log('DBDonation.listDonations (by id):', donationIds )
-//   return donationIds
-//     ? Donation.find({ '_id': { $in: donationIds } })
-//     : Donation.find()
-// }
-
 DBDonation.createDonation = function(data) {
   for ( var item in data ) {
     data = JSON.parse(item);

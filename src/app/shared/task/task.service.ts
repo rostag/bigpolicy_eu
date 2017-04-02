@@ -58,12 +58,6 @@ export class TaskService {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // OBSOLETE
-    // All Tasks for Project:         /task-api/project/:projectId/
-    // if (projectId) {
-    //   requestUrl = this.apiUrl + 'project/' + projectId;
-    // }
-
     // console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
