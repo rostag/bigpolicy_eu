@@ -89,21 +89,6 @@ module.exports = function(app, DB, DBLeader){
   })
 
   /**
-   * OBSOLETE
-   * Gets all projects for the given leader:
-   * /project-api/leader/id
-   */
-  // .get('/leader/:leaderId', function (req, res) {
-  //   DBLeader.getLeader( req.params.leaderId )
-  //     .then( (leader) => {
-  //       DB.listProjects(leader.projects)
-  //         .then( data => res.json(data))
-  //         .catch( err => res.json(err))
-  //     })
-  //     .catch( err => res.json(err));
-  // })
-
-  /**
    * Gets page of projects for the given leader, example:
    * /project-api/leader/leaderId/page/1/1/q/:dbQuery
    */
@@ -130,21 +115,6 @@ module.exports = function(app, DB, DBLeader){
       .then( data => res.json(data))
       .catch( err => res.json(err));
   });
-
-  /**
-   * OBSOLETE
-   * Gets all projects
-   * /project-api/
-   */
-  // .get('*', function (req, res) {
-  //     DB.listProjects()
-  //     .then(function (data) {
-  //         res.json(data);
-  //     })
-  //     .catch(function(err){
-  //         res.json(err);
-  //     });
-  // });
 
   app.use('/project-api', router);
 }

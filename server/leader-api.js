@@ -79,10 +79,10 @@ module.exports = function(app, DB){
   // TO BE REMOVED AFTER TESTING
 
   /**
-  * RESERVED - For future use
-  * Gets page of leaders for the given group, example:
-  * /leader-api/group/groupId/page/1/1
-  */
+   * RESERVED
+   * Gets page of leaders for the given group, example:
+   * /leader-api/group/groupId/page/1/1
+   */
   // .get('/group/:groupId/page/:page/:limit', function (req, res) {
   //   DBLeader.getPageOfLeaders( p.leaderId )
   //     .then((leader) => {
@@ -92,65 +92,5 @@ module.exports = function(app, DB){
   //     })
   //     .catch( err => res.json(err));
   // })
-
-  /**
-  * NOT USED - reserved for future
-  * Gets page of leaders for the given party, example:
-  * /leader-api/party/partyId/page/1/1
-  */
-  // .get('/party/:partyId/page/:page/:limit', function (req, res) {
-  //   DBLeader.getPageOfLeaders( req.params.leaderId )
-  //     .then((leader) => {
-  //       DB.getPage(party.leaders, req.params.page, req.params.limit)
-  //         .then( data => res.json(data))
-  //         .catch( err => res.json(err))
-  //     })
-  //     .catch( err => res.json(err));
-  // })
-
-  /**
-   * OBSOLETE
-   * Gets all leaders, example:
-   * /leader-api/
-   */
-  // .get('*', function (req, res)     {
-  //   DB.listLeaders()
-  //   .then(function (data) {
-  //     res.json(data);
-  //   })
-  //   .catch(function(err){
-  //     res.json(err);
-  //   });
-  // })
-
-  /**
-   * OBSOLETE - by using more generic approach (below)
-   * Gets the Leader by email, example:
-   * /leader-api/email/foo@bar.com
-   */
-  // .get('/email/:email', function (req, res) {
-  //   if (p.email) {
-  //     DB.findLeaderByEmail(p.email)
-  //     .then(function (data) {
-  //       res.json(data);
-  //     });
-  //   }
-  // })
-
-  /**
-   * OBSOLETE
-   * TODO Check it's not needed
-   * Gets all projects for leader, example:
-   * /leader-api/id/projects
-   */
-  // .get('/:id/projects', function (req, res)     {
-  //   DB.listProjects(p.id)
-  //   .then(function (data) {
-  //     res.json(data);
-  //   })
-  //   .catch(function(err){
-  //     res.json(err);
-  //   });
-  // });
-
+  
 }

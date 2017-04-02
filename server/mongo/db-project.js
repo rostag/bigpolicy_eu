@@ -15,11 +15,9 @@ const DBLeader = require('./db-leader');
  */
 DBProject.createProject = function(dataObj) {
   var data = dataObj;
-
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-
   // console.log('DBProject: CreateProject: ', data)
 
   if (!data.title || !data.description) {
@@ -29,9 +27,11 @@ DBProject.createProject = function(dataObj) {
   if (!data) data = {};
 
   const projectModel = new Project(data);
-  var addedToLeader = projectModel.save(DBProject.addProjectToLeader);
+  var addedToLeader = projectModel.save( (err, project) => {
+    if (err) { console.log('Project saving error: ', err); }
+    DBProject.addOrRemoveProjectForLeader([project._id], project.managerId, false);
+  });
   return projectModel.save(addedToLeader);
-  // return projectModel.save(DBProject.addProjectToLeader)
 }
 
 /**
@@ -56,7 +56,7 @@ DBProject.getProject = function(projectId) {
 }
 
 /**
- * Returns a page of Projects either by given ids (if present), page number and limit, or DB query
+ * Returns a page of Projects either by given projectIds (if present), page number and limit, or DB query
  * @param projectIds {Array} project ID's to retrieve
  * @param page {number} Page number to get from DB
  * @param limit {number} Items per page to get from DB
@@ -128,66 +128,67 @@ DBProject.bulkUpdateProjects = function(ids, data) {
   return bulk.execute();
 }
 
-// FIXME Finalize Adding Projects to another leader
 /**
- * Adds Project to Leader by given Project Data
- * @param error Error object
- * @param projectData {Object} Project data in following format:
- * {
- *   id: Project ID
- *   projectIds: Project IDs — if adding multiple projects (used when reassigning project from deleted leader)
- *   managerId: Leader ID to add the project to
- * }
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param projectIds Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
  */
-DBProject.addProjectToLeader = function(error, projectData) {
-  // Add this project to the corresponding leader's array
-  console.log('DBProject.add ProjectToLeader - find this project leader by leaderId: ', projectData.managerId);
+ // TODO Check it better to refactor to make single method of update, merging this method with updateProject (above)
+ // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+ // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+ // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+DBProject.bulkUpdateProjects = function(projectIds, data) {
+  console.log('DBProject.bulkUpdateProjects:', projectIds, data);
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  for (var i = 0; i < projectIds.length; i++) {
+      var id = projectIds[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+  }
+  DBProject.addOrRemoveProjectForLeader(projectIds, data.managerId, false);
 
-  var leaderByIdQuery = Leader.where({ _id: projectData.managerId });
+  return bulk.execute();
+}
 
-  leaderByIdQuery.findOne( function (err, leader) {
+// TODO The same approach for tasks
+/**
+ * Adds or removes Projects to Leader by given Project and Leader IDs.
+ * Used for reassigning project to another leader and on project or leader deletion)
+ * @param projectIds: {Array} Project IDs to adding or remove.
+ * @param managerId {string} Target Leader ID.
+ */
+DBProject.addOrRemoveProjectForLeader = function(projectIds, managerId, toRemove) {
+  console.log('> DBProject.add Or Remove Project For Leader, managerId:', managerId);
+
+  Leader.findOne( { _id: managerId }, function (err, leader) {
     if( leader ) {
-      console.log('\tProject leader found: ', leader.name);
-      console.log('\tAnd his projects: ', leader.projects);
+      console.log(`\tLeader found: ${leader.name}\n\tHis projects: ', ${leader.projects}\n\tA projects to`, toRemove ? 'remove:' : 'add:', projectIds);
 
-      // Adding multiple or single project
-      if (projectData.projectIds) {
-        for (var i = 0; i < projectData.projectIds.length; i++) {
-          console.log('\tA project(s) to add: ', projectData.projectIds[i]);
-          leader.projects.push(projectData.projectIds[i]);
+      for (var i = 0; i < projectIds.length; i++) {
+        const projectId = projectIds[i];
+        const projectIndex = leader.projects.indexOf(projectId);
+        if (toRemove === true) {
+          leader.projects.splice(projectIndex, 1);
+        } else if ( projectIndex === -1 ) {
+          leader.projects.push(projectId);
         }
-      } else {
-        console.log('\tA project to add: ', projectData.id);
-        leader.projects.push(projectData.id);
       }
-      console.log('\tUpdated projects: ', leader.projects);
+      console.log('\tNow projects: ', leader.projects);
 
-      leader.update({ projects: leader.projects }, function (error, leader){
-       console.log('added project to leader');
+      leader.update({ projects: leader.projects },
+        function (error, leader) { console.log('< Leader projects updated');
       })
     }
   });
 }
 
 // FIXME Need to do the same for tasks
-// FIXME Consider reusing extended 'addProjectToLeader'
 DBProject.deleteProject = function(id) {
   return Project.findById(id).then(project => {
-    // remove Project from Leader
-    console.log('Remove Project from Leader:', project.managerId);
-    var leaderByIdQuery = Leader.where({ _id: project.managerId });
-    leaderByIdQuery.findOne( function (err, leader) {
-      if( leader ) {
-        console.log('\tProject leader found: ', leader.name);
-        console.log('\tAnd his projects: ', leader.projects);
-        leader.projects.splice(leader.projects.indexOf(id));
-        console.log('\tUpdated projects: ', leader.projects);
-
-        leader.update({ projects: leader.projects }, function (error, leader){
-         console.log('Removed projects from leader');
-        })
-      }
-    });
+    DBProject.addOrRemoveProjectForLeader([project._id], project.managerId, true);
     return project.remove();
   });
 }
@@ -219,7 +220,7 @@ DBProject.bulkDeleteProjects = function(projectIds) {
     if (taskIds.length > 0) {
       tasksExec = DBTask.bulkDeleteTasks(taskIds)
         .then(tasksDeleted => {
-          console.log('tasks deleted:', tasksDeleted);
+          // console.log('tasks deleted:', tasksDeleted);
         })
         .catch(function(err){
           console.log('errro - tasks deleted:', tasksDeleted);
@@ -231,15 +232,3 @@ DBProject.bulkDeleteProjects = function(projectIds) {
 }
 
 module.exports = DBProject;
-
-// OBSOLETE
-
-/**
- * OBSOLETE
- * Returns all projects by given leader project ids (if provided), or just all projects
- */
-// DBProject.listProjects = function(leaderProjectIds) {
-//   return leaderProjectIds
-//     ? Project.find({ '_id': { $in: leaderProjectIds } })
-//     : Project.find();
-// }

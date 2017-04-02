@@ -144,29 +144,25 @@ export class ProjectEditComponent implements OnInit {
    * Assigns project to another leader
    */
   // FIXME CHECK how to reuse projects Re-assign from leaderService.deleteLeader method
+  // FIXME Move it to Service
   setNewProjectLeader(event) {
-    const newLeaderModel = new LeaderModel();
-    newLeaderModel.parseData(event.value);
-    this.project.managerId = newLeaderModel._id;
-    this.project.managerName = newLeaderModel.name + ' ' + newLeaderModel.surName;
-    this.project.managerEmail = newLeaderModel.email;
-    console.log(`Set new Leader: `, newLeaderModel.email);
+    const newLeader = new LeaderModel();
+    newLeader.parseData(event.value);
+    console.log(`> Move Project to: `, newLeader.email);
 
-    // Save the project for new leader and delete from old:
-    if ( newLeaderModel.projects.indexOf(this.project._id) === -1 ) {
-      newLeaderModel.projects.push(this.project._id);
-      this.leaderService.updateLeader(newLeaderModel)
-      .subscribe(newLeaderSaved => {
-        console.log('Project added to new leader: ', newLeaderSaved.name);
-
-        // Remove project from old leader:
-        this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
-        this.leaderService.updateLeader(this.currentLeader)
-        .subscribe(oldLeaderSaved => {
-          console.log('Project removed from previous leader: ', oldLeaderSaved.name);
-        });
-      });
-    }
+    // Update project
+    this.project.managerId = newLeader._id;
+    this.project.managerName = newLeader.name + ' ' + newLeader.surName;
+    this.project.managerEmail = newLeader.email;
     this.saveProject();
+
+    // Add project to new leader:
+    if ( newLeader.projects.indexOf(this.project._id) === -1 ) {
+      newLeader.projects.push(this.project._id);
+      this.leaderService.updateLeader(newLeader).subscribe();
+    }
+    // Remove project from current leader:
+    this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
+    this.leaderService.updateLeader(this.currentLeader).subscribe();
   }
 }
