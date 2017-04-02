@@ -45,11 +45,24 @@
           <span *ngIf="!isUpdateMode">Додати</span>
           <span *ngIf="isUpdateMode">Зберегти</span>
            захід</button>
+           <button *ngIf="isUpdateMode" (click)="deleteTask(task)" md-raised-button color="warn">Видалити</button>
          <button md-button (click)="cancelEditing()" color="primary">
            Відмінити
          </button>
         <span class="add-fill-remaining"></span>
-        <a href *ngIf="isUpdateMode" (click)="deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
+
+        <!-- MOVE TO OTHER PROJECT -->
+        <div *ngIf="userService.isAdmin() && isUpdateMode">
+          <button *ngIf="!projects" md-button (click)="requestProjectsToSelectFrom()">До іншого проекту</button>
+          <form *ngIf="projects">
+            <md-select placeholder="Вибери проект" (change)="moveTaskToOtherProject($event)" name="project">
+              <md-option *ngFor="let project of projects" [value]="project">
+                {{project.title}}
+              </md-option>
+            </md-select>
+          </form>
+        </div>
+
       </md-toolbar>
 
     </md-card-content>

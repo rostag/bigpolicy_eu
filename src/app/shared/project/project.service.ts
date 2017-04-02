@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { DialogService } from '../../shared/dialog/dialog.service';
+import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 import { ProjectModel } from './project.model';
@@ -31,7 +34,12 @@ export class ProjectService {
    * @param {http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http,
+    private router: Router,
+    private dialogService: DialogService,
+    private taskService: TaskService
+  ) {}
 
   /**
    * Creates new Project.
@@ -109,35 +117,101 @@ export class ProjectService {
 
   /**
    * Updates multiple projects by performing a request with PUT HTTP method.
-   * @param ids Project IDs to update
-   * @param data The data to be applied during update in {field: name} format
+   * @param ids {Array} Project IDs to update
+   * @param data {Object} The data to be applied during update in {field: name} format
    */
   bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const body = {
-      ids: ids,
-      data: data
-    };
+    const body = JSON.stringify({ ids: ids, data: data });
+    console.log('Project service, try to update:', ids, data, body);
 
-    console.log('Project service, try to update:', ids, data, JSON.stringify(body));
-
-    return this.http.put(this.projectApiUrl + 'bulk-update', JSON.stringify(body), {headers: headers})
-      .map(res => res.json() )
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
+      .map( res => res.json() )
       .catch( this.handleError );
+  }
+
+  /**
+   * Deletes a Project by performing a request with DELETE HTTP method.
+   * @param ProjectModel A Project to delete
+   */
+  deleteProject(model: ProjectModel, navigateToList = true): Observable<boolean> {
+    // Show Delete Confirmation Dialog
+    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+
+    dialogResult.subscribe(toDelete => {
+      if (toDelete === true) {
+        // Delete Project immediately and, if there are tasks, re-assign them to other Project (placeholder)
+        this.finalizeProjectDeletion(model, navigateToList);
+
+        if (model.tasks && model.tasks.length > 0) {
+          this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
+            до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
+            .subscribe(toDeleteTasks => {
+            if (toDeleteTasks === true) {
+              // Delete Tasks from DB
+              // TODO Delete Tasks Firebase data
+              // TODO Delete Donations and Task Donations?
+              this.taskService.bulkDeleteTasks(model.tasks)
+              .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
+            } else {
+              // Reassign tasks to another Project (placeholder)
+              // FIXME - Retrieve real Placeholder project
+              const newProject = new ProjectModel();
+              newProject._id = 'NE_NA_CHASI';
+              const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
+              tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
+            }
+            this.finalizeProjectDeletion(model, navigateToList);
+          });
+        } // If Task reassignment was needed
+      }
+    });
+    return dialogResult;
+  }
+
+  /*
+   * Deletes Project
+   */
+  finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
+    // TODO Delete Project Firebase data
+    this.http.delete(this.projectApiUrl + projectModel._id)
+    .map(res => { return res.json(); })
+    .catch( this.handleError )
+    .subscribe((res) => {
+      if (navigateToList) {
+        this.router.navigate(['/projects']);
+      }
+    });
   }
 
   /**
    * Deletes a Project by performing a request with DELETE HTTP method.
    * @param ProjectModel Project to delete
    */
-  deleteProject(model: ProjectModel) {
-    this.http.delete(this.projectApiUrl + model._id)
-      .map(res => console.log('Project deleted:', res.json()))
-      .catch(this.handleError)
-      .subscribe((res) => {});
+  // delete Project(model: ProjectModel) {
+  //   this.http.delete(this.projectApiUrl + model._id)
+  //     .map(res => console.log('Project deleted:', res.json()))
+  //     .catch(this.handleError)
+  //     .subscribe((res) => {});
+  // }
+
+  /**
+   * Deletes multiple projects by performing a request with PUT HTTP method.
+   * @param ids Project IDs to delete
+   */
+  bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = JSON.stringify({ ids: ids});
+    console.log('Project service, try to delete:', ids, body);
+
+    return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
+    .map(res => res.json() )
+    .catch( this.handleError );
   }
 
   /**
