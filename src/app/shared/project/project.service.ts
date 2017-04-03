@@ -79,12 +79,6 @@ export class ProjectService {
       requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // OBSOLETE requestUrl = this.projectApiUrl;
-    // OBSOLETE All Projects for Leader:         /project-api/leader/:leaderId/
-    // if (leaderId) {
-    //   requestUrl = this.projectApiUrl + 'leader/' + leaderId;
-    // }
-
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
 
     return this.http.get(requestUrl)
@@ -186,17 +180,6 @@ export class ProjectService {
       }
     });
   }
-
-  /**
-   * Deletes a Project by performing a request with DELETE HTTP method.
-   * @param ProjectModel Project to delete
-   */
-  // delete Project(model: ProjectModel) {
-  //   this.http.delete(this.projectApiUrl + model._id)
-  //     .map(res => console.log('Project deleted:', res.json()))
-  //     .catch(this.handleError)
-  //     .subscribe((res) => {});
-  // }
 
   /**
    * Deletes multiple projects by performing a request with PUT HTTP method.

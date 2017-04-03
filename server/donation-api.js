@@ -44,7 +44,7 @@ module.exports = function(app, DB){
   });
 
   /**
-   * Gets all donations for the given target:
+   * Gets donations page for the given target:
    *    donation-api/target/leader/id/1/10/q/{}
    *    donation-api/target/project/id/1/10/q/{}
    *    donation-api/target/task/id/1/10/q/{}
@@ -67,30 +67,6 @@ module.exports = function(app, DB){
       })
       .catch( err => res.json(err))
   })
-
-  /**
-   * OBSOLETE
-   * Gets all donations for the given target:
-   *  /donation-api/target/leader/id
-   *  /donation-api/target/project/id
-   *  /donation-api/target/task/id
-   */
-  // router.get('/target/:targetType/:targetId', function (req, res) {
-  //   // console.log('donation-api/get/target/' + p.targetType + '/' + p.targetId );
-  //   DB.getDonationTarget( p.targetType, p.targetId )
-  //     .then( (target) => {
-  //       DB.listDonations(target.donations)
-  //         .then( data => {
-  //           // console.log('List donations:', data, target.donations);
-  //           res.json(data)
-  //         })
-  //         .catch( err => {
-  //           // console.log('List donations: error: ', err);
-  //           res.json(err)
-  //         })
-  //     })
-  //     .catch( err => res.json(err))
-  // })
 
   router.post('/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
@@ -166,11 +142,6 @@ module.exports = function(app, DB){
   //     // res.send( dta + '-BGPLCXX-' + sgn );
   //   });
   //
-  // });
-
-  // // FIXME UNUSED OBSOLETE
-  // router.post('/getliqform', function (req, res) {
-  //   res.send(encodeURIComponent(liqpay.cnb_form(getParamsFromRequestData(req))));
   // });
 
   app.use('/donation-api', router);

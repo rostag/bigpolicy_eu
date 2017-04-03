@@ -90,13 +90,4 @@ export class DonationService {
     };
   }
 
-  // FIXME UNUSED OBSOLETE
-  /**
-   * Requires donation form
-   * @param DonationModel A Donation to send
-   */
-  // requireDonationForm(model: DonationModel) {
-  //   var p = this.getPostData(model);
-  //   return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
-  // }
 }
