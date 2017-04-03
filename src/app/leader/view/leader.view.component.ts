@@ -50,6 +50,13 @@ export class LeaderViewComponent implements OnInit {
    */
   setLeader(data: LeaderModel) {
     // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
+
+    // fix for leaderFiles: [null] sometimes coming from DB:
+    if (data.leaderFiles && data.leaderFiles.length) {
+      const nullIndex = data.leaderFiles.indexOf(null);
+      console.log('nulli:', nullIndex);
+      data.leaderFiles.splice(nullIndex, 1);
+    }
     this.leader = data;
   }
 
