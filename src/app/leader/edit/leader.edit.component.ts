@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
-  })
+})
 
 export class LeaderEditComponent implements OnInit {
 
@@ -22,7 +23,8 @@ export class LeaderEditComponent implements OnInit {
     private leaderService: LeaderService,
     public userService: UserService,
     public driveService: DriveService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private location: Location
   ) {}
 
   /**
@@ -66,13 +68,11 @@ export class LeaderEditComponent implements OnInit {
   }
 
   /**
-   * Remove this leader
-   * @param {leader} Leader being viewed
+   * Removes the leader from DB
+   * @param {leader} Leader to delete
    */
   deleteLeader(leader: LeaderModel) {
-    // Delete Leader from DB
     this.leaderService.deleteLeader(leader);
-    this.router.navigate(['/leaders']);
     return false;
   }
 
@@ -138,9 +138,7 @@ export class LeaderEditComponent implements OnInit {
        });
    }
 
-  // const dialogRef = this.dialog.open(DialogComponent);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('Заходимо у систему');
-  //     this.userService.login();
-  //   });
+   cancelEditing() {
+     this.location.back();
+   }
 }

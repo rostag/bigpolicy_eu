@@ -118,7 +118,7 @@ export class UserService {
   /**
    * Returns true if user is logged in and his admin is in the admin list.
    */
-  private isAdmin() {
+  public isAdmin() {
     return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
   }
 

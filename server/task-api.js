@@ -19,6 +19,37 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * Updates multiple Tasks by ID using data provided
+   */
+  .put('/bulk-update', function(req, res) {
+    const r = req.body;
+    console.log('> task-api.put/bulk-update', r.ids, r.data);
+    DB.bulkUpdateTasks(r.ids, r.data)
+      .then(function (data) {
+        console.log('< task-api.put/bulk-update', data);
+        res.json(data);
+      })
+      .catch(function(err){
+  	    res.json(err);
+    	});
+  })
+
+  /**
+   * Deletes multiple Tasks by IDs
+   */
+  .put('/bulk-delete', function(req, res) {
+    console.log('task-api.put/bulk-delete', req.body.ids);
+    DB.bulkDeleteTasks(req.body.ids)
+      .then(function (data) {
+        console.log('DONE task-api.put/bulk-delete', data);
+        res.json(data);
+      })
+      .catch(function(err){
+        res.json(err);
+      });
+  })
+
+  /**
    * Updates Task by ID
    */
   .put('/:id', function(req, res) {
@@ -55,21 +86,6 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
-   * OBSOLETE
-   * Gets all tasks for the given project:
-   * /task-api/project/id
-   */
-  // .get('/project/:projectId', function (req, res) {
-  //   DBProject.getProject( p.projectId )
-  //     .then( (project) => {
-  //       DB.listTasks(project.tasks)
-  //         .then( data => res.json(data))
-  //         .catch( err => res.json(err))
-  //     })
-  //     .catch( err => res.json(err))
-  // })
-
-  /**
    * Gets page of tasks for the given project, example:
    * /task-api/project/projectId/page/1/1/q/:dbQuery
    */
@@ -99,21 +115,6 @@ module.exports = function(app, DB, DBProject){
         res.json(err);
       });
   })
-
-  /**
-   * OBSOLETE
-   * Gets all tasks, example:
-   * /task-api/
-   */
-  // .get('*', function (req, res)     {
-  //     DB.listTasks()
-  //     .then(function (data) {
-  //         res.json(data);
-  //     })
-  //     .catch(function(err){
-  //         res.json(err);
-  //     });
-  // });
 
   app.use('/task-api', router);
 

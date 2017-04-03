@@ -56,9 +56,9 @@ export class ProjectViewComponent implements OnInit {
    */
   deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project);
+    this.projectService.deleteProject(project, true);
 
-    this.router.navigate(['/projects']);
+    // this.router.navigate(['/projects']);
     return false;
   }
 

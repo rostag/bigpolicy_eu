@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { ProjectModel } from '../../shared/project/index';
+import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -20,10 +20,17 @@ export class TaskEditComponent implements OnInit {
 
   task: TaskModel;
 
+  // FIXME Used for moving tasks to other projects - Extract to separate component
+  projects: Array<ProjectModel> = null;
+  currentProject: ProjectModel = new ProjectModel();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private projectService: ProjectService,
+    private location: Location,
+    public userService: UserService
   ) {
     this.task = new TaskModel();
   }
@@ -115,4 +122,52 @@ export class TaskEditComponent implements OnInit {
       });
     }
   }
+
+  cancelEditing() {
+    this.location.back();
+  }
+
+  // FIXME Move to service / component
+  requestProjectsToSelectFrom() {
+    this.projectService.getProjectsPage(null, null, 1, 100, '{}')
+      .subscribe((res) => {
+        this.projects = res['docs'];
+        console.log('got projects: ', this.projects);
+        for (const p in this.projects) {
+          if ( this.projects.hasOwnProperty(p)) {
+            console.log('got project: ', this.projects[p]._id, this.projects[p].title);
+            if ( this.task.projectId === this.projects[p]._id) {
+              // Memorize current project for later usage - we'll remove task from him:
+              this.currentProject.parseData(this.projects[p]);
+            }
+          }
+        }
+      });
+  }
+
+  /**
+   * Assigns Task to other Project
+   */
+  // FIXME CHECK how to reuse projects Re-assign from taskService.deleteTask method
+  // FIXME Move it to Service
+  moveTaskToOtherProject(event) {
+    const newProject = new ProjectModel();
+    newProject.parseData(event.value);
+    console.log(`> Move Task to: `, newProject.title);
+
+    // Update task
+    this.task.projectId = newProject._id;
+    this.task.project = newProject;
+    this.saveTask();
+
+    // Add Task to new Project:
+    if ( newProject.tasks.indexOf(this.task._id) === -1 ) {
+      newProject.tasks.push(this.task._id);
+      this.projectService.updateProject(newProject).subscribe();
+    }
+    // Remove Task from current Project:
+    this.currentProject.tasks.splice( this.currentProject.tasks.indexOf(this.task._id), 1);
+    this.projectService.updateProject(this.currentProject).subscribe();
+  }
+
 }

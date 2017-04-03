@@ -5,6 +5,9 @@
 var DBProject = {};
 var Project = require('./models/project');
 var Leader = require('./models/leader');
+var mongoose = require('mongoose');
+const DBTask = require('./db-task');
+const DBLeader = require('./db-leader');
 
 /**
  * Creates a Project by provided data
@@ -12,11 +15,9 @@ var Leader = require('./models/leader');
  */
 DBProject.createProject = function(dataObj) {
   var data = dataObj;
-
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-
   // console.log('DBProject: CreateProject: ', data)
 
   if (!data.title || !data.description) {
@@ -24,9 +25,13 @@ DBProject.createProject = function(dataObj) {
   }
 
   if (!data) data = {};
-  const model = new Project(data);
-  var saved = model.save(DBProject.addProjectToLeader);
-  return model.save(saved);
+
+  const projectModel = new Project(data);
+  var addedToLeader = projectModel.save( (err, project) => {
+    if (err) { console.log('Project saving error: ', err); }
+    DBProject.addOrRemoveProjectForLeader([project._id], project.managerId, false);
+  });
+  return projectModel.save(addedToLeader);
 }
 
 /**
@@ -51,11 +56,11 @@ DBProject.getProject = function(projectId) {
 }
 
 /**
- * Returns a page of Projects either by given ids (if present), page number and limit, or DB query
- * @param projectIds project ID's to retrieve
- * @param page Page number to get from DB
- * @param limit Items per page to get from DB
- * @param dbQuery DB query to perform for filtering the results, searching etc
+ * Returns a page of Projects either by given projectIds (if present), page number and limit, or DB query
+ * @param projectIds {Array} project ID's to retrieve
+ * @param page {number} Page number to get from DB
+ * @param limit {number} Items per page to get from DB
+ * @param dbQuery {string} DB query to perform for filtering the results, searching etc
  */
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
   // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
@@ -96,43 +101,133 @@ DBProject.updateProject = function(id,data) {
     return model.save();
   });
 }
+/**
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param ids Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
+ */
+ // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+ // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+ // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+DBProject.bulkUpdateProjects = function(ids, data) {
+  console.log('DBProject.bulkUpdateProjects:', ids, data);
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  data.projectIds = [];
+  for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+      // Prepare to add multiple projects to leader
+      data.projectIds.push(id);
+  }
+  DBProject.addProjectToLeader(null, data);
 
-DBProject.addProjectToLeader = function(error, savedProject) {
-  // Add this project to the corresponding leader's array
-  // console.log('find this project leader by leaderId: ', savedProject.managerId);
+  return bulk.execute();
+}
 
-  var leaderByIdQuery = Leader.where({ _id: savedProject.managerId });
+/**
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param projectIds Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
+ * @private
+ */
+ // TODO Check it's better to refactor to make single method of update, merging this method with updateProject (above)
+ // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+ // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+ // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+DBProject.bulkUpdateProjects = function(projectIds, data) {
+  console.log('DBProject.bulk UpdateProjects:', projectIds, data);
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  for (var i = 0; i < projectIds.length; i++) {
+      var id = projectIds[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+  }
+  DBProject.addOrRemoveProjectForLeader(projectIds, data.managerId, false);
 
-  leaderByIdQuery.findOne( function (err, leader) {
+  return bulk.execute();
+}
+
+/**
+ * Adds or removes Projects to Leader by given Project and Leader IDs.
+ * Used for reassigning project to another leader and on project or leader deletion)
+ * @param projectIds: {Array} Project IDs to adding or remove.
+ * @param managerId {string} Target Leader ID.
+ */
+DBProject.addOrRemoveProjectForLeader = function(projectIds, managerId, toRemove) {
+  console.log('> DBProject.add Or Remove Project For Leader, managerId:', managerId);
+
+  Leader.findOne( { _id: managerId }, function (err, leader) {
     if( leader ) {
-      // console.log('project leader found: ', leader.name);
-      // console.log('and his projects: ', leader.projects);
-      // console.log('new project: ', savedProject._id);
-      leader.projects.push(savedProject.id);
-      // console.log('and his updated projects: ', leader.projects);
+      console.log(`\tLeader found: ${leader.name}\n\tHis projects: ', ${leader.projects}\n\tA projects to`, toRemove ? 'remove:' : 'add:', projectIds);
 
-      leader.update({ projects: leader.projects }, function (error, leader){
-      //  console.log('added project to leader');
-      })
+      for (var i = 0; i < projectIds.length; i++) {
+        const projectId = projectIds[i];
+        const projectIndex = leader.projects.indexOf(projectId);
+        if (toRemove === true) {
+          leader.projects.splice(projectIndex, 1);
+        } else if ( projectIndex === -1 ) {
+          leader.projects.push(projectId);
+        }
+      }
+      console.log('\tNow projects: ', leader.projects);
+
+      leader.update({ projects: leader.projects }, (error, leader) => { console.log('< Leader projects updated'); });
     }
   });
 }
 
-// FIXME Need to delete a reference in Leader's projects array also
 DBProject.deleteProject = function(id) {
-  return Project.findById(id).remove();
+  return Project.findById(id).then(project => {
+    DBProject.addOrRemoveProjectForLeader([project._id], project.managerId, true);
+    return project.remove();
+  });
+}
+
+// FIXME Need to do the same for tasks
+DBProject.bulkDeleteProjects = function(projectIds) {
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
+
+  // FIXME - how to get all projects
+  return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
+    console.log(' - Got paged projects:', pagedProjects.total);
+
+    // Delete projects
+    for (var i = 0; i < projectIds.length; i++) {
+      var id = projectIds[i];
+      bulk.find({
+        '_id': mongoose.Types.ObjectId(id)
+      }).remove();
+    }
+
+    // Gather all taskId's to delete together with Project
+    let taskIds = [];
+    for (var p = 0; p < pagedProjects.docs.length; p++) {
+      let project = pagedProjects.docs[p];
+      taskIds = taskIds.concat(project.tasks);
+      console.log(' - Project task to delete added:', taskIds);
+    }
+
+    var tasksExec;
+    if (taskIds.length > 0) {
+      tasksExec = DBTask.bulkDeleteTasks(taskIds)
+        .then(tasksDeleted => {
+          console.log('< Tasks deleted:', tasksDeleted);
+        })
+        .catch(function(err){
+          console.log('< Error of task deletion:', tasksDeleted);
+        });
+    }
+    return bulk.execute();
+  });
+
 }
 
 module.exports = DBProject;
-
-// OBSOLETE
-
-/**
- * OBSOLETE
- * Returns all projects by given leader project ids (if provided), or just all projects
- */
-// DBProject.listProjects = function(leaderProjectIds) {
-//   return leaderProjectIds
-//     ? Project.find({ '_id': { $in: leaderProjectIds } })
-//     : Project.find();
-// }

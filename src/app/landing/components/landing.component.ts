@@ -31,7 +31,6 @@ export class LandingComponent implements OnInit {
     this.getLeaders();
   }
 
-  // OBSOLETE
   getLeaders() {
     this.leaderService.getLeadersPage(null, null, 1, 3)
       .subscribe(
@@ -46,8 +45,6 @@ export class LandingComponent implements OnInit {
     return data;
   }
 
-  // FIXME PG_MIGRATION
-  // OBSOLETE
   getProjects() {
     this.projectService.getProjectsPage(null, null, 1, 3)
       .subscribe(

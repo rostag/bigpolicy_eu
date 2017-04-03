@@ -23,31 +23,47 @@
         <input mdInput video-control [(ngModel)]="task.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" >
       </md-input-container>
 
-      <div class="cost-and-dates">
-        <md-input-container class="cost">
-          <div mdPrefix>Бюджет:</div>
+      <div class="cost-and-dates" fxLayoutGap="3%" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.sm="column" fxLayout.xs="column">
+        <md-input-container class="cost" fxFlex.xs="100%" >
+          <div mdPrefix><md-icon>monetization_on</md-icon>Бюджет:</div>
           <input mdInput required type="number" [(ngModel)]="task.cost" [ngModelOptions]="{standalone: true}">
           <div mdSuffix>UAH</div>
         </md-input-container>
 
-        <md-input-container class="dates">
+        <md-input-container fxFlex.xs="100%" >
           <div mdPrefix><md-icon>date_range</md-icon>Початок:&nbsp;</div>
           <input mdInput type="date" [(ngModel)]="task.dateStarted" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
         </md-input-container>
-        <md-input-container class="dates">
-          <div mdPrefix>Завершення:&nbsp;</div>
+        <md-input-container fxFlex.xs="100%" >
+          <div mdPrefix><md-icon>date_range</md-icon>Завершення:&nbsp;</div>
           <input mdInput type="date" [(ngModel)]="task.dateEnded" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
          </md-input-container>
        </div>
 
-      <p>
+      <md-toolbar>
         <button type="submit" md-raised-button (click)="saveTask()" color="primary">
           <span *ngIf="!isUpdateMode">Додати</span>
           <span *ngIf="isUpdateMode">Зберегти</span>
            захід</button>
-        <a href *ngIf="isUpdateMode" (click)="deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
-      </p>
+           <button *ngIf="isUpdateMode" (click)="deleteTask(task)" md-raised-button color="warn">Видалити</button>
+         <button md-button (click)="cancelEditing()" color="primary">
+           Відмінити
+         </button>
+        <span class="add-fill-remaining"></span>
 
+        <!-- MOVE TO OTHER PROJECT -->
+        <div *ngIf="userService.isAdmin() && isUpdateMode">
+          <button *ngIf="!projects" md-button (click)="requestProjectsToSelectFrom()">До іншого проекту</button>
+          <form *ngIf="projects">
+            <md-select placeholder="Вибери проект" (change)="moveTaskToOtherProject($event)" name="project">
+              <md-option *ngFor="let project of projects" [value]="project">
+                {{project.title}}
+              </md-option>
+            </md-select>
+          </form>
+        </div>
+
+      </md-toolbar>
 
     </md-card-content>
   </form>

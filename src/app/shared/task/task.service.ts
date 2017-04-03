@@ -58,12 +58,6 @@ export class TaskService {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // OBSOLETE
-    // All Tasks for Project:         /task-api/project/:projectId/
-    // if (projectId) {
-    //   requestUrl = this.apiUrl + 'project/' + projectId;
-    // }
-
     // console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
@@ -94,6 +88,24 @@ export class TaskService {
   }
 
   /**
+   * Updates multiple tasks by performing a request with PUT HTTP method.
+   * @param ids {Array} Task IDs to update
+   * @param data {Object} The data to be applied during update in {field: name} format
+   */
+  bulkUpdateTasks(ids: Array<string>, data: any): Observable<TaskModel> {
+    // TODO Consider encoding the body like in create project above
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = JSON.stringify({ ids: ids, data: data });
+    console.log('Tasks service, try to update:', ids, data, body);
+
+    return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers})
+      .map( res => res.json() )
+      .catch( this.handleError );
+  }
+
+  /**
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param TaskModel A Task to delete
    */
@@ -102,6 +114,22 @@ export class TaskService {
         .map(res => console.log('Task deleted:', res.json()))
         .catch(this.handleError)
         .subscribe();
+  }
+
+  /**
+   * Deletes multiple Tasks by performing a request with PUT HTTP method.
+   * @param ids Task IDs to delete
+   */
+  bulkDeleteTasks(ids: Array<string>): Observable<TaskModel> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = JSON.stringify({ ids: ids});
+    console.log('Task service, try to delete:', ids, body);
+
+    return this.http.put(this.apiUrl + 'bulk-delete', body, {headers: headers})
+    .map(res => res.json() )
+    .catch( this.handleError );
   }
 
   private handleError(error: Response) {
