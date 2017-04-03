@@ -5,6 +5,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import { TaskModel } from './task.model';
 
+
 /**
  * This class provides the TaskList service with methods to get and save tasks.
  */
@@ -16,20 +17,22 @@ export class TaskService {
   /**
    * Creates a new TaskService with the injected Http
    */
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http
+  ) { }
 
   /**
    * Creates new Task in DB
    * @param {TaskModel} model Task model to create.
    */
-  createTask(model: TaskModel): Observable<Response> {
+  createTask(model: TaskModel): Observable<TaskModel> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.apiUrl, body, options)
-        .map(res => res.json());
+    .map(res => res.json());
   }
 
   // TODO: implement local cache
@@ -39,7 +42,7 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<Response> {
+  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<TaskModel> {
 
     let requestUrl;
 
@@ -58,19 +61,20 @@ export class TaskService {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // console.log('getTasksPage:', taskId, projectId, page, limit, dbQuery);
+    // console.log('get TasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        // console.log('Tasks Page loaded, response: ', responsePage);
-        return responsePage.json();
-      });
+    .map((responsePage: Response) => {
+      // console.log('Tasks Page loaded, response: ', responsePage);
+      return responsePage.json();
+    });
   }
 
   /**
-   * Returns single Task from DB, reuses getTasksPage.
+   * Returns single Task from DB, reuses get TasksPage.
    */
-  getTask(taskId: string): Observable<Response> {
+  getTask(taskId: string): Observable<TaskModel> {
+    // FIXME Request cached / Load project data to populate on loaded task
     return this.getTasksPage(taskId);
   }
 
@@ -78,7 +82,7 @@ export class TaskService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param TaskModel A Task to update
    */
-  updateTask(model: TaskModel): Observable<Response> {
+  updateTask(model: TaskModel): Observable<TaskModel> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -111,9 +115,9 @@ export class TaskService {
    */
   deleteTask(model: TaskModel) {
     this.http.delete(this.apiUrl + model._id)
-        .map(res => console.log('Task deleted:', res.json()))
-        .catch(this.handleError)
-        .subscribe();
+    .map(res => console.log('Task deleted:', res.json()))
+    .catch(this.handleError)
+    .subscribe();
   }
 
   /**
@@ -133,7 +137,7 @@ export class TaskService {
   }
 
   private handleError(error: Response) {
-      console.error('Error occured:', error);
-      return Observable.throw(error.json().error || 'Server error');
+    console.error('Error occured:', error);
+    return Observable.throw(error.json().error || 'Server error');
   }
 }
