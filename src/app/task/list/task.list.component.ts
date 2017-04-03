@@ -25,7 +25,7 @@ export class TaskListComponent implements OnChanges {
   @Input() dbQuery = '{}';
 
   // An project this task list belongs to
-  @Input() project: ProjectModel;
+  @Input() project: ProjectModel = new ProjectModel();
 
   public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
@@ -45,7 +45,7 @@ export class TaskListComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes) {
-    const project = changes.project.currentValue;
+    const project = changes.project && changes.project.currentValue;
     if (project && project._id ||
         changes.pageSize && changes.pageSize.currentValue ||
         changes.dbQuery && changes.dbQuery.currentValue) {
@@ -58,6 +58,7 @@ export class TaskListComponent implements OnChanges {
     this.requestTasks();
   }
 
+  // FIXME Consider elimintation of the code duplication in paginator
   requestTasks() {
     const proxySub = this.taskService.getTasksPage(
       null,
@@ -66,15 +67,15 @@ export class TaskListComponent implements OnChanges {
       this.pageSize,
       this.dbQuery
     )
-      .subscribe(responsePage => {
-        // console.log('Next, responsePage:', responsePage);
-        this.itemsPage.docs.next(responsePage['docs']);
-        this.itemsPage.limit = responsePage['limit'];
-        this.itemsPage.page = responsePage['page'];
-        this.itemsPage.pages = responsePage['pages'];
-        this.itemsPage.total = responsePage['total'];
-        proxySub.unsubscribe();
-      });
+    .subscribe(responsePage => {
+      // console.log('Next, responsePage:', responsePage);
+      this.itemsPage.docs.next(responsePage['docs']);
+      this.itemsPage.limit = responsePage['limit'];
+      this.itemsPage.page = responsePage['page'];
+      this.itemsPage.pages = responsePage['pages'];
+      this.itemsPage.total = responsePage['total'];
+      proxySub.unsubscribe();
+    });
   }
 
   addTask() {

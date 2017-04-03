@@ -12,39 +12,51 @@
   <app-bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
   </app-bp-task-edit>
 
-    <md-list>
-       <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
-                                                                   id: 'taskItemsPage',
-                                                                   itemsPerPage: this.pageSize,
-                                                                   currentPage: itemsPage.page,
-                                                                   totalItems: itemsPage.total
-                                                                 }">
+  <div>
+     <app-task-view [task]="task" [compactView]="true" dataprovided="true"
+      *ngFor="let task of itemsPage.docs | async | paginate: {
+                                                               id: 'taskItemsPage',
+                                                               itemsPerPage: this.pageSize,
+                                                               currentPage: itemsPage.page,
+                                                               totalItems: itemsPage.total
+                                                             }">
 
-         <!-- TODO Implemenent task photo upload and display -->
-         <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}"> -->
-         <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
-         <p md-line>
-          <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
-         </p>
-         <p md-line>
-           <small>{{task.description}}</small>
-         </p>
-         <p *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">
-           <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
-           <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
-         </p>
-      </md-list-item>
-    </md-list>
 
-    <pagination-controls
-                        id = "taskItemsPage"
-                        (pageChange)="pageChanged($event)"
-                        [maxSize]="5"
-                        directionLinks="true"
-                        autoHide="true"
-                        >
-    </pagination-controls>
+    </app-task-view>
+  </div>
 
-    <p>Усього заходів: {{itemsPage.total}}</p>
+  <!-- <md-list>
+     <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
+                                                                 id: 'taskItemsPage',
+                                                                 itemsPerPage: this.pageSize,
+                                                                 currentPage: itemsPage.page,
+                                                                 totalItems: itemsPage.total
+                                                               }">
+
+
+       <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
+       <p md-line>
+        <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
+       </p>
+       <p md-line>
+         <small>{{task.project}}</small> | <small>{{task.description}}</small>
+       </p>
+       <p *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">
+         <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
+         <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+       </p>
+    </md-list-item>
+  </md-list> -->
+
+  <pagination-controls
+                      id = "taskItemsPage"
+                      (pageChange)="pageChanged($event)"
+                      [maxSize]="5"
+                      directionLinks="true"
+                      autoHide="true"
+                      >
+  </pagination-controls>
+
+  <p>Усього заходів: {{itemsPage.total}}</p>
 
 </md-card-content>

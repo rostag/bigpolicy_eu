@@ -132,28 +132,6 @@ DBProject.bulkUpdateProjects = function(ids, data) {
  * Updates multiple Projects by given ID in one turn using provided {data}
  * @param projectIds Array of Project IDs.
  * @param data Data to set in format { managerId: value }
- */
- // TODO Check it better to refactor to make single method of update, merging this method with updateProject (above)
- // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
- // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
- // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
-DBProject.bulkUpdateProjects = function(projectIds, data) {
-  console.log('DBProject.bulkUpdateProjects:', projectIds, data);
-  var bulk = Project.collection.initializeOrderedBulkOp();
-  for (var i = 0; i < projectIds.length; i++) {
-      var id = projectIds[i];
-      bulk.find({
-          '_id': mongoose.Types.ObjectId(id)
-      }).updateOne({
-          $set: data
-      });
-  }
-  DBProject.addOrRemoveProjectForLeader(projectIds, data.managerId, false);
-
-/**
- * Updates multiple Projects by given ID in one turn using provided {data}
- * @param projectIds Array of Project IDs.
- * @param data Data to set in format { managerId: value }
  * @private
  */
  // TODO Check it's better to refactor to make single method of update, merging this method with updateProject (above)

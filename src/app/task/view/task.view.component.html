@@ -1,4 +1,20 @@
-<md-card class="task-view">
+<!-- COMPACT -->
+<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between stretch">
+
+  <h3> <a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
+    <br />{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}
+    <small>{{task.description}}</small>
+  </h3>
+
+  <div fxFlex="1 13rem 1" *ngIf="userService.hasEditPermissions(task)">
+    <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
+    <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+  </div>
+
+</div>
+
+<!-- FULL VIEW -->
+<md-card class="task-view" *ngIf="!compactView">
   <md-card-content>
 
     <h1>{{task.title}}</h1>
@@ -9,7 +25,7 @@
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
       <div fxFlex="45%">
         <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
-        <h3><a [routerLink]="['/project/',task.projectId]">До проекту</a></h3>
+        <h3><a [routerLink]="['/project/',task.projectId]">Проект: {{projectTitle}}</a></h3>
         <p>Початок: {{task.dateStarted | date}}<br/>
           Кінець: {{task.dateEnded | date}}</p>
           <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}"

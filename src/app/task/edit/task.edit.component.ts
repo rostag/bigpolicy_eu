@@ -113,7 +113,7 @@ export class TaskEditComponent implements OnInit {
     return false;
   }
 
-  gotoTask(task) {
+  gotoTask(task: TaskModel) {
     const taskId = task._id;
     if (taskId) {
       console.log('𝕱 𝕱 𝕱 Go to task by ID: ', taskId);
@@ -166,6 +166,7 @@ export class TaskEditComponent implements OnInit {
       this.projectService.updateProject(newProject).subscribe();
     }
     // Remove Task from current Project:
+    // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
     this.currentProject.tasks.splice( this.currentProject.tasks.indexOf(this.task._id), 1);
     this.projectService.updateProject(this.currentProject).subscribe();
   }
