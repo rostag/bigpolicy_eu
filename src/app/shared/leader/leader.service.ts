@@ -92,6 +92,14 @@ export class LeaderService {
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
+    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // if (groupId) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId;
+    // }
+    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // if (page !== null && limit !== null && groupId !== null) {
+    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
+    // }
 
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
 

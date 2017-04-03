@@ -101,6 +101,32 @@ DBProject.updateProject = function(id,data) {
     return model.save();
   });
 }
+/**
+ * Updates multiple Projects by given ID in one turn using provided {data}
+ * @param ids Array of Project IDs.
+ * @param data Data to set in format { managerId: value }
+ */
+ // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
+ // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
+ // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update
+DBProject.bulkUpdateProjects = function(ids, data) {
+  console.log('DBProject.bulkUpdateProjects:', ids, data);
+  var bulk = Project.collection.initializeOrderedBulkOp();
+  data.projectIds = [];
+  for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      bulk.find({
+          '_id': mongoose.Types.ObjectId(id)
+      }).updateOne({
+          $set: data
+      });
+      // Prepare to add multiple projects to leader
+      data.projectIds.push(id);
+  }
+  DBProject.addProjectToLeader(null, data);
+
+  return bulk.execute();
+}
 
 /**
  * Updates multiple Projects by given ID in one turn using provided {data}
