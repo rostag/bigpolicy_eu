@@ -15,7 +15,7 @@ export class LeaderModel {
   email: string;
   projects;
   donations;
-  leaderFiles;
+  leaderFiles = [];
   totalDonationsReceived: Number = 0;
 
   // id of party from parties list
