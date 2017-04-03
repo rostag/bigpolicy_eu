@@ -41,9 +41,10 @@ export class UserService {
     private dialogService: DialogService
   ) {
     // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
-
-    this.leaderService.requestLeaderByEmail(this.getEmail());
+    if (this.authenticated()) {
+      this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
+      this.leaderService.requestLeaderByEmail(this.getEmail());
+    }
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
@@ -118,6 +119,7 @@ export class UserService {
   /**
    * Returns true if user is logged in and his admin is in the admin list.
    */
+   // FIXME Implement Admins list
   public isAdmin() {
     return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
   }
