@@ -121,7 +121,11 @@ export class UserService {
    */
    // FIXME Implement Admins list
   public isAdmin() {
-    return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
+    return this.authenticated() && (
+        this.getEmail() === 'rostislav.siryk@gmail.com' ||
+        this.getEmail() === 'prokopenko.serhii@gmail.com' ||
+        this.getEmail() === 'vlodkozak@gmail.com'
+    );
   }
 
   // FIXME_TEST In the first place
