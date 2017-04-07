@@ -48,6 +48,7 @@ export class UserService {
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
+      // Auth0 data
       localStorage.setItem('id_token', authResult.idToken);
 
       // console.log('Authenticated, lock.showSignin =', this.lock.showSignin);
@@ -155,6 +156,7 @@ export class UserService {
    * De-authenticates currently logged in user by removing token from local storage.
    */
   public logout() {
+    // Auth0 data
     localStorage.removeItem('id_token');
     localStorage.removeItem('BigPolicyProfile');
     localStorage.removeItem('BigPolicyLeaderRegistration');
