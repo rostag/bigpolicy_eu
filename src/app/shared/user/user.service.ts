@@ -163,6 +163,34 @@ export class UserService {
     this.userProfile = undefined;
   };
 
+  // ....
+  // FTUX
+  // ....
+
+  /**
+  * Lazy Leader Registration.
+  * Save Leader to LocalStorage to let unauthorised user to start registration
+  */
+  needToLoginFirst(leader: LeaderModel) {
+    if (!this.authenticated()) {
+
+      // save Leader data to LocalStorage
+      console.log('≥≥≥ unauthorised, saving to localStorage');
+      localStorage.setItem('BigPolicyLeaderRegistration', leader.toString());
+
+      // show Registration is needed warning
+      this.dialogService
+      .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
+      .subscribe(res => {
+        console.log('Заходимо у систему');
+        this.login();
+      });
+      return true;
+    }
+    return false;
+  }
+  //  this.saveToLocalStorage(this.leader);
+
   private tryToContinueLeaderRegistration() {
     const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');
     if (this.authenticated() && !this.hasLeader() && !!localLeader) {

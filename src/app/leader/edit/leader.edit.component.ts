@@ -1,6 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { LeaderService, LeaderModel } from '../../shared/leader';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user';
@@ -19,7 +19,6 @@ export class LeaderEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private leaderService: LeaderService,
     public userService: UserService,
     public driveService: DriveService,
@@ -105,38 +104,16 @@ export class LeaderEditComponent implements OnInit {
         () => {}
       );
     } else {
-      // Create new leader
-
-      // FTUX: If user's unauthorised, save him to localStorage, continue after login
-      if ( !this.userService.authenticated()) {
-        this.saveToLocalStorage(this.leader);
+      // Create new Leader:
+      // FTUX: If user's unauthorised, use service to save him to localStorage, continue after login
+      if (this.userService.needToLoginFirst(this.leader)) {
         return false;
       }
-
       // NO FTUX - user is authorized already
       this.leaderService.createLeader(this.leader, this.userService.getEmail());
     }
     return false;
   }
-
-  /**
-   * FTUX - Lazy Leader Registration.
-   * Save Leader to LocalStorage to let unauthorised user to start registration
-   */
-  saveToLocalStorage(leader) {
-    console.log('≥≥≥ unauthorised, saving to localStorage');
-    localStorage.setItem('BigPolicyLeaderRegistration', leader);
-    this.showRegistrationIsNeededWarning();
-  }
-
-  showRegistrationIsNeededWarning() {
-    this.dialogService
-       .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
-       .subscribe(res => {
-         console.log('Заходимо у систему');
-         this.userService.login();
-       });
-   }
 
    cancelEditing() {
      this.location.back();
