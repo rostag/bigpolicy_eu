@@ -1,5 +1,5 @@
 <md-card class="leader-edit-card">
-  <form>
+  <form novalidate (ngSubmit)="onSubmit()" [formGroup]="leaderFormGroup">
   <md-card-content>
     <md-card-title>
       <span *ngIf="!isUpdateMode">Стати діячем</span>
@@ -8,22 +8,49 @@
 
       <div fxLayout="row" fxLayoutGap="4%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
         <div fxFlex="36%" fxFlex.xs="100%">
-          <!-- FIXME - process temp_reg_id in FTUX process -->
-          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-          <app-uploader folder="bp-files/users/{{leader._id || 'tmp_user_reg_id'}}/avatars" listFiles="no" buttonType="regular" buttonLabel="Завантажити фото" (uploadedFileUrlChange)="leader.onPhotoUrlChange($event)"></app-uploader>
+          <!-- FIXME - process tmp_user_reg_id in FTUX process -->
+          <app-image [src]="leaderModel.photo || 'assets/img/avatar-generic.png'"></app-image>
+          <app-uploader folder="bp-files/users/{{leaderModel._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
+            buttonType="regular" buttonLabel="Завантажити фото" (uploadedFileUrlChange)="leaderModel.onPhotoUrlChange($event)">
+          </app-uploader>
         </div>
 
         <div fxFlex.xs="100%">
           <md-input-container>
-            <input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.name" placeholder="Ім'я" style="width: 100%">
+            <input mdInput name="name" formControlName="name" placeholder="Ім'я" maxLength="51" >
           </md-input-container>
+          <div *ngIf="leaderFormGroup.get('name').hasError('required') && leaderFormGroup.get('name').touched" class="validation-error">
+            Треба вказати ім'я
+          </div>
+          <div *ngIf="leaderFormGroup.get('name').hasError('minlength') && leaderFormGroup.get('name').touched" class="validation-error">
+            Ім'я мусить бути не коротше двох символів
+          </div>
+          <div *ngIf="leaderFormGroup.get('name').hasError('maxlength') && leaderFormGroup.get('name').touched" class="validation-error">
+            Ім'я мусить бути не довшим за 50 символів
+          </div>
+
           <md-input-container>
-            <input mdInput required [ngModelOptions]="{standalone: true}" [(ngModel)]="leader.surName" placeholder="Прізвище" style="width: 100%">
+            <input mdInput name="surName" formControlName="surName" placeholder="Прізвище" maxLength="51" >
           </md-input-container>
+          <div *ngIf="leaderFormGroup.get('surName').hasError('required') && leaderFormGroup.get('surName').touched" class="validation-error">
+            Треба вказати прізвище
+          </div>
+          <div *ngIf="leaderFormGroup.get('surName').hasError('minlength') && leaderFormGroup.get('surName').touched" class="validation-error">
+            Прізвище мусить бути не коротше двох символів
+          </div>
+          <div *ngIf="leaderFormGroup.get('surName').hasError('maxlength') && leaderFormGroup.get('surName').touched" class="validation-error">
+            Прізвище мусить бути не довшим за 50 символів
+          </div>
+
+
           <!-- TODO: Use existing video control to auto-extend functionality on input -->
-          <md-input-container hintLabel="Посилання на відео YouTube" >
-            <input mdInput video-control [(ngModel)]="leader.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" >
+          <md-input-container >
+            <input mdInput name="videoUrl" formControlName="videoUrl" placeholder="Посилання на відео YouTube" maxLength="250" >
           </md-input-container>
+          <div *ngIf="leaderFormGroup.get('videoUrl').hasError('forbiddenName') && leaderFormGroup.get('videoUrl').touched" class="validation-error">
+            Будь ласка, уведи правильне посилання на відео YouTube
+          </div>
+
         </div>
       </div>
 
@@ -32,23 +59,40 @@
         <h3>Як виглядає проблема для тебе?</h3>
 
         <md-input-container>
-          <textarea mdInput mdTextareaAutosize required maxLength="1000" [(ngModel)]="leader.vision" placeholder="Твоя особиста візія і думки" characterCounter [ngModelOptions]="{standalone: true}">
-          </textarea>
+          <textarea mdInput mdTextareaAutosize maxLength="1000" name="vision" formControlName="vision" placeholder="Твоя особиста візія і думки" characterCounter></textarea>
         </md-input-container>
+        <div *ngIf="leaderFormGroup.get('vision').hasError('required') && leaderFormGroup.get('vision').touched" class="validation-error" >
+          Це поле не може бути пустим.
+        </div>
+        <div *ngIf="leaderFormGroup.get('vision').hasError('minlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
+          Будь ласка, опиши своє бачення детальніше.
+        </div>
+        <!-- FIXME Paramaterize 1000 limit  -->
+        <div *ngIf="leaderFormGroup.get('vision').hasError('maxlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
+          Цей текст завеликий. Будь ласка, не більше 999 символів.
+        </div>
 
         <h3>Який аспект проблеми ти хочеш вирішити?</h3>
 
         <md-input-container>
-          <textarea mdInput mdTextareaAutosize required maxLength="1000" [(ngModel)]="leader.mission" placeholder="Твоя місія" characterCounter [ngModelOptions]="{standalone: true}" >
-          </textarea>
+          <textarea mdInput mdTextareaAutosize maxLength="1000" name="mission" formControlName="mission" placeholder="Твоя місія" characterCounter ></textarea>
         </md-input-container>
+        <div *ngIf="leaderFormGroup.get('mission').hasError('required') && leaderFormGroup.get('mission').touched" class="validation-error" >
+          Це поле не може бути пустим.
+        </div>
+        <div *ngIf="leaderFormGroup.get('mission').hasError('minlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
+          Будь ласка, опиши свою місію детальніше.
+        </div>
+        <div *ngIf="leaderFormGroup.get('mission').hasError('maxlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
+          Цей текст завеликий. Будь ласка, не більше 999 символів.
+        </div>
 
       </div>
 
       <!-- User should only be able to edit his own files, thus matching his email in gdrive -->
       <div *ngIf="isUpdateMode">
-        <app-bp-files *ngIf="userService.isOwner(leader)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
-        <app-files-view *ngIf="!userService.isOwner(leader)" [files]="leader.leaderFiles" ></app-files-view>
+        <app-bp-files *ngIf="userService.isOwner(leaderModel)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
+        <app-files-view *ngIf="!userService.isOwner(leaderModel)" [files]="leaderModel.leaderFiles" ></app-files-view>
       </div>
 
       <!--
@@ -64,7 +108,7 @@
         <h3>Як ти вирішиш цю проблему?</h3>
 
         <md-input-container>
-          <input mdInput name="description" characterCounter style="width: 100%;" placeholder="Опиши свій проект: " hintLabel="">
+          <input mdInput name="description" characterCounter placeholder="Опиши свій проект: " hintLabel="">
         </md-input-container>
 
         <md-input-container>
@@ -154,13 +198,13 @@
     -->
 
     <md-toolbar class="add-toolbar" color="#fff">
-      <button md-raised-button color="primary" type="submit" (click)="onSaveLeaderClick()">Готово</button>
+      <button md-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
       <button md-button (click)="cancelEditing()" color="primary">
         Відмінити
       </button>
       <!-- <button md-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button> -->
       <span class="add-fill-remaining"></span>
-      <button md-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leader)">Видалити</button>
+      <button md-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leaderModel)">Видалити</button>
     </md-toolbar>
 
   </md-card-content>

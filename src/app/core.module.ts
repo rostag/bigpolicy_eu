@@ -18,7 +18,6 @@ import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LeaderFormComponent } from './leader/edit/leader.form.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -45,10 +44,8 @@ export const firebaseConfig = {
     ImageComponent,
     LeaderBriefComponent,
     ProjectBriefComponent,
-    LeaderFormComponent,
-    FlexLayoutModule
-    // ,
-    // ReactiveFormsModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // components to use in this module
@@ -56,8 +53,7 @@ export const firebaseConfig = {
     UploaderComponent,
     ImageComponent,
     LeaderBriefComponent,
-    ProjectBriefComponent,
-    LeaderFormComponent
+    ProjectBriefComponent
   ],
   providers: [
     // singleton services

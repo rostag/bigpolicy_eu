@@ -1,10 +1,10 @@
 import { OnInit, Component } from '@angular/core';
-import { LeaderService, LeaderModel } from '../../shared/leader';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LeaderService, LeaderModel, ILeader } from '../../shared/leader';
+import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
-import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -13,18 +13,21 @@ import { Location } from '@angular/common';
 
 export class LeaderEditComponent implements OnInit {
 
-  leader: LeaderModel = new LeaderModel();
+  leaderFormGroup: FormGroup;
 
-  isUpdateMode = false;
+  // Must be public, used in template
+  public leaderModel: LeaderModel = new LeaderModel();
+
+  // Must be public, used in template
+  public isUpdateMode = false;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private leaderService: LeaderService,
     public userService: UserService,
     public driveService: DriveService,
-    private dialogService: DialogService,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
   /**
@@ -32,17 +35,27 @@ export class LeaderEditComponent implements OnInit {
    * like `id` in leader/:id/edit)
    */
   ngOnInit() {
+
     // FIXME
-    const p = this.userService.userProfile;
-    const fullname = p ? p['name'] : '';
-    this.leader.name = fullname.split(' ')[0];
-    this.leader.surName = fullname.split(' ')[1];
+    const profile = this.userService.userProfile;
+    // FIXME
+    const fullname = profile ? profile['name'] : '';
+
+    // FIXME Code duplication
+    this.leaderFormGroup = this.fb.group({
+      name:     [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      surName:  [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      mission:  ['', [Validators.required, Validators.minLength(10), Validators.maxLength(999)]],
+      vision:   ['', [Validators.required, Validators.minLength(10), Validators.maxLength(999)]],
+      videoUrl: ['', this.videoUrlValidator]
+    });
+
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
         // console.log('Leader Editor by ID from route params:', id);
 
-        // TODO Test unauthorised user can't see the page
+        // FIXME_SEC TEST_1 unauthorised user can't see the page
         if (id && this.userService.authenticated()) {
            this.isUpdateMode = true;
            this.leaderService.getLeader(id)
@@ -57,22 +70,65 @@ export class LeaderEditComponent implements OnInit {
       });
   }
 
-  /**
-   * Leader loading handler
-   * @param {data} Loaded leader data
-   */
-  setLeader(data) {
-    this.leader = new LeaderModel();
-    this.leader.parseData(data);
-    this.driveService.checkConnection();
+  // FIXME apply validation
+  // returns either null if the control value is valid or a validation error object
+  videoUrlValidator(c: FormControl) {
+    const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+    // console.log('yourube validity: ', c.value, c.value.match(youTubeRegexp) );
+    const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
+    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
   }
 
   /**
-   * Removes the leader from DB
-   * @param {leader} Leader to delete
+   * Leader loading handler
+   * @param {data} Loaded Leader data
    */
-  deleteLeader(leader: LeaderModel) {
-    this.leaderService.deleteLeader(leader);
+  setLeader(data) {
+    this.leaderModel = new LeaderModel();
+    this.leaderModel.parseData(data);
+    this.driveService.checkConnection();
+
+    this.leaderModel.applyModelToFormGroup(this.leaderFormGroup);
+
+    console.log('Leader Form Group: ', this.leaderFormGroup);
+  }
+
+  /**
+  * Saves new or edited Leader by asking one of two service methods for DB.
+  * @returns return false to prevent default form submit behavior to refresh the page.
+  */
+  // FIXME: Complete Leader processing
+  onSubmit() {
+    console.log( this.leaderFormGroup.value, this.leaderFormGroup.valid );
+
+    // Update leader from form
+    this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
+
+    if (this.isUpdateMode) {
+      // Update existing Leader:
+      this.leaderService.updateLeader(this.leaderModel)
+      .subscribe(
+        data => { this.leaderService.gotoLeaderView(data); },
+        err => (er) => console.error('Leader update error: ', er),
+        () => {}
+      );
+    } else {
+      // Create new Leader:
+      // FTUX: If user's unauthorised, use service to save him to localStorage, continue after login
+      if (this.userService.needToLoginFirst(this.leaderModel)) {
+        return false;
+      }
+      // NO FTUX - user is authorized already
+      this.leaderService.createLeader(this.leaderModel, this.userService.getEmail());
+    }
+  }
+
+  /**
+   * Removes the Leader from DB
+   * @param {Leader} Leader to delete
+   */
+  deleteLeader(leaderModel: LeaderModel) {
+    this.leaderService.deleteLeader(leaderModel);
     return false;
   }
 
@@ -87,58 +143,10 @@ export class LeaderEditComponent implements OnInit {
         name: fileList[i].name
       });
     }
-    this.leader.leaderFiles = files;
+    this.leaderModel.leaderFiles = files;
   }
 
-  /**
-   * Saves new or edited leader by asking one of two service methods for DB.
-   * @returns return false to prevent default form submit behavior to refresh the page.
-   */
-  // FIXME: Complete Leader processing
-  onSaveLeaderClick(): boolean {
-    if (this.isUpdateMode) {
-      // Update existing leader:
-      this.leaderService.updateLeader(this.leader)
-      .subscribe(
-        data => { this.leaderService.gotoLeaderView(data); },
-        err => (er) => console.error('Leader update error: ', er),
-        () => {}
-      );
-    } else {
-      // Create new leader
-
-      // FTUX: If user's unauthorised, save him to localStorage, continue after login
-      if ( !this.userService.authenticated()) {
-        this.saveToLocalStorage(this.leader);
-        return false;
-      }
-
-      // NO FTUX - user is authorized already
-      this.leaderService.createLeader(this.leader, this.userService.getEmail());
-    }
-    return false;
+  cancelEditing() {
+    this.location.back();
   }
-
-  /**
-   * FTUX - Lazy Leader Registration.
-   * Save Leader to LocalStorage to let unauthorised user to start registration
-   */
-  saveToLocalStorage(leader) {
-    console.log('≥≥≥ unauthorised, saving to localStorage');
-    localStorage.setItem('BigPolicyLeaderRegistration', leader);
-    this.showRegistrationIsNeededWarning();
-  }
-
-  showRegistrationIsNeededWarning() {
-    this.dialogService
-       .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
-       .subscribe(res => {
-         console.log('Заходимо у систему');
-         this.userService.login();
-       });
-   }
-
-   cancelEditing() {
-     this.location.back();
-   }
 }
