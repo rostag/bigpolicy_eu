@@ -4,8 +4,10 @@ import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../../shared/dialog/dialog.service';
 
-// Avoid name not found warnings
+// Avoid name not found warnings in tests
+declare var localStorage: any;
 declare var Auth0Lock: any;
+declare var window: any;
 
 @Injectable()
 export class UserService {
