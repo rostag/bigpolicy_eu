@@ -1,4 +1,14 @@
 import { UserService } from '../user/user.service';
+import { FormGroup } from '@angular/forms';
+
+export interface ILeader {
+  name: string;
+  surName: string;
+  vision: string;
+  mission: string;
+  email: string;
+  videoUrl: string;
+}
 
 export class LeaderModel {
 
@@ -6,15 +16,15 @@ export class LeaderModel {
 
 	// personal info
   name: string;
-  parentName: string;
   surName: string;
+  parentName: string;
   vision: string;
   mission: string;
-  photo: string;
-  videoUrl: string;
   email: string;
-  projects;
+  videoUrl: string;
+  photo: string;
   donations;
+  projects;
   // FIXME Check for Null prevention
   leaderFiles;
   totalDonationsReceived: Number = 0;
@@ -41,6 +51,7 @@ export class LeaderModel {
    */
   toString() {
       // FIXME TEST_1 -- Somehow it stops saving if switch to next string instead of bulky code
+      console.log('leader model.toString', this);
       return JSON.stringify( this );
   }
 
@@ -58,5 +69,17 @@ export class LeaderModel {
   onPhotoUrlChange(newUrlValue) {
     console.log('Leader photo url:', newUrlValue);
     this.photo = newUrlValue;
+  }
+
+  applyFormGroupToModel(f: FormGroup) {
+    this.name = f.get('name').value;
+    this.surName = f.get('surName').value;
+    this.vision = f.get('vision').value;
+    this.mission = f.get('mission').value;
+    this.videoUrl = f.get('videoUrl').value;
+  }
+
+  applyModelToFormGroup(formGroup: FormGroup) {
+    formGroup.patchValue(this);
   }
 }
