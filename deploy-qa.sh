@@ -1,6 +1,6 @@
-# QA seployment script.
+# QA deployment script.
 #
-# Sample usage: bash deploy-qa.sh 9-recovered develop
+# Sample usage: bash deploy-qa.sh backup-1 develop
 #
 # Params:
 # $1 - arbitrary name of backup branch to save before deploy

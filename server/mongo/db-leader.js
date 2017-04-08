@@ -10,18 +10,7 @@ var DBLeader = {};
  * Creates a Leader by provided data
  * @param dataObj Properties object of Leader to be created
  */
-DBLeader.createLeader = function(dataObj) {
-  var data = dataObj;
-  // console.log('DBLeader: createLeader: ', data)
-  for ( var item in dataObj ) {
-    data = JSON.parse(item);
-  }
-
-  if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
-    throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
-  }
-
-  if ( !data ) data = {};
+DBLeader.createLeader = function(data) {
   const model = new Leader(data);
   var saved = model.save();
   var saved2 = model.save(saved);
