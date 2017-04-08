@@ -1,6 +1,10 @@
-# bash deploy-qa.sh 9-recovered feat-leader-list
-# $1 bck branch to save before deploy
-# $2 base branch to deploy
+# QA seployment script.
+#
+# Sample usage: bash deploy-qa.sh 9-recovered develop
+#
+# Params:
+# $1 - arbitrary name of backup branch to save before deploy
+# $2 - branch to deploy
 
 # Get the version number from output of version increasing script
 BP_APP_VERSION_ID=`node app-version.js`
@@ -13,25 +17,25 @@ echo "--------------------------------------"
 
 git add . && git commit -m "Version increase to $BP_APP_VERSION_ID"
 
-# back-up deploy branch
+### 0. Back-up deployment branch (safety - can be skipped)
 git checkout -B deploy-qa-bck-$1 deploy-qa
 
-# create deploy branch
+### 1. Switch to deployment branch
 git checkout deploy-qa
 
-# merge code to deploy branch
+### 2. Merge code to deploy branch from [branch to deploy]
 git merge $2 -X theirs -m 'deploy-update'
 
-# build for deployment
+### 3. Build the application
 ng build -prod
 
-# commit build to deploy branch
+### 4. Commit build files to deploy branch
 git add . && git commit -m 'deploy-update-build'
 
-# push deploy branch to it's repo
-git push deploy-qa deploy-qa --force
+### 5. Push deploy branch to remote repo
+git push remote-qa deploy-qa --force
 
-# safely switch to temporary branch
+### 6. Switch to temporary branch (safety - can be skipped)
 git checkout -B feat-temp
 
 echo "----------B I G D E P L O Y-----------"
