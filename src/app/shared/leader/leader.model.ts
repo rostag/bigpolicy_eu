@@ -56,7 +56,7 @@ export class LeaderModel {
   }
 
 	/**
-   * Populate model from a json representation loaded from DB or localStorage
+   * Populate model from a json representation loaded from DB or local storage
    */
   parseData(data) {
     for (const item in data) {
