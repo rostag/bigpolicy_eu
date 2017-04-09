@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FilesViewComponent } from './files.view.component';
 import { ToolbarComponent } from '../../index';
 
-describe('FilesViewComponent', () => {
+describe('FIXME FilesViewComponent', () => {
   // let component: FilesViewComponent;
   // let fixture: ComponentFixture<FilesViewComponent>;
 
@@ -21,7 +21,7 @@ describe('FilesViewComponent', () => {
     // fixture.detectChanges();
   });
 
-  it('FIXME should create', () => {
+  it('FIXME should create FilesViewComponent', () => {
     expect(true).toBeTruthy();
     // expect(component).toBeTruthy();
   });

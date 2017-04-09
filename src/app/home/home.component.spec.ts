@@ -21,7 +21,7 @@ import { CoreModule } from '../core.module';
 
 // http://stackoverflow.com/questions/39577920/angular-2-unit-testing-components-with-routerlink/39579009#39579009
 
-describe('HomeComponent', () => {
+describe('FIXME HomeComponent', () => {
   // let component: HomeComponent;
   // let fixture: ComponentFixture<HomeComponent>;
   //
@@ -39,14 +39,7 @@ describe('HomeComponent', () => {
   //   fixture.detectChanges();
   // });
 
-  it('FIXME should create', () => {
+  it('should create HomeComponent', () => {
     // expect(component).toBeTruthy();
-    expect(true).toBeTruthy();
-  });
-});
-
-describe('Testing math', () => {
-  it('multiplying should work', () => {
-    expect(4 * 4).toEqual(16);
   });
 });
