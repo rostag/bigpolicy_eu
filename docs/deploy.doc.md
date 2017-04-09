@@ -41,4 +41,59 @@ Please make sure you tested your changes on QA before deploying to Live, otherwi
 *2. Error:* 'Not found' on the main page.
 *Cause, Root cause, Solution, Final Solution:* The same as in #1
 
+### Jenkins issues
+
+* https://issues.jenkins-ci.org/browse/JENKINS-22591
+* https://issues.jenkins-ci.org/browse/JENKINS-11337?focusedCommentId=159670&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-159670
+* https://github.com/phemmer/jenkins-git-chooser-build-branches
+* http://stackoverflow.com/questions/8826881/maven-install-on-mac-os-x
+* https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+
+
+* Cannot write to directory:
+ * http://stackoverflow.com/questions/30242772/where-is-jenkins-config-xml-and-why-is-this-error-appearing
+ * http://stackoverflow.com/questions/35613458/jenkins-failed-to-create-a-temporary-file-in-why-is-it-trying-to-write-a-fil
+ * http://stackoverflow.com/questions/15675783/how-to-change-the-jenkins-tmp-dir-location
+
+## Disk Space
+
+http://stackoverflow.com/questions/23749176/disk-quota-exceeded-cant-run-rhc-app-tidy
+ssh to your cartridge
+cd app-root/logs
+# to check the dimension of the current dir
+du -sh
+# safe delete it with rm -f php-error.log
+
+jenkins-bigtest.rhcloud.com app-root]
+du -hsx * | sort -rh | head -10
+
+### Trigger build:
+
+https://jenkins-bigtest.rhcloud.com/job/qa-build/api/
+https://jenkins-bigtest.rhcloud.com/job/qa-build/build
+
+Perform a build
+https://jenkins-bigtest.rhcloud.com/job/qa-build-manual/api/
+
+To programmatically schedule a new build, post to this URL:
+https://jenkins-bigtest.rhcloud.com/job/qa-build-manual/build
+
+If the build has parameters, post to this URL and provide the parameters as form data. Either way, the successful queueing will result in 201 status code with Location HTTP header pointing the URL of the item in the queue. By polling the api/xml sub-URL of the queue item, you can track the status of the queued task. Generally, the task will go through some state transitions, then eventually it becomes either cancelled (look for the "cancelled" boolean property), or gets executed (look for the "executable" property that typically points to the AbstractBuild object.)
+
+To programmatically schedule SCM polling, post to this URL.
+
+If security is enabled, the recommended method is to provide the username/password of an account with build permission in the request. Tools such as curl and wget have parameters to specify these credentials. Another alternative (but deprecated) is to configure the 'Trigger builds remotely' section in the job configuration. Then building or polling can be triggered by including a parameter called token in the request.
+
+https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API
+
+curl -X POST https://jenkins-bigtest.rhcloud.com/job/qa-build-manual/build --user qabuilder:38933da1fb6f299b7586cd01a8ee626d
+
+
+### Moar
+
+https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients
+https://wiki.jenkins-ci.org/display/JENKINS/GitHub+plugin#GitHubPlugin-GitHubhooktriggerforGITScmpolling
+https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificationfromrepository
+
+
 ### Questions? Ask @rostag
