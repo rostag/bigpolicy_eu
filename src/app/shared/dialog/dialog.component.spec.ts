@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogComponent } from './dialog.component';
 
-describe('DialogComponent', () => {
+describe('FIXME DialogComponent', () => {
   // let component: DialogComponent;
   // let fixture: ComponentFixture<DialogComponent>;
 
@@ -19,7 +19,7 @@ describe('DialogComponent', () => {
     // fixture.detectChanges();
   });
 
-  it('FIXME should create', () => {
+  it('FIXME should create DialogComponent', () => {
     expect(true).toBeTruthy();
     // expect(component).toBeTruthy();
   });

@@ -56,146 +56,44 @@
 
       <div class="problem-statement">
 
-        <h3>Як виглядає проблема для тебе?</h3>
+      <h3>Як виглядає проблема для тебе?</h3>
 
-        <md-input-container>
-          <textarea mdInput mdTextareaAutosize maxLength="1000" name="vision" formControlName="vision" placeholder="Твоя особиста візія і думки" characterCounter></textarea>
-        </md-input-container>
-        <div *ngIf="leaderFormGroup.get('vision').hasError('required') && leaderFormGroup.get('vision').touched" class="validation-error" >
-          Це поле не може бути пустим.
-        </div>
-        <div *ngIf="leaderFormGroup.get('vision').hasError('minlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
-          Будь ласка, опиши своє бачення детальніше.
-        </div>
-        <!-- FIXME Paramaterize 1000 limit  -->
-        <div *ngIf="leaderFormGroup.get('vision').hasError('maxlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
-          Цей текст завеликий. Будь ласка, не більше 999 символів.
-        </div>
-
-        <h3>Який аспект проблеми ти хочеш вирішити?</h3>
-
-        <md-input-container>
-          <textarea mdInput mdTextareaAutosize maxLength="1000" name="mission" formControlName="mission" placeholder="Твоя місія" characterCounter ></textarea>
-        </md-input-container>
-        <div *ngIf="leaderFormGroup.get('mission').hasError('required') && leaderFormGroup.get('mission').touched" class="validation-error" >
-          Це поле не може бути пустим.
-        </div>
-        <div *ngIf="leaderFormGroup.get('mission').hasError('minlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
-          Будь ласка, опиши свою місію детальніше.
-        </div>
-        <div *ngIf="leaderFormGroup.get('mission').hasError('maxlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
-          Цей текст завеликий. Будь ласка, не більше 999 символів.
-        </div>
-
+      <md-input-container>
+        <textarea mdInput mdTextareaAutosize maxLength="1000" name="vision" formControlName="vision" placeholder="Твоя особиста візія і думки" characterCounter></textarea>
+      </md-input-container>
+      <div *ngIf="leaderFormGroup.get('vision').hasError('required') && leaderFormGroup.get('vision').touched" class="validation-error" >
+        Це поле не може бути пустим.
+      </div>
+      <div *ngIf="leaderFormGroup.get('vision').hasError('minlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
+        Будь ласка, опиши своє бачення детальніше.
+      </div>
+      <!-- FIXME Paramaterize 1000 limit  -->
+      <div *ngIf="leaderFormGroup.get('vision').hasError('maxlength') && leaderFormGroup.get('vision').touched" class="validation-error" >
+        Цей текст завеликий. Будь ласка, не більше 999 символів.
       </div>
 
-      <!-- User should only be able to edit his own files, thus matching his email in gdrive -->
-      <div *ngIf="isUpdateMode">
-        <app-bp-files *ngIf="userService.isOwner(leaderModel)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
-        <app-files-view *ngIf="!userService.isOwner(leaderModel)" [files]="leaderModel.leaderFiles" ></app-files-view>
+      <h3>Який аспект проблеми ти хочеш вирішити?</h3>
+
+      <md-input-container>
+        <textarea mdInput mdTextareaAutosize maxLength="1000" name="mission" formControlName="mission" placeholder="Твоя місія" characterCounter ></textarea>
+      </md-input-container>
+      <div *ngIf="leaderFormGroup.get('mission').hasError('required') && leaderFormGroup.get('mission').touched" class="validation-error" >
+        Це поле не може бути пустим.
+      </div>
+      <div *ngIf="leaderFormGroup.get('mission').hasError('minlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
+        Будь ласка, опиши свою місію детальніше.
+      </div>
+      <div *ngIf="leaderFormGroup.get('mission').hasError('maxlength') && leaderFormGroup.get('mission').touched" class="validation-error" >
+        Цей текст завеликий. Будь ласка, не більше 999 символів.
       </div>
 
-      <!--
+    </div>
 
-      <md-toolbar class="add-toolbar" color="primary">Проекти
-        <span class="add-fill-remaining"></span>
-        <span *ngIf="isUpdateMode">
-          <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати проект</button>
-        </span>
-      </md-toolbar>
-
-      <md-card-content>
-        <h3>Як ти вирішиш цю проблему?</h3>
-
-        <md-input-container>
-          <input mdInput name="description" characterCounter placeholder="Опиши свій проект: " hintLabel="">
-        </md-input-container>
-
-        <md-input-container>
-          <input mdInput name="amount" placeholder="Сума, грн" align="end" mdPrefix="Який бюджет тобі на це потрібен? UAH&nbsp;" mdSuffix="00">
-        </md-input-container>
-      </md-card-content>
-
-      <md-toolbar class="add-toolbar" color="primary">Твоя програма
-        <span class="add-fill-remaining"></span>
-        <span *ngIf="isUpdateMode">
-          <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати ще одну ціль</button>
-        </span>
-      </md-toolbar>
-
-      <md-card-content>
-        <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
-        <md-input-container>
-          <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
-        </md-input-container>*
-
-        <p>
-          Другорядна ціль:
-          <md-input-container>
-            <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
-          </md-input-container>*
-        </p>
-      </md-card-content>
-
-      <md-toolbar class="add-toolbar" color="white">Додатково</md-toolbar>
-
-      <md-card-content>
-        <md-card-title>
-          Належиш до партії?
-          <md-input-container>
-            <input mdInput name="party" type="text" placeholder="Вкажи партію">
-          </md-input-container>
-        </md-card-title>
-
-        <md-card-title>
-          Офіційна посада:
-          <md-input-container>
-            <input mdInput name="title" type="text" placeholder="Вкажи свою посаду">
-          </md-input-container>
-        </md-card-title>
-      </md-card-content>
-
-      <md-toolbar class="add-toolbar" color="accent">Твої профілі у соцмережах:
-        <span class="add-fill-remaining"></span>
-        <button md-button><md-icon>add</md-icon>Додати</button>
-      </md-toolbar>
-
-      <md-card-content>
-        <md-card-title>
-          Профілі не вказано
-        </md-card-title>
-      </md-card-content>
-
-      <md-toolbar class="add-toolbar" color="white">
-        <h2>Завантаж необхідні документи:</h2>
-      </md-toolbar>
-
-      <md-card-content>
-        <ul>
-        <li><a><md-icon color="primary">attach_file</md-icon>Програма дій</a></li>
-        <li><a><md-icon color="primary">attach_file</md-icon>Передвиборча програма</a></li>
-        <li><a><md-icon color="primary">attach_file</md-icon>Скан паспорту</a></li>
-        <li><a><md-icon color="primary">attach_file</md-icon>Довідка про судимості</a></li>
-        <li><a><md-icon color="primary">attach_file</md-icon>Антикорупційні документи</a></li>
-        <li><a><md-icon color="primary">attach_file</md-icon>Публічна майнова декларація</a></li>
-      </ul>
-      </md-card-content>
-
-      <ul style="list-style-type:none">
-        <li>
-          <md-checkbox [checked]="false" align="start">
-            Я даю згоду на обробку моїх персональних данних.
-          </md-checkbox>
-        </li>
-        <li>
-          <md-checkbox [checked]="false" align="start">
-            Я погоджуюся з умовами роботи BigPolicy
-          </md-checkbox>
-        </li>
-      </ul>
-      <br>
-
-    -->
+    <!-- User should only be able to edit his own files, thus matching his email in gdrive -->
+    <div *ngIf="isUpdateMode">
+      <app-bp-files *ngIf="userService.isOwner(leaderModel)" [userService]="userService" (onFileListUpdate)="onFileListUpdate($event)"></app-bp-files>
+      <app-files-view *ngIf="!userService.isOwner(leaderModel)" [files]="leaderModel.leaderFiles" ></app-files-view>
+    </div>
 
     <md-toolbar class="add-toolbar" color="#fff">
       <button md-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
@@ -210,3 +108,105 @@
   </md-card-content>
   </form>
 </md-card>
+
+<!--
+
+<md-toolbar class="add-toolbar" color="primary">Проекти
+  <span class="add-fill-remaining"></span>
+  <span *ngIf="isUpdateMode">
+    <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати проект</button>
+  </span>
+</md-toolbar>
+
+<md-card-content>
+  <h3>Як ти вирішиш цю проблему?</h3>
+
+  <md-input-container>
+    <input mdInput name="description" characterCounter placeholder="Опиши свій проект: " hintLabel="">
+  </md-input-container>
+
+  <md-input-container>
+    <input mdInput name="amount" placeholder="Сума, грн" align="end" mdPrefix="Який бюджет тобі на це потрібен? UAH&nbsp;" mdSuffix="00">
+  </md-input-container>
+</md-card-content>
+
+<md-toolbar class="add-toolbar" color="primary">Твоя програма
+  <span class="add-fill-remaining"></span>
+  <span *ngIf="isUpdateMode">
+    <button disabled='disabled' md-raised-button (click)="addProject()" color="accent">Додати ще одну ціль</button>
+  </span>
+</md-toolbar>
+
+<md-card-content>
+  <h3>Які цілі ти ставиш собі на 3 роки вперед?</h3> Головна ціль:
+  <md-input-container>
+    <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
+  </md-input-container>*
+
+  <p>
+    Другорядна ціль:
+    <md-input-container>
+      <input mdInput name="name" [(ngModel)]="name" type="text" placeholder="Опиши коротко">
+    </md-input-container>*
+  </p>
+</md-card-content>
+
+<md-toolbar class="add-toolbar" color="white">Додатково</md-toolbar>
+
+<md-card-content>
+  <md-card-title>
+    Належиш до партії?
+    <md-input-container>
+      <input mdInput name="party" type="text" placeholder="Вкажи партію">
+    </md-input-container>
+  </md-card-title>
+
+  <md-card-title>
+    Офіційна посада:
+    <md-input-container>
+      <input mdInput name="title" type="text" placeholder="Вкажи свою посаду">
+    </md-input-container>
+  </md-card-title>
+</md-card-content>
+
+<md-toolbar class="add-toolbar" color="accent">Твої профілі у соцмережах:
+  <span class="add-fill-remaining"></span>
+  <button md-button><md-icon>add</md-icon>Додати</button>
+</md-toolbar>
+
+<md-card-content>
+  <md-card-title>
+    Профілі не вказано
+  </md-card-title>
+</md-card-content>
+
+<md-toolbar class="add-toolbar" color="white">
+  <h2>Завантаж необхідні документи:</h2>
+</md-toolbar>
+
+<md-card-content>
+  <ul>
+  <li><a><md-icon color="primary">attach_file</md-icon>Програма дій</a></li>
+  <li><a><md-icon color="primary">attach_file</md-icon>Передвиборча програма</a></li>
+  <li><a><md-icon color="primary">attach_file</md-icon>Скан паспорту</a></li>
+  <li><a><md-icon color="primary">attach_file</md-icon>Довідка про судимості</a></li>
+  <li><a><md-icon color="primary">attach_file</md-icon>Антикорупційні документи</a></li>
+  <li><a><md-icon color="primary">attach_file</md-icon>Публічна майнова декларація</a></li>
+</ul>
+</md-card-content>
+
+<ul style="list-style-type:none">
+  <li>
+    <md-checkbox [checked]="false" align="start">
+      Я даю згоду на обробку моїх персональних данних.
+    </md-checkbox>
+  </li>
+  <li>
+    <md-checkbox [checked]="false" align="start">
+      Я погоджуюся з умовами роботи BigPolicy
+    </md-checkbox>
+  </li>
+</ul>
+<br>
+
+-->

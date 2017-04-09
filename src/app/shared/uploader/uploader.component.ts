@@ -1,10 +1,12 @@
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
-// import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import * as firebase from 'firebase';
+// import { Router } from '@angular/router';
 
-declare var firebase: any;
+// OBSOLETE
+// declare var firebase: any;
 
 interface Image {
   path: string;
