@@ -5,10 +5,6 @@
   <title>Гра за правилами — BigPolicy</title>
   <base href="/">
 
-  <!-- FIXME {{#unless environment.production}}
-  <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
-  {{/unless}} -->
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
@@ -28,16 +24,19 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=163534360699638&ev=PageView&noscript=1"/></noscript>
   <!-- End Facebook Pixel Code -->
 
-  <!-- FIXME replace with NPM -->
+  <!-- TODO Move to NPM -->
   <script src="/assets/js/lock.min.js"></script>
-  <script src="/assets/js/auth0-7.0.3.min.js"></script>
+  <!-- OBSOLETE - TO BE REMOVED -->
+  <!-- <script src="/assets/js/auth0-7.0.3.min.js"></script> -->
 
+  <!-- Google WEB APIs -->
+  <!-- TODO Move to NPM -->
   <script async defer src="https://apis.google.com/js/platform.js"></script>
   <script async defer src="https://apis.google.com/js/api.js"></script>
 
-  <!-- Add Firebase JS -->
+  <!-- TODO Move to NPM -->
   <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
-  <script>
+  <!-- <script>
     // Initialize Firebase
     var config = {
       apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -47,10 +46,9 @@
       messagingSenderId: '780191546457'
     };
     firebase.initializeApp(config);
-  </script>
-  <!-- /Add Firebase JS -->  
+  </script> -->
+  <!-- /Add Firebase JS -->
 
-  <!-- <link rel="icon" type="image/x-icon" href="favicon.png"> -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -58,19 +56,14 @@
     .circle {
       width: 200px;
       height: 200px;
-      /*border-radius: 0px;*/
-      /*border: 1px solid #ccc;*/
-      /*border-width: 100px;*/
       outline: 80px solid white;
       outline-offset: -80px;
     }
     /* Step 1: Set up Keyframes */
-    /* fadeInOut */
     @keyframes fadeInOut {
       from { opacity: 1; }
       to   { opacity: 0; }
     }
-    /* radius */
     @keyframes radidadius {
       from { outline-offset: -100px;}
       to   { outline-offset: 0px;}
@@ -103,7 +96,7 @@
   }(document, 'script', 'facebook-jssdk'));</script>
   <!-- FB -->
 
-  <!-- FIXME Get Rid of jQuery -->
+  <!-- FIXME get rid of jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 
   <script>
