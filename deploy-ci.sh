@@ -33,7 +33,7 @@ ng build -prod
 git add . && git commit -m 'deploy-update-build'
 
 ### 5. Push deploy branch to remote repo
-git push remote-qa deploy-qa --force
+git push remote-ci deploy-qa --force
 
 ### 6. Switch to temporary branch (safety - can be skipped)
 git checkout -B feat-temp
