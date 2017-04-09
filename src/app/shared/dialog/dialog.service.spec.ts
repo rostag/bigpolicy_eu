@@ -1,8 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
-import { MaterialModule, MdDialog,
-  Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
+import { MaterialModule, MdDialog, Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
 
 
 describe('DialogService', () => {

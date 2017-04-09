@@ -10,6 +10,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 
+declare var localStorage: any;
+
 /**
  * Provides the Leader service with methods to create, read, update and delete models.
  */

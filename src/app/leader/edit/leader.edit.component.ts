@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 export class LeaderEditComponent implements OnInit {
 
-  leaderFormGroup: FormGroup;
+  public leaderFormGroup: FormGroup;
 
   // Must be public, used in template
   public leaderModel: LeaderModel = new LeaderModel();
@@ -36,6 +36,8 @@ export class LeaderEditComponent implements OnInit {
    */
   ngOnInit() {
 
+    console.log('Init Leader Editor, route params:', this.route.params);
+
     // FIXME
     const profile = this.userService.userProfile;
     // FIXME
@@ -53,7 +55,7 @@ export class LeaderEditComponent implements OnInit {
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        // console.log('Leader Editor by ID from route params:', id);
+        console.log('Leader Editor by ID from route params:', id);
 
         // FIXME_SEC TEST_1 unauthorised user can't see the page
         if (id && this.userService.authenticated()) {
@@ -114,7 +116,7 @@ export class LeaderEditComponent implements OnInit {
       );
     } else {
       // Create new Leader:
-      // FTUX: If user's unauthorised, use service to save him to localStorage, continue after login
+      // FTUX: If user's unauthorised, use service to save him to local storage, continue after login
       if (this.userService.needToLoginFirst(this.leaderModel)) {
         return false;
       }
