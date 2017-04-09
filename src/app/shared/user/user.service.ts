@@ -1,16 +1,23 @@
+import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../../shared/dialog/dialog.service';
+// No Figure brackets please - see
+// https://github.com/auth0/lock/issues/521#issuecomment-238583539
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
-declare var Auth0Lock: any;
 declare var window: any;
+// declare var Auth0Lock: any;
+
+// declare var require: any;
+// const Auth0Lock = require('auth0-lock').default;
 
 @Injectable()
 export class UserService {
+
 
   // Store profile object in auth class
   userProfile: any = {
