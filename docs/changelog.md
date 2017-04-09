@@ -70,6 +70,9 @@
 
 ## 2017
 
+* Donation is added to the target only after it's status confirmation in external system.
+* Virtual Donations don't require confirmation.
+
 ### 2017-02-05 17:13
 
 Donations feature:
@@ -91,6 +94,11 @@ Donations feature:
 ### 2017-03-11
 
  * Migrated to Angular CLI version 1.0.0.rc-1
+ * DGrive authorization
+  * Files view from files editing separation
+  * Files ownership authorisation - user can edit his own files only
+  * UX: file upload enhancement, progress display etc
+  * Save Leader file list to DB after files editor update
 
 ### 2017-03-19 08:00
 
@@ -159,6 +167,19 @@ Donations feature:
  * Project brief display
  * Project image upload	and display
  * Flex applied
+
+### 2017-04-09
+
+ Валідацію для форми створення лідера.
+
+
+Валідація працює так:
+— Ім'я, Прізвище, місія та візія обов'язкові до заповнення.
+— Довжина імені та прізвища має знаходитися між 2 і 50 літерами.
+— Довжина місіх та візії має знаходитися між 10 і 999 літерами.
+Це все, звичайно можна змінювати. Просто тепер це принципово контролюється.
+
+### 2017-04-09
 
 ###
  * Responsive Layout for Home Page
