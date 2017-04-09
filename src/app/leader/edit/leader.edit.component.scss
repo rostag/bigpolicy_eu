@@ -15,3 +15,13 @@ textarea {
 .problem-statement {
   // margin-top: 100px;
 }
+
+// FIXME_SCCS
+$reddish: #e30;
+
+.validation-error {
+  border-right: 1em solid $reddish;
+  color: $reddish;
+  margin-bottom: 1.1em;
+  margin-top: -1em;
+}

@@ -1,15 +1,14 @@
-import { inject, TestBed } from '@angular/core/testing';
+// WIP: This is the beginning or first Service Test
+
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  HttpModule,
-  Http,
-  BaseRequestOptions,
-  XHRBackend,
-  Response,
-  ResponseOptions
-} from '@angular/http';
+import { DialogService } from '../../shared/dialog/dialog.service';
+import { HttpModule, Http, BaseRequestOptions, XHRBackend, Response, ResponseOptions } from '@angular/http';
+import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
+import { MaterialModule, MdDialogRef, MdDialog, MdDialogConfig, Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
 import { MockBackend } from '@angular/http/testing';
+import { ProjectService } from '../project/project.service';
+import { TaskService } from '../task/task.service';
 
 describe('LeaderService', () => {
 
@@ -18,7 +17,7 @@ describe('LeaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [
-        LeaderService,
+        LeaderService, ProjectService, TaskService, DialogService, MdDialog, Overlay, OverlayContainer, OVERLAY_PROVIDERS,
         { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
         { provide: XHRBackend, useClass: MockBackend }
       ]
@@ -27,7 +26,7 @@ describe('LeaderService', () => {
 
   describe('getLeadersPage(leaderId, groupId, page, limit, dbQuery)', () => {
 
-    it('should return an Observable<Array<Response>>',
+    it('// WIP: should return an Observable<Array<LeaderModel>>',
       inject( [LeaderService, XHRBackend], (leaderService, mockBackend) => {
 
         const mockResponse = {

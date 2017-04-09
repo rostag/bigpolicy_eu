@@ -70,6 +70,9 @@
 
 ## 2017
 
+* Donation is added to the target only after it's status confirmation in external system.
+* Virtual Donations don't require confirmation.
+
 ### 2017-02-05 17:13
 
 Donations feature:
@@ -91,6 +94,11 @@ Donations feature:
 ### 2017-03-11
 
  * Migrated to Angular CLI version 1.0.0.rc-1
+ * DGrive authorization
+  * Files view from files editing separation
+  * Files ownership authorisation - user can edit his own files only
+  * UX: file upload enhancement, progress display etc
+  * Save Leader file list to DB after files editor update
 
 ### 2017-03-19 08:00
 

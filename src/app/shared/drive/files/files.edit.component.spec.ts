@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { FilesEditComponent } from './files.edit.component';
 
-describe('FilesEditComponent', () => {
+describe('FIXME FilesEditComponent', () => {
   // let component: FilesEditComponent;
   // let fixture: ComponentFixture<FilesEditComponent>;
 
@@ -22,7 +22,7 @@ describe('FilesEditComponent', () => {
     // fixture.detectChanges();
   });
 
-  it('FIXME should create', () => {
+  it('should create FilesEditComponent', () => {
     // expect(component).toBeTruthy();
     expect(true).toBeTruthy();
   });

@@ -1,14 +1,23 @@
+import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../../shared/dialog/dialog.service';
+// No Figure brackets please - see
+// https://github.com/auth0/lock/issues/521#issuecomment-238583539
 
-// Avoid name not found warnings
-declare var Auth0Lock: any;
+// Avoid name not found warnings in tests
+declare var localStorage: any;
+declare var window: any;
+// declare var Auth0Lock: any;
+
+// declare var require: any;
+// const Auth0Lock = require('auth0-lock').default;
 
 @Injectable()
 export class UserService {
+
 
   // Store profile object in auth class
   userProfile: any = {
@@ -41,12 +50,14 @@ export class UserService {
     private dialogService: DialogService
   ) {
     // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
-
-    this.leaderService.requestLeaderByEmail(this.getEmail());
+    if (this.authenticated()) {
+      this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
+      this.leaderService.requestLeaderByEmail(this.getEmail());
+    }
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
+      // Auth0 data
       localStorage.setItem('id_token', authResult.idToken);
 
       // console.log('Authenticated, lock.showSignin =', this.lock.showSignin);
@@ -118,8 +129,13 @@ export class UserService {
   /**
    * Returns true if user is logged in and his admin is in the admin list.
    */
+   // FIXME Implement Admins list
   public isAdmin() {
-    return this.authenticated() && this.getEmail() === 'rostislav.siryk@gmail.com';
+    return this.authenticated() && (
+        this.getEmail() === 'rostislav.siryk@gmail.com' ||
+        this.getEmail() === 'prokopenko.serhii@gmail.com' ||
+        this.getEmail() === 'vlodkozak@gmail.com'
+    );
   }
 
   // FIXME_TEST In the first place
@@ -149,11 +165,40 @@ export class UserService {
    * De-authenticates currently logged in user by removing token from local storage.
    */
   public logout() {
+    // Auth0 data
     localStorage.removeItem('id_token');
     localStorage.removeItem('BigPolicyProfile');
     localStorage.removeItem('BigPolicyLeaderRegistration');
     this.userProfile = undefined;
   };
+
+  // ....
+  // FTUX
+  // ....
+
+  /**
+  * Lazy Leader Registration.
+  * Save Leader to LocalStorage to let unauthorised user to start registration
+  */
+  needToLoginFirst(leader: LeaderModel) {
+    if (!this.authenticated()) {
+
+      // save Leader data to LocalStorage
+      console.log('≥≥≥ unauthorised, saving to localStorage');
+      localStorage.setItem('BigPolicyLeaderRegistration', leader.toString());
+
+      // show Registration is needed warning
+      this.dialogService
+      .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
+      .subscribe(res => {
+        console.log('Заходимо у систему');
+        this.login();
+      });
+      return true;
+    }
+    return false;
+  }
+  //  this.saveToLocalStorage(this.leader);
 
   private tryToContinueLeaderRegistration() {
     const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');

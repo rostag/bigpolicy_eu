@@ -9,7 +9,22 @@ module.exports = function(app, DB){
    * Creates a Leader
    */
   router.post('/', function (req, res) {
-    DB.createLeader(req.body)
+    let data;
+
+    console.log('leader-api/create: ', req.body);
+
+    try {
+      data = JSON.parse(Object.keys(req.body)[0]);
+      if ( !data || !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
+        throw ( 'Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
+      }
+    } catch (e) {
+      console.log('Data parsing error: ', e);
+      res.send(e);
+      return;
+    }
+
+    DB.createLeader(data)
     .catch(function (err) {
       res.send(err);
     }).then(function (data) {
