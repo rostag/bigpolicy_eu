@@ -1,5 +1,5 @@
-// import { By } from '@angular/platform/browser';
-// import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageComponent } from '../../shared/image/image.component';
 import { LeaderEditComponent } from './';
@@ -22,8 +22,8 @@ describe('CURRENT WIP: LeaderEditComponent', () => {
 
   let comp: LeaderEditComponent;
   let fixt: ComponentFixture<LeaderEditComponent>;
-  // let de:   DebugElement;
-  // let el:   HTMLElement;
+  let de:   DebugElement;
+  let el:   HTMLElement;
 
   beforeEach(() => {
     console.log('Before test');
@@ -40,8 +40,10 @@ describe('CURRENT WIP: LeaderEditComponent', () => {
 
     comp = fixt.componentInstance;
 
-    // de = fixture.debugElement.query(By.css('input'));
-    // el = de.nativeElement;
+    de = fixt.debugElement.query(By.css('#fileInput'));
+    el = de.nativeElement;
+
+    console.log('el = ', el);
   });
 
   it('requires to enter the name', () => {
