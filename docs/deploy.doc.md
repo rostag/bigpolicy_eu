@@ -101,7 +101,7 @@ https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificatio
 
 NS_JAVA_OPTIONS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=UK/London"
 
-
+https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificationfromrepository
 
 
 ### Questions? Ask @rostag
