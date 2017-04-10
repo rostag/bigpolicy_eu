@@ -8,3 +8,4 @@
  * https://github.com/angular/angularfire2/issues/426#issuecomment-240759736
 * [Three Ways to Test Angular Components by VSavkin](https://vsavkin.com/three-ways-to-test-angular-2-components-dcea8e90bd8d)
 * [Guide by Angular team](https://angular.io/docs/ts/latest/guide/testing.html)
+* Testing forms and Components: https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine

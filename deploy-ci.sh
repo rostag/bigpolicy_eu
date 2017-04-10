@@ -1,6 +1,6 @@
-# CI deployment script.
+# QA deployment script.
 #
-# Sample usage: bash deploy-qa.sh backup-1 develop
+# Sample usage: bash deploy-ci.sh backup-1 develop
 #
 # Params:
 # $1 - arbitrary name of backup branch to save before deploy
@@ -18,10 +18,10 @@ echo "--------------------------------------"
 git add . && git commit -m "Version increase to $BP_APP_VERSION_ID"
 
 ### 0. Back-up deployment branch (safety - can be skipped)
-git checkout -B deploy-qa-bck-$1 deploy-qa
+git checkout -B deploy-ci-bck-$1 deploy-ci
 
 ### 1. Switch to deployment branch
-git checkout deploy-qa
+git checkout deploy-ci
 
 ### 2. Merge code to deploy branch from [branch to deploy]
 git merge $2 -X theirs -m 'deploy-update'
@@ -33,7 +33,7 @@ ng build -prod
 git add . && git commit -m 'deploy-update-build'
 
 ### 5. Push deploy branch to remote repo
-git push remote-qa deploy-qa --force
+git push remote-ci deploy-ci --force
 
 ### 6. Switch to temporary branch (safety - can be skipped)
 git checkout -B feat-temp
