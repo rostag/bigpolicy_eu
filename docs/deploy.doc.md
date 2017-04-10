@@ -95,5 +95,13 @@ https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients
 https://wiki.jenkins-ci.org/display/JENKINS/GitHub+plugin#GitHubPlugin-GitHubhooktriggerforGITScmpolling
 https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificationfromrepository
 
+### Jenkins time zone
+[jenkins-bigtest.rhcloud.com sysconfig]\> cd /etc/sysconfig
+[jenkins-bigtest.rhcloud.com sysconfig]\> vim jenkins
+
+NS_JAVA_OPTIONS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=UK/London"
+
+
+
 
 ### Questions? Ask @rostag
