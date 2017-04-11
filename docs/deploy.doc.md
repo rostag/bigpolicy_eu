@@ -107,4 +107,19 @@ https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificatio
 
 curl -X POST https://jenkins-bigtest.rhcloud.com/git/notifyCommit?url=https://github.com/rostag/bigpolicy_eu.git --user qabuilder:38933da1fb6f299b7586cd01a8ee626d
 
+
+
+How-to setup a simple git push deployment
+https://gist.github.com/thomasfr/9691385
+
+Simple automated GIT Deployment using GIT Hooks
+https://gist.github.com/noelboss/3fe13927025b89757f8fb12e9066f2fa
+
+How To Use Git Hooks To Automate Development and Deployment Tasks
+https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks
+
+# Success on Webhook:
+http://stackoverflow.com/questions/7427557/jenkins-and-github-webhook-http-403
+
+
 ### Questions? Ask @rostag
