@@ -122,4 +122,12 @@ http://stackoverflow.com/questions/7427557/jenkins-and-github-webhook-http-403
 
 Setup a workspace
 
+TAR
+
+To compress
+tar -zcvf archive_name.tar.gz folder_to_compress
+
+To extract
+tar -zxvf archive_name.tar.gz
+
 ### Questions? Ask @rostag
