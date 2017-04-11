@@ -130,4 +130,6 @@ tar -zcvf archive_name.tar.gz folder_to_compress
 To extract
 tar -zxvf archive_name.tar.gz
 
+tar -cvf abck2.tar.gz dist/ server/ start.js package.json app-version.js tsconfig.json tslint.json 
+
 ### Questions? Ask @rostag
