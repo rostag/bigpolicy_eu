@@ -103,5 +103,8 @@ NS_JAVA_OPTIONS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=UK/London"
 
 https://wiki.jenkins-ci.org/display/JENKINS/Git+plugin#GitPlugin-Pushnotificationfromrepository
 
+### Trigger GitHub merge
+
+curl -X POST https://jenkins-bigtest.rhcloud.com/git/notifyCommit?url=https://github.com/rostag/bigpolicy_eu.git --user qabuilder:38933da1fb6f299b7586cd01a8ee626d
 
 ### Questions? Ask @rostag
