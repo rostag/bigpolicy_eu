@@ -120,6 +120,11 @@ https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automat
 # Success on Webhook:
 http://stackoverflow.com/questions/7427557/jenkins-and-github-webhook-http-403
 
+## GitHub rebuild Webhook to Jenkins on BigTest:
+https://github.com/rostag/bigpolicy_eu/settings/hooks/13147307
+
+https://qabuilder:38933da1fb6f299b7586cd01a8ee626d@jenkins-bigtest.rhcloud.com/git/notifyCommit?url=https://github.com/rostag/bigpolicy_eu.git
+
 Setup a workspace
 
 TAR
@@ -130,6 +135,36 @@ tar -zcvf archive_name.tar.gz folder_to_compress
 To extract
 tar -zxvf archive_name.tar.gz
 
-tar -cvf abck2.tar.gz dist/ server/ start.js package.json app-version.js tsconfig.json tslint.json 
+tar -cvf abck2.tar.gz dist/ server/ start.js package.json app-version.js tsconfig.json tslint.json
+
+### Alarm Recovery
+
+#### Download backup:
+curl https://raw.githubusercontent.com/rostag/bigpolicy_eu/deploy-qa/bp-bck-dist-17-04-11.tar.gz > a.tar.gz
+
+#### Untar it
+tar -xvf a.tar.gz
+
+#### Install
+npm install
+
+#### Start
+> go to openshift and restart the app
+> or do node start.js
+
+
+# [Adding version number in Node.js app using Jenkins/OpenShift deploy](https://lucaslouca.com/adding-version-number-in-node-js-app-using-jenkinsopenshift-deploy/)
+
+
+Cartridge Repos:
+* [OpenShift Origin Jenkins Cartridge](https://github.com/openshift/origin-server/blob/master/documentation/oo_cartridge_guide.adoc#jenkins)
+*  [openshift-origin-cartridge-nodejs](https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-nodejs/bin)
+
+* BP uses: [Auto-updating Node JS Cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs.git)
+
+
+
+
+
 
 ### Questions? Ask @rostag
