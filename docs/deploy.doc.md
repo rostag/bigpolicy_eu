@@ -137,6 +137,34 @@ Cartridge Repos:
 
 * BP uses: [Auto-updating Node JS Cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs.git)
 
+# Detecting and installing cli:
+
+# # Check verion:
+ng --version | grep '@angular/cli:\s1\..\.*'
+
+# # Check is properly installed:
+
+npm install --save-dev @angular/cli@latest
+npm install --save-dev @angular/compiler-cli@latest
+
+### RCH - Use different accounts: rhc tail -a qa -l rostislav.siryk@gmail.com
+
+Show disk usage:
+app show --gears quota qa -l rostislav.siryk@gmail.com
+
+### App Deployment Setup:
+
+npm install -g typescript
+
+tsc -v
+
+Disable Auto-deploy:
+rhc app-configure qa --no-auto-deploy -l rostislav.siryk@gmail.com
+
+
+# Further reading:
+
+Set up Local Access to OpenShift Hosted Services with Port Forwarding
 
 
 ### Questions? Ask @rostag
