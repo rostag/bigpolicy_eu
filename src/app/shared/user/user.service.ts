@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
-import { DialogService } from '../../shared/dialog/dialog.service';
+import { DialogService } from '../dialog/dialog.service';
+import { environment } from '../../../environments/environment';
+
 // No Figure brackets please - see
 // https://github.com/auth0/lock/issues/521#issuecomment-238583539
 
@@ -49,6 +51,7 @@ export class UserService {
     public projectService: ProjectService,
     private dialogService: DialogService
   ) {
+    console.log('environment:', environment );
     // Set userProfile attribute of already saved profile
     if (this.authenticated()) {
       this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
@@ -131,11 +134,12 @@ export class UserService {
    */
    // FIXME Implement Admins list
   public isAdmin() {
-    return this.authenticated() && (
+    const isDevMode = environment.production === false;
+    return isDevMode || (this.authenticated() && (
         this.getEmail() === 'rostislav.siryk@gmail.com' ||
         this.getEmail() === 'prokopenko.serhii@gmail.com' ||
         this.getEmail() === 'vlodkozak@gmail.com'
-    );
+    ));
   }
 
   // FIXME_TEST In the first place
