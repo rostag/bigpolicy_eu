@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, ResponseOptions } from '@angular/http';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
@@ -12,12 +12,166 @@ import { ProjectModel } from './project.model';
  * Provides ProjectList service with methods to get and save projects.
  */
 @Injectable()
-export class ProjectService {
+export class ProjectServiceMock {
 
   // TODO Implement caching
   static _cachedProjects = [];
 
   private projectApiUrl = '/project-api/';
+
+  private responsePageMock = {
+    'docs': [
+      {
+        '_id': '5842c8bb3540984e175fc5a1',
+        'title': 'Електронне декларування!',
+        'description': 'Не потрібно говорити, наскільки це режим, тестовий чи ні. Система подання і оприлюднення.',
+        'cost': '21',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'dateStarted': '2012-12-03T00:00:00.000Z',
+        'dateEnded': '2018-11-02T00:00:00.000Z',
+        'videoUrl': 'https://www.youtube.com/watch?v=Or1rUdzjI5E',
+        '__v': 4,
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        'totalDonationsReceived': 2590,
+        'imageUrl': '',
+        'donations': [
+          '588cf80ab58723a2988d4485',
+          '588e065faa8da59ae4829043',
+          '58cf1d71d8784e0edfcdb4e8'
+        ],
+        'tasks': [
+          '58553ddb3b2db8c32e33c25e',
+          '581a6309dc79a49d33d8fd28',
+          '581daededf738419b0c3b624'
+        ]
+      },
+      {
+        '_id': '5842c8f13540984e175fc5a2',
+        'title': 'Gymnastics is Beautiful',
+        'description': 'Beautiful moments from the beautiful ladies of the sport of gymnastics.',
+        'cost': '1',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'dateStarted': '2016-12-01T00:00:00.000Z',
+        'dateEnded': '2016-12-30T00:00:00.000Z',
+        'videoUrl': 'https://www.youtube.com/watch?v=yghJX2SOPk8',
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        '__v': 1,
+        'totalDonationsReceived': 0,
+        'imageUrl': '',
+        'donations': [],
+        'tasks': [
+          '5842c92d3540984e175fc5a3',
+          '5842c96b3540984e175fc5a4',
+          '58cd0142ae6d40927988c239',
+          '58ce8d9c41a4e4a807adbcaf',
+          '58dcad13d05006eebf8f7cf7'
+        ]
+      },
+      {
+        '_id': '5842c9e23540984e175fc5a5',
+        'title': 'Технології БП',
+        'description': 'Додатки,\\nІнтеграції,\\nМедійність',
+        'cost': '1',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'dateStarted': '2017-03-01T00:00:00.000Z',
+        'dateEnded': '2017-03-17T00:00:00.000Z',
+        'videoUrl': 'https://www.youtube.com/watch?v=JbWnRhHfTDA',
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        '__v': 4,
+        'totalDonationsReceived': 0,
+        'imageUrl': '',
+        'donations': [],
+        'tasks': [
+          '5842ca0f3540984e175fc5a6',
+          '5842ca533540984e175fc5a7',
+          '5842cae83540984e175fc5a9',
+          '5842cb0d3540984e175fc5aa',
+          '5815af4827312685b809bddd',
+          '5815afb527312685b809bdde',
+          '581e861cdf738419b0c3b627'
+        ]
+      },
+      {
+        '_id': '58cc4e21ae6d40927988c236',
+        'title': 'Timelapse Tricks',
+        'description': 'Learn how to to cool things with timelapasesease.',
+        'cost': '1',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        'dateStarted': '2017-03-17T00:00:00.000Z',
+        'dateEnded': '2017-03-17T00:00:00.000Z',
+        'videoUrl': '',
+        'totalDonationsReceived': 0,
+        '__v': 0,
+        'imageUrl': '',
+        'donations': [],
+        'tasks': [
+          '58d4e27a9ff81172407e0e5a',
+          '58d4e2869ff81172407e0e5b',
+          '58d60b61260e94051c643820'
+        ]
+      },
+      {
+        '_id': '58ce88bc41a4e4a807adbcab',
+        'title': 'Magic Salt',
+        'description': 'How to produce read and blue effect.',
+        'cost': '1',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        'dateStarted': '2017-06-19T00:00:00.000Z',
+        'dateEnded': '2018-09-19T00:00:00.000Z',
+        'videoUrl': '',
+        'totalDonationsReceived': 0,
+        '__v': 0,
+        'imageUrl': '',
+        'donations': [],
+        'tasks': []
+      },
+      {
+        '_id': '58d08119772ee0389d5aa069',
+        'title': 'Arduino Kool',
+        'description': 'Learn 12341234 and you set.\\nAll!',
+        'cost': '1',
+        'managerName': 'Rostyslav Siryk',
+        'managerId': '58cf0b7d4256ee60fd1261a7',
+        'managerEmail': 'rostislav.siryk@gmail.com',
+        'dateStarted': '2017-03-21T00:00:00.000Z',
+        'dateEnded': '2017-03-21T00:00:00.000Z',
+        'videoUrl': '',
+        'totalDonationsReceived': 0,
+        '__v': 0,
+        'imageUrl': '',
+        'donations': [],
+        'tasks': []
+      },
+      {
+        '_id': '58e8cf4b534fb9f782a832b5',
+        'title': 'rsqr',
+        'description': 'qwerq',
+        'cost': '1',
+        'managerName': 'Cloud a',
+        'managerId': '58e8cf24534fb9f782a832b4',
+        'managerEmail': 'rostyslav.siryk@gmail.com',
+        'dateStarted': '2017-04-08T00:00:00.000Z',
+        'dateEnded': '2017-04-08T00:00:00.000Z',
+        'imageUrl': '',
+        'videoUrl': 'w',
+        'totalDonationsReceived': 0,
+        '__v': 0,
+        'donations': [],
+        'tasks': []
+      }
+    ],
+    'total': 7,
+    'limit': 10,
+    'page': 1,
+    'pages': 1
+  };
 
   static cacheProject(project) {
     this._cachedProjects[project._id] = project;
@@ -80,12 +234,24 @@ export class ProjectService {
     }
 
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
+    {  }
+    const respOptions = new ResponseOptions({
+      body: this.responsePageMock,
+      status: 200
+    });
+    const responseMock = new Response( respOptions );
+    const o = Observable.from([ responseMock ]);
 
-    return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        console.log('Projects Page loaded, response: ', responsePage);
-        return responsePage.json();
-      });
+    return o.map((responsePage: Response) => {
+      console.log('Projects Page loaded, response: ', responsePage);
+      return responsePage.json();
+    });
+
+    // return this.http.get(requestUrl)
+    //   .map((responsePage: Response) => {
+    //     console.log('Projects Page loaded, response: ', responsePage);
+    //     return responsePage.json();
+    //   });
   }
 
   /**
