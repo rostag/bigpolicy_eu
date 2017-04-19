@@ -12,8 +12,6 @@
 
       <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
 
-      <!-- <app-working-spinner></app-working-spinner> -->
-
       <md-input-container>
         <input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" [ngModelOptions]="{standalone: true}">
       </md-input-container>

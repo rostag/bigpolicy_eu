@@ -134,9 +134,10 @@ export class UserService {
    */
    // FIXME Implement Admins list
   public isAdmin() {
+    // FIXME_SEC
     const isDevMode = environment.production === false;
     return isDevMode || (this.authenticated() && (
-        this.getEmail() === 'rostislav.siryk@gmail.com' ||
+        this.getEmail() === 'rostyslav.siryk@gmail.com' ||
         this.getEmail() === 'prokopenko.serhii@gmail.com' ||
         this.getEmail() === 'vlodkozak@gmail.com'
     ));

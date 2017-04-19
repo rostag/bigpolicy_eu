@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { routing } from './app.routes';
-
-// provides services, components etc
 import { CoreModule } from './core.module';
+import { NgModule } from '@angular/core';
+import { routing } from './app.routes';
 
 @NgModule({
   imports: [
-    routing,
-    CoreModule
+    CoreModule,
+    routing
   ],
   declarations: [
     AppComponent
@@ -17,4 +15,4 @@ import { CoreModule } from './core.module';
     AppComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

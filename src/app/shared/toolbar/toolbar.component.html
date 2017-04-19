@@ -22,9 +22,11 @@
   <button md-icon-button [md-menu-trigger-for]="menu">
     <md-icon>more_vert</md-icon>
   </button>
-  
+
 </md-toolbar>
 
 <md-menu x-position="before" #menu="mdMenu">
   <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle Theme</button>
 </md-menu>
+
+<app-working-progress></app-working-progress>

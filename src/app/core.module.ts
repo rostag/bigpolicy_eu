@@ -89,8 +89,6 @@ export const firebaseConfig = {
   exports: [
     // components we want to make available
     BrowserModule,
-
-
     NavbarComponent,
     ToolbarComponent,
     TaskEditComponent,
@@ -121,9 +119,9 @@ export const firebaseConfig = {
     ProjectBriefComponent,
     FlexLayoutModule,
     ReactiveFormsModule,
-    FormsModule,
     WorkingSpinnerComponent,
-    Ng2PaginationModule
+    Ng2PaginationModule,
+    FormsModule
   ],
   declarations: [
     // components to use in this module
@@ -167,7 +165,9 @@ export const firebaseConfig = {
     ProjectService,
     TaskService,
     DriveService,
-    DialogService
+    DialogService,
+    CustomBrowserXhr,
+    { provide: BrowserXhr, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [
     DialogComponent

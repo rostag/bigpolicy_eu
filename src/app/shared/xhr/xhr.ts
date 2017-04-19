@@ -1,7 +1,6 @@
-// import { XhrEvent } from '@angular/http';
-import { BrowserXhr } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
+import { Observable } from 'rxjs/Observable';
+import { BrowserXhr } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
