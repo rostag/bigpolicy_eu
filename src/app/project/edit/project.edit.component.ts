@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { ProjectServiceMock } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { LeaderModel } from '../../shared/leader/leader.model';
@@ -68,7 +69,6 @@ export class ProjectEditComponent implements OnInit {
     // Delete from DB
     this.projectService.deleteProject(project, true);
 
-    // this.router.navigate(['/projects']);
     return false;
   }
 

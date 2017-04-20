@@ -6,7 +6,10 @@
 # $1 - arbitrary name of backup branch to save before deploy
 # $2 - branch to deploy
 
+cd ../
+
 # Get the version number from output of version increasing script
+
 BP_APP_VERSION_ID=`node app-version.js`
 
 echo "--------------------------------------"
