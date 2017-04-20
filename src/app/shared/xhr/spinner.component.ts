@@ -26,6 +26,9 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
       case 'load':
         this._connectionCounter--;
         break;
+      case 'progress':
+        console.log('PROGRESS:' , next, next.event.loaded, next.event.total);
+        break;
       case 'abort':
         this._connectionCounter--;
         break;

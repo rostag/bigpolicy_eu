@@ -243,7 +243,7 @@ export class ProjectServiceMock {
     const o = Observable.from([ responseMock ]);
 
     return o.map((responsePage: Response) => {
-      console.log('Projects Page loaded, response: ', responsePage);
+      // console.log('Projects Page loaded, response: ', responsePage);
       return responsePage.json();
     });
 

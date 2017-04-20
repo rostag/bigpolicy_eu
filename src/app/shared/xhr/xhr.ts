@@ -10,7 +10,6 @@ export class CustomBrowserXhr extends BrowserXhr {
     private _subscriber: Subscriber<any>;
 
     constructor() {
-      console.log('Constructor: CustomBrowserXhr');
       super();
       this._observable = Observable.create(subscriber => {
           this._subscriber = subscriber;
