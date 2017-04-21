@@ -14,12 +14,6 @@
 <!-- </div> --> <!-- TODO FTUX - AUTH END -->
 
 <!--
-    MOBILE
-      TBD: Два горизонтальні квадрати,
-      TBD: Меню — 4 полосочки-квадратика під лого, Потій йдут 2 блоки — проекти та лідери
-        -->
-
-<!--
     ALL PROJECTS
       TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
       TBD: on Hover, Button Rendedered in MD Style
@@ -47,10 +41,7 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
 { "$where": "this.projects.length > 2" }
 { "totalDonationsReceived": 0 }
 { "projects": { $size: 2 } }
-
-etc
-
- -->
+-->
 
  <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
@@ -81,7 +72,7 @@ etc
     <app-project-list [pageSize]="5"></app-project-list>
     <button md-button md-raised-button color="primary">Всі проекти</button>
   </md-tab>
-  <md-tab label="Політики">
+  <md-tab label="Лідери">
     <app-leader-list [pageSize]="5"></app-leader-list>
     <button md-raised-button color="primary">Всі лідери</button>
   </md-tab>
@@ -93,17 +84,11 @@ etc
     Твої політики для тебе і від тебе.
 </p>
 
-<!-- <h2>Останні проекти</h2> -->
+<h2>Останні проекти</h2>
 <!-- Останні проекти та політики — це зменшені мініатюри без -->
 
-<!-- <h2>Нові політики</h2> -->
+<h2>Нові лідери</h2>
 <!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->
-
-<!-- <div>
-  //TBC:
-  Не дуже гарно виходить — нові у самому низу, треба подумати
-</div> -->
-
 
 <div fxLayout="row" fxLayoutAlign="space-between top" fxLayoutGap="5%" fxLayout.sm="column" fxLayout.xs="column">
   <div fxFlex="50%">
