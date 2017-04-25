@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MdIconModule } from '@angular/material';
 
 @Component({
   selector: 'app-about',

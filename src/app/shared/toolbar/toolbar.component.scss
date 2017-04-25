@@ -1,5 +1,18 @@
-md-toolbar-row {
-  justify-content: space-between;
+.app-toolbar {
+  height: 60px;
+
+  >.mat-toolbar-layout {
+    >.mat-toolbar-row {
+      height: 60px;
+      justify-content: space-between;
+    }
+  }
+}
+
+
+.logo {
+  margin: .5em .25em;
+  vertical-align: middle;
 }
 
 a {
