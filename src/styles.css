@@ -30,6 +30,7 @@ a:hover {
   color: #333;
 }
 
+
 md-list-item h3 a:link,
 md-list-item h3 a:visited,
 md-list-item h3 a:active {
@@ -43,3 +44,23 @@ md-list-item h3 a:hover {
 md-icon.pointer {
   cursor: pointer;
 }
+
+/* Project Brief and Leader Brief for Home etc */
+.project-brief-card p,
+.project-brief-card .mat-card-title,
+.project-brief-card .mat-card-subtitle,
+.leader-brief-card p,
+.leader-brief-card .mat-card-title,
+.leader-brief-card .mat-card-subtitle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/*
+FIXME
+.project-brief-card .mat-card-image,
+.leader-brief-card .mat-card-image {
+  max-height: 100px;
+}
+*/

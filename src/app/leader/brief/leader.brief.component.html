@@ -1,13 +1,13 @@
 <md-card class="leader-brief-card">
-  <md-card-header>
+  <!-- <md-card-header> -->
     <div md-card-avatar class="leader-brief-card-header-image"></div>
     <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
-    <md-card-subtitle>{{leader.email}}</md-card-subtitle>
-  </md-card-header>
+  <!-- </md-card-header> -->
   <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
   <md-card-content>
+    <md-card-subtitle>Місія: {{leader.mission}}</md-card-subtitle>
     <p>
-      {{leader.mission}}
+      Бачення: {{leader.vision}}
     </p>
   </md-card-content>
   <md-card-actions>
