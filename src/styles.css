@@ -57,10 +57,7 @@ md-icon.pointer {
   white-space: nowrap;
 }
 
-/*
-FIXME
-.project-brief-card .mat-card-image,
-.leader-brief-card .mat-card-image {
-  max-height: 100px;
+.project-brief-card,
+.leader-brief-card {
+  cursor: pointer;
 }
-*/
