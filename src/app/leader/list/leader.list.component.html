@@ -27,29 +27,8 @@
                                                            currentPage: itemsPage.page,
                                                            totalItems: itemsPage.total
                                                          }">
-      <md-card class="leader-card">
-        <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
-          <span *ngIf="userService.isOwner(leader)">
-            (я)
-          </span>
-        </md-card-title>
-        <md-card-content fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-          <app-image fxFlex="35%" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-          <div>
-            <div>
-              <b>Візія:</b> {{leader.vision}}
-            </div>
-            Проектів: {{leader.projects?.length}}
-          </div>
-        </md-card-content>
-        <md-card-actions>
-          <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
-          <span *ngIf="userService.hasEditPermissions(leader)">
-            <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-            <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
-          </span>
-        </md-card-actions>
-      </md-card>
+      <app-leader-brief [leaderId]="leader._id" [viewContext]="'leaderListPage'">
+      </app-leader-brief>
      </div>
 
      <pagination-controls

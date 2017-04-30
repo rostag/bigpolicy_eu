@@ -61,3 +61,7 @@ md-icon.pointer {
 .leader-brief-card {
   cursor: pointer;
 }
+
+.mat-card-actions button {
+  text-transform: uppercase;
+}

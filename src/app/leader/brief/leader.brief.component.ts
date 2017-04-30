@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-leader-brief',
@@ -9,10 +10,12 @@ import { LeaderModel, LeaderService } from '../../shared/leader/index';
 export class LeaderBriefComponent implements OnChanges {
 
   @Input() leaderId = '';
+  @Input() viewContext = '';
 
   leader: LeaderModel = new LeaderModel();
 
   constructor(
+    public userService: UserService,
     private leaderService: LeaderService
   ) {}
 

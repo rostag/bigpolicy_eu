@@ -1,8 +1,6 @@
-<md-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]">
-  <!-- <md-card-header> -->
+<md-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='homePage'">
     <div md-card-avatar class="leader-brief-card-header-image"></div>
     <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
-  <!-- </md-card-header> -->
   <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
   <md-card-content>
     <md-card-subtitle>Місія: {{leader.mission}}</md-card-subtitle>
@@ -11,7 +9,37 @@
     </p>
   </md-card-content>
   <md-card-actions>
-    <a [routerLink]="['/leader/', leader._id]"><button md-button>ПІДТРИМАТИ</button></a>
-    <a [routerLink]="['/leaders']"><button md-button>УСІ ДІЯЧІ</button></a>
+    <a [routerLink]="['/leader/', leader._id]"><button md-button>Підтримати</button></a>
+    <a [routerLink]="['/leaders']"><button md-button>Усі діячі</button></a>
+  </md-card-actions>
+</md-card>
+
+<!-- </md-card-header> -->
+<!-- <md-card-header> -->
+<!-- State: Leader List Page -->
+
+<!-- *ngIf="viewContext==='leaderListPage'" -->
+
+<md-card class="leader-list-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='leaderListPage'" >
+  <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
+    <span *ngIf="userService.isOwner(leader)">
+      (я)
+    </span>
+  </md-card-title>
+  <md-card-content fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+    <app-image fxFlex="35%" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+    <div>
+      <div>
+        <b>Візія:</b> {{leader.vision}}
+      </div>
+      Проектів: {{leader.projects?.length}}
+    </div>
+  </md-card-content>
+  <md-card-actions>
+    <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
+    <span *ngIf="userService.hasEditPermissions(leader)">
+      <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+      <!-- todo: restore deleteLeader for list view <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a> -->
+    </span>
   </md-card-actions>
 </md-card>
