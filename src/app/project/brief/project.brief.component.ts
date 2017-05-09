@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { UserService } from '../../shared/user/index';
 
 @Component({
   selector: 'app-project-brief',
@@ -9,15 +10,18 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 export class ProjectBriefComponent implements OnChanges {
 
   @Input() projectId = '';
+  @Input() viewContext = '';
 
   project: ProjectModel = new ProjectModel();
 
   constructor(
+    private userService: UserService,
     private projectService: ProjectService
   ) {}
 
   ngOnChanges(changes) {
     if (changes.projectId) {
+      console.log('Get project by ID:', changes.projectId);
       if (changes.projectId.currentValue = 'random') {
         console.log('Get random project');
         this.requestProject(this.projectId);

@@ -12,17 +12,12 @@
     <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}"> -->
     <!-- <md-icon color="accent">assignment</md-icon> -->
 
-    <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}. Заходів: {{project.tasks?.length}}</a></h3>
-    <p md-line>
-      {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH
-    </p>
-    <p md-line>
-      <small>{{project.description}}</small>
-    </p>
-    <p *ngIf="userService.hasEditPermissions(project)" class="admin" style="min-width:4em;">
-      <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
-      <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
-    </p>
+    <app-project-brief
+      [projectId]="project._id"
+      [viewContext]="'projectListPage'"
+      >
+    </app-project-brief>
+
   </md-list-item>
 
   <!-- TODO Also show Projects as Cards / Thumbs -->
