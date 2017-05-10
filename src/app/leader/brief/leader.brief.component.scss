@@ -8,6 +8,20 @@
   background-size: cover;
 }
 
+.md-card-image-clipper {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  height: 300px;
+  margin: 0 -24px 16px;
+  max-height: 300px;
+  overflow: hidden;
+  width: calc(100% + 48px);
+
+  :first-child {
+    margin-top: -24px;
+  }
+}
+
 .leader-list-card {
   margin-bottom: 1em;
 }
