@@ -1,38 +1,35 @@
 .app-toolbar {
-  height: 60px;
+  box-sizing: border-box;
+  display: block;
+  padding: 0;
+  background-color: #677;
 
-  >.mat-toolbar-layout {
-    >.mat-toolbar-row {
-      height: 60px;
-      justify-content: space-between;
-    }
+  .mat-button,
+  .mat-button-ripple {
+    color: #fafafa;
+    width: 20%;
   }
 }
 
-
-.logo {
-  margin: .5em .25em;
-  vertical-align: middle;
-}
-
-a {
-  color: #ffffff;
-  cursor: pointer;
-  text-decoration: none;
+.tb-xs {
+  .mat-button {
+    width: 100%;
+  }
 }
 
 a,
 span,
 p,
-div {
-  font-size: 1.2rem;
+div,
+button {
+  font-size: 0.8rem;
+}
+
+.logo {
+  margin: .25rem .45rem;
+  vertical-align: middle;
 }
 
 .toolbar-inline-icon {
   vertical-align: bottom;
-}
-
-.username {
-  flex: 1 1 auto;
-  text-align: right;
 }
