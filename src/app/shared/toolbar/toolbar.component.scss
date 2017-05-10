@@ -1,14 +1,19 @@
 .app-toolbar {
   box-sizing: border-box;
   display: block;
-  height: 65px;
-  padding: 0 16px;
+  padding: 0;
+  background-color: #677;
 
-  >.mat-toolbar-layout {
-    >.mat-toolbar-row {
-      height: 65px;
-      justify-content: space-between;
-    }
+  .mat-button,
+  .mat-button-ripple {
+    color: #fafafa;
+    width: 20%;
+  }
+}
+
+.tb-xs {
+  .mat-button {
+    width: 100%;
   }
 }
 
@@ -17,11 +22,11 @@ span,
 p,
 div,
 button {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
 }
 
 .logo {
-  margin: .5em .25em;
+  margin: .25rem .45rem;
   vertical-align: middle;
 }
 
