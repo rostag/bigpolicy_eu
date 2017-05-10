@@ -1,10 +1,6 @@
-<div [class.bp-dark-theme]="toolbar.isDarkTheme">
+<div [class.bp-dark-theme]="userService.isDarkTheme">
 
-  <app-bp-toolbar #toolbar>
-  </app-bp-toolbar>
-
-  <app-bp-navbar>
-  </app-bp-navbar>
+  <app-bp-toolbar></app-bp-toolbar>
 
   <div class="app-content">
     <router-outlet></router-outlet>

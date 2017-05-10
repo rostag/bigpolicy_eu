@@ -1,38 +1,30 @@
 .app-toolbar {
-  height: 60px;
+  box-sizing: border-box;
+  display: block;
+  height: 65px;
+  padding: 0 16px;
 
   >.mat-toolbar-layout {
     >.mat-toolbar-row {
-      height: 60px;
+      height: 65px;
       justify-content: space-between;
     }
   }
 }
 
+a,
+span,
+p,
+div,
+button {
+  font-size: 1.2rem;
+}
 
 .logo {
   margin: .5em .25em;
   vertical-align: middle;
 }
 
-a {
-  color: #ffffff;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-a,
-span,
-p,
-div {
-  font-size: 1.2rem;
-}
-
 .toolbar-inline-icon {
   vertical-align: bottom;
-}
-
-.username {
-  flex: 1 1 auto;
-  text-align: right;
 }
