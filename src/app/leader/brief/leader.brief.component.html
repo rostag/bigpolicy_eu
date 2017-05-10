@@ -1,12 +1,12 @@
 <md-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='homePage'">
-    <div md-card-avatar class="leader-brief-card-header-image"></div>
-    <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
-  <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
+  <div md-card-avatar class="leader-brief-card-header-image"></div>
+  <md-card-title>{{leader.name}} {{leader.surName}}</md-card-title>
+  <div class="md-card-image-clipper">
+    <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
+  </div>
   <md-card-content>
     <md-card-subtitle>Місія: {{leader.mission}}</md-card-subtitle>
-    <p>
-      Бачення: {{leader.vision}}
-    </p>
+    <p>Бачення: {{leader.vision}}</p>
   </md-card-content>
   <md-card-actions>
     <a [routerLink]="['/leader/', leader._id]"><button md-button>Підтримати</button></a>
