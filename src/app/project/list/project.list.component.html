@@ -1,47 +1,20 @@
 <h2 *ngIf="title !== ''">{{title}}</h2>
 
-<md-list>
   <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
-  <md-list-item *ngFor="let project of itemsPage.docs | async | paginate: {
+
+  <div *ngFor="let project of itemsPage.docs | async | paginate: {
                                                                             id: 'projectItemsPage',
                                                                             itemsPerPage: this.pageSize,
                                                                             currentPage: itemsPage.page,
                                                                             totalItems: itemsPage.total
                                                                           }">
-    <!-- <app-image md-list-avatar [src]="project.photo || 'assets/img/project-generic.png'"></app-image> -->
-    <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}"> -->
-    <!-- <md-icon color="accent">assignment</md-icon> -->
-
     <app-project-brief
       [projectId]="project._id"
       [viewContext]="'projectListPage'"
       >
     </app-project-brief>
 
-  </md-list-item>
-
-  <!-- TODO Also show Projects as Cards / Thumbs -->
-
-  <!--
-  <div *ngFor="let project of app.projects">
-    <md-card>
-      <md-card-header>
-        <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
-        <md-card-title>{{project.title}}</md-card-title>
-        <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
-      </md-card-header>
-      <md-card-content>
-          {{project.description}}
-          <br/>
-          <br/>
-          <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
-      </md-card-content>
-      <md-card-actions>
-        <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
-      </md-card-actions>
-    </md-card>
-  </div> -->
-</md-list>
+</div>
 
 <pagination-controls
                     id = "projectItemsPage"
@@ -55,3 +28,24 @@
 </pagination-controls>
 
 <p>Кількість проектів: {{itemsPage.total}}</p>
+
+<!-- TODO Also show Projects as Cards / Thumbs -->
+
+<!-- <div *ngFor="let project of itemsPage.docs | async ">
+  <md-card>
+    <md-card-header>
+      <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+      <md-card-title>{{project.title}}</md-card-title>
+      <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+        {{project.description}}
+        <br/>
+        <br/>
+        <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
+    </md-card-content>
+    <md-card-actions>
+      <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
+    </md-card-actions>
+  </md-card>
+</div> -->

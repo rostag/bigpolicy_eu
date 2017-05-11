@@ -1,3 +1,4 @@
+<!-- Project Card View (for display standalone) -->
 <md-card class="project-brief-card" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='homePage'">
   <div md-card-avatar class="project-brief-card-header-image"></div>
   <md-card-title>{{project.title}}</md-card-title>
@@ -14,7 +15,8 @@
   </md-card-actions>
 </md-card>
 
-<div class="project-brief-card" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='projectListPage'">
+<!-- Project Item View (for display in lists) -->
+<div [routerLink]="['/project/', project._id]" *ngIf="viewContext==='projectListPage'">
   <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}. Заходів: {{project.tasks?.length}}</a></h3>
   <p md-line>
     {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH

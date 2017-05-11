@@ -1,35 +1,33 @@
 .app-toolbar {
-  box-sizing: border-box;
-  display: block;
-  padding: 0;
+  // FIXME Use Theme BG color
   background-color: #677;
+
+  // DEBUG > * {
+  //   border: 1px solid #fff;
+  // }
+  // box-sizing: border-box;
+  // display: block;
+  // padding: 0;
 
   .mat-button,
   .mat-button-ripple {
     color: #fafafa;
-    width: 20%;
+    font-size: 1rem;
   }
 }
 
-.tb-xs {
+.nav-xs {
   .mat-button {
     width: 100%;
   }
 }
 
-a,
-span,
-p,
-div,
-button {
-  font-size: 0.8rem;
-}
-
-.logo {
+.logo,
+.toolbar-inline-icon {
   margin: .25rem .45rem;
   vertical-align: middle;
 }
 
-.toolbar-inline-icon {
-  vertical-align: bottom;
+.account-icon {
+  margin: .25rem .65rem;
 }

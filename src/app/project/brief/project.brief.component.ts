@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
-import { UserService } from '../../shared/user/index';
+import { UserService } from '../../shared/user';
 
 @Component({
   selector: 'app-project-brief',
@@ -16,16 +16,14 @@ export class ProjectBriefComponent implements OnChanges {
 
   constructor(
     private userService: UserService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnChanges(changes) {
-    if (changes.projectId) {
-      console.log('Get project by ID:', changes.projectId);
-      if (changes.projectId.currentValue = 'random') {
-        console.log('Get random project');
-        this.requestProject(this.projectId);
-      }
+    if (changes.projectId && changes.projectId.currentValue) {
+      console.log('Get project BY ID:', changes.projectId.currentValue);
+      this.requestProject(changes.projectId.currentValue);
     }
   }
 
@@ -33,7 +31,9 @@ export class ProjectBriefComponent implements OnChanges {
     this.projectService.getProject(id)
     .subscribe(
       (data) => {
-          this.project = data;
+        console.log('Got Project:', data);
+        this.project = data;
+        this.cd.detectChanges();
       },
       err => console.error(err),
       () => {}
