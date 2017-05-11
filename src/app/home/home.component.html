@@ -34,32 +34,28 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
  <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
 <div class="how-it-works">
-  <h2 align="center">Як це працює?</h2>
-  <div fxLayout="row" fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="space-around center">
-  	<div fxFlex="20" fxFlex.sm="40">
-  		<div class="material-icons md-48">face</div>
-      <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
-  		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
-      <!-- /FTUX - LEADER END -->
-  		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
-  	</div>
-  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
-  		<div class="material-icons md-48">loop</div>
-  		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
-  		<div>Невелика сума краща за лайки в фейсбуці.</div>
-  	</div>
-  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
-  		<div class="material-icons md-48">mic</div>
-  		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
-  		<div>BIGPOLICY допомагає вам.</div>
-  	</div>
-  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
-  		<div class="material-icons md-48">movie</div>
-  		<div>Місія виконана з відповідними результатами.</div>
-  		<div>Нова ініціатива реалізована до життя!</div>
-  	</div>
-  </div>
+<h2 align="center">Як це працює?</h2>
+<div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap>
+	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+		<div class="material-icons md-48">face</div>
+		<div>Ви вирішуєте стати діячем</div>
+		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
+	</div>
+	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+		<div class="material-icons md-48">loop</div>
+		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
+		<div>Невелика сума краща за лайки в фейсбуці.</div>
+	</div>
+	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+		<div class="material-icons md-48">mic</div>
+		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
+		<div>BIGPOLICY допомагає вам.</div>
+	</div>
+	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+		<div class="material-icons md-48">movie</div>
+		<div>Місія виконана з відповідними результатами</div>
+		<div>Нова ініціатива реалізована до життя!</div>
+	</div>
 </div>
 
 <!--
