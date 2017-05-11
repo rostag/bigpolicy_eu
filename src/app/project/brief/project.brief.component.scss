@@ -21,3 +21,18 @@
     margin-top: -24px;
   }
 }
+
+.project-list-item {
+  cursor: pointer;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  background-color: #fafafa;
+}
+
+.project-list-item:hover {
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}
