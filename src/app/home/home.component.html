@@ -38,7 +38,10 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
 <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap>
 	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
 		<div class="material-icons md-48">face</div>
-		<div>Ви вирішуєте стати діячем</div>
+    <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
+		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
+    <!-- /FTUX - LEADER END -->
 		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
 	</div>
 	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">

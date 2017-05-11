@@ -9,8 +9,8 @@
 }
 
 .md-card-image-clipper {
-  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
   height: 300px;
   margin: 0 -24px 16px;
   max-height: 300px;
@@ -23,10 +23,10 @@
 }
 
 .project-list-item {
+  background-color: #fafafa;
   cursor: pointer;
   margin-bottom: 1rem;
   margin-right: 1rem;
-  background-color: #fafafa;
 }
 
 .project-list-item:hover {
