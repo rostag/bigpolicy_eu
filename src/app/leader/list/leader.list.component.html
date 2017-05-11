@@ -1,49 +1,49 @@
+<!-- </md-card> -->
 <!-- Usage: <app-leader-list [groupId]="123" [pageSize]="10"></app-leader-list> -->
-<md-card>
-  <md-card-title>Лідери</md-card-title>
-  <md-card-content>
+<h2 *ngIf="title !== ''">{{title}}</h2>
+<md-card-content>
 
-    <!--
-    TODO
-    <p disabled>Показати у спискові:
-      <select disabled>
-        <option>члени партії...</option>
-        <option>РПР</option>
-        <option>ЩЗП</option>
-      </select>
+  <!--
+  TODO
+  <p disabled>Показати у спискові:
+    <select disabled>
+      <option>члени партії...</option>
+      <option>РПР</option>
+      <option>ЩЗП</option>
+    </select>
 
-     <a href="#" disabled>активісти</a> з регіону:
-      <select disabled>
-        <option>Усі регіони</option>
-        <option>Львів</option>
-        <option>Харків</option>
-      </select>
-    </p> -->
+   <a href="#" disabled>активісти</a> з регіону:
+    <select disabled>
+      <option>Усі регіони</option>
+      <option>Львів</option>
+      <option>Харків</option>
+    </select>
+  </p> -->
 
-    <div class="leaders-list" fxLayout="column" fxLayoutWrap="" fxLayoutGap="3%" fxLayout.gt-sm="row" >
-     <div fxFlex="45%" fxFlex.gt-md="30%" *ngFor="let leader of itemsPage.docs | async | paginate: {
-                                                           id: 'leaderItemsPage',
-                                                           itemsPerPage: this.pageSize,
-                                                           currentPage: itemsPage.page,
-                                                           totalItems: itemsPage.total
-                                                         }">
-      <app-leader-brief [leaderId]="leader._id" [viewContext]="'leaderListPage'">
-      </app-leader-brief>
-     </div>
+  <div class="leaders-list" fxLayout="column" fxLayoutWrap="" fxLayoutGap="3%" fxLayout.gt-sm="row" >
+   <div fxFlex="45%" fxFlex.gt-md="30%" *ngFor="let leader of itemsPage.docs | async | paginate: {
+                                                         id: 'leaderItemsPage',
+                                                         itemsPerPage: this.pageSize,
+                                                         currentPage: itemsPage.page,
+                                                         totalItems: itemsPage.total
+                                                       }">
+    <app-leader-brief [leaderId]="leader._id" [viewContext]="'leaderListPage'">
+    </app-leader-brief>
+   </div>
 
-     <pagination-controls
-       id = "leaderItemsPage"
-       (pageChange)="pageChanged($event)"
-       [maxSize]="5"
-       directionLinks="true"
-       previousLabel="Previous"
-       nextLabel="Next"
-       autoHide="true"
-       >
-    </pagination-controls>
+   <pagination-controls
+     id = "leaderItemsPage"
+     (pageChange)="pageChanged($event)"
+     [maxSize]="5"
+     directionLinks="true"
+     previousLabel="Previous"
+     nextLabel="Next"
+     autoHide="true"
+     >
+  </pagination-controls>
 
-    <p>Усього: {{itemsPage.total}}</p>
-    </div>
+  <p>Усього: {{itemsPage.total}}</p>
+  </div>
 
-  </md-card-content>
-</md-card>
+</md-card-content>
+<!-- </md-card> -->

@@ -9,3 +9,27 @@ app-home:host {
   display: block;
   padding: 2rem;
 }
+
+.how-it-works {
+  margin-top: 7rem;
+}
+
+.projects-leaders-list {
+  margin-top: 6rem;
+
+  app-project-list {
+    // background: #ffc;
+    padding: 1rem;
+  }
+
+  app-leader-list {
+    // background: #ffc;
+    padding: 0 5rem;
+  }
+}
+
+.bottom-title {
+  font-size: 2rem;
+  margin: 7rem;
+  text-align: center;
+}

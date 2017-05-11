@@ -20,14 +20,8 @@
         -->
 
 <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5%" fxLayout.xs="column" >
-  <div fxFlex="50%">
-    <h3>Випадковий проект:</h3>
-    <app-project-brief projectId="random" [viewContext]="'homePage'"></app-project-brief>
-  </div>
-  <div fxFlex="50%">
-    <h3>Випадковий діяч:</h3>
-    <app-leader-brief leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
-  </div>
+  <app-project-brief fxFlex="50" projectId="random" [viewContext]="'homePage'"></app-project-brief>
+  <app-leader-brief fxFlex="50" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
 </div>
 
 <!-- here, mongoDb query can be used like this:
@@ -39,62 +33,59 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
 
  <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
-<br /><br />
-
-<h2 align="center">Як це працює?</h2>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
-	<div fxFlex="2 2 200px">
-		<div class="material-icons md-48">face</div>
-    <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
-		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
-    <!-- /FTUX - LEADER END -->
-		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
-	</div>
-	<div fxFlex="1 1 200px">
-		<div class="material-icons md-48">loop</div>
-		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
-		<div>Невелика сума краща за лайки в фейсбуці.</div>
-	</div>
-	<div fxFlex="1 1 200px">
-		<div class="material-icons md-48">mic</div>
-		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
-		<div>BIGPOLICY допомагає вам.</div>
-	</div>
-	<div fxFlex="1 1 200px">
-		<div class="material-icons md-48">movie</div>
-		<div>Місія виконана з відповідними результатами</div>
-		<div>Нова ініціатива реалізована до життя!</div>
-	</div>
+<div class="how-it-works">
+  <h2 align="center">Як це працює?</h2>
+  <div fxLayout="row" fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="space-around center">
+  	<div fxFlex="20" fxFlex.sm="40">
+  		<div class="material-icons md-48">face</div>
+      <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
+  		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
+      <!-- /FTUX - LEADER END -->
+  		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
+  	</div>
+  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+  		<div class="material-icons md-48">loop</div>
+  		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
+  		<div>Невелика сума краща за лайки в фейсбуці.</div>
+  	</div>
+  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+  		<div class="material-icons md-48">mic</div>
+  		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
+  		<div>BIGPOLICY допомагає вам.</div>
+  	</div>
+  	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+  		<div class="material-icons md-48">movie</div>
+  		<div>Місія виконана з відповідними результатами.</div>
+  		<div>Нова ініціатива реалізована до життя!</div>
+  	</div>
+  </div>
 </div>
-<br>
 
 <!--
   Показуємо 6 активних проектів на 1 табі
   і також рандомно — 6 лідерів на другій табі
                                             -->
-
-<md-tab-group>
-  <md-tab label="Проекти">
+<md-tab-group class="projects-leaders-list">
+  <md-tab label="Проекти" class="tab">
     <app-project-list [pageSize]="5"></app-project-list>
     <button md-button md-raised-button color="primary">Всі проекти</button>
   </md-tab>
-  <md-tab label="Лідери">
-    <app-leader-list [pageSize]="5"></app-leader-list>
-    <button md-raised-button color="primary">Всі лідери</button>
+  <md-tab label="Діячі" class="tab">
+    <app-leader-list [pageSize]="2"></app-leader-list>
+    <button md-raised-button color="primary">Всі діячі</button>
   </md-tab>
 </md-tab-group>
 
-<br /> <br /> <br /> <br />
-<p>
+<p class="bottom-title">
     BigPolicy — платформа прямої демократії.
     Твої політики для тебе і від тебе.
 </p>
 
-<h2>Останні проекти</h2>
+<!-- TODO <h2>Останні проекти</h2> -->
 <!-- Останні проекти та політики — це зменшені мініатюри без -->
 
-<h2>Нові лідери</h2>
+<!-- TODO <h2>Нові лідери</h2> -->
 <!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->
 
 <div fxLayout="row" fxLayoutAlign="space-between top" fxLayoutGap="5%" fxLayout.sm="column" fxLayout.xs="column">

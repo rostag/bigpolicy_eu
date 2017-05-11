@@ -1,7 +1,7 @@
 <!-- Project Card View (for display standalone) -->
 <md-card class="project-brief-card" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='homePage'">
   <div md-card-avatar class="project-brief-card-header-image"></div>
-  <md-card-title>{{project.title}}</md-card-title>
+  <md-card-title>Проект {{project.title}}</md-card-title>
   <div class="md-card-image-clipper">
     <img md-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   </div>
@@ -11,7 +11,7 @@
   </md-card-content>
   <md-card-actions>
     <a [routerLink]="['/project/', project._id]"><button md-button>Підтримати</button></a>
-    <a [routerLink]="['/projects']"><button md-button>Усі проекти</button></a>
+    <!-- <a [routerLink]="['/projects']"><button md-button>Усі проекти</button></a> -->
   </md-card-actions>
 </md-card>
 
