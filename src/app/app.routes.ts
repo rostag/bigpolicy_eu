@@ -3,6 +3,7 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { ProfileComponent } from '././shared/user/profile.component';
 
+import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AboutComponent } from './about';
 import { LandingComponent } from './landing';
 import { HomeComponent } from './home';
@@ -44,6 +45,7 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
 
   { path: 'about', component: AboutComponent },
+  { path: 'privacy', component: DisclaimerComponent },
   { path: 'landing', component: LandingComponent },
   { path: '', component: HomeComponent }
 ];
