@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { UserService } from '../../shared/user';
 
 @Component({
   selector: 'app-leader-brief',
@@ -9,19 +10,19 @@ import { LeaderModel, LeaderService } from '../../shared/leader/index';
 export class LeaderBriefComponent implements OnChanges {
 
   @Input() leaderId = '';
+  @Input() viewContext = '';
 
   leader: LeaderModel = new LeaderModel();
 
   constructor(
+    public userService: UserService,
     private leaderService: LeaderService
   ) {}
 
   ngOnChanges(changes) {
-    if (changes.leaderId) {
-      if (changes.leaderId.currentValue = 'random') {
-        console.log('Get random leader');
-        this.requestLeader(this.leaderId);
-      }
+    if (changes.leaderId && changes.leaderId.currentValue) {
+      console.log('Get Leader by ID:');
+      this.requestLeader(this.leaderId);
     }
   }
 

@@ -1,52 +1,22 @@
 <h2 *ngIf="title !== ''">{{title}}</h2>
 
-<md-list>
-  <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
-  <md-list-item *ngFor="let project of itemsPage.docs | async | paginate: {
-                                                                            id: 'projectItemsPage',
-                                                                            itemsPerPage: this.pageSize,
-                                                                            currentPage: itemsPage.page,
-                                                                            totalItems: itemsPage.total
-                                                                          }">
-    <!-- <app-image md-list-avatar [src]="project.photo || 'assets/img/project-generic.png'"></app-image> -->
-    <!-- <img md-list-avatar src="assets/img/avatar.jpg" alt="{{project.title}}"> -->
-    <!-- <md-icon color="accent">assignment</md-icon> -->
+<!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
 
-    <h3 md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}. Заходів: {{project.tasks?.length}}</a></h3>
-    <p md-line>
-      {{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH
-    </p>
-    <p md-line>
-      <small>{{project.description}}</small>
-    </p>
-    <p *ngIf="userService.hasEditPermissions(project)" class="admin" style="min-width:4em;">
-      <a [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></a>
-      <a href (click)="deleteProject(project)"><md-icon>delete</md-icon></a>
-    </p>
-  </md-list-item>
+<div fxLayout="row" fxLayoutWrap >
+  <div fxFlex="20" fxFlex.lg="25" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs="100" *ngFor="let project of itemsPage.docs | async | paginate: {
+                                                                    id: 'projectItemsPage',
+                                                                    itemsPerPage: this.pageSize,
+                                                                    currentPage: itemsPage.page,
+                                                                    totalItems: itemsPage.total
+                                                                  }">
+    <app-project-brief
+      [projectId]="project._id"
+      [viewContext]="'projectListPage'"
+      >
+    </app-project-brief>
 
-  <!-- TODO Also show Projects as Cards / Thumbs -->
-
-  <!--
-  <div *ngFor="let project of app.projects">
-    <md-card>
-      <md-card-header>
-        <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
-        <md-card-title>{{project.title}}</md-card-title>
-        <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
-      </md-card-header>
-      <md-card-content>
-          {{project.description}}
-          <br/>
-          <br/>
-          <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
-      </md-card-content>
-      <md-card-actions>
-        <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
-      </md-card-actions>
-    </md-card>
-  </div> -->
-</md-list>
+  </div>
+</div>
 
 <pagination-controls
                     id = "projectItemsPage"
@@ -59,4 +29,33 @@
                     >
 </pagination-controls>
 
-<p>Кількість проектів: {{itemsPage.total}}</p>
+<p>Усього: {{itemsPage.total}}</p>
+
+
+
+
+
+<!-- TODO Also show Projects as Cards / Thumbs -->
+
+
+
+
+
+<!-- <div *ngFor="let project of itemsPage.docs | async ">
+  <md-card>
+    <md-card-header>
+      <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+      <md-card-title>{{project.title}}</md-card-title>
+      <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+        {{project.description}}
+        <br/>
+        <br/>
+        <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
+    </md-card-content>
+    <md-card-actions>
+      <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
+    </md-card-actions>
+  </md-card>
+</div> -->

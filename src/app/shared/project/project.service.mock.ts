@@ -234,7 +234,6 @@ export class ProjectServiceMock {
     }
 
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
-    {  }
     const respOptions = new ResponseOptions({
       body: this.responsePageMock,
       status: 200

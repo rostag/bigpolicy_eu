@@ -1,0 +1,38 @@
+.project-brief-card {
+  width: 400px;
+}
+
+.project-brief-card-header-image {
+  // Parametrize via leader photo
+  background-image: url('../../../assets/img/project/project-placeholder.png');
+  background-size: cover;
+}
+
+.md-card-image-clipper {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  height: 300px;
+  margin: 0 -24px 16px;
+  max-height: 300px;
+  overflow: hidden;
+  width: calc(100% + 48px);
+
+  :first-child {
+    margin-top: -24px;
+  }
+}
+
+.project-list-item {
+  background-color: #fafafa;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.project-list-item:hover {
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}

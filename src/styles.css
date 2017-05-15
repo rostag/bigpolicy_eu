@@ -43,3 +43,24 @@ md-list-item h3 a:hover {
 md-icon.pointer {
   cursor: pointer;
 }
+
+/* Project Brief and Leader Brief for Home etc */
+.project-brief-card p,
+.project-brief-card .mat-card-title,
+.project-brief-card .mat-card-subtitle,
+.leader-brief-card p,
+.leader-brief-card .mat-card-title,
+.leader-brief-card .mat-card-subtitle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.project-brief-card,
+.leader-brief-card {
+  cursor: pointer;
+}
+
+.mat-card-actions button {
+  text-transform: uppercase;
+}

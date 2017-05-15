@@ -1,25 +1,33 @@
-md-toolbar-row {
-  justify-content: space-between;
+.app-toolbar {
+  // FIXME Use Theme BG color
+  background-color: #677;
+
+  // DEBUG > * {
+  //   border: 1px solid #fff;
+  // }
+  // box-sizing: border-box;
+  // display: block;
+  // padding: 0;
+
+  .mat-button,
+  .mat-button-ripple {
+    color: #fafafa;
+    font-size: 1rem;
+  }
 }
 
-a {
-  color: #ffffff;
-  cursor: pointer;
-  text-decoration: none;
+.nav-xs {
+  .mat-button {
+    width: 100%;
+  }
 }
 
-a,
-span,
-p,
-div {
-  font-size: 1.2rem;
-}
-
+.logo,
 .toolbar-inline-icon {
-  vertical-align: bottom;
+  margin: .25rem .45rem;
+  vertical-align: middle;
 }
 
-.username {
-  flex: 1 1 auto;
-  text-align: right;
+.account-icon {
+  margin: .25rem .65rem;
 }

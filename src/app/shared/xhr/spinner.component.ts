@@ -18,7 +18,7 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._subscription = this.browserXhr.observable.subscribe(next => {
-    console.log(next.type + ' next received in spinner');
+    // console.log(next.type + ' next received in spinner');
     switch (next.type) {
       case 'open':
         this._connectionCounter++;
@@ -27,7 +27,7 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
         this._connectionCounter--;
         break;
       case 'progress':
-        console.log('PROGRESS:' , next, next.event.loaded, next.event.total);
+        // console.log('PROGRESS:' , next, next.event.loaded, next.event.total);
         break;
       case 'abort':
         this._connectionCounter--;
