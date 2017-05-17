@@ -1,47 +1,32 @@
-
-<!-- European Cookie Law implementation: -->
+<!-- EU Cookie Law support -->
 <cookie-law position="top" name="topCookieLaw">
   Продовжуючи переглядати сайт, ви погоджуєтеся з використанням cookies. <a [routerLink]="['/privacy']">Детальніше</a>.
 </cookie-law>
 
-<!-- TODO FTUX - Section for leaders without a project -->
-<!-- TODO FTUX - Section for projects without tasks -->
+<!-- All Projects
+    Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
+    on Hover, Button Rendedered in MD Style -->
 
-<!-- TODO FTUX - AUTH - This section is visible to anonymous only -->
-<!-- <div *ngIf="!userService.authenticated()"> -->
-
-<!-- </div> --> <!-- TODO FTUX - AUTH END -->
-
-<!--
-    ALL PROJECTS
-      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
-      TBD: on Hover, Button Rendedered in MD Style
-        -->
-
-<!--
-    ALL LEADERS
-      TBD: Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
-      TBD: on Hover, Button Rendedered in MD Style
-        -->
-
-<div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5%" fxLayout.xs="column" >
-  <app-project-brief fxFlex="50" projectId="random" [viewContext]="'homePage'"></app-project-brief>
-  <app-leader-brief fxFlex="50" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
-</div>
+<!-- All Leaders
+     Слайдшоу — 10 випадкових елементів, АБО: три найпростіших + три найсильншіх + 4 рандомом
+     on Hover, Button Rendedered in MD Style -->
 
 <!-- here, mongoDb query can be used like this:
-http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1
-{ "$where": "this.projects.length > 2" }
-{ "totalDonationsReceived": 0 }
-{ "projects": { $size: 2 } }
--->
+     http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-is-greater-than-1
+     { "$where": "this.projects.length > 2" }
+     { "totalDonationsReceived": 0 }
+     { "projects": { $size: 2 } } -->
+<!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
- <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
+<div fxLayout="row" fxLayoutAlign="space-around start" fxLayout.xs="column" >
+  <app-project-brief fxFlex="42" projectId="random" [viewContext]="'homePage'"></app-project-brief>
+  <app-leader-brief fxFlex="42" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
+</div>
 
 <div class="how-it-works">
 <h2 align="center">Як це працює?</h2>
-<div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap>
-	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+<div fxLayout="row" fxLayoutAlign="space-around start" fxLayoutWrap>
+	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
 		<div class="material-icons md-48">face</div>
     <!-- FTUX - LEADER - Section is visible to non-leaders only -->
 		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
@@ -49,17 +34,17 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
     <!-- /FTUX - LEADER END -->
 		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
 	</div>
-	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
 		<div class="material-icons md-48">loop</div>
 		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
 		<div>Невелика сума краща за лайки в фейсбуці.</div>
 	</div>
-	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
 		<div class="material-icons md-48">mic</div>
 		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
 		<div>BIGPOLICY допомагає вам.</div>
 	</div>
-	<div fxFlex="20" fxFlex.sm="40" fxFlex.xs="100">
+	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
 		<div class="material-icons md-48">movie</div>
 		<div>Місія виконана з відповідними результатами</div>
 		<div>Нова ініціатива реалізована до життя!</div>
@@ -82,8 +67,9 @@ http://stackoverflow.com/questions/7811163/query-for-documents-where-array-size-
 </md-tab-group>
 
 <p class="bottom-title">
-    BigPolicy — платформа прямої демократії.
-    Твої політики для тебе і від тебе.
+    BigPolicy — платформа прямої демократії
+    <br/>
+    Твої політики для тебе і від тебе
 </p>
 
 <!-- TODO <h2>Останні проекти</h2> -->
