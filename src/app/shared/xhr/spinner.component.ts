@@ -5,14 +5,15 @@ import { HttpModule, BrowserXhr } from '@angular/http';
 
 @Component({
   selector: 'app-working-progress',
-  template: `<md-progress-bar mode="indeterminate" [class.hidden]="!_visible" color="accent"></md-progress-bar>`,
+  template: `<md-progress-bar mode="indeterminate" [class.hidden]="!isVisible" color="accent"></md-progress-bar>`,
   styleUrls: ['spinner.component.scss']
 })
 export class WorkingSpinnerComponent implements OnInit, OnDestroy {
 
+  public isVisible: boolean;
+
   private _subscription: AnonymousSubscription;
   private _connectionCounter = 0;
-  private _visible: boolean;
 
   constructor( public browserXhr: CustomBrowserXhr ) {}
 
@@ -36,7 +37,7 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
         this._connectionCounter--;
         break;
       }
-      this._visible = this._connectionCounter > 0; // if larger 0, its visible! otherwise hide us
+      this.isVisible = this._connectionCounter > 0; // if larger 0, its visible! otherwise hide us
     });
   }
 

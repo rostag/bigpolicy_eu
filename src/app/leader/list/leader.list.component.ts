@@ -13,6 +13,8 @@ import { UserService } from '../../shared/user/user.service';
 
 export class LeaderListComponent implements OnInit, OnChanges {
 
+  @Input() title = '';
+
   // How many leaders to show and to request from db in single turn
   @Input() pageSize = 5;
 

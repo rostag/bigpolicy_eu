@@ -21,7 +21,7 @@ git checkout deploy-qa
 git merge [branch to deploy] -X theirs -m 'Code for deployment build'
 
 ### 3. Build the application
-ng build -prod
+ng build --prod
 
 ### 4. Commit build files to deploy branch
 git add . && git commit -m 'Deployment build'

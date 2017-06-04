@@ -14,6 +14,7 @@ import { DialogService } from './shared/dialog/dialog.service';
 import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { CookieLawModule } from 'angular2-cookie-law';
 
 
 // Components
@@ -63,6 +64,7 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
+import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -84,7 +86,8 @@ export const firebaseConfig = {
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2PaginationModule
+    Ng2PaginationModule,
+    CookieLawModule
   ],
   exports: [
     // components we want to make available
@@ -121,7 +124,8 @@ export const firebaseConfig = {
     ReactiveFormsModule,
     WorkingSpinnerComponent,
     Ng2PaginationModule,
-    FormsModule
+    FormsModule,
+    CookieLawModule
   ],
   declarations: [
     // components to use in this module
@@ -153,7 +157,8 @@ export const firebaseConfig = {
     ImageComponent,
     LeaderBriefComponent,
     ProjectBriefComponent,
-    WorkingSpinnerComponent
+    WorkingSpinnerComponent,
+    DisclaimerComponent
   ],
   providers: [
     // singleton services
