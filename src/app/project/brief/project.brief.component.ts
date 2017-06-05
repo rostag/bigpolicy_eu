@@ -31,7 +31,7 @@ export class ProjectBriefComponent implements OnChanges {
     this.projectService.getProject(id)
     .subscribe(
       (data) => {
-        console.log('Got Project:', data);
+        console.log('Got a Project:', data);
         this.project = data;
         this.cd.detectChanges();
       },
