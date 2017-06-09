@@ -51,17 +51,18 @@
 	</div>
 </div>
 
+<!-- Projects & Leaders -->
 <!--
   Показуємо 6 активних проектів на 1 табі
   і також рандомно — 6 лідерів на другій табі
                                             -->
 <md-tab-group class="projects-leaders-list">
   <md-tab label="Проекти" class="tab">
-    <app-project-list [pageSize]="5"></app-project-list>
+    <app-project-list [pageSize]="6"></app-project-list>
     <button md-button md-raised-button color="primary">Всі проекти</button>
   </md-tab>
   <md-tab label="Діячі" class="tab">
-    <app-leader-list [pageSize]="2"></app-leader-list>
+    <app-leader-list [pageSize]="6"></app-leader-list>
     <button md-raised-button color="primary">Всі діячі</button>
   </md-tab>
 </md-tab-group>

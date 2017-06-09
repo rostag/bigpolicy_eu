@@ -3,12 +3,13 @@
 <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
 
 <div fxLayout="row" fxLayoutWrap >
-  <div fxFlex="20" fxFlex.lg="25" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs="100" *ngFor="let project of itemsPage.docs | async | paginate: {
-                                                                    id: 'projectItemsPage',
-                                                                    itemsPerPage: this.pageSize,
-                                                                    currentPage: itemsPage.page,
-                                                                    totalItems: itemsPage.total
-                                                                  }">
+  <div fxFlex="20" fxFlex.lg="16" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100"
+    *ngFor="let project of itemsPage.docs | async | paginate: {
+      id: 'projectItemsPage',
+      itemsPerPage: this.pageSize,
+      currentPage: itemsPage.page,
+      totalItems: itemsPage.total
+    }">
     <app-project-brief
       [projectId]="project._id"
       [viewContext]="'projectListPage'"
@@ -31,15 +32,7 @@
 
 <p>Усього: {{itemsPage.total}}</p>
 
-
-
-
-
 <!-- TODO Also show Projects as Cards / Thumbs -->
-
-
-
-
 
 <!-- <div *ngFor="let project of itemsPage.docs | async ">
   <md-card>
