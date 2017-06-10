@@ -24,7 +24,15 @@ app-home:host {
 
   app-leader-list {
     // background: #ffc;
-    padding: 0 5rem;
+    padding: 1rem;
+  }
+
+  .controls {
+    text-align: center;
+  }
+
+  .bt-show-all {
+    margin-bottom: 1em;
   }
 }
 

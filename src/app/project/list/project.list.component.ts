@@ -18,13 +18,16 @@ export class ProjectListComponent implements OnChanges {
   @Input() title = '';
 
   // How many leaders to show and to request from db in single turn
-  @Input() pageSize = 5;
+  @Input() pageSize = 6;
 
   // For searching leaders in DB
   @Input() dbQuery = '{}';
 
   // An ID of the Leader managing the project
   @Input() leaderId;
+
+  // Whether to show the pagination (it's not needed at Home, for example)
+  @Input() showPagination = true;
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {

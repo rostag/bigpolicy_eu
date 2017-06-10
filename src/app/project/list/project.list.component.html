@@ -19,18 +19,21 @@
   </div>
 </div>
 
-<pagination-controls
-                    id = "projectItemsPage"
-                    (pageChange)="pageChanged($event)"
-                    [maxSize]="5"
-                    directionLinks="true"
-                    previousLabel="Previous"
-                    nextLabel="Next"
-                    autoHide="true"
-                    >
-</pagination-controls>
+<div *ngIf="showPagination">
+  <pagination-controls
+                      id = "projectItemsPage"
+                      (pageChange)="pageChanged($event)"
+                      [maxSize]="5"
+                      directionLinks="true"
+                      previousLabel="Previous"
+                      nextLabel="Next"
+                      autoHide="true"
+                      >
+  </pagination-controls>
 
-<p>Усього: {{itemsPage.total}}</p>
+  <p>Усього: {{itemsPage.total}}</p>
+
+</div>
 
 <!-- TODO Also show Projects as Cards / Thumbs -->
 
