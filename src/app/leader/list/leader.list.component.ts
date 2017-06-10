@@ -16,13 +16,16 @@ export class LeaderListComponent implements OnInit, OnChanges {
   @Input() title = '';
 
   // How many leaders to show and to request from db in single turn
-  @Input() pageSize = 5;
+  @Input() pageSize = 6;
 
   // For searching leaders in DB
   @Input() dbQuery = '{}';
 
   // Reserved for future use
   @Input() groupId;
+
+  // Whether to show the pagination (it's not needed at Home, for example)
+  @Input() showPagination = true;
 
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {

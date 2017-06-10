@@ -21,28 +21,30 @@
   </p> -->
 
   <div class="leaders-list" fxLayout="column" fxLayoutWrap="" fxLayoutGap="3%" fxLayout.gt-sm="row" >
-   <div fxFlex="45%" fxFlex.gt-md="30%" *ngFor="let leader of itemsPage.docs | async | paginate: {
-                                                         id: 'leaderItemsPage',
-                                                         itemsPerPage: this.pageSize,
-                                                         currentPage: itemsPage.page,
-                                                         totalItems: itemsPage.total
-                                                       }">
-    <app-leader-brief [leaderId]="leader._id" [viewContext]="'leaderListPage'">
-    </app-leader-brief>
-   </div>
+    <div fxFlex="45%" fxFlex.gt-md="30%"
+      *ngFor="let leader of itemsPage.docs | async | paginate: {
+        id: 'leaderItemsPage',
+        itemsPerPage: this.pageSize,
+        currentPage: itemsPage.page,
+        totalItems: itemsPage.total
+      }">
+      <app-leader-brief [leaderId]="leader._id" [viewContext]="'leaderListPage'">
+      </app-leader-brief>
+    </div>
 
-   <pagination-controls
-     id = "leaderItemsPage"
-     (pageChange)="pageChanged($event)"
-     [maxSize]="5"
-     directionLinks="true"
-     previousLabel="Previous"
-     nextLabel="Next"
-     autoHide="true"
-     >
-  </pagination-controls>
-
-  <p>Усього: {{itemsPage.total}}</p>
+    <div *ngIf="showPagination">
+      <pagination-controls
+         id = "leaderItemsPage"
+         (pageChange)="pageChanged($event)"
+         [maxSize]="5"
+         directionLinks="true"
+         previousLabel="Previous"
+         nextLabel="Next"
+         autoHide="true"
+         >
+      </pagination-controls>
+      <p>Усього: {{itemsPage.total}}</p>
+    </div>
   </div>
 
 </md-card-content>
