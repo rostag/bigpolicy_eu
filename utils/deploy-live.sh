@@ -37,8 +37,8 @@ git add . && git commit -m 'deploy-update-build'
 ### 5. Push deploy branch to remote repo
 git push remote-live deploy-live --force
 
-### 6. Switch to temporary branch (safety - can be skipped)
-git checkout -B feat-temp
+### 6. Switch to original branch (safety - can be skipped)
+git checkout $2 --force
 
 echo "----------B I G D E P L O Y-----------"
 echo " ---------------      --------------- "
