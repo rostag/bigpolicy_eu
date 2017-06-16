@@ -77,11 +77,13 @@
     Твої політики для тебе і від тебе
 </p>
 
-<!-- TODO <h2>Останні проекти</h2> -->
+<h2>Останні проекти</h2>
 <!-- Останні проекти та політики — це зменшені мініатюри без -->
+<app-project-list [pageSize]="6" [showPagination]="false"></app-project-list>
 
-<!-- TODO <h2>Нові лідери</h2> -->
-<!-- Не дуже гарно виходить — нові у самому низу, треба подумати -->
+<h2>Нові лідери</h2>
+<app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
+
 
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5%" fxLayout.xs="column">
   <div fxFlex="50">
