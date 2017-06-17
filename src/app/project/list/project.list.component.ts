@@ -20,7 +20,7 @@ export class ProjectListComponent implements OnChanges {
   // How many leaders to show and to request from db in single turn
   @Input() pageSize = 6;
 
-  // For searching leaders in DB
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
   @Input() dbQuery = '{}';
 
   // An ID of the Leader managing the project
@@ -28,6 +28,19 @@ export class ProjectListComponent implements OnChanges {
 
   // Whether to show the pagination (it's not needed at Home, for example)
   @Input() showPagination = true;
+
+  // To let override view context for child briefs:
+  @Input() viewContext = 'projectListPage';
+
+  @Input() flexSettings = '20|16|33|50|100';
+
+  flexState = {
+      flex: 20,
+      lg: 16,
+      md: 33,
+      sm: 50,
+      xs: 100
+  };
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
@@ -51,6 +64,15 @@ export class ProjectListComponent implements OnChanges {
         changes.pageSize && changes.pageSize.currentValue ||
         changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestProjects();
+    }
+    if (changes.flexSettings && changes.flexSettings.currentValue ) {
+      const f = changes.flexSettings.currentValue.split('|');
+      this.flexState.flex = f[0];
+      this.flexState.lg = f[1];
+      this.flexState.md = f[2];
+      this.flexState.sm = f[3];
+      this.flexState.xs = f[4];
+      console.log('viewContext:', this.flexState);
     }
   }
 

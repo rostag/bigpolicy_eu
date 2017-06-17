@@ -27,6 +27,19 @@ export class LeaderListComponent implements OnInit, OnChanges {
   // Whether to show the pagination (it's not needed at Home, for example)
   @Input() showPagination = true;
 
+  // To let override view context for child briefs:
+  @Input() viewContext = 'leaderListPage';
+
+  @Input() flexSettings = '45%|45%|45%|45%|45%';
+
+  flexState = {
+      flex: '45%',
+      lg: '45%',
+      md: '45%',
+      sm: '45%',
+      xs: '45%'
+  };
+
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
     docs: this.leaders,
@@ -51,6 +64,15 @@ export class LeaderListComponent implements OnInit, OnChanges {
         changes.pageSize && changes.pageSize.currentValue ||
         changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestLeaders();
+    }
+    if (changes.flexSettings && changes.flexSettings.currentValue ) {
+      const f = changes.flexSettings.currentValue.split('|');
+      this.flexState.flex = f[0];
+      this.flexState.lg = f[1];
+      this.flexState.md = f[2];
+      this.flexState.sm = f[3];
+      this.flexState.xs = f[4];
+      console.log('Leader List flexState:', this.flexState);
     }
   }
 

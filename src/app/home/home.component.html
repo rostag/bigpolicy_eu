@@ -79,11 +79,11 @@
 
 <h2>Останні проекти</h2>
 <!-- Останні проекти та політики — це зменшені мініатюри без -->
-<app-project-list [pageSize]="6" [showPagination]="false"></app-project-list>
+<!-- FIXME dbQuery -->
+<app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|16|32|50'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
 
 <h2>Нові лідери</h2>
-<app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
-
+<app-leader-list [pageSize]="3" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'45%|30%|45%|45%|100%'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
 
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5%" fxLayout.xs="column">
   <div fxFlex="50">

@@ -48,3 +48,33 @@
   </div>
 
 </md-card>
+
+<!-- Brief on Home page -->
+<!-- Item Brief View (for display in compact lists) -->
+<md-card class="leader-list-card list-brief" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='compactLeaderList'" >
+  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+    <div fxFlex="100">
+      <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+    </div>
+    <div fxFlex="100">
+      <md-card-title>
+        <a [routerLink] = "['/leader/' + leader._id]">
+          {{leader.name}} {{leader.surName}}
+          <span *ngIf="userService.isOwner(leader)">
+            [я]
+          </span>
+        </a>
+
+      </md-card-title>
+      <div><b>Проектів:</b> {{leader.projects?.length}}</div>
+      <p><b>Місія:</b> {{leader.mission}}</p>
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="accent">Підтримати</button>
+      <span class="leader-iconbar" *ngIf="userService.hasEditPermissions(leader)">
+        <button md-icon-button [routerLink]="['/leader/' + leader._id + '/edit']"><md-icon>edit</md-icon></button>
+        <!-- <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a> -->
+        <!-- todo: restore deleteLeader for list view <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a> -->
+      </span>
+    </div>
+  </div>
+
+</md-card>
