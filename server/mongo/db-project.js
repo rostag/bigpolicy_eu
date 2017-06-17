@@ -56,12 +56,19 @@ DBProject.getProject = function(projectId) {
 }
 
 /**
- * Returns a page of Projects either by given projectIds (if present), page number and limit, or DB query
- * @param projectIds {Array} project ID's to retrieve
- * @param page {number} Page number to get from DB
- * @param limit {number} Items per page to get from DB
- * @param dbQuery {string} DB query to perform for filtering the results, searching etc
- */
+  * Returns a page of Projects either by given projectIds (if present), page number and limit, or DB query
+  * @param projectIds {Array} project ID's to retrieve
+  * @param page {number} Page number to get from DB
+  * @param limit {number} Items per page to get from DB
+  * @param dbQuery {string} DB query to perform for filtering the results, searching etc
+  * Usage in HTML code:
+  <app-project-list
+    title="Проекти з заходами"
+    [leaderId]="profileLeader._id"
+    pageSize="3"
+    dbQuery='{ "$where": "this.tasks.length > 0" }'>
+  </app-project-list>
+**/
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
   // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 

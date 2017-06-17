@@ -3,7 +3,7 @@
 <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
 
 <div fxLayout="row" fxLayoutWrap >
-  <div fxFlex="20" fxFlex.lg="16" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100"
+  <div [fxFlex]="flexState.flex" [fxFlex.lg]="flexState.lg" [fxFlex.md]="flexState.md" [fxFlex.sm]="flexState.sm" [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
@@ -12,7 +12,7 @@
     }">
     <app-project-brief
       [projectId]="project._id"
-      [viewContext]="'projectListPage'"
+      [viewContext]="viewContext"
       >
     </app-project-brief>
 

@@ -30,7 +30,8 @@ DBDonation.getDonationTarget = function( targetType, targetId ) {
  * @param donationIds Donation ID's to retrieve
  * @param page Page number to get from DB
  * @param limit Items per page to get from DB
- * @param dbQuery DB query to perform for filtering the results, searching etc
+ * @param dbQuery DB query to perform for filtering the results, searching etc like (in HTML code):
+ *        dbQuery='{ "$where": "this.tasks.length > 0" }'
  */
 DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
   // console.log('DBDonation.get page of Donations, donationIds =', donationIds.length, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);

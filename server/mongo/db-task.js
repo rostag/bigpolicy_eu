@@ -21,8 +21,9 @@ DBTask.getTask = function(id) {
 * @param taskIds Task ID's to retrieve
 * @param page Page number to get from DB
 * @param limit Items per page to get from DB
-* @param dbQuery DB query to perform for filtering the results, searching etc
- */
+* @param dbQuery DB query to perform for filtering the results, searching etc like (in HTML code):
+*        dbQuery='{ "$where": "this.tasks.length > 0" }'
+*/
 DBTask.getPageOfTasks = function (taskIds, page, limit, dbQuery) {
   // console.log('DBTask.getPage of Tasks, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
   var query = {};
