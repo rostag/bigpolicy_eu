@@ -21,7 +21,7 @@ export class TaskListComponent implements OnChanges {
   // How many tasks to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // For searching in DB
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
   @Input() dbQuery = '{}';
 
   // An project this task list belongs to

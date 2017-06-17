@@ -18,7 +18,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
   // How many leaders to show and to request from db in single turn
   @Input() pageSize = 6;
 
-  // For searching leaders in DB
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
   @Input() dbQuery = '{}';
 
   // Reserved for future use
