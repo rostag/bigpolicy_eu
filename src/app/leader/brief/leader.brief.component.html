@@ -52,11 +52,12 @@
 <!-- Brief on Home page -->
 <!-- Item Brief View (for display in compact lists) -->
 <md-card class="leader-list-card list-brief" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='compactLeaderList'" >
-  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-    <div fxFlex="100">
+  <!-- <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column"> -->
+  <div>
+    <div fxFlex="35">
       <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
     </div>
-    <div fxFlex="100">
+    <div fxFlex="65">
       <md-card-title>
         <a [routerLink] = "['/leader/' + leader._id]">
           {{leader.name}} {{leader.surName}}

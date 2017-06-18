@@ -1,0 +1,32 @@
+$col-grey: #707070;
+
+.user-title {
+  h1 {
+    margin-top: .5rem;
+  }
+
+  p {
+    color: $col-grey;
+    margin-top: 1rem;
+  }
+
+  a {
+    color: $col-grey;
+  }
+}
+
+.user-avatar {
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+  width: 8rem;
+}
+
+.user-info {
+  margin-top: -1.2rem;
+}
+
+.leader-profile {
+  app-project-list:first-of-type {
+    margin-top: -1.5rem;
+  }
+}
