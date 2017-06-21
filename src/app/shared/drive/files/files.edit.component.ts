@@ -122,7 +122,7 @@ export class FilesEditComponent implements AfterViewInit {
   // ---------------------------------------------------------------------------
   // Uploading User's files
   // ---------------------------------------------------------------------------
-
+  // FIXME 0
   handleSelectFileClick() {
     this.fileInput.nativeElement.click();
   }
