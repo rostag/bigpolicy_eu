@@ -2,32 +2,25 @@
   // FIXME Use Theme BG color
   background-color: #677;
 
-  // DEBUG > * {
-  //   border: 1px solid #fff;
-  // }
-  // box-sizing: border-box;
-  // display: block;
-  // padding: 0;
-
   .mat-button,
   .mat-button-ripple {
     color: #fafafa;
     font-size: 1rem;
   }
+
+  >button,
+  >span {
+    text-align: center;
+  }
 }
 
 .nav-xs {
-  .mat-button {
+  >button,
+  >span {
     width: 100%;
   }
 }
 
-.logo,
-.toolbar-inline-icon {
-  margin: .25rem .45rem;
-  vertical-align: middle;
-}
-
-.account-icon {
-  margin: .25rem .65rem;
+.logo {
+  margin: .3rem auto;
 }

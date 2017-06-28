@@ -1,5 +1,9 @@
 <nav class="app-toolbar" color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
-  <span class="logo">
+
+  <button fxFlex="23" md-button [routerLink]="['/projects']" color="primary">Проекти</button>
+  <button fxFlex="23" md-button [routerLink]="['/leaders']" color="primary">Діячі</button>
+
+  <span fxFlex="8" class="logo">
     <a [routerLink]="['/']">
       <svg class="logo logo-white" width="50px" height="50px" viewBox="0 0 3500 3300">
         <style type="text/css">
@@ -13,23 +17,25 @@
     </a>
   </span>
 
-  <button md-button [routerLink]="['/projects']" color="primary">Проекти</button>
-  <button md-button [routerLink]="['/leaders']" color="primary">Діячі</button>
-  <button md-button [routerLink]="['/add-leader']" *ngIf="showCreateLeaderButton" color="primary">Стати діячем</button>
-  <button md-button [routerLink]="['/add-project']" *ngIf="showCreateProjectButton" color="primary">Створити проект</button>
+  <span fxFlex="23">
+    <button md-button [routerLink]="['/add-leader']" *ngIf="showCreateLeaderButton" color="primary">Стати діячем</button>
+    <button md-button [routerLink]="['/add-project']" *ngIf="showCreateProjectButton" color="primary">Створити проект</button>
+  </span>
 
   <!-- FIXME Override User Profile Name with Leader Name ? -->
-  <button title="Email: {{userService.userProfile.email}}" *ngIf="userService.authenticated()" md-button [routerLink]="['/profile']" color="primary">
-    {{userService.userProfile ? userService.userProfile.name : ''}}
-  </button>
-  <button md-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
-    Увійти
-  </button>
+  <span fxFlex="23" style="white-space:nowrap;">
+    <button title="Email: {{userService.userProfile.email}}" *ngIf="userService.authenticated()" md-button [routerLink]="['/profile']" color="primary">
+      {{userService.userProfile ? userService.userProfile.name : ''}}
+    </button>
+    <button md-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
+      Увійти
+    </button>
 
-  <button md-icon-button [md-menu-trigger-for]="menu" color="accent" class="account-icon">
-    <md-icon class="toolbar-inline-icon" *ngIf="!userService.isAdmin()">account_circle</md-icon>
-    <md-icon class="toolbar-inline-icon" *ngIf="userService.isAdmin()">account_box</md-icon>
-  </button>
+    <button md-icon-button [md-menu-trigger-for]="menu" color="accent">
+      <md-icon *ngIf="!userService.isAdmin()">account_circle</md-icon>
+      <md-icon *ngIf="userService.isAdmin()">account_box</md-icon>
+    </button>
+  </span>
 
 </nav>
 
