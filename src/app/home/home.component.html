@@ -60,13 +60,13 @@
   <md-tab label="Проекти" >
     <app-project-list [pageSize]="6" [showPagination]="false"></app-project-list>
     <div class="controls">
-      <button class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
+      <button [routerLink]="['/projects']" class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
     </div>
   </md-tab>
   <md-tab label="Діячі" >
     <app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
     <div class="controls">
-      <button class="bt-show-all" md-raised-button color="primary">Всі діячі</button>
+      <button [routerLink]="['/leaders']" class="bt-show-all" md-raised-button color="primary">Всі діячі</button>
     </div>
   </md-tab>
 </md-tab-group>
