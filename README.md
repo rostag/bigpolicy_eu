@@ -44,7 +44,7 @@ Please note: you need _at least npm 3_.
 
 #### Run MongoDB
 
-mongod --dbpath data/db
+```mongod --dbpath data/db```
 
 Please note — path to database may be different on your machine. It's better to keep your DB files outside the source folder to avoid leaking DB files into project repository.
 
@@ -52,8 +52,11 @@ Windows notes
 Add mongodb to PATH
 run mongo server manually:
 a) go to default folder of mongo e.g.
+
 ```C:\Program Files\MongoDB\Server\3.2\bin```
+
 and enter command:
+
 ```mongod.exe --dbpath path_to_bin_mongo_folder```
 
 This will show waiting for connections message on the console output, which indicates that the mongod.exe process is running successfully.
