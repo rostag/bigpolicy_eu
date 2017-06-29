@@ -16,7 +16,7 @@
 </md-card>
 
 <!-- Project Item View (for display in lists) -->
-<md-card class="project-list-item" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='projectListPage'">
+<md-card class="project-list-item gradient-fade" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='projectListPage'">
   <h3 class="title" md-line><a [routerLink]="['/project/' + project._id]"><b>{{project.title}}</b> - {{project.managerName}}. Заходів: {{project.tasks?.length}}</a></h3>
   <p class="date" md-line>{{project.dateStarted | date}} - {{project.dateEnded | date}}. {{project.cost}} UAH</p>
   <p class="description" md-line>
