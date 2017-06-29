@@ -20,11 +20,11 @@ Idea was verified on EGAP Hackaton Challenge with support of bright experts and 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli). Typescript 2.0 is needed in order to compile  it:
 
-`npm install -g typescript@next`
+```npm install -g typescript@next
 
-`npm install -g typings`
+npm install -g typings
 
-`npm install -g angular-cli`
+npm install -g angular-cli```
 
 #### Install MongoDB
 
@@ -52,22 +52,21 @@ Windows notes
 Add mongodb to PATH
 run mongo server manually:
 a) go to default folder of mongo e.g.
-C:\Program Files\MongoDB\Server\3.2\bin
+```C:\Program Files\MongoDB\Server\3.2\bin```
 and enter command:
-mongod.exe --dbpath "path_to_bin_mongo_folder"
+```mongod.exe --dbpath path_to_bin_mongo_folder```
 
 This will show waiting for connections message on the console output, which indicates that the mongod.exe process is running successfully.
-14 OCTOBER 11:58
 
 #### Run Angular CLI Server
 
 At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, node serves as web + mongodb. Run ng to build, telling it to watch and rebuild sources:
 
-ng build --watch true
+```ng build --watch true```
 
 #### Run node express app:
 
-`node start`
+```node start```
 
 ### See your local BP
 
