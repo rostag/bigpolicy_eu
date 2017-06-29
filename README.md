@@ -1,3 +1,5 @@
+<img src="https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png" alt="BigPolicy" width="47">
+
 # BigPolicy
 
 Welcome to (qa-europe.rhcloud.com) open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
@@ -9,8 +11,6 @@ implement new culture in political landscape
 implement it on local and government level
 
 Idea was verified on EGAP Hackaton Challenge with support of bright experts and moving forward
-
-<img src="https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png" alt="BigPolicy" width="100">
 
 ## How to start your local development
 
