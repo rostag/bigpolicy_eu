@@ -2,23 +2,21 @@
 
 # BigPolicy
 
-Welcome to (qa-europe.rhcloud.com) open-source crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
+Opensource crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
 
 Project appeared in Ukraine, when group of activists decides that Direct Democracy is the instrument of truly agile governments, ready to be open for challenges and react on them.
 
 Our goals for this tool are
-implement new culture in political landscape
-implement it on local and government level
+- implement new culture in political landscape
+- implement it on local and government level
 
-Idea was verified on EGAP Hackaton Challenge with support of bright experts and moving forward
+Idea was verified on EGAP Hackaton Challenge with support of bright experts and moving forward.
 
 ## How to start your local development
 
-### Pre-requisites
-
 #### Install Typescript and Angular CLI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli). Typescript 2.0 is needed in order to compile  it:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) and Typescript:
 
 ```npm install -g typescript@next```
 
@@ -73,7 +71,7 @@ At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, 
 
 ### See your local BP
 
-Visit http://localhost:4200/ -- this is your local BigPolicy application.
+Visit [localhost:4200](http://localhost:4200/) -- this is your local BigPolicy application.
 
 After you edited and saved a file, the project is being rebuilt automatically. But you need to manually refresh the page in browser to see the changes (we'll fix it later)
 
