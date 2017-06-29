@@ -1,3 +1,10 @@
+$col-white-tran: rgba(255, 255, 255, 0);
+$col-white: rgba(255, 255, 255, 1);
+
+.gradient-fade {
+  background: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
+}
+
 .project-brief-card {
   // width: 100%;
 }
@@ -25,32 +32,44 @@
 .project-list-item {
   background-color: #fafafa;
   cursor: pointer;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  max-height: 15em;
+  overflow: hidden;
 
-  // .title,
-  // .description {
-  //   max-height: 80px;
-  //   overflow-x: hidden;
-  //   text-overflow: ellipsis;
-  //   white-space: pre-wrap;
-  // }
-  //
-  // .title {
-  //   height: 50px;
-  // }
-  //
-  // .date {
-  //   height: 20px;
-  // }
-  //
-  // .description {
-  //   height: 100px;
-  // }
+  .title,
+  .date,
+  .description {
+    height: 2.5em;
+    overflow: hidden;
+  }
+
+  .date {
+    font-size: .7em;
+    height: 1em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .description {
+    height: 6em;
+  }
 }
 
 .project-list-item:hover {
   background-color: transparent;
+  max-height: 30em;
+
+  .title,
+  .date,
+  .description {
+    height: auto;
+    overflow: auto;
+  }
+
+  .description {
+    max-height: 17em;
+  }
 }
 
 a {
@@ -58,5 +77,5 @@ a {
 }
 
 .list-brief {
-  font-size: .8rem;
+  font-size: .8em;
 }
