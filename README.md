@@ -20,11 +20,11 @@ Idea was verified on EGAP Hackaton Challenge with support of bright experts and 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli). Typescript 2.0 is needed in order to compile  it:
 
-```npm install -g typescript@next
+```npm install -g typescript@next```
 
-npm install -g typings
+```npm install -g typings```
 
-npm install -g angular-cli```
+```npm install -g angular-cli```
 
 #### Install MongoDB
 
@@ -32,11 +32,11 @@ To develop locally, you need to [MongoDB installation](https://docs.mongodb.com/
 
 #### Clone our repository
 
-`git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>`
+```git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>```
 
 #### Install dependencies
 
-`npm install`
+```npm install```
 
 Please note: you need _at least npm 3_.
 
