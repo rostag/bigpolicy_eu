@@ -10,7 +10,7 @@ implement it on local and government level
 
 Idea was verified on EGAP Hackaton Challenge with support of bright experts and moving forward
 
-![image](https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png?raw=true)
+<img src="https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png" alt="BigPolicy" width="100">
 
 ## How to start your local development
 
