@@ -1,13 +1,10 @@
 $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
+$col-fafafa: #fafafa;
+$col-eee: #eee;
+$fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
 
-.gradient-fade {
-  background: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
-}
-
-.project-brief-card {
-  // width: 100%;
-}
+// Card View
 
 .project-brief-card-header-image {
   // Parametrize via leader photo
@@ -16,8 +13,8 @@ $col-white: rgba(255, 255, 255, 1);
 }
 
 .md-card-image-clipper {
-  border-bottom: 1px solid #eee;
-  border-top: 1px solid #eee;
+  border-bottom: 1px solid $col-eee;
+  border-top: 1px solid $col-eee;
   height: 300px;
   margin: 0 -24px 16px;
   max-height: 300px;
@@ -29,46 +26,68 @@ $col-white: rgba(255, 255, 255, 1);
   }
 }
 
+// List View - Normal
+
 .project-list-item {
-  background-color: #fafafa;
+  background-color: $col-fafafa;
   cursor: pointer;
-  margin-bottom: 1em;
+  height: 15em;
+  margin-bottom: 2em;
   margin-right: 1em;
-  max-height: 15em;
   overflow: hidden;
 
   .title,
   .date,
   .description {
-    height: 2.5em;
     overflow: hidden;
   }
 
-  .date {
+  .title {
+    height: 1.3em;
+  }
+
+  .date,
+  .cost,
+  .tasks {
     font-size: .7em;
-    height: 1em;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .description {
-    height: 6em;
+  .md-card-image-clipper {
+    height: 8em;
+    margin: 0 -24px;
+  }
+
+  .compact {
+    .admin {
+      display: none;
+    }
   }
 }
 
+// List View - Hover
+
 .project-list-item:hover {
   background-color: transparent;
-  max-height: 18em;
+  height: 16em;
+  margin-bottom: 1em;
 
-  .title,
-  .date,
   .description {
-    height: auto;
-    overflow: auto;
+    display: block;
+    height: 10.3em;
   }
 
-  .description {
-    max-height: 5em;
+  .title {
+    height: 1.2em;
+  }
+
+  .date,
+  .cost,
+  .tasks,
+  .mat-card-image,
+  .md-card-image-clipper {
+    display: none;
   }
 }
 
@@ -77,5 +96,5 @@ a {
 }
 
 .list-brief {
-  font-size: .8em;
+  // font-size: .8em;
 }

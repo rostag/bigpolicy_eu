@@ -17,6 +17,10 @@ app-home:host {
 .projects-leaders-list {
   margin-top: 6rem;
 
+  /deep/ .mat-tab-label {
+    font-size: 1.4em;
+  }
+
   app-project-list {
     // background: #ffc;
     padding: 1rem;

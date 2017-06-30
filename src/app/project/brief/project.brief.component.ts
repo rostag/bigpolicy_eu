@@ -39,4 +39,15 @@ export class ProjectBriefComponent implements OnChanges {
       () => {}
     );
   }
+
+  /**
+   * Remove this project
+   * @param {project} Project being viewed
+   */
+  deleteProject(project: ProjectModel) {
+    // Delete from DB
+    this.projectService.deleteProject(project, true);
+    return false;
+  }
+
 }
