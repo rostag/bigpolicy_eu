@@ -52,13 +52,13 @@ $col-white: rgba(255, 255, 255, 1);
   }
 
   .description {
-    height: 6em;
+    height: 5.5em;
   }
 }
 
 .project-list-item:hover {
   background-color: transparent;
-  max-height: 18em;
+  max-height: 16em;
 
   .title,
   .date,
@@ -68,7 +68,17 @@ $col-white: rgba(255, 255, 255, 1);
   }
 
   .description {
-    max-height: 5em;
+    font-size: 1em;
+    max-height: 9em;
+  }
+
+  .title {
+    font-size: 1em;
+    max-height: 6em;
+  }
+
+  .date {
+    display: none;
   }
 }
 
