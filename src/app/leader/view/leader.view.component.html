@@ -15,14 +15,17 @@
           <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
         </div>
         <div fxFlex="65%">
-          <div *ngIf="leader.projects && leader.projects.length > 0">
             <md-card-title>
               Проекти:
             </md-card-title>
             <md-card-content>
-              <app-project-list [leaderId]="leader._id" pageSize="15"></app-project-list>
+              <app-project-list
+                [leaderId]="leader._id"
+                pageSize="12"
+                *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
+              </app-project-list>
+              <ng-template #projects_placeholder>Немає жодного проекту – пора <a [routerLink]="['/add-project']">створити його</a>.</ng-template>
             </md-card-content>
-          </div>
         </div>
       </div>
 
