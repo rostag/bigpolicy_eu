@@ -160,6 +160,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit {
       .subscribe(
         data => {
           this.formStatus = 'emailSent';
+          scroll(0, 0);
           console.log('Project Shared', data);
         },
         err => (er) => {

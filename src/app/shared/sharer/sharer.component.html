@@ -17,7 +17,7 @@
     <!-- Show sending status -->
     <h2 *ngIf="getFormState('')">Надіслати по email</h2>
     <h2 *ngIf="getFormState('emailIsBeingSent')">Надсилаю повідомлення...</h2>
-    <h2 *ngIf="getFormState('emailSent')">Повідомлення надіслано</h2>
+    <h2 *ngIf="getFormState('emailSent')" class="info">Повідомлення надіслано</h2>
     <h2 *ngIf="getFormState('emailSendError')">Сталася помилка {{emailSendError}}</h2>
     <h2 *ngIf="getFormState('formIsNotComplete')">Форма не готова до відправки</h2>
 
