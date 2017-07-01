@@ -22,15 +22,16 @@
       </div>
     </div>
 
-    <h2>Детальніше</h2>
-    <p>{{project.description}}</p>
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+      <!-- Project Tasks -->
+      <app-task-list fxFlex="50" title="Заходи:" [project]="project" [pageSize]="3" ></app-task-list>
+      <!-- /Project Tasks -->
+
+      <p fxFlex="45">{{project.description}}</p>
+    </div>
 
     <!-- <h2>Відео до проекту</h2> -->
     <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
-
-    <!-- Project Tasks -->
-    <app-task-list title="Заходи:" [project]="project" [pageSize]="3" ></app-task-list>
-    <!-- /Project Tasks -->
 
     <p *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати проект</button></a>
