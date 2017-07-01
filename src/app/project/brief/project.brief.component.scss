@@ -96,5 +96,18 @@ a {
 }
 
 .list-brief {
-  font-size: 1em;
+  font-size: .85em;
+  height: 14em;
+  margin-bottom: 2em;
+
+  .date,
+  .cost,
+  .tasks {
+    display: none;
+  }
+}
+
+.list-brief:hover {
+  height: 16em;
+  margin-bottom: 0;
 }
