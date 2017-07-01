@@ -19,7 +19,7 @@
 <md-card class="project-list-item" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='projectListPage'">
   <h3 class="title" md-line>
     <a [routerLink]="['/project/' + project._id]">
-      <b>{{project.title}}</b>
+      <b class.lg="compact">{{project.title}}</b>
     </a>
   </h3>
   <div class="md-card-image-clipper">
@@ -43,8 +43,7 @@
   </md-card-actions>
 </md-card>
 
-<!-- Brief on Home page -->
-<!-- Project Item Brief View (for display in compact lists) -->
+<!-- Project Item Brief View for display in compact lists on Home page e.t.c. -->
 <md-card class="project-list-item list-brief" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='compactProjectList'">
   <h3 class="title" md-line><a [routerLink]="['/project/' + project._id]">{{project.title}}</a></h3>
 
@@ -58,10 +57,5 @@
   <div class="date" md-line><small>{{project.dateStarted | date}}-{{project.dateEnded | date}}</small></div>
   <md-card-actions>
     <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
-    <!-- <div fxLayout="row" fxLayoutAlign="end" *ngIf="userService.hasEditPermissions(project)" class="admin">
-      <button md-icon-button [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></button>
-      <button md-icon-button (click)="deleteProject(project)"><md-icon>delete</md-icon></button>
-      <button md-icon-button disabled (click)="shareProject(project)"><md-icon>share</md-icon></button>
-    </div> -->
   </md-card-actions>
 </md-card>

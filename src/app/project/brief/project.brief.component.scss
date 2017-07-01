@@ -32,8 +32,10 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   background-color: $col-fafafa;
   cursor: pointer;
   height: 15em;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  margin-left: 1em;
   margin-right: 1em;
+  margin-top: 1em;
   overflow: hidden;
 
   .title,
@@ -44,6 +46,10 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
 
   .title {
     height: 1.3em;
+
+    .compact {
+      font-size: .7em;
+    }
   }
 
   .date,
@@ -71,7 +77,16 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
 .project-list-item:hover {
   background-color: transparent;
   height: 16em;
-  margin-bottom: 1em;
+
+  // margin-bottom: 1em;
+  // margin-left: 1em;
+  // margin-right: 1em;
+  // margin-top: 1em;
+
+  margin-bottom: -.1em;
+  margin-left: .9em;
+  margin-right: .9em;
+  margin-top: .7em;
 
   .description {
     display: block;
