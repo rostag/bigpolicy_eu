@@ -30,14 +30,14 @@ export class LeaderListComponent implements OnInit, OnChanges {
   // To let override view context for child briefs:
   @Input() viewContext = 'leaderListPage';
 
-  @Input() flexSettings = '45%|30%|30%|45%|100%';
+  @Input() flexSettings = '33|33|33|50|100';
 
   flexState = {
-      flex: '45%',
-      lg: '30%',
-      md: '30%',
-      sm: '45%',
-      xs: '100%'
+      flex: '33',
+      lg: '33',
+      md: '33',
+      sm: '50',
+      xs: '100'
   };
 
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);

@@ -33,7 +33,7 @@ a {
 
 .leader-list-card {
   cursor: pointer;
-  height: 13.8em;
+  height: 14em;
   margin: 1em 1em 1.2em;
   overflow: hidden;
 
@@ -76,8 +76,7 @@ a {
 
 .leader-list-card:hover {
   background-color: $col-fafafa;
-  height: 14em;
-  margin: .9em 1em 1.1em;
+  margin: .95em 1em 1.25em;
 
   .vision {
     max-height: 3.7em;
@@ -124,10 +123,4 @@ a {
   display: inline-block;
   margin: auto auto 1.2em;
   max-width: 14em;
-}
-
-.list-brief {
-  .mat-card-title {
-    // margin-top: -.1em;
-  }
 }

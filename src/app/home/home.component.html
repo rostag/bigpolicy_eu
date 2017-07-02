@@ -81,9 +81,9 @@
 <!-- Останні проекти та політики — це зменшені мініатюри -->
 <!-- FIXME dbQuery to get recent ones only -->
 <h2>Останні проекти</h2>
-<app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|32|32|50'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
+<app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|33|50|100'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
 <h2>Нові лідери</h2>
-<app-leader-list [pageSize]="6" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'32|32|32|50|100'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
+<app-leader-list [pageSize]="6" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'33|33|33|50|100'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
 
 <!-- Contacts / Footer -->
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5%" fxLayout.xs="column">
