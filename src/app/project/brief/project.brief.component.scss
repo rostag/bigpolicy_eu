@@ -100,8 +100,6 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   .md-card-image-clipper {
     display: none;
   }
-
-
 }
 
 a {
@@ -119,16 +117,20 @@ a {
     display: none;
   }
 
+  .description {
+    height: 3.5em;
+  }
+
   .card-actions {
     display: none;
   }
-
 }
 
 .list-brief:hover {
-
+  .description {
+    height: 10.5em;
+  }
   .card-actions {
     display: block;
   }
-
 }
