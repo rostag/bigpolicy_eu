@@ -24,7 +24,7 @@
                 pageSize="12"
                 *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
               </app-project-list>
-              <ng-template #projects_placeholder>Немає жодного проекту – пора <a [routerLink]="['/add-project']">створити його</a>.</ng-template>
+              <ng-template #projects_placeholder>Немає жодного проекту – <a [routerLink]="['/add-project']">створити</a>?</ng-template>
             </md-card-content>
         </div>
       </div>

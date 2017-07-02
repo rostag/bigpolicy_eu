@@ -1,3 +1,10 @@
+$col-eee: #eee;
+$col-fafafa: #fafafa;
+
+a {
+  text-decoration: none;
+}
+
 .leader-brief-card {
   // width: 100%;
 }
@@ -9,8 +16,8 @@
 }
 
 .md-card-image-clipper {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $col-eee;
+  border-top: 1px solid $col-eee;
   height: 300px;
   margin: 0 -24px 16px;
   max-height: 300px;
@@ -22,30 +29,99 @@
   }
 }
 
+// List View
+
 .leader-list-card {
   cursor: pointer;
-  margin-bottom: 1em;
+  height: 13.8em;
+  margin: 1em 1em 1.2em;
+  overflow: hidden;
+
+  .mat-card-title {
+    line-height: .5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .name {
+    font-size: .8em;
+  }
+
+  .projects {
+    display: none;
+  }
+
+  .mission,
+  .vision {
+    margin-bottom: 0;
+    margin-top: 0;
+    max-height: 4.7em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vision {
+    margin-top: 1em;
+    max-height: 5.9em;
+  }
+
+  .buttons-space {
+    display: none;
+  }
 }
+
+// List View - on hover
 
 .leader-list-card:hover {
-  background-color: #fafafa;
+  background-color: $col-fafafa;
+  height: 14em;
+  margin: .9em 1em 1.1em;
+
+  .vision {
+    max-height: 3.7em;
+  }
+
+  .buttons-space {
+    display: block;
+  }
 }
 
-a {
-  text-decoration: none;
+// Single-col view
+
+.leader-list-card-single-column {
+  height: auto;
+  max-height: 50em;
+
+  .vision,
+  .mission {
+    display: block;
+    max-height: 10em;
+  }
+
+  .buttons-space {
+    display: block;
+  }
 }
 
-.leader-iconbar {
-  float: right;
-}
+// Single-col view: hover
 
-.lead-button {
-  float: right;
+.leader-list-card-single-column:hover {
+  height: auto;
+  margin-top: 1em;
+  max-height: 50em;
+
+  .vision,
+  .mission {
+    display: block;
+    max-height: 10em;
+  }
 }
 
 .leader-photo {
+  border: 2px dashed $col-eee;
   display: inline-block;
-  border: 3px dashed #777;
+  margin: auto auto 1.2em;
+  max-width: 14em;
 }
 
 .list-brief {

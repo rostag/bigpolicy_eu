@@ -20,32 +20,35 @@
 
 <!-- *ngIf="viewContext==='leaderListPage'" -->
 
-<md-card class="leader-list-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='leaderListPage'" >
-  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-    <div fxFlex="35">
+<md-card class="leader-list-card" class.xs="leader-list-card-single-column" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='leaderListPage'" >
+  <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
+    <div fxFlex="30" fxFlexAlign.xs="center">
       <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-      <p><b>Проектів:</b> {{leader.projects?.length}}</p>
     </div>
-    <div fxFlex="65">
+    <div fxFlex="70" fxFlexOffset="5">
       <md-card-title>
-        <a [routerLink] = "['/leader/' + leader._id]" title="{{leader.email}}">
+        <a [routerLink] = "['/leader/' + leader._id]" class="name" title="{{leader.email}}">
           {{leader.name}} {{leader.surName}}
           <span *ngIf="userService.isOwner(leader)">
             [я]
           </span>
         </a>
-
       </md-card-title>
-      <p><b>Місія:</b> {{leader.mission}}</p>
-      <p><b>Візія:</b> {{leader.vision}}</p>
+      <p class="projects"><b>Проектів:</b> {{leader.projects?.length}}</p>
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
+      <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+    </div>
+  </div>
+  <md-card-actions align="end">
+    <div class="buttons-space">
       <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="accent">Підтримати</button>
-      <span class="leader-iconbar" *ngIf="userService.hasEditPermissions(leader)">
+      <span *ngIf="userService.hasEditPermissions(leader)">
         <button md-icon-button [routerLink]="['/leader/' + leader._id + '/edit']"><md-icon>edit</md-icon></button>
         <!-- <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a> -->
         <!-- todo: restore deleteLeader for list view <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a> -->
       </span>
     </div>
-  </div>
+  </md-card-actions>
 
 </md-card>
 
