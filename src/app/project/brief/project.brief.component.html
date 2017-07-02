@@ -55,7 +55,7 @@
     <small>{{project.description}}</small>
   </p>
   <div class="date" md-line><small>{{project.dateStarted | date}}-{{project.dateEnded | date}}</small></div>
-  <md-card-actions align="end">
+  <md-card-actions align="end" class="card-actions">
     <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
   </md-card-actions>
 </md-card>

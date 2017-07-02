@@ -32,10 +32,7 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   background-color: $col-fafafa;
   cursor: pointer;
   height: 15em;
-  margin-bottom: 1em;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 1em;
+  margin: 1em;
   overflow: hidden;
 
   .title,
@@ -50,6 +47,10 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
     .compact {
       font-size: .7em;
     }
+  }
+
+  .description {
+    margin-bottom: 0;
   }
 
   .date,
@@ -70,23 +71,18 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
       display: none;
     }
   }
+
 }
 
 // List View - Hover
 
 .project-list-item:hover {
   background-color: transparent;
-  height: 16em;
 
-  // margin-bottom: 1em;
-  // margin-left: 1em;
-  // margin-right: 1em;
-  // margin-top: 1em;
-
-  margin-bottom: -.1em;
-  margin-left: .9em;
-  margin-right: .9em;
-  margin-top: .7em;
+  margin-bottom: -.05em;
+  margin-left: .95em;
+  margin-right: .95em;
+  margin-top: .95em;
 
   .description {
     display: block;
@@ -104,6 +100,8 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   .md-card-image-clipper {
     display: none;
   }
+
+
 }
 
 a {
@@ -112,7 +110,7 @@ a {
 
 .list-brief {
   font-size: .85em;
-  height: 14em;
+  height: 15em;
   margin-bottom: 2em;
 
   .date,
@@ -120,9 +118,17 @@ a {
   .tasks {
     display: none;
   }
+
+  .card-actions {
+    display: none;
+  }
+
 }
 
 .list-brief:hover {
-  height: 16em;
-  margin-bottom: 0;
+
+  .card-actions {
+    display: block;
+  }
+
 }
