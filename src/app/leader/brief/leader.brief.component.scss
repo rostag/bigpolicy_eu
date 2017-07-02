@@ -38,7 +38,9 @@ a {
   overflow: hidden;
 
   .mat-card-title {
-    line-height: .5;
+    margin-bottom: .5em;
+    margin-top: -.3em;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -125,5 +127,7 @@ a {
 }
 
 .list-brief {
-  font-size: .8rem;
+  .mat-card-title {
+    // margin-top: -.1em;
+  }
 }

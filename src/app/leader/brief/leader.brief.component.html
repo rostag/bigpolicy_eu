@@ -27,7 +27,7 @@
     </div>
     <div fxFlex="70" fxFlexOffset="5">
       <md-card-title>
-        <a [routerLink] = "['/leader/' + leader._id]" class="name" title="{{leader.email}}">
+        <a [routerLink] = "['/leader/' + leader._id]" class="name" title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}">
           {{leader.name}} {{leader.surName}}
           <span *ngIf="userService.isOwner(leader)">
             [я]
@@ -49,13 +49,27 @@
       </span>
     </div>
   </md-card-actions>
-
 </md-card>
 
-<!-- Brief on Home page -->
-<!-- Item Brief View (for display in compact lists) -->
-<md-card class="leader-list-card list-brief" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='compactLeaderList'" >
-  <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-  <h2 title="{{leader.email}}">{{leader.name}} {{leader.surName}}</h2>
-  <p>{{leader.mission}}</p>
+<!-- Item Brief View (for display in compact lists) on Home page -->
+<md-card class="leader-list-card list-brief" class.xs="leader-list-card-single-column" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='compactLeaderList'" >
+  <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
+    <div fxFlex="30" fxFlexAlign.xs="center">
+      <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+    </div>
+    <div fxFlex="70" fxFlexOffset="5">
+      <md-card-title>
+        <span title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}" class="name">
+          {{leader.name}} {{leader.surName}}
+        </span>
+      </md-card-title>
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
+      <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+    </div>
+  </div>
+  <md-card-actions align="end">
+    <div class="buttons-space">
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="accent">Підтримати</button>
+    </div>
+  </md-card-actions>
 </md-card>

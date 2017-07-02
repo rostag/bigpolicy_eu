@@ -31,7 +31,7 @@
   <p class="description" md-line>
     <small>{{project.description}}</small>
   </p>
-  <md-card-actions>
+  <md-card-actions align="end">
     <div fxLayout="row" fxLayoutAlign="end" class.lg="compact">
       <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
       <div *ngIf="userService.hasEditPermissions(project)" class="admin">
@@ -55,7 +55,7 @@
     <small>{{project.description}}</small>
   </p>
   <div class="date" md-line><small>{{project.dateStarted | date}}-{{project.dateEnded | date}}</small></div>
-  <md-card-actions>
+  <md-card-actions align="end">
     <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
   </md-card-actions>
 </md-card>
