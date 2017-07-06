@@ -32,9 +32,9 @@
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
     <div fxFlex="30" fxFlexAlign.xs="center" class="photo-wrapper">
       <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+      <p class="projects">Проектів: {{leader.projects?.length}}</p>
     </div>
     <div fxFlex="70" fxFlexOffset="10">
-      <p class="projects"><b>Проектів:</b> {{leader.projects?.length}}</p>
       <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
       <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
     </div>

@@ -1,3 +1,4 @@
+$col-555: #555;
 $col-eee: #eee;
 $col-fafafa: #fafafa;
 
@@ -50,7 +51,9 @@ a {
   }
 
   .projects {
-    display: none;
+    color: $col-555;
+    display: block;
+    margin-top: -.5em;
   }
 
   .mission,
