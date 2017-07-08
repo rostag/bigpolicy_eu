@@ -9,8 +9,8 @@
     <md-card-subtitle>Про проект: {{project.description}}</md-card-subtitle>
     <p>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</p>
   </md-card-content>
-  <md-card-actions>
-    <a [routerLink]="['/project/', project._id]"><button md-button>Підтримати</button></a>
+  <md-card-actions align="end">
+    <a [routerLink]="['/project/', project._id]"><button md-raised-button color="primary" >Деталі</button></a>
     <!-- <a [routerLink]="['/projects']"><button md-button>Усі проекти</button></a> -->
   </md-card-actions>
 </md-card>
@@ -22,40 +22,66 @@
       <b class.lg="compact">{{project.title}}</b>
     </a>
   </h3>
+
+  <!-- *ngIf="!project.imageUrl && project.videoUrl" -->
+  <!-- <div class="md-card-image-clipper"> -->
+    <!-- <h2>Відео до проекту</h2> -->
+    <!-- <app-bp-video
+      class="project-video"
+      [videoUrl]="project.videoUrl"
+      [title]="project.title"
+      placeholderUrl="assets/img/project/project-placeholder.png">
+    </app-bp-video> -->
+    <!-- <img md-card-image *ngIf="project.imageUrl!=null" src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}"> -->
+  <!-- </div> -->
+
   <div class="md-card-image-clipper">
     <img md-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   </div>
-  <p class="date" md-line>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</p>
-  <p class="cost" md-line>Вартість: {{project.cost}} UAH</p>
-  <p class="tasks" md-line>Заходів: {{project.tasks?.length}}</p>
+
+  <p class="date" md-line><b>Строки:</b> {{project.dateStarted | date}} - {{project.dateEnded | date}}</p>
+  <p class="cost" md-line><b>Вартість:</b> {{project.cost}} UAH</p>
+  <p class="tasks" md-line><b>Заходів:</b> {{project.tasks?.length}} <span class="manager-name">{{project.managerName}}</span></p>
   <p class="description" md-line>
     <small>{{project.description}}</small>
   </p>
   <md-card-actions align="end">
     <div fxLayout="row" fxLayoutAlign="end" class.lg="compact">
-      <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
       <div *ngIf="userService.hasEditPermissions(project)" class="admin">
         <button md-icon-button [routerLink]="['/project/' + project._id + '/edit']"><md-icon>edit</md-icon></button>
         <button md-icon-button (click)="deleteProject(project)"><md-icon>delete</md-icon></button>
         <!-- FIXME RESTORE <button md-icon-button disabled (click)="shareProject(project)"><md-icon>share</md-icon></button> -->
       </div>
+      <button md-button [routerLink]="['/project/' + project._id]" md-raised-button color="primary" >Деталі</button>      
     </div>
   </md-card-actions>
 </md-card>
 
 <!-- Project Item Brief View for display in compact lists on Home page e.t.c. -->
 <md-card class="project-list-item list-brief" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='compactProjectList'">
-  <h3 class="title" md-line><a [routerLink]="['/project/' + project._id]">{{project.title}}</a></h3>
 
   <div class="md-card-image-clipper">
-    <img md-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
+    <!-- <h2>Відео до проекту</h2> -->
+    <app-bp-video *ngIf="project.videoUrl; else images"
+      class="project-video"
+      [videoUrl]="project.videoUrl"
+      [title]="project.title"
+      placeholderUrl="assets/img/project/project-placeholder.png">
+    </app-bp-video>
+    <ng-template #images>
+      <img md-card-image *ngIf="project.imageUrl" src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
+    </ng-template>
   </div>
 
-  <p class="description" md-line>
-    <small>{{project.description}}</small>
-  </p>
+  <div>
+    <h3 class="title" md-line><a [routerLink]="['/project/' + project._id]">{{project.title}}</a></h3>
+    <p class="description" md-line>
+      <small>{{project.description}}</small>
+    </p>
+  </div>
+
   <div class="date" md-line><small>{{project.dateStarted | date}}-{{project.dateEnded | date}}</small></div>
   <md-card-actions align="end" class="card-actions">
-    <button md-button [routerLink]="['/project/' + project._id]">Деталі</button>
+    <button md-button [routerLink]="['/project/' + project._id]" md-raised-button color="primary" >Деталі</button>
   </md-card-actions>
 </md-card>

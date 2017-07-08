@@ -2,6 +2,7 @@ $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
 $col-fafafa: #fafafa;
 $col-eee: #eee;
+$col-333: #555;
 $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
 
 // Card View
@@ -72,17 +73,18 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
     }
   }
 
+  .manager-name {
+    color: $col-333;
+    float: right;
+  }
+
 }
 
 // List View - Hover
 
 .project-list-item:hover {
   background-color: transparent;
-
-  margin-bottom: -.05em;
-  margin-left: .95em;
-  margin-right: .95em;
-  margin-top: .95em;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
 
   .description {
     display: block;
@@ -117,7 +119,20 @@ a {
     display: none;
   }
 
+  .md-card-image-clipper {
+    height: 13em;
+  }
+
+  // .project-video {
+  //   height: 15em;
+  // }
+
+  .title {
+    margin-top: .85em;
+  }
+
   .description {
+    // display: none;
     height: 3.5em;
   }
 
@@ -127,9 +142,20 @@ a {
 }
 
 .list-brief:hover {
+  .md-card-image-clipper {
+    display: none;
+  }
+
+  .title {
+    display: block;
+    margin-top: 0;
+  }
+
   .description {
+    display: block;
     height: 10.5em;
   }
+
   .card-actions {
     display: block;
   }

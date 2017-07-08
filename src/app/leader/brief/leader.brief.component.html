@@ -8,8 +8,8 @@
     <md-card-subtitle>Місія: {{leader.mission}}</md-card-subtitle>
     <p>Бачення: {{leader.vision}}</p>
   </md-card-content>
-  <md-card-actions>
-    <a [routerLink]="['/leader/', leader._id]"><button md-button>Підтримати</button></a>
+  <md-card-actions align="end">
+    <a [routerLink]="['/leader/', leader._id]"><button md-button md-raised-button color="primary" >Підтримати</button></a>
     <!-- <a [routerLink]="['/leaders']"><button md-button>Усі діячі</button></a> -->
   </md-card-actions>
 </md-card>
@@ -41,12 +41,12 @@
   </div>
   <md-card-actions align="end">
     <div class="buttons-space">
-      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="primary">Підтримати</button>
       <span *ngIf="userService.hasEditPermissions(leader)">
         <button md-icon-button [routerLink]="['/leader/' + leader._id + '/edit']"><md-icon>edit</md-icon></button>
         <!-- <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a> -->
         <!-- todo: restore deleteLeader for list view <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a> -->
       </span>
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-raised-button color="primary">Підтримати</button>
     </div>
   </md-card-actions>
 </md-card>
@@ -69,7 +69,7 @@
   </div>
   <md-card-actions align="end">
     <div class="buttons-space">
-      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="accent">Підтримати</button>
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-raised-button color="primary" >Підтримати</button>
     </div>
   </md-card-actions>
 </md-card>
