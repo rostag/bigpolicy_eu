@@ -148,11 +148,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   prepareItemForSharing(): void {
     // this.itemToShare = {
-    //   title: '',
     //   videoUrl: '',
-    //   managerEmail: '',
-    //   description: '',
-    //   managerName: ''
     // };
 
     // Tasks and Projects have .title property to use in subject
@@ -179,10 +175,10 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
       <a href="` + this.shareService.getUrl() + `">Відвідай сторінку діяча на БігПолісі</a>
       <br><br>
       `;
-      // console.log('!!! - !!! ', this.itemToShare);
       this.itemToShare.managerName = this.itemToShare.name;
       this.itemToShare.managerEmail = this.itemToShare.email;
     }
+    console.log('!!! - !!! ', this.itemToShare);
 
   }
 
