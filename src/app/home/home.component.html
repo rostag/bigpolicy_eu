@@ -86,13 +86,12 @@
 <app-leader-list [pageSize]="6" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'33|33|33|50|100'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
 
 <!-- Contacts / Footer -->
-<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5%" fxLayout.xs="column">
-  <div fxFlex="50">
-    <h3>Facebook</h3>
-    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="300" height="200" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+<div class="contacts" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+  <div fxFlex="49">
+    <iframe width="100%" height="300" style="border:none;overflow:hidden;max-width: 560px;" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2Fvideos%2F161167597610702%2F&show_text=0&width=560" scrolling="no" frameborder="0" allowTransparency="true" id="fb_video_post"></iframe>
   </div>
-  <div fxFlex="50">
-    <h3>Контакти</h3>
+  <div fxFlex="47">
+    <h3 style="margin-top:0;">Контакти</h3>
     <address>
       м.&nbsp;Львів, вул.&nbsp;Наукова&nbsp;58, кв.&nbsp;28
       <br>
@@ -100,5 +99,15 @@
       <br>
       <a href="mailto:voice@bigpolicy.eu">voice@bigpolicy.eu</a>
     </address>
+
+    <h3>Facebook</h3>
+    <p>Група BigPolicy: <a href="https://www.facebook.com/groups/bigpolicy">facebook.com/groups/bigpolicy</a></p>
+    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="300" height="100" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
+    <h3>Розробникам:</h3>
+    <p>
+      Долучайся до <a href="https://github.com/rostag/bigpolicy_eu">BigPolicy на GitHub</a>. Звертайся до <a href="https://www.facebook.com/rastislavr">техліда</a> з питаннями.
+    </p>
+
   </div>
 </div>
