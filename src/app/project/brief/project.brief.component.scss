@@ -5,6 +5,10 @@ $col-eee: #eee;
 $col-333: #555;
 $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
 
+a {
+  text-decoration: none;
+}
+
 // Card View
 
 .project-brief-card-header-image {
@@ -21,10 +25,6 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   max-height: 300px;
   overflow: hidden;
   width: calc(100% + 48px);
-
-  :first-child {
-    margin-top: -24px;
-  }
 }
 
 // List View - Normal
@@ -65,6 +65,11 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   .md-card-image-clipper {
     height: 8em;
     margin: 0 -24px;
+
+    .project-video {
+      display: block;
+      // margin-top: -.5em;
+    }
   }
 
   .compact {
@@ -78,6 +83,9 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
     float: right;
   }
 
+  .card-actions {
+    display: none;
+  }
 }
 
 // List View - Hover
@@ -92,7 +100,9 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   }
 
   .title {
-    height: 1.2em;
+    height: 2.4em;
+    margin-bottom: -.5em;
+    margin-top: -.5em;
   }
 
   .date,
@@ -102,10 +112,10 @@ $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 1
   .md-card-image-clipper {
     display: none;
   }
-}
 
-a {
-  text-decoration: none;
+  .card-actions {
+    display: block;
+  }
 }
 
 .list-brief {
@@ -123,20 +133,15 @@ a {
     height: 13em;
   }
 
-  // .project-video {
-  //   height: 15em;
-  // }
+  .project-video {
+    height: 15em;
+  }
 
   .title {
-    margin-top: .85em;
+    margin-top: -.5em;
   }
 
   .description {
-    // display: none;
-    height: 3.5em;
-  }
-
-  .card-actions {
     display: none;
   }
 }
@@ -148,15 +153,16 @@ a {
 
   .title {
     display: block;
-    margin-top: 0;
+    // margin-top: 0;
+
   }
 
   .description {
     display: block;
-    height: 10.5em;
+    height: 9.3em;
   }
 
   .card-actions {
-    display: block;
+    margin-top: 1em;
   }
 }

@@ -1,6 +1,6 @@
 <!-- FIXME_SEC: double-check security here as soon as we neutralized DomSanitizer -->
 <!-- TODO: Convert it to "add video (media?)" function -->
 <!-- [src]="safeVideoUrl" -->
-<div *ngIf="youTubeId" class="bp-video-iframed">
-  <iframe width="100%" height="100%" [src]="safeMediaUrl" frameborder="0" allowfullscreen></iframe>
+<div *ngIf="youTubeId" class="bp-video-iframed" fxLayout="row" fxLayoutAlign="center stretch">
+  <iframe fxFlex="100" width="100%" height="100%" [src]="safeMediaUrl" frameborder="0" allowfullscreen></iframe>
 </div>

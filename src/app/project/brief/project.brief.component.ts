@@ -12,6 +12,8 @@ export class ProjectBriefComponent implements OnChanges {
   @Input() projectId = '';
   @Input() viewContext = '';
 
+  hasVisual = false;
+
   project: ProjectModel = new ProjectModel();
 
   constructor(
@@ -33,6 +35,7 @@ export class ProjectBriefComponent implements OnChanges {
       (data) => {
         console.log('Got a Project:', data);
         this.project = data;
+        this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
         this.cd.detectChanges();
       },
       err => console.error(err),
