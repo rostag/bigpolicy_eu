@@ -4,6 +4,7 @@
   <md-card-actions>
     <md-toolbar class="add-toolbar"><span *ngIf="title !== ''">{{title}}</span>
       <span class="add-fill-remaining"></span>
+      <button md-button (click)="switchTasksView()" *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">{{compactTasksView?'Розгорнути':'Згорнути'}} усі заходи</button>
       <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">Додати захід</button>
     </md-toolbar>
   </md-card-actions>
@@ -13,7 +14,7 @@
   </app-bp-task-edit>
 
   <div>
-     <app-task-view [task]="task" [compactView]="true" dataprovided="true"
+     <app-task-view [task]="task" [compactView]="compactTasksView" dataprovided="true"
       *ngFor="let task of itemsPage.docs | async | paginate: {
                                                                id: 'taskItemsPage',
                                                                itemsPerPage: this.pageSize,

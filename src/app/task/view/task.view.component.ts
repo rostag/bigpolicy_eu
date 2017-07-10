@@ -8,7 +8,7 @@ import { ProjectService } from '../../shared/project/project.service';
 @Component({
   selector: 'app-task-view',
   templateUrl: './task.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './task.view.component.scss'],
+  styleUrls: ['./task.view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -21,6 +21,8 @@ export class TaskViewComponent implements OnInit {
   @Input() dataprovided = false;
 
   @Input() projectTitle = '';
+
+  @Input() showProjectLink = false;
 
   /**
    * Dependency Injection: route (for reading params later)

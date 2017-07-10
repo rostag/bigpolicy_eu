@@ -17,7 +17,7 @@
     <app-bp-sharer #sharer [itemToShare]="project"></app-bp-sharer>
 
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="54" >
+      <div fxFlex="53" >
 
         <div *ngIf="hasVisual; else novisual">
           <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
@@ -39,8 +39,9 @@
             </p>
           </div>
         </ng-template>
+
         <!-- Project Tasks -->
-        <app-task-list title="Заходи проекту:" [project]="project" [pageSize]="3" ></app-task-list>
+        <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>
         <!-- /Project Tasks -->
       </div>
 
@@ -54,13 +55,13 @@
           Кінець: {{project.dateEnded | date}}
         </h3>
 
-        <h3>Опис проекту: </h3>
+        <h2>Опис проекту: </h2>
         <p>{{project.description}}</p>
 
         <!-- Show video only if image was present -->
         <div *ngIf="project.imageUrl">
           <div class="visual-wrapper" *ngIf="project.videoUrl">
-            <h3>Відео до проекту:</h3>
+            <h2>Відео до проекту:</h2>
             <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
           </div>
           <p>&nbsp;</p>
@@ -72,7 +73,7 @@
 
     </div>
 
-    <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="end">
+    <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
       <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати проект</button></a>
       <!-- TODO Enable it -->
       <button (click)="deleteProject(project)" md-raised-button color="warn">Видалити проект</button>

@@ -1,14 +1,18 @@
-<!-- COMPACT -->
-<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between stretch">
+<!-- COMPACT VIEW - for lists etc -->
+<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
 
-  <h3> <a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
-    <br />{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}
-    <small>{{task.description}}</small>
-  </h3>
+  <div fxFlex="88" fxFlexOffset="2">
+    <h2>
+      <span *ngIf="showProjectLink"><a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | </span>
+      <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
+    </h2>
+    <div>{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}</div>
+    <div class="description"><small>{{task.description}}</small></div>
+  </div>
 
-  <div fxFlex="1 13rem 1" *ngIf="userService.hasEditPermissions(task)">
-    <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
-    <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+  <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
+    <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon color="primary">edit</md-icon></a>
+    <a href (click)="deleteTask(task)"><md-icon color="primary">delete</md-icon></a>
   </div>
 
 </div>
