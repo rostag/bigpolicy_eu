@@ -6,7 +6,7 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 @Component({
   selector: 'app-project-view',
   templateUrl: './project.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss']
+  styleUrls: ['./project.view.component.scss']
 })
 
 export class ProjectViewComponent implements OnInit {
