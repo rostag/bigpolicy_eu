@@ -2,7 +2,7 @@
 
 <md-card-content>
   <md-card-actions>
-    <md-toolbar class="add-toolbar" color="accent"><span *ngIf="title !== ''">{{title}}</span>
+    <md-toolbar class="add-toolbar"><span *ngIf="title !== ''">{{title}}</span>
       <span class="add-fill-remaining"></span>
       <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">Додати захід</button>
     </md-toolbar>

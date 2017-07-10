@@ -25,7 +25,7 @@ export class ProjectBriefComponent implements OnChanges {
 
   ngOnChanges(changes) {
     if (changes.projectId && changes.projectId.currentValue) {
-      console.log('Get project BY ID:', changes.projectId.currentValue);
+      // console.log('Get project BY ID:', changes.projectId.currentValue);
       this.requestProject(changes.projectId.currentValue);
     }
   }
@@ -34,7 +34,7 @@ export class ProjectBriefComponent implements OnChanges {
     this.projectService.getProject(id)
     .subscribe(
       (data) => {
-        console.log('Got a Project:', data);
+        // console.log('Got a Project:', data);
         this.project = data;
         this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
         this.cd.detectChanges();
