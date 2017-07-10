@@ -53,6 +53,7 @@ a {
   .projects {
     color: $col-555;
     display: block;
+    font-size: .85em;
     margin-top: -.5em;
   }
 
@@ -67,7 +68,7 @@ a {
 
   .vision {
     margin-top: 1em;
-    max-height: 5.9em;
+    // max-height: 5.9em;
   }
 
   .buttons-space {
@@ -82,12 +83,14 @@ a {
   margin: .95em 1em 1.25em;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
 
+  .mission,
   .vision {
     max-height: 3.7em;
   }
 
   .buttons-space {
     display: block;
+    margin-top: .75em;
   }
 }
 

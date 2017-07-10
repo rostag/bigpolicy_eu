@@ -12,6 +12,7 @@ export class ProjectBriefComponent implements OnChanges {
   @Input() projectId = '';
   @Input() viewContext = '';
 
+  // Whether this project hasVisual like image or video or not
   hasVisual = false;
 
   project: ProjectModel = new ProjectModel();

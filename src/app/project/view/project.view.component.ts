@@ -11,6 +11,9 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 
 export class ProjectViewComponent implements OnInit {
 
+  // Whether this project hasVisual like image or video or not
+  hasVisual = false;
+
   project: ProjectModel = new ProjectModel();
 
   /**
@@ -42,6 +45,7 @@ export class ProjectViewComponent implements OnInit {
         .subscribe((data: ProjectModel) => {
           this.project = new ProjectModel();
           this.project.parseData(data);
+          this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
           ProjectService.cacheProject(this.project);
         },
         err => console.error(err),

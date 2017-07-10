@@ -3,16 +3,26 @@ h1 {
   font-size: 3em;
 }
 
-h2 {
-  font-size: 2em;
-  padding-top: 0;
-}
-
 h3 {
   font-size: 1.4em;
+  // padding-top: 0;
+  margin: 1em 0 .5em;
+}
+
+.funding-summary {
+  font-size: 2em;
+  margin-bottom: .5em;
   padding-top: 0;
 }
 
 .project-toolbar {
   margin-top: 2em;
+}
+
+.visual-wrapper {
+  height: 320px;
+}
+
+.project-video {
+  height: 320px;
 }
