@@ -1,6 +1,9 @@
 <md-card>
 
     <md-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
+      <span *ngIf="userService.isOwner(leader)">
+        [я]
+      </span>
       <!-- FIXME
         <a href><md-icon>thumb_up</md-icon></a>
         <a href><md-icon>share</md-icon></a>

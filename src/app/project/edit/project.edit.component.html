@@ -71,6 +71,9 @@
           <md-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
             <md-option *ngFor="let leader of leaders" [value]="leader">
               {{leader.name}} {{leader.surName}}
+              <span *ngIf="userService.isOwner(leader)">
+                [я]
+              </span>
             </md-option>
           </md-select>
         </form>

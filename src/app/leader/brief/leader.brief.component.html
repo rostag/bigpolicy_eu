@@ -1,6 +1,10 @@
 <md-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='homePage'">
   <div md-card-avatar class="leader-brief-card-header-image"></div>
-  <md-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}</md-card-title>
+  <md-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
+    <span *ngIf="userService.isOwner(leader)">
+      [я]
+    </span>
+  </md-card-title>
   <div class="md-card-image-clipper">
     <img md-card-image src="{{leader.photo || 'assets/img/avatar.jpg'}}">
   </div>
@@ -61,6 +65,9 @@
       <md-card-title>
         <span title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}" class="name">
           {{leader.name}} {{leader.surName}}
+          <span *ngIf="userService.isOwner(leader)">
+            [я]
+          </span>
         </span>
       </md-card-title>
       <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
