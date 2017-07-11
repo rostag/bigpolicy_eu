@@ -1,4 +1,5 @@
 $col-fafafa: #fafafa;
+$col-eee: #eee;
 $col-000: #000;
 
 :host {
@@ -12,11 +13,11 @@ a:visited {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.4em;
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 1.6em;
   padding-top: 0;
 }
 
@@ -27,8 +28,8 @@ h3 {
 }
 
 .task-compact-view {
-  margin-bottom: .5em;
-  padding: .25em 0 .5em;
+  cursor: pointer;
+  padding: .75em 0 .5em;
 
   .actions {
     display: none;
@@ -48,6 +49,8 @@ h3 {
 
 .task-compact-view:hover {
   background-color: $col-fafafa;
+
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
 
   .actions {
     display: block;

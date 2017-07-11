@@ -1,5 +1,5 @@
 <!-- COMPACT VIEW - for lists etc -->
-<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
+<div [routerLink]="['/task/' + task._id]" *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
 
   <div fxFlex="88" fxFlexOffset="2">
     <h2>
@@ -21,6 +21,7 @@
 <md-card class="task-view" *ngIf="!compactView">
   <md-card-content>
 
+    <div>Захід</div>
     <h1>{{task.title}}</h1>
     <!-- FIXME -->
     <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
@@ -41,8 +42,28 @@
       </div>
 
       <div fxFlex="50%">
-        <app-image [src]="task.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
-        <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
+
+        <div *ngIf="hasVisual; else novisual">
+          <div class="visual-wrapper" *ngIf="task.imageUrl; then images else videos"></div>
+        </div>
+
+        <ng-template #images>
+          <app-image [src]="task.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+        </ng-template>
+
+        <ng-template #videos>
+          <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
+        </ng-template>
+
+        <ng-template #novisual>
+          <div *ngIf="userService.hasEditPermissions(task)">
+            <h3>Додати відео?</h3>
+            <p>Цей захід не має відео. Додати його можна на
+              <a [routerLink] = "['/task/' + task._id + '/edit']">сторінці редагування заходу</a>
+            </p>
+          </div>
+        </ng-template>
+
       </div>
     </div>
 

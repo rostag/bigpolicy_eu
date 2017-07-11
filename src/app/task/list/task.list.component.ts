@@ -102,4 +102,8 @@ export class TaskListComponent implements OnChanges {
     this.taskService.deleteTask(taskToRemove);
     return false;
   }
+
+  onCancelTaskEdit(evt) {
+    this.isAddingTaskMode = false;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
@@ -14,7 +14,8 @@ import { Location } from '@angular/common';
 export class TaskEditComponent implements OnInit {
 
   @Input() projectId = '';
-  // @Input() project: ProjectModel;
+
+  @Output() onCancelEdit = new EventEmitter<any>();
 
   isUpdateMode = false;
 
@@ -124,7 +125,9 @@ export class TaskEditComponent implements OnInit {
   }
 
   cancelEditing() {
-    this.location.back();
+    // this is to do after editing in the standalone mode this.location.back();
+    // this is to do after editing inline:
+    this.onCancelEdit.emit('cancel inline task edit');
   }
 
   // FIXME Move to service / component

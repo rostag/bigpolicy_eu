@@ -50,18 +50,18 @@
 
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
         <div class="funding-summary">Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</div>
-        <h3>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h3>
-        <h3>Початок: {{project.dateStarted | date}}<br/>
-          Кінець: {{project.dateEnded | date}}
-        </h3>
+        <h4>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h4>
+        <h4>Початок: {{project.dateStarted | date}}
+          <br/>Кінець: {{project.dateEnded | date}}
+        </h4>
 
-        <h2>Опис проекту: </h2>
+        <h3>Опис проекту: </h3>
         <p>{{project.description}}</p>
 
         <!-- Show video only if image was present -->
         <div *ngIf="project.imageUrl">
           <div class="visual-wrapper" *ngIf="project.videoUrl">
-            <h2>Відео до проекту:</h2>
+            <h3>Відео до проекту:</h3>
             <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
           </div>
           <p>&nbsp;</p>

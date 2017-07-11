@@ -65,5 +65,4 @@ export class ProjectViewComponent implements OnInit {
     // this.router.navigate(['/projects']);
     return false;
   }
-
 }

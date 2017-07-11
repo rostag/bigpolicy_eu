@@ -24,6 +24,8 @@ export class TaskViewComponent implements OnInit {
 
   @Input() showProjectLink = false;
 
+  hasVisual = false;
+
   /**
    * Dependency Injection: route (for reading params later)
    */
@@ -54,6 +56,7 @@ export class TaskViewComponent implements OnInit {
           this.taskService.getTask(id)
           .subscribe( data => {
             this.task = data;
+            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
             console.log('tpId =', this.task.projectId, data);
             this.retrieveProject();
           });
