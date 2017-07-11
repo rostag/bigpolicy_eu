@@ -153,7 +153,7 @@ export class UserService {
   /**
    * Returns true if current user is owner of given leader, project or task by email
    */
-  private isOwner(item) {
+  public isOwner(item) {
     const userEmail = this.getEmail() || '';
 
     const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
