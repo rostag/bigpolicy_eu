@@ -2,7 +2,7 @@
 
   <md-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <div>
+      <div class="project-title">
         <small>Проект</small>
         <h1>{{project.title}}</h1>
       </div>
@@ -40,35 +40,48 @@
           </div>
         </ng-template>
 
+        <div class="description">
+          <h3>Опис</h3>
+          <p>{{project.description}}</p>
+        </div>
+
         <!-- Project Tasks -->
         <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>
         <!-- /Project Tasks -->
       </div>
 
-      <div fxFlex="40" >
+      <div fxFlex="35" fxFlexOffset="1" >
         <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
 
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
+
         <div class="funding-summary">Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</div>
+
+        <md-progress-bar
+            class="brogress"
+            color="accent"
+            [mode]="determinate"
+            [value]="project.totalDonationsReceived / project.cost * 100"
+            [bufferValue]="2">
+        </md-progress-bar>
+
         <h4>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h4>
+
         <h4>Початок: {{project.dateStarted | date}}
           <br/>Кінець: {{project.dateEnded | date}}
         </h4>
 
-        <h3>Опис проекту: </h3>
-        <p>{{project.description}}</p>
-
         <!-- Show video only if image was present -->
         <div *ngIf="project.imageUrl">
           <div class="visual-wrapper" *ngIf="project.videoUrl">
-            <h3>Відео до проекту:</h3>
+            <h3>Відео:</h3>
             <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
           </div>
           <p>&nbsp;</p>
         </div>
       </div>
 
-      <div fxFlex="1">
+      <div fxFlex="4">
       </div>
 
     </div>

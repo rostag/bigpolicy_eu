@@ -2,6 +2,7 @@
 h1 {
   font-size: 3em;
   margin-bottom: .5em;
+  margin-top: .5em;
 }
 
 h2 {
@@ -29,4 +30,13 @@ h3 {
 
 .project-video {
   height: 320px;
+}
+
+.brogress {
+  height: 16px;
+  margin-bottom: .3em;
+}
+
+.description p {
+  white-space: pre-line;
 }
