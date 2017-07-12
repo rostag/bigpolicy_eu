@@ -43,8 +43,8 @@
 
       <div fxFlex="50%">
 
-        <div *ngIf="hasVisual; else novisual">
-          <div class="visual-wrapper" *ngIf="task.imageUrl; then images else videos"></div>
+        <div class="visual-wrapper" *ngIf="hasVisual; else novisual">
+          <div *ngIf="task.imageUrl; then images else videos"></div>
         </div>
 
         <ng-template #images>
@@ -67,8 +67,10 @@
       </div>
     </div>
 
-    <h2>Детальніше</h2>
-    <p>{{task.description}}</p>
+    <div class="description">
+      <h2>Детальніше</h2>
+      <p>{{task.description}}</p>
+    </div>
 
     <md-card-actions>
       <md-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">

@@ -13,6 +13,10 @@ export class LeaderViewComponent implements OnInit {
 
   leader: LeaderModel = new LeaderModel();
 
+  // Whether it has visual like image or video or it hasn't
+  hasVisual = false;
+
+
   /**
    * Dependency Injection: route (for reading params later)
    */
@@ -54,10 +58,11 @@ export class LeaderViewComponent implements OnInit {
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
-      console.log('nulli:', nullIndex);
+      console.warn('Fixing null index:', nullIndex);
       data.leaderFiles.splice(nullIndex, 1);
     }
     this.leader = data;
+    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
   }
 
   /**

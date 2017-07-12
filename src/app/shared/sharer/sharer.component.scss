@@ -1,6 +1,6 @@
+$sgray: #777;
 $agray: #bbb;
 $lgray: #eee;
-$sgray: #777;
 $reddish: #f44336;
 $cblack: #000;
 $cred: #0f0;
@@ -47,10 +47,10 @@ h2 {
 }
 
 h3 {
-  border-bottom: dotted 1px $lgray;
-  border-top: dotted 9px $lgray;
-  margin-bottom: 2em;
-  padding: 1em 0;
+  background-color: $lgray;
+  margin-bottom: 1em;
+  margin-top: .2em;
+  padding: .5em;
 }
 
 .email-subject {
@@ -70,7 +70,11 @@ h3 {
 }
 
 .email-preview {
-  margin-top: 2em;
+  margin-top: .2em;
+
+  p {
+    white-space: pre-line;
+  }
 }
 
 .bp-pre-html {

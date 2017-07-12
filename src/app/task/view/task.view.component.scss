@@ -6,10 +6,16 @@ $col-000: #000;
   display: block;
 }
 
+.description {
+  p {
+    white-space: pre-line;
+  }
+}
+
 a:link,
 a:visited {
   color: $col-000;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 h1 {
@@ -38,6 +44,7 @@ h3 {
   .description {
     max-height: 3.6em;
     overflow: hidden;
+    white-space: pre-line;
   }
 
   h2 {
@@ -54,5 +61,14 @@ h3 {
 
   .actions {
     display: block;
+  }
+}
+
+.visual-wrapper {
+  height: 280px;
+
+  app-bp-video {
+    height: 100%;
+    width: 100%;
   }
 }

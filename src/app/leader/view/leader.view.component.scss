@@ -5,3 +5,18 @@
 h2:first-of-type {
   margin-top: 0;
 }
+
+.visual-wrapper {
+  height: 320px;
+  margin: 0 1em 1em 0;
+  width: 100%;
+}
+
+.leader-video {
+  width: 100%;
+}
+
+.mission p,
+.vision p {
+  white-space: pre-line;
+}
