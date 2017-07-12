@@ -18,10 +18,7 @@
   </md-card-actions>
 </md-card>
 
-<!-- </md-card-header> -->
-<!-- <md-card-header> -->
 <!-- State: Leader List Page -->
-
 <!-- *ngIf="viewContext==='leaderListPage'" -->
 
 <md-card class="leader-list-card" class.xs="leader-list-card-single-column" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='leaderListPage'" >
@@ -33,12 +30,13 @@
       </span>
     </a>
   </md-card-title>
+
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
-    <div fxFlex="30" fxFlexAlign.xs="center" class="photo-wrapper">
-      <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+    <div class="md-card-image-clipper" class.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
+      <div *ngIf="leader.photo; then images else videos"></div>
       <p class="projects">Проектів: {{leader.projects?.length}}</p>
     </div>
-    <div fxFlex="70" fxFlexOffset="10">
+    <div fxFlex="69" fxFlexOffset="7" fxFlexOffset.xs="0">
       <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
       <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
     </div>
@@ -80,3 +78,17 @@
     </div>
   </md-card-actions>
 </md-card>
+
+<!-- Templates: video and images to be used in brief display -->
+
+<ng-template #videos>
+  <app-bp-video
+    class="leader-video"
+    [videoUrl]="leader.videoUrl"
+    [title]="leader.name">
+  </app-bp-video>
+</ng-template>
+
+<ng-template #images>
+  <app-image *ngIf="leader.photo" class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+</ng-template>

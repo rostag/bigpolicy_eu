@@ -8,6 +8,19 @@ a {
 
 .leader-brief-card {
   // width: 100%;
+  .md-card-image-clipper {
+    border-bottom: 1px solid $col-eee;
+    border-top: 1px solid $col-eee;
+    height: 300px;
+    margin: 0 -24px 16px;
+    max-height: 300px;
+    overflow: hidden;
+    width: calc(100% + 48px);
+
+    :first-child {
+      margin-top: -24px;
+    }
+  }
 }
 
 .leader-brief-card-header-image {
@@ -16,19 +29,7 @@ a {
   background-size: cover;
 }
 
-.md-card-image-clipper {
-  border-bottom: 1px solid $col-eee;
-  border-top: 1px solid $col-eee;
-  height: 300px;
-  margin: 0 -24px 16px;
-  max-height: 300px;
-  overflow: hidden;
-  width: calc(100% + 48px);
 
-  :first-child {
-    margin-top: -24px;
-  }
-}
 
 // List View
 
@@ -44,6 +45,21 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .md-card-image-clipper {
+    .leader-video {
+      display: inline-block;
+      height: 5em;
+      margin: auto auto 1.2em;
+      // max-width: 14em;
+    }
+  }
+
+  .media-xs {
+    .leader-video {
+      height: auto;
+    }
   }
 
   .name {
@@ -75,6 +91,7 @@ a {
     display: none;
   }
 }
+
 
 // List View - on hover
 
@@ -126,7 +143,6 @@ a {
 }
 
 .leader-photo {
-  border: 2px dashed $col-eee;
   display: inline-block;
   margin: auto auto 1.2em;
   max-width: 14em;

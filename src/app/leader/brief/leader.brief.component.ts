@@ -14,6 +14,9 @@ export class LeaderBriefComponent implements OnChanges {
 
   leader: LeaderModel = new LeaderModel();
 
+  // Whether it has visual like image or video or it hasn't
+  hasVisual = false;
+
   constructor(
     public userService: UserService,
     private leaderService: LeaderService
@@ -31,6 +34,7 @@ export class LeaderBriefComponent implements OnChanges {
     .subscribe(
       (data) => {
           this.leader = data;
+          this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
       },
       err => console.error(err),
       () => {}
