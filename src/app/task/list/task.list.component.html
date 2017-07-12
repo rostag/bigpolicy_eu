@@ -2,7 +2,7 @@
 
 <md-card-content>
   <md-card-actions>
-    <md-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}}</span>
+    <md-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
       <span class="add-fill-remaining"></span>
 
       <span *ngIf="!isAddingTaskMode">
@@ -64,7 +64,5 @@
                       autoHide="true"
                       >
   </pagination-controls>
-
-  <p>Усього: {{itemsPage.total}}</p>
 
 </md-card-content>
