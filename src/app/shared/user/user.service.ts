@@ -55,6 +55,8 @@ export class UserService {
     console.log('environment:', environment );
     // Set userProfile attribute of already saved profile
     if (this.authenticated()) {
+      console.log('UserService: Authenticated.');
+      // this.showStatus();
       this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
       this.leaderService.requestLeaderByEmail(this.getEmail());
     }
@@ -79,16 +81,13 @@ export class UserService {
 
         this.leaderService.requestLeaderByEmail(this.getEmail())
           .subscribe( leaderResponse => {
+            console.log('UserService: gotLeaderByEmail:', leaderResponse);
             this.showStatus();
             this.tryToContinueLeaderRegistration();
           }
         );
       });
     });
-
-    if (this.authenticated) {
-      this.showStatus();
-    }
   };
 
   public showStatus() {
@@ -97,9 +96,9 @@ export class UserService {
       `\nAuthenticated: ` + this.authenticated() +
       `\nHas Leader: ` +  this.hasLeader() +
       `\nIs Admin: ` +  this.isAdmin() +
-      `\nLeader: ` + this.leaderService.leader +
       `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
     console.log('User status: ' + status);
+    console.log('Leader:', this.leaderService.leader);
   }
 
   /**

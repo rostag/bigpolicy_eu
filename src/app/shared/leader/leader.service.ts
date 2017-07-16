@@ -132,6 +132,8 @@ export class LeaderService {
     // } else {
     // }
 
+    console.log('LeaderService:RequestLeaderByEmail:', email);
+
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
     leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
 
