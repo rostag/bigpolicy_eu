@@ -1,14 +1,18 @@
-<!-- COMPACT -->
-<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between stretch">
+<!-- COMPACT VIEW - for lists etc -->
+<div [routerLink]="['/task/' + task._id]" *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
 
-  <h3> <a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
-    <br />{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}
-    <small>{{task.description}}</small>
-  </h3>
+  <div fxFlex="88" fxFlexOffset="2">
+    <h2>
+      <span *ngIf="showProjectLink"><a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | </span>
+      <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
+    </h2>
+    <div>{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}</div>
+    <div class="description"><small>{{task.description}}</small></div>
+  </div>
 
-  <div fxFlex="1 13rem 1" *ngIf="userService.hasEditPermissions(task)">
-    <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
-    <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+  <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
+    <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon color="primary">edit</md-icon></a>
+    <a href (click)="deleteTask(task)"><md-icon color="primary">delete</md-icon></a>
   </div>
 
 </div>
@@ -17,6 +21,7 @@
 <md-card class="task-view" *ngIf="!compactView">
   <md-card-content>
 
+    <div>Захід</div>
     <h1>{{task.title}}</h1>
     <!-- FIXME -->
     <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
@@ -37,13 +42,35 @@
       </div>
 
       <div fxFlex="50%">
-        <app-image [src]="task.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
-        <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
+
+        <div class="visual-wrapper" *ngIf="hasVisual; else novisual">
+          <div *ngIf="task.imageUrl; then images else videos"></div>
+        </div>
+
+        <ng-template #images>
+          <app-image [src]="task.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+        </ng-template>
+
+        <ng-template #videos>
+          <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
+        </ng-template>
+
+        <ng-template #novisual>
+          <div *ngIf="userService.hasEditPermissions(task)">
+            <h3>Додати відео?</h3>
+            <p>Цей захід не має відео. Додати його можна на
+              <a [routerLink] = "['/task/' + task._id + '/edit']">сторінці редагування заходу</a>
+            </p>
+          </div>
+        </ng-template>
+
       </div>
     </div>
 
-    <h2>Детальніше</h2>
-    <p>{{task.description}}</p>
+    <div class="description">
+      <h3>Детальніше</h3>
+      <p>{{task.description}}</p>
+    </div>
 
     <md-card-actions>
       <md-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">

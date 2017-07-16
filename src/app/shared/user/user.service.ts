@@ -136,7 +136,8 @@ export class UserService {
    // FIXME Implement Admins list
   public isAdmin() {
     // FIXME_SEC
-    const isDevMode = environment.production === false;
+    // const isDevMode = environment.production === false;
+    const isDevMode = false;
     return isDevMode || (this.authenticated() && (
         this.getEmail() === 'rostyslav.siryk@gmail.com' ||
         this.getEmail() === 'prokopenko.serhii@gmail.com' ||
@@ -152,7 +153,7 @@ export class UserService {
   /**
    * Returns true if current user is owner of given leader, project or task by email
    */
-  private isOwner(item) {
+  public isOwner(item) {
     const userEmail = this.getEmail() || '';
 
     const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();

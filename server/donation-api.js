@@ -19,7 +19,6 @@ module.exports = function(app, DB){
     d.externalId = 'bpdon___id_' + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
     // console.log('getParamsFromRequestData. externalId = ', d.externalId);
 
-    // FIXME SANDBOX
     return {
       'action'        : 'pay',
       'amount'        : d.amount,
@@ -27,7 +26,7 @@ module.exports = function(app, DB){
       'description'   : d.description,
       'order_id'      : d.externalId,
       'version'       : '3',
-      'sandbox'       : '1', // FIXME DEV TEST
+      'sandbox'       : '1', // FIXME SANDBOX - DEV TEST
       'language'      : 'uk',
       'result_url'    : d.result_url,
       'server_url'    : d.server_url + '/donation-api/post-donation-status'
@@ -75,7 +74,7 @@ module.exports = function(app, DB){
     console.log('  • LiqPay::getsgndta::URL::', prm);
 
     var sgn = liqpay.cnb_signature(prm);
-    // FIXME use Buffer.from instead
+    // TODO use Buffer.from instead
 		var dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
     res.send( dta + '-BGPLCXX-' + sgn );
   });

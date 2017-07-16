@@ -1,7 +1,7 @@
 <div class="bp-landing numbers">
   <md-card class="md-card-flat">
     <md-grid-list cols="4" rowHeight="55" id="stats">
-      <md-grid-tile> <h2><a [routerLink]="['/leaders']"><span>{{app.leaders.length}}</span> діячів</a></h2> </md-grid-tile>
+      <md-grid-tile> <h2><a [routerLink]="['/leaders']"><span>{{app.leaders.length}}</span> лідерів</a></h2> </md-grid-tile>
       <md-grid-tile> <h2><a [routerLink]="['/projects']"><span>{{app.projects.length}}</span> проектів</a></h2> </md-grid-tile>
       <md-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </md-grid-tile>
       <md-grid-tile> <h2><span>{{app.totalDonationsReceived}}</span>&#8372;</h2> </md-grid-tile>
@@ -22,10 +22,10 @@
 
             <!-- FTUX - LEADER - Section is visible to non-leaders only -->
             <div *ngIf="!userService.hasLeader()">
-              <p><a [routerLink]="['/add-leader']">Зголошуйся в активні діячі</a> або підтримуй активних громадян та їх проекти.</p>
+              <p><a [routerLink]="['/add-leader']">Зголошуйся в лідери</a> або підтримуй активних громадян та їх проекти.</p>
               <!--<p><small>Мало часу? <a href="https://www.facebook.com/groups/BIGPOLICY/permalink/1771667176453897/">Ми стисло виклали суть справи, наші задачі і методи</a>.<br />І твоя думка цікава нам.</small></p>-->
 
-              <h5>BigPolicy вже має команду діячів, з першим проектом створення платформи!</h5>
+              <h5>BigPolicy вже має команду лідерів, з першим проектом створення платформи!</h5>
 
               <p>Ми не отримуємо фінансової допомоги від жодної з політичних партій і
               в наші плани не входить отримання коштів від них чих від політиків.

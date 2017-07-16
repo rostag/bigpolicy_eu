@@ -6,7 +6,7 @@ import { UserService } from '../../shared/user';
 @Component({
   selector: 'app-bp-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./skeleton.css', './landing.component.scss'],
+  styleUrls: ['./landing.component.scss'],
 })
 
 export class LandingComponent implements OnInit {

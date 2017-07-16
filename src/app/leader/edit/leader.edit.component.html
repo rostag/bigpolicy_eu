@@ -2,8 +2,8 @@
   <form novalidate (ngSubmit)="onSubmit()" [formGroup]="leaderFormGroup">
   <md-card-content>
     <md-card-title>
-      <span *ngIf="!isUpdateMode">Стати діячем</span>
-      <span *ngIf="isUpdateMode">Редагувати діяча</span>
+      <span *ngIf="!isUpdateMode">Стати лідером</span>
+      <span *ngIf="isUpdateMode" title="Email: {{leaderModel.email}}">Редагувати лідера</span>
     </md-card-title>
 
       <div fxLayout="row" fxLayoutGap="4%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">

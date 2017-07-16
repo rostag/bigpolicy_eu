@@ -4,7 +4,7 @@
     <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">
       <h1>{{userService.userProfile.name}}</h1>
       <p *ngIf="userService.isAdmin()">Адміністратор</p>
-      <p *ngIf="profileLeader">Лідер (<a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a>)</p>
+      <p *ngIf="profileLeader">Лідер: <a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a></p>
     </div>
     <div fxLayout="row" fxLayoutAlign="start start">
       <div>

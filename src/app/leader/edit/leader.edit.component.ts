@@ -47,8 +47,8 @@ export class LeaderEditComponent implements OnInit {
     this.leaderFormGroup = this.fb.group({
       name:     [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       surName:  [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      mission:  ['', [Validators.required, Validators.minLength(10), Validators.maxLength(999)]],
-      vision:   ['', [Validators.required, Validators.minLength(10), Validators.maxLength(999)]],
+      mission:  ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
+      vision:   ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       videoUrl: ['', this.videoUrlValidator]
     });
 

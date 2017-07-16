@@ -13,7 +13,7 @@ export class ProjectModel {
   videoUrl = '';
   tasks;
   donations;
-  totalDonationsReceived: Number = 0;
+  totalDonationsReceived = 0;
 
   /**
    * It's necessary to have a string representation for sending it to DB

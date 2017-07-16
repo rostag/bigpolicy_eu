@@ -8,7 +8,7 @@ import { ProjectService } from '../../shared/project/project.service';
 @Component({
   selector: 'app-task-view',
   templateUrl: './task.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './task.view.component.scss'],
+  styleUrls: ['./task.view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -21,6 +21,10 @@ export class TaskViewComponent implements OnInit {
   @Input() dataprovided = false;
 
   @Input() projectTitle = '';
+
+  @Input() showProjectLink = false;
+
+  hasVisual = false;
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -52,6 +56,7 @@ export class TaskViewComponent implements OnInit {
           this.taskService.getTask(id)
           .subscribe( data => {
             this.task = data;
+            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
             console.log('tpId =', this.task.projectId, data);
             this.retrieveProject();
           });

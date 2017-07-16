@@ -6,12 +6,17 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 @Component({
   selector: 'app-project-view',
   templateUrl: './project.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss']
+  styleUrls: ['./project.view.component.scss']
 })
 
 export class ProjectViewComponent implements OnInit {
 
+  // Whether it has visual like image or video or it hasn't
+  hasVisual = false;
+
   project: ProjectModel = new ProjectModel();
+
+  fundratio = 0;
 
   /**
   * Dependency Injection: route (for reading params later)
@@ -42,6 +47,8 @@ export class ProjectViewComponent implements OnInit {
         .subscribe((data: ProjectModel) => {
           this.project = new ProjectModel();
           this.project.parseData(data);
+          this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
+          this.fundratio = this.project.totalDonationsReceived / this.project.cost * 100;
           ProjectService.cacheProject(this.project);
         },
         err => console.error(err),
@@ -61,5 +68,4 @@ export class ProjectViewComponent implements OnInit {
     // this.router.navigate(['/projects']);
     return false;
   }
-
 }

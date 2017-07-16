@@ -24,31 +24,32 @@
 </div>
 
 <div class="how-it-works">
-<h2 align="center">Як це працює?</h2>
-<div fxLayout="row" fxLayoutAlign="space-around start" fxLayoutWrap>
-	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-		<div class="material-icons md-48">face</div>
-    <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
-		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
-    <!-- /FTUX - LEADER END -->
-		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
-	</div>
-	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-		<div class="material-icons md-48">loop</div>
-		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
-		<div>Невелика сума краща за лайки в фейсбуці.</div>
-	</div>
-	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-		<div class="material-icons md-48">mic</div>
-		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
-		<div>BIGPOLICY допомагає вам.</div>
-	</div>
-	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-		<div class="material-icons md-48">movie</div>
-		<div>Місія виконана з відповідними результатами</div>
-		<div>Нова ініціатива реалізована до життя!</div>
-	</div>
+  <h2 align="center">Як це працює?</h2>
+  <div fxLayout="row" fxLayoutAlign="space-around start" fxLayoutWrap>
+  	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
+  		<div class="material-icons md-48">face</div>
+      <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером</a></div>
+  		<div *ngIf="userService.hasLeader()">Ви стали лідером</div>
+      <!-- /FTUX - LEADER END -->
+  		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
+  	</div>
+  	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
+  		<div class="material-icons md-48">loop</div>
+  		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
+  		<div>Невелика сума краща за лайки в фейсбуці.</div>
+  	</div>
+  	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
+  		<div class="material-icons md-48">mic</div>
+  		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
+  		<div>BIGPOLICY допомагає вам.</div>
+  	</div>
+  	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
+  		<div class="material-icons md-48">movie</div>
+  		<div>Місія виконана з відповідними результатами</div>
+  		<div>Нова ініціатива реалізована до життя!</div>
+  	</div>
+  </div>
 </div>
 
 <!-- Projects & Leaders -->
@@ -57,16 +58,16 @@
   і також рандомно — 6 лідерів на другій табі
                                             -->
 <md-tab-group class="projects-leaders-list">
-  <md-tab label="Проекти" >
+  <md-tab label="Проекти" [ngClass]="'big'" >
     <app-project-list [pageSize]="6" [showPagination]="false"></app-project-list>
     <div class="controls">
-      <button class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
+      <button [routerLink]="['/projects']" class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
     </div>
   </md-tab>
-  <md-tab label="Діячі" >
+  <md-tab label="Лідери" >
     <app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
     <div class="controls">
-      <button class="bt-show-all" md-raised-button color="primary">Всі діячі</button>
+      <button [routerLink]="['/leaders']" class="bt-show-all" md-raised-button color="primary">Всі лідери</button>
     </div>
   </md-tab>
 </md-tab-group>
@@ -80,18 +81,17 @@
 <!-- Останні проекти та політики — це зменшені мініатюри -->
 <!-- FIXME dbQuery to get recent ones only -->
 <h2>Останні проекти</h2>
-<app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|16|32|50'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
+<app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|33|50|100'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
 <h2>Нові лідери</h2>
-<app-leader-list [pageSize]="3" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'30%|30%|30%|30%|47%'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
+<app-leader-list [pageSize]="6" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'33|33|33|50|100'" dbQuery='{ "$where": "this.projects.length < 100" }'></app-leader-list>
 
 <!-- Contacts / Footer -->
-<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="5%" fxLayout.xs="column">
-  <div fxFlex="50">
-    <h3>Facebook</h3>
-    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="300" height="200" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+<div class="contacts" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+  <div fxFlex="49">
+    <iframe width="100%" height="300" style="border:none;overflow:hidden;max-width: 560px;" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2Fvideos%2F161167597610702%2F&show_text=0&width=560" scrolling="no" frameborder="0" allowTransparency="true" id="fb_video_post"></iframe>
   </div>
-  <div fxFlex="50">
-    <h3>Контакти</h3>
+  <div fxFlex="47">
+    <h3 style="margin-top:0;">Контакти</h3>
     <address>
       м.&nbsp;Львів, вул.&nbsp;Наукова&nbsp;58, кв.&nbsp;28
       <br>
@@ -99,5 +99,15 @@
       <br>
       <a href="mailto:voice@bigpolicy.eu">voice@bigpolicy.eu</a>
     </address>
+
+    <h3>Facebook</h3>
+    <p>Група BigPolicy: <a href="https://www.facebook.com/groups/bigpolicy">facebook.com/groups/bigpolicy</a></p>
+    <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2F&width=450&layout=standard&action=like&show_faces=true&share=true&height=80&appId" width="300" height="100" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
+    <h3>Розробникам:</h3>
+    <p>
+      Долучайся до <a href="https://github.com/rostag/bigpolicy_eu">BigPolicy на GitHub</a>. Звертайся до <a href="https://www.facebook.com/rastislavr">техліда</a> з питаннями.
+    </p>
+
   </div>
 </div>

@@ -197,12 +197,11 @@ DBProject.deleteProject = function(id) {
   });
 }
 
-// FIXME Need to do the same for tasks
 DBProject.bulkDeleteProjects = function(projectIds) {
   var bulk = Project.collection.initializeOrderedBulkOp();
   console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
 
-  // FIXME - how to get all projects
+  // TODO get all projects
   return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
     console.log(' - Got paged projects:', pagedProjects.total);
 

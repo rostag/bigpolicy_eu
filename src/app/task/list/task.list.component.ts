@@ -27,6 +27,9 @@ export class TaskListComponent implements OnChanges {
   // An project this task list belongs to
   @Input() project: ProjectModel = new ProjectModel();
 
+  // Show tasks collapsed initially, but let user to expand
+  compactTasksView = true;
+
   public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
     docs: this.tasks,
@@ -83,6 +86,10 @@ export class TaskListComponent implements OnChanges {
     return false;
   }
 
+  switchTasksView() {
+    this.compactTasksView = !this.compactTasksView;
+  }
+
   deleteTask(taskToRemove: any) {
     // Delete in UI
     let updatedTasks;
@@ -94,5 +101,9 @@ export class TaskListComponent implements OnChanges {
     // Delete from DB
     this.taskService.deleteTask(taskToRemove);
     return false;
+  }
+
+  onCancelTaskEdit(evt) {
+    this.isAddingTaskMode = false;
   }
 }

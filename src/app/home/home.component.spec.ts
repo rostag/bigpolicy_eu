@@ -21,7 +21,7 @@ import { CoreModule } from '../core.module';
 
 // http://stackoverflow.com/questions/39577920/angular-2-unit-testing-components-with-routerlink/39579009#39579009
 
-describe('FIXME HomeComponent', () => {
+describe('HomeComponent', () => {
   // let component: HomeComponent;
   // let fixture: ComponentFixture<HomeComponent>;
   //

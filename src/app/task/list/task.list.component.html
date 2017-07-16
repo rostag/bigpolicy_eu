@@ -2,18 +2,26 @@
 
 <md-card-content>
   <md-card-actions>
-    <md-toolbar class="add-toolbar" color="accent"><span *ngIf="title !== ''">{{title}}</span>
+    <md-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
       <span class="add-fill-remaining"></span>
-      <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">Додати захід</button>
+
+      <span *ngIf="!isAddingTaskMode">
+        <button md-icon-button (click)="switchTasksView()" *ngIf="compactTasksView" mdTooltip="Розгорнути усі заходи" ><md-icon>view_stream</md-icon></button>
+        <button md-icon-button (click)="switchTasksView()" *ngIf="!compactTasksView" mdTooltip="Згорнути усі заходи" ><md-icon>view_headlines</md-icon></button>
+        <button md-icon-button (click)="addTask(project)" *ngIf="userService.hasEditPermissions(project)" color="accent" mdTooltip="Додати захід"><md-icon>add_circle</md-icon></button>
+      </span>
     </md-toolbar>
   </md-card-actions>
 
   <!-- Add task -->
-  <app-bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
+  <app-bp-task-edit
+    [projectId]="project._id"
+    *ngIf="isAddingTaskMode"
+    (onCancelEdit)="onCancelTaskEdit($event)">
   </app-bp-task-edit>
 
-  <div>
-     <app-task-view [task]="task" [compactView]="true" dataprovided="true"
+  <div *ngIf="!isAddingTaskMode">
+     <app-task-view [task]="task" [compactView]="compactTasksView" dataprovided="true"
       *ngFor="let task of itemsPage.docs | async | paginate: {
                                                                id: 'taskItemsPage',
                                                                itemsPerPage: this.pageSize,
@@ -56,7 +64,5 @@
                       autoHide="true"
                       >
   </pagination-controls>
-
-  <p>Усього: {{itemsPage.total}}</p>
 
 </md-card-content>

@@ -1,19 +1,29 @@
+$col-fafafa: #fafafa;
+$col-eee: #eee;
+$col-000: #000;
+
 :host {
   display: block;
 }
 
+.description {
+  p {
+    white-space: pre-line;
+  }
+}
+
 a:link,
 a:visited {
-  color: #000;
-  text-decoration: none;
+  color: $col-000;
+  text-decoration: underline;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.4em;
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 1.6em;
   padding-top: 0;
 }
 
@@ -21,4 +31,44 @@ h3 {
   font-size: 1.2em;
   letter-spacing: normal;
   padding-top: 0;
+}
+
+.task-compact-view {
+  cursor: pointer;
+  padding: .75em 0 .5em;
+
+  .actions {
+    display: none;
+  }
+
+  .description {
+    max-height: 3.6em;
+    overflow: hidden;
+    white-space: pre-line;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin-bottom: .2em;
+    margin-top: 0;
+  }
+}
+
+.task-compact-view:hover {
+  background-color: $col-fafafa;
+
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+
+  .actions {
+    display: block;
+  }
+}
+
+.visual-wrapper {
+  height: 280px;
+
+  app-bp-video {
+    height: 100%;
+    width: 100%;
+  }
 }
