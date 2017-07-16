@@ -178,7 +178,7 @@ export class LeaderService {
         this.finalizeLeaderDeletion(model, navigateToList);
 
         if (model.projects && model.projects.length > 0) {
-          this.dialogService.confirm('Що робити з проектами?', `У діяча є проекти. Видалити їх, чи залишити у системі, передавши
+          this.dialogService.confirm('Що робити з проектами?', `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
             до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteProjects => {
             if (toDeleteProjects === true) {

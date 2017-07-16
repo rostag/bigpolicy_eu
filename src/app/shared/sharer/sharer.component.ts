@@ -172,7 +172,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
       this.itemToShare.detailsLink =
       `
       <br><br>
-      <a href="` + this.shareService.getUrl() + `">Відвідай сторінку діяча на БігПолісі</a>
+      <a href="` + this.shareService.getUrl() + `">Відвідай мою сторінку на БігПолісі</a>
       <br><br>
       `;
       this.itemToShare.managerName = this.itemToShare.name;

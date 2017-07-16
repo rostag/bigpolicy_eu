@@ -29,8 +29,8 @@
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
   		<div class="material-icons md-48">face</div>
       <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати діячем</a></div>
-  		<div *ngIf="userService.hasLeader()">Ви вирішуєте стати діячем</div>
+  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером</a></div>
+  		<div *ngIf="userService.hasLeader()">Ви стали лідером</div>
       <!-- /FTUX - LEADER END -->
   		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
   	</div>
@@ -64,10 +64,10 @@
       <button [routerLink]="['/projects']" class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
     </div>
   </md-tab>
-  <md-tab label="Діячі" >
+  <md-tab label="Лідери" >
     <app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
     <div class="controls">
-      <button [routerLink]="['/leaders']" class="bt-show-all" md-raised-button color="primary">Всі діячі</button>
+      <button [routerLink]="['/leaders']" class="bt-show-all" md-raised-button color="primary">Всі лідери</button>
     </div>
   </md-tab>
 </md-tab-group>

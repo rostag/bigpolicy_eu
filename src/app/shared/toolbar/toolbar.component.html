@@ -1,6 +1,6 @@
 <nav class="app-toolbar" color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
 
-  <button fxFlex="23" md-button [routerLink]="['/leaders']" color="primary">Діячі</button>
+  <button fxFlex="23" md-button [routerLink]="['/leaders']" color="primary">Лідери</button>
   <button fxFlex="23" md-button [routerLink]="['/projects']" color="primary">Проекти</button>
 
   <span fxFlex="8" class="logo">
@@ -8,7 +8,7 @@
   </span>
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/add-leader']" *ngIf="showCreateLeaderButton" color="primary">Стати діячем</button>
+    <button md-button [routerLink]="['/add-leader']" *ngIf="showCreateLeaderButton" color="primary">Стати лідером</button>
     <button md-button [routerLink]="['/add-project']" *ngIf="showCreateProjectButton" color="primary">Створити проект</button>
   </span>
 
@@ -38,7 +38,7 @@
 
 <app-working-progress></app-working-progress>
 
-<button class.xs="fab-logo-xs" class="fab-logo" md-fab [routerLink]="['/']">
+<button class.xs="fab-logo-xs" color="warn" class="fab-logo" md-fab [routerLink]="['/']">
   <svg class="logo logo-white" viewBox="0 0 3500 3300">
     <style type="text/css">
       .logo-red path { stroke: #C13833; stroke-width: 35; fill: #C13833; }
