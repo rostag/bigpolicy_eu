@@ -58,7 +58,7 @@ export class LeaderViewComponent implements OnInit {
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
-      console.warn('Fixing null index:', nullIndex);
+      console.warn('Fixing null index:', nullIndex, data);
       data.leaderFiles.splice(nullIndex, 1);
     }
     this.leader = data;
