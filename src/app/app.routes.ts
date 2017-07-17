@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { ProfileComponent } from '././shared/user/profile.component';
+import { AdminComponent } from '././shared/admin/admin.component';
 
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AboutComponent } from './about';
@@ -47,7 +48,9 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'privacy', component: DisclaimerComponent },
   { path: 'landing', component: LandingComponent },
-  { path: '', component: HomeComponent }
+  { path: '', component: HomeComponent },
+
+  { path: 'admin', component: AdminComponent, canActivate: [LoggedInGuard] }
 ];
 
 export const routing = RouterModule.forRoot(routes);
