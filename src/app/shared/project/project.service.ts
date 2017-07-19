@@ -155,10 +155,19 @@ export class ProjectService {
               // FIXME - Retrieve real Placeholder project
               const newProject = new ProjectModel();
               newProject._id = 'NE_NA_CHASI';
-              const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
-              tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
+
+              // Observable<ProjectModel> {
+              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
+              // const whereQueery = '{ "$where": "this.title == \'Не на часі\'" }';
+              const whereQueery = '{ "$where": "this.tasks.length < 1" }';
+              this.getProjectsPage(null, null, 1, 3, whereQueery ).subscribe((res) => {
+                console.log('got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! ', res);
+              });
+
+              // const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
+              // tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
             }
-            this.finalizeProjectDeletion(model, navigateToList);
+            // this.finalizeProjectDeletion(model, navigateToList);
           });
         } // If Task reassignment was needed
       }
