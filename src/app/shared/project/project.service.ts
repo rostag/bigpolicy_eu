@@ -158,8 +158,8 @@ export class ProjectService {
 
               // Observable<ProjectModel> {
               // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
-              // const whereQueery = '{ "$where": "this.title == \'Не на часі\'" }';
-              const whereQueery = '{ "$where": "this.tasks.length < 1" }';
+              const whereQueery = '{ "$where": "this.title == \\"Не на часі\\"" }';
+              // const whereQueery = '{ "$where": "this.tasks.length < 1" }';
               this.getProjectsPage(null, null, 1, 3, whereQueery ).subscribe((res) => {
                 console.log('got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! ', res);
               });
