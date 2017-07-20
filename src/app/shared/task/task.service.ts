@@ -102,7 +102,7 @@ export class TaskService {
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
-    console.log('Tasks service, try to update:', ids, data, body);
+    // console.log('Tasks service, try to update:', ids, data, body);
 
     return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers})
       .map( res => res.json() )

@@ -178,8 +178,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
       this.itemToShare.managerName = this.itemToShare.name;
       this.itemToShare.managerEmail = this.itemToShare.email;
     }
-    console.log('!!! - !!! ', this.itemToShare);
-
+    // console.log('!!! - !!! ', this.itemToShare);
   }
 
   /**
