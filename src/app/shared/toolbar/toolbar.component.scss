@@ -5,7 +5,12 @@
   .mat-button,
   .mat-button-ripple {
     color: #fafafa;
-    font-size: 1rem;
+    font-size: .8em;
+  }
+
+  .mat-button:hover {
+    background-color: #fff;
+    color: #c30;
   }
 
   >button,
