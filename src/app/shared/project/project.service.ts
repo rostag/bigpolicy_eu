@@ -151,23 +151,14 @@ export class ProjectService {
               this.taskService.bulkDeleteTasks(model.tasks)
               .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
             } else {
-              // Reassign tasks to another Project (placeholder)
-              // FIXME - Retrieve real Placeholder project
-              const newProject = new ProjectModel();
-              newProject._id = 'NE_NA_CHASI';
-
-              // Observable<ProjectModel> {
-              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
-              const whereQueery = '{ "$where": "this.title == \\"Не на часі\\"" }';
-              // const whereQueery = '{ "$where": "this.tasks.length < 1" }';
-              this.getProjectsPage(null, null, 1, 3, whereQueery ).subscribe((res) => {
-                console.log('got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! got RESULT! ', res);
-              });
-
-              // const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
-              // tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
+              // NE NA CHASI — reassign tasks to placeholder Project
+              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
+              this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }' )
+                  .subscribe((res) => {
+                    // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
+                    this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
+                  });
             }
-            // this.finalizeProjectDeletion(model, navigateToList);
           });
         } // If Task reassignment was needed
       }
