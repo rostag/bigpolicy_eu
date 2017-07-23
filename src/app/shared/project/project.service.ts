@@ -151,13 +151,13 @@ export class ProjectService {
               this.taskService.bulkDeleteTasks(model.tasks)
               .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
             } else {
-              // NE NA CHASI — reassign tasks to placeholder Project
+              // NE NA CHASI: reassign tasks to placeholder Project
               // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
               this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }' )
-                  .subscribe((res) => {
-                    // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
-                    this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
-                  });
+                .subscribe((res) => {
+                  // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
+                  this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
+                });
             }
           });
         } // If Task reassignment was needed

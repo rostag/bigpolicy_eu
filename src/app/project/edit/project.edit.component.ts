@@ -157,12 +157,12 @@ export class ProjectEditComponent implements OnInit {
     this.project.managerEmail = newLeader.email;
     this.saveProject();
 
-    // Add project to new leader:
+    // Add project to new Leader:
     if ( newLeader.projects.indexOf(this.project._id) === -1 ) {
       newLeader.projects.push(this.project._id);
       this.leaderService.updateLeader(newLeader).subscribe();
     }
-    // Remove project from current leader:
+    // Remove project from current Leader:
     this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
     this.leaderService.updateLeader(this.currentLeader).subscribe();
   }
