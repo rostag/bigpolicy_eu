@@ -12,10 +12,6 @@ import { environment } from '../../../environments/environment';
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
-// declare var Auth0Lock: any;
-
-// declare var require: any;
-// const Auth0Lock = require('auth0-lock').default;
 
 @Injectable()
 export class UserService {
@@ -29,9 +25,9 @@ export class UserService {
   };
 
   // Configure Auth0
-  // FIXME Redirect user to special place, not just landing
   // 1. Redirect to Leader creation if user was in the process of creation
   // 2. E.T.C.
+  // FIXME Redirect user to target page, not just Home
   options = {
       auth: {
           redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
@@ -164,7 +160,6 @@ export class UserService {
 
   /**
    * Call the Auth0 show method to display the login widget.
-   * TODO Extend
    */
   public login() {
     // FIXME_SEC
@@ -182,9 +177,7 @@ export class UserService {
     this.userProfile = undefined;
   };
 
-  // ....
   // FTUX
-  // ....
 
   /**
   * Lazy Leader Registration.
@@ -208,8 +201,10 @@ export class UserService {
     }
     return false;
   }
-  //  this.saveToLocalStorage(this.leader);
 
+  /**
+   * FTUX finalizing Leader registration if needed, or just greeting the already registered one
+   */
   private tryToContinueLeaderRegistration() {
     const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');
     if (this.authenticated() && !this.hasLeader() && !!localLeader) {

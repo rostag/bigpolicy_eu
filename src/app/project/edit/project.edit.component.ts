@@ -126,10 +126,10 @@ export class ProjectEditComponent implements OnInit {
     this.location.back();
   }
 
-  // FIXME Move to service / component
   /**
    * Loads available Leaders to assign the project to
    */
+   // FIXME Move to service / component
   requestLeadersToSelectFrom() {
     // this.userService.isAdmin()
     this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
@@ -151,14 +151,14 @@ export class ProjectEditComponent implements OnInit {
   /**
    * Assigns project to another leader
    */
-  // FIXME Check how to reuse projects Re-assign from leaderService.deleteLeader method
+  // FIXME Check reusing projects Re-assign from leaderService.deleteLeader method
   // FIXME Move it to service
   moveProjectToOtherLeader(event) {
     const newLeader = new LeaderModel();
     newLeader.parseData(event.value);
     console.log(`> Move Project to: `, newLeader.email);
 
-    // Update project
+    // Update Project:
     this.project.managerId = newLeader._id;
     this.project.managerName = newLeader.name + ' ' + newLeader.surName;
     this.project.managerEmail = newLeader.email;
