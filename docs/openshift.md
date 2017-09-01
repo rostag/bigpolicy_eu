@@ -28,6 +28,8 @@ Deletes all the contents of the log and /tmp directory on the gears to free up d
 
 ### If 500 Error: Service Temporarily Unavailable
 
-```rhc ssh live
+```
+rhc ssh live
 cd app-root/repo/
-node start```
+node start
+```
