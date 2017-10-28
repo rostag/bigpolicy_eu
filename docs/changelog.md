@@ -1,5 +1,12 @@
 # Зміни
 
+## Серпень 2016
+
+### New:
+
+ * Landing Page
+ * Leader, Project, Task views
+
 ## Липень 2016
 
  * Динаміка:
