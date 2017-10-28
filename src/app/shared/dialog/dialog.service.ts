@@ -20,7 +20,7 @@ export class DialogService {
 
         let dialogRef: MdDialogRef<DialogComponent>;
         const dialogConfig = new MdDialogConfig();
-        dialogConfig.viewContainerRef = viewContainerRef;
+        // FIXME dialogConfig.viewContainerRef = viewContainerRef;
 
         dialogRef = this.dialog.open(DialogComponent, dialogConfig);
 

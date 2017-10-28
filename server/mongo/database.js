@@ -21,9 +21,11 @@ try {
     // FIXME_SEC
     options.user = 'admin';
     options.pass = app.qa;
+    // options.useMongoClient = true;
     mongoose.connect(MNG_URL + process.env.OPENSHIFT_APP_NAME, options);
   } else {
     // localhost
+    // options.useMongoClient = true;
     console.error('    Local mongodb://localhost:27017/bigpolicy');
     mongoose.connect('mongodb://localhost:27017/bigpolicy', options);
   }
