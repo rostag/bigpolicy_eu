@@ -40,6 +40,7 @@ import { LandingComponent } from './landing/index';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
@@ -84,6 +85,7 @@ export const firebaseConfig = {
     MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
