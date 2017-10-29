@@ -118,11 +118,11 @@ export class UserService {
 
   /**
    * Returns true if user is logged in.
+   * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
    */
   public authenticated() {
-    // Check if there's an unexpired JWT
-    // This searches for an item in local storage with key == 'id_token'
-    return tokenNotExpired();
+    // FIXME Move to using ngrx/store
+    return tokenNotExpired('id_token');
   };
 
   /**
@@ -132,6 +132,7 @@ export class UserService {
   public isAdmin() {
     // FIXME_SEC
     // const isDevMode = environment.production === false;
+    // FIXME Move this setting to enviromnent ngrx
     const isDevMode = false;
     return isDevMode || (this.authenticated() && (
         this.getEmail() === 'rostyslav.siryk@gmail.com' ||
