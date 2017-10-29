@@ -1,4 +1,4 @@
-import { AngularFireModule  } from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
@@ -70,8 +70,8 @@ export class UploaderComponent implements OnChanges {
   uploadImmediately = false;
 
   constructor(
-    public af: AngularFireDatabase
-  ) {}
+    public afDb: AngularFireDatabase
+  ) { }
 
   ngOnChanges(changes) {
 
@@ -86,17 +86,35 @@ export class UploaderComponent implements OnChanges {
     console.log('new values for folder');
     const storage = firebase.storage();
 
-    this.fileList = this.af.list(`/${this.folder}${this.postfix}`);
     console.log('Rendering all images in ', `/${this.folder}${this.postfix}`);
+    this.fileList = this.afDb.list(`/${this.folder}${this.postfix}`);
 
-    // FIXME_0 this.imageList = this.fileList.valueChanges.map( itemList =>
-    //   itemList.map( item => {
-    //     const pathReference = storage.ref(item.path);
-    //     const result = {$key: item.$key, downloadURL: pathReference.getDownloadURL(), path: item.path, filename: item.filename};
-    //     console.log(result);
-    //     return result;
-    //   })
-    // );
+    // FIXME
+    // Need to figure out why <any> is necessary here.
+    this.imageList = <any>this.fileList.valueChanges()
+      .map(itemList =>
+        itemList.map((item: Image) => {
+          const pathReference = storage.ref(item.path);
+          const result = {
+            $key: item.$key,
+            downloadURL: pathReference.getDownloadURL(),
+            path: item.path,
+            filename: item.filename
+          };
+
+          // this.afDb.object(item.path).snapshotChanges().map(action => {
+          //   const $key = action.payload.key;
+          //   const data = { $key, ...action.payload.val() };
+          //   return data;
+          // }).subscribe(item => {
+          //   console.log('ITEM KEY:', item.$key);
+          // });
+
+          console.log('Iameg List:', itemList);
+          console.log(result);
+          return result;
+        })
+      );
   }
 
   initUpload() {
@@ -106,7 +124,6 @@ export class UploaderComponent implements OnChanges {
 
     // This currently only grabs item 0, TODO refactor it to grab them all
     for (const selectedFile of [(<HTMLInputElement>document.getElementById('fileInput')).files[0]]) {
-      const af = this.af;
       const folder = this.folder + this.postfix;
       const path = `/${this.folder}/${selectedFile.name}`;
 
@@ -116,7 +133,7 @@ export class UploaderComponent implements OnChanges {
       iRef.put(selectedFile).then((snapshot) => {
         // console.log('Uploaded a blob or file! Now storing the reference at', folder, snapshot.downloadURL, snapshot);
         this.uploadedFileUrl = snapshot.downloadURL;
-        af.list(`/${folder}`).push({ path: path, filename: selectedFile.name });
+        this.afDb.list(`/${folder}`).push({ path: path, filename: selectedFile.name });
         this.onFileUploadComplete();
       });
     }
@@ -130,13 +147,13 @@ export class UploaderComponent implements OnChanges {
 
     // Delete from Storage
     firebase.storage().ref().child(storagePath).delete()
-    .then(
-      () => {},
+      .then(
+      () => { },
       (error) => console.error('Error deleting stored file', storagePath)
-    );
+      );
 
     // Delete references
-    this.af.object(referencePath).remove();
+    this.afDb.object(referencePath).remove();
   }
 
   ///////////////////////////////////////
