@@ -1,5 +1,4 @@
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { PathReference, AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -8,7 +7,7 @@ import * as firebase from 'firebase';
 interface Image {
   path: string;
   filename: string;
-  downloadURL?: string;
+  downloadURL?: Promise<any>;
   $key?: string;
 }
 
@@ -49,7 +48,7 @@ export class UploaderComponent implements OnChanges {
   // Populated after upload from 'snapshot' object, see below
   uploadedFileUrl: string;
 
-  fileList: AngularFireList<Image[]>;
+  fileList: AngularFireList<Image>;
   imageList: Observable<Image[]>;
 
   // Sibfolder - just in case
@@ -89,9 +88,20 @@ export class UploaderComponent implements OnChanges {
     console.log('Rendering all images in ', `/${this.folder}${this.postfix}`);
     this.fileList = this.afDb.list(`/${this.folder}${this.postfix}`);
 
+
+    // this.itemsRef = db.list('items');
+    // this.itemsRef.snapshotChanges(['child_added'])
+    // this.imageList = this.fileList.snapshotChanges()
+    //   .subscribe(actions => {
+    //     actions.forEach(action => {
+    //       console.log(action.type);
+    //       console.log(action.key);
+    //       console.log(action.payload.val());
+    //     });
+    //   });
+
     // FIXME
-    // Need to figure out why <any> is necessary here.
-    this.imageList = <any>this.fileList.valueChanges()
+    this.imageList = this.fileList.valueChanges()
       .map(itemList =>
         itemList.map((item: Image) => {
           const pathReference = storage.ref(item.path);
@@ -102,6 +112,8 @@ export class UploaderComponent implements OnChanges {
             filename: item.filename
           };
 
+          // const aaa = this.afDb.object(item.path).snapshotChanges();
+          
           // this.afDb.object(item.path).snapshotChanges().map(action => {
           //   const $key = action.payload.key;
           //   const data = { $key, ...action.payload.val() };
