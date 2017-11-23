@@ -44,7 +44,6 @@
     "mongoose-paginate": "5.0.3",
     "ng2-pagination": "2.0.2",
     "rxjs": "5.5.2",
-    "typescript": "2.2.2",
     "zone.js": "0.8.18"
   },
   "devDependencies": {
@@ -67,6 +66,6 @@
     "protractor": "5.1.2",
     "ts-node": "2.0.0",
     "tslint": "4.5.1",
-    "typescript": "2.2.2"
+    "typescript": "2.3.1"
   }
 }
