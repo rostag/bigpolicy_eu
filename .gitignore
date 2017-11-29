@@ -3,6 +3,7 @@
 # compiled output
 /tmp
 /dist
+/fb/public
 
 # dependencies
 # Dependency directory
