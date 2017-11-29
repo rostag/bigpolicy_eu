@@ -1,8 +1,34 @@
 
+Docs:
+https://firebase.google.com/docs/hosting/url-redirects-rewrites
+
+https://firebase.google.com/docs/hosting/functions
+
+https://github.com/firebase/firebase-functions/issues/27
+
+COOL:
+https://codeburst.io/express-js-on-cloud-functions-for-firebase-86ed26f9144c
+
+
+!!!
+https://stackoverflow.com/questions/28305120/differences-between-express-router-and-app-get
+https://stackoverflow.com/questions/43579442/cloud-functions-for-firebase-and-express
+
+
+
+
+
+Didn't read but seem to be useful:
+https://github.com/jthegedus/firebase-functions-express-example
+
+
 #Copy assets to the local deploy folder
 cd /Users/rosty/dev/BP/bp/
 npm run build-prod
 rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
+
+
+firebase serve --only hosting,functions
 
 £££ NNN Reference
 
@@ -37,3 +63,6 @@ cp /home/BBBBBBB/Projects/n/YYY-dist.tar.gz /var/www/melanoma.com/html
 
 
 
+More reading: 
+
+https://stackoverflow.com/questions/28305120/differences-between-express-router-and-app-get

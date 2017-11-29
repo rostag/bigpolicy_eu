@@ -69,6 +69,10 @@
       {
         "source": "/admin",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api/**",
+        "function": "apiExpress"
       }
     ]
   },
