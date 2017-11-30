@@ -22,7 +22,7 @@ module.exports = function(app, router){
   projectApi(app, router, DBProject, DBLeader);
   taskApi(app, router, DBTask, DBProject);
   mailApi(app, router, DB);
-  liqpayApi(app, DBDonation, DBLeader, DBProject, DBTask);
+  liqpayApi(app, router, DBDonation, DBLeader, DBProject, DBTask);
 
   // Send spa file if unmatched and then register it at the very end of the chain
   // app.use(function (req,res) {
