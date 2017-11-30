@@ -94,9 +94,9 @@ module.exports = function(app, router, DB, DBLeader){
 
   /**
    * Gets page of projects for the given leader, example:
-   * /project-api/leader/leaderId/page/1/1/q/:dbQuery
+   * /project-api/leader/project-api/leader/leaderId/page/1/1/q/:dbQuery
    */
-  .get('/leader-api/leader/:leaderId/page/:page/:limit/q/:dbQuery', function (req, res) {
+  .get('/project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery', function (req, res) {
     var p = req.params;
     // console.log('project-api/get projects page for leader #', p.leaderId, ', query:', decodeURIComponent(p.dbQuery) );
     DBLeader.getLeader( p.leaderId )

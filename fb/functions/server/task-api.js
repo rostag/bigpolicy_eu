@@ -96,7 +96,7 @@ module.exports = function(app, router, DB, DBProject){
    * Gets page of tasks for the given project, example:
    * /task-api/project/projectId/page/1/1/q/:dbQuery
    */
-  .get('/project-api/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
+  .get('/task-api/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
     var p = req.params;
     DBProject.getProject( p.projectId )
       .then((project) => {

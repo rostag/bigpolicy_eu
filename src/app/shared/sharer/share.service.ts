@@ -11,7 +11,7 @@ import { ProjectModel } from '../project/project.model';
 @Injectable()
 export class ShareService {
 
-  private mailApiUrl = '/mail-api/';
+  private mailApiUrl = '/api/mail-api/';
 
   /**
    * Contains the pending request.
@@ -36,7 +36,7 @@ export class ShareService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options = new RequestOptions({ headers: headers });
-    return this.http.post(this.mailApiUrl + 'api/share', body, options).map(res => res.json());
+    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json());
 
     // TODO: Upsert model in DB:
     // model.events.push({'type': 'share'});

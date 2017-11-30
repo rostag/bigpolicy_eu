@@ -7,8 +7,7 @@ cd fb
 firebase deploy
 
 
-"	
-Technology recommendations are off-topic on Stack Overflow. 
+"Technology recommendations are off-topic on Stack Overflow. 
 I've used Cloud Functions (on a paid plan, the cost is quite minimal), App Engine Flex, and Zeit in the past. But there are probably dozens more, many of them with their own advantages"
 
 https://stackoverflow.com/questions/43967510/cloud-functions-for-firebase-and-third-party-api

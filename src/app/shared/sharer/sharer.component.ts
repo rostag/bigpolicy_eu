@@ -245,7 +245,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
             `
             +
             `
-            <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
+            <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
   toggleSharer() {

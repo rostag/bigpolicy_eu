@@ -10,7 +10,7 @@ module.exports = function(app, router, DB){
   var mailgun_domain = 'bigpolicy.eu';
 
   // Send a message to the specified email address. All params passed via req
-  router.post('/share', function (req, res) {
+  router.post('/mail-api/share', function (req, res) {
 
     // Pass the mailgun_api_key and mailgun_domain to the wrapper, or it won't be able to identify & send emails
     var mailgun = new Mailgun({
