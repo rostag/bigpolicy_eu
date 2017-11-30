@@ -1,6 +1,30 @@
-const functions = require('firebase-functions');
-const cors = require("cors");
-const express = require("express")
+var functions = require('firebase-functions');
+var express = require('express');
+
+var appExpress = express();
+var router = express.Router();
+
+function registerFunction(req, res) {
+  res.send('Registered');
+}
+
+function verifyFunction(req, res) {
+  res.send('Verified');
+}
+
+router.get('/register', registerFunction);
+router.get('/verify', verifyFunction);
+router.get("*", (request, response) => {
+  response.send("Hello from Express on Firebase with CORS!")
+});
+
+appExpress.use('/api', router);
+
+exports.appExpress = functions.https.onRequest(appExpress);
+
+// const functions = require('firebase-functions');
+// const cors = require("cors");
+// const express = require("express")
 
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //     response.send("Hello from Firebase!");
@@ -19,14 +43,14 @@ const express = require("express")
 // });
 
 /* Express with CORS */
-const appExpress = express()
-appExpress.use(cors({ origin: true }))
-appExpress.get("*", (request, response) => {
-  response.send("Hello from Express on Firebase with CORS!")
-})
+// const appExpress = express()
+// appExpress.use(cors({ origin: true }))
+// appExpress.get("*", (request, response) => {
+//   response.send("Hello from Express on Firebase with CORS!")
+// })
 
-const apiExpress = functions.https.onRequest(appExpress)
+// const apiExpress = functions.https.onRequest(appExpress)
 
-module.exports = {
-  apiExpress
-}
+// module.exports = {
+//   apiExpress
+// }
