@@ -11,17 +11,15 @@ var options = {
   }
 };
 
-// Accomodate custom MongoDB by icflorescu - https://github.com/icflorescu/openshift-cartridge-mongodb/
-// var MNG_URL = process.env.MONGODB_URL || process.env.OPENSHIFT_MONGODB_DB_URL;
 var MNG_URL = 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa';
 
 try {
   console.log('  𝖄 Mongoose connection:');
   if (MNG_URL) {
-    console.error('    Remote: ' + MNG_URL + process.env.OPENSHIFT_APP_NAME);
+    console.error('    Remote mongodb: ' + MNG_URL);
     // FIXME_SEC
-    options.user = 'admin';
-    options.pass = app.qa;
+    // options.user = 'admin';
+    // options.pass = app.qa;
     // options.useMongoClient = true;
     mongoose.connect(MNG_URL, options);
   } else {

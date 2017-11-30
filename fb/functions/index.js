@@ -26,6 +26,14 @@ appExpress.use('/api', router);
 
 exports.appExpress = functions.https.onRequest(appExpress);
 
+/**
+ * Test it: 
+ * https://bigpolicy.eu/api/ping
+ * https://bigpolicy.eu/api/verify
+ * https://bigpolicy.eu/api/register
+ */
+
+
 // const functions = require('firebase-functions');
 // const cors = require("cors");
 // const express = require("express")

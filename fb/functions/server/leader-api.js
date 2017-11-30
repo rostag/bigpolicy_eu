@@ -5,7 +5,7 @@ module.exports = function(app, router, DB){
   /**
    * Creates a Leader
    */
-  router.post('/leader-api/', function (req, res) {
+  router.post('/leader-api', function (req, res) {
     let data;
 
     console.log('leader-api/create: ', req.body);
@@ -60,6 +60,14 @@ module.exports = function(app, router, DB){
       .catch(function(err){
         res.json(err);
       });
+  })
+
+  .get('/leader-api/pi', function (req, res) {
+    res.send('Pong');
+  })
+
+  .get('/leader-api/ping', function (req, res) {
+    res.json({ ping: 'pong' });
   })
 
   /**
