@@ -20,8 +20,8 @@ module.exports = function(app, router){
   pingApi(app, router);
   leaderApi(app, router, DBLeader);
   projectApi(app, router, DBProject, DBLeader);
-  taskApi(app, DBTask, DBProject);
-  mailApi(app, DB);
+  taskApi(app, router, DBTask, DBProject);
+  mailApi(app, router, DB);
   liqpayApi(app, DBDonation, DBLeader, DBProject, DBTask);
 
   // Send spa file if unmatched and then register it at the very end of the chain

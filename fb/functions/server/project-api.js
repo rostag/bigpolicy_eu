@@ -75,7 +75,7 @@ module.exports = function(app, router, DB, DBLeader){
   })
 
   .get('/project-api/ping', function (req, res) {
-    res.json({ ping: 'pong' });
+    res.json({ ping: 'pong: project' });
   })
 
   /**

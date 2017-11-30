@@ -12,7 +12,7 @@ import { TaskModel } from './task.model';
 @Injectable()
 export class TaskService {
 
-  private apiUrl = '/task-api/';
+  private apiUrl = '/api/task-api/';
 
   /**
    * Creates a new TaskService with the injected Http
@@ -46,17 +46,17 @@ export class TaskService {
 
     let requestUrl;
 
-    // Task by ID :: task-api/:taskId
+    // Task by ID :: api/task-api/:taskId
     if (taskId) {
       requestUrl = this.apiUrl + taskId;
     }
 
-    // Page of Tasks :: task-api/page/:page/:limit/q/:dbQuery
+    // Page of Tasks :: api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // Page of tasks for Project :: task-api/project/:projectId/page/:page/:limit/q/:dbQuery
+    // Page of tasks for Project :: api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && projectId !== null) {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }

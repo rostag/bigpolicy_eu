@@ -21,7 +21,6 @@ router.get("*", (request, response) => {
   response.send("Hello from Express on Firebase with CORS!")
 });
 
-
 appExpress.use('/api', router);
 
 exports.appExpress = functions.https.onRequest(appExpress);
@@ -32,7 +31,6 @@ exports.appExpress = functions.https.onRequest(appExpress);
  * https://bigpolicy.eu/api/verify
  * https://bigpolicy.eu/api/register
  */
-
 
 // const functions = require('firebase-functions');
 // const cors = require("cors");

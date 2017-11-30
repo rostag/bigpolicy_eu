@@ -34,7 +34,7 @@ module.exports = function(app, router, DB){
   })
 
   .get('/leader-api/ping', function (req, res) {
-    res.json({ ping: 'pong' });
+    res.json({ ping: 'pong:leader' });
   })  
 
   /**

@@ -11,12 +11,9 @@ firebase deploy
 Technology recommendations are off-topic on Stack Overflow. 
 I've used Cloud Functions (on a paid plan, the cost is quite minimal), App Engine Flex, and Zeit in the past. But there are probably dozens more, many of them with their own advantages"
 
-
 https://stackoverflow.com/questions/43967510/cloud-functions-for-firebase-and-third-party-api
 
-
 https://medium.com/google-cloud/creating-a-mongodb-crud-backend-on-google-cloud-functions-88bb5c1cef77
-
 
 https://stackoverflow.com/questions/6676499/is-there-a-mongoose-connect-error-callback
 
@@ -87,3 +84,13 @@ https://stackoverflow.com/questions/28305120/differences-between-express-router-
 
 https://crisp.chat/blog/why-you-should-never-use-firebase-realtime-database/
 
+
+Migrate Mongo to Fire:
+https://gist.github.com/ultimagriever/e2a60d348fe71c3a5d7ab461fc56fce4
+
+
+https://stackoverflow.com/questions/29223835/mongodb-vs-firebase
+
+
+Google Cloud: 
+https://cloud.google.com/nodejs/getting-started/deploy-mongodb
