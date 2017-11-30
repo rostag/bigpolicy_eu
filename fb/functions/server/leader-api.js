@@ -29,6 +29,14 @@ module.exports = function(app, router, DB){
     });
   })
 
+  .get('/leader-api/pi', function (req, res) {
+    res.send('Pong');
+  })
+
+  .get('/leader-api/ping', function (req, res) {
+    res.json({ ping: 'pong' });
+  })  
+
   /**
    * Gets the Leader by ID, example:
    * leader-api/58cf0b7d4256ee60fd1261a
@@ -60,14 +68,6 @@ module.exports = function(app, router, DB){
       .catch(function(err){
         res.json(err);
       });
-  })
-
-  .get('/leader-api/pi', function (req, res) {
-    res.send('Pong');
-  })
-
-  .get('/leader-api/ping', function (req, res) {
-    res.json({ ping: 'pong' });
   })
 
   /**

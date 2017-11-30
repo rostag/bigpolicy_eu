@@ -1,3 +1,24 @@
+## Deployment: cd to project, build, copy assets to the local deploy folder, deploy
+
+cd /Users/rosty/dev/BP/bp/
+npm run build-prod
+rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
+cd fb
+firebase deploy
+
+
+"	
+Technology recommendations are off-topic on Stack Overflow. 
+I've used Cloud Functions (on a paid plan, the cost is quite minimal), App Engine Flex, and Zeit in the past. But there are probably dozens more, many of them with their own advantages"
+
+
+https://stackoverflow.com/questions/43967510/cloud-functions-for-firebase-and-third-party-api
+
+
+https://medium.com/google-cloud/creating-a-mongodb-crud-backend-on-google-cloud-functions-88bb5c1cef77
+
+
+https://stackoverflow.com/questions/6676499/is-there-a-mongoose-connect-error-callback
 
 Docs:
 https://firebase.google.com/docs/hosting/url-redirects-rewrites
@@ -21,11 +42,6 @@ https://stackoverflow.com/questions/43579442/cloud-functions-for-firebase-and-ex
 Didn't read but seem to be useful:
 https://github.com/jthegedus/firebase-functions-express-example
 
-
-#Copy assets to the local deploy folder
-cd /Users/rosty/dev/BP/bp/
-npm run build-prod
-rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
 
 
 firebase serve --only hosting,functions
@@ -66,3 +82,8 @@ cp /home/BBBBBBB/Projects/n/YYY-dist.tar.gz /var/www/melanoma.com/html
 More reading: 
 
 https://stackoverflow.com/questions/28305120/differences-between-express-router-and-app-get
+
+// FB CONS:
+
+https://crisp.chat/blog/why-you-should-never-use-firebase-realtime-database/
+
