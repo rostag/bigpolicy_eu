@@ -19,7 +19,7 @@ module.exports = function(app, router){
 
   pingApi(app, router);
   leaderApi(app, router, DBLeader);
-  projectApi(app, DBProject, DBLeader);
+  projectApi(app, router, DBProject, DBLeader);
   taskApi(app, DBTask, DBProject);
   mailApi(app, DB);
   liqpayApi(app, DBDonation, DBLeader, DBProject, DBTask);

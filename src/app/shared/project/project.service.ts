@@ -17,7 +17,7 @@ export class ProjectService {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private projectApiUrl = '/project-api/';
+  private projectApiUrl = '/api/project-api/';
 
   static cacheProject(project) {
     this._cachedProjects[project._id] = project;
@@ -64,17 +64,17 @@ export class ProjectService {
 
     let requestUrl;
 
-    // Project by ID :: project-api/:projectId
+    // Project by ID :: api/project-api/:projectId
     if (projectId) {
       requestUrl = this.projectApiUrl + projectId;
     }
 
-    // Page of Projects :: project-api/page/:page/:limit/q/:dbQuery
+    // Page of Projects :: api/project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // Page of Projects for Leader :: project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
+    // Page of Projects for Leader :: api/project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
       requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
