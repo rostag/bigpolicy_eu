@@ -1,8 +1,11 @@
 var functions = require('firebase-functions');
 var express = require('express');
+var middleware = require('./server/');
 
 var appExpress = express();
 var router = express.Router();
+
+middleware(appExpress, router);
 
 function registerFunction(req, res) {
   res.send('Registered');
@@ -17,6 +20,7 @@ router.get('/verify', verifyFunction);
 router.get("*", (request, response) => {
   response.send("Hello from Express on Firebase with CORS!")
 });
+
 
 appExpress.use('/api', router);
 
