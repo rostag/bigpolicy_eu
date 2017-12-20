@@ -1,14 +1,11 @@
-module.exports = function(app, DB){
-
-  var express = require('express');
-  var router = express.Router();
+module.exports = function(app, router, DB){
 
   // Routes order is important
 
   /**
    * Creates a Leader
    */
-  router.post('/', function (req, res) {
+  router.post('/leader-api', function (req, res) {
     let data;
 
     console.log('leader-api/create: ', req.body);
@@ -32,11 +29,19 @@ module.exports = function(app, DB){
     });
   })
 
+  .get('/leader-api/pi', function (req, res) {
+    res.send('Pong');
+  })
+
+  .get('/leader-api/ping', function (req, res) {
+    res.json({ ping: 'pong:leader' });
+  })  
+
   /**
    * Gets the Leader by ID, example:
    * leader-api/58cf0b7d4256ee60fd1261a
    */
-  .get('/:id', function (req, res) {
+  .get('/leader-api/:id', function (req, res) {
     if (req.params.id) {
       console.log('\n\nleader-api/', req.params.id);
       DB.getLeader(req.params.id)
@@ -53,7 +58,7 @@ module.exports = function(app, DB){
    * Leader by email:
    * leader-api/page/1/1/q/%7B%20%22email%22%3A%20%22rostyslav.siryk%40gmail.com%22%20%7D
    */
-  .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
+  .get('/leader-api/page/:page/:limit/q/:dbQuery', function (req, res) {
     var p = req.params;
     // console.log('leader-api/get page #', p.page, ', limit =', p.limit, ', dbQuery =', decodeURIComponent(p.dbQuery));
     DB.getPageOfLeaders(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
@@ -68,7 +73,7 @@ module.exports = function(app, DB){
   /**
    * Updates a Leader with given ID using provided data payload
    */
-  .put('/:id', function(req, res) {
+  .put('/leader-api/:id', function(req, res) {
     DB.updateLeader(req.params.id, req.body)
     .then(function (data) {
       res.json(data);
@@ -81,14 +86,12 @@ module.exports = function(app, DB){
   /**
    * Deletes a Leader by ID
    */
-  .delete('/:id', function (req, res) {
+  .delete('/leader-api/:id', function (req, res) {
     DB.deleteLeader(req.params.id)
     .then(function (data) {
       res.json(data);
     });
   });
-
-  app.use('/leader-api', router);
 
   /**
    * RESERVED

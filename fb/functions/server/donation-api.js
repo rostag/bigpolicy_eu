@@ -1,6 +1,6 @@
-module.exports = function(app, DB){
-  var express = require('express');
-  var router = express.Router();
+module.exports = function(app, router, DB){
+  // FB_MIGRATE var express = require('express');
+  // FB_MIGRATE var router = express.Router();
   var LiqPay = require('liqpay-sdk');
   // FIXME_SEC
   var public_key = 'i77061351482';
@@ -37,7 +37,7 @@ module.exports = function(app, DB){
     * Create a donation to the specified target in DB.
     * All params passed via req.
     */
-  router.post('/create-donation', function (req, res) {
+  router.post('/donation-api/create-donation', function (req, res) {
     var donationId = DB.createDonation(req.body);
     res.send(donationId);
   });
@@ -49,7 +49,7 @@ module.exports = function(app, DB){
    *    donation-api/target/task/id/1/10/q/{}
    * @param dbQuery is mongo query like (in HTML code): dbQuery='{ "$where": "this.tasks.length > 0" }'
    **/
-  router.get('/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
+  router.get('/donation-api/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
 
     var p = req.params;
     // console.log('donation-api/get: ' + JSON.stringify(p, null, '  ') );
@@ -68,7 +68,7 @@ module.exports = function(app, DB){
       .catch( err => res.json(err))
   })
 
-  router.post('/getsgndta', function (req, res) {
+  router.post('/donation-api/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
 
     console.log('  • LiqPay::getsgndta::URL::', prm);
@@ -93,7 +93,7 @@ module.exports = function(app, DB){
    /*
     Buffer.from('{"status": "success", "err_code": "0", "err_description": "errdesc", "version": "3", "order_id":"bpdon___id_58925e146b54fe5e678050df__amt_70__from_rostislav.siryk@gmail.com__to_58453220a9dd58cbb28f900d__type_leader__t_1485987348590"}').toString('base64')
    */
-   router.post('/post-donation-status', function (req, res) {
+   router.post('/donation-api/post-donation-status', function (req, res) {
     var dta = Buffer.from(req.body['data'], 'base64').toString();
     var sgn = Buffer.from(req.body['signature'], 'base64').toString();
 
@@ -144,7 +144,7 @@ module.exports = function(app, DB){
   //
   // });
 
-  app.use('/donation-api', router);
+  // FB_MIGRATE app.use('/donation-api', router);
 
   console.log('  • LiqPay connected.');
 }

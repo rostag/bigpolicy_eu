@@ -1,16 +1,16 @@
-module.exports = function(app, DB){
+module.exports = function(app, router, DB){
 
   // Mailgun-js wrapper
   var Mailgun = require('mailgun-js');
-  var express = require('express');
-  var router = express.Router();
+  // FB_MIGRATION var express = require('express');
+  // FB_MIGRATION var router = express.Router();
 
   // FIXME_SEC
   var mailgun_api_key = 'key-fbb7eae260ccda81270645824316856a';
   var mailgun_domain = 'bigpolicy.eu';
 
   // Send a message to the specified email address. All params passed via req
-  router.post('/share', function (req, res) {
+  router.post('/mail-api/share', function (req, res) {
 
     // Pass the mailgun_api_key and mailgun_domain to the wrapper, or it won't be able to identify & send emails
     var mailgun = new Mailgun({
@@ -45,7 +45,7 @@ module.exports = function(app, DB){
   	});
   })
 
-  app.use('/mail-api', router);
+  // app.use('/mail-api', router);
 
   console.log('  • Mailgun loaded.');
 

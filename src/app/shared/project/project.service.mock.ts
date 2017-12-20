@@ -17,7 +17,7 @@ export class ProjectServiceMock {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private projectApiUrl = '/project-api/';
+  private projectApiUrl = '/api/project-api/';
 
   private responsePageMock = {
     'docs': [

@@ -18,11 +18,12 @@ export class ProjectEditComponent implements OnInit {
       return this.isUpdateMode;
   };
 
+  // If true, editor is used on existing item, false if used for thecreation of new one
   isUpdateMode = false;
 
   project: ProjectModel;
 
-  // FIXME Used for changing leaders by admin - Extract to separate component
+  // FIXME Used for changing leaders by admin - need to extract it to separate component
   leaders: Array<LeaderModel> = null;
   currentLeader: LeaderModel = new LeaderModel();
 
@@ -38,7 +39,7 @@ export class ProjectEditComponent implements OnInit {
   }
 
   /**
-   * Initialization Event Handler, used to parse route params
+   * Initialization event handler parses route params
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
@@ -108,6 +109,9 @@ export class ProjectEditComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Finalizes opening of the project.
+   */
   gotoProject(project) {
     const projectId = project._id;
     if (projectId) {
@@ -122,7 +126,10 @@ export class ProjectEditComponent implements OnInit {
     this.location.back();
   }
 
-  // FIXME Move to service / component
+  /**
+   * Loads available Leaders to assign the project to
+   */
+   // FIXME Move to service / component
   requestLeadersToSelectFrom() {
     // this.userService.isAdmin()
     this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
@@ -144,25 +151,25 @@ export class ProjectEditComponent implements OnInit {
   /**
    * Assigns project to another leader
    */
-  // FIXME CHECK how to reuse projects Re-assign from leaderService.deleteLeader method
-  // FIXME Move it to Service
+  // FIXME Check reusing projects Re-assign from leaderService.deleteLeader method
+  // FIXME Move it to service
   moveProjectToOtherLeader(event) {
     const newLeader = new LeaderModel();
     newLeader.parseData(event.value);
     console.log(`> Move Project to: `, newLeader.email);
 
-    // Update project
+    // Update Project:
     this.project.managerId = newLeader._id;
     this.project.managerName = newLeader.name + ' ' + newLeader.surName;
     this.project.managerEmail = newLeader.email;
     this.saveProject();
 
-    // Add project to new leader:
+    // Add project to new Leader:
     if ( newLeader.projects.indexOf(this.project._id) === -1 ) {
       newLeader.projects.push(this.project._id);
       this.leaderService.updateLeader(newLeader).subscribe();
     }
-    // Remove project from current leader:
+    // Remove project from current Leader:
     this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
     this.leaderService.updateLeader(this.currentLeader).subscribe();
   }

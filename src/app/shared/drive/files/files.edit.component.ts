@@ -1,4 +1,4 @@
-/// <reference path="../../../../../node_modules/@types/gapi/index.d.ts"/>
+// SOME /  <re ference path =" .. /../../../../node _modules/@ty pes/gapi/index.d.ts"/>
 /// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
 /// <reference path="./google-drive-api.d.ts"/>
 
