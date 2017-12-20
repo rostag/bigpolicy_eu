@@ -16,8 +16,6 @@ declare var window: any;
 @Injectable()
 export class UserService {
 
-  isDarkTheme = false;
-
   // Store profile object in auth class
   userProfile: any = {
     name: '',
@@ -139,10 +137,6 @@ export class UserService {
         this.getEmail() === 'prokopenko.serhii@gmail.com' ||
         this.getEmail() === 'vlodkozak@gmail.com'
     ));
-  }
-
-  public toggleDarkTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
   }
 
   // FIXME_TEST In the first place

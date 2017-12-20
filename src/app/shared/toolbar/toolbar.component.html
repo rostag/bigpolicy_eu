@@ -37,7 +37,6 @@
 <!-- Initially invisible drop-down menu -->
 <md-menu x-position="before" #menu="mdMenu">
   <button md-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()" >Вийти</button>
-  <button md-menu-item (click)="userService.toggleDarkTheme()" color="primary">Змінити тему</button>
 </md-menu>
 
 <app-working-progress></app-working-progress>
