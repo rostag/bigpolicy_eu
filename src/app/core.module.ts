@@ -34,11 +34,13 @@ import { LeaderListComponent } from './leader/list/index';
 import { LeaderViewComponent } from './leader/view/index';
 
 import { ProfileComponent } from './shared/user/profile.component';
+import { AdminComponent } from './shared/admin/admin.component';
 import { AboutComponent } from './about/index';
 import { LandingComponent } from './landing/index';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
@@ -83,6 +85,7 @@ export const firebaseConfig = {
     MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
@@ -105,6 +108,7 @@ export const firebaseConfig = {
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
+    AdminComponent,
     AboutComponent,
     LandingComponent,
     SharerComponent,
@@ -142,6 +146,7 @@ export const firebaseConfig = {
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
+    AdminComponent,
     AboutComponent,
     LandingComponent,
     SharerComponent,

@@ -3,7 +3,7 @@
 
   <div fxFlex="88" fxFlexOffset="2">
     <h2>
-      <span *ngIf="showProjectLink"><a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | </span>
+      <span *ngIf="showProjectLink=='show'"><a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | </span>
       <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
     </h2>
     <div>{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}</div>

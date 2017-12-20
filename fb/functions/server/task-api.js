@@ -1,14 +1,14 @@
-module.exports = function(app, DB, DBProject){
+module.exports = function(app, router, DB, DBProject){
 
-  var express = require('express');
-  var router = express.Router();
+  // FB_MIGRATION var express = require('express');
+  // FB_MIGRATION var router = express.Router();
 
   // Routes order is important
 
   /**
    * Creates new Task
    */
-  router.post('/', function (req, res) {
+  router.post('/task-api', function (req, res) {
       DB.createTask(req.body)
       .catch(function (err) {
           res.send(err);
@@ -21,7 +21,7 @@ module.exports = function(app, DB, DBProject){
   /**
    * Updates multiple Tasks by ID using data provided
    */
-  .put('/bulk-update', function(req, res) {
+  .put('/task-api/bulk-update', function(req, res) {
     const r = req.body;
     console.log('> task-api.put/bulk-update', r.ids, r.data);
     DB.bulkUpdateTasks(r.ids, r.data)
@@ -37,7 +37,7 @@ module.exports = function(app, DB, DBProject){
   /**
    * Deletes multiple Tasks by IDs
    */
-  .put('/bulk-delete', function(req, res) {
+  .put('/task-api/bulk-delete', function(req, res) {
     console.log('task-api.put/bulk-delete', req.body.ids);
     DB.bulkDeleteTasks(req.body.ids)
       .then(function (data) {
@@ -52,7 +52,7 @@ module.exports = function(app, DB, DBProject){
   /**
    * Updates Task by ID
    */
-  .put('/:id', function(req, res) {
+  .put('/task-api/:id', function(req, res) {
       DB.updateTask(req.params.id,req.body)
       .then(function (data) {
           res.json(data);
@@ -65,7 +65,7 @@ module.exports = function(app, DB, DBProject){
   /**
    * Deletes Task by ID
    */
-  .delete('/:id', function (req, res) {
+  .delete('/task-api/:id', function (req, res) {
       DB.deleteTask(req.params.id)
       .then(function (data) {
           res.json(data);
@@ -73,10 +73,17 @@ module.exports = function(app, DB, DBProject){
   })
 
   /**
+   * Sends a Pong in response to a Ping. For plain api testing
+   */
+  .get('/task-api/ping', function (req, res) {
+    res.json({ ping: 'pong: task' });
+  })
+  
+  /**
    * Gets the Task by ID, example:
    * /task-api/57a64e2b3a5bfb3b48e6fd1b
    */
-  .get('/:id', function (req, res) {
+  .get('/task-api/:id', function (req, res) {
       if (req.params.id) {
           DB.getTask(req.params.id)
           .then(function (data) {
@@ -89,7 +96,7 @@ module.exports = function(app, DB, DBProject){
    * Gets page of tasks for the given project, example:
    * /task-api/project/projectId/page/1/1/q/:dbQuery
    */
-  .get('/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
+  .get('/task-api/project/:projectId/page/:page/:limit/q/:dbQuery', function (req, res) {
     var p = req.params;
     DBProject.getProject( p.projectId )
       .then((project) => {
@@ -104,7 +111,7 @@ module.exports = function(app, DB, DBProject){
    * Gets page of tasks, example:
    * /task-api/page/1/1/q/:dbQuery
    */
-  .get('/page/:page/:limit/q/:dbQuery', function (req, res) {
+  .get('/task-api/page/:page/:limit/q/:dbQuery', function (req, res) {
     var p = req.params;
     // console.log('task-api/get page #', p.page, ', limit =', p.limit);
     DB.getPageOfTasks(null, p.page, p.limit, decodeURIComponent(p.dbQuery))
@@ -116,6 +123,6 @@ module.exports = function(app, DB, DBProject){
       });
   })
 
-  app.use('/task-api', router);
+  // FB_MIGRATION app.use('/task-api', router);
 
 }

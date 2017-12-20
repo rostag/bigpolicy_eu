@@ -17,7 +17,7 @@ export class ProjectService {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private projectApiUrl = '/project-api/';
+  private projectApiUrl = '/api/project-api/';
 
   static cacheProject(project) {
     this._cachedProjects[project._id] = project;
@@ -64,17 +64,17 @@ export class ProjectService {
 
     let requestUrl;
 
-    // Project by ID :: project-api/:projectId
+    // Project by ID :: api/project-api/:projectId
     if (projectId) {
       requestUrl = this.projectApiUrl + projectId;
     }
 
-    // Page of Projects :: project-api/page/:page/:limit/q/:dbQuery
+    // Page of Projects :: api/project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // Page of Projects for Leader :: project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
+    // Page of Projects for Leader :: api/project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
       requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
@@ -151,14 +151,14 @@ export class ProjectService {
               this.taskService.bulkDeleteTasks(model.tasks)
               .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
             } else {
-              // Reassign tasks to another Project (placeholder)
-              // FIXME - Retrieve real Placeholder project
-              const newProject = new ProjectModel();
-              newProject._id = 'NE_NA_CHASI';
-              const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
-              tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
+              // NE NA CHASI: reassign tasks to placeholder Project
+              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
+              this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }' )
+                .subscribe((res) => {
+                  // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
+                  this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
+                });
             }
-            this.finalizeProjectDeletion(model, navigateToList);
           });
         } // If Task reassignment was needed
       }

@@ -20,7 +20,7 @@ export class LeaderService {
 
   leader: LeaderModel;
 
-  private leaderApiUrl = '/leader-api/';
+  private leaderApiUrl = '/api/leader-api/';
   private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
 
   leaderStream = this.leaderSource.asObservable();
@@ -84,21 +84,21 @@ export class LeaderService {
     let requestUrl;
 
     // Leader by ID
-    // leader-api/:leaderId
+    // /api/leader-api/:leaderId
     if (leaderId) {
       requestUrl = this.leaderApiUrl + leaderId;
     }
 
     // Page of Leaders
-    // leader-api/page/:page/:limit/q/:dbQuery
+    // /api/leader-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-    // OBSOLETE: All Leaders for Group:         /leader-api/group/:groupId/
+    // OBSOLETE: All Leaders for Group:         /api/leader-api/group/:groupId/
     // if (groupId) {
     //   requestUrl = this.apiUrl + 'group/' + groupId;
     // }
-    // RESERVED: Page of leaders for Group:     /leader-api/group/:groupId/page/:page/:limit
+    // RESERVED: Page of leaders for Group:     /api/leader-api/group/:groupId/page/:page/:limit
     // if (page !== null && limit !== null && groupId !== null) {
     //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
     // }
@@ -131,6 +131,8 @@ export class LeaderService {
     //   leader = Observable.from({leader});
     // } else {
     // }
+
+    console.log('LeaderService:RequestLeaderByEmail:', email);
 
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
     leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));

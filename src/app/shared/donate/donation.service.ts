@@ -13,7 +13,7 @@ import { DonationModel } from './donation.model';
 @Injectable()
 export class DonationService {
 
-  private apiUrl = '/donation-api/';
+  private apiUrl = '/api/donation-api/';
 
   /**
    * Creates a new DonationService with the injected Http.
@@ -42,7 +42,7 @@ export class DonationService {
     // FIXME Implement interface for three types of targets
     let requestUrl;
 
-    // Page of Donations for Target:     /donation-api/target/:targetType/:targetId/page/:page/:limit
+    // Page of Donations for Target:     /api/donation-api/target/:targetType/:targetId/page/:page/:limit
     if (targetId !== null && targetType !== null && page !== null && limit !== null) {
       requestUrl =
         this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);

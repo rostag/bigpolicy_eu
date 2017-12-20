@@ -11,7 +11,7 @@ import { ProjectModel } from '../project/project.model';
 @Injectable()
 export class ShareService {
 
-  private mailApiUrl = '/mail-api/';
+  private mailApiUrl = '/api/mail-api/';
 
   /**
    * Contains the pending request.

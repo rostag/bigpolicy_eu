@@ -12,10 +12,6 @@ import { environment } from '../../../environments/environment';
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
-// declare var Auth0Lock: any;
-
-// declare var require: any;
-// const Auth0Lock = require('auth0-lock').default;
 
 @Injectable()
 export class UserService {
@@ -29,9 +25,9 @@ export class UserService {
   };
 
   // Configure Auth0
-  // FIXME Redirect user to special place, not just landing
   // 1. Redirect to Leader creation if user was in the process of creation
   // 2. E.T.C.
+  // FIXME Redirect user to target page, not just Home
   options = {
       auth: {
           redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
@@ -55,6 +51,8 @@ export class UserService {
     console.log('environment:', environment );
     // Set userProfile attribute of already saved profile
     if (this.authenticated()) {
+      console.log('UserService: Authenticated.');
+      // this.showStatus();
       this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
       this.leaderService.requestLeaderByEmail(this.getEmail());
     }
@@ -79,16 +77,13 @@ export class UserService {
 
         this.leaderService.requestLeaderByEmail(this.getEmail())
           .subscribe( leaderResponse => {
+            console.log('UserService: gotLeaderByEmail:', leaderResponse);
             this.showStatus();
             this.tryToContinueLeaderRegistration();
           }
         );
       });
     });
-
-    if (this.authenticated) {
-      this.showStatus();
-    }
   };
 
   public showStatus() {
@@ -97,9 +92,9 @@ export class UserService {
       `\nAuthenticated: ` + this.authenticated() +
       `\nHas Leader: ` +  this.hasLeader() +
       `\nIs Admin: ` +  this.isAdmin() +
-      `\nLeader: ` + this.leaderService.leader +
       `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
     console.log('User status: ' + status);
+    console.log('Leader:', this.leaderService.leader);
   }
 
   /**
@@ -123,11 +118,11 @@ export class UserService {
 
   /**
    * Returns true if user is logged in.
+   * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
    */
   public authenticated() {
-    // Check if there's an unexpired JWT
-    // This searches for an item in local storage with key == 'id_token'
-    return tokenNotExpired();
+    // FIXME Move to using ngrx/store
+    return tokenNotExpired('id_token');
   };
 
   /**
@@ -137,6 +132,7 @@ export class UserService {
   public isAdmin() {
     // FIXME_SEC
     // const isDevMode = environment.production === false;
+    // FIXME Move this setting to enviromnent ngrx
     const isDevMode = false;
     return isDevMode || (this.authenticated() && (
         this.getEmail() === 'rostyslav.siryk@gmail.com' ||
@@ -165,7 +161,6 @@ export class UserService {
 
   /**
    * Call the Auth0 show method to display the login widget.
-   * TODO Extend
    */
   public login() {
     // FIXME_SEC
@@ -183,9 +178,7 @@ export class UserService {
     this.userProfile = undefined;
   };
 
-  // ....
   // FTUX
-  // ....
 
   /**
   * Lazy Leader Registration.
@@ -209,8 +202,10 @@ export class UserService {
     }
     return false;
   }
-  //  this.saveToLocalStorage(this.leader);
 
+  /**
+   * FTUX finalizing Leader registration if needed, or just greeting the already registered one
+   */
   private tryToContinueLeaderRegistration() {
     const localLeader = localStorage.getItem('BigPolicyLeaderRegistration');
     if (this.authenticated() && !this.hasLeader() && !!localLeader) {

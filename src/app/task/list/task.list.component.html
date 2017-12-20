@@ -21,7 +21,7 @@
   </app-bp-task-edit>
 
   <div *ngIf="!isAddingTaskMode">
-     <app-task-view [task]="task" [compactView]="compactTasksView" dataprovided="true"
+     <app-task-view [task]="task" [compactView]="compactTasksView" dataprovided="true" [showProjectLink]="showProjectLink"
       *ngFor="let task of itemsPage.docs | async | paginate: {
                                                                id: 'taskItemsPage',
                                                                itemsPerPage: this.pageSize,
