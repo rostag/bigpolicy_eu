@@ -57,7 +57,7 @@ export class UserService {
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
-      // Auth0 data
+      // Auth data
       localStorage.setItem('id_token', authResult.idToken);
 
       // console.log('Authenticated, lock.showSignin =', this.lock.showSignin);
