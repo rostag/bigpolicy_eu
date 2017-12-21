@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import { TaskModel } from './task.model';
+import { environment } from '../../../environments/environment';
 
 
 /**
@@ -12,7 +13,7 @@ import { TaskModel } from './task.model';
 @Injectable()
 export class TaskService {
 
-  private apiUrl = '/api/task-api/';
+  private apiUrl = environment.api_url + '/api/task-api/';
 
   /**
    * Creates a new TaskService with the injected Http

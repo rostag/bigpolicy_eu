@@ -93,3 +93,17 @@ https://stackoverflow.com/questions/29223835/mongodb-vs-firebase
 
 Google Cloud: 
 https://cloud.google.com/nodejs/getting-started/deploy-mongodb
+
+
+Update: CORS
+
+    Helped:
+    https://jonathanmh.com/how-to-enable-cors-in-express-js-node-js/
+
+    https://codeburst.io/express-js-on-cloud-functions-for-firebase-86ed26f9144c
+
+    https://mhaligowski.github.io/blog/2017/03/10/cors-in-cloud-functions.html
+
+    https://firebase.google.com/docs/functions/http-events
+
+    

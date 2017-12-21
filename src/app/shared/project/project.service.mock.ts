@@ -5,6 +5,7 @@ import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 import { ProjectModel } from './project.model';
 
@@ -17,7 +18,7 @@ export class ProjectServiceMock {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private projectApiUrl = '/api/project-api/';
+  private projectApiUrl = environment.api_url + '/api/project-api/';
 
   private responsePageMock = {
     'docs': [
