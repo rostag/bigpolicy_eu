@@ -1,0 +1,17 @@
+Local Dev with FB:
+
+cd bp/fb
+
+firebase serve --only functions --port=4200
+
+cd bp/data
+
+mongod --dbpath=db
+
+cd bp
+
+npm run ng-serve
+
+
+
+
