@@ -6,9 +6,6 @@ import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../dialog/dialog.service';
 import { environment } from '../../../environments/environment';
 
-// No Figure brackets please - see
-// https://github.com/auth0/lock/issues/521#issuecomment-238583539
-
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
@@ -60,15 +57,9 @@ export class UserService {
       // Auth data
       localStorage.setItem('id_token', authResult.idToken);
 
-      // console.log('Authenticated, lock.showSignin =', this.lock.showSignin);
+      console.log('Authenticated, authResult =', authResult);
 
-      // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error, profile) => {
-        if (error) {
-          // Handle error
-          console.log(error);
-          return;
-        }
+      const profile = authResult.idTokenPayload;
 
         localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
         this.userProfile = profile;
@@ -81,7 +72,6 @@ export class UserService {
           }
         );
       });
-    });
   };
 
   public showStatus() {
