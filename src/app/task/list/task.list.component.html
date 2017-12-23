@@ -20,18 +20,23 @@
     (onCancelEdit)="onCancelTaskEdit($event)">
   </app-bp-task-edit>
 
-  <div *ngIf="!isAddingTaskMode">
-     <app-task-view [task]="task" [compactView]="compactTasksView" dataprovided="true" [showProjectLink]="showProjectLink"
-      *ngFor="let task of itemsPage.docs | async | paginate: {
-                                                               id: 'taskItemsPage',
-                                                               itemsPerPage: this.pageSize,
-                                                               currentPage: itemsPage.page,
-                                                               totalItems: itemsPage.total
-                                                             }">
-
-
-    </app-task-view>
-  </div>
+  <ol *ngIf="!isAddingTaskMode" class="task-list">
+    <li *ngFor="let task of itemsPage.docs | async | paginate: {
+        id: 'taskItemsPage',
+        itemsPerPage: this.pageSize,
+        currentPage: itemsPage.page,
+        totalItems: itemsPage.total
+      }">
+      <app-task-view 
+        [task]="task"
+        [compactView]="compactTasksView"
+        [showProjectLink]="showProjectLink"
+        class="task-list-item"
+        dataprovided="true"
+        >
+      </app-task-view>
+    </li>
+  </ol>
 
   <!-- <md-list>
      <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
