@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
-import { UserService } from '../../shared/user';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-project-brief',

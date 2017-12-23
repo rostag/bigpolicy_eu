@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
 
@@ -13,7 +14,7 @@ import { DonationModel } from './donation.model';
 @Injectable()
 export class DonationService {
 
-  private apiUrl = '/api/donation-api/';
+  private apiUrl = environment.api_url + '/api/donation-api/';
 
   /**
    * Creates a new DonationService with the injected Http.

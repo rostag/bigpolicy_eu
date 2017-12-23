@@ -75,6 +75,18 @@ Visit [localhost:4200](http://localhost:4200/) -- this is your local BigPolicy a
 
 After you edited and saved a file, the project is being rebuilt automatically. But you need to manually refresh the page in browser to see the changes (we'll fix it later)
 
+## Update: to debug FBase locally: 
+
+```npm install --save firebase-functions@latest firebase-admin```
+```npm install -g firebase-tools```
+
+To run functions locally, use firebase serve:
+
+```firebase serve --only functions,hosting # to emulate both functions and hosting```
+
+(as per https://firebase.google.com/docs/functions/local-emulator)
+
+
 ## More on Angular CLI Development
 
 ### Code scaffolding

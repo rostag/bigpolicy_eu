@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { ProjectService } from '../../shared/project/project.service';
+import { environment } from '../../../environments/environment';
 
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
@@ -20,7 +21,7 @@ export class LeaderService {
 
   leader: LeaderModel;
 
-  private leaderApiUrl = '/api/leader-api/';
+  private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
 
   leaderStream = this.leaderSource.asObservable();
