@@ -162,7 +162,7 @@ export class FilesEditComponent implements AfterViewInit {
     }
   }
 
-  handleUploadFileClick(event) {
+  handleUploadFileClick() {
     this.initUpload();
     return false;
   }

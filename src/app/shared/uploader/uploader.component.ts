@@ -181,7 +181,7 @@ export class UploaderComponent implements OnChanges {
       this.fileToUpload = evt.target.files[0];
       this.fileToUploadName = filename;
       if (this.uploadImmediately) {
-        this.handleUploadFileClick();
+        this.handleUploadFileClick(this);
         this.uploadImmediately = false;
       }
     }
@@ -193,8 +193,8 @@ export class UploaderComponent implements OnChanges {
     return false;
   }
 
-  handleUploadFileClick(event = null) {
-    this.initUpload();
+  handleUploadFileClick(host) {
+    host.initUpload();
     return false;
   }
 
