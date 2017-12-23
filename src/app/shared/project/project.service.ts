@@ -4,6 +4,7 @@ import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 import { ProjectModel } from './project.model';
@@ -17,7 +18,7 @@ export class ProjectService {
   // TODO Implement caching
   static _cachedProjects = [];
 
-  private projectApiUrl = '/api/project-api/';
+  private projectApiUrl = environment.api_url + '/api/project-api/';
 
   static cacheProject(project) {
     this._cachedProjects[project._id] = project;

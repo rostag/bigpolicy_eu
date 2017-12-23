@@ -1,6 +1,6 @@
 import { Component, Output, OnInit } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
-import { DonateComponent } from '../../shared/donate/index';
+import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 

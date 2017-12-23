@@ -1,6 +1,7 @@
 import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
-import { DonationModel, DonationService } from './index';
+import { DonationModel } from './donation.model';
+import { DonationService } from './donation.service';
 import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 

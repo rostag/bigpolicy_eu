@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import { ProjectModel } from '../project/project.model';
+import { environment } from '../../../environments/environment';
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.
@@ -11,7 +12,7 @@ import { ProjectModel } from '../project/project.model';
 @Injectable()
 export class ShareService {
 
-  private mailApiUrl = '/api/mail-api/';
+  private mailApiUrl = environment.api_url + '/api/mail-api/';
 
   /**
    * Contains the pending request.

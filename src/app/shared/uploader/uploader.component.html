@@ -47,7 +47,7 @@
 
 </form>
 
-<div *ngIf="listFilesOnStart || true">
+<div *ngIf="listFilesOnStart">
 
   <div *ngFor="let img of imageList | async" style="position:relative;width:100px;height:100px;float:left;display:flex;justify-content:center;align-items:center;">
     <img [src]="img.downloadURL | async" style="max-width:100px; max-height:100px;">
