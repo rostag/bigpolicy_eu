@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LeaderService } from './shared/leader';
 import { ProjectService } from './shared/project';
-import { UserService } from './shared/user';
+import { UserService } from './shared/user/user.service';
 import { TaskService } from './shared/task';
 import { DriveService } from './shared/drive';
 import { DialogComponent } from './shared/dialog/dialog.component';

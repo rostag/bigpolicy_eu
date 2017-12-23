@@ -1,7 +1,7 @@
 import { OnInit, Component } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { LeaderService, LeaderModel } from '../../shared/leader';
-import { UserService } from '../../shared/user';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-bp-landing',

@@ -2,7 +2,7 @@ import { OnInit, Component } from '@angular/core';
 import { LeaderService, LeaderModel, ILeader } from '../../shared/leader';
 import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
-import { UserService } from '../../shared/user';
+import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 

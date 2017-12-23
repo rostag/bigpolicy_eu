@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
-import { UserService } from '../../shared/user';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-leader-brief',
