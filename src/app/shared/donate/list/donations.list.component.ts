@@ -1,7 +1,8 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { DonationModel, DonationService } from '../index';
+import { DonationModel } from '../donation.model';
+import { DonationService } from '../donation.service';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
