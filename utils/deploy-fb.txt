@@ -6,6 +6,12 @@ rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
 cd fb
 firebase deploy
 
+## Single command:
+
+cd /Users/rosty/dev/BP/bp/ && npm run build-prod && rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public && cd fb && firebase deploy
+
+=====================
+
 
 "Technology recommendations are off-topic on Stack Overflow. 
 I've used Cloud Functions (on a paid plan, the cost is quite minimal), App Engine Flex, and Zeit in the past. But there are probably dozens more, many of them with their own advantages"
