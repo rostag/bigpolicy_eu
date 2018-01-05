@@ -82,7 +82,7 @@ After you edited and saved a file, the project is being rebuilt automatically. B
 
 To run functions locally, use firebase serve:
 
-```firebase serve --only functions,hosting # to emulate both functions and hosting```
+```firebase serve --only functions,hosting --port 4200 # to emulate both functions and hosting ```
 
 (as per https://firebase.google.com/docs/functions/local-emulator)
 
