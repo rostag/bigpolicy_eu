@@ -13,5 +13,7 @@ cd bp
 npm run ng-serve
 
 
+Chrome for localhost CORS:
 
+open /Applications/Google\ Chrome.app --args --disable-web-security --user-data-dir
 
