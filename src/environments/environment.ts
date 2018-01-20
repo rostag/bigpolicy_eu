@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://localhost:4200/bigpolicy-qa/us-central1/appExpress'
+  api_url: 'http://localhost:4200'
 };

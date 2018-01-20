@@ -1,6 +1,5 @@
 module.exports = function(app, router){
 
-  var pingApi = require('./ping-api');
   var taskApi = require('./task-api');
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
@@ -17,19 +16,22 @@ module.exports = function(app, router){
   app.use(bodyParser.urlencoded({'extended':'true'})); // parse application/x-www-form-urlencoded
   app.use(bodyParser.json());                          // parse application/json
 
-  pingApi(app, router);
+  // FIXME_SEC
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
   leaderApi(app, router, DBLeader);
   projectApi(app, router, DBProject, DBLeader);
   taskApi(app, router, DBTask, DBProject);
   mailApi(app, router, DB);
   liqpayApi(app, router, DBDonation, DBLeader, DBProject, DBTask);
 
-  // Send spa file if unmatched and then register it at the very end of the chain
-  // app.use(function (req,res) {
-  //   res.sendFile('/dist/index.html', { root: '.' });
-  // });
+  app.use('/api', router);
 
-  // console.log('  • Middleware connected.');
+  console.log('  • Middleware connected.');
 
   return DB;
 }
