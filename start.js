@@ -1,10 +1,11 @@
 var http = require('http');
 var express = require('express');
 var app = express();
+var router = express.Router();
 var server = http.createServer(app);
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8021;
-var hostname = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var middleware = require('./server/');
+var port = 4200;
+var hostname = '127.0.0.1';
+var middleware = require('./fb/functions/server/');
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
@@ -23,7 +24,7 @@ if (hostname === '127.0.0.1') {
 
 app.use(express.static(__dirname + '/dist'));
 
-middleware(app);
+middleware(app, router);
 
 server.listen(port,hostname);
 
