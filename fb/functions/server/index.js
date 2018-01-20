@@ -1,5 +1,6 @@
 module.exports = function(app, router){
 
+  var pingApi = require('./ping-api');
   var taskApi = require('./task-api');
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
@@ -23,6 +24,7 @@ module.exports = function(app, router){
     next();
   });
 
+  pingApi(app, router);
   leaderApi(app, router, DBLeader);
   projectApi(app, router, DBProject, DBLeader);
   taskApi(app, router, DBTask, DBProject);
