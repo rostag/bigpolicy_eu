@@ -5,6 +5,7 @@
 .app-content {
   box-sizing: border-box;
   padding: 2rem;
+  min-height: 70vh;
 }
 
 footer {
@@ -13,10 +14,4 @@ footer {
   font-size: .75rem;
   padding: 1em;
   text-align: center;
-  bottom: 0;
-  left: 0;
-  height: 15%;
-  right: 0;
-  position: fixed;
-  max-height: 105px;
 }
