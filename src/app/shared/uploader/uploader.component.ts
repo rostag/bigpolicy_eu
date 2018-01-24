@@ -14,7 +14,7 @@ interface Image {
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.css']
+  styleUrls: ['./uploader.component.scss']
 })
 
 /**

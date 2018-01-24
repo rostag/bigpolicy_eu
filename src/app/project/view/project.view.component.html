@@ -3,7 +3,7 @@
   <md-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="project-title">
-        <small>Проект</small>
+        <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
         <h1>{{project.title}}</h1>
       </div>
 
@@ -63,8 +63,6 @@
             [value]="project.totalDonationsReceived / project.cost * 100"
             [bufferValue]="2">
         </md-progress-bar>
-
-        <h4>Менеджер: <a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></h4>
 
         <h4>Початок: {{project.dateStarted | date}}
           <br/>Кінець: {{project.dateEnded | date}}
