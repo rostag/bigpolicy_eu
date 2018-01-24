@@ -1,12 +1,12 @@
-<div class="mat-typography">
+<div class="mat-typography app" fxLayout="column" fxLayoutAlign="space-between stretch" >
 
-  <app-bp-toolbar></app-bp-toolbar>
+  <app-bp-toolbar fxFlex></app-bp-toolbar>
 
-  <div class="app-content">
+  <div class="app-content" fxFlex="1">
     <router-outlet></router-outlet>
   </div>
 
-  <footer>
+  <footer fxFlex>
 
     <p>
       BigPolicy &amp; Creative Commons 2017 v.{{version}}
