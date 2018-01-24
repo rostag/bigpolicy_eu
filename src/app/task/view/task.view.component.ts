@@ -1,4 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -12,7 +15,7 @@ import { ProjectService } from '../../shared/project/project.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskViewComponent implements OnInit {
+export class TaskViewComponent implements OnInit, OnChanges {
 
   @Input() task: TaskModel = new TaskModel();
 
@@ -36,7 +39,12 @@ export class TaskViewComponent implements OnInit {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private ref: ChangeDetectorRef
-  ) {}
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+  }
 
   /**
    * Initialization Event Handler, used to parse route params
