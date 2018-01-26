@@ -1,12 +1,14 @@
 import {
   Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges,
-  SimpleChanges
+  SimpleChanges, EventEmitter, Output
 } from '@angular/core';
-import { TaskModel, TaskService } from '../../shared/task/index';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../shared/user/user.service';
+import {TaskModel, TaskService} from '../../shared/task/index';
+import {Router, ActivatedRoute} from '@angular/router';
+import {UserService} from '../../shared/user/user.service';
 // FIXME MOVE TO TASK SERVICE
-import { ProjectService } from '../../shared/project/project.service';
+import {ProjectService} from '../../shared/project/project.service';
+import {DialogService} from "../../shared/dialog/dialog.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-task-view',
@@ -32,14 +34,14 @@ export class TaskViewComponent implements OnInit, OnChanges {
   /**
    * Dependency Injection: route (for reading params later)
    */
-  constructor(
-    public userService: UserService,
-    public projectService: ProjectService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private taskService: TaskService,
-    private ref: ChangeDetectorRef
-  ) {
+  constructor(public userService: UserService,
+              public projectService: ProjectService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private taskService: TaskService,
+              private ref: ChangeDetectorRef,
+              private location: Location,
+              private dialogService: DialogService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,19 +59,19 @@ export class TaskViewComponent implements OnInit, OnChanges {
       this.retrieveProject();
     } else {
       this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('View Task by ID from route params:', id);
-        if (id) {
-          this.taskService.getTask(id)
-          .subscribe( data => {
-            this.task = data;
-            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
-            console.log('tpId =', this.task.projectId, data);
-            this.retrieveProject();
-          });
-        }
-      });
+        .map(params => params['id'])
+        .subscribe((id) => {
+          console.log('View Task by ID from route params:', id);
+          if (id) {
+            this.taskService.getTask(id)
+              .subscribe(data => {
+                this.task = data;
+                this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+                console.log('tpId =', this.task.projectId, data);
+                this.retrieveProject();
+              });
+          }
+        });
     }
   }
 
@@ -77,11 +79,11 @@ export class TaskViewComponent implements OnInit, OnChanges {
     if (this.task.projectId) {
       // FIXME MOVE TO TASK SERVICE
       this.projectService.getProject(this.task.projectId)
-      .subscribe( project => {
-        this.projectTitle = project.title;
-        // console.log('a title:', this.projectTitle);
-        this.ref.markForCheck();
-      });
+        .subscribe(project => {
+          this.projectTitle = project.title;
+          // console.log('a title:', this.projectTitle);
+          this.ref.markForCheck();
+        });
     }
   }
 
@@ -91,10 +93,15 @@ export class TaskViewComponent implements OnInit, OnChanges {
    */
   deleteTask(task: TaskModel) {
     // Delete from DB
-    this.taskService.deleteTask(task);
-
-    this.router.navigate(['/project/' + task.projectId]);
-
+    this.dialogService
+      .confirm('Видалення', 'Видалити активують ?')
+      .subscribe(response => {
+        if (response) {
+          this.taskService.deleteTask(task);
+          this.router.navigate([`profile`]);
+        }
+      });
+    console.log('route to...');
     return false;
   }
 }

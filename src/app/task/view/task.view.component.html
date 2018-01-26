@@ -1,7 +1,7 @@
 <!-- COMPACT VIEW - for lists etc -->
-<div [routerLink]="['/task/' + task._id]" *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
+<div *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
 
-  <div fxFlex="88" fxFlexOffset="2">
+  <div fxFlex="88" fxFlexOffset="2" [routerLink]="['/task/' + task._id]">
     <h2>
       <span *ngIf="showProjectLink=='show'"><a [routerLink]="['/project/' + task.projectId]"><small>{{projectTitle}}</small></a> | </span>
       <a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a>
@@ -12,7 +12,7 @@
 
   <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
     <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon color="primary">edit</md-icon></a>
-    <a href (click)="deleteTask(task)"><md-icon color="primary">delete</md-icon></a>
+    <a href (click)="deleteTask(task)" title="remove"><md-icon color="primary">delete</md-icon></a>
   </div>
 
 </div>
