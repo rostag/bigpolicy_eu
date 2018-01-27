@@ -47,7 +47,7 @@ options: {
 
 journal dir=/var/lib/openshift/576483190c1e66b5cd00001b/mongodb/data/journal
 recover : no journal files present, no recovery needed
-waiting for connections on port 27017
+waiting for connections on port 27027
 
 [conn1]  authenticate db: admin { authenticate: 1, nonce: "f38b3b271d8064a9", user: "admin"
 [conn2]  authenticate db: qa { authenticate: 1, user: "admin"
