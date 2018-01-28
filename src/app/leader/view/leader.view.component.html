@@ -100,12 +100,8 @@
 
   <md-card-actions>
     <p class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <a [routerLink]="['/leader/' + leader._id + '/edit']">
-        <button md-raised-button color="accent">Редагувати</button>
-      </a>
-      <a href (click)="deleteLeader(leader)">
-        <button md-raised-button color="warn">Видалити</button>
-      </a>
+      <button [routerLink]="['/leader/' + leader._id + '/edit']" md-raised-button color="accent">Редагувати</button>
+      <button (click)="deleteLeader(leader)" md-raised-button color="warn">Видалити</button>
     </p>
   </md-card-actions>
 </md-card>
