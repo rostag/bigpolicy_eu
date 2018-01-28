@@ -12,8 +12,8 @@
   </span>
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/add-leader']" *ngIf="showCreateLeaderButton" color="primary">Стати лідером</button>
-    <button md-button [routerLink]="['/add-project']" *ngIf="showCreateProjectButton" color="primary">Створити проект</button>
+    <button md-button [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton" color="primary">Стати лідером</button>
+    <ng-template #addProjectButton><button md-button [routerLink]="['/add-project']" color="primary">Створити проект</button></ng-template>
   </span>
 
   <!-- FIXME Override User Profile Name with Leader Name ? -->

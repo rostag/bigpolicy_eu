@@ -34,12 +34,13 @@ export class ProjectListComponent implements OnChanges {
 
   @Input() flexSettings = '33|30|30|50|100';
 
+  // 40 320px 320px
   flexState = {
-    flex: '33',
-    lg: '30',
-    md: '30',
-    sm: '50',
-    xs: '100'
+      flex: 20,
+      lg: '50 200px 100%',
+      md: '33 200px 100%',
+      sm: '33 100px 100%',
+      xs: 100
   };
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);

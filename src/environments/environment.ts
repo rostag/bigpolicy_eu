@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   api_url: 'http://localhost:4300',
-  mng_url: 'mongodb://localhost:27017/bigpolicy'
+  mng_url: 'mongodb://localhost:27027/bigpolicy'
 };

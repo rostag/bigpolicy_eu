@@ -2,7 +2,7 @@
 
 <!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
 
-<div fxLayout="row" fxLayoutWrap >
+<div fxLayout="row" fxLayoutWrap fxLayoutGap="1em" >
   <div [fxFlex]="flexState.flex" [fxFlex.lg]="flexState.lg" [fxFlex.md]="flexState.md" [fxFlex.sm]="flexState.sm" [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',

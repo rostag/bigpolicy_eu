@@ -1,99 +1,107 @@
 <md-card>
 
-    <md-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
-      <span *ngIf="userService.isOwner(leader)">
-        [я]
-      </span>
-      <!-- FIXME
+  <md-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
+    <span *ngIf="userService.isOwner(leader)">
+      [я]
+    </span>
+    <!-- FIXME
         <a href><md-icon>thumb_up</md-icon></a>
         <a href><md-icon>share</md-icon></a>
         <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
       -->
-    </md-card-title>
+  </md-card-title>
 
-    <md-card-content>
+  <md-card-content>
 
-      <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
+    <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
 
-      <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-        <div fxFlex="30%" fxFlex.sm="50%" fxFlex.xs="100%">
+    <!-- Leader image/video and Support Button + Projects -->
+    <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
-          <div class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
-            <div *ngIf="leader.photo; then images else videos"></div>
-          </div>
-
-          <ng-template #images>
-            <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-          </ng-template>
-
-          <ng-template #videos>
-            <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
-          </ng-template>
-
-          <ng-template #novisual>
-            <div *ngIf="userService.hasEditPermissions(leader)">
-              <h3>Додати відео чи зображення?</h3>
-              <p>Тут немає ані відео, ані зображення.
-                <a [routerLink] = "['/leader/' + leader._id + '/edit']">
-                  Додати
-                </a>?
-              </p>
-            </div>
-          </ng-template>
-
-
-          <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
+      <!-- Leader image/video fxFlex.sm="50%" fxFlex.xs="100%" -->
+      <div fxFlex="30% 400px 400px">
+        <div class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
+          <div *ngIf="leader.photo; then images else videos"></div>
         </div>
-        <div fxFlex="65%">
-            <md-card-title>
-              Проекти:
-            </md-card-title>
-            <md-card-content>
-              <app-project-list
-                [leaderId]="leader._id"
-                pageSize="12"
-                *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
-              </app-project-list>
-              <ng-template #projects_placeholder>Немає жодного проекту.<span *ngIf="userService.hasEditPermissions(leader)"> – <a [routerLink]="['/add-project']">створити</a>?</span></ng-template>
-            </md-card-content>
+
+        <ng-template #images>
+          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+        </ng-template>
+
+        <ng-template #videos>
+          <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
+        </ng-template>
+
+        <ng-template #novisual>
+          <div *ngIf="userService.hasEditPermissions(leader)">
+            <h3>Додати відео чи зображення?</h3>
+            <p>Тут немає ані відео, ані зображення.
+              <a [routerLink]="['/leader/' + leader._id + '/edit']">
+                Додати
+              </a>?
+            </p>
+          </div>
+        </ng-template>
+        <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
+      </div>
+
+      <!-- Projects -->
+      <div fxFlex>
+        <md-card-title class="projects-title">
+          Проекти:
+        </md-card-title>
+        <md-card-content>
+          <app-project-list [leaderId]="leader._id" pageSize="12" *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
+          </app-project-list>
+          <ng-template #projects_placeholder>Немає жодного проекту.
+            <span *ngIf="userService.hasEditPermissions(leader)"> –
+              <a [routerLink]="['/add-project']">створити</a>?</span>
+          </ng-template>
+        </md-card-content>
+      </div>
+    </div>
+
+    <!-- Video, Mission, Vision -->
+    <div fxLayout="row wrap" fxLayoutGap="5%" fxLayoutAlign="space-between stretch">
+      <div fxFlex>
+        <div class="mission">
+          <h2>Місія:</h2>
+          <p>{{leader.mission}}</p>
+        </div>
+        <div class="vision">
+          <h2>Візія:</h2>
+          <p>{{leader.vision}}</p>
         </div>
       </div>
 
       <!-- Show video only if image was present -->
-      <div *ngIf="leader.photo">
-        <div class="visual-wrapper" *ngIf="leader.videoUrl">
-          <h3>Відео</h3>
-          <app-bp-video [videoUrl]="leader.videoUrl" [title]="leader.name"></app-bp-video>
+      <div *ngIf="leader.photo" fxFlex="45% 320px 480px" fxFlex.sm="100%">
+        <div class="content-video-wrapper" *ngIf="leader.videoUrl">
+          <h2>Відео:</h2>
+          <app-bp-video class="content-video" [videoUrl]="leader.videoUrl" [title]="leader.name"></app-bp-video>
         </div>
         <p>&nbsp;</p>
       </div>
+      
+    </div>
 
-      <div class="mission">
-        <h2>Місія:</h2>
-        <p>{{leader.mission}}</p>
-      </div>
-      <div class="vision">
-        <h2>Візія:</h2>
-        <p>{{leader.vision}}</p>
-      </div>
-
-      <!-- FIXME <h2>Навички та вміння:</h2>
+    <!-- FIXME <h2>Навички та вміння:</h2>
       <p>Аналітик, соціальний підприємець та консультант</p>
       <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
 
-      <app-files-view [files]="leader.leaderFiles"></app-files-view>
+    <app-files-view [files]="leader.leaderFiles"></app-files-view>
 
-      <!-- <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
+    <!-- <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
       <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
 
-    </md-card-content>
+  </md-card-content>
 
   <md-card-actions>
     <p class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-raised-button color="accent">Редагувати</button></a>
-      <a href (click) = "deleteLeader(leader)"><button md-raised-button color="warn">Видалити</button></a>
+      <button [routerLink]="['/leader/' + leader._id + '/edit']" md-raised-button color="accent">Редагувати</button>
+      <button (click)="deleteLeader(leader)" md-raised-button color="warn">Видалити</button>
     </p>
   </md-card-actions>
 </md-card>
