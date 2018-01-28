@@ -21,8 +21,8 @@
   <!-- FIXME Override User Profile Name with Leader Name ? -->
   <!-- WIP -->
   <span fxFlex="23" style="white-space:nowrap;">
-    <button title="Email: {{'User email' || userService.userProfile?.email}}" *ngIf="userService.authenticated()" md-button [routerLink]="['/profile']"
-      color="primary">
+    <button [routerLink]="['/leader/', leaderId]" title="Email: {{'User email' || userService.userProfile?.email}}" *ngIf="userService.authenticated()"
+      md-button color="primary">
       {{userService.userProfile ? userService.userProfile.name : ''}}
     </button>
     <button md-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
@@ -40,6 +40,8 @@
 
 <!-- Initially invisible drop-down menu -->
 <md-menu x-position="before" #menu="mdMenu">
+  <button md-menu-item [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис
+  </button>
   <button md-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
 </md-menu>
 

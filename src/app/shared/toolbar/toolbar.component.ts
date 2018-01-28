@@ -12,11 +12,13 @@ import { LeaderService } from 'app/shared/leader';
 })
 export class ToolbarComponent {
 
+  get leaderId() {
+    return this.leaderService.leader && this.leaderService.leader._id;
+  }
+
   // FIXME USE_NGRX
   // Show if user has got a logged in Leader
   get hasAuthenticatedLeader() {
-    console.log('US:', this.leaderService.leader);
-
     return this.userService.authenticated() && this.userService.hasLeader();
   };
 
