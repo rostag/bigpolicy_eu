@@ -31,9 +31,6 @@
         <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
         </app-project-list>
 
-        <!-- MOVED TO ADMIN: <app-task-list *ngIf="userService.isAdmin()" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
-        </app-task-list> -->
-
       </md-card-content>
       <md-card-actions>
         <span *ngIf="userService.hasEditPermissions(profileLeader)">
