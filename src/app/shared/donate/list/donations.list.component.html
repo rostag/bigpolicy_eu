@@ -27,7 +27,7 @@
                                                                        totalItems: itemsPage.total
                                                                      }">
          <li>
-           <small>{{donation.description.substring(0, 15)}} {{donation.dateStarted | date}}, {{donation.status}}
+           <small>{{donation.description?.substring(0, 15)}} {{donation.dateStarted | date}}, {{donation.status}}
              <span *ngIf="donation.status == 'sandbox'">(){{donation.dateCompleted | date}})</span>
            </small>
            <!-- FIXME Show completeness status {{donation.dateCompleted | date}} -->
