@@ -7,13 +7,26 @@ h2:first-of-type {
 }
 
 .visual-wrapper {
-  height: 320px;
-  margin: 0 1em 1em 0;
   width: 100%;
+  margin-bottom: 2em;
 }
 
 .leader-video {
   width: 100%;
+}
+
+.projects-title {
+  margin-bottom: 0;
+}
+
+.content-video-wrapper {
+  height: calc(100%);
+  min-height: 320px;
+
+  .content-video {
+    height: calc(100% - 3em);
+    min-height: 320px;
+  }
 }
 
 .mission p,
