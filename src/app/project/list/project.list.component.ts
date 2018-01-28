@@ -32,7 +32,7 @@ export class ProjectListComponent implements OnChanges {
   // To let override view context for child briefs:
   @Input() viewContext = 'projectListPage';
 
-  @Input() flexSettings = '20|16|33|50|100';
+  @Input() flexSettings = '33|30|30|50|100';
 
   // 40 320px 320px
   flexState = {
