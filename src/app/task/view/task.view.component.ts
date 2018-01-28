@@ -25,7 +25,7 @@ export class TaskViewComponent implements OnInit, OnChanges {
 
   @Input() projectTitle = '';
 
-  @Input() showProjectLink = false;
+  @Input() showProjectLink = 'dontShow';
 
   hasVisual = false;
 
