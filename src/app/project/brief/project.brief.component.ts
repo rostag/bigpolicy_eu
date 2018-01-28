@@ -18,7 +18,7 @@ export class ProjectBriefComponent implements OnChanges {
   project: ProjectModel = new ProjectModel();
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private projectService: ProjectService,
     private cd: ChangeDetectorRef
   ) {}
