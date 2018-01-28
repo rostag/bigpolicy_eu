@@ -1,3 +1,5 @@
+@import '~@angular/material/core/theming/all-theme';
+
 $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
 $col-fafafa: #fafafa;
@@ -52,6 +54,7 @@ a {
 
   .description {
     margin-bottom: 0;
+    margin-top: 2em;
   }
 
   .date,
@@ -96,25 +99,14 @@ a {
 
   .description {
     display: block;
-    height: 10.3em;
-  }
-
-  .title {
-    height: 2.4em;
-    margin-bottom: -.5em;
-    margin-top: -.5em;
-  }
-
-  .date,
-  .cost,
-  .tasks,
-  .mat-card-image,
-  .md-card-image-clipper {
-    display: none;
-  }
-
-  .card-actions {
-    display: block;
+    position: relative;
+    min-height: 1.4em;
+    top: -5.7em;
+    left: -1em;
+    width: calc(100% + .1em);
+    padding: 1em;
+    background: #fff;
+    @include mat-elevation(2);
   }
 }
 
@@ -146,23 +138,24 @@ a {
   }
 }
 
+
 .list-brief:hover {
-  .md-card-image-clipper {
-    display: none;
-  }
+  // .md-card-image-clipper {
+  //   display: none;
+  // }
 
-  .title {
-    display: block;
-    // margin-top: 0;
+  // .title {
+  //   display: block;
+  //   // margin-top: 0;
 
-  }
+  // }
 
-  .description {
-    display: block;
-    height: 9.3em;
-  }
+  // .description {
+  //   display: block;
+  //   height: 9.3em;
+  // }
 
-  .card-actions {
-    margin-top: 1em;
-  }
+  // .card-actions {
+  //   margin-top: 1em;
+  // }
 }
