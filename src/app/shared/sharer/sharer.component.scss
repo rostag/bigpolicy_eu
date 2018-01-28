@@ -1,3 +1,6 @@
+// @import '~@angular/material/theming';
+@import '~@angular/material/core/theming/all-theme';
+
 $sgray: #777;
 $agray: #bbb;
 $lgray: #eee;
@@ -14,6 +17,8 @@ $cred: #0f0;
   position: absolute;
   right: 1em;
   z-index: 100;
+
+  @include mat-elevation(24);
 }
 
 // For toggling the sharer
