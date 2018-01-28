@@ -11,8 +11,8 @@ export class DialogService {
     public confirm(
       title: string,
       message: string,
-      btnOkText: string = 'Ok',
-      btnCancelText: string = 'Cancel',
+      btnOkText: string = 'Продовжити',
+      btnCancelText: string = 'Відмінити',
       viewContainerRef?: ViewContainerRef): Observable<boolean> {
 
         // Docs: https://material.angular.io/components/component/dialog
