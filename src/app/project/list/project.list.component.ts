@@ -34,11 +34,12 @@ export class ProjectListComponent implements OnChanges {
 
   @Input() flexSettings = '20|16|33|50|100';
 
+  // 40 320px 320px
   flexState = {
       flex: 20,
-      lg: 16,
-      md: 33,
-      sm: 50,
+      lg: '50 200px 100%',
+      md: '33 200px 100%',
+      sm: '33 100px 100%',
       xs: 100
   };
 
