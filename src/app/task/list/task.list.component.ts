@@ -27,7 +27,7 @@ export class TaskListComponent implements OnChanges {
   // An project this task list belongs to
   @Input() project: ProjectModel = new ProjectModel();
 
-  @Input() showProjectLink = false;
+  @Input() showProjectLink = 'dontShow';
 
   // Show tasks collapsed initially, but let user to expand
   compactTasksView = true;
