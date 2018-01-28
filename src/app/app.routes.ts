@@ -9,6 +9,7 @@ import { AboutComponent } from './about';
 import { LandingComponent } from './landing';
 import { HomeComponent } from './home';
 
+import { LeadersComponent } from './leader/landing';
 import { LeaderEditComponent } from './leader/edit';
 import { LeaderListComponent } from './leader/list';
 import { LeaderViewComponent } from './leader/view';
@@ -34,7 +35,7 @@ export const routes: Routes = [
   { path: 'project/:id', component: ProjectViewComponent },
   { path: 'task/:id', component: TaskViewComponent },
 
-  { path: 'leaders', component: LeaderListComponent },
+  { path: 'leaders', component: LeadersComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'tasks', component: TaskListComponent },
   { path: 'add-leader', component: LeaderEditComponent },
