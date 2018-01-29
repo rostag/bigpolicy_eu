@@ -6,7 +6,7 @@ import { AdminComponent } from '././shared/admin/admin.component';
 
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AboutComponent } from './about';
-import { LandingComponent } from './landing';
+// import { LandingComponent } from './landing';
 import { HomeComponent } from './home';
 
 import { LeadersComponent } from './leader/landing';
@@ -48,7 +48,7 @@ export const routes: Routes = [
 
   { path: 'about', component: AboutComponent },
   { path: 'privacy', component: DisclaimerComponent },
-  { path: 'landing', component: LandingComponent },
+  // { path: 'landing', component: LandingComponent },
   { path: '', component: HomeComponent },
 
   { path: 'admin', component: AdminComponent, canActivate: [LoggedInGuard] }
