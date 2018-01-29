@@ -1,5 +1,5 @@
 // CoreModule.ts
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -180,6 +180,7 @@ export const firebaseConfig = {
     DriveService,
     DialogService,
     CustomBrowserXhr,
+    Title,
     { provide: BrowserXhr, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [
