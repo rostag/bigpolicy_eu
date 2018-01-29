@@ -1,46 +1,84 @@
 <form>
 <md-card class="project-edit-card">
     <md-card-content>
-      <md-card-title>
-        <span *ngIf="!isUpdateMode">Створити</span>
-        <span *ngIf="isUpdateMode">Редагувати</span>
-         проект
+      <md-card-title fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+        <div>
+          <span *ngIf="!isUpdateMode">Створити</span>
+          <span *ngIf="isUpdateMode">Редагувати</span>
+           проект
+         </div>
+         <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no" buttonType="regular" buttonLabel="Додати зображення" (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
       </md-card-title>
 
-      <md-input-container><input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input-container>
-      <!-- Add a md-autosize directive to auto-extend functionality on input -->
-      <md-input-container><textarea mdInput required class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}">
-
-      </textarea></md-input-container>
-      <!-- <md-input-container><input mdInput required [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:" hintLabel="" [ngModelOptions]="{standalone: true}"></md-input-container> -->
-      <md-input-container><input mdInput video-control [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" hintLabel="" [ngModelOptions]="{standalone: true}" ></md-input-container>
+      <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
 
       <md-input-container>
-        <input mdInput required [(ngModel)]="project.cost" placeholder="Сума, грн" align="end" [ngModelOptions]="{standalone: true}" value="1" mdPrefix="Який бюджет тобі на це потрібен?" mdSuffix=".00">
+        <input mdInput required [(ngModel)]="project.title" characterCounter placeholder="Обери просту назву, яка полегшить розуміння твого задуму:" [ngModelOptions]="{standalone: true}">
       </md-input-container>
 
-      <table style="width: 100%" cellspacing="0"><tr>
-       <td><md-input-container><input mdInput type="date" [(ngModel)]="project.startDateInputValue" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
-          <div mdPrefix>Дата початку:&nbsp;</div>
-       </md-input-container></td>
-       <td><md-input-container><input mdInput type="date" [(ngModel)]="project.endDateInputValue" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
-          <div mdPrefix>Дата завершення:&nbsp;</div>
-       </md-input-container></td>
-      </tr></table>
+      <md-input-container>
+        <textarea mdInput mdTextareaAutosize required class="bp-textarea" rows="4" maxLength="1000" [(ngModel)]="project.description"  placeholder="Опиши свій проект чи захід:" [ngModelOptions]="{standalone: true}">
+        </textarea>
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput  [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:" [ngModelOptions]="{standalone: true}" >
+      </md-input-container>
+
+    <div class="cost-and-dates" fxLayoutGap="3%" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column" fxLayout.xs="column">
+      <md-input-container class="cost" fxFlex.xs="100%" >
+        <div mdPrefix><md-icon>monetization_on</md-icon>Бюджет:&nbsp;</div>
+        <input mdInput required type="number" [(ngModel)]="project.cost" [ngModelOptions]="{standalone: true}" value="1">
+        <div mdSuffix>UAH</div>
+      </md-input-container>
+
+      <md-input-container fxFlex.xs="100%" >
+        <div mdPrefix><md-icon>date_range</md-icon>Початок:&nbsp;</div>
+        <input mdInput type="date" [(ngModel)]="project.dateStarted" hintlabel="Коли проект починається?" value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}" >
+      </md-input-container>
+
+      <md-input-container fxFlex.xs="100%" >
+        <div mdPrefix><md-icon>date_range</md-icon>Завершення:&nbsp;</div>
+        <input mdInput type="date" [(ngModel)]="project.dateEnded" hintlabel="Коли закінчується проект?" value="Дата завершення проекту" [ngModelOptions]="{standalone: true}" >
+      </md-input-container>
+     </div>
 
       <!-- Project Tasks -->
-      <app-task-list [project]="project" *ngIf="showTasks"></app-task-list>
+      <app-task-list title="Заходи проекту" [project]="project" *ngIf="showTasks"></app-task-list>
+      <app-task-list title="Закороткий опис" [project]="project" *ngIf="showTasks" [pageSize]="3" dbQuery='{ "$where": "this.description.length < 3" }'></app-task-list>
       <!-- /Project Tasks -->
+
+      <!-- TODO: Зробити окремі посилання на перегляд відфільтрованих заходів, проектів і т. д. -->
 
     </md-card-content>
 
-    <p>
+    <md-toolbar class="add-toolbar" color="#fff">
       <button type="submit" md-raised-button (click)="saveProject()" color="primary">
         <span *ngIf="!isUpdateMode">Додати</span>
         <span *ngIf="isUpdateMode">Зберегти</span>
         <span>проект</span>
       </button>
-    </p>
+      <button md-button (click)="cancelEditing()" color="primary">
+        Відмінити
+      </button>
+
+      <span class="add-fill-remaining"></span>
+
+      <!-- MOVE TO OTHER LEADER -->
+      <div *ngIf="userService.isAdmin() && isUpdateMode">
+        <button *ngIf="!leaders" md-button (click)="requestLeadersToSelectFrom()">Змінити лідера</button>
+        <form *ngIf="leaders">
+          <md-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
+            <md-option *ngFor="let leader of leaders" [value]="leader">
+              {{leader.name}} {{leader.surName}}
+              <span *ngIf="userService.isOwner(leader)">
+                [я]
+              </span>
+            </md-option>
+          </md-select>
+        </form>
+      </div>
+    </md-toolbar>
 
 </md-card>
 </form>

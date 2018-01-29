@@ -3,6 +3,8 @@
 # compiled output
 /tmp
 /dist
+/fb/dist
+
 
 # dependencies
 # Dependency directory
@@ -11,6 +13,7 @@
 /typings
 /node_modules
 /bower_components
+/fb/functions/node_modules
 
 # IDEs and editors
 /.idea

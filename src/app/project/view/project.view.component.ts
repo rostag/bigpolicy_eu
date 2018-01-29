@@ -6,12 +6,17 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 @Component({
   selector: 'app-project-view',
   templateUrl: './project.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './project.view.component.scss']
+  styleUrls: ['./project.view.component.scss']
 })
 
 export class ProjectViewComponent implements OnInit {
 
+  // Whether it has visual like image or video or it hasn't
+  hasVisual = false;
+
   project: ProjectModel = new ProjectModel();
+
+  fundratio = 0;
 
   /**
   * Dependency Injection: route (for reading params later)
@@ -39,9 +44,12 @@ export class ProjectViewComponent implements OnInit {
   loadProject(id) {
     if (id) {
       this.projectService.getProject(id)
-      .subscribe(
-        data => {
-          this.setProject(data);
+        .subscribe((data: ProjectModel) => {
+          this.project = new ProjectModel();
+          this.project.parseData(data);
+          this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
+          this.fundratio = this.project.totalDonationsReceived / this.project.cost * 100;
+          ProjectService.cacheProject(this.project);
         },
         err => console.error(err),
         () => {}
@@ -50,27 +58,14 @@ export class ProjectViewComponent implements OnInit {
   }
 
   /**
-   * Project loading handler
-   * @param {data} Loaded project data
-   */
-  setProject(data) {
-    // Immutability, explanation:
-    // http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
-    this.project = new ProjectModel();
-    this.project.parseData(data);
-    ProjectService.cacheProject(this.project);
-  }
-
-  /**
    * Remove this project
    * @param {project} Project being viewed
    */
   deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project);
+    this.projectService.deleteProject(project, true);
 
-    this.router.navigate(['/projects']);
+    // this.router.navigate(['/projects']);
     return false;
   }
-
 }

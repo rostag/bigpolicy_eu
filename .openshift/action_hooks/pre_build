@@ -1,7 +1,10 @@
-echo '[ >>> PRE-BUILD HOOK START <<< ]'
-
-echo 'NodeJS Config:'
-echo NPM_PACKAGES = $NPM_PACKAGES
+echo '[ > > > > > > > > > > PRE-BUILD HOOK < < < < < < < < < < ]'
 echo NODE_ENV = $NODE_ENV
-
-echo '[ <<<< PRE-BUILT HOOK END >>>> ]'
+# ng --version
+# ID @angular/cli: 1.0.0 - not 'error'
+# ID @angular/compiler-cli: 4.0.2 - not 'error'
+# npm install -g @angular/cli
+# npm cache clean
+# npm install --save-dev @angular/cli@latest
+# npm install
+# ng build --prod

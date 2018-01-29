@@ -1,13 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import './assets/css/deeppurple-amber.css';
 
-* {
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .add-toolbar {
-  padding: 0 0.5em 0 1em;
+  padding: 0 0.5rem 0 1em;
 }
 
 .add-toolbar .add-toolbar-icon {
@@ -39,4 +42,25 @@ md-list-item h3 a:hover {
 
 md-icon.pointer {
   cursor: pointer;
+}
+
+/* Project Brief and Leader Brief for Home etc */
+.project-brief-card p,
+.project-brief-card .mat-card-title,
+.project-brief-card .mat-card-subtitle,
+.leader-brief-card p,
+.leader-brief-card .mat-card-title,
+.leader-brief-card .mat-card-subtitle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.project-brief-card,
+.leader-brief-card {
+  cursor: pointer;
+}
+
+.mat-card-actions button {
+  text-transform: uppercase;
 }

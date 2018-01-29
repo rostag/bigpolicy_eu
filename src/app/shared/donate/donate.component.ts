@@ -1,6 +1,7 @@
 import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
-import { DonationModel, DonationService } from './index';
+import { DonationModel } from './donation.model';
+import { DonationService } from './donation.service';
 import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -82,6 +83,7 @@ export class DonateComponent implements OnChanges {
     return d;
   }
 
+  // FIXME Fix Button Display
   private getDonationForm(_id) {
     const model = this.getDonationModel();
     model._id = _id;
@@ -93,9 +95,11 @@ export class DonateComponent implements OnChanges {
         const sgndta = res['_body'].split('-BGPLCXX-');
         const formStr =
         '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
-          'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' +
-          sgndta[1] + '" /><button md-raised-button color="accent">Переказати ' + this.amount + ' UAH</button>' +
+          'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' + sgndta[1] + '" />' +
+          '<button md-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
+          + this.amount + ' UAH</button>' +
         '</form>';
+        // FIXME - Update button visual style, broken after ng update
         this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr);
       });
   }

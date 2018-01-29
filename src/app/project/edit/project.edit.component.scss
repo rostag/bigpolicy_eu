@@ -1,4 +1,22 @@
-.project-edit-card input,
-.project-edit-card textarea {
+input,
+textarea,
+md-input-container {
   width: 100%;
+}
+
+.cost-and-dates {
+  * {
+    line-height: 1.5;
+  }
+
+  md-icon {
+    font-size: 1.3em;
+    vertical-align: bottom;
+  }
+}
+
+.cost {
+  input {
+    text-align: right;
+  }
 }

@@ -1,32 +1,73 @@
+<!-- Usage: <app-task-list title="Given title" [project]="project" [pageSize]="10" dbQuery="{}"></app-task-list> -->
+
 <md-card-content>
-<!-- <md-card> -->
   <md-card-actions>
-    <md-toolbar class="add-toolbar" color="accent">Заходи проекту "{{project.title}}"
+    <md-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
       <span class="add-fill-remaining"></span>
-      <button md-raised-button (click)="addTask(project)"  *ngIf="!isAddingTaskMode && userService.hasEditPermissions(project)" color="primary">Додати захід</button>
+
+      <span *ngIf="!isAddingTaskMode">
+        <button md-icon-button (click)="switchTasksView()" *ngIf="compactTasksView" mdTooltip="Розгорнути усі заходи" ><md-icon>view_stream</md-icon></button>
+        <button md-icon-button (click)="switchTasksView()" *ngIf="!compactTasksView" mdTooltip="Згорнути усі заходи" ><md-icon>view_headlines</md-icon></button>
+        <button md-icon-button (click)="addTask(project)" *ngIf="userService.hasEditPermissions(project)" color="accent" mdTooltip="Додати захід"><md-icon>add_circle</md-icon></button>
+      </span>
     </md-toolbar>
   </md-card-actions>
 
   <!-- Add task -->
-  <app-bp-task-edit [projectId]="project._id" *ngIf="isAddingTaskMode" class="add-project-inline">
+  <app-bp-task-edit
+    [projectId]="project._id"
+    *ngIf="isAddingTaskMode"
+    (onCancelEdit)="onCancelTaskEdit($event)">
   </app-bp-task-edit>
 
-    <md-list>
-       <md-list-item *ngFor="let task of tasks | async">
-         <img md-list-avatar src="assets/img/avatar.jpg" alt="{{task.title}}">
-         <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
-         <p md-line>
-          <b>{{task.cost}} UAH.</b> {{task.dateEnded | date}} - {{task.dateStarted | date}}
-         </p>
-         <p md-line>
-           <small>{{task.description}}</small>
-         </p>
-         <p *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">
-           <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
-           <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
-         </p>
-      </md-list-item>
-    </md-list>
+  <ol *ngIf="!isAddingTaskMode" class="task-list">
+    <li *ngFor="let task of itemsPage.docs | async | paginate: {
+        id: 'taskItemsPage',
+        itemsPerPage: this.pageSize,
+        currentPage: itemsPage.page,
+        totalItems: itemsPage.total
+      }">
+      <app-task-view 
+        [task]="task"
+        [compactView]="compactTasksView"
+        [showProjectLink]="showProjectLink"
+        class="task-list-item"
+        dataprovided="true"
+        >
+      </app-task-view>
+    </li>
+  </ol>
+
+  <!-- <md-list>
+     <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
+                                                                 id: 'taskItemsPage',
+                                                                 itemsPerPage: this.pageSize,
+                                                                 currentPage: itemsPage.page,
+                                                                 totalItems: itemsPage.total
+                                                               }">
+
+
+       <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
+       <p md-line>
+        <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
+       </p>
+       <p md-line>
+         <small>{{task.project}}</small> | <small>{{task.description}}</small>
+       </p>
+       <p *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">
+         <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
+         <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+       </p>
+    </md-list-item>
+  </md-list> -->
+
+  <pagination-controls
+                      id = "taskItemsPage"
+                      (pageChange)="pageChanged($event)"
+                      [maxSize]="5"
+                      directionLinks="true"
+                      autoHide="true"
+                      >
+  </pagination-controls>
 
 </md-card-content>
-<!-- </md-card> -->

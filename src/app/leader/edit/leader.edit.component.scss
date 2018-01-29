@@ -1,19 +1,28 @@
 .leader-edit-card {
-  padding: 0;
+  padding: 0; 
+  text-align: center;
+
+  md-card-content {
+    padding: 24px;
+  }
 }
 
-.leader-edit-card md-card-content {
-  padding: 24px;
-}
-
-.grid {
-  border-style: solid;
-}
-
-.one {
-  width: 30%;
-}
-
-input, textarea {
+md-input-container,
+input,
+textarea {
   width: 100%;
+}
+
+.problem-statement {
+  // margin-top: 100px;
+}
+
+// FIXME_SCCS
+$reddish: #e30;
+
+.validation-error {
+  border-right: 1em solid $reddish;
+  color: $reddish;
+  margin-bottom: 1.1em;
+  margin-top: -1em;
 }

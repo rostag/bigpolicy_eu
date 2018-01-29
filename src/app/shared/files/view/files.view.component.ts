@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+interface IFile {
+  name?: string;
+  link?: string;
+};
+
 @Component({
   selector: 'app-files-view',
   templateUrl: './files.view.component.html',
@@ -7,7 +12,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FilesViewComponent implements OnInit {
 
-  @Input() files = [];
+  @Input() files: Array<IFile>;
 
   constructor() { }
 

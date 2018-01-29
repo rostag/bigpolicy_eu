@@ -1,21 +1,16 @@
 :host {
   display: block;
-  padding: 0 16px;
-}
-
-.bp-landing {
-
 }
 
 .bp-landing .container {
-  width: 100%;
   max-width: inherit;
+  width: 100%;
 }
 
 .bp-landing h4 {
   font-size: 1.9em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: .5em;
+  margin-top: .5em;
 }
 
 .bp-landing h5 {
@@ -66,7 +61,7 @@ p {
   margin: 0px 25px 25px 15px;
 }
 
-/* FIXME Hack due to Grid List lack of vertical align */
+/* Hack due to Grid List lack of vertical align */
 .topcontent {
   height: 100%;
 }

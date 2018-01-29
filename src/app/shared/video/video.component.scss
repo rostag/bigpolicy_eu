@@ -1,4 +1,8 @@
+:host {
+  display: block;
+}
+
 .bp-video-iframed {
-  width: 400px;
-  height: 222px;
+  height: 100%;
+  width: 100%;
 }

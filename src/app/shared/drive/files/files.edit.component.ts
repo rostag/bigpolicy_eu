@@ -1,4 +1,4 @@
-/// <reference path="../../../../../node_modules/@types/gapi/index.d.ts"/>
+// SOME /  <re ference path =" .. /../../../../node _modules/@ty pes/gapi/index.d.ts"/>
 /// <reference path="../../../../../node_modules/@types/gapi.auth2/index.d.ts"/>
 /// <reference path="./google-drive-api.d.ts"/>
 
@@ -8,6 +8,7 @@
 import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
          ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-bp-files',
@@ -26,13 +27,31 @@ export class FilesEditComponent implements AfterViewInit {
   folderForUploads = null;
   uploadInProgress = false;
   fileList = [];
+  filesPageSize = 100;
+
+  preloaderFile = {
+    id: '',
+    webViewLink: '',
+    title: 'Завантажую список файлів...',
+    name: 'Завантажую список файлів...'
+  };
+
+  noFilesLoadedFile = {
+    id: '',
+    webViewLink: '',
+    title: 'Список файлів пустий',
+    name: 'Список файлів пустий'
+  };
 
   // TODO Parse user to get his GoogleDrive
   @Input() userService;
   @Output() onFileListUpdate = new EventEmitter<Array<any>>();
   @ViewChild('fileInput') fileInput;
 
-  constructor( private ref: ChangeDetectorRef ) {}
+  constructor(
+    private ref: ChangeDetectorRef,
+    public snackBar: MdSnackBar
+  ) {}
 
   /**
    * On load, called to load the auth2 library and API client library.
@@ -57,6 +76,7 @@ export class FilesEditComponent implements AfterViewInit {
    *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
   initClient(that) {
+    // FIXME 0 - Ensure logged in user observes leader's files, not it's own
     // FIXME_SEC
     // Client ID and API key from the Developer Console
     const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
@@ -122,9 +142,9 @@ export class FilesEditComponent implements AfterViewInit {
   // ---------------------------------------------------------------------------
   // Uploading User's files
   // ---------------------------------------------------------------------------
-
   handleSelectFileClick() {
     this.fileInput.nativeElement.click();
+    return false;
   }
 
   handleUploadFilenameChange(evt) {
@@ -137,11 +157,12 @@ export class FilesEditComponent implements AfterViewInit {
       }
       this.fileToUpload = evt.target.files[0];
       this.fileToUploadName = filename;
+      console.log('handleUploadFilenameChange:', fullPath, filename );
       this.updateUIOnChange();
     }
   }
 
-  handleUploadFileClick(event) {
+  handleUploadFileClick() {
     this.initUpload();
     return false;
   }
@@ -204,6 +225,10 @@ export class FilesEditComponent implements AfterViewInit {
     this.fileToUploadName = '';
     this.uploadInProgress = false;
     this.listFiles();
+
+    this.snackBar.open('Файл завантажено', null, {
+      duration: 5000,
+    });
   }
 
   // ---------------------------------------------------------------------------
@@ -211,14 +236,7 @@ export class FilesEditComponent implements AfterViewInit {
   // ---------------------------------------------------------------------------
 
   getFiles() {
-    const preloaderFile = {
-      id: '',
-      webViewLink: '',
-      title: 'Завантажую список файлів...',
-      name: 'Завантажую список файлів...'
-    };
-
-    this.updateFilesList([preloaderFile]);
+    this.updateFilesList([this.preloaderFile]);
 
     this.getFolder();
   }
@@ -248,7 +266,7 @@ export class FilesEditComponent implements AfterViewInit {
 
   initFolder(folder) {
     this.folderForUploads = folder;
-    console.log('Got Folder Id: ', this.folderForUploads);
+    console.log('Got Drive Folder Id: ', this.folderForUploads);
     this.listFiles();
   }
 
@@ -274,9 +292,13 @@ export class FilesEditComponent implements AfterViewInit {
   listFiles() {
     gapi.client.drive.files.list({
       'q': '"' + this.folderForUploads.id + '" in parents',
-      'pageSize': 7,
+      'pageSize': this.filesPageSize,
       'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
     }).then((response) => {
+      console.log('Response result and file list:', response.result);
+      if (response.result.files.length === 0) {
+        response.result.files.push(this.noFilesLoadedFile);
+      }
       const files = [];
       const responseFiles = response.result.files;
       if (responseFiles && responseFiles.length > 0) {

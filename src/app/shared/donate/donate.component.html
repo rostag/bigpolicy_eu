@@ -1,4 +1,4 @@
-<div>
+<div class="donate-component" [ngClass]="readyToDonate ? 'ready mat-elevation-z5' : ''" >
   <button *ngIf="!readyToDonate" (click)="onDonateToggle()" md-raised-button color="accent">{{label + ' ' + this.amount + ' UAH'}}</button>
   <button *ngIf="!readyToDonate && target.totalDonationsReceived>0" (click)="onToggleDonationsList()" md-button color="accent">Усього: {{target.totalDonationsReceived || 0}} UAH</button>
   <div *ngIf="readyToDonate" >
@@ -6,9 +6,9 @@
       <p>Увага: натиснувши кнопку "Переказати", Ви перейдете на сторінку оплати,
         щоб переказати кошти у зручний для Вас спосіб.
       </p>
-      <button (click)="onDonateToggle()" md-button>X</button>
+      <button (click)="onDonateToggle()" md-button>Відмінити</button>
   </div>
 
-  <app-donations-list [target]="target" [targetType]="targetType" *ngIf="donationsListVisible" ></app-donations-list>
+  <app-donations-list title="Усі внески:" [target]="target" [targetType]="targetType" [pageSize]="10" dbQuery="{}" *ngIf="donationsListVisible" ></app-donations-list>
 
 </div>

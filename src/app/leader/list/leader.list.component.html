@@ -1,48 +1,56 @@
-<md-card>
-  <md-card-title>Лідери</md-card-title>
-  <md-card-content>
+<!-- </md-card> -->
+<!-- Usage: <app-leader-list [groupId]="123" [pageSize]="10"></app-leader-list> -->
+<h2 *ngIf="title !== ''">{{title}}</h2>
+<md-card-content>
 
-    <!--
-    TODO
-    <p disabled>Показати у спискові:
-      <select disabled>
-        <option>члени партії...</option>
-        <option>РПР</option>
-        <option>ЩЗП</option>
-      </select>
+  <!--
+  TODO
+  <p disabled>Показати у спискові:
+    <select disabled>
+      <option>члени партії...</option>
+      <option>РПР</option>
+      <option>ЩЗП</option>
+    </select>
 
-     <a href="#" disabled>активісти</a> з регіону:
-      <select disabled>
-        <option>Усі регіони</option>
-        <option>Львів</option>
-        <option>Харків</option>
-      </select>
-    </p> -->
+   <a href="#" disabled>активісти</a> з регіону:
+    <select disabled>
+      <option>Усі регіони</option>
+      <option>Львів</option>
+      <option>Харків</option>
+    </select>
+  </p> -->
 
-    <div class="leaders-list">
-     <div *ngFor="let leader of leaders">
-      <md-card class="leader-card">
-        <md-card-title-group>
-          <img class="mat-card-avatar" md-card-avatar src="assets/img/avatar-generic.png">
-          <md-card-title><a [routerLink] = "['/leader/' + leader._id]">{{leader.name}} {{leader.surName}}</a>
-            <span *ngIf="userService.isOwner(leader)">
-              (я)
-            </span>
-          </md-card-title>
-          <md-card-title></md-card-title>
-        </md-card-title-group>
-        <md-card-content>
-            <p>Візія: {{leader.vision}}</p>
-        </md-card-content>
-        <md-card-actions>
-          <a [routerLink] = "['/leader/' + leader._id]"><button md-button md-raised-button color="primary">Підтримати</button></a>
-          <span *ngIf="userService.hasEditPermissions(leader)">
-            <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-            <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a>
-          </span>
-        </md-card-actions>
-      </md-card>
-     </div>
+  <!-- Former use: -->
+  <!-- fxFlex="45%" fxFlex.gt-md="30%" -->
+
+  <div class="leaders-list" fxLayout="row" fxLayoutWrap="" >
+    <div [fxFlex]="flexState.flex" [fxFlex.lg]="flexState.lg" [fxFlex.md]="flexState.md" [fxFlex.sm]="flexState.sm" [fxFlex.xs]="flexState.xs"
+      *ngFor="let leader of itemsPage.docs | async | paginate: {
+        id: 'leaderItemsPage',
+        itemsPerPage: this.pageSize,
+        currentPage: itemsPage.page,
+        totalItems: itemsPage.total
+      }">
+      <app-leader-brief
+        [leaderId]="leader._id"
+        [viewContext]="viewContext">
+      </app-leader-brief>
     </div>
-  </md-card-content>
-</md-card>
+
+    <div *ngIf="showPagination">
+      <pagination-controls
+         id = "leaderItemsPage"
+         (pageChange)="pageChanged($event)"
+         [maxSize]="5"
+         directionLinks="true"
+         previousLabel="Previous"
+         nextLabel="Next"
+         autoHide="true"
+         >
+      </pagination-controls>
+      <p>Усього: {{itemsPage.total}}</p>
+    </div>
+  </div>
+
+</md-card-content>
+<!-- </md-card> -->

@@ -1,0 +1,161 @@
+@import '~@angular/material/core/theming/all-theme';
+
+$col-white-tran: rgba(255, 255, 255, 0);
+$col-white: rgba(255, 255, 255, 1);
+$col-fafafa: #fafafa;
+$col-eee: #eee;
+$col-333: #555;
+$fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
+
+a {
+  text-decoration: none;
+}
+
+// Card View
+
+.project-brief-card-header-image {
+  // Parametrize via leader photo
+  background-image: url('../../../assets/img/project/project-placeholder.png');
+  background-size: cover;
+}
+
+.md-card-image-clipper {
+  border-bottom: 1px solid $col-eee;
+  border-top: 1px solid $col-eee;
+  height: 300px;
+  margin: 0 -24px 16px;
+  max-height: 300px;
+  overflow: hidden;
+  width: calc(100% + 48px);
+}
+
+// List View - Normal
+
+.project-list-item {
+  background-color: $col-fafafa;
+  cursor: pointer;
+  height: 15em;
+  margin: 1em .3em 1em .2em;
+  overflow: hidden;
+
+  .title,
+  .date,
+  .description {
+    overflow: hidden;
+  }
+
+  .title {
+    height: 1.3em;
+
+    .compact {
+      font-size: .7em;
+    }
+  }
+
+  .description {
+    margin-bottom: 0;
+    margin-top: 2em;
+  }
+
+  .date,
+  .cost,
+  .tasks {
+    font-size: .7em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .md-card-image-clipper {
+    height: 8em;
+    margin: 0 -24px;
+
+    .project-video {
+      display: block;
+      // margin-top: -.5em;
+    }
+  }
+
+  .compact {
+    .admin {
+      display: none;
+    }
+  }
+
+  .manager-name {
+    color: $col-333;
+    float: right;
+  }
+
+  .card-actions {
+    display: none;
+  }
+}
+
+// List View - Hover
+
+.project-list-item:hover {
+  background-color: transparent;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+
+  .description {
+    display: block;
+    position: relative;
+    min-height: 1.4em;
+    top: -5.7em;
+    left: -1em;
+    width: calc(100% + .1em);
+    padding: 1em;
+    background: #fff;
+    @include mat-elevation(2);
+  }
+}
+
+.list-brief {
+  font-size: .85em;
+  height: 15em;
+  margin-bottom: 2em;
+
+  .date,
+  .cost,
+  .tasks {
+    display: none;
+  }
+
+  .md-card-image-clipper {
+    height: 13em;
+  }
+
+  .project-video {
+    height: 15em;
+  }
+
+  .title {
+    margin-top: -.5em;
+  }
+
+  .description {
+    display: none;
+  }
+}
+
+
+.list-brief:hover {
+  // .md-card-image-clipper {
+  //   display: none;
+  // }
+
+  // .title {
+  //   display: block;
+  //   // margin-top: 0;
+
+  // }
+
+  // .description {
+  //   display: block;
+  //   height: 9.3em;
+  // }
+
+  // .card-actions {
+  //   margin-top: 1em;
+  // }
+}

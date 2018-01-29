@@ -1,8 +1,22 @@
-.task-edit-view input,
-.task-edit-view textarea {
+input,
+textarea,
+md-input-container {
   width: 100%;
 }
 
-:host.add-project-inline .task-edit-view {
-  margin-top: 1em;
+.cost-and-dates {
+  * {
+    line-height: 1.5;
+  }
+
+  md-icon {
+    font-size: 1.3em;
+    vertical-align: bottom;
+  }
+}
+
+.cost {
+  input {
+    text-align: right;
+  }
 }

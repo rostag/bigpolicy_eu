@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { MdIconModule } from '@angular/material';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './about.component.scss']
+  styleUrls: ['./about.component.scss']
 })
 
 export class AboutComponent {

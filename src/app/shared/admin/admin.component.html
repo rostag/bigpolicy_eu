@@ -1,0 +1,69 @@
+<div>
+  <div *ngIf="userService.authenticated() && userService.userProfile">
+    <!-- FIXME Override User Profile Name with Leader Name ? -->
+    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1%" class="user-title">
+      <h1>Адмін</h1>
+      <p *ngIf="adminLeader">
+        <span><strong>Лідер</strong>: <a [routerLink]="['/leader/' + adminLeader._id]">{{adminLeader.name}} {{adminLeader.surName}}</a></span>
+        <br />
+        <span><strong>Користувач:</strong> {{userService.userProfile.name}}</span>
+      </p>
+      <p>
+        <span><strong>Email: </strong> {{userService.userProfile.email}}</span>
+        <br />
+        <span><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</span>
+      </p>
+    </div>
+
+    <!-- Спеціальні проекти -->
+    <md-card *ngIf="adminLeader" class="leader-profile">
+      <md-card-content>
+        <!-- FIXME <h2 *ngIf="adminLeader.projects && adminLeader.projects.length > 0">Проекти:</h2> -->
+        <!-- <app-project-list [leaderId]="adminLeader._id" pageSize="2" > -->
+
+        <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        </app-project-list>
+
+        <app-project-list title="Проект &laquo;Не на часі&raquo;" pageSize="3" dbQuery='{ "$where": "this.title == \"Не на часі\"" }'>
+        </app-project-list>
+
+        <!-- Усі проекти -->
+        <!-- <app-project-list title="Усі проекти" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+        </app-project-list> -->
+
+        <!-- Усі заходи -->
+        <app-task-list *ngIf="userService.isAdmin()" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
+        </app-task-list>
+
+      </md-card-content>
+      <md-card-actions>
+        <span *ngIf="userService.hasEditPermissions(adminLeader)">
+          <a [routerLink] = "['/leader/' + adminLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+        </span>
+      </md-card-actions>
+    </md-card>
+  </div>
+
+  <div *ngIf="!userService.authenticated()">
+    <h4>Ви не зайшли в систему</h4>
+    <p>
+      Авторизовані користувачі можуть:
+    </p>
+    <ul>
+      <li>
+        створювати проекти
+      </li>
+      <li>
+        ставати лідерами
+      </li>
+      <li>
+        користуватися іншими розширеними фунціями системи.
+      </li>
+    </ul>
+    <p>
+      Будь ласка, натисніть "Увійти", для авторизації.
+    </p>
+    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+  </div>
+
+</div>

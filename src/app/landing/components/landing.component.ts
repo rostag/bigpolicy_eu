@@ -1,12 +1,12 @@
 import { OnInit, Component } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { LeaderService, LeaderModel } from '../../shared/leader';
-import { UserService } from '../../shared/user';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-bp-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./skeleton.css', './landing.component.scss'],
+  styleUrls: ['./landing.component.scss'],
 })
 
 export class LandingComponent implements OnInit {
@@ -25,15 +25,16 @@ export class LandingComponent implements OnInit {
     private leaderService: LeaderService
   ) {}
 
+
   ngOnInit() {
     this.getProjects();
     this.getLeaders();
   }
 
   getLeaders() {
-    this.leaderService.getLeaders()
+    this.leaderService.getLeadersPage(null, null, 1, 3)
       .subscribe(
-        data => this.setLeaders(data),
+        data => this.setLeaders(data['docs']),
         err => console.error(err),
         () => this.app.leaders
       );
@@ -45,9 +46,9 @@ export class LandingComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjects()
+    this.projectService.getProjectsPage(null, null, 1, 3)
       .subscribe(
-        data => this.setProjects(data),
+        data => this.setProjects(['data']),
         err => console.error(err),
         () => this.app.projects
       );

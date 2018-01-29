@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
 
@@ -13,7 +14,7 @@ import { DonationModel } from './donation.model';
 @Injectable()
 export class DonationService {
 
-  private apiUrl = '/liqpay-api/';
+  private apiUrl = environment.api_url + '/api/donation-api/';
 
   /**
    * Creates a new DonationService with the injected Http.
@@ -34,40 +35,35 @@ export class DonationService {
   // TODO: implement local cache
 
   /**
-   * Get all models from DB by donation id or target id
+   * Gets page of donations for given target type and ID
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonations(donationId = '', targetId = '', targetType = 'leader'): Observable<any> {
+  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null, dbQuery = '{}'): Observable<any> {
+    // FIXME Implement interface for three types of targets
+    let requestUrl;
 
-    // FIXME Implement interface and adopt three types of targets
-    const requestUrl = this.apiUrl + (targetId ? 'target/' + targetType + '/' + targetId : donationId);
+    // Page of Donations for Target:     /api/donation-api/target/:targetType/:targetId/page/:page/:limit
+    if (targetId !== null && targetType !== null && page !== null && limit !== null) {
+      requestUrl =
+        this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+    }
 
     console.log('Donation Service: get by', requestUrl);
 
-    const reponseObservable = this.http.get(requestUrl)
-      .map((res: Response) => {
-        const donations = res.json();
-        if (donations.forEach) {
-          donations.forEach(donation => this.convertTime(donation));
-        } else {
-          this.convertTime(donations);
-        }
+    const responseObservable = this.http.get(requestUrl)
+      .map((responsePage: Response) => {
+        const donations = responsePage.json();
         return donations;
       });
-      return reponseObservable;
-  }
-
-  private convertTime(donation) {
-    donation.dateStarted = new Date(donation['dateStarted']);
-    donation.dateCompleted = new Date(donation['dateCompleted']);
+      return responseObservable;
   }
 
   /**
    * Get a model from DB or from cache.
    */
   getDonation(donationId: string): Observable<Response> {
-    return this.getDonations(donationId);
+    return this.getDonationsPage(donationId);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -95,13 +91,4 @@ export class DonationService {
     };
   }
 
-  // FIXME UNUSED
-  /**
-   * Requires donation form
-   * @param DonationModel A Donation to send
-   */
-  // requireDonationForm(model: DonationModel) {
-  //   var p = this.getPostData(model);
-  //   return this.http.post(this.apiUrl + 'getliqform', p.body, p.options)
-  // }
 }
