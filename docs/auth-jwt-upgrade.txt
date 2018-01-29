@@ -1,1 +1,10 @@
-https://github.com/auth0/angular2-jwt/blob/e61abf054c89bd3fa91c56c541e6b269d91dbf16/README.md
+Removed:
+
+    "angular2-jwt": "0.2.3",
+    "auth0-lock": "v11.0.0-beta.9",
+
+Added:
+
+    "auth0-js": "9.1.2",    
+
+Remove UserService

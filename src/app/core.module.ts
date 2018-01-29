@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LeaderService } from './shared/leader';
 import { ProjectService } from './shared/project';
+import { AuthService } from './auth/auth.service';
 import { UserService } from './shared/user/user.service';
 import { TaskService } from './shared/task';
 import { DriveService } from './shared/drive';
@@ -173,6 +174,7 @@ export const firebaseConfig = {
     LoggedInGuard,
     ShareService,
     DonationService,
+    AuthService,
     UserService,
     LeaderService,
     ProjectService,
