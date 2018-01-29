@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../user/user.service';
-import { MdIconModule } from '@angular/material';
+import { LeaderService } from 'app/shared/leader';
 
 /**
  * This class represents the toolbar component.
@@ -12,9 +12,15 @@ import { MdIconModule } from '@angular/material';
 })
 export class ToolbarComponent {
 
-  isDarkTheme = false;
+  get leaderId() {
+    return this.leaderService.leader && this.leaderService.leader._id;
+  }
 
-  constructor(
-    public userService: UserService
-  ) {}
+  // FIXME USE_NGRX
+  // Show if user has got a logged in Leader
+  get hasAuthenticatedLeader() {
+    return this.userService.authenticated() && this.userService.hasLeader();
+  };
+
+  constructor(public userService: UserService, public leaderService: LeaderService) { }
 }

@@ -1,0 +1,94 @@
+<md-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='homePage'">
+  <div md-card-avatar class="leader-brief-card-header-image"></div>
+  <md-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
+    <span *ngIf="userService.isOwner(leader)">
+      [я]
+    </span>
+  </md-card-title>
+  <div class="md-card-image-clipper">
+    <img md-card-image src="{{leader.photo || 'assets/img/avatar-generic.png'}}">
+  </div>
+  <md-card-content>
+    <md-card-subtitle>Місія: {{leader.mission}}</md-card-subtitle>
+    <p>Бачення: {{leader.vision}}</p>
+  </md-card-content>
+  <md-card-actions align="end">
+    <a [routerLink]="['/leader/', leader._id]"><button md-button md-raised-button color="primary" >Підтримати</button></a>
+    <!-- <a [routerLink]="['/leaders']"><button md-button>Усі лідери</button></a> -->
+  </md-card-actions>
+</md-card>
+
+<!-- State: Leader List Page -->
+<!-- *ngIf="viewContext==='leaderListPage'" -->
+
+<md-card class="leader-list-card" class.xs="leader-list-card-single-column" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='leaderListPage'" >
+  <md-card-title>
+    <a [routerLink] = "['/leader/' + leader._id]" class="name" title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}">
+      {{leader.name}} {{leader.surName}}
+      <span *ngIf="userService.isOwner(leader)">
+        [я]
+      </span>
+    </a>
+  </md-card-title>
+
+  <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
+    <div class="md-card-image-clipper" class.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
+      <div *ngIf="leader.photo; then images else videos"></div>
+      <p class="projects">Проектів: {{leader.projects?.length}}</p>
+    </div>
+    <div fxFlex="69" fxFlexOffset="7" fxFlexOffset.xs="0">
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
+      <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+    </div>
+  </div>
+  <md-card-actions align="end">
+    <div class="buttons-space">
+      <span *ngIf="userService.hasEditPermissions(leader)">
+        <button md-icon-button [routerLink]="['/leader/' + leader._id + '/edit']"><md-icon>edit</md-icon></button>
+        <!-- <a [routerLink] = "['/leader/' + leader._id + '/edit']"><button md-button color="accent">Редагувати</button></a> -->
+        <!-- todo: restore deleteLeader for list view <a href (click) = "deleteLeader(leader)"><button md-button color="warn">Видалити</button></a> -->
+      </span>
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="primary">Підтримати</button>
+    </div>
+  </md-card-actions>
+</md-card>
+
+<!-- Item Brief View (for display in compact lists) on Home page -->
+<md-card class="leader-list-card list-brief" class.xs="leader-list-card-single-column" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='compactLeaderList'" >
+  <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
+    <div fxFlex="30" fxFlexAlign.xs="center">
+      <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+    </div>
+    <div fxFlex="70" fxFlexOffset="5">
+      <md-card-title>
+        <span title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}" class="name">
+          {{leader.name}} {{leader.surName}}
+          <span *ngIf="userService.isOwner(leader)">
+            [я]
+          </span>
+        </span>
+      </md-card-title>
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
+      <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+    </div>
+  </div>
+  <md-card-actions align="end">
+    <div class="buttons-space">
+      <button class="lead-button" [routerLink] = "['/leader/' + leader._id]" md-button color="primary" >Підтримати</button>
+    </div>
+  </md-card-actions>
+</md-card>
+
+<!-- Templates: video and images to be used in brief display -->
+
+<ng-template #videos>
+  <app-bp-video
+    class="leader-video"
+    [videoUrl]="leader.videoUrl"
+    [title]="leader.name">
+  </app-bp-video>
+</ng-template>
+
+<ng-template #images>
+  <app-image *ngIf="leader.photo" class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
+</ng-template>

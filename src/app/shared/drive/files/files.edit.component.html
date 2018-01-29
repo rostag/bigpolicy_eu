@@ -32,7 +32,7 @@
 
         <!-- GDrive Signin Status (and email if user's admin) -->
         <p class="signout-link">
-          <a href="#" (click)="handleSignoutClick()">Вийти з Google Drive</a>
+          <a href="#" title="{{savedSignInUserInfo.getBasicProfile().getEmail()}}" (click)="handleSignoutClick()">Вийти з Google Drive</a>
           <span *ngIf="userService.isAdmin()">({{savedSignInUserInfo.getBasicProfile().getEmail()}})</span>
         </p>
         <!-- *ngIf="uploadInProgress"  -->

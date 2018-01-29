@@ -1,43 +1,109 @@
-<md-card class="task-view">
+<!-- COMPACT VIEW - for lists etc -->
+<div [routerLink]="['/task/' + task._id]" *ngIf="compactView" fxLayout="row" fxLayoutAlign="space-between center" class="task-compact-view">
+
+  <div fxFlex="88" fxFlexOffset="2">
+    <h2>
+      <span *ngIf="showProjectLink=='show'">
+        <a [routerLink]="['/project/' + task.projectId]">
+          <small>{{projectTitle}}</small>
+        </a> | </span>
+      <a [routerLink]="['/task/' + task._id]">
+        <b>{{task.title}}</b>
+      </a>
+    </h2>
+    <div>{{task.cost}} UAH. {{task.dateStarted | date}} - {{task.dateEnded | date}}</div>
+    <div class="description">
+      <small>{{task.description}}</small>
+    </div>
+  </div>
+
+  <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
+    <a [routerLink]="['/task/' + task._id + '/edit']">
+      <md-icon color="primary">edit</md-icon>
+    </a>
+    <a href (click)="deleteTask(task)">
+      <md-icon color="primary">delete</md-icon>
+    </a>
+  </div>
+
+</div>
+
+<!-- FULL VIEW -->
+<md-card class="task-view" *ngIf="!compactView">
   <md-card-content>
 
+    <div>
+      <!-- FIXME Implement ngrx store data selection: 
+        <span>
+          <a [routerLink]="['/project/' + task.project?.managerName]">{{task.project?.managerName}}:</a>
+        </span>
+      -->
+      <span>
+        <a [routerLink]="['/project/' + task.projectId]">
+          Проект {{projectTitle}}
+        </a>
+      </span>
+    </div>
     <h1>{{task.title}}</h1>
     <!-- FIXME -->
     <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
     <!-- -->
 
-    <md-grid-list cols="2" rowHeight="255" id="stats">
-      <md-grid-tile>
-
-        <!-- TODO: state="iFramed.Task"  -->
-        <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
-
-      </md-grid-tile>
-      <md-grid-tile>
-        <div>
-          <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
-          <h3><a [routerLink]="['/project/',task.projectId]">До проекту</a></h3>
-          <p>Початок: {{task.dateStarted | date}}<br/>
-          Кінець: {{task.dateEnded | date}}</p>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}"
-          class="SHARE FACEBOOK"
-          onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
+    <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+      <div fxFlex="45%">
+        <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
+        <h3>
+          <a [routerLink]="['/project/',task.projectId]">Проект: {{projectTitle}}</a>
+        </h3>
+        <p>Початок: {{task.dateStarted | date}}
+          <br/> Кінець: {{task.dateEnded | date}}</p>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}" class="SHARE FACEBOOK" onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
           target="social">
           Share on FB
         </a>
-        </div>
-      </md-grid-tile>
-    </md-grid-list>
+      </div>
 
-    <h2>Детальніше</h2>
-    <p>{{task.description}}</p>
+      <div fxFlex="50%">
+
+        <div class="visual-wrapper" *ngIf="hasVisual; else novisual">
+          <div *ngIf="task.imageUrl; then images else videos"></div>
+        </div>
+
+        <ng-template #images>
+          <app-image [src]="task.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+        </ng-template>
+
+        <ng-template #videos>
+          <app-bp-video [videoUrl]="task.videoUrl" [title]="task.title" placeholderUrl="assets/img/task/task-placeholder.png"></app-bp-video>
+        </ng-template>
+
+        <ng-template #novisual>
+          <div *ngIf="userService.hasEditPermissions(task)">
+            <h3>Додати відео?</h3>
+            <p>Цей захід не має відео. Додати його можна на
+              <a [routerLink]="['/task/' + task._id + '/edit']">сторінці редагування заходу</a>
+            </p>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+
+    <div class="description">
+      <h3>Детальніше</h3>
+      <p>{{task.description}}</p>
+    </div>
 
     <md-card-actions>
-      <span *ngIf="userService.hasEditPermissions(task)" class="admin">
-        <a [routerLink] = "['/task/' + task._id + '/edit']"><button md-raised-button>Редагувати</button></a>
-        <a href (click) = "deleteTask(task)"><button md-raised-button color="warn">Видалити</button></a>
-      </span>
-      <!-- <a [routerLink]="['/tasks']"><button md-button color="primary">Всі заходи</button></a> -->
+      <md-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
+        <a [routerLink]="['/task/' + task._id + '/edit']">
+          <button md-raised-button>Редагувати</button>
+        </a>
+        <span class="add-fill-remaining"></span>
+        <a href (click)="deleteTask(task)">
+          <button md-raised-button color="warn">Видалити</button>
+        </a>
+      </md-toolbar>
     </md-card-actions>
   </md-card-content>
 </md-card>

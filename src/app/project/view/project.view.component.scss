@@ -1,25 +1,52 @@
-.project-view {
-}
-
-:host {
-  display: block;
-  padding: 2em;
-}
-
+// FIXME Move it to the main css
 h1 {
   font-size: 3em;
+  margin-bottom: .5em;
+  margin-top: .5em;
 }
 
 h2 {
-  font-size: 2em;
-  padding-top: 0;
+  font-size: 2.5em;
+  margin: 1em 0 .5em;
 }
 
 h3 {
-  font-size: 1.4em;
-  padding-top: 0;
+  font-size: 1.6em;
+  margin: 1em 0 .5em;
+}
+
+.funding-summary {
+  font-size: 2em;
+  margin-bottom: .5em;
 }
 
 .project-toolbar {
   margin-top: 2em;
+}
+
+.visual-wrapper {
+  height: 320px;
+}
+
+.project-video {
+  height: 320px;
+}
+
+.brogress {
+  height: 16px;
+  margin-bottom: .3em;
+}
+
+.description p {
+  white-space: pre-line;
+}
+
+.sharer-host {
+  ::ng-deep .show-sharer-button {
+    right: 2.3em;
+    top: 9.5em;
+  }
+  ::ng-deep .share-card {
+    margin-top: -9em;
+  }
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
-import { ProjectModel } from '../../shared/project/index';
+import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, OnChanges,
+  ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+// import { ProjectModel } from '../../shared/project/index';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
+import { MdTextareaAutosize } from '@angular/material';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -20,24 +22,30 @@ import { NgForm } from '@angular/forms';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements AfterViewChecked {
+export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChanges {
 
+  // Controlled by button — visibility of the compinent
   @Input() sharerIsVisible = false;
 
-  @Input() project: ProjectModel;
+  // Can be Project, Leader, Task, etc.
+  @Input() itemToShare: any;
 
   formStatus = '';
-  emailSent = false;
+
+  // Error message to display if there's an error of sending email
   emailSendError;
 
   toEmail: string;
-  textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
 
   showEmailPreview = true;
   showHtmlPreview = false;
 
   shareForm: NgForm;
+
   @ViewChild('shareForm') currentForm: NgForm;
+
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  @ViewChild(MdTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -50,8 +58,7 @@ export class SharerComponent implements AfterViewChecked {
     }
   };
 
-  // Model to be shared.
-  // Here, the videoUrl may be overridden before share:
+  // Model to share. Here, the videoUrl may be overridden before share:
   emailToShare: any = {
     from: '',
     toEmails: {},
@@ -60,12 +67,28 @@ export class SharerComponent implements AfterViewChecked {
     videoUrl: ''
   };
 
-  getFormState(stateName) {
-    return this.formStatus === stateName;
+  constructor(
+    private shareService: ShareService
+  ) {}
+
+  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
+  ngAfterViewInit() {
+    this.resizableTextArea.element.nativeElement.style.height = 'auto';
+  }
+
+  ngOnChanges(data?: any): void {
+    if (data.itemToShare) {
+      console.log('item to share has changed:', this.itemToShare );
+      this.prepareItemForSharing();
+    }
   }
 
   ngAfterViewChecked() {
    this.formChanged();
+  }
+
+  getFormState(stateName) {
+    return this.formStatus === stateName;
   }
 
   formChanged() {
@@ -93,6 +116,7 @@ export class SharerComponent implements AfterViewChecked {
        this.formErrors[field] = '';
        const control = form.get(field);
 
+       // Here's the complex logic for which we needed this method
        if (control && (control.dirty || control.touched) && !control.valid) {
          const messages = this.validationMessages[field];
          for (const key in control.errors) {
@@ -105,31 +129,63 @@ export class SharerComponent implements AfterViewChecked {
    }
   }
 
-  constructor(
-    private shareService: ShareService
-  ) {}
-
   /*
    * Overriding model videoUrl by email videoUrl
    */
   get videoUrl(): string {
     // FIXME it's called too often
-    return this.emailToShare.videoUrl || this.project.videoUrl || '';
+    return this.emailToShare.videoUrl || this.itemToShare.videoUrl || '';
   };
 
   set videoUrl(url: string) {
     this.emailToShare.videoUrl = url;
   };
 
+  // TODO Make subject manually editable
   get emailSubject(): string {
-    return 'Проект "' + this.project.title + '" - BigPolicy';
+    return this.itemToShare.subject;
+  }
+
+  prepareItemForSharing(): void {
+    // this.itemToShare = {
+    //   videoUrl: '',
+    // };
+
+    // Tasks and Projects have .title property to use in subject
+    if (this.itemToShare.hasOwnProperty('title') ) {
+      // Leaders have .name / surName properties
+      this.itemToShare.textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
+      this.itemToShare.subject = 'Проект "' + this.itemToShare.title + '" - BigPolicy';
+      this.itemToShare.text = this.itemToShare.description;
+
+      this.itemToShare.detailsLink =
+      `
+      <br><br>
+      <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
+      <br><br>
+      `;
+    } else if (this.itemToShare.hasOwnProperty('name')) {
+      // Leader properties 'name' and 'surName'
+      this.itemToShare.subject = '' + this.itemToShare.name + ' ' + this.itemToShare.surName;
+      this.itemToShare.text = this.itemToShare.mission + '<p></p>' + this.itemToShare.vision;
+      this.itemToShare.textToReader = 'Будьмо знайомі: ';
+      this.itemToShare.detailsLink =
+      `
+      <br><br>
+      <a href="` + this.shareService.getUrl() + `">Відвідай мою сторінку на БігПолісі</a>
+      <br><br>
+      `;
+      this.itemToShare.managerName = this.itemToShare.name;
+      this.itemToShare.managerEmail = this.itemToShare.email;
+    }
+    // console.log('!!! - !!! ', this.itemToShare);
   }
 
   /**
-   * Share this project
-   * @param {project} Project being viewed
+   * Send the form
+   * @param {formValue} Form value to share
    */
-  shareItem() {
+  shareItem(formValue) {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -139,19 +195,22 @@ export class SharerComponent implements AfterViewChecked {
 
     // Populate email properties on before share;
     this.emailToShare.html = this.emailHtml;
-    this.emailToShare.from = this.project.managerEmail;
+    this.emailToShare.from = this.itemToShare.managerEmail;
     this.emailToShare.subject = this.emailSubject;
+    this.emailToShare.toEmails = {};
     this.emailToShare.toEmails[this.toEmail] = this.toEmail;
+    this.emailToShare.videoUrl = this.videoUrl;
 
     this.shareService.share(this.emailToShare)
       .subscribe(
         data => {
           this.formStatus = 'emailSent';
+          scroll(0, 0);
           console.log('Project Shared', data);
         },
         err => (er) => {
           this.formStatus = 'emailSendError';
-          console.error('Project creation error: ', er);
+          console.error('Project sharing error: ', er);
         },
         () => {}
       );
@@ -160,57 +219,37 @@ export class SharerComponent implements AfterViewChecked {
   }
 
   /**
-   * Populate email properties on project before share or preview;
+   * Populate email properties on itemToShare before share or preview;
    */
   get emailHtml() {
-    return  this.textToReader
+    return  this.itemToShare.textToReader
+
             + `<h1 align="center" class="emailH1">
             `
-            + this.project.title + `</h1>
+            + this.itemToShare.subject + `</h1>
+
             <p style="display:none;">
             `
-            + this.project.description + `<br><br></p><p align="center">
+            + this.itemToShare.text + `<br><br></p><p align="center">
             `
             + this.shareService.getYouTubeThumbnail(this.videoUrl, `full`)
+
             +
+
+            this.itemToShare.detailsLink +
             `
-            <br>
-            <br>
-            <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
-            <br>
-            <br>
             </p>
             <p>Щиро вдячний,<br>`
-            + this.project.managerName + `<br>
-            <small>` + this.project.managerEmail + `</small></p>
+            + this.itemToShare.managerName + `<br>
+            <small>` + this.itemToShare.managerEmail + `</small></p>
             `
             +
             `
-            <a href="http://bigpolicy.eu/"><img src="http://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
+            <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
-  autoExpand(e) {
-    // FIXME Replace with ng2 auto-expand
-    console.log('auto expa: ', e);
-
-    const textField = typeof e === 'object' ? e.target : document.getElementById(e);
-
-    if (textField.clientHeight < textField.scrollHeight) {
-      textField.style.height = textField.scrollHeight + 'px';
-      if (textField.clientHeight < textField.scrollHeight) {
-        textField.style.height =
-          (textField.scrollHeight * 2 - textField.clientHeight) + 'px';
-      }
-    }
-  };
-
-  showSharer() {
+  toggleSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
-    return false;
-  }
-
-  private toggleEmailPreview() {
-    this.showEmailPreview = !this.showEmailPreview;
     return false;
   }
 

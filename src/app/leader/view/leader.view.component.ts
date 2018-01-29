@@ -1,6 +1,6 @@
 import { Component, Output, OnInit } from '@angular/core';
 import { LeaderModel, LeaderService } from '../../shared/leader/index';
-import { DonateComponent } from '../../shared/donate/index';
+import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -12,6 +12,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class LeaderViewComponent implements OnInit {
 
   leader: LeaderModel = new LeaderModel();
+
+  // Whether it has visual like image or video or it hasn't
+  hasVisual = false;
+
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -48,19 +52,25 @@ export class LeaderViewComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data) {
+  setLeader(data: LeaderModel) {
+    // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
+
+    // fix for leaderFiles: [null] sometimes coming from DB:
+    if (data.leaderFiles && data.leaderFiles.length) {
+      const nullIndex = data.leaderFiles.indexOf(null);
+      console.warn('Fixing null index:', nullIndex, data);
+      data.leaderFiles.splice(nullIndex, 1);
+    }
     this.leader = data;
+    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
   }
 
   /**
-   * Remove this leader
-   * @param {leader} Leader being viewed
+   * Removes the leader from DB
+   * @param {leader} Leader to delete
    */
   deleteLeader(leader: LeaderModel) {
-    // Delete from DB
     this.leaderService.deleteLeader(leader);
-
-    this.router.navigate(['/leaders']);
     return false;
   }
 }

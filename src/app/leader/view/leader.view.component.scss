@@ -1,4 +1,37 @@
 :host {
-  padding: 2em;
   display: block;
+}
+
+h2:first-of-type {
+  margin-top: 0;
+}
+
+.visual-wrapper {
+  width: 100%;
+  margin-bottom: 2em;
+
+  min-height: 320px;
+}
+
+.leader-video {
+  width: 100%;
+}
+
+.projects-title {
+  margin-bottom: 0;
+}
+
+.content-video-wrapper {
+  height: calc(100%);
+  min-height: 320px;
+
+  .content-video {
+    height: calc(100% - 3em);
+    min-height: 320px;
+  }
+}
+
+.mission p,
+.vision p {
+  white-space: pre-line;
 }

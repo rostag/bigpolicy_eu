@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { ProjectServiceMock } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
+import { LeaderModel } from '../../shared/leader/leader.model';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './project.edit.component.html',
@@ -16,25 +18,31 @@ export class ProjectEditComponent implements OnInit {
       return this.isUpdateMode;
   };
 
+  // If true, editor is used on existing item, false if used for thecreation of new one
   isUpdateMode = false;
 
   project: ProjectModel;
+
+  // FIXME Used for changing leaders by admin - need to extract it to separate component
+  leaders: Array<LeaderModel> = null;
+  currentLeader: LeaderModel = new LeaderModel();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private leaderService: LeaderService
+    private leaderService: LeaderService,
+    private location: Location,
+    public userService: UserService
   ) {
     this.project = new ProjectModel();
   }
 
   /**
-   * Initialization Event Handler, used to parse route params
+   * Initialization event handler parses route params
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
-    this.leaderService.getLeaders().subscribe();
     this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
@@ -42,36 +50,26 @@ export class ProjectEditComponent implements OnInit {
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)
-          .subscribe(
-            data => {
-              this.setProject(data);
+            .subscribe((data: ProjectModel) => {
+              this.project = new ProjectModel();
+              this.project.parseData(data);
             },
             err => console.error(err),
             () => {}
           );
         }
-      });
+      }
+    );
   }
 
   /**
-   * Project loading handler
-   * @param {data} Loaded project data
-   */
-  setProject(data) {
-    // Immutability
-    this.project = new ProjectModel();
-    this.project.parseData(data);
-  }
-
-  /**
-   * Remove this project
+   * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
    * @param {project} Project being viewed
    */
   private deleteProject(project: ProjectModel) {
     // Delete from DB
-    this.projectService.deleteProject(project);
+    this.projectService.deleteProject(project, true);
 
-    this.router.navigate(['/projects']);
     return false;
   }
 
@@ -83,6 +81,8 @@ export class ProjectEditComponent implements OnInit {
   saveProject(): boolean {
     if (this.isUpdateMode) {
       // Update existing project
+      // FIXME
+      // this.selectedLeader = this.leaderService.leader;
       this.projectService.updateProject(this.project)
       .subscribe(
         data => { this.gotoProject(data); },
@@ -109,6 +109,9 @@ export class ProjectEditComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Finalizes opening of the project.
+   */
   gotoProject(project) {
     const projectId = project._id;
     if (projectId) {
@@ -117,5 +120,57 @@ export class ProjectEditComponent implements OnInit {
         // navigation is done
       });
     }
+  }
+
+  cancelEditing() {
+    this.location.back();
+  }
+
+  /**
+   * Loads available Leaders to assign the project to
+   */
+   // FIXME Move to service / component
+  requestLeadersToSelectFrom() {
+    // this.userService.isAdmin()
+    this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
+      .subscribe((res) => {
+        this.leaders = res['docs'];
+        console.log('got leaders: ', this.leaders);
+        for (const d in this.leaders) {
+          if ( this.leaders.hasOwnProperty(d)) {
+            console.log('got leader: ', this.leaders[d]._id, this.leaders[d].name);
+            if ( this.project.managerId === this.leaders[d]._id) {
+              // Memorize current leader for later usage - we'll remove project from him:
+              this.currentLeader.parseData(this.leaders[d]);
+            }
+          }
+        }
+      });
+  }
+
+  /**
+   * Assigns project to another leader
+   */
+  // FIXME Check reusing projects Re-assign from leaderService.deleteLeader method
+  // FIXME Move it to service
+  moveProjectToOtherLeader(event) {
+    const newLeader = new LeaderModel();
+    newLeader.parseData(event.value);
+    console.log(`> Move Project to: `, newLeader.email);
+
+    // Update Project:
+    this.project.managerId = newLeader._id;
+    this.project.managerName = newLeader.name + ' ' + newLeader.surName;
+    this.project.managerEmail = newLeader.email;
+    this.saveProject();
+
+    // Add project to new Leader:
+    if ( newLeader.projects.indexOf(this.project._id) === -1 ) {
+      newLeader.projects.push(this.project._id);
+      this.leaderService.updateLeader(newLeader).subscribe();
+    }
+    // Remove project from current Leader:
+    this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
+    this.leaderService.updateLeader(this.currentLeader).subscribe();
   }
 }

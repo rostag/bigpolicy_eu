@@ -27,7 +27,7 @@ git pull origin develop
 
 # Before pushing, check build is ok and fix if there are errors:
 
-ng build -prod
+ng build --prod
 
 # Now, you're ready to push your changes:
 

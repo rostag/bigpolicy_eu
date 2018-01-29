@@ -1,7 +1,9 @@
-<md-card class="files-card">
+<md-card class="files-card" *ngIf="!!files && files.length > 0">
   <md-toolbar color="primary">
     <span>Файли та документи</span>
   </md-toolbar>
+
+  <!-- FIXME Deal with null objects sometimes appeaing in DB -->
 
   <!-- FIXME Deal with broken links due to removed files:
     - test links via curl

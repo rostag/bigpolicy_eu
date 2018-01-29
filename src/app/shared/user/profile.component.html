@@ -1,33 +1,36 @@
-<md-card>
+<div>
   <div *ngIf="userService.authenticated() && userService.userProfile">
-    <md-card-title-group>
-      <md-card-title>
-        <!-- FIXME Override User Profile Name with Leader Name ? -->
-        {{userService.userProfile.name}}
-        <md-chip-list>
-          <md-chip>Зареєстрований</md-chip>
-          <md-chip *ngIf="userService.isAdmin()"><strong>Адміністратор</strong></md-chip>
-        </md-chip-list>
-      </md-card-title>
-      <img md-card-md-image [src]="userService.userProfile.picture">
-    </md-card-title-group>
-    <md-card-content>
-      <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
-      <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
-      <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
-      <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+    <!-- FIXME Override User Profile Name with Leader Name ? -->
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">
+      <h1>{{userService.userProfile.name}}</h1>
+      <p *ngIf="userService.isAdmin()"><a [routerLink]="['/admin']">Адміністратор</a></p>
+      <p *ngIf="profileLeader">Лідер: <a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a></p>
+      <p><a href="#" (click)="userService.logout()">Вийти</a></p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start">
+      <div>
+        <img class="user-avatar" [src]="userService.userProfile.picture">
+      </div>
+      <div class="user-info">
+        <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
+        <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
+        <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
+        <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+      </div>
+    </div>
 
-      <!-- <h4>You are logged in</h4> -->
-    </md-card-content>
-
-    <md-card *ngIf="profileLeader">
-      <md-card-title>
-        Лідер: {{profileLeader.name}} {{profileLeader.surName}}
-      </md-card-title>
+    <md-card *ngIf="profileLeader" class="leader-profile">
       <md-card-content>
-        <h2 *ngIf="profileLeader.projects.length > 0">Проекти:</h2>
-        <app-project-list [leaderId]="profileLeader._id">
+        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
+        <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
+        <app-project-list
+          *ngIf="profileLeader.projects && profileLeader.projects.length > 0"
+          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length > 0" }'>
         </app-project-list>
+
+        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        </app-project-list>
+
       </md-card-content>
       <md-card-actions>
         <span *ngIf="userService.hasEditPermissions(profileLeader)">
@@ -50,7 +53,7 @@
         ставати лідерами
       </li>
       <li>
-        користуватися іншими розширеними фунціями системи.
+        користуватися розширеними фунціями системи.
       </li>
     </ul>
     <p>
@@ -59,7 +62,4 @@
     <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
   </div>
 
-  <!-- <app-project-list [maxCount]="10">
-  </app-project-list> -->
-
-</md-card>
+</div>

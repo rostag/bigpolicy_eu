@@ -1,0 +1,51 @@
+$llgrey: #eee;
+$lgrey: #ccc;
+$grey: #999;
+$gry: #555;
+
+app-home:host {
+  background-color: transparent;
+  box-sizing: border-box;
+  display: block;
+  padding: 2rem;
+}
+
+.how-it-works {
+  margin-top: 7rem;
+}
+
+.projects-leaders-list {
+  margin-top: 6rem;
+
+  /deep/ .mat-tab-label {
+    font-size: 1.4em;
+  }
+
+  app-project-list {
+    // background: #ffc;
+    padding: 1rem;
+  }
+
+  app-leader-list {
+    // background: #ffc;
+    padding: 1rem;
+  }
+
+  .controls {
+    text-align: center;
+  }
+
+  .bt-show-all {
+    margin-bottom: 1em;
+  }
+}
+
+.bottom-title {
+  font-size: 2rem;
+  margin: 7rem;
+  text-align: center;
+}
+
+.contacts {
+  margin-top: 3em;
+}

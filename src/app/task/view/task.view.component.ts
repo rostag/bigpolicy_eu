@@ -1,51 +1,88 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
+// FIXME MOVE TO TASK SERVICE
+import { ProjectService } from '../../shared/project/project.service';
 
 @Component({
+  selector: 'app-task-view',
   templateUrl: './task.view.component.html',
-  styleUrls: ['../../../assets/css/skeleton.css', './task.view.component.scss']
+  styleUrls: ['./task.view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskViewComponent implements OnInit {
+export class TaskViewComponent implements OnInit, OnChanges {
 
-  task: TaskModel = new TaskModel();
+  @Input() task: TaskModel = new TaskModel();
+
+  @Input() compactView = false;
+
+  @Input() dataprovided = false;
+
+  @Input() projectTitle = '';
+
+  @Input() showProjectLink = 'dontShow';
+
+  hasVisual = false;
 
   /**
    * Dependency Injection: route (for reading params later)
    */
   constructor(
     public userService: UserService,
+    public projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
-    private taskService: TaskService
-  ) {}
+    private taskService: TaskService,
+    private ref: ChangeDetectorRef
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+  }
 
   /**
    * Initialization Event Handler, used to parse route params
    * like `id` in task/:id/edit)
    */
   ngOnInit() {
-    this.route.params
+    if (this.dataprovided) {
+      // FIXME Use caching - too many requests otherwise
+      // FIXME Apply the same technique to Projects retrieving Leader info
+      this.retrieveProject();
+    } else {
+      this.route.params
       .map(params => params['id'])
       .subscribe((id) => {
-        // console.log('View Task by ID from route params:', id)
+        console.log('View Task by ID from route params:', id);
         if (id) {
           this.taskService.getTask(id)
           .subscribe( data => {
-            this.setTask(data);
+            this.task = data;
+            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+            console.log('tpId =', this.task.projectId, data);
+            this.retrieveProject();
           });
         }
       });
+    }
   }
 
-  /**
-   * Task loading handler
-   * @param {data} Loaded task data
-   */
-  setTask(data) {
-    this.task = data;
+  retrieveProject() {
+    if (this.task.projectId) {
+      // FIXME MOVE TO TASK SERVICE
+      this.projectService.getProject(this.task.projectId)
+      .subscribe( project => {
+        this.projectTitle = project.title;
+        // console.log('a title:', this.projectTitle);
+        this.ref.markForCheck();
+      });
+    }
   }
 
   /**

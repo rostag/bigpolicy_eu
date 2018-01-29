@@ -1,7 +1,7 @@
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project/index';
+import { ProjectService, ProjectModel } from '../../shared/project';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
@@ -14,20 +14,45 @@ import { UserService } from '../../shared/user/user.service';
 
 export class ProjectListComponent implements OnChanges {
 
-  @Input() leaderId;
-  @Input() maxCount = 100;
+  // List title
+  @Input() title = '';
 
-  private projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  // How many leaders to show and to request from db in single turn
+  @Input() pageSize = 6;
+
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
+  @Input() dbQuery = '{}';
+
+  // An ID of the Leader managing the project
+  @Input() leaderId;
+
+  // Whether to show the pagination (it's not needed at Home, for example)
+  @Input() showPagination = true;
+
+  // To let override view context for child briefs:
+  @Input() viewContext = 'projectListPage';
+
+  @Input() flexSettings = '33|30|30|50|100';
+
+  // 40 320px 320px
+  flexState = {
+      flex: 20,
+      lg: '50 200px 100%',
+      md: '33 200px 100%',
+      sm: '33 100px 100%',
+      xs: 100
+  };
+
+  public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public itemsPage = {
+    docs: this.projects,
+    limit: this.pageSize,
+    page: 1,
+    pages: 0,
+    total: 0
+  };
 
   isAddingTaskMode = false;
-
-  ngOnChanges(changes) {
-    if (changes.leaderId && changes.leaderId.currentValue ) {
-      this.requestProjects(changes.leaderId.currentValue);
-    } else if (changes.maxCount && changes.maxCount.currentValue) {
-      this.requestProjects(null, changes.maxCount.currentValue);
-    }
-  }
 
   constructor(
     public userService: UserService,
@@ -35,26 +60,58 @@ export class ProjectListComponent implements OnChanges {
     private http: Http
   ) {}
 
-  // WIP
-  requestProjects(leaderId = '', maxCount = 100) {
-    const proxySub = this.projectService.getProjects('', leaderId, maxCount).subscribe(projects => {
-      this.projects.next(projects);
-      proxySub.unsubscribe();
-    });
+  ngOnChanges(changes) {
+    if (changes.leaderId && changes.leaderId.currentValue ||
+        changes.pageSize && changes.pageSize.currentValue ||
+        changes.dbQuery && changes.dbQuery.currentValue) {
+      this.requestProjects();
+    }
+    if (changes.flexSettings && changes.flexSettings.currentValue ) {
+      const f = changes.flexSettings.currentValue.split('|');
+      this.flexState.flex = f[0];
+      this.flexState.lg = f[1];
+      this.flexState.md = f[2];
+      this.flexState.sm = f[3];
+      this.flexState.xs = f[4];
+      console.log('viewContext:', this.flexState);
+    }
+  }
+
+  pageChanged(pageNumber) {
+    this.itemsPage.page = pageNumber;
+    this.requestProjects();
+  }
+
+  requestProjects() {
+    const proxySub = this.projectService.getProjectsPage(
+        null,
+        this.leaderId,
+        this.itemsPage.page,
+        this.pageSize,
+        this.dbQuery)
+      .subscribe( (responsePage: ProjectModel) => {
+        // console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
   }
 
   deleteProject(projectToRemove: ProjectModel) {
-    // TODO: Also delete related tasks
-    // Delete in UI
-    let updatedProjects;
-    this.projects.subscribe ( projects => {
-      updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
-    });
-    this.projects.next( updatedProjects );
-    console.log('removed index:', projectToRemove, updatedProjects);
-
     // Delete from DB
-    this.projectService.deleteProject(projectToRemove);
+    this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
+      if (dialogResult === true ) {
+        // Delete in UI
+        let updatedProjects;
+        this.projects.subscribe ( projects => {
+          updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
+        });
+        this.projects.next( updatedProjects );
+      }
+    });
     return false;
   }
 }

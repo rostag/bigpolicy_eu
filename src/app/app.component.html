@@ -1,17 +1,28 @@
-<div [class.bp-dark-theme]="toolbar.isDarkTheme">
+<div class="mat-typography app" fxLayout="column" fxLayoutAlign="space-between stretch" >
 
-  <app-bp-toolbar #toolbar>
-  </app-bp-toolbar>
+  <app-bp-toolbar fxFlex></app-bp-toolbar>
 
-  <app-bp-navbar>
-  </app-bp-navbar>
-
-  <div class="app-content">
+  <div class="app-content" fxFlex="1">
     <router-outlet></router-outlet>
   </div>
 
-  <footer>Creative Commons and BigPolicy 2015-2017 v.1.0.5
-    <a [routerLink]="['/about']">Про проект</a>
+  <footer fxFlex>
+
+    <p>
+      BigPolicy &amp; Creative Commons 2017 v.{{version}}
+      <br />
+      <a [routerLink]="['/privacy']">Політика конфіденційності</a>
+      <br />
+      <a [routerLink]="['/about']">Проект</a>
+      <br />
+    </p>
+
+    <p>
+      <a [routerLink]="['/about']">
+        <img width="40" class="logo" src="assets/img/logo.png" />
+      </a>
+    </p>
+
   </footer>
 
 </div>

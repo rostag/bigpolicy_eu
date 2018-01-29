@@ -2,3 +2,15 @@
   display: block;
   margin-bottom: 2em;
 }
+
+.send-btn {
+  font-size: 1em;
+  padding: 1em;
+}
+
+.donate-component.ready {
+  border: 1px solid rgb(245, 245, 235);
+  border-radius: 1em;
+  padding: 1.5em;
+  background: #fff;
+}
