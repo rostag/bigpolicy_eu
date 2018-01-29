@@ -5,13 +5,14 @@ module.exports = function(app, router, DB, jwtCheck, adminCheck){
   /**
    * Creates a Leader
    */
-  router.post('/leader-api', function (req, res) {
+  router.post('/leader-api', jwtCheck, function (req, res) {
     let data;
 
-    console.log('leader-api/create: ', req.body);
+    console.log('leader-api/create: ', jwtCheck, req.body);
 
     try {
       data = JSON.parse(Object.keys(req.body)[0]);
+      data.email = "test@test.com";
       if ( !data || !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
         throw ( 'Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
       }

@@ -96,12 +96,11 @@ export class LeaderService {
   createLeader(model: LeaderModel, email) {
     model.email = email;
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    headers.append('Authorization', this._authHeader);
 
-    this.http.post(this.leaderApiUrl, body, options)
-      .map(res => res.json())
+    this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
       .subscribe(
         data => {
           // Normal Save
@@ -205,7 +204,7 @@ export class LeaderService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
+    return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
       .map(res => res.json())
       .catch(this.handleError);
   }
