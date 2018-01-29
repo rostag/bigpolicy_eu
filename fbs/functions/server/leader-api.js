@@ -1,4 +1,4 @@
-module.exports = function(app, router, DB){
+module.exports = function(app, router, DB, jwtCheck, adminCheck){
 
   // Routes order is important
 
@@ -29,12 +29,16 @@ module.exports = function(app, router, DB){
     });
   })
 
-  .get('/leader-api/pi', function (req, res) {
+  .get('/leader-api/ping', function (req, res) {
     res.send('Pong');
   })
 
-  .get('/leader-api/ping', function (req, res) {
-    res.json({ ping: 'pong:leader' });
+  .get('/leader-api/ping-jwt', jwtCheck, function (req, res) {
+    res.json({ ping: 'pong:leader-jwt' });
+  })  
+
+  .get('/leader-api/ping-jwt-admin', jwtCheck, adminCheck, function (req, res) {
+    res.json({ ping: 'pong:leader-jwt-admin' });
   })  
 
   /**
