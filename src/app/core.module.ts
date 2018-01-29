@@ -37,7 +37,7 @@ import { LeaderViewComponent } from './leader/view';
 import { ProfileComponent } from './shared/user/profile.component';
 import { AdminComponent } from './shared/admin/admin.component';
 import { AboutComponent } from './about';
-import { LandingComponent } from './landing';
+// import { LandingComponent } from './landing';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
@@ -112,7 +112,7 @@ export const firebaseConfig = {
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -151,7 +151,7 @@ export const firebaseConfig = {
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,

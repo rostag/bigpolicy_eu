@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-leaders',
@@ -6,4 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./leaders.component.scss']
 })
 
-export class LeadersComponent { }
+export class LeadersComponent {
+  constructor(private titleService: Title) {
+
+  }
+
+  ngOnInit() {
+    // FIXME Implement title change for all components
+    this.titleService.setTitle('Лідери — BigPolicy');
+  }
+ }
