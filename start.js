@@ -1,11 +1,14 @@
+// bp/start.js
+
 var http = require('http');
 var express = require('express');
-var app = express();
-var router = express.Router();
-var server = http.createServer(app);
 var port = 4300;
 var hostname = '127.0.0.1';
 var middleware = require('./fbs/functions/server/');
+
+var appExpress = express();
+var router = express.Router();
+var server = http.createServer(appExpress);
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
@@ -19,12 +22,12 @@ function redirectToSecure(req, res, next) {
 if (hostname === '127.0.0.1') {
   port = 4300;
 } else {
-  app.use(redirectToSecure);
+  appExpress.use(redirectToSecure);
 }
 
-app.use(express.static(__dirname + '/dist'));
+appExpress.use(express.static(__dirname + '/dist'));
 
-middleware(app, router);
+middleware(appExpress, router);
 
 server.listen(port,hostname);
 
