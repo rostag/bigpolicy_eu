@@ -1,21 +1,30 @@
 module.exports = function(app, router){
-
+  
+  const bodyParser = require('body-parser');
+  const path = require('path');
+  const methodOverride = require('method-override');
+  const cors = require('cors');
+  
+  // Config
+  const config = require('./config');
+  
   var pingApi = require('./ping-api');
   var taskApi = require('./task-api');
   var leaderApi = require('./leader-api');
   var projectApi = require('./project-api');
   var mailApi = require('./mail-api');
-  var liqpayApi = require('./donation-api');
-  var bodyParser = require('body-parser');
-
+  var liqpayApi = require('./donation-api');  
+  
   const DB = require('./mongo/database');
   const DBLeader = require('./mongo/db-leader');
   const DBProject = require('./mongo/db-project');
   const DBTask = require('./mongo/db-task');
   const DBDonation = require('./mongo/db-donation');
 
-  app.use(bodyParser.urlencoded({'extended':'true'})); // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({'extended': true })); // parse application/x-www-form-urlencoded
   app.use(bodyParser.json());                          // parse application/json
+  app.use(methodOverride('X-HTTP-Method-Override'));
+  app.use(cors());
 
   // FIXME_SEC
   app.use((req, res, next) => {
@@ -24,6 +33,35 @@ module.exports = function(app, router){
     res.header("Access-Control-Allow-Methods", "OPTIONS, PUT, DELETE, POST, GET");
     next();
   });
+
+  // Pass routing to Angular app
+  // Don't run in dev
+  // if (process.env.NODE_ENV !== 'dev') {
+  // app.get('*', function(req, res) {
+  //   res.sendFile(path.join(__dirname, '/dist/index.html'));
+  // });
+
+  const jwt = require('express-jwt');
+  const jwks = require('jwks-rsa');
+
+  // Authentication middleware
+  const jwtCheck = jwt({
+    secret: jwks.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${config.AUTH0_DOMAIN}/.well-known/jwks.json`
+    }),
+    audience: config.AUTH0_API_AUDIENCE,
+    issuer: `https://${config.AUTH0_DOMAIN}/`,
+    algorithm: 'RS256'
+  });
+
+  /*
+  |--------------------------------------
+  | API Routes
+  |--------------------------------------
+  */
 
   pingApi(app, router);
   leaderApi(app, router, DBLeader);
