@@ -2,11 +2,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AUTH_CONFIG } from '../../environments/auth.config';
+import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
+
+  isAdmin: boolean;
+  userProfile: any;
+
+  // Create a stream of logged in status to communicate throughout app
+  loggedIn: boolean;
+  loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
+
   // Create Auth0 web auth instance
   private _auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.CLIENT_ID,
@@ -16,20 +24,16 @@ export class AuthService {
     audience: AUTH_CONFIG.AUDIENCE,
     scope: AUTH_CONFIG.SCOPE
   });
-  userProfile: any;
-  // Create a stream of logged in status to communicate throughout app
-  loggedIn: boolean;
-  loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
   constructor(private router: Router) {
-    // If authenticated, set local profile property
-    // and update login status subject.
-    // If not authenticated but there are still items
-    // in localStorage, log out.
     const lsProfile = localStorage.getItem('profile');
 
+    // If authenticated, set local profile property,
+    // admin status, and update login status subject.
+    // If token is expired but user data still in localStorage, log out
     if (this.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
+      this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
     } else if (!this.tokenValid && lsProfile) {
       this.logout();
@@ -71,6 +75,12 @@ export class AuthService {
     });
   }
 
+  private _checkAdmin(profile) {
+    // Check if the user has admin role
+    const roles = profile[AUTH_CONFIG.NAMESPACE] || [];
+    return roles.indexOf('admin') > -1;
+  }
+
   private _setSession(authResult, profile) {
     // Save session data and update login status subject
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
@@ -80,6 +90,11 @@ export class AuthService {
     localStorage.setItem('expires_at', expiresAt);
     localStorage.setItem('profile', JSON.stringify(profile));
     this.userProfile = profile;
+
+    // Save admin data
+    this.isAdmin = this._checkAdmin(profile);
+    localStorage.setItem('isAdmin', this.isAdmin.toString());
+    
     // Update login status in loggedIn$ stream
     this.setLoggedIn(true);
   }
@@ -91,8 +106,10 @@ export class AuthService {
     localStorage.removeItem('profile');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('authRedirect');
+    localStorage.removeItem('isAdmin');
     // Reset local properties, update loggedIn$ stream
     this.userProfile = undefined;
+    this.isAdmin = undefined;
     this.setLoggedIn(false);
     // Return to homepage
     this.router.navigate(['/']);

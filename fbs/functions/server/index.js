@@ -57,6 +57,16 @@ module.exports = function(app, router){
     algorithm: 'RS256'
   });
 
+  // Check for an authenticated admin user
+  const adminCheck = (req, res, next) => {
+    const roles = req.user[config.NAMESPACE] || [];
+    if (roles.indexOf('admin') > -1) {
+      next();
+    } else {
+      res.status(401).send({message: 'Not authorized for admin access'});
+    }
+  }
+    
   /*
   |--------------------------------------
   | API Routes
@@ -64,7 +74,7 @@ module.exports = function(app, router){
   */
 
   pingApi(app, router);
-  leaderApi(app, router, DBLeader);
+  leaderApi(app, router, DBLeader, jwtCheck, adminCheck);
   projectApi(app, router, DBProject, DBLeader);
   taskApi(app, router, DBTask, DBProject);
   mailApi(app, router, DB);

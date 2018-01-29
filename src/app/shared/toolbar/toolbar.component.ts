@@ -28,4 +28,14 @@ export class ToolbarComponent {
     public userService: UserService, 
     public leaderService: LeaderService
   ) { }
+
+  public ping() {
+    this.leaderService.ping().subscribe();
+  }
+  public pingJwt() {
+    this.leaderService.pingJwt().subscribe();
+  }
+  public pingJwtAdmin() {
+    this.leaderService.pingJwtAdmin().subscribe();
+  }
 }

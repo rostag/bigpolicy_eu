@@ -69,6 +69,7 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -92,7 +93,8 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     Ng2PaginationModule,
-    CookieLawModule
+    CookieLawModule,
+    HttpClientModule
   ],
   exports: [
     // components we want to make available
@@ -132,7 +134,8 @@ export const firebaseConfig = {
     WorkingSpinnerComponent,
     Ng2PaginationModule,
     FormsModule,
-    CookieLawModule
+    CookieLawModule,
+    HttpClientModule
   ],
   declarations: [
     // components to use in this module
@@ -183,6 +186,7 @@ export const firebaseConfig = {
     DialogService,
     CustomBrowserXhr,
     Title,
+    HttpClient,
     { provide: BrowserXhr, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [
