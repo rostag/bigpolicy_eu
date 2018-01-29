@@ -5,7 +5,7 @@ var router = express.Router();
 var server = http.createServer(app);
 var port = 4300;
 var hostname = '127.0.0.1';
-var middleware = require('./fb/functions/server/');
+var middleware = require('./fbs/functions/server/');
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
