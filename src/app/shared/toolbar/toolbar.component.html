@@ -35,6 +35,12 @@
     </button>
   </span>
 
+  <div class="header-page-authStatus">
+    <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>
+    <span *ngIf="auth.loggedIn">
+      {{auth.userProfile?.name}} <a (click)="auth.logout()">Log Out</a>
+    </span>
+  </div>
 </nav>
 
 

@@ -1,6 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
-import { UserService } from './shared/user/user.service';
+import { AuthService } from './auth/auth.service';
 import { ProjectService } from './shared/project/project.service';
 import { Router, NavigationEnd } from '@angular/router';
 
@@ -19,13 +19,15 @@ export class AppComponent implements OnInit {
   version = appVersion['app-version'];
 
   constructor(
-    public userService: UserService,
+    private auth: AuthService,
     private projectService: ProjectService,
     private router: Router
-  ) {}
+  ) {
+    auth.handleAuth();    
+  }
 
   ngOnInit() {
-    console.log('• BP app v. ' + this.version + '. User service: ', this.userService);
+    console.log('• BP app v. ' + this.version + '. Auth service: ', this.auth);
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {

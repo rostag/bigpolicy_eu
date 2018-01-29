@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { UserService } from '../user/user.service';
+import { UserService } from 'app/shared/user/user.service';
 import { LeaderService } from 'app/shared/leader';
+import { AuthService } from 'app/auth/auth.service';
 
 /**
  * This class represents the toolbar component.
@@ -22,5 +23,9 @@ export class ToolbarComponent {
     return this.userService.authenticated() && this.userService.hasLeader();
   };
 
-  constructor(public userService: UserService, public leaderService: LeaderService) { }
+  constructor(
+    public auth: AuthService, 
+    public userService: UserService, 
+    public leaderService: LeaderService
+  ) { }
 }
