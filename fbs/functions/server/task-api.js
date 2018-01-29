@@ -1,8 +1,5 @@
 module.exports = function(app, router, DB, DBProject){
 
-  // FB_MIGRATION var express = require('express');
-  // FB_MIGRATION var router = express.Router();
-
   // Routes order is important
 
   /**
@@ -122,7 +119,5 @@ module.exports = function(app, router, DB, DBProject){
         res.json(err);
       });
   })
-
-  // FB_MIGRATION app.use('/task-api', router);
 
 }

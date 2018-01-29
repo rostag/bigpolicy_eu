@@ -1,6 +1,4 @@
 module.exports = function(app, router, DB){
-  // FB_MIGRATE var express = require('express');
-  // FB_MIGRATE var router = express.Router();
   var LiqPay = require('liqpay-sdk');
   // FIXME_SEC
   var public_key = 'i77061351482';
@@ -143,8 +141,6 @@ module.exports = function(app, router, DB){
   //   });
   //
   // });
-
-  // FB_MIGRATE app.use('/donation-api', router);
 
   console.log('  • LiqPay connected.');
 }
