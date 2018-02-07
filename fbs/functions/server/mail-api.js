@@ -2,8 +2,6 @@ module.exports = function(app, router, DB){
 
   // Mailgun-js wrapper
   var Mailgun = require('mailgun-js');
-  // FB_MIGRATION var express = require('express');
-  // FB_MIGRATION var router = express.Router();
 
   // FIXME_SEC
   var mailgun_api_key = 'key-fbb7eae260ccda81270645824316856a';

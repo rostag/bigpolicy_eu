@@ -1,8 +1,5 @@
 module.exports = function(app, router, DB, DBProject){
 
-  // FB_MIGRATION var express = require('express');
-  // FB_MIGRATION var router = express.Router();
-
   // Routes order is important
 
   /**
@@ -41,7 +38,7 @@ module.exports = function(app, router, DB, DBProject){
     console.log('task-api.put/bulk-delete', req.body.ids);
     DB.bulkDeleteTasks(req.body.ids)
       .then(function (data) {
-        console.log('DONE task-api.put/bulk-delete', data);
+        // console.log('DONE task-api.put/bulk-delete', data);
         res.json(data);
       })
       .catch(function(err){
@@ -122,7 +119,5 @@ module.exports = function(app, router, DB, DBProject){
         res.json(err);
       });
   })
-
-  // FB_MIGRATION app.use('/task-api', router);
 
 }

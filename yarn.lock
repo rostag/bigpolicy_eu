@@ -448,10 +448,6 @@ angular2-cookie-law@1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/angular2-cookie-law/-/angular2-cookie-law-1.3.1.tgz#56124023f186f22b243f471d69533e3b95fc6c2a"
 
-angular2-jwt@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/angular2-jwt/-/angular2-jwt-0.2.3.tgz#54efdda3ceedba85f6a37b165f22ac22b8adf021"
-
 angularfire2@5.0.0-rc.3:
   version "5.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.3.tgz#74d82dde4ba38b8b5c6c0eda686159b81814b5c4"
@@ -642,25 +638,6 @@ auth0-js@9.0.0-beta.10:
     superagent "^3.3.1"
     url-join "^1.1.0"
     winchan "^0.2.0"
-
-auth0-lock@v11.0.0-beta.9:
-  version "11.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/auth0-lock/-/auth0-lock-11.0.0-beta.9.tgz#478e9a44d62c13aa8a19cf0990492f04962c5385"
-  dependencies:
-    auth0-js "9.0.0-beta.10"
-    blueimp-md5 "2.3.1"
-    fbjs "^0.3.1"
-    idtoken-verifier "^1.0.1"
-    immutable "^3.7.3"
-    jsonp "^0.2.0"
-    password-sheriff "^1.1.0"
-    prop-types "^15.6.0"
-    react "^15.6.2"
-    react-dom "^15.6.2"
-    react-transition-group "^2.2.1"
-    superagent "^3.3.1"
-    trim "0.0.1"
-    url-join "^1.1.0"
 
 autoprefixer@^6.3.1, autoprefixer@^6.5.3:
   version "6.7.7"

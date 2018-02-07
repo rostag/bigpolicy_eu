@@ -4,6 +4,7 @@
 /tmp
 /dist
 /fb/dist
+/fbs/dist
 
 
 # dependencies
@@ -14,6 +15,7 @@
 /node_modules
 /bower_components
 /fb/functions/node_modules
+/fbs/functions/node_modules
 
 # IDEs and editors
 /.idea

@@ -8,8 +8,14 @@ import { environment } from '../../../environments/environment';
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
+
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+
+import { AuthService } from 'app/auth/auth.service';
+import { ENV } from 'app/../environments/env.config';
 
 declare var localStorage: any;
 
@@ -38,11 +44,50 @@ export class LeaderService {
    * @constructor
    */
   constructor(
+    private httpClient: HttpClient,
+    private auth: AuthService,    
     private http: Http,
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService
   ) {}
+
+  private get _authHeader(): string {
+    return `Bearer ${localStorage.getItem('access_token')}`;
+  }
+
+  // Basic Ping
+  ping(): Observable<any> {
+    return this.httpClient
+      .get(`${ENV.BASE_API}leader-api/ping`)
+      .catch(this._handleError);
+  }
+
+  // Basic Ping with JWT
+  pingJwt(): Observable<any> {
+    return this.httpClient
+      .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .catch(this._handleError);
+  }
+
+  // Basic Ping with JWT and Admin
+  pingJwtAdmin(): Observable<any> {
+    return this.httpClient
+      .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`,{
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .catch(this._handleError);
+  }
+
+  private _handleError(err: HttpErrorResponse | any) {
+    const errorMsg = err.message || 'Error: Unable to complete request.';
+    if (err.message && err.message.indexOf('No JWT present') > -1) {
+      this.auth.login();
+    }
+    return Observable.throw(errorMsg);
+  }
 
   /**
    * Creates the Leader.
@@ -51,12 +96,11 @@ export class LeaderService {
   createLeader(model: LeaderModel, email) {
     model.email = email;
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    headers.append('Authorization', this._authHeader);
 
-    this.http.post(this.leaderApiUrl, body, options)
-      .map(res => res.json())
+    this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
       .subscribe(
         data => {
           // Normal Save
@@ -160,7 +204,7 @@ export class LeaderService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
+    return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
       .map(res => res.json())
       .catch(this.handleError);
   }

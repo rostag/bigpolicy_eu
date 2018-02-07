@@ -38,7 +38,7 @@ DBProject.createProject = function(dataObj) {
  * Returns single Project by ID
  */
 DBProject.getProject = function(projectId) {
-   console.log('DB :: getProject, id:', projectId);
+  //  console.log('DB :: getProject, id:', projectId);
 
    if (projectId === 'random') {
      return Project.count().exec()
