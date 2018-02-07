@@ -1,4 +1,4 @@
-<md-card>
+<div>
 
   <md-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
     <span *ngIf="userService.isOwner(leader)">
@@ -13,7 +13,7 @@
 
   <md-card-content>
 
-    <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
+    <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
 
     <!-- Leader image/video and Support Button + Projects -->
     <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
@@ -99,9 +99,9 @@
   </md-card-content>
 
   <md-card-actions>
-    <p class="admin" *ngIf="userService.hasEditPermissions(leader)">
+    <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
       <button [routerLink]="['/leader/' + leader._id + '/edit']" md-raised-button color="accent">Редагувати</button>
       <button (click)="deleteLeader(leader)" md-raised-button color="warn">Видалити</button>
-    </p>
+    </div>
   </md-card-actions>
-</md-card>
+</div>

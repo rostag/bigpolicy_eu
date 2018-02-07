@@ -1,11 +1,12 @@
 // CoreModule.ts
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LeaderService } from './shared/leader';
 import { ProjectService } from './shared/project';
+import { AuthService } from './auth/auth.service';
 import { UserService } from './shared/user/user.service';
 import { TaskService } from './shared/task';
 import { DriveService } from './shared/drive';
@@ -18,25 +19,26 @@ import { CookieLawModule } from 'angular2-cookie-law';
 
 
 // Components
-import { NavbarComponent, ToolbarComponent } from './shared/index';
+import { NavbarComponent, ToolbarComponent } from './shared';
 
-import { TaskEditComponent } from './task/edit/index';
-import { TaskListComponent } from './task/list/index';
-import { TaskViewComponent } from './task/view/index';
+import { TaskEditComponent } from './task/edit';
+import { TaskListComponent } from './task/list';
+import { TaskViewComponent } from './task/view';
 
-import { ProjectsComponent } from './project/landing/index';
-import { ProjectEditComponent } from './project/edit/index';
-import { ProjectListComponent } from './project/list/index';
-import { ProjectViewComponent } from './project/view/index';
+import { ProjectsComponent } from './project/landing';
+import { ProjectEditComponent } from './project/edit';
+import { ProjectListComponent } from './project/list';
+import { ProjectViewComponent } from './project/view';
 
-import { LeaderEditComponent } from './leader/edit/index';
-import { LeaderListComponent } from './leader/list/index';
-import { LeaderViewComponent } from './leader/view/index';
+import { LeadersComponent } from './leader/landing';
+import { LeaderEditComponent } from './leader/edit';
+import { LeaderListComponent } from './leader/list';
+import { LeaderViewComponent } from './leader/view';
 
 import { ProfileComponent } from './shared/user/profile.component';
 import { AdminComponent } from './shared/admin/admin.component';
-import { AboutComponent } from './about/index';
-import { LandingComponent } from './landing/index';
+import { AboutComponent } from './about';
+// import { LandingComponent } from './landing';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
@@ -67,6 +69,7 @@ import { LoggedInGuard } from './shared/login/logged-in.guard';
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -90,7 +93,8 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     Ng2PaginationModule,
-    CookieLawModule
+    CookieLawModule,
+    HttpClientModule
   ],
   exports: [
     // components we want to make available
@@ -104,13 +108,14 @@ export const firebaseConfig = {
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,
+    LeadersComponent,
     LeaderEditComponent,
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -129,7 +134,8 @@ export const firebaseConfig = {
     WorkingSpinnerComponent,
     Ng2PaginationModule,
     FormsModule,
-    CookieLawModule
+    CookieLawModule,
+    HttpClientModule
   ],
   declarations: [
     // components to use in this module
@@ -142,13 +148,14 @@ export const firebaseConfig = {
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,
+    LeadersComponent,
     LeaderEditComponent,
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -170,6 +177,7 @@ export const firebaseConfig = {
     LoggedInGuard,
     ShareService,
     DonationService,
+    AuthService,
     UserService,
     LeaderService,
     ProjectService,
@@ -177,6 +185,8 @@ export const firebaseConfig = {
     DriveService,
     DialogService,
     CustomBrowserXhr,
+    Title,
+    HttpClient,
     { provide: BrowserXhr, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [

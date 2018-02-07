@@ -3,17 +3,14 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 var options = {
-  server: {
-    poolSize: 5
-  },
-  db: {
-    nativeParser: true
-  }
+    poolSize: 5,
+    native_parser: true
 };
 
-//  Local : 'mongodb://localhost:27027/bigpolicy'
-//  Remote: 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa'
+//  Local:
 var MNG_URL = 'mongodb://localhost:27027/bigpolicy';
+//  Remote: 
+// var MNG_URL = 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa'
 
 try {
   console.log('  𝖄 Mongoose connection:' + MNG_URL);

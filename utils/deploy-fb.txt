@@ -2,13 +2,13 @@
 
 cd /Users/rosty/dev/BP/bp/
 npm run build-prod
-rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
+rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fbs/dist
 cd fb
 firebase deploy
 
 ## Single command:
 
-cd /Users/rosty/dev/BP/bp/ && npm run build-prod && rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public && cd fb && firebase deploy
+cd /Users/rosty/dev/BP/bp/ && npm run build-prod && rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fbs/dist && cd fb && firebase deploy
 
 =====================
 

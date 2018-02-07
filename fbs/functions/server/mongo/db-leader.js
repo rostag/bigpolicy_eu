@@ -22,7 +22,7 @@ DBLeader.createLeader = function(data) {
  * Returns single Leader by ID
  */
 DBLeader.getLeader = function(leaderId) {
-  console.log('DB :: getLeader, id:', leaderId);
+  // console.log('DB :: getLeader, id:', leaderId);
 
   if (leaderId === 'random') {
     // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
