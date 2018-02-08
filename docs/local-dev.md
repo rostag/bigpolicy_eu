@@ -2,13 +2,13 @@ Local Dev:
 
 # Run DB:
 
-cd /Users/rosty/dev/bp && mongod --dbpath data/db --port 27027
+cd [project root folder] && mongod --dbpath data/db --port 27027
 
 # Run API: 
 
-cd /Users/rosty/dev/bp/bp && npm start
+cd [project root folder]/bp && npm start
 
 # Run Client
 
-cd /Users/rosty/dev/bp/bp && npm run serve
+cd [project root folder]/bp && npm run serve
 
