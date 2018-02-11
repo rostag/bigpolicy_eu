@@ -82,6 +82,11 @@ module.exports = function(app, router){
 
   app.use('/api', router);
 
+  app.use(function (req, res) {
+    res.sendFile('dist/index.html', { root: '.' });
+    // res.sendFile(path.join(__dirname, '../../../dist/index.html'));
+  });
+
   console.log('  • Middleware connected.');
 
   return DB;
