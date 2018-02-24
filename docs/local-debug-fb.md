@@ -29,4 +29,5 @@ var prod = true;
  export const environment = {
     production: false,		    production: false,
  -  api_url: 'http://localhost:4300/bigpolicy-qa/us-central1/appExpress'		 +  api_url: 'http://localhost:4300'
-  };		  };
+  };
+};
