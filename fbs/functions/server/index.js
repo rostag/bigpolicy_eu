@@ -60,6 +60,8 @@ module.exports = function(app, router){
   // Check for an authenticated admin user
   const adminCheck = (req, res, next) => {
     const roles = req.user[config.NAMESPACE] || [];
+    console.log('Roles:', roles, req.user);
+    
     if (roles.indexOf('admin') > -1) {
       next();
     } else {
