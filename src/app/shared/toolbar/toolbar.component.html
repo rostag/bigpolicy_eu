@@ -35,7 +35,7 @@
     </button>
   </span>
 
-  <div class="mat-elevation-z8" style="position:absolute;right:10px;top:44px;background:#eee;padding:1em;max-width:80px;">
+  <div class="mat-elevation-z8" style="position:absolute;right:10px;top:44px;background:#eee;padding:1em;max-width:480px;">
     <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>
     <span *ngIf="auth.loggedIn">
       {{auth.userProfile?.name}} <a (click)="auth.logout()">Log Out</a>
