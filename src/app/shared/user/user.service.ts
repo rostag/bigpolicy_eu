@@ -24,15 +24,15 @@ export class UserService {
   // 2. E.T.C.
   // FIXME Redirect user to target page, not just Home
   options = {
-      auth: {
-          redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
-          responseType: 'token'
-          // language: 'ua'
-          // params: {
-          //     state: '[your_state_value]',
-          //     scope: 'openid user_id name nickname email picture'
-          // }
-      }
+    auth: {
+      redirectUrl: window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/profile',
+      responseType: 'token'
+      // language: 'ua'
+      // params: {
+      //     state: '[your_state_value]',
+      //     scope: 'openid user_id name nickname email picture'
+      // }
+    }
   };
 
   // FIXME_SEC
@@ -43,7 +43,8 @@ export class UserService {
     public projectService: ProjectService,
     private dialogService: DialogService
   ) {
-    console.log('environment:', environment );
+    // FIXME this.userProfile = auth.userProfile;
+    console.log('environment:', environment);
     // Set userProfile attribute of already saved profile
     if (this.authenticated()) {
       console.log('UserService: Authenticated.');
@@ -61,17 +62,17 @@ export class UserService {
 
       const profile = authResult.idTokenPayload;
 
-        localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
-        this.userProfile = profile;
+      localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
+      this.userProfile = profile;
 
-        this.leaderService.requestLeaderByEmail(this.getEmail())
-          .subscribe( leaderResponse => {
-            console.log('UserService: gotLeaderByEmail:', leaderResponse);
-            this.showStatus();
-            this.tryToContinueLeaderRegistration();
-          }
+      this.leaderService.requestLeaderByEmail(this.getEmail())
+        .subscribe( leaderResponse => {
+          console.log('UserService: gotLeaderByEmail:', leaderResponse);
+          this.showStatus();
+          this.tryToContinueLeaderRegistration();
+        }
         );
-      });
+    });
   };
 
   public showStatus() {
@@ -116,16 +117,16 @@ export class UserService {
   /**
    * Returns true if user is logged in and his admin is in the admin list.
    */
-   // FIXME Implement Admins list
+  // FIXME Implement Admins list
   public isAdmin() {
     // FIXME_SEC
     // const isDevMode = environment.production === false;
     // FIXME Move this setting to enviromnent ngrx
     const isDevMode = false;
     return isDevMode || (this.authenticated() && (
-        this.getEmail() === 'rostyslav.siryk@gmail.com' ||
-        this.getEmail() === 'prokopenko.serhii@gmail.com' ||
-        this.getEmail() === 'vlodkozak@gmail.com'
+      this.getEmail() === 'rostyslav.siryk@gmail.com' ||
+      this.getEmail() === 'prokopenko.serhii@gmail.com' ||
+      this.getEmail() === 'vlodkozak@gmail.com'
     ));
   }
 
@@ -177,11 +178,11 @@ export class UserService {
 
       // show Registration is needed warning
       this.dialogService
-      .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
-      .subscribe(res => {
-        console.log('Заходимо у систему');
-        this.login();
-      });
+        .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
+        .subscribe(res => {
+          console.log('Заходимо у систему');
+          this.login();
+        });
       return true;
     }
     return false;
@@ -203,7 +204,7 @@ export class UserService {
         .confirm('Вітаємо!', 'Ти успішно завершив реєстрацію в системі.')
         .subscribe(res => {
           this.leaderService.createLeader(leader, this.getEmail());
-      });
+        });
     } else {
       // on registration failure — leader with that email is registered already
       if (!!localLeader) {
@@ -213,13 +214,13 @@ export class UserService {
             console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), localLeader);
             // Cleanup
             localStorage.removeItem('BigPolicyLeaderRegistration');
-        });
+          });
       } else {
         this.dialogService
           .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
           .subscribe(res => {
             console.log('Logged in: ', this.authenticated(), this.hasLeader(), localLeader);
-        });
+          });
       }
     }
   }

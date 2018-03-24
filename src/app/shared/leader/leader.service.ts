@@ -73,6 +73,7 @@ export class LeaderService {
   }
 
   // Basic Ping with JWT and Admin
+  // FIXME
   pingJwtAdmin(): Observable<any> {
     return this.httpClient
       .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`,{
@@ -96,10 +97,14 @@ export class LeaderService {
   createLeader(model: LeaderModel, email) {
     model.email = email;
     const body: string = encodeURIComponent(model.toString());
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Authorization', this._authHeader);
+    // const body: string = model.toString();
+    const headers = new HttpHeaders()
+    .set('Authorization', this._authHeader)
+    .set('Content-Type', 'application/x-www-form-urlencoded');
 
+    // this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
+    // console.log('Tey Leader:', this._authHeader);
+  
     this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
       .subscribe(
         data => {

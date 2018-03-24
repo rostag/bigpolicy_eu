@@ -1,4 +1,4 @@
-// src/app/core/env.config.ts
+// src/enviroments/env.config.ts
 const _isDev = window.location.port.indexOf('4300') > -1;
 const getHost = () => {
   const protocol = window.location.protocol;
