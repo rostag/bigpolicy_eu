@@ -70,6 +70,8 @@ import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { counterReducer } from './state/reducers/counter';
+import { StoreModule } from '@ngrx/store';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -88,6 +90,7 @@ export const firebaseConfig = {
     MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    StoreModule.forRoot({ count: counterReducer }),
     AngularFireDatabaseModule,
     FlexLayoutModule,
     FormsModule,

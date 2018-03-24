@@ -5,14 +5,22 @@ import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../dialog/dialog.service';
 import { environment } from '../../../environments/environment';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
 
+interface AppState {
+  count: number;
+}
+
 @Injectable()
 export class UserService {
 
+  userProfile$: Observable<{}>;
+  count$: Observable<{}>;
   // Store profile object in auth class
   userProfile: any = {
     name: '',
@@ -41,8 +49,13 @@ export class UserService {
   constructor(
     public leaderService: LeaderService,
     public projectService: ProjectService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private store: Store<AppState>
   ) {
+
+    this.count$ = store.pipe(select('count'));
+    this.userProfile$ = store.pipe(select('userProfile'));
+
     // FIXME this.userProfile = auth.userProfile;
     console.log('environment:', environment);
     // Set userProfile attribute of already saved profile
