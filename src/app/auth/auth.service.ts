@@ -60,7 +60,7 @@ export class AuthService {
       } else if (err) {
         console.error(`Error authenticating: ${err.error}`);
       }
-      this.router.navigate(['/']);
+      // FIXME this.router.navigate(['/']);
     });
   }
 
