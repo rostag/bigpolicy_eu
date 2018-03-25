@@ -65,10 +65,9 @@ import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
-import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, XhrFactory } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
@@ -86,7 +85,7 @@ export const firebaseConfig = {
 @NgModule({
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule,
     CommonModule,
     MaterialModule,
@@ -99,8 +98,7 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     Ng2PaginationModule,
-    CookieLawModule,
-    HttpClientModule
+    CookieLawModule
   ],
   exports: [
     // components we want to make available
@@ -192,8 +190,8 @@ export const firebaseConfig = {
     DialogService,
     CustomBrowserXhr,
     Title,
-    HttpClient,
-    { provide: BrowserXhr, useExisting: CustomBrowserXhr }
+    HttpClientModule,
+    { provide: XhrFactory, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [
     DialogComponent

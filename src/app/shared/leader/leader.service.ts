@@ -1,4 +1,3 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DialogService } from '../../shared/dialog/dialog.service';
@@ -8,9 +7,7 @@ import { environment } from '../../../environments/environment';
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
@@ -44,9 +41,8 @@ export class LeaderService {
    * @constructor
    */
   constructor(
-    private httpClient: HttpClient,
+    private http: HttpClient,
     private auth: AuthService,    
-    private http: Http,
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService
@@ -58,14 +54,14 @@ export class LeaderService {
 
   // Basic Ping
   ping(): Observable<any> {
-    return this.httpClient
+    return this.http
       .get(`${ENV.BASE_API}leader-api/ping`)
       .catch(this._handleError);
   }
 
   // Basic Ping with JWT
   pingJwt(): Observable<any> {
-    return this.httpClient
+    return this.http
       .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
@@ -75,7 +71,7 @@ export class LeaderService {
   // Basic Ping with JWT and Admin
   // FIXME
   pingJwtAdmin(): Observable<any> {
-    return this.httpClient
+    return this.http
       .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`,{
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
@@ -105,7 +101,7 @@ export class LeaderService {
     // this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
     // console.log('Tey Leader:', this._authHeader);
   
-    this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
+    this.http.post(this.leaderApiUrl, body, { headers: headers })
       .subscribe(
         data => {
           // Normal Save
@@ -156,7 +152,9 @@ export class LeaderService {
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
 
     return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
+      // FIXME NG5 - get back to: 
+      // .map((responsePage: Response) => {
+      .map((responsePage: any) => {
         // console.log('Leaders Page loaded, response: ', responsePage);
         return responsePage.json();
       });
@@ -206,11 +204,14 @@ export class LeaderService {
    * @param LeaderModel A Leader to update
    */
   updateLeader(model: LeaderModel): Observable<LeaderModel> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
-      .map(res => res.json())
+      .map(res => {
+        console.log('NG45 - Leader updated, server response:', res);
+        return res;
+      })
       .catch(this.handleError);
   }
 
@@ -299,6 +300,6 @@ export class LeaderService {
 
   private handleError(error: Response) {
     console.error('Error occured: ', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error.json() || 'Server error');
   }
 }

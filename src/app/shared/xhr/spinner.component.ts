@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CustomBrowserXhr } from './xhr';
 import { AnonymousSubscription, TeardownLogic } from 'rxjs/Subscription';
-import { HttpModule, BrowserXhr } from '@angular/http';
 
 @Component({
   selector: 'app-working-progress',

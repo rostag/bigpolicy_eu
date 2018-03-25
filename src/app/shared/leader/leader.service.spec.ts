@@ -2,24 +2,25 @@
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../shared/dialog/dialog.service';
-import { HttpModule, Http, BaseRequestOptions, XHRBackend, Response, ResponseOptions } from '@angular/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
 import { MaterialModule, MdDialogRef, MdDialog, MdDialogConfig, Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
+// FIXME NG45 - Where's the MockBackend in new HttpClient?
 import { MockBackend } from '@angular/http/testing';
 import { ProjectService } from '../project/project.service';
 import { TaskService } from '../task/task.service';
+import { HttpClientModule, HttpXhrBackend, HttpResponse } from '@angular/common/http';
 
 describe('LeaderService', () => {
 
   beforeEach( () => {
     // Create a testing module
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [HttpClientModule],
       providers: [
         LeaderService, ProjectService, TaskService, DialogService, MdDialog, Overlay, OverlayContainer, OVERLAY_PROVIDERS,
         { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
-        { provide: XHRBackend, useClass: MockBackend }
+        { provide: HttpXhrBackend, useClass: MockBackend }
       ]
     });
   });
@@ -27,7 +28,7 @@ describe('LeaderService', () => {
   describe('getLeadersPage(leaderId, groupId, page, limit, dbQuery)', () => {
 
     it('// WIP: should return an Observable<Array<LeaderModel>>',
-      inject( [LeaderService, XHRBackend], (leaderService, mockBackend) => {
+      inject( [LeaderService, HttpXhrBackend], (leaderService, mockBackend) => {
 
         const mockResponse = {
           'docs': [
@@ -64,9 +65,9 @@ describe('LeaderService', () => {
           };
 
         mockBackend.connections.subscribe((connection) => {
-          connection.mockRespond(new Response(new ResponseOptions({
+          connection.mockRespond(new Response({
             body: JSON.stringify(mockResponse)
-          })));
+          }));
         });
 
         leaderService.getLeadersPage(null, null, 1, 1, '{ "email": "some@email.com" }')

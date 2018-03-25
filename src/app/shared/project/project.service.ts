@@ -1,4 +1,4 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 import { ProjectModel } from './project.model';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -36,7 +37,7 @@ export class ProjectService {
    * @constructor
    */
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
     private taskService: TaskService
@@ -46,13 +47,18 @@ export class ProjectService {
    * Creates new Project.
    * @param {ProjectModel} model Project to create.
    */
-  createProject(model: ProjectModel): Observable<ProjectModel> {
+  // FIXME NG45 - get back to typed as Observable<ProjectModel>:
+  // createProject(model: ProjectModel): Observable<ProjectModel> {
+  createProject(model: ProjectModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    const options = { headers: headers };
     return this.http.post(this.projectApiUrl, body, options)
-      .map(res => res.json()
+      .map(res => {
+        console.log('NG45 - createProject', res);
+        return res;
+      }
     );
   }
 
@@ -83,7 +89,9 @@ export class ProjectService {
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
 
     return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
+      // FIXME NG45 - get back to typed HttpResponse:
+      // .map((responsePage: HttpResponse) => {
+      .map((responsePage: any) => {
         // console.log('Projects Page loaded, response: ', responsePage);
         return responsePage.json();
       });
@@ -100,13 +108,19 @@ export class ProjectService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param ProjectModel A Project to update
    */
-  updateProject(model: ProjectModel): Observable<ProjectModel> {
+  // FIXME NG45 - get back to: Observable<ProjectModel>
+  // updateProject(model: ProjectModel): Observable<ProjectModel> {
+  updateProject(model: ProjectModel): Observable<any> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
+      .map(res => 
+        {
+          console.log('NG45 - updateProject, res:', res);
+          return res;
+        })
       .catch(this.handleError);
   }
 
@@ -115,16 +129,23 @@ export class ProjectService {
    * @param ids {Array} Project IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
+  // FIXME NG45 - get back to typed Observable<ProjectModel>
+  // bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
+  bulkUpdateProjects(ids: Array<string>, data: any): Observable<any> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     console.log('Project service, try to update:', ids, data, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
+      .map( res => 
+        {
+          console.log('NG45 - bulkUpdateProjects, res:', res);
+          return res;
+        }
+      )
       .catch( this.handleError );
   }
 
@@ -173,7 +194,12 @@ export class ProjectService {
   finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-    .map(res => { return res.json(); })
+    .map(res => { 
+      {
+        console.log('NG45 - finalizeProjectDeletion, res: ', res);
+        return res;
+      }
+     })
     .catch( this.handleError )
     .subscribe((res) => {
       if (navigateToList) {
@@ -187,19 +213,22 @@ export class ProjectService {
    * @param ids Project IDs to delete
    */
   bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids});
     console.log('Project service, try to delete:', ids, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
+    .map(res => {
+      console.log('NG45 - bulkDeleteProjects, res:', res);
+      return res;
+    })
     .catch( this.handleError );
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error.json() || 'Server error');
   }
 }
