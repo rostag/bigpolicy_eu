@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
-import { HttpClient } from '@angular/common/http';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import * as fromAuth from './authReducers';
-import { AuthAction, AuthActionTypes } from './auth.actions';
+import * as fromAuth from '../reducers/auth.reducers';
+import { AuthAction, AuthActionTypes } from '../actions/auth.actions';
 
 @Injectable()
 export class AuthEffects {
