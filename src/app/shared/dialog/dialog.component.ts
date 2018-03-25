@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 /**
   * Dialog — for FTUX's lazy registration, content deletion etc
@@ -7,19 +7,19 @@ import { MdDialogRef } from '@angular/material';
 @Component({
   selector: 'app-dialog',
   template:
-    ` <md-icon class="inline-icon">info</md-icon>
+    ` <mat-icon class="inline-icon">info</mat-icon>
 
       <div class="styled">
-        <h3 md-dialog-title>{{title}}</h3>
+        <h3 matDialogTitle>{{title}}</h3>
 
-        <md-dialog-content>
+        <mat-dialog-content>
           {{ message }}
-        </md-dialog-content>
+        </mat-dialog-content>
 
-        <md-dialog-actions>
-          <button md-raised-button color="primary" (click)="dialogRef.close(true)">{{btnOkText}}</button>
-          <button md-button color="primary" (click)="dialogRef.close(false)">{{btnCancelText}}</button>
-        </md-dialog-actions>
+        <mat-dialog-actions>
+          <button mat-raised-button color="primary" (click)="dialogRef.close(true)">{{btnOkText}}</button>
+          <button mat-button color="primary" (click)="dialogRef.close(false)">{{btnCancelText}}</button>
+        </mat-dialog-actions>
       </div>
     `,
   styleUrls: ['dialog.component.scss']
@@ -31,5 +31,5 @@ export class DialogComponent {
   public btnOkText?: string;
   public btnCancelText?: string;
 
-  constructor(public dialogRef: MdDialogRef<DialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DialogComponent>) { }
 }

@@ -1,70 +1,70 @@
-<md-card class="task-edit-view">
+<mat-card class="task-edit-view">
   <form>
 
-    <md-card-content>
+    <mat-card-content>
 
-      <md-card-title>
+      <mat-card-title>
         <span *ngIf="!isUpdateMode">Додати</span>
         <span *ngIf="isUpdateMode">Редагувати</span>
          захід
-      </md-card-title>
+      </mat-card-title>
 
-      <md-input-container>
-        <input mdInput required [(ngModel)]="task.title" characterCounter placeholder="Назва заходу:" [ngModelOptions]="{standalone: true}" >
-      </md-input-container>
+      <mat-form-field>
+        <input matInput required [(ngModel)]="task.title" characterCounter placeholder="Назва заходу:" [ngModelOptions]="{standalone: true}" >
+      </mat-form-field>
 
-      <md-input-container>
-        <textarea mdInput mdTextareaAutosize required [(ngModel)]="task.description" rows="3" placeholder="Опиши захід:" [ngModelOptions]="{standalone: true}" >
+      <mat-form-field>
+        <textarea matInput matTextareaAutosize required [(ngModel)]="task.description" rows="3" placeholder="Опиши захід:" [ngModelOptions]="{standalone: true}" >
         </textarea>
-      </md-input-container>
+      </mat-form-field>
 
       <!-- TODO: Use existing video control to auto-extend functionality on input -->
-      <md-input-container>
-        <input mdInput  [(ngModel)]="task.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" >
-      </md-input-container>
+      <mat-form-field>
+        <input matInput  [(ngModel)]="task.videoUrl" placeholder="Відео:" [ngModelOptions]="{standalone: true}" >
+      </mat-form-field>
 
       <div class="cost-and-dates" fxLayoutGap="3%" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.sm="column" fxLayout.xs="column">
-        <md-input-container class="cost" fxFlex.xs="100%" >
-          <div mdPrefix><md-icon>monetization_on</md-icon>Бюджет:</div>
-          <input mdInput required type="number" [(ngModel)]="task.cost" [ngModelOptions]="{standalone: true}">
-          <div mdSuffix>UAH</div>
-        </md-input-container>
+        <mat-form-field class="cost" fxFlex.xs="100%" >
+          <div matPrefix><mat-icon>monetization_on</mat-icon>Бюджет:</div>
+          <input matInput required type="number" [(ngModel)]="task.cost" [ngModelOptions]="{standalone: true}">
+          <div matSuffix>UAH</div>
+        </mat-form-field>
 
-        <md-input-container fxFlex.xs="100%" >
-          <div mdPrefix><md-icon>date_range</md-icon>Початок:&nbsp;</div>
-          <input mdInput type="date" [(ngModel)]="task.dateStarted" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
-        </md-input-container>
-        <md-input-container fxFlex.xs="100%" >
-          <div mdPrefix><md-icon>date_range</md-icon>Завершення:&nbsp;</div>
-          <input mdInput type="date" [(ngModel)]="task.dateEnded" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
-         </md-input-container>
+        <mat-form-field fxFlex.xs="100%" >
+          <div matPrefix><mat-icon>date_range</mat-icon>Початок:&nbsp;</div>
+          <input matInput type="date" [(ngModel)]="task.dateStarted" hintlabel="Коли починається?" value="Вкажи дату початку, будь ласка" [ngModelOptions]="{standalone: true}" >
+        </mat-form-field>
+        <mat-form-field fxFlex.xs="100%" >
+          <div matPrefix><mat-icon>date_range</mat-icon>Завершення:&nbsp;</div>
+          <input matInput type="date" [(ngModel)]="task.dateEnded" hintlabel="Коли закінчується?" value="Дата завершення" [ngModelOptions]="{standalone: true}" >
+         </mat-form-field>
        </div>
 
-      <md-toolbar>
-        <button type="submit" md-raised-button (click)="saveTask()" color="primary">
+      <mat-toolbar>
+        <button type="submit" mat-raised-button (click)="saveTask()" color="primary">
           <span *ngIf="!isUpdateMode">Додати</span>
           <span *ngIf="isUpdateMode">Зберегти</span>
            захід</button>
-           <button *ngIf="isUpdateMode" (click)="deleteTask(task)" md-raised-button color="warn">Видалити</button>
-         <button md-button (click)="cancelEditing()" color="primary">
+           <button *ngIf="isUpdateMode" (click)="deleteTask(task)" mat-raised-button color="warn">Видалити</button>
+         <button mat-button (click)="cancelEditing()" color="primary">
            Відмінити
          </button>
         <span class="add-fill-remaining"></span>
 
         <!-- MOVE TO OTHER PROJECT -->
         <div *ngIf="userService.isAdmin() && isUpdateMode">
-          <button *ngIf="!projects" md-button (click)="requestProjectsToSelectFrom()">До іншого проекту</button>
+          <button *ngIf="!projects" mat-button (click)="requestProjectsToSelectFrom()">До іншого проекту</button>
           <form *ngIf="projects">
-            <md-select placeholder="Вибери проект" (change)="moveTaskToOtherProject($event)" name="project">
-              <md-option *ngFor="let project of projects" [value]="project">
+            <mat-select placeholder="Вибери проект" (change)="moveTaskToOtherProject($event)" name="project">
+              <mat-option *ngFor="let project of projects" [value]="project">
                 {{project.title}}
-              </md-option>
-            </md-select>
+              </mat-option>
+            </mat-select>
           </form>
         </div>
 
-      </md-toolbar>
+      </mat-toolbar>
 
-    </md-card-content>
+    </mat-card-content>
   </form>
-</md-card>
+</mat-card>

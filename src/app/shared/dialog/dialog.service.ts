@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs/Rx';
 import { DialogComponent } from './dialog.component';
-import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
+// FIXME Look can in be removed
+import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { ViewContainerRef, Injectable } from '@angular/core';
 
 @Injectable()
 export class DialogService {
 
-  constructor(private dialog: MdDialog) { }
+  constructor(private dialog: MatDialog) { }
 
     public confirm(
       title: string,
@@ -18,8 +19,8 @@ export class DialogService {
         // Docs: https://material.angular.io/components/component/dialog
         // http://www.madhur.co.in/blog/2017/03/26/angular-confirmation-dialog.html
 
-        let dialogRef: MdDialogRef<DialogComponent>;
-        const dialogConfig = new MdDialogConfig();
+        let dialogRef: MatDialogRef<DialogComponent>;
+        const dialogConfig = new MatDialogConfig();
         // FIXME dialogConfig.viewContainerRef = viewContainerRef;
 
         dialogRef = this.dialog.open(DialogComponent, dialogConfig);

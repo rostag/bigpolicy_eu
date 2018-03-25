@@ -1,17 +1,17 @@
 <!-- Usage: <app-task-list title="Given title" [project]="project" [pageSize]="10" dbQuery="{}"></app-task-list> -->
 
-<md-card-content>
-  <md-card-actions>
-    <md-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
+<mat-card-content>
+  <mat-card-actions>
+    <mat-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
       <span class="add-fill-remaining"></span>
 
       <span *ngIf="!isAddingTaskMode">
-        <button md-icon-button (click)="switchTasksView()" *ngIf="compactTasksView" mdTooltip="Розгорнути усі заходи" ><md-icon>view_stream</md-icon></button>
-        <button md-icon-button (click)="switchTasksView()" *ngIf="!compactTasksView" mdTooltip="Згорнути усі заходи" ><md-icon>view_headlines</md-icon></button>
-        <button md-icon-button (click)="addTask(project)" *ngIf="userService.hasEditPermissions(project)" color="accent" mdTooltip="Додати захід"><md-icon>add_circle</md-icon></button>
+        <button mat-icon-button (click)="switchTasksView()" *ngIf="compactTasksView" matTooltip="Розгорнути усі заходи" ><mat-icon>view_stream</mat-icon></button>
+        <button mat-icon-button (click)="switchTasksView()" *ngIf="!compactTasksView" matTooltip="Згорнути усі заходи" ><mat-icon>view_headlines</mat-icon></button>
+        <button mat-icon-button (click)="addTask(project)" *ngIf="userService.hasEditPermissions(project)" color="accent" matTooltip="Додати захід"><mat-icon>add_circle</mat-icon></button>
       </span>
-    </md-toolbar>
-  </md-card-actions>
+    </mat-toolbar>
+  </mat-card-actions>
 
   <!-- Add task -->
   <app-bp-task-edit
@@ -38,8 +38,8 @@
     </li>
   </ol>
 
-  <!-- <md-list>
-     <md-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
+  <!-- <mat-list>
+     <mat-list-item *ngFor="let task of itemsPage.docs | async | paginate: {
                                                                  id: 'taskItemsPage',
                                                                  itemsPerPage: this.pageSize,
                                                                  currentPage: itemsPage.page,
@@ -47,19 +47,19 @@
                                                                }">
 
 
-       <h3 md-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
-       <p md-line>
+       <h3 matLine><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
+       <p matLine>
         <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
        </p>
-       <p md-line>
+       <p matLine>
          <small>{{task.project}}</small> | <small>{{task.description}}</small>
        </p>
        <div *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">
-         <a [routerLink]="['/task/' + task._id + '/edit']"><md-icon>edit</md-icon></a>
-         <a href (click)="deleteTask(task)"><md-icon>delete</md-icon></a>
+         <a [routerLink]="['/task/' + task._id + '/edit']"><mat-icon>edit</mat-icon></a>
+         <a href (click)="deleteTask(task)"><mat-icon>delete</mat-icon></a>
        </div>
-    </md-list-item>
-  </md-list> -->
+    </mat-list-item>
+  </mat-list> -->
 
   <pagination-controls
                       id = "taskItemsPage"
@@ -70,4 +70,4 @@
                       >
   </pagination-controls>
 
-</md-card-content>
+</mat-card-content>

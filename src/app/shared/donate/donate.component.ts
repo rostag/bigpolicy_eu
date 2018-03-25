@@ -96,7 +96,7 @@ export class DonateComponent implements OnChanges {
         const formStr =
         '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
           'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' + sgndta[1] + '" />' +
-          '<button md-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
+          '<button mat-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
           + this.amount + ' UAH</button>' +
         '</form>';
         // FIXME - Update button visual style, broken after ng update

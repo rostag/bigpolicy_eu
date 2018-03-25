@@ -1,10 +1,10 @@
 <nav class="app-toolbar" color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/leaders']" color="primary">Лідери</button>
+    <button mat-button [routerLink]="['/leaders']" color="primary">Лідери</button>
   </span>
   <span fxFlex="23">
-    <button md-button [routerLink]="['/projects']" color="primary">Проекти</button>
+    <button mat-button [routerLink]="['/projects']" color="primary">Проекти</button>
   </span>
 
   <span fxFlex="8" class="logo">
@@ -12,9 +12,9 @@
   </span>
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton" color="primary">Стати лідером</button>
+    <button mat-button [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton" color="primary">Стати лідером</button>
     <ng-template #addProjectButton>
-      <button md-button [routerLink]="['/add-project']" color="primary">Створити проект</button>
+      <button mat-button [routerLink]="['/add-project']" color="primary">Створити проект</button>
     </ng-template>
   </span>
 
@@ -22,16 +22,16 @@
   <!-- WIP -->
   <span fxFlex="23" style="white-space:nowrap;">
     <button [routerLink]="['/leader/', leaderId]" title="Email: {{'User email' || userService.userProfile?.email}}" *ngIf="userService.authenticated()"
-      md-button color="primary">
+      mat-button color="primary">
       {{userService.userProfile ? userService.userProfile.name : ''}}
     </button>
-    <button md-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
+    <button mat-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
       Увійти
     </button>
 
-    <button md-icon-button [md-menu-trigger-for]="menu" color="accent">
-      <md-icon *ngIf="!userService.isAdmin()">account_circle</md-icon>
-      <md-icon *ngIf="userService.isAdmin()">account_box</md-icon>
+    <button mat-icon-button [matMenuTriggerFor]="menu" color="accent">
+      <mat-icon *ngIf="!userService.isAdmin()">account_circle</mat-icon>
+      <mat-icon *ngIf="userService.isAdmin()">account_box</mat-icon>
     </button>
   </span>
 
@@ -48,15 +48,15 @@
 
 
 <!-- Initially invisible drop-down menu -->
-<md-menu x-position="before" #menu="mdMenu">
-  <button md-menu-item [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис
+<mat-menu x-position="before" #menu="matMenu">
+  <button matMenuItem [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис
   </button>
-  <button md-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
-</md-menu>
+  <button matMenuItem (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
+</mat-menu>
 
 <app-working-progress></app-working-progress>
 
-<button class.xs="fab-logo-xs" color="warn" class="fab-logo" md-fab [routerLink]="['/']">
+<button class.xs="fab-logo-xs" color="warn" class="fab-logo" mat-fab [routerLink]="['/']">
   <svg class="logo logo-white" viewBox="0 0 3500 3300">
     <style type="text/css">
       .logo-red path {

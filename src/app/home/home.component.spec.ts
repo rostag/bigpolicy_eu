@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LeaderListComponent } from '../leader/list/index';
 import { ProjectListComponent } from '../project/list/index';
 
-import { MaterialModule } from '@angular/material';
 import { Ng2PaginationModule } from 'ng2-pagination';
 
 // import { UserService } from '../shared/user/user.service';
@@ -28,7 +27,7 @@ describe('HomeComponent', () => {
   // beforeEach(async(() => {
   //   TestBed.configureTestingModule({
   //     declarations: [ HomeComponent, LeaderListComponent, ProjectListComponent],
-  //     imports: [ RouterTestingModule, MaterialModule, Ng2PaginationModule, CoreModule ]
+  //     imports: [ RouterTestingModule, Ng2PaginationModule, CoreModule ]
   //   })
   //   .compileComponents();
   // }));

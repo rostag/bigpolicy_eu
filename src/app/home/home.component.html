@@ -27,7 +27,7 @@
   <h2 align="center">Як це працює?</h2>
   <div fxLayout="row" fxLayoutAlign="space-around start" fxLayoutWrap>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons md-48">face</div>
+  		<div class="material-icons mat-48">face</div>
       <!-- FTUX - LEADER - Section is visible to non-leaders only -->
   		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером</a></div>
   		<div *ngIf="userService.hasLeader()">Ви стали лідером</div>
@@ -35,17 +35,17 @@
   		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
   	</div>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons md-48">loop</div>
+  		<div class="material-icons mat-48">loop</div>
   		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
   		<div>Невелика сума краща за лайки в фейсбуці.</div>
   	</div>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons md-48">mic</div>
+  		<div class="material-icons mat-48">mic</div>
   		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
   		<div>BIGPOLICY допомагає вам.</div>
   	</div>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons md-48">movie</div>
+  		<div class="material-icons mat-48">movie</div>
   		<div>Місія виконана з відповідними результатами</div>
   		<div>Нова ініціатива реалізована до життя!</div>
   	</div>
@@ -57,20 +57,20 @@
   Показуємо 6 активних проектів на 1 табі
   і також рандомно — 6 лідерів на другій табі
                                             -->
-<md-tab-group class="projects-leaders-list">
-  <md-tab label="Проекти" [ngClass]="'big'" >
+<mat-tab-group class="projects-leaders-list">
+  <mat-tab label="Проекти" [ngClass]="'big'" >
     <app-project-list [pageSize]="6" [showPagination]="false"></app-project-list>
     <div class="controls">
-      <button [routerLink]="['/projects']" class="bt-show-all" md-button md-raised-button color="primary">Всі проекти</button>
+      <button [routerLink]="['/projects']" class="bt-show-all" mat-button mat-raised-button color="primary">Всі проекти</button>
     </div>
-  </md-tab>
-  <md-tab label="Лідери" >
+  </mat-tab>
+  <mat-tab label="Лідери" >
     <app-leader-list [pageSize]="6" [showPagination]="false"></app-leader-list>
     <div class="controls">
-      <button [routerLink]="['/leaders']" class="bt-show-all" md-raised-button color="primary">Всі лідери</button>
+      <button [routerLink]="['/leaders']" class="bt-show-all" mat-raised-button color="primary">Всі лідери</button>
     </div>
-  </md-tab>
-</md-tab-group>
+  </mat-tab>
+</mat-tab-group>
 
 <p class="bottom-title">
     BigPolicy — платформа прямої демократії

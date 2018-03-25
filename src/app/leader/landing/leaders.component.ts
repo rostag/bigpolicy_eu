@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-
+import { MatCard, MatCardTitle, MatCardSubtitle, MatCardModule } from '@angular/material';
 @Component({
   selector: 'app-leaders',
   templateUrl: './leaders.component.html',
@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class LeadersComponent {
+
   constructor(private titleService: Title) {
 
   }

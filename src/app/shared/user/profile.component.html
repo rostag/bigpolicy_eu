@@ -20,8 +20,8 @@
       </div>
     </div>
 
-    <md-card *ngIf="profileLeader" class="leader-profile">
-      <md-card-content>
+    <mat-card *ngIf="profileLeader" class="leader-profile">
+      <mat-card-content>
         <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
         <app-project-list
@@ -32,13 +32,13 @@
         <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
         </app-project-list>
 
-      </md-card-content>
-      <md-card-actions>
+      </mat-card-content>
+      <mat-card-actions>
         <span *ngIf="userService.hasEditPermissions(profileLeader)">
-          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button mat-button color="accent">Редагувати</button></a>
         </span>
-      </md-card-actions>
-    </md-card>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
   <div *ngIf="!userService.authenticated()">
@@ -60,7 +60,7 @@
     <p>
       Будь ласка, натисніть "Увійти", для авторизації.
     </p>
-    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+    <a (click)="userService.login()"><button mat-raised-button color="accent">Увійти</button></a>
   </div>
 
 </div>

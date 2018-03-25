@@ -2,7 +2,6 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
-import { MaterialModule, MdCardTitle, MdCard } from '@angular/material';
 import { ProjectBriefComponent } from './project.brief.component';
 import { ProjectService } from '../../shared/project/project.service';
 import { Router } from '@angular/router';
@@ -15,7 +14,7 @@ xdescribe('WIP - Fixed the imports and providers. ProjectBriefComponent', () => 
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ MaterialModule, RouterTestingModule ],
+      imports: [ RouterTestingModule ],
       providers: [ ProjectService, TaskService, DialogService ],
       declarations: [ ProjectBriefComponent ]
     })

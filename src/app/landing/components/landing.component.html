@@ -1,11 +1,11 @@
 <div class="bp-landing numbers">
-  <md-card class="md-card-flat">
-    <md-grid-list cols="4" rowHeight="55" id="stats">
-      <md-grid-tile> <h2><a [routerLink]="['/leaders']"><span>{{app.leaders.length}}</span> лідерів</a></h2> </md-grid-tile>
-      <md-grid-tile> <h2><a [routerLink]="['/projects']"><span>{{app.projects.length}}</span> проектів</a></h2> </md-grid-tile>
-      <md-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </md-grid-tile>
-      <md-grid-tile> <h2><span>{{app.totalDonationsReceived}}</span>&#8372;</h2> </md-grid-tile>
-    </md-grid-list>
+  <mat-card class="mat-card-flat">
+    <mat-grid-list cols="4" rowHeight="55" id="stats">
+      <mat-grid-tile> <h2><a [routerLink]="['/leaders']"><span>{{app.leaders.length}}</span> лідерів</a></h2> </mat-grid-tile>
+      <mat-grid-tile> <h2><a [routerLink]="['/projects']"><span>{{app.projects.length}}</span> проектів</a></h2> </mat-grid-tile>
+      <mat-grid-tile> <h2><span>{{app.donors}}</span> донорів</h2> </mat-grid-tile>
+      <mat-grid-tile> <h2><span>{{app.totalDonationsReceived}}</span>&#8372;</h2> </mat-grid-tile>
+    </mat-grid-list>
 
     <div class="container">
       <div class="row">
@@ -33,7 +33,7 @@
 
               <h5>В нас є можливість розвинути цю ідею. Спробуй пряму демократію, підтримавши нашу громадянську волю.</h5>
               <a href="https://www.liqpay.com/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXlkb25hdGUiLCJwdWJsaWNfa2V5IjoiaTc3MDYxMzUxNDgyIiwiYW1vdW50IjoiMTAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0K8g0LLRltGA0Y4g0LIg0YLQtdCx0LUhIiwidHlwZSI6ImRvbmF0ZSIsImxhbmd1YWdlIjoiZW4ifQ%3D%3D&signature=%2FA19v2A2ebDHGW71VxD5JDhaG70%3D">
-                <button md-button color="primary" md-raised-button>Підтримай нас фінансово</button>
+                <button mat-button color="primary" mat-raised-button>Підтримай нас фінансово</button>
               </a>
             </div>
             <!-- FTUX - LEADER END -->
@@ -78,25 +78,25 @@
           <h4>Популярні проекти:</h4>
 
              <div *ngFor="let project of app.projects">
-               <md-card>
-                 <md-card-header>
-                   <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
-                   <md-card-title>{{project.title}}</md-card-title>
-                   <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
-                 </md-card-header>
-                 <md-card-content>
+               <mat-card>
+                 <mat-card-header>
+                   <img matCardAvatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
+                   <mat-card-title>{{project.title}}</mat-card-title>
+                   <mat-card-subtitle>{{project.managerName}}, Дніпро</mat-card-subtitle>
+                 </mat-card-header>
+                 <mat-card-content>
                      {{project.description}}
                      <br/>
                      <br/>
                      <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
-                 </md-card-content>
-                 <md-card-actions>
-                   <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
-                 </md-card-actions>
-               </md-card>
+                 </mat-card-content>
+                 <mat-card-actions>
+                   <a [routerLink]="['/project/' + project._id]"><button mat-button color="primary">Підтримати</button></a>
+                 </mat-card-actions>
+               </mat-card>
             </div>
 
-          <a [routerLink]="['/projects']"><button md-button color="primary">Дивитися усі проекти</button></a>
+          <a [routerLink]="['/projects']"><button mat-button color="primary">Дивитися усі проекти</button></a>
 
           <!-- FIXME: temporarily disabled: FB Page -->
           <!--
@@ -143,6 +143,6 @@
         </div>
       </div>
     </div>
-  </md-card>
+  </mat-card>
 
 </div>

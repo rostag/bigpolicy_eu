@@ -1,6 +1,6 @@
 input,
 textarea,
-md-input-container {
+mat-form-field {
   width: 100%;
 }
 
@@ -9,7 +9,7 @@ md-input-container {
     line-height: 1.5;
   }
 
-  md-icon {
+  mat-icon {
     font-size: 1.3em;
     vertical-align: bottom;
   }

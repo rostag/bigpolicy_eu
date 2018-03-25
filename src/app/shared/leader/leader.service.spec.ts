@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
-import { MaterialModule, MdDialogRef, MdDialog, MdDialogConfig, Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
+import { MatDialog } from '@angular/material';
 // FIXME NG45 - Where's the MockBackend in new HttpClient?
 import { MockBackend } from '@angular/http/testing';
 import { ProjectService } from '../project/project.service';
@@ -18,7 +18,7 @@ describe('LeaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       providers: [
-        LeaderService, ProjectService, TaskService, DialogService, MdDialog, Overlay, OverlayContainer, OVERLAY_PROVIDERS,
+        LeaderService, ProjectService, TaskService, DialogService, MatDialog,
         { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
         { provide: HttpXhrBackend, useClass: MockBackend }
       ]
