@@ -74,7 +74,7 @@ export class TaskService {
       // .map((responsePage: Response) => {
       .map((responsePage: any) => {
         // console.log('Tasks Page loaded, response: ', responsePage);
-        return responsePage.json();
+        return responsePage;
       });
   }
 

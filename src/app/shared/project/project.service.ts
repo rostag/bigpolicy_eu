@@ -93,7 +93,7 @@ export class ProjectService {
       // .map((responsePage: HttpResponse) => {
       .map((responsePage: any) => {
         // console.log('Projects Page loaded, response: ', responsePage);
-        return responsePage.json();
+        return responsePage;
       });
   }
 
