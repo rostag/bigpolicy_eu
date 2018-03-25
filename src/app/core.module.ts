@@ -17,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CookieLawModule } from 'angular2-cookie-law';
 
-
 // Components
 import { NavbarComponent, ToolbarComponent } from './shared';
 
@@ -70,8 +69,11 @@ import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { counterReducer } from './state/reducers/counter';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducer as authReducer } from './state/reducers/auth.reducers';
+import { counterReducer } from './state/reducers/counter.reducers';
+import { AuthEffects } from './state/effects/auth.effects';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -90,7 +92,8 @@ export const firebaseConfig = {
     MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    StoreModule.forRoot({ count: counterReducer }),
+    StoreModule.forRoot({ authState: authReducer }),
+    // EffectsModule.forRoot([AuthEffects]),
     AngularFireDatabaseModule,
     FlexLayoutModule,
     FormsModule,

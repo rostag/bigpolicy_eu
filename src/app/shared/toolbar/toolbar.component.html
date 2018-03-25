@@ -36,6 +36,7 @@
   </span>
 
   <div class="mat-elevation-z8" style="position:absolute;right:10px;top:44px;background:#eee;padding:1em;max-width:480px;">
+    [{{ count$ | async }}]:[{{ loggedIn$ | async }}]
     <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>
     <span *ngIf="auth.loggedIn">
       {{auth.userProfile?.name}} <a (click)="auth.logout()">Log Out</a>

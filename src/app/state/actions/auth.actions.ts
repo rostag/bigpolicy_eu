@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export interface AuthAction extends Action {
-    type: AuthActionTypes;
+    // type: AuthActionTypes;
     payload?: string;
 }
 

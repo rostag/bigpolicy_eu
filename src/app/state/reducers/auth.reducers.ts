@@ -1,6 +1,6 @@
 // Import necessary building blocks from the library
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
-import { AuthActionTypes, AuthAction } from './auth.actions';
+import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
