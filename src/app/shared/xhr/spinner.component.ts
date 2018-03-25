@@ -4,7 +4,7 @@ import { AnonymousSubscription, TeardownLogic } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-working-progress',
-  template: `<md-progress-bar mode="indeterminate" [class.hidden]="!isVisible" color="accent"></md-progress-bar>`,
+  template: `<mat-progress-bar mode="indeterminate" [class.hidden]="!isVisible" color="accent"></mat-progress-bar>`,
   styleUrls: ['spinner.component.scss']
 })
 export class WorkingSpinnerComponent implements OnInit, OnDestroy {

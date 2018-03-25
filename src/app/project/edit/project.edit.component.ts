@@ -6,6 +6,8 @@ import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { LeaderModel } from '../../shared/leader/leader.model';
 import { Location } from '@angular/common';
+import { MatInputModule } from '@angular/material';
+
 
 @Component({
   templateUrl: './project.edit.component.html',

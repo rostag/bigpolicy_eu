@@ -19,18 +19,18 @@
 
   <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
     <a [routerLink]="['/task/' + task._id + '/edit']">
-      <md-icon color="primary">edit</md-icon>
+      <mat-icon color="primary">edit</mat-icon>
     </a>
     <a href (click)="deleteTask(task)">
-      <md-icon color="primary">delete</md-icon>
+      <mat-icon color="primary">delete</mat-icon>
     </a>
   </div>
 
 </div>
 
 <!-- FULL VIEW -->
-<md-card class="task-view" *ngIf="!compactView">
-  <md-card-content>
+<mat-card class="task-view" *ngIf="!compactView">
+  <mat-card-content>
 
     <div>
       <!-- FIXME Implement ngrx store data selection: 
@@ -94,16 +94,16 @@
       <p>{{task.description}}</p>
     </div>
 
-    <md-card-actions>
-      <md-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
+    <mat-card-actions>
+      <mat-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
         <a [routerLink]="['/task/' + task._id + '/edit']">
-          <button md-raised-button>Редагувати</button>
+          <button mat-raised-button>Редагувати</button>
         </a>
         <span class="add-fill-remaining"></span>
         <a href (click)="deleteTask(task)">
-          <button md-raised-button color="warn">Видалити</button>
+          <button mat-raised-button color="warn">Видалити</button>
         </a>
-      </md-toolbar>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+      </mat-toolbar>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

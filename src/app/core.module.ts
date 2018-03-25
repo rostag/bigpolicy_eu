@@ -12,7 +12,6 @@ import { TaskService } from './shared/task';
 import { DriveService } from './shared/drive';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { DialogService } from './shared/dialog/dialog.service';
-import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CookieLawModule } from 'angular2-cookie-law';
@@ -73,6 +72,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
 import { counterReducer } from './state/reducers/counter.reducers';
 import { AuthEffects } from './state/effects/auth.effects';
+import { MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule, MatListModule, MatTabsModule, MatProgressSpinnerModule } from '@angular/material';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -88,7 +88,6 @@ export const firebaseConfig = {
     HttpClientModule,
     RouterModule,
     CommonModule,
-    MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     StoreModule.forRoot({ authState: authReducer }),
@@ -98,7 +97,20 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     Ng2PaginationModule,
-    CookieLawModule
+    CookieLawModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatTabsModule
   ],
   exports: [
     // components we want to make available

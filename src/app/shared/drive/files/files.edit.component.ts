@@ -7,7 +7,7 @@
 
 import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
          ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import {MdSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-bp-files',
@@ -49,7 +49,7 @@ export class FilesEditComponent implements AfterViewInit {
 
   constructor(
     private ref: ChangeDetectorRef,
-    public snackBar: MdSnackBar
+    public snackBar: MatSnackBar
   ) {}
 
   /**

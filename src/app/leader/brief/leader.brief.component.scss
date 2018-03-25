@@ -8,7 +8,7 @@ a {
 
 .leader-brief-card {
   // width: 100%;
-  .md-card-image-clipper {
+  .mat-card-image-clipper {
     border-bottom: 1px solid $col-eee;
     border-top: 1px solid $col-eee;
     height: 300px;
@@ -47,7 +47,7 @@ a {
     white-space: nowrap;
   }
 
-  .md-card-image-clipper {
+  .mat-card-image-clipper {
     .leader-video {
       display: inline-block;
       height: 5em;

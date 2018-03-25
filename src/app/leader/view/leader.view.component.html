@@ -1,17 +1,17 @@
 <div>
 
-  <md-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
+  <mat-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
     <span *ngIf="userService.isOwner(leader)">
       [я]
     </span>
     <!-- FIXME
-        <a href><md-icon>thumb_up</md-icon></a>
-        <a href><md-icon>share</md-icon></a>
-        <md-card-subtitle>Місто: {{leader.city}}</md-card-subtitle>
+        <a href><mat-icon>thumb_up</mat-icon></a>
+        <a href><mat-icon>share</mat-icon></a>
+        <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
       -->
-  </md-card-title>
+  </mat-card-title>
 
-  <md-card-content>
+  <mat-card-content>
 
     <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
 
@@ -47,17 +47,17 @@
 
       <!-- Projects -->
       <div fxFlex>
-        <md-card-title class="projects-title">
+        <mat-card-title class="projects-title">
           Проекти:
-        </md-card-title>
-        <md-card-content>
+        </mat-card-title>
+        <mat-card-content>
           <app-project-list [leaderId]="leader._id" pageSize="12" *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
           </app-project-list>
           <ng-template #projects_placeholder>Немає жодного проекту.
             <span *ngIf="userService.hasEditPermissions(leader)"> –
               <a [routerLink]="['/add-project']">створити</a>?</span>
           </ng-template>
-        </md-card-content>
+        </mat-card-content>
       </div>
     </div>
 
@@ -91,17 +91,17 @@
 
     <app-files-view [files]="leader.leaderFiles"></app-files-view>
 
-    <!-- <a href="https://www.google.com.ua/" target="_blank"><md-icon>picture_as_pdf</md-icon></a>Програма на поточну діяльність
-      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Програма на вибори
-      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Фінансовий звіт
-      <a href="https://www.google.com.ua/" target="blank"><md-icon>picture_as_pdf</md-icon></a>Декларація -->
+    <!-- <a href="https://www.google.com.ua/" target="_blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на поточну діяльність
+      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на вибори
+      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Фінансовий звіт
+      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Декларація -->
 
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions>
+  <mat-card-actions>
     <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <button [routerLink]="['/leader/' + leader._id + '/edit']" md-raised-button color="accent">Редагувати</button>
-      <button (click)="deleteLeader(leader)" md-raised-button color="warn">Видалити</button>
+      <button [routerLink]="['/leader/' + leader._id + '/edit']" mat-raised-button color="accent">Редагувати</button>
+      <button (click)="deleteLeader(leader)" mat-raised-button color="warn">Видалити</button>
     </div>
-  </md-card-actions>
+  </mat-card-actions>
 </div>
