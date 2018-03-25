@@ -72,7 +72,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
 import { counterReducer } from './state/reducers/counter.reducers';
 import { AuthEffects } from './state/effects/auth.effects';
-import { MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule, MatListModule, MatTabsModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule, MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule } from '@angular/material';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -110,7 +110,8 @@ export const firebaseConfig = {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatInputModule
   ],
   exports: [
     // components we want to make available

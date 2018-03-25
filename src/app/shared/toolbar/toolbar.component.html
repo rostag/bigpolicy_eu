@@ -29,7 +29,7 @@
       Увійти
     </button>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu" color="accent">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" color="accent">
       <mat-icon *ngIf="!userService.isAdmin()">account_circle</mat-icon>
       <mat-icon *ngIf="userService.isAdmin()">account_box</mat-icon>
     </button>
@@ -46,12 +46,11 @@
 
 </nav>
 
-
 <!-- Initially invisible drop-down menu -->
-<mat-menu x-position="before" #menu="matMenu">
-  <button matMenuItem [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис
-  </button>
-  <button matMenuItem (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item [disabled]="true">User menu</button>
+  <button mat-menu-item [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис</button>
+  <button mat-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
 </mat-menu>
 
 <app-working-progress></app-working-progress>
