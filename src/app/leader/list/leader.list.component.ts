@@ -1,9 +1,8 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LeaderService, LeaderModel } from '../../shared/leader/index';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import { UserService } from '../../shared/user/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-leader-list',
@@ -51,7 +50,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   constructor(
     public userService: UserService,
-    private http: Http,
+    private http: HttpClient,
     private leaderService: LeaderService
   ) {}
 

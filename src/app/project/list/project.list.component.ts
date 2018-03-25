@@ -1,9 +1,9 @@
-import 'rxjs/Rx';
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-project-list',
@@ -57,7 +57,7 @@ export class ProjectListComponent implements OnChanges {
   constructor(
     public userService: UserService,
     private projectService: ProjectService,
-    private http: Http
+    private http: HttpClient
   ) {}
 
   ngOnChanges(changes) {

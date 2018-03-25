@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, ResponseOptions } from '@angular/http';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { ProjectModel } from './project.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -190,7 +190,7 @@ export class ProjectServiceMock {
    * @constructor
    */
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
     private taskService: TaskService
@@ -200,13 +200,19 @@ export class ProjectServiceMock {
    * Creates new Project.
    * @param {ProjectModel} model Project to create.
    */
-  createProject(model: ProjectModel): Observable<ProjectModel> {
+  // FIXME NG45 - createProject(model: ProjectModel): Observable<ProjectModel> {
+  createProject(model: ProjectModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    // FIXME - NG45 to be:
+    // const options = new RequestOptions({ headers: headers });
+    const options = { headers: headers };
     return this.http.post(this.projectApiUrl, body, options)
-      .map(res => res.json()
+      .map(res => {
+        console.log('NG45 - Project created:', res);
+        return res;
+      }
     );
   }
 
@@ -235,14 +241,16 @@ export class ProjectServiceMock {
     }
 
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
-    const respOptions = new ResponseOptions({
+    const respOptions = {
       body: this.responsePageMock,
       status: 200
-    });
+    };
     const responseMock = new Response( respOptions );
     const o = Observable.from([ responseMock ]);
 
-    return o.map((responsePage: Response) => {
+    // FIXME NG45 revert to: 
+    // return o.map((responsePage: Response) => {
+    return o.map((responsePage: any) => {
       // console.log('Projects Page loaded, response: ', responsePage);
       return responsePage.json();
     });
@@ -267,11 +275,14 @@ export class ProjectServiceMock {
    */
   updateProject(model: ProjectModel): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
+      .map(res => {
+        console.log('NG45 - update projects:', res);
+        return res;
+      })
       .catch(this.handleError);
   }
 
@@ -282,14 +293,17 @@ export class ProjectServiceMock {
    */
   bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     console.log('Project service, try to update:', ids, data, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
+      .map( res => {
+        console.log('NG45 - Bulk Update Ptjects:', res);
+        return res;
+      } )
       .catch( this.handleError );
   }
 
@@ -338,7 +352,10 @@ export class ProjectServiceMock {
   finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-    .map(res => { return res.json(); })
+    .map(res => { 
+      console.log('NG45 - finalizeProjectDeletion', res);
+      return res; 
+    })
     .catch( this.handleError )
     .subscribe((res) => {
       if (navigateToList) {
@@ -352,19 +369,22 @@ export class ProjectServiceMock {
    * @param ids Project IDs to delete
    */
   bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids});
     console.log('Project service, try to delete:', ids, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
+    .map(res => {
+      console.log('NG45 - bulkDeleteProjects', res);
+      return res;
+    })
     .catch( this.handleError );
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error || 'Server error');
   }
 }

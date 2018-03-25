@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 import { TaskModel } from './task.model';
 import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 /**
@@ -19,21 +18,27 @@ export class TaskService {
    * Creates a new TaskService with the injected Http
    */
   constructor(
-    private http: Http
+    private http: HttpClient
   ) { }
 
   /**
    * Creates new Task in DB
    * @param {TaskModel} model Task model to create.
    */
-  createTask(model: TaskModel): Observable<TaskModel> {
+  // FIXME NG45 - get back to Observable<TaskModel>:
+  // createTask(model: TaskModel): Observable<TaskModel> {
+  createTask(model: TaskModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    const options = { headers: headers };
 
     return this.http.post(this.apiUrl, body, options)
-    .map(res => res.json());
+      .map(res => {
+        console.log('NG45 - createTask, response:', res);
+
+        return res;
+      });
   }
 
   // TODO: implement local cache
@@ -65,10 +70,12 @@ export class TaskService {
     // console.log('get TasksPage:', taskId, projectId, page, limit, dbQuery);
 
     return this.http.get(requestUrl)
-    .map((responsePage: Response) => {
-      // console.log('Tasks Page loaded, response: ', responsePage);
-      return responsePage.json();
-    });
+      // FIXME NG45 - get back to:  
+      // .map((responsePage: Response) => {
+      .map((responsePage: any) => {
+        // console.log('Tasks Page loaded, response: ', responsePage);
+        return responsePage.json();
+      });
   }
 
   /**
@@ -84,11 +91,14 @@ export class TaskService {
    * @param TaskModel A Task to update
    */
   updateTask(model: TaskModel): Observable<TaskModel> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
+    return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
+      .map(res => {
+        console.log('NG45 - updateTask, res:', res);
+        return res;
+      })
       .catch(this.handleError);
   }
 
@@ -99,15 +109,18 @@ export class TaskService {
    */
   bulkUpdateTasks(ids: Array<string>, data: any): Observable<TaskModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     // console.log('Tasks service, try to update:', ids, data, body);
 
-    return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
-      .catch( this.handleError );
+    return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
+      .map(res => {
+        console.log('NG45 - bulkUpdateTasks, response:', res);
+        return res;
+      })
+      .catch(this.handleError);
   }
 
   /**
@@ -116,9 +129,12 @@ export class TaskService {
    */
   deleteTask(model: TaskModel) {
     this.http.delete(this.apiUrl + model._id)
-    .map(res => console.log('Task deleted:', res.json()))
-    .catch(this.handleError)
-    .subscribe();
+      .map(res => {
+        console.log('NG45 - Task deleted, res:', res);
+        return res;
+      })
+      .catch(this.handleError)
+      .subscribe();
   }
 
   /**
@@ -126,19 +142,23 @@ export class TaskService {
    * @param ids Task IDs to delete
    */
   bulkDeleteTasks(ids: Array<string>): Observable<TaskModel> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const body = JSON.stringify({ ids: ids});
+    const body = JSON.stringify({ ids: ids });
     console.log('Task service, try to delete:', ids, body);
 
-    return this.http.put(this.apiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
-    .catch( this.handleError );
+    return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
+      .map(res => {
+        console.log('NG45 - bulkDeleteTasks, res:', res);
+        return res;
+      }
+      )
+      .catch(this.handleError);
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error.json() || 'Server error');
   }
 }

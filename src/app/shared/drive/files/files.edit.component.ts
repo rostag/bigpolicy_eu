@@ -5,7 +5,6 @@
 // TODO Implement file deletion via UI
 // FIXME Check on file list refresh — now, trashed files are still visible
 
-import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
          ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {MdSnackBar} from '@angular/material';

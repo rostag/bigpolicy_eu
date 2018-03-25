@@ -1,9 +1,7 @@
-import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -45,8 +43,7 @@ export class TaskListComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private taskService: TaskService,
-    private http: Http
+    private taskService: TaskService
   ) {}
 
   ngOnChanges(changes) {
