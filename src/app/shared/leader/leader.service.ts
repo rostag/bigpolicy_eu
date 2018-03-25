@@ -156,7 +156,7 @@ export class LeaderService {
       // .map((responsePage: Response) => {
       .map((responsePage: any) => {
         // console.log('Leaders Page loaded, response: ', responsePage);
-        return responsePage.json();
+        return responsePage;
       });
   }
 

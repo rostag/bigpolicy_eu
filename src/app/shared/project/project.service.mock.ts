@@ -252,13 +252,13 @@ export class ProjectServiceMock {
     // return o.map((responsePage: Response) => {
     return o.map((responsePage: any) => {
       // console.log('Projects Page loaded, response: ', responsePage);
-      return responsePage.json();
+      return responsePage;
     });
 
     // return this.http.get(requestUrl)
     //   .map((responsePage: Response) => {
     //     console.log('Projects Page loaded, response: ', responsePage);
-    //     return responsePage.json();
+    //     return responsePage;
     //   });
   }
 

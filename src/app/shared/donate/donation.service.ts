@@ -54,7 +54,7 @@ export class DonationService {
     const responseObservable = this.http.get(requestUrl)
       // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
       .map((responsePage: any) => {
-        const donations = responsePage.json();
+        const donations = responsePage;
         return donations;
       });
       return responseObservable;
