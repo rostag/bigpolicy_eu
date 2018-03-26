@@ -36,21 +36,24 @@
   </span>
 
   <!-- TEST -->
-  <div class="mat-elevation-z8" style="position:absolute;right:5px;top:40px;background:#eee;padding:.5em;max-width:380px;font-size:10px!important;text-align:right">
-    <a *ngIf="!userService.authenticated()" (click)="userService.login()">[login]</a>
-    <span *ngIf="userService.authenticated()">
-      {{userService?.userProfile?.name}} <a (click)="userService.logout()">[logout]</a>
-    </span>
-    <a (click)="ping()">Ping</a>, <a (click)="pingJwt()">PingJWT</a>, <a (click)="pingJwtAdmin()">PingJWTAdmin</a>, 
-  </div>
+  <!-- <div class="mat-elevation-z8" style="position:absolute;right:5px;top:40px;background:#eee;padding:.5em;max-width:380px;font-size:10px!important;text-align:right">
+  </div> -->
 
 </nav>
 
 <!-- Initially invisible drop-down menu -->
 <mat-menu #userMenu="matMenu">
-  <button mat-menu-item [disabled]="true">User menu</button>
-  <button mat-menu-item [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис</button>
-  <button mat-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
+  <button mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</button>
+  <div *ngIf="userService.authenticated()">
+    <button mat-menu-item [disabled]="true">{{userService?.userProfile?.name}}</button>
+    <button mat-menu-item [routerLink]="['/profile']" color="primary">Обліковий запис</button>
+    <button mat-menu-item (click)="userService.logout()" color="primary">Вийти</button>
+  </div>
+  <div mat-menu-item *ngIf="false">
+    <a (click)="ping()">Ping</a>,
+    <a (click)="pingJwt()">PingJWT</a>,
+    <a (click)="pingJwtAdmin()">PingJWTAdmin</a>,
+  </div>
 </mat-menu>
 
 <app-working-progress></app-working-progress>
