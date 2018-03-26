@@ -34,6 +34,9 @@ export class UserService {
     email: ''
   };
 
+  // FIXME LOCK_MIGRATION
+  // See here: 
+  // https://auth0.com/docs/libraries/lock/v11/migration-v10-v11
   // Configure Auth0
   // 1. Redirect to Leader creation if user was in the process of creation
   // 2. E.T.C.
