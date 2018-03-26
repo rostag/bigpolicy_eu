@@ -7,5 +7,4 @@ Add:
 
     "auth0-js": "9.1.2",    
 
-Remove UserService
-
+Updated UserService
