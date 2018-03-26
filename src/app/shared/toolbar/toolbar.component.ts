@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { UserService } from 'app/shared/user/user.service';
 import { LeaderService } from 'app/shared/leader';
-import { AuthService } from 'app/auth/auth.service';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { getLoggedIn } from '../../state/reducers/auth.reducers';
+import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
 
-interface AppState {
-  count: number;
-}
 
 /**
  * This class represents the toolbar component.
@@ -21,7 +17,7 @@ interface AppState {
 export class ToolbarComponent {
 
   loggedIn$: Observable<boolean>;
-  count$: Observable<{}>;
+
   get leaderId() {
     return this.leaderService.leader && this.leaderService.leader._id;
   }
@@ -33,13 +29,10 @@ export class ToolbarComponent {
   };
 
   constructor(
-    public auth: AuthService,
     public userService: UserService,
     public leaderService: LeaderService,
-    private store: Store<AppState>
+    private store: Store<AuthState>
   ) {
-
-    this.count$ = store.pipe(select('count'));
     this.loggedIn$ = store.pipe(select(getLoggedIn));
   }
 

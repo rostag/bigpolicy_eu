@@ -6,16 +6,23 @@ import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 // Store
 // --------------------------------------------------------------------------------------------------------------------
 
+export interface IUserProfile {
+  name: string,
+  email: string
+}
+
 // The AuthState iterface describes the structure of the auth store we create
 export interface AuthState {
   loginAttemptsCount: number;
   loggedIn: boolean;
+  userProfile: IUserProfile;
 }
 
 // The initial state of the auth store
 const initialState = {
   loginAttemptsCount: 0,
-  loggedIn: false
+  loggedIn: false,
+  userProfile: null
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -38,10 +45,12 @@ export function reducer(
   switch (action.type) {
 
     case AuthActionTypes.LOGIN_SUCCESS:
-      return { ...state, loggedIn: true };
+      console.log('Reducer: UPROFILE:', action.payload);
+      
+      return { ...state, loggedIn: true, userProfile: action.payload };
 
     case AuthActionTypes.LOGOUT_SUCCESS:
-      return { ...state, loggedIn: false };
+      return { ...state, loggedIn: false, userProfile: null };
 
     case AuthActionTypes.LOGIN_ATTEMPT_ADD:
       return { ...state, loginAttemptsCount: state.loginAttemptsCount + 1 };
@@ -67,12 +76,8 @@ export const getAuthState = createFeatureSelector<AuthState>('authState');
 // This selector will be used to display login attempts count in the application
 // To get reference to the authState, it composes two functions: feature selector getAuthState,
 // and the function which returns the authState.loginAttemptsCount value
-export const getLoginAttemptsCount = createSelector(
-  getAuthState,
-  (authState: AuthState) => authState.loginAttemptsCount
-);
+// export const getLoginAttemptsCount = createSelector( getAuthState, (state: AuthState) => state.loginAttemptsCount);
 
-export const getLoggedIn = createSelector(
-  getAuthState,
-  (authState: AuthState) => authState.loggedIn
-)
+export const getLoggedIn = createSelector(getAuthState, (state: AuthState) => state.loggedIn);
+
+export const getUserProfile = createSelector(getAuthState, (state: AuthState) => state.userProfile);

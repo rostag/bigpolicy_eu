@@ -32,7 +32,7 @@
         </app-project-list> -->
 
         <!-- Усі заходи -->
-        <app-task-list *ngIf="userService.isAdmin()" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
+        <app-task-list *ngIf="userService.isAdmin" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
         </app-task-list>
 
       </mat-card-content>

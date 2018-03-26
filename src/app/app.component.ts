@@ -1,10 +1,10 @@
 import { OnInit, Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
-import { AuthService } from './auth/auth.service';
 import { ProjectService } from './shared/project/project.service';
 import { Router, NavigationEnd } from '@angular/router';
 
 import * as appVersion from './app-version.json';
+import { UserService } from './shared/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +19,11 @@ export class AppComponent implements OnInit {
   version = appVersion['app-version'];
 
   constructor(
-    private auth: AuthService,
+    private userService: UserService,
     private projectService: ProjectService,
     private router: Router
   ) {
-    auth.handleAuth();    
+    userService.handleAuth();
   }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
-          return;
+        return;
       }
       window.scrollTo(0, 0);
     });

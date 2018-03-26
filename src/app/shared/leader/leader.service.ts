@@ -11,7 +11,6 @@ import { map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { AuthService } from 'app/auth/auth.service';
 import { ENV } from 'app/../environments/env.config';
 
 declare var localStorage: any;
@@ -42,7 +41,6 @@ export class LeaderService {
    */
   constructor(
     private http: HttpClient,
-    private auth: AuthService,    
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService
@@ -56,7 +54,7 @@ export class LeaderService {
   ping(): Observable<any> {
     return this.http
       .get(`${ENV.BASE_API}leader-api/ping`)
-      .catch(this._handleError);
+      // .catch(this._handleError);
   }
 
   // Basic Ping with JWT
@@ -65,7 +63,7 @@ export class LeaderService {
       .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
-      .catch(this._handleError);
+      // .catch(this._handleError);
   }
 
   // Basic Ping with JWT and Admin
@@ -75,13 +73,14 @@ export class LeaderService {
       .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`,{
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
-      .catch(this._handleError);
+      // .catch(this._handleError);
   }
 
   private _handleError(err: HttpErrorResponse | any) {
     const errorMsg = err.message || 'Error: Unable to complete request.';
     if (err.message && err.message.indexOf('No JWT present') > -1) {
-      this.auth.login();
+      // FIXME: dispatch LoginRequest action (to be created)
+      // this.auth.login();
     }
     return Observable.throw(errorMsg);
   }
@@ -266,7 +265,7 @@ export class LeaderService {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
     .map(res => { return res; })
-    .catch( this.handleError )
+    // .catch( this.handleError )
     .subscribe((res) => {
       this.setLeaderForUser(null);
       if (navigateToList) {

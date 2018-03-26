@@ -65,7 +65,7 @@
       <span class="add-fill-remaining"></span>
 
       <!-- MOVE TO OTHER LEADER -->
-      <div *ngIf="userService.isAdmin() && isUpdateMode">
+      <div *ngIf="userService.isAdmin && isUpdateMode">
         <button *ngIf="!leaders" mat-button (click)="requestLeadersToSelectFrom()">Змінити лідера</button>
         <form *ngIf="leaders">
           <mat-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">

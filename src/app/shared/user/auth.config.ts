@@ -1,5 +1,5 @@
 // src/app/auth/auth.config.ts
-import { ENV } from '../../environments/env.config';
+import { ENV } from '../../../environments/env.config';
 
 interface AuthConfig {
   CLIENT_ID: string;
@@ -15,6 +15,6 @@ export const AUTH_CONFIG: AuthConfig = {
   CLIENT_DOMAIN: 'bigpolicy.eu.auth0.com',
   AUDIENCE: 'http://bigpolicy.eu/api/',
   REDIRECT: `${ENV.BASE_URI}/profile`,
-  SCOPE: 'openid profile',
+  SCOPE: 'openid profile user_id name nickname email picture',
   NAMESPACE: 'https://bigpolicy.eu/roles'
 };
