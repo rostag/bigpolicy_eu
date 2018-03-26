@@ -4,7 +4,7 @@
     <!-- FIXME Override User Profile Name with Leader Name ? -->
     <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">
       <h1>{{userService.userProfile.name}}</h1>
-      <p *ngIf="userService.isAdmin()"><a [routerLink]="['/admin']">Адміністратор</a></p>
+      <p *ngIf="userService.isAdmin"><a [routerLink]="['/admin']">Адміністратор</a></p>
       <p *ngIf="profileLeader">Лідер: <a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a></p>
       <p><a href="#" (click)="userService.logout()">Вийти</a></p>
     </div>

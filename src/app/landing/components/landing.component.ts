@@ -1,3 +1,4 @@
+// FIXME To be removed
 import { OnInit, Component } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
 import { LeaderService, LeaderModel } from '../../shared/leader';

@@ -21,6 +21,7 @@ export class AuthEffects {
     @Effect() $logout: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.LOGOUT),
         map((action: AuthAction) => {
+            console.log('Logout:', action);
             return ({ type: AuthActionTypes.LOGOUT_SUCCESS })
         }
         ));

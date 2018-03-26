@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
+import { IUserProfile } from '../reducers/auth.reducers';
 
 export interface AuthAction extends Action {
     // type: AuthActionTypes;
-    payload?: string;
+    payload?: any;
 }
 
 // These constants are Action names which we will dispatch from application to update the Store state
@@ -21,7 +22,16 @@ export class Login implements AuthAction {
 }
 
 export class LoginSuccess implements AuthAction {
-    readonly type = AuthActionTypes.LOGIN_SUCCESS
+    readonly type = AuthActionTypes.LOGIN_SUCCESS;
+    constructor(public payload: IUserProfile) { }
+}
+
+export class Logout implements AuthAction {
+    readonly type = AuthActionTypes.LOGOUT
+}
+
+export class LogoutSuccess implements AuthAction {
+    readonly type = AuthActionTypes.LOGOUT_SUCCESS
 }
 
 export type AuthActions

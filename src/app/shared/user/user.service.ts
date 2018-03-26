@@ -1,4 +1,4 @@
-import Auth0Lock from 'auth0-lock';
+// import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
@@ -7,6 +7,13 @@ import { DialogService } from '../dialog/dialog.service';
 import { environment } from '../../../environments/environment';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { AuthState, getUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
+
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AUTH_CONFIG } from './auth.config';
+import * as auth0 from 'auth0-js';
+import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
@@ -20,7 +27,7 @@ interface AppState {
 export class UserService {
 
   userProfile$: Observable<{}>;
-  count$: Observable<{}>;
+
   // Store profile object in auth class
   userProfile: any = {
     name: '',
@@ -43,21 +50,36 @@ export class UserService {
     }
   };
 
-  // FIXME_SEC
-  lock = new Auth0Lock('IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J', 'bigpolicy.eu.auth0.com', this.options);
+  // TODO Move to NGRX
+  isAdmin: boolean;
+
+  // Create Auth0 web auth instance
+  private _auth0 = new auth0.WebAuth({
+    clientID: AUTH_CONFIG.CLIENT_ID,
+    domain: AUTH_CONFIG.CLIENT_DOMAIN,
+    responseType: 'token id_token',
+    redirectUri: AUTH_CONFIG.REDIRECT,
+    audience: AUTH_CONFIG.AUDIENCE,
+    scope: AUTH_CONFIG.SCOPE
+  });
 
   constructor(
     public leaderService: LeaderService,
     public projectService: ProjectService,
-    private dialogService: DialogService,
-    private store: Store<AppState>
+    private router: Router,
+    private store: Store<AuthState>,
+    private dialogService: DialogService
   ) {
+    console.log('Environment:', environment);
 
-    this.count$ = store.pipe(select('count'));
-    this.userProfile$ = store.pipe(select('userProfile'));
+    this.userProfile$ = store.pipe(select(getUserProfile));
 
-    // FIXME this.userProfile = auth.userProfile;
-    console.log('environment:', environment);
+    this.userProfile$.subscribe((uProfile: IUserProfile) => {
+      console.log('User Service got User Profile:', uProfile);
+      this.userProfile = uProfile;
+    })
+
+    // Was
     // Set userProfile attribute of already saved profile
     if (this.authenticated()) {
       console.log('UserService: Authenticated.');
@@ -66,34 +88,135 @@ export class UserService {
       this.leaderService.requestLeaderByEmail(this.getEmail());
     }
 
-    // Add callback for the Lock `authenticated` event
-    this.lock.on('authenticated', (authResult) => {
-      // Auth data
-      localStorage.setItem('id_token', authResult.idToken);
+    // New
 
-      console.log('Authenticated, authResult =', authResult);
+    const lsProfile = localStorage.getItem('profile');
 
-      const profile = authResult.idTokenPayload;
+    // If authenticated, set local profile property,
+    // admin status, and update login status subject.
+    // If token is expired but user data still in localStorage, log out
+    if (this.tokenValid) {
+      const userProfile = JSON.parse(lsProfile);
+      this.isAdmin = localStorage.getItem('isAdmin') === 'true';
+      this.setLoggedIn(true, userProfile);
+    } else if (!this.tokenValid && lsProfile) {
+      this.setLoggedIn(false);
+      this.logout();
+    }
+  }
 
-      localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));
-      this.userProfile = profile;
+  private setLoggedIn(toLogin: boolean, userProfile: IUserProfile = null) {
+    // Update login status subject
+    // FIXME NGRX
+    // this.loggedIn$.next(value);
+    // this.loggedIn = value;
+    if (toLogin) {
+      this.store.dispatch(new LoginSuccess(userProfile));
+    } else {
+      this.store.dispatch(new Logout());
+    }
+  }
 
-      this.leaderService.requestLeaderByEmail(this.getEmail())
-        .subscribe( leaderResponse => {
-          console.log('UserService: gotLeaderByEmail:', leaderResponse);
-          this.showStatus();
-          this.tryToContinueLeaderRegistration();
-        }
-        );
+  login() {
+    // Auth0 authorize request
+    this._auth0.authorize();
+  }
+
+  handleAuth() {
+    // When Auth0 hash parsed, get profile
+    this._auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        this._getProfile(authResult);
+      } else if (err) {
+        console.error(`Error authenticating: ${err.error}`);
+      }
+      // FIXME this.router.navigate(['/']);
     });
-  };
+  }
+
+  private _getProfile(authResult) {
+    // Use access token to retrieve user's profile and set session
+    this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+      if (profile) {
+        this._setSession(authResult, profile);
+      } else if (err) {
+        console.error(`Error authenticating: ${err.error}`);
+      }
+    });
+  }
+
+  private _checkAdmin(profile) {
+    // Check if the user has admin role
+    const roles = profile[AUTH_CONFIG.NAMESPACE] || [];
+    return roles.indexOf('admin') > -1;
+  }
+
+  private _setSession(authResult, profile) {
+    // Save session data and update login status subject
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
+    // Set tokens and expiration in localStorage and props
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem('profile', JSON.stringify(profile));
+    this.userProfile = profile;
+
+    localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));    
+
+    // Save admin data
+    this.isAdmin = this._checkAdmin(profile);
+    localStorage.setItem('isAdmin', this.isAdmin.toString());
+
+    // Update login status in loggedIn$ stream
+    this.setLoggedIn(true, profile);
+
+    // Was
+    console.log('Authenticated, authResult =', authResult);
+    this.leaderService.requestLeaderByEmail(this.getEmail())
+      .subscribe(leaderResponse => {
+        console.log('UserService: gotLeaderByEmail:', leaderResponse);
+        this.showStatus();
+        this.tryToContinueLeaderRegistration();
+      });
+  }
+
+  /**
+   * De-authenticates currently logged in user by removing token from local storage.
+   */
+  public logout() {
+    // Ensure all auth items removed from localStorage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+    localStorage.removeItem('expires_at');
+    localStorage.removeItem('authRedirect');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('BigPolicyProfile');
+    localStorage.removeItem('BigPolicyLeaderRegistration');
+    // Reset local properties, update logged In $ stream
+    this.userProfile = undefined;
+    this.isAdmin = undefined;
+    // Return to homepage
+    this.router.navigate(['/']);
+  }
+
+  get tokenValid(): boolean {
+    // Check if current time is past access token's expiration
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return Date.now() < expiresAt;
+  }
+
+  //
+  // Was
+  //
 
   public showStatus() {
     const status =
       `Email: ` + this.getEmail() +
       `\nAuthenticated: ` + this.authenticated() +
-      `\nHas Leader: ` +  this.hasLeader() +
-      `\nIs Admin: ` +  this.isAdmin() +
+      `\nHas Leader: ` + this.hasLeader() +
+      `\nIs Admin: ` + this.isAdmin +
       `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
     console.log('User status: ' + status);
     console.log('Leader:', this.leaderService.leader);
@@ -108,7 +231,7 @@ export class UserService {
 
   public hasEditPermissions(leaderProjectOrTask) {
     // FIXME it's being called too often, as log below shows
-    return this.isAdmin() || this.isOwner(leaderProjectOrTask);
+    return this.isAdmin || this.isOwner(leaderProjectOrTask);
   }
 
   /**
@@ -124,24 +247,25 @@ export class UserService {
    */
   public authenticated() {
     // FIXME Move to using ngrx/store
-    return tokenNotExpired('id_token');
+    // return tokenNotExpired('id_token');
+    return this.tokenValid;
   };
 
   /**
    * Returns true if user is logged in and his admin is in the admin list.
    */
   // FIXME Implement Admins list
-  public isAdmin() {
-    // FIXME_SEC
-    // const isDevMode = environment.production === false;
-    // FIXME Move this setting to enviromnent ngrx
-    const isDevMode = false;
-    return isDevMode || (this.authenticated() && (
-      this.getEmail() === 'rostyslav.siryk@gmail.com' ||
-      this.getEmail() === 'prokopenko.serhii@gmail.com' ||
-      this.getEmail() === 'vlodkozak@gmail.com'
-    ));
-  }
+  // public isAdmin() {
+  //   // FIXME_SEC
+  //   // const isDevMode = environment.production === false;
+  //   // FIXME Move this setting to enviromnent ngrx
+  //   const isDevMode = false;
+  //   return isDevMode || (this.authenticated() && (
+  //     this.getEmail() === 'rostyslav.siryk@gmail.com' ||
+  //     this.getEmail() === 'prokopenko.serhii@gmail.com' ||
+  //     this.getEmail() === 'vlodkozak@gmail.com'
+  //   ));
+  // }
 
   // FIXME_TEST In the first place
   /**
@@ -154,27 +278,8 @@ export class UserService {
     const leaderIsOwnedBy = userEmail === item['email'];
     const taskIsOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
 
-    return this.authenticated() && ( taskIsOwnedBy || projectIsOwnedBy || leaderIsOwnedBy );
+    return this.authenticated() && (taskIsOwnedBy || projectIsOwnedBy || leaderIsOwnedBy);
   }
-
-  /**
-   * Call the Auth0 show method to display the login widget.
-   */
-  public login() {
-    // FIXME_SEC
-    this.lock.show();
-  };
-
-  /**
-   * De-authenticates currently logged in user by removing token from local storage.
-   */
-  public logout() {
-    // Auth0 data
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('BigPolicyProfile');
-    localStorage.removeItem('BigPolicyLeaderRegistration');
-    this.userProfile = undefined;
-  };
 
   // FTUX
 
@@ -237,4 +342,5 @@ export class UserService {
       }
     }
   }
+
 }

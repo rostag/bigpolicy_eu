@@ -7,7 +7,6 @@ import { ProjectListComponent } from '../project/list/index';
 
 import { Ng2PaginationModule } from 'ng2-pagination';
 
-// import { UserService } from '../shared/user/user.service';
 // import { LeaderService } from '../shared/leader';
 import { CoreModule } from '../core.module';
 

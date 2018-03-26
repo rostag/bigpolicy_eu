@@ -17,7 +17,7 @@ import { MatInputModule } from '@angular/material';
 export class ProjectEditComponent implements OnInit {
 
   get showTasks(): boolean {
-      return this.isUpdateMode;
+    return this.isUpdateMode;
   };
 
   // If true, editor is used on existing item, false if used for thecreation of new one
@@ -56,12 +56,12 @@ export class ProjectEditComponent implements OnInit {
               this.project = new ProjectModel();
               this.project.parseData(data);
             },
-            err => console.error(err),
-            () => {}
-          );
+              err => console.error(err),
+              () => { }
+            );
         }
       }
-    );
+      );
   }
 
   /**
@@ -86,11 +86,11 @@ export class ProjectEditComponent implements OnInit {
       // FIXME
       // this.selectedLeader = this.leaderService.leader;
       this.projectService.updateProject(this.project)
-      .subscribe(
-        data => { this.gotoProject(data); },
-        err => (er) => console.error('Project update error: ', er),
-        () => {}
-      );
+        .subscribe(
+          data => { this.gotoProject(data); },
+          err => (er) => console.error('Project update error: ', er),
+          () => { }
+        );
     } else {
       // Create new project
       // FIXME - Potential Race Condition
@@ -102,11 +102,11 @@ export class ProjectEditComponent implements OnInit {
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
       this.projectService.createProject(this.project)
-      .subscribe(
-        data => { this.gotoProject(data); },
-        err => (er) => console.error('Project creation error: ', er),
-        () => {}
-      );
+        .subscribe(
+          data => { this.gotoProject(data); },
+          err => (er) => console.error('Project creation error: ', er),
+          () => { }
+        );
     }
     return false;
   }
@@ -131,17 +131,17 @@ export class ProjectEditComponent implements OnInit {
   /**
    * Loads available Leaders to assign the project to
    */
-   // FIXME Move to service / component
+  // FIXME Move to service / component
   requestLeadersToSelectFrom() {
-    // this.userService.isAdmin()
+    // this.userService.isAdmin
     this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
       .subscribe((res) => {
         this.leaders = res['docs'];
         console.log('got leaders: ', this.leaders);
         for (const d in this.leaders) {
-          if ( this.leaders.hasOwnProperty(d)) {
-            console.log('got leader: ', this.leaders[d]._id, this.leaders[d].name);
-            if ( this.project.managerId === this.leaders[d]._id) {
+          if (this.leaders.hasOwnProperty(d)) {
+            console.log('Got leader: ', this.leaders[d]._id, this.leaders[d].name);
+            if (this.project.managerId === this.leaders[d]._id) {
               // Memorize current leader for later usage - we'll remove project from him:
               this.currentLeader.parseData(this.leaders[d]);
             }
@@ -167,12 +167,12 @@ export class ProjectEditComponent implements OnInit {
     this.saveProject();
 
     // Add project to new Leader:
-    if ( newLeader.projects.indexOf(this.project._id) === -1 ) {
+    if (newLeader.projects.indexOf(this.project._id) === -1) {
       newLeader.projects.push(this.project._id);
       this.leaderService.updateLeader(newLeader).subscribe();
     }
     // Remove project from current Leader:
-    this.currentLeader.projects.splice( this.currentLeader.projects.indexOf(this.project._id), 1);
+    this.currentLeader.projects.splice(this.currentLeader.projects.indexOf(this.project._id), 1);
     this.leaderService.updateLeader(this.currentLeader).subscribe();
   }
 }
