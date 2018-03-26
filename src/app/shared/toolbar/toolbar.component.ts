@@ -16,8 +16,6 @@ import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
 })
 export class ToolbarComponent {
 
-  loggedIn$: Observable<boolean>;
-
   get leaderId() {
     return this.leaderService.leader && this.leaderService.leader._id;
   }
@@ -33,7 +31,6 @@ export class ToolbarComponent {
     public leaderService: LeaderService,
     private store: Store<AuthState>
   ) {
-    this.loggedIn$ = store.pipe(select(getLoggedIn));
   }
 
   public ping() {

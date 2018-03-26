@@ -47,11 +47,11 @@
                                                                }">
 
 
-       <h3 matLine><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
+       <h3 mat-line><a [routerLink]="['/task/' + task._id]"><b>{{task.title}}</b></a></h3>
        <p matLine>
         <b>{{task.cost}} UAH.</b> {{task.dateStarted | date}} - {{task.dateEnded | date}}
        </p>
-       <p matLine>
+       <p mat-line>
          <small>{{task.project}}</small> | <small>{{task.description}}</small>
        </p>
        <div *ngIf="userService.hasEditPermissions(task)" class="admin" style="min-width:4em;">

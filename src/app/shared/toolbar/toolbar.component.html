@@ -35,9 +35,10 @@
     </button>
   </span>
 
+  <!-- TEST -->
   <div class="mat-elevation-z8" style="position:absolute;right:5px;top:40px;background:#eee;padding:.5em;max-width:380px;font-size:10px!important;text-align:right">
-    <a *ngIf="!(loggedIn$ | async)" (click)="userService.login()">[login]</a>
-    <span *ngIf="(loggedIn$ | async)">
+    <a *ngIf="!userService.authenticated()" (click)="userService.login()">[login]</a>
+    <span *ngIf="userService.authenticated()">
       {{userService?.userProfile?.name}} <a (click)="userService.logout()">[logout]</a>
     </span>
     <a (click)="ping()">Ping</a>, <a (click)="pingJwt()">PingJWT</a>, <a (click)="pingJwtAdmin()">PingJWTAdmin</a>, 

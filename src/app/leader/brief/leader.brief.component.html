@@ -1,5 +1,4 @@
 <mat-card class="leader-brief-card" [routerLink]="['/leader/', leader._id]" *ngIf="viewContext==='homePage'">
-  <div matCardAvatar class="leader-brief-card-header-image"></div>
   <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
     <span *ngIf="userService.isOwner(leader)">
       [я]
