@@ -31,7 +31,7 @@ module.exports = function(app, router, DB, jwtCheck, adminCheck){
   })
 
   .get('/leader-api/ping', function (req, res) {
-    res.send('Pong');
+    res.send({ ping: 'Pong' });
   })
 
   .get('/leader-api/ping-jwt', jwtCheck, function (req, res) {
