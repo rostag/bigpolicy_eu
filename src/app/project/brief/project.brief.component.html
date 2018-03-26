@@ -1,6 +1,5 @@
 <!-- Project Card View (for display standalone) -->
 <mat-card class="project-brief-card" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='homePage'">
-  <div matCardAvatar class="project-brief-card-header-image"></div>
   <mat-card-title>Проект {{project.title}}</mat-card-title>
   <div class="mat-card-image-clipper">
     <img mat-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">

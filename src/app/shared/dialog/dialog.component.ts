@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material';
     ` <mat-icon class="inline-icon">info</mat-icon>
 
       <div class="styled">
-        <h3 matDialogTitle>{{title}}</h3>
+        <h3 mat-dialog-title>{{title}}</h3>
 
         <mat-dialog-content>
           {{ message }}

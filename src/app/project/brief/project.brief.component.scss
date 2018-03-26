@@ -13,12 +13,6 @@ a {
 
 // Card View
 
-.project-brief-card-header-image {
-  // Parametrize via leader photo
-  background-image: url('../../../assets/img/project/project-placeholder.png');
-  background-size: cover;
-}
-
 .mat-card-image-clipper {
   border-bottom: 1px solid $col-eee;
   border-top: 1px solid $col-eee;
