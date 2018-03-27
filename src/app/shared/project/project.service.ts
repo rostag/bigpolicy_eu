@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 
 import { ProjectModel } from './project.model';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -41,7 +42,7 @@ export class ProjectService {
     private router: Router,
     private dialogService: DialogService,
     private taskService: TaskService
-  ) {}
+  ) { }
 
   /**
    * Creates new Project.
@@ -59,7 +60,7 @@ export class ProjectService {
         console.log('NG45 - createProject', res);
         return res;
       }
-    );
+      );
   }
 
   /**
@@ -115,13 +116,14 @@ export class ProjectService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => 
-        {
+    return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
+      .pipe(
+        map(res => {
           console.log('NG45 - updateProject, res:', res);
           return res;
-        })
-      .catch(this.handleError);
+        }),
+        catchError(this.handleError)
+      )
   }
 
   /**
@@ -139,14 +141,15 @@ export class ProjectService {
     const body = JSON.stringify({ ids: ids, data: data });
     console.log('Project service, try to update:', ids, data, body);
 
-    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => 
-        {
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
+      .pipe(
+        map(res => {
           console.log('NG45 - bulkUpdateProjects, res:', res);
           return res;
         }
+        ),
+        catchError(this.handleError)
       )
-      .catch( this.handleError );
   }
 
   /**
@@ -166,22 +169,22 @@ export class ProjectService {
           this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
             до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteTasks => {
-            if (toDeleteTasks === true) {
-              // Delete Tasks from DB
-              // TODO Delete Tasks Firebase data
-              // TODO Delete Donations and Task Donations?
-              this.taskService.bulkDeleteTasks(model.tasks)
-              .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
-            } else {
-              // NE NA CHASI: reassign tasks to placeholder Project
-              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
-              this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }' )
-                .subscribe((res) => {
-                  // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
-                  this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
-                });
-            }
-          });
+              if (toDeleteTasks === true) {
+                // Delete Tasks from DB
+                // TODO Delete Tasks Firebase data
+                // TODO Delete Donations and Task Donations?
+                this.taskService.bulkDeleteTasks(model.tasks)
+                  .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
+              } else {
+                // NE NA CHASI: reassign tasks to placeholder Project
+                // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
+                this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }')
+                  .subscribe((res) => {
+                    // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
+                    this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => { });
+                  });
+              }
+            });
         } // If Task reassignment was needed
       }
     });
@@ -194,18 +197,20 @@ export class ProjectService {
   finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-    .map(res => { 
-      {
-        console.log('NG45 - finalizeProjectDeletion, res: ', res);
-        return res;
-      }
-     })
-    .catch( this.handleError )
-    .subscribe((res) => {
-      if (navigateToList) {
-        this.router.navigate(['/projects']);
-      }
-    });
+      .pipe(
+        map(res => {
+          {
+            console.log('NG45 - finalizeProjectDeletion, res: ', res);
+            return res;
+          }
+        }),
+        catchError(this.handleError)
+      )
+      .subscribe((res) => {
+        if (navigateToList) {
+          this.router.navigate(['/projects']);
+        }
+      });
   }
 
   /**
@@ -216,15 +221,17 @@ export class ProjectService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const body = JSON.stringify({ ids: ids});
+    const body = JSON.stringify({ ids: ids });
     console.log('Project service, try to delete:', ids, body);
 
-    return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => {
-      console.log('NG45 - bulkDeleteProjects, res:', res);
-      return res;
-    })
-    .catch( this.handleError );
+    return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
+    .pipe(
+      map(res => {
+        console.log('NG45 - bulkDeleteProjects, res:', res);
+        return res;
+      }),
+      catchError(this.handleError)
+    )
   }
 
   private handleError(error: Response) {

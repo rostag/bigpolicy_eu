@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { TaskModel } from './task.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -95,11 +95,13 @@ export class TaskService {
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
-      .map(res => {
-        console.log('NG45 - updateTask, res:', res);
-        return res;
-      })
-      .catch(this.handleError);
+      .pipe(
+        map(res => {
+          console.log('NG45 - updateTask, res:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   /**
@@ -116,11 +118,13 @@ export class TaskService {
     // console.log('Tasks service, try to update:', ids, data, body);
 
     return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
-      .map(res => {
-        console.log('NG45 - bulkUpdateTasks, response:', res);
-        return res;
-      })
-      .catch(this.handleError);
+      .pipe(
+        map(res => {
+          console.log('NG45 - bulkUpdateTasks, response:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      )
   }
 
   /**
@@ -129,11 +133,14 @@ export class TaskService {
    */
   deleteTask(model: TaskModel) {
     this.http.delete(this.apiUrl + model._id)
-      .map(res => {
-        console.log('NG45 - Task deleted, res:', res);
-        return res;
-      })
-      .catch(this.handleError)
+      .pipe(
+        map(res => {
+          console.log('NG45 - Task deleted, res:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+
+      )
       .subscribe();
   }
 
@@ -149,12 +156,13 @@ export class TaskService {
     console.log('Task service, try to delete:', ids, body);
 
     return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
-      .map(res => {
-        console.log('NG45 - bulkDeleteTasks, res:', res);
-        return res;
-      }
+      .pipe(
+        map(res => {
+          console.log('NG45 - bulkDeleteTasks, res:', res);
+          return res;
+        }),
+        catchError(this.handleError)
       )
-      .catch(this.handleError);
   }
 
   private handleError(error: Response) {
