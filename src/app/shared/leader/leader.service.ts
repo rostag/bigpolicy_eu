@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
@@ -44,7 +44,7 @@ export class LeaderService {
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService
-  ) {}
+  ) { }
 
   private get _authHeader(): string {
     return `Bearer ${localStorage.getItem('access_token')}`;
@@ -54,7 +54,9 @@ export class LeaderService {
   ping(): Observable<any> {
     return this.http
       .get(`${ENV.BASE_API}leader-api/ping`)
-      // .catch(this._handleError);
+      .pipe(
+        catchError(this._handleError)
+      );
   }
 
   // Basic Ping with JWT
@@ -63,17 +65,21 @@ export class LeaderService {
       .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
-      // .catch(this._handleError);
+      .pipe(
+        catchError(this._handleError)
+      );
   }
 
   // Basic Ping with JWT and Admin
   // FIXME
   pingJwtAdmin(): Observable<any> {
     return this.http
-      .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`,{
+      .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
-      // .catch(this._handleError);
+      .pipe(
+        catchError(this._handleError)
+      );
   }
 
   private _handleError(err: HttpErrorResponse | any) {
@@ -94,12 +100,12 @@ export class LeaderService {
     const body: string = encodeURIComponent(model.toString());
     // const body: string = model.toString();
     const headers = new HttpHeaders()
-    .set('Authorization', this._authHeader)
-    .set('Content-Type', 'application/x-www-form-urlencoded');
+      .set('Authorization', this._authHeader)
+      .set('Content-Type', 'application/x-www-form-urlencoded');
 
     // this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
     // console.log('Tey Leader:', this._authHeader);
-  
+
     this.http.post(this.leaderApiUrl, body, { headers: headers })
       .subscribe(
         data => {
@@ -110,7 +116,7 @@ export class LeaderService {
           localStorage.removeItem('BigPolicyLeaderRegistration');
         },
         err => (er) => console.error('Leader creation error: ', er),
-        () => {}
+        () => { }
       );
   }
 
@@ -182,7 +188,7 @@ export class LeaderService {
     console.log('LeaderService:RequestLeaderByEmail:', email);
 
     const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
-    leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
+    leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }
@@ -207,11 +213,13 @@ export class LeaderService {
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
-      .map(res => {
-        console.log('NG45 - Leader updated, server response:', res);
-        return res;
-      })
-      .catch(this.handleError);
+      .pipe(
+        map(res => {
+          console.log('NG45 - Leader updated, server response:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   // TODO Bulk Update Leaders (Like Project and Tasks).
@@ -233,25 +241,25 @@ export class LeaderService {
           this.dialogService.confirm('Що робити з проектами?', `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
             до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteProjects => {
-            if (toDeleteProjects === true) {
-              // Delete Projects and Tasks in DB
-              // TODO Delete Projects Firebase data
-              // TODO Delete Donations and Task Donations?
-              this.projectService.bulkDeleteProjects(model.projects)
-              .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
-            } else {
-              // Reassign projects to another Leader (this/Admin)
-              // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
-              const newLeader = this.leader;
-              const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, {
-                managerId: newLeader._id,
-                managerEmail: newLeader.email,
-                managerName: newLeader.name + ' ' + newLeader.surName
-              });
-              projectsUpdate.subscribe((updateResult) => { console.log('Projects update result:', updateResult); });
-            }
-            this.finalizeLeaderDeletion(model, navigateToList);
-          });
+              if (toDeleteProjects === true) {
+                // Delete Projects and Tasks in DB
+                // TODO Delete Projects Firebase data
+                // TODO Delete Donations and Task Donations?
+                this.projectService.bulkDeleteProjects(model.projects)
+                  .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
+              } else {
+                // Reassign projects to another Leader (this/Admin)
+                // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
+                const newLeader = this.leader;
+                const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, {
+                  managerId: newLeader._id,
+                  managerEmail: newLeader.email,
+                  managerName: newLeader.name + ' ' + newLeader.surName
+                });
+                projectsUpdate.subscribe((updateResult) => { console.log('Projects update result:', updateResult); });
+              }
+              this.finalizeLeaderDeletion(model, navigateToList);
+            });
         } // If Project reassignment was needed
       }
     });
@@ -264,14 +272,16 @@ export class LeaderService {
   finalizeLeaderDeletion(leaderModel: LeaderModel, navigateToList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
-    .map(res => { return res; })
-    // .catch( this.handleError )
-    .subscribe((res) => {
-      this.setLeaderForUser(null);
-      if (navigateToList) {
-        this.router.navigate(['/leaders']);
-      }
-    });
+      .pipe(
+        map(res => { return res; }),
+        catchError(this.handleError)
+      )
+      .subscribe((res) => {
+        this.setLeaderForUser(null);
+        if (navigateToList) {
+          this.router.navigate(['/leaders']);
+        }
+      });
   }
 
   // TODO Check if the same can be done for projects
