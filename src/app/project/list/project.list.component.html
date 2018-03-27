@@ -1,9 +1,21 @@
+<!--
+  Usage: 
+  <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list>
+-->
+
 <h2 *ngIf="title !== ''">{{title}}</h2>
 
-<!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
-
-<div fxLayout="row" fxLayoutWrap fxLayoutGap="1em" >
-  <div [fxFlex]="flexState.flex" [fxFlex.lg]="flexState.lg" [fxFlex.md]="flexState.md" [fxFlex.sm]="flexState.sm" [fxFlex.xs]="flexState.xs"
+<div fxLayout="row wrap" fxLayoutGap="1em">
+  <!--
+    
+    fxFlex="20%"
+  -->
+  <div 
+  [fxFlex]="flexState.flex"
+  [fxFlex.lg]="flexState.lg" 
+  [fxFlex.sm]="flexState.sm" 
+  [fxFlex.md]="flexState.md" 
+  [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
@@ -12,10 +24,8 @@
     }">
     <app-project-brief
       [projectId]="project._id"
-      [viewContext]="viewContext"
-      >
+      [viewContext]="viewContext">
     </app-project-brief>
-
   </div>
 </div>
 

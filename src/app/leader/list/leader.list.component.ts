@@ -32,11 +32,11 @@ export class LeaderListComponent implements OnInit, OnChanges {
   @Input() flexSettings = '33|33|33|50|100';
 
   flexState = {
-      flex: '33',
-      lg: '33',
-      md: '33',
-      sm: '50',
-      xs: '100'
+      flex: '33%',
+      lg: '33%',
+      md: '33%',
+      sm: '50%',
+      xs: '100%'
   };
 
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
