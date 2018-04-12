@@ -86,8 +86,7 @@ export class DonationService {
    * Internal utility to get post data
    */
   private getPostData(model: DonationModel) {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
       // FIXME - NG45

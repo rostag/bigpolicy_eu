@@ -203,8 +203,7 @@ export class ProjectServiceMock {
   // FIXME NG45 - createProject(model: ProjectModel): Observable<ProjectModel> {
   createProject(model: ProjectModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     // FIXME - NG45 to be:
     // const options = new RequestOptions({ headers: headers });
     const options = { headers: headers };
@@ -275,8 +274,7 @@ export class ProjectServiceMock {
    */
   updateProject(model: ProjectModel): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
@@ -295,8 +293,7 @@ export class ProjectServiceMock {
    */
   bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     console.log('Project service, try to update:', ids, data, body);
@@ -375,8 +372,7 @@ export class ProjectServiceMock {
    * @param ids Project IDs to delete
    */
   bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids });
     console.log('Project service, try to delete:', ids, body);
