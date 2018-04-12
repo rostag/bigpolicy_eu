@@ -52,10 +52,9 @@ export class ProjectService {
   // createProject(model: ProjectModel): Observable<ProjectModel> {
   createProject(model: ProjectModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = { headers: headers };
-    return this.http.post(this.projectApiUrl, body, options)
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this.projectApiUrl, body, { headers: headers })
       .map(res => {
         console.log('NG45 - createProject', res);
         return res;
@@ -113,8 +112,7 @@ export class ProjectService {
   // updateProject(model: ProjectModel): Observable<ProjectModel> {
   updateProject(model: ProjectModel): Observable<any> {
     // TODO Consider encoding the body like in create project above
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
@@ -135,11 +133,9 @@ export class ProjectService {
   // bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
   bulkUpdateProjects(ids: Array<string>, data: any): Observable<any> {
     // TODO Consider encoding the body like in create project above
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
-    console.log('Project service, try to update:', ids, data, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
@@ -218,11 +214,8 @@ export class ProjectService {
    * @param ids Project IDs to delete
    */
   bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids });
-    console.log('Project service, try to delete:', ids, body);
 
     return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
     .pipe(

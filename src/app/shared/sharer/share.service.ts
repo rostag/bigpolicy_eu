@@ -35,15 +35,13 @@ export class ShareService {
   // share(modelToShare: any): Observable<Response> {
   share(modelToShare: any): Observable<any> {
     const body: string = encodeURIComponent(JSON.stringify(modelToShare));
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = { headers: headers };
-    return this.http.post(this.mailApiUrl + 'share', body, options).
-    map(res => {
-        console.log('NG45 - Share, response:', res);
-        return res;
-      }
-    );
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(this.mailApiUrl + 'share', body, { headers: headers })
+      .map(res => {
+          console.log('NG45 - Share, response:', res);
+          return res;
+        }
+      );
 
     // TODO: Upsert model in DB:
     // model.events.push({'type': 'share'});

@@ -209,8 +209,7 @@ export class LeaderService {
    * @param LeaderModel A Leader to update
    */
   updateLeader(model: LeaderModel): Observable<LeaderModel> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(

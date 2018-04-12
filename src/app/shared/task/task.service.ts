@@ -29,11 +29,9 @@ export class TaskService {
   // createTask(model: TaskModel): Observable<TaskModel> {
   createTask(model: TaskModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = { headers: headers };
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.apiUrl, body, options)
+    return this.http.post(this.apiUrl, body, { headers: headers })
       .map(res => {
         console.log('NG45 - createTask, response:', res);
 
@@ -91,8 +89,7 @@ export class TaskService {
    * @param TaskModel A Task to update
    */
   updateTask(model: TaskModel): Observable<TaskModel> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
@@ -111,8 +108,7 @@ export class TaskService {
    */
   bulkUpdateTasks(ids: Array<string>, data: any): Observable<TaskModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     // console.log('Tasks service, try to update:', ids, data, body);
@@ -149,11 +145,9 @@ export class TaskService {
    * @param ids Task IDs to delete
    */
   bulkDeleteTasks(ids: Array<string>): Observable<TaskModel> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids });
-    console.log('Task service, try to delete:', ids, body);
 
     return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
       .pipe(
