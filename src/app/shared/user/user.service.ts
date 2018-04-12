@@ -82,26 +82,26 @@ export class UserService {
       this.userProfile = uProfile;
     })
 
-    // Was
-    // Set userProfile attribute of already saved profile
-    if (this.authenticated()) {
-      console.log('UserService: Authenticated.');
-      // this.showStatus();
-      this.userProfile = JSON.parse(localStorage.getItem('BigPolicyProfile'));
-      this.leaderService.requestLeaderByEmail(this.getEmail());
-    }
-
     // New
-
     const lsProfile = localStorage.getItem('profile');
 
     // If authenticated, set local profile property,
     // admin status, and update login status subject.
     // If token is expired but user data still in localStorage, log out
     if (this.tokenValid) {
-      const userProfile = JSON.parse(lsProfile);
+
+      // Was
+      // Set userProfile attribute of already saved profile
+      // this.showStatus();
+      console.log('UserService: Authenticated.');
+      this.userProfile = JSON.parse(lsProfile);
+
+      // FIXME Race Condition in Auth workflow
+      this.leaderService.requestLeaderByEmail(this.getEmail());
+
+      // New
       this.isAdmin = localStorage.getItem('isAdmin') === 'true';
-      this.setLoggedIn(true, userProfile);
+      this.setLoggedIn(true, this.userProfile);
     } else if (!this.tokenValid && lsProfile) {
       this.setLoggedIn(false);
       this.logout();
@@ -165,8 +165,6 @@ export class UserService {
     localStorage.setItem('profile', JSON.stringify(profile));
     this.userProfile = profile;
 
-    localStorage.setItem('BigPolicyProfile', JSON.stringify(profile));    
-
     // Save admin data
     this.isAdmin = this._checkAdmin(profile);
     localStorage.setItem('isAdmin', this.isAdmin.toString());
@@ -195,7 +193,6 @@ export class UserService {
     localStorage.removeItem('expires_at');
     localStorage.removeItem('authRedirect');
     localStorage.removeItem('isAdmin');
-    localStorage.removeItem('BigPolicyProfile');
     localStorage.removeItem('BigPolicyLeaderRegistration');
     // Reset local properties, update logged In $ stream
     this.userProfile = undefined;
