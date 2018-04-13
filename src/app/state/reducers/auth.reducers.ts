@@ -45,8 +45,6 @@ export function reducer(
   switch (action.type) {
 
     case AuthActionTypes.LOGIN_SUCCESS:
-      console.log('Reducer: UPROFILE:', action.payload);
-      
       return { ...state, loggedIn: true, userProfile: action.payload };
 
     case AuthActionTypes.LOGOUT_SUCCESS:
