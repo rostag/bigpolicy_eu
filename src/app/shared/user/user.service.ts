@@ -283,7 +283,7 @@ export class UserService {
         this.dialogService
           .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
           .subscribe(res => {
-            console.log('Вітаємо!', 'Ти успішно увійшов у систему: ', this.authenticated(), this.hasLeader();
+            console.log('Вітаємо!', 'Ти успішно увійшов у систему: ', this.authenticated(), this.hasLeader());
           });
       }
     }

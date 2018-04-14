@@ -4,6 +4,11 @@ $col-000: #000;
 
 :host {
   display: block;
+
+  .project-name {
+    margin-bottom: 1.5em;
+    display: inline-block;
+  }
 }
 
 .description {

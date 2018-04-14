@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 // FIXME MOVE TO TASK SERVICE
 import { ProjectService } from '../../shared/project/project.service';
+import { DialogService } from '../../shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-task-view',
@@ -38,7 +39,8 @@ export class TaskViewComponent implements OnInit, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private taskService: TaskService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {
   }
 
@@ -57,19 +59,19 @@ export class TaskViewComponent implements OnInit, OnChanges {
       this.retrieveProject();
     } else {
       this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('View Task by ID from route params:', id);
-        if (id) {
-          this.taskService.getTask(id)
-          .subscribe( data => {
-            this.task = data;
-            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
-            console.log('tpId =', this.task.projectId, data);
-            this.retrieveProject();
-          });
-        }
-      });
+        .map(params => params['id'])
+        .subscribe((id) => {
+          console.log('View Task by ID from route params:', id);
+          if (id) {
+            this.taskService.getTask(id)
+              .subscribe(data => {
+                this.task = data;
+                this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+                console.log('tpId =', this.task.projectId, data);
+                this.retrieveProject();
+              });
+          }
+        });
     }
   }
 
@@ -77,11 +79,11 @@ export class TaskViewComponent implements OnInit, OnChanges {
     if (this.task.projectId) {
       // FIXME MOVE TO TASK SERVICE
       this.projectService.getProject(this.task.projectId)
-      .subscribe( project => {
-        this.projectTitle = project.title;
-        // console.log('a title:', this.projectTitle);
-        this.ref.markForCheck();
-      });
+        .subscribe(project => {
+          this.projectTitle = project.title;
+          // console.log('a title:', this.projectTitle);
+          this.ref.markForCheck();
+        });
     }
   }
 
@@ -89,11 +91,17 @@ export class TaskViewComponent implements OnInit, OnChanges {
    * Remove this task
    * @param {task} Task being viewed
    */
-  deleteTask(task: TaskModel) {
+  deleteTask(task: TaskModel, event) {
+    event.stopPropagation();
+
+    const projectId = task.projectId;
+
+    this.dialogService.info('Захід видалено', 'Ми видалили цей захід');
+
     // Delete from DB
     this.taskService.deleteTask(task);
 
-    this.router.navigate(['/project/' + task.projectId]);
+    this.router.navigate(['/project/' + projectId]);
 
     return false;
   }
