@@ -102,6 +102,11 @@ export class TaskListComponent implements OnChanges {
     return false;
   }
 
+  onSaveTaskEdit(evt) {
+    this.isAddingTaskMode = false;
+    // TODO: Update Task store via NGRX
+  }
+
   onCancelTaskEdit(evt) {
     this.isAddingTaskMode = false;
   }

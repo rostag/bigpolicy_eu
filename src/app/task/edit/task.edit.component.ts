@@ -9,13 +9,14 @@ import { Location } from '@angular/common';
   selector: 'app-bp-task-edit',
   templateUrl: './task.edit.component.html',
   styleUrls: ['./task.edit.component.scss']
-  })
+})
 
 export class TaskEditComponent implements OnInit {
 
   @Input() projectId = '';
 
   @Output() onCancelEdit = new EventEmitter<any>();
+  @Output() onSaveEdit = new EventEmitter<any>();
 
   isUpdateMode = false;
 
@@ -44,7 +45,7 @@ export class TaskEditComponent implements OnInit {
     // if project id is provided, it means we editing / adding task from inside the parent project
     console.log('Task Editor Initialization, provided Project Id:', this.projectId);
 
-    if ( this.projectId ) {
+    if (this.projectId) {
       return;
     }
 
@@ -56,7 +57,7 @@ export class TaskEditComponent implements OnInit {
       .subscribe((taskId) => {
         console.log('Task Editor by ID from route params:', taskId);
         if (taskId) {
-          this.taskService.getTask(taskId).subscribe( data => {
+          this.taskService.getTask(taskId).subscribe(data => {
             this.parseLoadedTask(data);
           });
         }
@@ -68,7 +69,7 @@ export class TaskEditComponent implements OnInit {
    * @param {data} Loaded task data
    */
   parseLoadedTask(task) {
-    console.log('Set task:', task, ', project =', task.projectId );
+    console.log('Set task:', task, ', project =', task.projectId);
     this.isUpdateMode = true;
     this.task = new TaskModel();
     this.task.parseData(task);
@@ -79,10 +80,13 @@ export class TaskEditComponent implements OnInit {
    * @param {task} Task being viewed
    */
   deleteTask(task: TaskModel) {
+    const projectId = task.projectId;
+    console.log('Delete from project:', projectId);
+
     // Delete from DB
     this.taskService.deleteTask(task);
 
-    this.router.navigate(['/project/' + task.projectId]);
+    this.router.navigate(['/project/' + projectId]);
     return false;
   }
 
@@ -95,21 +99,23 @@ export class TaskEditComponent implements OnInit {
     if (this.isUpdateMode) {
       // Update existing task
       this.taskService.updateTask(this.task)
-      .subscribe(
-        data => { this.gotoTask(data); },
-        err => (er) => console.error('Task update error: ', er),
-        () => {}
-      );
+        .subscribe(
+          data => { this.gotoTask(data); },
+          err => (er) => console.error('Task update error: ', er),
+          () => { }
+        );
     } else {
       // Create new task
       this.task.projectId = this.projectId;
       console.log('idd =', this.task.projectId);
       this.taskService.createTask(this.task)
-      .subscribe(
-        data => { this.gotoTask(data); },
-        err => (er) => console.error('Task creation error: ', er),
-        () => {}
-      );
+        .subscribe(
+          data => {
+            this.onSaveEdit.emit(data);
+          },
+          err => (er) => console.error('Task creation error: ', er),
+          () => { }
+        );
     }
     return false;
   }
@@ -118,9 +124,11 @@ export class TaskEditComponent implements OnInit {
     const taskId = task._id;
     if (taskId) {
       console.log('𝕱 𝕱 𝕱 Go to task by ID: ', taskId);
-      this.router.navigate(['/task', taskId]).then(_ => {
-        // navigation is done
-      });
+      if (true /* standalone edit */) {
+        this.router.navigate(['/task', taskId]).then(_ => {
+          // navigation is done
+        });
+      }
     }
   }
 
@@ -137,9 +145,9 @@ export class TaskEditComponent implements OnInit {
         this.projects = res['docs'];
         console.log('got projects: ', this.projects);
         for (const p in this.projects) {
-          if ( this.projects.hasOwnProperty(p)) {
+          if (this.projects.hasOwnProperty(p)) {
             console.log('got project: ', this.projects[p]._id, this.projects[p].title);
-            if ( this.task.projectId === this.projects[p]._id) {
+            if (this.task.projectId === this.projects[p]._id) {
               // Memorize current project for later usage - we'll remove task from him:
               this.currentProject.parseData(this.projects[p]);
             }
@@ -164,13 +172,13 @@ export class TaskEditComponent implements OnInit {
     this.saveTask();
 
     // Add Task to new Project:
-    if ( newProject.tasks.indexOf(this.task._id) === -1 ) {
+    if (newProject.tasks.indexOf(this.task._id) === -1) {
       newProject.tasks.push(this.task._id);
       this.projectService.updateProject(newProject).subscribe();
     }
     // Remove Task from current Project:
     // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
-    this.currentProject.tasks.splice( this.currentProject.tasks.indexOf(this.task._id), 1);
+    this.currentProject.tasks.splice(this.currentProject.tasks.indexOf(this.task._id), 1);
     this.projectService.updateProject(this.currentProject).subscribe();
   }
 

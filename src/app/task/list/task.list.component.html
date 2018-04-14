@@ -2,7 +2,7 @@
 
 <mat-card-content>
   <mat-card-actions>
-    <mat-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>[{{itemsPage.total}}]</span></span>
+    <mat-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>({{itemsPage.total}})</span></span>
       <span class="add-fill-remaining"></span>
 
       <span *ngIf="!isAddingTaskMode">
@@ -17,6 +17,7 @@
   <app-bp-task-edit
     [projectId]="project._id"
     *ngIf="isAddingTaskMode"
+    (onSaveEdit)="onSaveTaskEdit($event)"
     (onCancelEdit)="onCancelTaskEdit($event)">
   </app-bp-task-edit>
 
