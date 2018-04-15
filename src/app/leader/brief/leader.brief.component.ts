@@ -9,10 +9,9 @@ import { UserService } from '../../shared/user/user.service';
 })
 export class LeaderBriefComponent implements OnChanges {
 
-  @Input() leaderId = '';
-  @Input() viewContext = '';
-
-  leader: LeaderModel = new LeaderModel();
+  @Input() public leaderId = '';
+  @Input() public viewContext = '';
+  @Input() public leader: LeaderModel = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
@@ -20,24 +19,29 @@ export class LeaderBriefComponent implements OnChanges {
   constructor(
     public userService: UserService,
     private leaderService: LeaderService
-  ) {}
+  ) { }
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue) {
-      console.log('Get Leader by ID:');
-      this.requestLeader(this.leaderId);
+      if (!this.leader || !this.leader._id || !this.leader.email) {
+        console.log('Get Leader by ID:');
+        this.requestLeader(this.leaderId);
+      } else {
+        this.applyChanges(this.leader);
+      }
     }
+  }
+
+  private applyChanges(leader) {
+    this.leader = leader;
+    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
   }
 
   requestLeader(id) {
     this.leaderService.getLeader(id)
-    .subscribe(
-      (data) => {
-          this.leader = data;
-          this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
-      },
-      err => console.error(err),
-      () => {}
-    );
+      .subscribe(this.applyChanges,
+        err => console.error(err),
+        () => { }
+      );
   }
 }

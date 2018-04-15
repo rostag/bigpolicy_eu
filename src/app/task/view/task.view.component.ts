@@ -8,6 +8,7 @@ import { UserService } from '../../shared/user/user.service';
 // FIXME MOVE TO TASK SERVICE
 import { ProjectService } from '../../shared/project/project.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
+import { IProject } from '../../common/models';
 
 @Component({
   selector: 'app-task-view',
@@ -20,9 +21,11 @@ export class TaskViewComponent implements OnInit, OnChanges {
 
   @Input() task: TaskModel = new TaskModel();
 
+  @Input() project: IProject;
+
   @Input() compactView = false;
 
-  @Input() dataprovided = false;
+  @Input() isUsedInline = false;
 
   @Input() projectTitle = '';
 
@@ -53,10 +56,14 @@ export class TaskViewComponent implements OnInit, OnChanges {
    * like `id` in task/:id/edit)
    */
   ngOnInit() {
-    if (this.dataprovided) {
+    if (this.isUsedInline) {
       // FIXME Use caching - too many requests otherwise
       // FIXME Apply the same technique to Projects retrieving Leader info
-      this.retrieveProject();
+      if (!this.project || !this.project._id || !this.project.managerId) {
+        this.retrieveProject();
+      } else {
+        this.applyChanges(this.project);
+      }
     } else {
       this.route.params
         .map(params => params['id'])
@@ -75,15 +82,14 @@ export class TaskViewComponent implements OnInit, OnChanges {
     }
   }
 
+  private applyChanges(project: IProject) {
+    this.projectTitle = project.title;
+  }
+
   retrieveProject() {
     if (this.task.projectId) {
       // FIXME MOVE TO TASK SERVICE
-      this.projectService.getProject(this.task.projectId)
-        .subscribe(project => {
-          this.projectTitle = project.title;
-          // console.log('a title:', this.projectTitle);
-          this.ref.markForCheck();
-        });
+      this.projectService.getProject(this.task.projectId).subscribe(this.applyChanges);
     }
   }
 

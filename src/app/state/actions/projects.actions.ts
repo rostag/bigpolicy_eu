@@ -56,4 +56,5 @@ export type ProjectsActions
     | LoadProjectSuccess
     | LoadProjects
     | LoadProjectsFail
-    | LoadProjectsSuccess;
+    | LoadProjectsSuccess
+    ;
