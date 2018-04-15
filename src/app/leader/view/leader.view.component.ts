@@ -3,6 +3,9 @@ import { LeaderModel, LeaderService } from '../../shared/leader/index';
 import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { ILeadersState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leaders.reducers';
+import { SelectLeader, LoadLeadersSuccess, LoadLeaderSuccess } from '../../state/actions/leaders.actions';
 
 @Component({
   templateUrl: './leader.view.component.html',
@@ -24,8 +27,14 @@ export class LeaderViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leaderService: LeaderService
-  ) {}
+    private leaderService: LeaderService,
+    private leadersStore: Store<ILeadersState>
+  ) {
+    this.leadersStore.pipe(select(getLeadersState))
+      .subscribe((ls: ILeadersState) => {
+        this.setLeader({ ...ls.leadersById[ls.selectedLeaderId] });
+      });
+  }
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -36,14 +45,18 @@ export class LeaderViewComponent implements OnInit {
       .map(params => params['id'])
       .subscribe((id) => {
         if (id) {
+          this.leadersStore.dispatch(new SelectLeader(id));
+          // In some circumstnaces run it
           this.leaderService.getLeader(id)
-          .subscribe(
-            data => {
-              this.setLeader(data);
-            },
-            err => console.error(err),
-            () => {}
-          );
+            .subscribe(
+              data => {
+                // Reducer: 
+                this.leadersStore.dispatch(new LoadLeaderSuccess(data))
+                // this.setLeader(data);
+              },
+              err => console.error(err),
+              () => { }
+            );
         }
       });
   }
@@ -53,6 +66,9 @@ export class LeaderViewComponent implements OnInit {
    * @param {data} Loaded leader data
    */
   setLeader(data: LeaderModel) {
+    if (!data) {
+      return;
+    }
     // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
 
     // fix for leaderFiles: [null] sometimes coming from DB:
