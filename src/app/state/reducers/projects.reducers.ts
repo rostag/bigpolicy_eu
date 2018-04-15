@@ -39,6 +39,9 @@ export function reducer(
 
   switch (action.type) {
 
+    // case ProjectsActionTypes.PROJECT_ADD_TASK:
+    // return state;
+
     case ProjectsActionTypes.PROJECT_SELECT:
       console.log('Reducer :: Project Select:', action.payload);
       return { ...state, selectedProjectId: action.payload }
