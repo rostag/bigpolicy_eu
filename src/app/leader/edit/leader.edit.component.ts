@@ -1,5 +1,5 @@
 import { OnInit, Component } from '@angular/core';
-import { LeaderService, LeaderModel, ILeader } from '../../shared/leader';
+import { LeaderService, LeaderModel } from '../../shared/leader';
 import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { UserService } from '../../shared/user/user.service';

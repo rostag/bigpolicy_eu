@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 
 export interface LeadersAction extends Action {
-    // type: LeadersActionTypes;
     payload?: any;
 }
 
@@ -50,7 +49,7 @@ export class LoadLeadersSuccess implements LeadersAction {
     constructor(public payload: any) { }
 }
 
-export type AuthActions
+export type LeadersActions
     = SelectLeader
     | LoadLeader
     | LoadLeaderFail

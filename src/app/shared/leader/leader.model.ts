@@ -1,15 +1,6 @@
 import { UserService } from '../user/user.service';
 import { FormGroup } from '@angular/forms';
 
-export interface ILeader {
-  name: string;
-  surName: string;
-  vision: string;
-  mission: string;
-  email: string;
-  videoUrl: string;
-}
-
 export class LeaderModel {
 
   _id: string;

@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
+import { IProject } from '../../common/models';
 
 @Component({
   selector: 'app-project-brief',
@@ -10,12 +11,11 @@ import { UserService } from '../../shared/user/user.service';
 export class ProjectBriefComponent implements OnChanges {
 
   @Input() projectId = '';
+  @Input() project: IProject = new ProjectModel();
   @Input() viewContext = '';
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
-
-  project: ProjectModel = new ProjectModel();
 
   constructor(
     public userService: UserService,
@@ -23,14 +23,16 @@ export class ProjectBriefComponent implements OnChanges {
     private cd: ChangeDetectorRef
   ) {}
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes.projectId && changes.projectId.currentValue) {
-      // console.log('Get project BY ID:', changes.projectId.currentValue);
-      this.requestProject(changes.projectId.currentValue);
+      // console.log('Get project by ID:', changes.projectId.currentValue);
+      if (!this.project || !this.project._id || !this.project.managerId) {
+        this.requestProject(changes.projectId.currentValue);
+      }
     }
   }
 
-  requestProject(id) {
+  private requestProject(id) {
     this.projectService.getProject(id)
     .subscribe(
       (data) => {

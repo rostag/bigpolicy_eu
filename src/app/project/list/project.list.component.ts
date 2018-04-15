@@ -91,7 +91,7 @@ export class ProjectListComponent implements OnChanges {
     this.requestProjects();
   }
 
-  requestProjects() {
+  private requestProjects() {
     const proxySub = this.projectService.getProjectsPage(
         null,
         this.leaderId,
