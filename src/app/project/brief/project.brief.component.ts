@@ -21,29 +21,32 @@ export class ProjectBriefComponent implements OnChanges {
     public userService: UserService,
     private projectService: ProjectService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.projectId && changes.projectId.currentValue) {
       // console.log('Get project by ID:', changes.projectId.currentValue);
       if (!this.project || !this.project._id || !this.project.managerId) {
         this.requestProject(changes.projectId.currentValue);
+      } else {
+        this.applyChanges(this.project)
       }
     }
   }
 
+  private applyChanges(project: IProject) {
+    this.project = project;
+    this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
+    this.cd.detectChanges();
+  }
+
   private requestProject(id) {
     this.projectService.getProject(id)
-    .subscribe(
-      (data) => {
-        // console.log('Got a Project:', data);
-        this.project = data;
-        this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
-        this.cd.detectChanges();
-      },
-      err => console.error(err),
-      () => {}
-    );
+      .subscribe(
+        this.applyChanges,
+        err => console.error(err),
+        () => { }
+      );
   }
 
   /**
@@ -55,5 +58,4 @@ export class ProjectBriefComponent implements OnChanges {
     this.projectService.deleteProject(project, true);
     return false;
   }
-
 }

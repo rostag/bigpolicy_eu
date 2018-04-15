@@ -25,18 +25,21 @@
 
   <div class="leaders-list" fxLayout="row wrap">
     <div 
-    [fxFlex]="flexState.flex" 
-    [fxFlex.lg]="flexState.lg" 
-    [fxFlex.md]="flexState.md" 
-    [fxFlex.sm]="flexState.sm" 
-    [fxFlex.xs]="flexState.xs"
+      [fxFlex]="flexState.flex" 
+      [fxFlex.lg]="flexState.lg" 
+      [fxFlex.md]="flexState.md" 
+      [fxFlex.sm]="flexState.sm" 
+      [fxFlex.xs]="flexState.xs"
       *ngFor="let leader of itemsPage.docs | async | paginate: {
         id: 'leaderItemsPage',
         itemsPerPage: this.pageSize,
         currentPage: itemsPage.page,
         totalItems: itemsPage.total
       }">
-      <app-leader-brief [leaderId]="leader._id" [viewContext]="viewContext">
+      <app-leader-brief 
+        [leader]="leader"
+        [leaderId]="leader._id"
+        [viewContext]="viewContext">
       </app-leader-brief>
     </div>
 

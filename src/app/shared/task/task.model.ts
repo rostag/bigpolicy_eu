@@ -1,4 +1,6 @@
-export class TaskModel {
+import { ITask } from "../../common/models";
+
+export class TaskModel implements ITask {
   _id: string;
   title: string;
   description: string;
@@ -11,7 +13,7 @@ export class TaskModel {
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
   donations;
-  totalDonationsReceived: Number = 0;
+  totalDonationsReceived = 0;
 
   /**
    * It's necessary to have a string representation for sending it to DB
