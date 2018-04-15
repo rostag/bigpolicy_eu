@@ -1,4 +1,6 @@
-export class ProjectModel {
+import { IProject } from "../../common/models";
+
+export class ProjectModel implements IProject {
   _id: string;
   title: string;
   description: string;
