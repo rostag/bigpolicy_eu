@@ -69,6 +69,7 @@ import { HttpClientModule, XhrFactory } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
+import { reducer as leadersReducer } from './state/reducers/leaders.reducers';
 import { counterReducer } from './state/reducers/counter.reducers';
 import { AuthEffects } from './state/effects/auth.effects';
 import { MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule, MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule } from '@angular/material';
@@ -89,7 +90,7 @@ export const firebaseConfig = {
     CommonModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    StoreModule.forRoot({ authState: authReducer }),
+    StoreModule.forRoot({ authState: authReducer, leadersState: leadersReducer }),
     // EffectsModule.forRoot([AuthEffects]),
     AngularFireDatabaseModule,
     FlexLayoutModule,
