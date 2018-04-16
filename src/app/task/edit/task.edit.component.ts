@@ -4,6 +4,7 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
+import { IProject, ITask } from '../../common/models';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -20,11 +21,11 @@ export class TaskEditComponent implements OnInit {
 
   isUpdateMode = false;
 
-  task: TaskModel;
+  task: ITask;
 
   // FIXME Used for moving tasks to other projects - Extract to separate component
-  projects: Array<ProjectModel> = null;
-  currentProject: ProjectModel = new ProjectModel();
+  projects: IProject[] = null;
+  currentProject: IProject = new ProjectModel();
 
   constructor(
     private route: ActivatedRoute,
@@ -79,7 +80,7 @@ export class TaskEditComponent implements OnInit {
    * Remove this task
    * @param {task} Task being viewed
    */
-  deleteTask(task: TaskModel) {
+  deleteTask(task: ITask) {
     const projectId = task.projectId;
     console.log('Delete from project:', projectId);
 
@@ -111,7 +112,7 @@ export class TaskEditComponent implements OnInit {
       this.taskService.createTask(this.task)
         .subscribe(
           data => {
-            this.onSaveEdit.emit(data); 
+            this.onSaveEdit.emit(data);
           },
           err => (er) => console.error('Task creation error: ', er),
           () => { }
@@ -120,7 +121,7 @@ export class TaskEditComponent implements OnInit {
     return false;
   }
 
-  gotoTask(task: TaskModel) {
+  gotoTask(task: ITask) {
     const taskId = task._id;
     if (taskId) {
       console.log('𝕱 𝕱 𝕱 Go to task by ID: ', taskId);
@@ -162,13 +163,12 @@ export class TaskEditComponent implements OnInit {
   // FIXME CHECK how to reuse projects Re-assign from taskService.deleteTask method
   // FIXME Move it to Service
   moveTaskToOtherProject(event) {
-    const newProject = new ProjectModel();
+    const newProject: IProject = new ProjectModel();
     newProject.parseData(event.value);
     console.log(`> Move Task to: `, newProject.title);
 
     // Update task
     this.task.projectId = newProject._id;
-    this.task.project = newProject;
     this.saveTask();
 
     // Add Task to new Project:

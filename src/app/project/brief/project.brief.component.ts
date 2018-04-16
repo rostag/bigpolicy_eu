@@ -37,7 +37,7 @@ export class ProjectBriefComponent implements OnChanges {
   private applyChanges(project: IProject) {
     this.project = project;
     this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
-    this.cd.detectChanges();
+    // this.cd.detectChanges();
   }
 
   private requestProject(id) {
@@ -53,7 +53,7 @@ export class ProjectBriefComponent implements OnChanges {
    * Remove this project
    * @param {project} Project being viewed
    */
-  deleteProject(project: ProjectModel) {
+  deleteProject(project: IProject) {
     // Delete from DB
     this.projectService.deleteProject(project, true);
     return false;

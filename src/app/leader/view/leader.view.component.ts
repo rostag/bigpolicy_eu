@@ -1,5 +1,5 @@
 import { Component, Output, OnInit } from '@angular/core';
-import { LeaderService } from '../../shared/leader/index';
+import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,7 +15,7 @@ import { ILeader } from '../../common/models';
 
 export class LeaderViewComponent implements OnInit {
 
-  leader: ILeader;
+  leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;

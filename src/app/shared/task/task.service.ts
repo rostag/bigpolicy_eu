@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
-import { TaskModel } from './task.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
@@ -27,11 +26,11 @@ export class TaskService {
 
   /**
    * Creates new Task in DB
-   * @param {TaskModel} model Task model to create.
+   * @param {ITask} model Task model to create.
    */
-  // FIXME NG45 - get back to Observable<TaskModel>:
-  // createTask(model: TaskModel): Observable<TaskModel> {
-  createTask(model: TaskModel): Observable<any> {
+  // FIXME NG45 - get back to Observable<ITask>:
+  // createTask(model: ITask): Observable<ITask> {
+  createTask(model: ITask): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -94,9 +93,9 @@ export class TaskService {
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param TaskModel A Task to update
+   * @param ITask A Task to update
    */
-  updateTask(model: TaskModel): Observable<TaskModel> {
+  updateTask(model: ITask): Observable<ITask> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
@@ -113,7 +112,7 @@ export class TaskService {
    * @param ids {Array} Task IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateTasks(ids: Array<string>, data: any): Observable<TaskModel> {
+  bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
     // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -132,9 +131,9 @@ export class TaskService {
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param TaskModel A Task to delete
+   * @param ITask A Task to delete
    */
-  deleteTask(model: TaskModel) {
+  deleteTask(model: ITask) {
     this.http.delete(this.apiUrl + model._id)
       .pipe(
         map(res => {
@@ -151,7 +150,7 @@ export class TaskService {
    * Deletes multiple Tasks by performing a request with PUT HTTP method.
    * @param ids Task IDs to delete
    */
-  bulkDeleteTasks(ids: Array<string>): Observable<TaskModel> {
+  bulkDeleteTasks(ids: Array<string>): Observable<ITask> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids });

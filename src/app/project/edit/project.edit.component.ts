@@ -6,7 +6,7 @@ import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { Location } from '@angular/common';
 import { MatInputModule } from '@angular/material';
-import { ILeader } from '../../common/models';
+import { ILeader, IProject } from '../../common/models';
 import { LeaderModel } from '../../shared/leader';
 
 
@@ -24,11 +24,11 @@ export class ProjectEditComponent implements OnInit {
   // If true, editor is used on existing item, false if used for thecreation of new one
   isUpdateMode = false;
 
-  project: ProjectModel;
+  project: IProject;
 
   // FIXME Used for changing leaders by admin - need to extract it to separate component
   leaders: ILeader[] = null;
-  currentLeader: LeaderModel = new LeaderModel();
+  currentLeader: ILeader = new LeaderModel();
 
   constructor(
     private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class ProjectEditComponent implements OnInit {
         if (id) {
           this.isUpdateMode = true;
           this.projectService.getProject(id)
-            .subscribe((data: ProjectModel) => {
+            .subscribe((data: IProject) => {
               this.project = new ProjectModel();
               this.project.parseData(data);
             },
@@ -69,10 +69,9 @@ export class ProjectEditComponent implements OnInit {
    * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
    * @param {project} Project being viewed
    */
-  private deleteProject(project: ProjectModel) {
+  private deleteProject(project: IProject) {
     // Delete from DB
     this.projectService.deleteProject(project, true);
-
     return false;
   }
 

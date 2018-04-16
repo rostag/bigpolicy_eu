@@ -17,7 +17,7 @@ export class LeaderEditComponent implements OnInit {
   public leaderFormGroup: FormGroup;
 
   // Must be public, used in template
-  public leaderModel: LeaderModel = new LeaderModel();
+  public leaderModel: ILeader = new LeaderModel();
 
   // Must be public, used in template
   public isUpdateMode = false;

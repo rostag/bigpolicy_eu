@@ -1,3 +1,9 @@
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
+import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
+import { IProject, IResponsePage } from '../../common/models';
 
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
@@ -6,14 +12,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/map';
-
-import { ProjectModel } from './project.model';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
-import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
-import { IProject, IResponsePage } from '../../common/models';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -51,11 +49,11 @@ export class ProjectService {
 
   /**
    * Creates new Project.
-   * @param {ProjectModel} model Project to create.
+   * @param {IProject} model Project to create.
    */
-  // FIXME NG45 - get back to typed as Observable<ProjectModel>:
-  // createProject(model: ProjectModel): Observable<ProjectModel> {
-  createProject(model: ProjectModel): Observable<any> {
+  // FIXME NG45 - get back to typed as Observable<IProject>:
+  // createProject(model: IProject): Observable<IProject> {
+  createProject(model: IProject): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -115,11 +113,11 @@ export class ProjectService {
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param ProjectModel A Project to update
+   * @param IProject A Project to update
    */
-  // FIXME NG45 - get back to: Observable<ProjectModel>
-  // updateProject(model: ProjectModel): Observable<ProjectModel> {
-  updateProject(model: ProjectModel): Observable<any> {
+  // FIXME NG45 - get back to: Observable<IProject>
+  // updateProject(model: IProject): Observable<IProject> {
+  updateProject(model: IProject): Observable<any> {
     // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -138,9 +136,9 @@ export class ProjectService {
    * @param ids {Array} Project IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  // FIXME NG45 - get back to typed Observable<ProjectModel>
-  // bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
-  bulkUpdateProjects(ids: IProject[], data: any): Observable<any> {
+  // FIXME NG45 - get back to typed Observable<IProject>
+  // bulkUpdateProjects(ids: Array<string>, data: any): Observable<IProject> {
+  bulkUpdateProjects(ids: string[], data: any): Observable<any> {
     // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -159,9 +157,9 @@ export class ProjectService {
 
   /**
    * Deletes a Project by performing a request with DELETE HTTP method.
-   * @param ProjectModel A Project to delete
+   * @param IProject A Project to delete
    */
-  deleteProject(model: ProjectModel, navigateToList = true): Observable<boolean> {
+  deleteProject(model: IProject, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
     const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
 
@@ -182,7 +180,7 @@ export class ProjectService {
                   .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
               } else {
                 // NE NA CHASI: reassign tasks to placeholder Project
-                // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
+                // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<IProject>
                 this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }')
                   .subscribe((res) => {
                     // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
@@ -199,7 +197,7 @@ export class ProjectService {
   /*
    * Deletes Project
    */
-  finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
+  finalizeProjectDeletion(projectModel: IProject, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
       .pipe(
@@ -222,7 +220,7 @@ export class ProjectService {
    * Deletes multiple projects by performing a request with PUT HTTP method.
    * @param ids Project IDs to delete
    */
-  bulkDeleteProjects(ids: IProject[]): Observable<ProjectModel> {
+  bulkDeleteProjects(ids: string[]): Observable<IProject> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids });
 

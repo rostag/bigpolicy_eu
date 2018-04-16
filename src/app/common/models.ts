@@ -26,6 +26,8 @@ export interface ILeader {
     docCriminalRecord: string;
     docCorruptionRecord: string;
     docPassport: string;
+
+    parseData?: any;
 }
 
 export class IProject {
@@ -43,6 +45,8 @@ export class IProject {
     tasks: string[]; // TODO Must be renamed to taskIds
     donations: any[];
     totalDonationsReceived: number;
+
+    parseData?: any;
 }
 
 export interface ITask {
@@ -57,7 +61,9 @@ export interface ITask {
     dateStarted: string;
     dateEnded: string;
     donations: any[];
-    totalDonationsReceived: number
+    totalDonationsReceived: number;
+
+    parseData?: any;
 };
 
 export interface IResponsePage<T> {
