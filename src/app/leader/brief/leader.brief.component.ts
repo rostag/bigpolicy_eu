@@ -12,7 +12,7 @@ export class LeaderBriefComponent implements OnChanges {
 
   @Input() public leaderId = '';
   @Input() public viewContext = '';
-  // FIXME Get Rid of new LeaderModel()s'
+  // FIXME Get Rid of new LeaderModel(), new ProjectModel(), and new TaskModel()
   @Input() public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't

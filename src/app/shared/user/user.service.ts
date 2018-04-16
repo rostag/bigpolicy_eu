@@ -264,7 +264,7 @@ export class UserService {
     const lsRegistration = localStorage.getItem('BigPolicyLeaderRegistration');
     if (this.authenticated() && !this.hasLeader() && !!lsRegistration) {
 
-      const leader = new LeaderModel();
+      const leader: ILeader = new LeaderModel();
       leader.parseData(JSON.parse(lsRegistration));
       console.log('FTUX: continue leader registration, parsed leader: ', leader);
 

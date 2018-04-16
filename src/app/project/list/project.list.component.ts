@@ -1,9 +1,10 @@
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project';
+import { ProjectService } from '../../shared/project';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
+import { IProjectResponsePage, IProject } from '../../common/models';
 
 @Component({
   selector: 'app-project-list',
@@ -98,7 +99,7 @@ export class ProjectListComponent implements OnChanges {
         this.itemsPage.page,
         this.pageSize,
         this.dbQuery)
-      .subscribe( (responsePage: ProjectModel) => {
+      .subscribe( (responsePage: IProjectResponsePage) => {
         // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);
         this.itemsPage.limit = responsePage['limit'];
@@ -109,7 +110,7 @@ export class ProjectListComponent implements OnChanges {
       });
   }
 
-  deleteProject(projectToRemove: ProjectModel) {
+  deleteProject(projectToRemove: IProject) {
     // Delete from DB
     this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
       if (dialogResult === true ) {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { ProjectModel } from '../project/project.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IProject } from '../../common/models';
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.
@@ -15,7 +15,7 @@ export class ShareService {
 
   /**
    * Contains the pending request.
-   * @type {Observable<ProjectModel[]>}
+   * @type {Observable<IProject[]>}
    */
   private request;
 
@@ -29,7 +29,7 @@ export class ShareService {
 
   /**
    * Shares a model
-   * @param ProjectModel A Project to share
+   * @param IProject A Project to share
    */
   // FIXME NG45 - get back to Observable<Response>:
   // share(modelToShare: any): Observable<Response> {

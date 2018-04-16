@@ -8,7 +8,7 @@ import { UserService } from '../../shared/user/user.service';
 // FIXME MOVE TO TASK SERVICE
 import { ProjectService } from '../../shared/project/project.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
-import { IProject } from '../../common/models';
+import { IProject, ITask } from '../../common/models';
 
 @Component({
   selector: 'app-task-view',
@@ -19,7 +19,7 @@ import { IProject } from '../../common/models';
 
 export class TaskViewComponent implements OnInit, OnChanges {
 
-  @Input() task: TaskModel = new TaskModel();
+  @Input() task: ITask = new TaskModel();
 
   @Input() project: IProject;
 
@@ -97,7 +97,7 @@ export class TaskViewComponent implements OnInit, OnChanges {
    * Remove this task
    * @param {task} Task being viewed
    */
-  deleteTask(task: TaskModel, event) {
+  deleteTask(task: ITask, event) {
     event.stopPropagation();
 
     const projectId = task.projectId;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { IProject } from '../../common/models';
 
 @Component({
   selector: 'app-project-view',
@@ -14,7 +15,7 @@ export class ProjectViewComponent implements OnInit {
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
 
-  project: ProjectModel = new ProjectModel();
+  project: IProject = new ProjectModel();
 
   fundratio = 0;
 
@@ -44,7 +45,7 @@ export class ProjectViewComponent implements OnInit {
   loadProject(id) {
     if (id) {
       this.projectService.getProject(id)
-        .subscribe((data: ProjectModel) => {
+        .subscribe((data: IProject) => {
           this.project = new ProjectModel();
           this.project.parseData(data);
           this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
@@ -61,7 +62,7 @@ export class ProjectViewComponent implements OnInit {
    * Remove this project
    * @param {project} Project being viewed
    */
-  deleteProject(project: ProjectModel) {
+  deleteProject(project: IProject) {
     // Delete from DB
     this.projectService.deleteProject(project, true);
 

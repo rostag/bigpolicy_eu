@@ -1,10 +1,11 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { TaskService, TaskModel } from '../../shared/task/index';
+import { TaskService } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
+import { IProject } from '../../common/models';
 
 @Component({
   selector: 'app-task-list',
@@ -25,7 +26,7 @@ export class TaskListComponent implements OnChanges {
   @Input() dbQuery = '{}';
 
   // An project this task list belongs to
-  @Input() project: ProjectModel = new ProjectModel();
+  @Input() project: IProject = new ProjectModel();
 
   @Input() showProjectLink = 'dontShow';
 
