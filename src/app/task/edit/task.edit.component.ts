@@ -107,11 +107,11 @@ export class TaskEditComponent implements OnInit {
     } else {
       // Create new task
       this.task.projectId = this.projectId;
-      console.log('idd =', this.task.projectId);
+      console.log('Task Project id =', this.task.projectId);
       this.taskService.createTask(this.task)
         .subscribe(
           data => {
-            this.onSaveEdit.emit(data);
+            this.onSaveEdit.emit(data); 
           },
           err => (er) => console.error('Task creation error: ', er),
           () => { }
