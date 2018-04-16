@@ -79,6 +79,7 @@ import {
   MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule,
   MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule
 } from '@angular/material';
+import { LandingComponent } from './landing';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -167,6 +168,7 @@ export const firebaseConfig = {
   ],
   declarations: [
     // components to use in this module
+    LandingComponent,
     NavbarComponent,
     ToolbarComponent,
     TaskEditComponent,
