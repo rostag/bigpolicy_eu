@@ -6,7 +6,8 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
-import { LoadTasksSuccess, CreateTaskSuccess } from '../../state/actions/task.actions';
+import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
+import { ITask, ITaskResponsePage } from '../../common/models';
 
 /**
  * This class provides the TaskList service with methods to get and save tasks.
@@ -49,14 +50,9 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<TaskModel> {
+  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<ITaskResponsePage> {
 
     let requestUrl;
-
-    // Task by ID :: api/task-api/:taskId
-    if (taskId) {
-      requestUrl = this.apiUrl + taskId;
-    }
 
     // Page of Tasks :: api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
@@ -73,20 +69,27 @@ export class TaskService {
     return this.http.get(requestUrl)
       // FIXME NG45 - get back to:  
       // .map((responsePage: Response) => {
-      .map((responsePage: any) => {
+      .map((responsePage: ITaskResponsePage) => {
         // console.log('Tasks Page loaded, response: ', responsePage);
         this.taskStore.dispatch(new LoadTasksSuccess(responsePage));
-        
+
         return responsePage;
       });
   }
 
   /**
-   * Returns single Task from DB, reuses get TasksPage.
+   * Returns single Task from DB, reuses get TasksPage by ID :: api/task-api/:taskId
    */
-  getTask(taskId: string): Observable<TaskModel> {
+  getTask(taskId: string): Observable<ITask> {
     // FIXME Request cached / Load project data to populate on loaded task
-    return this.getTasksPage(taskId);
+    if (taskId) {
+      // return this.getTasksPage(taskId);
+      return this.http.get(this.apiUrl + taskId)
+        .map((response: ITask) => {
+          this.taskStore.dispatch(new LoadTaskSuccess(response));
+          return response;
+        });
+    }
   }
 
   /**
@@ -95,7 +98,6 @@ export class TaskService {
    */
   updateTask(model: TaskModel): Observable<TaskModel> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => {
