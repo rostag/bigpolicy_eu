@@ -47,7 +47,7 @@ export class ProjectViewComponent implements OnInit {
         .subscribe((data: ProjectModel) => {
           this.project = new ProjectModel();
           this.project.parseData(data);
-          this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
+          this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
           this.fundratio = this.project.totalDonationsReceived / this.project.cost * 100;
           ProjectService.cacheProject(this.project);
         },

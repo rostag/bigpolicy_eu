@@ -48,7 +48,7 @@ export class TaskViewComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+    this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
   }
 
   /**
@@ -73,7 +73,7 @@ export class TaskViewComponent implements OnInit, OnChanges {
             this.taskService.getTask(id)
               .subscribe(data => {
                 this.task = data;
-                this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+                this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
                 console.log('tpId =', this.task.projectId, data);
                 this.retrieveProject();
               });

@@ -1,7 +1,7 @@
 // Import necessary building blocks from the library
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
 // import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
-import { ILeader } from '../../common/models';
+import { ILeader, ILeaderResponsePage } from '../../common/models';
 import { LeadersAction, LeadersActionTypes } from '../actions/leaders.actions';
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -46,27 +46,33 @@ export function reducer(
       return { ...state, selectedLeaderId: action.payload }
 
     case LeadersActionTypes.LEADER_LOAD_SUCCESS:
-      console.log('Reducer :: Load Leader Success ::', action.payload);
-      const l = { ...action.payload };
+      let newState;
+      const loadedLeader: ILeader = { ...action.payload };
       const s = { ...state };
       if (s.leaders) {
-        // Add to leaders
-        if (s.leaders.indexOf(l) === -1) {
-          s.leaders = [...s.leaders, l];
+        if (s.leaders.indexOf(loadedLeader) === -1) {
+          // Add to leaders
+          s.leaders = [...s.leaders, loadedLeader];
+          // Add to leaders by id
+          s.leadersById[s.selectedLeaderId] = { ...loadedLeader }
         }
-        // Add to leaders by id
-        if (!s.leadersById[s.selectedLeaderId]) {
-          s.leadersById[s.selectedLeaderId] = { ...action.payload }
-        }
-        const r = { ...s, leaders: [...s.leaders], selectedLeaderId: s.selectedLeaderId };
-        console.log('Result :::: ', r);
-        return r;
+        newState = { ...s, leaders: [...s.leaders], selectedLeaderId: s.selectedLeaderId };
       }
-      return state;
+      console.log('Reducer :: Load Leader Success ::', state);
+      return newState;
 
     case LeadersActionTypes.LEADERS_LOAD_SUCCESS:
-      console.log('Reducer :: Load Leaders Success ::', action.payload);
-      return { ...state, leaders: [ ...state.leaders, ...[state.leaders.indexOf(action.payload) === -1 ? action.payload : null ] ] }
+      const newLeaders: ILeader[] = [];
+      const data: ILeaderResponsePage = action.payload;
+      data.docs.forEach(doc => {
+        if (state.leaders.indexOf(doc) === -1) {
+          newLeaders.push(doc)
+        }
+      })
+
+      const nState = { ...state, leaders: [...newLeaders] };
+      console.log(':: Reducer :: Load LEADERS Success ::', nState);
+      return nState;
 
     default:
       return state;

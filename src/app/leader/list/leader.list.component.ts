@@ -82,7 +82,6 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   requestLeaders() {
     const proxySub = this.leaderService.getLeadersPage(
-        null,
         this.groupId,
         this.itemsPage.page,
         this.pageSize,

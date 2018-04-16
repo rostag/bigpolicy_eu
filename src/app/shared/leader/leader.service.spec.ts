@@ -13,7 +13,7 @@ import { HttpClientModule, HttpXhrBackend, HttpResponse } from '@angular/common/
 
 describe('LeaderService', () => {
 
-  beforeEach( () => {
+  beforeEach(() => {
     // Create a testing module
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
@@ -25,10 +25,10 @@ describe('LeaderService', () => {
     });
   });
 
-  describe('getLeadersPage(leaderId, groupId, page, limit, dbQuery)', () => {
+  describe('getLeadersPage(groupId, page, limit, dbQuery)', () => {
 
-    it('// WIP: should return an Observable<Array<LeaderModel>>',
-      inject( [LeaderService, HttpXhrBackend], (leaderService, mockBackend) => {
+    it('// WIP: should return an Observable<Array<ILeader>>',
+      inject([LeaderService, HttpXhrBackend], (leaderService, mockBackend) => {
 
         const mockResponse = {
           'docs': [
@@ -39,7 +39,7 @@ describe('LeaderService', () => {
               'videoUrl': 'https://www.youtube.com/watch?v=3LKMwkuK0ZE', 'vision': 'fg',
               'donations': ['58926494229e3368477c27f2', '5896092087d93dfb16c60ac1'],
               'leaderFiles': [
-                {'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk'}
+                { 'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk' }
               ],
               'projects': ['5817073c41a8db05ab80f250', '581a6dbcc042e71cb07cbca1']
             }, {
@@ -48,8 +48,8 @@ describe('LeaderService', () => {
               'name': 'Павло', 'parentName': ' ', 'surName': 'Перебийніс', 'totalDonationsReceived': 70,
               'vision': 'Провести реформу політики.', 'donations': ['58cf745570baf2feb2fa08cd'],
               'leaderFiles': [
-                {'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk'},
-                {'name': 'Auduino.png', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHYmFmUmUxU0xnQjg/view?usp=drivesdk'}
+                { 'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk' },
+                { 'name': 'Auduino.png', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHYmFmUmUxU0xnQjg/view?usp=drivesdk' }
               ],
               'projects': ['58a0cf8cdab2ecbe50b26ed6']
             }, {
@@ -62,15 +62,18 @@ describe('LeaderService', () => {
             }
           ],
           'total': 3, 'limit': 3, 'page': 1, 'pages': 1
-          };
+        };
 
         mockBackend.connections.subscribe((connection) => {
-          connection.mockRespond(new Response({
-            body: JSON.stringify(mockResponse)
-          }));
+          // FIXME
+          connection.mockRespond(new Response(
+            // {
+            // FIXME body: JSON.stringify(mockResponse)
+            // }
+          ));
         });
 
-        leaderService.getLeadersPage(null, null, 1, 1, '{ "email": "some@email.com" }')
+        leaderService.getLeadersPage(1, 1, '{ "email": "some@email.com" }')
           .subscribe((leaders) => {
             expect(leaders.docs).toBeTruthy();
             expect(leaders.docs.length).toBe(3);
