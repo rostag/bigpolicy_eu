@@ -70,8 +70,12 @@ export interface IResponsePage<T> {
 
 export interface ILeaderResponsePage extends IResponsePage<ILeader> {
     docs: ILeader[];
-    limit: number;
-    page: number;
-    pages: number;
-    total: number;
+}
+
+export interface IProjectResponsePage extends IResponsePage<IProject> {
+    docs: IProject[];
+}
+
+export interface ITaskResponsePage extends IResponsePage<ITask> {
+    docs: ITask[];
 }

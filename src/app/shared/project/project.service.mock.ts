@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 
 import { ProjectModel } from './project.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IProject } from '../../common/models';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -264,8 +265,17 @@ export class ProjectServiceMock {
   /**
    * Returns single project from DB
    */
-  getProject(projectId: string): Observable<ProjectModel> {
-    return this.getProjectsPage(projectId);
+  getProject(projectId: string): Observable<IProject> {
+    // return this.getProjectsPage(projectId);
+    if (projectId) {
+      return this.http.get(this.projectApiUrl + projectId)
+        // FIXME NG45 - get back to typed HttpResponse:
+        .map((response: IProject) => {
+          // console.log('Project loaded, response: ', response);
+          // this.projectStore.dispatch(new LoadProjectSuccess(response))
+          return response;
+        });
+    }    
   }
 
   /**

@@ -49,13 +49,11 @@ export function reducer(
       let newState;
       const loadedLeader: ILeader = { ...action.payload };
       const s = { ...state };
-      if (s.leaders) {
-        if (s.leaders.indexOf(loadedLeader) === -1) {
-          // Add to leaders
-          s.leaders = [...s.leaders, loadedLeader];
-          // Add to leaders by id
-          s.leadersById[s.selectedLeaderId] = { ...loadedLeader }
-        }
+      if (s.leaders && s.leaders.indexOf(loadedLeader) === -1) {
+        // Add to leaders
+        s.leaders = [...s.leaders, loadedLeader];
+        // Add to leaders by id
+        s.leadersById[s.selectedLeaderId] = { ...loadedLeader }
         newState = { ...s, leaders: [...s.leaders], selectedLeaderId: s.selectedLeaderId };
       }
       console.log('Reducer :: Load Leader Success ::', state);
@@ -63,8 +61,8 @@ export function reducer(
 
     case LeadersActionTypes.LEADERS_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
-      const data: ILeaderResponsePage = action.payload;
-      data.docs.forEach(doc => {
+      const responseData: ILeaderResponsePage = action.payload;
+      responseData.docs.forEach(doc => {
         if (state.leaders.indexOf(doc) === -1) {
           newLeaders.push(doc)
         }

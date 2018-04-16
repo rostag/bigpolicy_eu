@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderService } from '../../shared/leader/index';
+import { LeaderService, LeaderModel } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 import { ILeader } from '../../common/models';
 
@@ -12,7 +12,8 @@ export class LeaderBriefComponent implements OnChanges {
 
   @Input() public leaderId = '';
   @Input() public viewContext = '';
-  @Input() public leader: ILeader;
+  // FIXME Get Rid of new LeaderModel()s'
+  @Input() public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
   public hasVisual = false;
@@ -43,5 +44,13 @@ export class LeaderBriefComponent implements OnChanges {
         err => console.error(err),
         () => { }
       );
+  }
+
+  public getLeaderLink(leader: ILeader) {
+    if (!leader || !leader._id) {
+      return null;
+    } else {
+      return ['/leader/', leader._id];
+    }
   }
 }
