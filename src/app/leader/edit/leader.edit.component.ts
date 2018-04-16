@@ -5,6 +5,7 @@ import { DriveService } from '../../shared/drive';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ILeader } from '../../common/models';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -129,7 +130,7 @@ export class LeaderEditComponent implements OnInit {
    * Removes the Leader from DB
    * @param {Leader} Leader to delete
    */
-  deleteLeader(leaderModel: LeaderModel) {
+  deleteLeader(leaderModel: ILeader) {
     this.leaderService.deleteLeader(leaderModel);
     return false;
   }
