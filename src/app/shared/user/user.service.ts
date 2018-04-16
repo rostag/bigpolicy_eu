@@ -14,6 +14,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
+import { ILeader } from '../../common/models';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
@@ -236,7 +237,7 @@ export class UserService {
   * Lazy Leader Registration.
   * Save Leader to LocalStorage to let unauthorised user to start registration
   */
-  needToLoginFirst(leader: LeaderModel) {
+  needToLoginFirst(leader: ILeader) {
     if (!this.authenticated()) {
 
       // save Leader data to LocalStorage

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { LeaderService } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
+import { ILeader } from '../../common/models';
 
 @Component({
   selector: 'app-leader-list',
@@ -97,7 +98,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
       });
   }
 
-  deleteLeader(leaderToRemove: LeaderModel) {
+  deleteLeader(leaderToRemove: ILeader) {
     // Delete from DB
     this.leaderService.deleteLeader(leaderToRemove, false).subscribe( dialogResult => {
       if (dialogResult === true ) {
