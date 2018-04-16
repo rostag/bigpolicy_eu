@@ -1,11 +1,12 @@
 import { Component, Output, OnInit } from '@angular/core';
-import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { LeaderService } from '../../shared/leader/index';
 import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ILeadersState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leaders.reducers';
-import { SelectLeader, LoadLeadersSuccess, LoadLeaderSuccess } from '../../state/actions/leaders.actions';
+import { SelectLeader, LoadLeadersSuccess } from '../../state/actions/leaders.actions';
+import { ILeader } from '../../common/models';
 
 @Component({
   templateUrl: './leader.view.component.html',
@@ -14,7 +15,7 @@ import { SelectLeader, LoadLeadersSuccess, LoadLeaderSuccess } from '../../state
 
 export class LeaderViewComponent implements OnInit {
 
-  leader: LeaderModel = new LeaderModel();
+  leader: ILeader;
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
@@ -32,7 +33,8 @@ export class LeaderViewComponent implements OnInit {
   ) {
     this.leadersStore.pipe(select(getLeadersState))
       .subscribe((ls: ILeadersState) => {
-        this.setLeader({ ...ls.leadersById[ls.selectedLeaderId] });
+        console.log('View: Got Leader from Reducer:', ls, ls.leadersById[ls.selectedLeaderId]);
+        this.setLeader(ls.leadersById[ls.selectedLeaderId]);
       });
   }
 
@@ -50,8 +52,6 @@ export class LeaderViewComponent implements OnInit {
           this.leaderService.getLeader(id)
             .subscribe(
               data => {
-                // Reducer: 
-                this.leadersStore.dispatch(new LoadLeaderSuccess(data))
                 // this.setLeader(data);
               },
               err => console.error(err),
@@ -65,7 +65,7 @@ export class LeaderViewComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data: LeaderModel) {
+  setLeader(data: ILeader) {
     if (!data) {
       return;
     }
@@ -78,14 +78,14 @@ export class LeaderViewComponent implements OnInit {
       data.leaderFiles.splice(nullIndex, 1);
     }
     this.leader = data;
-    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
+    this.hasVisual = !!(this.leader && (this.leader.photo || this.leader.videoUrl));
   }
 
   /**
    * Removes the leader from DB
    * @param {leader} Leader to delete
    */
-  deleteLeader(leader: LeaderModel) {
+  deleteLeader(leader: ILeader) {
     this.leaderService.deleteLeader(leader);
     return false;
   }

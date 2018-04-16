@@ -36,7 +36,7 @@ export class ProjectBriefComponent implements OnChanges {
 
   private applyChanges(project: IProject) {
     this.project = project;
-    this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
+    this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
     this.cd.detectChanges();
   }
 

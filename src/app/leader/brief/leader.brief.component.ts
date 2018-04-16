@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { LeaderService } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
+import { ILeader } from '../../common/models';
 
 @Component({
   selector: 'app-leader-brief',
@@ -11,10 +12,10 @@ export class LeaderBriefComponent implements OnChanges {
 
   @Input() public leaderId = '';
   @Input() public viewContext = '';
-  @Input() public leader: LeaderModel = new LeaderModel();
+  @Input() public leader: ILeader;
 
   // Whether it has visual like image or video or it hasn't
-  hasVisual = false;
+  public hasVisual = false;
 
   constructor(
     public userService: UserService,
@@ -24,7 +25,6 @@ export class LeaderBriefComponent implements OnChanges {
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue) {
       if (!this.leader || !this.leader._id || !this.leader.email) {
-        console.log('Get Leader by ID:');
         this.requestLeader(this.leaderId);
       } else {
         this.applyChanges(this.leader);
@@ -32,9 +32,9 @@ export class LeaderBriefComponent implements OnChanges {
     }
   }
 
-  private applyChanges(leader) {
+  private applyChanges(leader: ILeader) {
     this.leader = leader;
-    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
+    this.hasVisual = !!(this.leader && (this.leader.photo || this.leader.videoUrl));
   }
 
   requestLeader(id) {

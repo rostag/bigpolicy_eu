@@ -4,9 +4,10 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { ProjectServiceMock } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { LeaderService } from '../../shared/leader/leader.service';
-import { LeaderModel } from '../../shared/leader/leader.model';
 import { Location } from '@angular/common';
 import { MatInputModule } from '@angular/material';
+import { ILeader } from '../../common/models';
+import { LeaderModel } from '../../shared/leader';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ProjectEditComponent implements OnInit {
   project: ProjectModel;
 
   // FIXME Used for changing leaders by admin - need to extract it to separate component
-  leaders: Array<LeaderModel> = null;
+  leaders: ILeader[] = null;
   currentLeader: LeaderModel = new LeaderModel();
 
   constructor(
@@ -134,7 +135,7 @@ export class ProjectEditComponent implements OnInit {
   // FIXME Move to service / component
   requestLeadersToSelectFrom() {
     // this.userService.isAdmin
-    this.leaderService.getLeadersPage(null, null, 1, 100, '{}')
+    this.leaderService.getLeadersPage(null, 1, 100, '{}')
       .subscribe((res) => {
         this.leaders = res['docs'];
         console.log('got leaders: ', this.leaders);

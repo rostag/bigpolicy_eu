@@ -4,7 +4,6 @@ import { DialogService } from '../../shared/dialog/dialog.service';
 import { ProjectService } from '../../shared/project/project.service';
 import { environment } from '../../../environments/environment';
 
-import { LeaderModel } from './leader.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
@@ -14,7 +13,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ENV } from 'app/../environments/env.config';
 import { Store } from '@ngrx/store';
 import { ILeadersState } from '../../state/reducers/leaders.reducers';
-import { LoadLeadersSuccess } from '../../state/actions/leaders.actions';
+import { LoadLeadersSuccess, LoadLeaderSuccess } from '../../state/actions/leaders.actions';
+import { ILeader } from '../../common/models';
 
 declare var localStorage: any;
 
@@ -24,10 +24,10 @@ declare var localStorage: any;
 @Injectable()
 export class LeaderService {
 
-  leader: LeaderModel;
+  leader: ILeader;
 
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
-  private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
+  private leaderSource = new BehaviorSubject<ILeader>(this.leader);
 
   leaderStream = this.leaderSource.asObservable();
 
@@ -97,9 +97,9 @@ export class LeaderService {
 
   /**
    * Creates the Leader.
-   * @param {LeaderModel} model - The Leader to create.
+   * @param {ILeader} model - The Leader to create.
    */
-  createLeader(model: LeaderModel, email) {
+  createLeader(model: ILeader, email) {
     model.email = email;
     const body: string = encodeURIComponent(model.toString());
     // const body: string = model.toString();
@@ -127,22 +127,15 @@ export class LeaderService {
   /**
    * Gets Leaders page from DB by given leaderId, groupId, page and limit
    * Returns an Observable for the HTTP GET request.
-   * @param leaderId Leader ID to get.
    * @param groupId Group to get Leaders for. Unused.
    * @param page Page number.
    * @param limit Qualntity of items to get.
    * @param dbQuery Database search query.
-   * @return {Observable<LeaderModel>} The Observable for the HTTP request.
+   * @return {Observable<ILeader>} The Observable for the HTTP request.
    */
-  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<LeaderModel> {
+  getLeadersPage(groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<ILeader> {
 
     let requestUrl;
-
-    // Leader by ID
-    // /api/leader-api/:leaderId
-    if (leaderId) {
-      requestUrl = this.leaderApiUrl + leaderId;
-    }
 
     // Page of Leaders
     // /api/leader-api/page/:page/:limit/q/:dbQuery
@@ -171,17 +164,27 @@ export class LeaderService {
   }
 
   /**
-   * Returns single leader from DB.
+   * Returns single leader from DB by ID.
+   * /api/leader-api/:leaderId
    */
-  getLeader(leaderId: string): Observable<LeaderModel> {
-    return this.getLeadersPage(leaderId);
+  getLeader(leaderId: string): Observable<ILeader> {
+    if (leaderId) {
+      return this.http.get(this.leaderApiUrl + leaderId)
+      // FIXME NG5 - get back to: 
+      // .map((responsePage: Response) => {
+      .map((response: ILeader) => {
+        console.log('Leaders loaded, response: ', response);
+        this.leaderStore.dispatch(new LoadLeaderSuccess(response))
+        return response;
+      });      
+    }
   }
 
   /**
    * Seaches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
-  requestLeaderByEmail(email: string): Observable<LeaderModel> {
+  requestLeaderByEmail(email: string): Observable<ILeader> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
@@ -192,13 +195,13 @@ export class LeaderService {
 
     console.log('LeaderService:RequestLeaderByEmail:', email);
 
-    const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
+    const leaderResponse = this.getLeadersPage(null, 1, 1, '{ "email": "' + email + '" }');
     leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }
 
-  private findCachedLeaderByEmail(email: string): LeaderModel {
+  private findCachedLeaderByEmail(email: string): ILeader {
     const leaders = this.models;
     let foundLeader;
     for (const l in leaders) {
@@ -211,9 +214,9 @@ export class LeaderService {
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param LeaderModel A Leader to update
+   * @param ILeader A Leader to update
    */
-  updateLeader(model: LeaderModel): Observable<LeaderModel> {
+  updateLeader(model: ILeader): Observable<ILeader> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
@@ -230,9 +233,9 @@ export class LeaderService {
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param LeaderModel A Leader to delete
+   * @param ILeader A Leader to delete
    */
-  deleteLeader(model: LeaderModel, navigateToList = true): Observable<boolean> {
+  deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
     const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
 
@@ -273,7 +276,7 @@ export class LeaderService {
   /*
    * Deletes Leader
    */
-  finalizeLeaderDeletion(leaderModel: LeaderModel, navigateToList = true) {
+  finalizeLeaderDeletion(leaderModel: ILeader, navigateToList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
       .pipe(

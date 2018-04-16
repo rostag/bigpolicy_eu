@@ -13,6 +13,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
 import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
+import { IProject } from '../../common/models';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -136,7 +137,7 @@ export class ProjectService {
    */
   // FIXME NG45 - get back to typed Observable<ProjectModel>
   // bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
-  bulkUpdateProjects(ids: Array<string>, data: any): Observable<any> {
+  bulkUpdateProjects(ids: IProject[], data: any): Observable<any> {
     // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -218,7 +219,7 @@ export class ProjectService {
    * Deletes multiple projects by performing a request with PUT HTTP method.
    * @param ids Project IDs to delete
    */
-  bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
+  bulkDeleteProjects(ids: IProject[]): Observable<ProjectModel> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids });
 

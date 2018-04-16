@@ -43,7 +43,7 @@ export class IProject {
     tasks: ITask[];
     donations: any[];
     totalDonationsReceived: number;
-} 
+}
 
 export interface ITask {
     _id: string;
@@ -59,3 +59,19 @@ export interface ITask {
     donations: any[];
     totalDonationsReceived: number
 };
+
+export interface IResponsePage<T> {
+    docs: T[];
+    limit: number;
+    page: number;
+    pages: number;
+    total: number;
+}
+
+export interface ILeaderResponsePage extends IResponsePage<ILeader> {
+    docs: ILeader[];
+    limit: number;
+    page: number;
+    pages: number;
+    total: number;
+}

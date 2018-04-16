@@ -1,7 +1,7 @@
 // FIXME To be removed
 import { OnInit, Component } from '@angular/core';
 import { ProjectService, ProjectModel } from '../../shared/project';
-import { LeaderService, LeaderModel } from '../../shared/leader';
+import { LeaderService } from '../../shared/leader';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class LandingComponent implements OnInit {
   }
 
   getLeaders() {
-    this.leaderService.getLeadersPage(null, null, 1, 3)
+    this.leaderService.getLeadersPage(null, 1, 3)
       .subscribe(
         data => this.setLeaders(data['docs']),
         err => console.error(err),
