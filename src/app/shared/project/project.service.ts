@@ -10,6 +10,9 @@ import 'rxjs/add/operator/map';
 import { ProjectModel } from './project.model';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
+import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -41,7 +44,8 @@ export class ProjectService {
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private projectStore: Store<IProjectState>
   ) { }
 
   /**
@@ -57,9 +61,9 @@ export class ProjectService {
     return this.http.post(this.projectApiUrl, body, { headers: headers })
       .map(res => {
         console.log('NG45 - createProject', res);
+        this.projectStore.dispatch(new CreateProjectSuccess(res))
         return res;
-      }
-      );
+      });
   }
 
   /**
@@ -93,6 +97,7 @@ export class ProjectService {
       // .map((responsePage: HttpResponse) => {
       .map((responsePage: any) => {
         // console.log('Projects Page loaded, response: ', responsePage);
+        this.projectStore.dispatch(new LoadProjectsSuccess(responsePage))
         return responsePage;
       });
   }
@@ -218,13 +223,13 @@ export class ProjectService {
     const body = JSON.stringify({ ids: ids });
 
     return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
-    .pipe(
-      map(res => {
-        console.log('NG45 - bulkDeleteProjects, res:', res);
-        return res;
-      }),
-      catchError(this.handleError)
-    )
+      .pipe(
+        map(res => {
+          console.log('NG45 - bulkDeleteProjects, res:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      )
   }
 
   private handleError(error: Response) {

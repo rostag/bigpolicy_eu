@@ -3,6 +3,8 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/c
 import { TaskService, TaskModel } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
+import { Store, select } from '@ngrx/store';
+import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
 
 @Component({
   selector: 'app-task-list',
@@ -30,7 +32,7 @@ export class TaskListComponent implements OnChanges {
   // Show tasks collapsed initially, but let user to expand
   compactTasksView = true;
 
-  public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public tasks: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
   public itemsPage = {
     docs: this.tasks,
     limit: this.pageSize,
@@ -43,14 +45,25 @@ export class TaskListComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private taskService: TaskService
-  ) {}
+    private taskService: TaskService,
+    private taskStore: Store<ITaskState>
+  ) {
+    // task
+    this.taskStore.pipe(select(getTasksState))
+      .subscribe((ls: ITaskState) => {
+        console.log('Got Tasks State:', ls);
+        // TODO Finalize Task List update
+        // if (ls.tasks.length > 0) {
+        //   this.itemsPage.docs.next(ls.tasks);
+        // }
+      });
+  }
 
   ngOnChanges(changes) {
     const project = changes.project && changes.project.currentValue;
     if (project && project._id ||
-        changes.pageSize && changes.pageSize.currentValue ||
-        changes.dbQuery && changes.dbQuery.currentValue) {
+      changes.pageSize && changes.pageSize.currentValue ||
+      changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestTasks();
     }
   }
@@ -69,15 +82,15 @@ export class TaskListComponent implements OnChanges {
       this.pageSize,
       this.dbQuery
     )
-    .subscribe(responsePage => {
-      // console.log('Next, responsePage:', responsePage);
-      this.itemsPage.docs.next(responsePage['docs']);
-      this.itemsPage.limit = responsePage['limit'];
-      this.itemsPage.page = responsePage['page'];
-      this.itemsPage.pages = responsePage['pages'];
-      this.itemsPage.total = responsePage['total'];
-      proxySub.unsubscribe();
-    });
+      .subscribe(responsePage => {
+        // console.log('Next, responsePage:', responsePage);
+        this.itemsPage.docs.next(responsePage['docs']);
+        this.itemsPage.limit = responsePage['limit'];
+        this.itemsPage.page = responsePage['page'];
+        this.itemsPage.pages = responsePage['pages'];
+        this.itemsPage.total = responsePage['total'];
+        proxySub.unsubscribe();
+      });
   }
 
   addTask() {
@@ -92,10 +105,10 @@ export class TaskListComponent implements OnChanges {
   deleteTask(taskToRemove: any) {
     // Delete in UI
     let updatedTasks;
-    this.tasks.subscribe ( tasks => {
-      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id);
+    this.tasks.subscribe(tasks => {
+      updatedTasks = tasks.filter(task => task._id !== taskToRemove._id);
     });
-    this.tasks.next( updatedTasks );
+    this.tasks.next(updatedTasks);
 
     // Delete from DB
     this.taskService.deleteTask(taskToRemove);

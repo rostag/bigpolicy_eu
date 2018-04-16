@@ -4,7 +4,9 @@ import { map, catchError } from 'rxjs/operators';
 import { TaskModel } from './task.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { Store, select } from '@ngrx/store';
+import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
+import { LoadTasksSuccess, CreateTaskSuccess } from '../../state/actions/task.actions';
 
 /**
  * This class provides the TaskList service with methods to get and save tasks.
@@ -18,7 +20,8 @@ export class TaskService {
    * Creates a new TaskService with the injected Http
    */
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private taskStore: Store<ITaskState>
   ) { }
 
   /**
@@ -34,7 +37,7 @@ export class TaskService {
     return this.http.post(this.apiUrl, body, { headers: headers })
       .map(res => {
         console.log('NG45 - createTask, response:', res);
-
+        this.taskStore.dispatch(new CreateTaskSuccess(res));
         return res;
       });
   }
@@ -72,6 +75,8 @@ export class TaskService {
       // .map((responsePage: Response) => {
       .map((responsePage: any) => {
         // console.log('Tasks Page loaded, response: ', responsePage);
+        this.taskStore.dispatch(new LoadTasksSuccess(responsePage));
+        
         return responsePage;
       });
   }

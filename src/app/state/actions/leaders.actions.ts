@@ -7,12 +7,12 @@ export interface LeadersAction extends Action {
 // These constants are Action names which we will dispatch from application to update the Store state
 export enum LeadersActionTypes {
     LEADER_SELECT = '[Leaders] Select Leader',
-    LEADER_LOAD = '[Leaders] Load',
-    LEADER_LOAD_FAIL = '[Leaders] Load Fail',
-    LEADER_LOAD_SUCCESS = '[Leaders] Load Success',
-    LEADERS_LOAD = '[Leaders] Load',
-    LEADERS_LOAD_FAIL = '[Leaders] Load Fail',
-    LEADERS_LOAD_SUCCESS = '[Leaders] Load Success'
+    LEADER_LOAD = '[Leaders] Leader Load',
+    LEADER_LOAD_FAIL = '[Leaders] Leader Load Fail',
+    LEADER_LOAD_SUCCESS = '[Leaders] Leader Load Success',
+    LEADERS_LOAD = '[Leaders] Leaders Load',
+    LEADERS_LOAD_FAIL = '[Leaders] Leaders Load Fail',
+    LEADERS_LOAD_SUCCESS = '[Leaders] Leaders Load Success'
 }
 
 export class SelectLeader implements LeadersAction {

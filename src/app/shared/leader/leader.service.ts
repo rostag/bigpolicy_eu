@@ -12,6 +12,9 @@ import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ENV } from 'app/../environments/env.config';
+import { Store } from '@ngrx/store';
+import { ILeadersState } from '../../state/reducers/leaders.reducers';
+import { LoadLeadersSuccess } from '../../state/actions/leaders.actions';
 
 declare var localStorage: any;
 
@@ -43,7 +46,8 @@ export class LeaderService {
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private leaderStore: Store<ILeadersState>
   ) { }
 
   private get _authHeader(): string {
@@ -161,6 +165,7 @@ export class LeaderService {
       // .map((responsePage: Response) => {
       .map((responsePage: any) => {
         // console.log('Leaders Page loaded, response: ', responsePage);
+        this.leaderStore.dispatch(new LoadLeadersSuccess(responsePage))
         return responsePage;
       });
   }

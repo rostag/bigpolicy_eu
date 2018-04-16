@@ -42,11 +42,11 @@ export function reducer(
   switch (action.type) {
 
     case LeadersActionTypes.LEADER_SELECT:
-      console.log('Reducer :: Leader Select:', action.payload);
+      console.log('Reducer :: Leader Select ::', action.payload);
       return { ...state, selectedLeaderId: action.payload }
 
     case LeadersActionTypes.LEADER_LOAD_SUCCESS:
-      console.log('Reducer :: Load Leader Success:', action.payload);
+      console.log('Reducer :: Load Leader Success ::', action.payload);
       const l = { ...action.payload };
       const s = { ...state };
       if (s.leaders) {
@@ -65,8 +65,8 @@ export function reducer(
       return state;
 
     case LeadersActionTypes.LEADERS_LOAD_SUCCESS:
-      console.log('Reducer :: Load Leaders Success:', action.payload);
-      return { ...state, leaders: { ...action.payload } }
+      console.log('Reducer :: Load Leaders Success ::', action.payload);
+      return { ...state, leaders: [ ...state.leaders, ...[state.leaders.indexOf(action.payload) === -1 ? action.payload : null ] ] }
 
     default:
       return state;
