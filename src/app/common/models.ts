@@ -10,7 +10,7 @@ export interface ILeader {
     videoUrl: string;
     photo: string;
     donations: any[];
-    projects: IProject[];
+    projects: string[]; // TODO Must be renamed to projectIds
     leaderFiles: any[];
     totalDonationsReceived: number;
     // id of party from parties list
@@ -40,7 +40,7 @@ export class IProject {
     dateStarted: string;
     dateEnded: string;
     videoUrl: string;
-    tasks: ITask[];
+    tasks: string[]; // TODO Must be renamed to taskIds
     donations: any[];
     totalDonationsReceived: number;
 }
