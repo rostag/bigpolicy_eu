@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ITaskResponsePage, ITask } from '../../common/models';
 
 export interface TasksAction extends Action {
     payload?: any;
@@ -39,7 +40,7 @@ export class LoadTaskFail implements TasksAction {
 
 export class LoadTaskSuccess implements TasksAction {
     readonly type = TasksActionTypes.TASK_LOAD_SUCCESS;
-    constructor(public payload: any) { }
+    constructor(public payload: ITask) { }
 }
 
 export class LoadTasks implements TasksAction {
@@ -54,7 +55,7 @@ export class LoadTasksFail implements TasksAction {
 
 export class LoadTasksSuccess implements TasksAction {
     readonly type = TasksActionTypes.TASKS_LOAD_SUCCESS;
-    constructor(public payload: any) { }
+    constructor(public payload: ITaskResponsePage) { }
 }
 
 export class CreateTask implements TasksAction {
