@@ -1,6 +1,6 @@
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
 import { TasksAction, TasksActionTypes } from '../actions/task.actions';
-import { ITask } from '../../common/models';
+import { ITask, ITaskResponsePage } from '../../common/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
@@ -46,13 +46,6 @@ export function reducer(
             console.log('Reducer :: Task Select ::', action.payload);
             return { ...state, selectedTaskId: action.payload }
 
-        case TasksActionTypes.TASK_LOAD_SUCCESS:
-            console.log('Reducer :: Load Task Success ::', action.payload);
-            return { ...state, tasks: { ...state.tasks, ...action.payload } }
-
-        case TasksActionTypes.TASKS_LOAD_SUCCESS:
-            console.log('Reducer :: Load Tasks Success ::', action.payload);
-            return { ...state, tasks: { ...state.tasks, ...action.payload } }
 
         case TasksActionTypes.TASK_CREATE_SUCCESS:
             console.log('Reducer :: Create Tasks Success ::', action.payload);
@@ -65,6 +58,32 @@ export function reducer(
             }
             return state;
 
+            case TasksActionTypes.TASK_LOAD_SUCCESS:
+            let newState;
+            const loadedTask: ITask = { ...action.payload };
+            const s = { ...state };
+            if (s.tasks && s.tasks.indexOf(loadedTask) === -1) {
+              // Add to tasks
+              s.tasks = [...s.tasks, loadedTask];
+              // Add to tasks by id
+              s.tasksById[s.selectedTaskId] = { ...loadedTask }
+              newState = { ...s, tasks: [...s.tasks], selectedTaskId: s.selectedTaskId };
+            }
+            console.log('Reducer :: Load Task Success ::', state);
+            return newState;
+      
+          case TasksActionTypes.TASKS_LOAD_SUCCESS:
+            const newTasks: ITask[] = [];
+            const responseData: ITaskResponsePage = action.payload;
+            responseData.docs.forEach(doc => {
+              if (state.tasks.indexOf(doc) === -1) {
+                newTasks.push(doc)
+              }
+            })
+      
+            const nState = { ...state, tasks: [...newTasks] };
+            console.log(':: Reducer :: Load TASKS Success ::', nState);
+            return nState;            
         default:
             return state;
     }
