@@ -219,6 +219,10 @@ export class UserService {
   public isOwner(item) {
     const userEmail = this.getEmail() || '';
 
+    if (!userEmail || !item) {
+      return false;
+    }
+
     const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
     const leaderIsOwnedBy = userEmail === item['email'];
     const taskIsOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
