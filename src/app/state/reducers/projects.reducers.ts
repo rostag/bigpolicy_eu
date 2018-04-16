@@ -61,7 +61,7 @@ export function reducer(
         s.projectsById[s.selectedProjectId] = { ...loadedProject }
         newState = { ...s, projects: [...s.projects], selectedProjectId: s.selectedProjectId };
       }
-      console.log('Reducer :: Load Project Success ::', state);
+      console.log('Reducer :: Load Project Success ::', newState);
       return newState;
 
     case ProjectsActionTypes.PROJECTS_LOAD_SUCCESS:

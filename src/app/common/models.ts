@@ -28,6 +28,8 @@ export interface ILeader {
     docPassport: string;
 
     parseData?: any;
+    applyModelToFormGroup?: any;
+    applyFormGroupToModel?: any;
 }
 
 export class IProject {
