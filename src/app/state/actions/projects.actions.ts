@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { IResponsePage, IProject } from '../../common/models';
 
 export interface ProjectsAction extends Action {
     payload?: any;
@@ -8,15 +9,15 @@ export interface ProjectsAction extends Action {
 export enum ProjectsActionTypes {
     // PROJECT_ADD_TASK = '[Projects] Add Task',
     PROJECT_SELECT = '[Projects] Select Project',
-    PROJECT_CREATE = '[Projects] Create',
-    PROJECT_CREATE_FAIL = '[Projects] Create Fail',
-    PROJECT_CREATE_SUCCESS = '[Projects] Create Success',
-    PROJECT_LOAD = '[Projects] Project Load',
-    PROJECT_LOAD_FAIL = '[Projects] Project Load Fail',
-    PROJECT_LOAD_SUCCESS = '[Projects] Project Load Success',
-    PROJECTS_LOAD = '[Projects] Projects Load',
-    PROJECTS_LOAD_FAIL = '[Projects] Projects Load Fail',
-    PROJECTS_LOAD_SUCCESS = '[Projects] Projects Load Success'
+    PROJECT_CREATE = '[Projects] Create Project',
+    PROJECT_CREATE_FAIL = '[Projects] Create Project Fail',
+    PROJECT_CREATE_SUCCESS = '[Projects] Create Project Success',
+    PROJECT_LOAD = '[Projects] Load Project',
+    PROJECT_LOAD_FAIL = '[Projects] Load Project Fail',
+    PROJECT_LOAD_SUCCESS = '[Projects] Load Project Success',
+    PROJECTS_LOAD = '[Projects] Load Projects',
+    PROJECTS_LOAD_FAIL = '[Projects] Load Projects Fail',
+    PROJECTS_LOAD_SUCCESS = '[Projects] Load Projects Success'
 }
 
 // export class AddTaskToProject implements ProjectsAction {
@@ -55,7 +56,7 @@ export class LoadProjectFail implements ProjectsAction {
 
 export class LoadProjectSuccess implements ProjectsAction {
     readonly type = ProjectsActionTypes.PROJECT_LOAD_SUCCESS;
-    constructor(public payload: any) { }
+    constructor(public payload: IProject) { }
 }
 
 export class LoadProjects implements ProjectsAction {
@@ -70,7 +71,7 @@ export class LoadProjectsFail implements ProjectsAction {
 
 export class LoadProjectsSuccess implements ProjectsAction {
     readonly type = ProjectsActionTypes.PROJECTS_LOAD_SUCCESS;
-    constructor(public payload: any) { }
+    constructor(public payload: IResponsePage<IProject>) { }
 }
 
 export type ProjectsActions

@@ -1,6 +1,6 @@
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
 import { ProjectsAction, ProjectsActionTypes } from '../actions/projects.actions';
-import { IProject } from '../../common/models';
+import { IProject, IProjectResponsePage } from '../../common/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
@@ -51,11 +51,31 @@ export function reducer(
       return { ...state, selectedProjectId: action.payload }
 
     case ProjectsActionTypes.PROJECT_LOAD_SUCCESS:
-      return state;
+      let newState;
+      const loadedProject: IProject = { ...action.payload };
+      const s = { ...state };
+      if (s.projects && s.projects.indexOf(loadedProject) === -1) {
+        // Add to projects
+        s.projects = [...s.projects, loadedProject];
+        // Add to projects by id
+        s.projectsById[s.selectedProjectId] = { ...loadedProject }
+        newState = { ...s, projects: [...s.projects], selectedProjectId: s.selectedProjectId };
+      }
+      console.log('Reducer :: Load Project Success ::', state);
+      return newState;
 
     case ProjectsActionTypes.PROJECTS_LOAD_SUCCESS:
-      console.log('Reducer :: Load Projects Success ::', action.payload);
-      return { ...state, projects: { ...state.projects, ...action.payload } }
+      const newProjects: IProject[] = [];
+      const responseData: IProjectResponsePage = action.payload;
+      responseData.docs.forEach(doc => {
+        if (state.projects.indexOf(doc) === -1) {
+          newProjects.push(doc)
+        }
+      })
+
+      const nState = { ...state, projects: [...newProjects] };
+      console.log(':: Reducer :: Load PROJECTS Success ::', nState);
+      return nState;
 
     default:
       return state;

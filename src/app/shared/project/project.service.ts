@@ -13,7 +13,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
 import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
-import { IProject } from '../../common/models';
+import { IProject, IResponsePage } from '../../common/models';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -72,14 +72,9 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
+  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<IResponsePage<IProject>> {
 
     let requestUrl;
-
-    // Project by ID :: api/project-api/:projectId
-    if (projectId) {
-      requestUrl = this.projectApiUrl + projectId;
-    }
 
     // Page of Projects :: api/project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
@@ -96,7 +91,7 @@ export class ProjectService {
     return this.http.get(requestUrl)
       // FIXME NG45 - get back to typed HttpResponse:
       // .map((responsePage: HttpResponse) => {
-      .map((responsePage: any) => {
+      .map((responsePage: IResponsePage<IProject>) => {
         // console.log('Projects Page loaded, response: ', responsePage);
         this.projectStore.dispatch(new LoadProjectsSuccess(responsePage))
         return responsePage;
@@ -104,10 +99,18 @@ export class ProjectService {
   }
 
   /**
-   * Returns single project from DB
+   * Returns single project from DB by ID :: api/project-api/:projectId
    */
-  getProject(projectId: string): Observable<ProjectModel> {
-    return this.getProjectsPage(projectId);
+  getProject(projectId: string): Observable<IProject> {
+    if (projectId) {
+      return this.http.get(this.projectApiUrl + projectId)
+        // FIXME NG45 - get back to typed HttpResponse:
+        .map((response: IProject) => {
+          // console.log('Project loaded, response: ', response);
+          this.projectStore.dispatch(new LoadProjectSuccess(response));
+          return response;
+        });
+    }
   }
 
   /**
