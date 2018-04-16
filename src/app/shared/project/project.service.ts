@@ -25,6 +25,7 @@ export class ProjectService {
   private projectApiUrl = environment.api_url + '/api/project-api/';
 
   static cacheProject(project) {
+    // FIXME Move it to NGRX
     this._cachedProjects[project._id] = project;
     // console.log('cache project: ', this._cachedProjects[project._id]);
   }
