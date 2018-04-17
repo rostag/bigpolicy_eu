@@ -65,6 +65,7 @@ export class ProjectViewComponent implements OnInit {
       this.projectService.getProject(id)
         .subscribe(
           // this.setProject,
+          data => data,
           err => console.error(err),
           () => { }
         );
