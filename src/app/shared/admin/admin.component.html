@@ -21,14 +21,14 @@
         <!-- FIXME <h2 *ngIf="adminLeader.projects && adminLeader.projects.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="adminLeader._id" pageSize="2" > -->
 
-        <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.taskIds.length < 1" }'>
         </app-project-list>
 
         <app-project-list title="Проект &laquo;Не на часі&raquo;" pageSize="3" dbQuery='{ "$where": "this.title == \"Не на часі\"" }'>
         </app-project-list>
 
         <!-- Усі проекти -->
-        <!-- <app-project-list title="Усі проекти" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+        <!-- <app-project-list title="Усі проекти" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.taskIds.length > 0" }'>
         </app-project-list> -->
 
         <!-- Усі заходи -->

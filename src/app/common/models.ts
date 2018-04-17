@@ -44,7 +44,7 @@ export class IProject {
     dateStarted: string;
     dateEnded: string;
     videoUrl: string;
-    tasks: string[]; // TODO Must be renamed to taskIds
+    taskIds: string[];
     donations: any[];
     totalDonationsReceived: number;
 

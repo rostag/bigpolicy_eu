@@ -22,7 +22,7 @@ DBTask.getTask = function(id) {
 * @param page Page number to get from DB
 * @param limit Items per page to get from DB
 * @param dbQuery DB query to perform for filtering the results, searching etc like (in HTML code):
-*        dbQuery='{ "$where": "this.tasks.length > 0" }'
+*        dbQuery='{ "$where": "this.taskIds.length > 0" }'
 */
 DBTask.getPageOfTasks = function (taskIds, page, limit, dbQuery) {
   // console.log('DBTask.getPage of Tasks, taskIds =', taskIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
@@ -75,11 +75,11 @@ DBTask.createTask = function(dataObj) {
 //     if (project) {
 //       // console.log('new task: ', savedTask._id);
 //       // console.log('\ttask\'s project found: ', project.title);
-//       // console.log('\t\tand his tasks: ', project.tasks);
-//       project.tasks.push(savedTask.id);
-//       // console.log('\t\t+plus updated: ', project.tasks);
+//       // console.log('\t\tand his taskIds: ', project.taskIds);
+//       project.taskIds.push(savedTask.id);
+//       // console.log('\t\t+plus updated: ', project.taskIds);
 //
-//       project.update({ tasks: project.tasks }, function (error, project){
+//       project.update({ taskIds: project.taskIds }, function (error, project){
 //         // console.log('\tadded task to project');
 //       })
 //     }
@@ -144,20 +144,20 @@ DBTask.addOrRemoveTaskForProject = function(taskIds, projectId, toRemove) {
 
   Project.findOne( { _id: projectId }, function (err, project) {
     if( project ) {
-      console.log(`\tProject found: ${project.title}\n\tIts Tasks: ', ${project.tasks}\n\tA tasks to`, toRemove ? 'remove:' : 'add:', taskIds);
+      console.log(`\tProject found: ${project.title}\n\tIts Tasks: ', ${project.taskIds}\n\tA tasks to`, toRemove ? 'remove:' : 'add:', taskIds);
 
       for (var i = 0; i < taskIds.length; i++) {
         const taskId = taskIds[i];
-        const taskIndex = project.tasks.indexOf(taskId);
+        const taskIndex = project.taskIds.indexOf(taskId);
         if (toRemove === true) {
-          project.tasks.splice(taskIndex, 1);
+          project.taskIds.splice(taskIndex, 1);
         } else if ( taskIndex === -1 ) {
-          project.tasks.push(taskId);
+          project.taskIds.push(taskId);
         }
       }
-      console.log('\tNow tasks: ', project.tasks);
+      console.log('\tNow taskIds: ', project.taskIds);
 
-      project.update({ tasks: project.tasks }, (error, project) => { console.log('< Project tasks updated'); })
+      project.update({ taskIds: project.taskIds }, (error, project) => { console.log('< Project tasks updated'); })
     }
   });
 }

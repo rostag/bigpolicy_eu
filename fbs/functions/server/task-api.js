@@ -97,7 +97,7 @@ module.exports = function(app, router, DB, DBProject){
     var p = req.params;
     DBProject.getProject( p.projectId )
       .then((project) => {
-        DB.getPageOfTasks(project.tasks, p.page, p.limit, decodeURIComponent(p.dbQuery))
+        DB.getPageOfTasks(project.taskIds, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })

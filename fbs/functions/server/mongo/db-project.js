@@ -66,7 +66,7 @@ DBProject.getProject = function(projectId) {
     title="Проекти з заходами"
     [leaderId]="profileLeader._id"
     pageSize="3"
-    dbQuery='{ "$where": "this.tasks.length > 0" }'>
+    dbQuery='{ "$where": "this.taskIds.length > 0" }'>
   </app-project-list>
 **/
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
@@ -217,7 +217,7 @@ DBProject.bulkDeleteProjects = function(projectIds) {
     let taskIds = [];
     for (var p = 0; p < pagedProjects.docs.length; p++) {
       let project = pagedProjects.docs[p];
-      taskIds = taskIds.concat(project.tasks);
+      taskIds = taskIds.concat(project.taskIds);
       console.log(' - Project task to delete added:', taskIds);
     }
 

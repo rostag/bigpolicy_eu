@@ -45,7 +45,7 @@ module.exports = function(app, router, DB){
    *    donation-api/target/leader/id/1/10/q/{}
    *    donation-api/target/project/id/1/10/q/{}
    *    donation-api/target/task/id/1/10/q/{}
-   * @param dbQuery is mongo query like (in HTML code): dbQuery='{ "$where": "this.tasks.length > 0" }'
+   * @param dbQuery is mongo query like (in HTML code): dbQuery='{ "$where": "this.taskIds.length > 0" }'
    **/
   router.get('/donation-api/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
 

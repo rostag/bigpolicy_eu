@@ -26,10 +26,10 @@
         <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
         <app-project-list
           *ngIf="profileLeader.projects && profileLeader.projects.length > 0"
-          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.taskIds.length > 0" }'>
         </app-project-list>
 
-        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.taskIds.length < 1" }'>
         </app-project-list>
 
       </mat-card-content>
