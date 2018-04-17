@@ -106,7 +106,7 @@ module.exports = function(app, router, DB, jwtCheck, adminCheck){
   // .get('/group/:groupId/page/:page/:limit', function (req, res) {
   //   DBLeader.getPageOfLeaders( p.leaderId )
   //     .then((leader) => {
-  //       DB.getPageOfLeaders(group.leaders, p.page, p.limit)
+  //       DB.getPageOfLeaders(group.leaderIds, p.page, p.limit)
   //         .then( data => res.json(data))
   //         .catch( err => res.json(err))
   //     })

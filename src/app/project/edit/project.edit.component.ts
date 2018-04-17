@@ -27,7 +27,7 @@ export class ProjectEditComponent implements OnInit {
   project: IProject;
 
   // FIXME Used for changing leaders by admin - need to extract it to separate component
-  leaders: ILeader[] = null;
+  public leadersToMoveProjectTo: ILeader[] = null;
   currentLeader: ILeader = new LeaderModel();
 
   constructor(
@@ -136,14 +136,14 @@ export class ProjectEditComponent implements OnInit {
     // this.userService.isAdmin
     this.leaderService.getLeadersPage(null, 1, 100, '{}')
       .subscribe((res) => {
-        this.leaders = res['docs'];
-        console.log('got leaders: ', this.leaders);
-        for (const d in this.leaders) {
-          if (this.leaders.hasOwnProperty(d)) {
-            console.log('Got leader: ', this.leaders[d]._id, this.leaders[d].name);
-            if (this.project.managerId === this.leaders[d]._id) {
+        this.leadersToMoveProjectTo = res['docs'];
+        console.log('got leadersToMoveProjectTo: ', this.leadersToMoveProjectTo);
+        for (const d in this.leadersToMoveProjectTo) {
+          if (this.leadersToMoveProjectTo.hasOwnProperty(d)) {
+            console.log('Got leader: ', this.leadersToMoveProjectTo[d]._id, this.leadersToMoveProjectTo[d].name);
+            if (this.project.managerId === this.leadersToMoveProjectTo[d]._id) {
               // Memorize current leader for later usage - we'll remove project from him:
-              this.currentLeader.parseData(this.leaders[d]);
+              this.currentLeader.parseData(this.leadersToMoveProjectTo[d]);
             }
           }
         }
@@ -156,7 +156,7 @@ export class ProjectEditComponent implements OnInit {
   // FIXME Check reusing projects Re-assign from leaderService.deleteLeader method
   // FIXME Move it to service
   moveProjectToOtherLeader(event) {
-    const newLeader = new LeaderModel();
+    const newLeader: ILeader = new LeaderModel();
     newLeader.parseData(event.value);
     console.log(`> Move Project to: `, newLeader.email);
 
@@ -167,12 +167,12 @@ export class ProjectEditComponent implements OnInit {
     this.saveProject();
 
     // Add project to new Leader:
-    if (newLeader.projects.indexOf(this.project._id) === -1) {
-      newLeader.projects.push(this.project._id);
+    if (newLeader.projectIds.indexOf(this.project._id) === -1) {
+      newLeader.projectIds.push(this.project._id);
       this.leaderService.updateLeader(newLeader).subscribe();
     }
     // Remove project from current Leader:
-    this.currentLeader.projects.splice(this.currentLeader.projects.indexOf(this.project._id), 1);
+    this.currentLeader.projectIds.splice(this.currentLeader.projectIds.indexOf(this.project._id), 1);
     this.leaderService.updateLeader(this.currentLeader).subscribe();
   }
 }

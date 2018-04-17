@@ -244,7 +244,7 @@ export class LeaderService {
         // Delete Leader immediately and, if there are projects, re-assign them to other Leader (admin)
         this.finalizeLeaderDeletion(model, navigateToList);
 
-        if (model.projects && model.projects.length > 0) {
+        if (model.projectIds && model.projectIds.length > 0) {
           this.dialogService.confirm('Що робити з проектами?', `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
             до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteProjects => {
@@ -252,13 +252,13 @@ export class LeaderService {
                 // Delete Projects and Tasks in DB
                 // TODO Delete Projects Firebase data
                 // TODO Delete Donations and Task Donations?
-                this.projectService.bulkDeleteProjects(model.projects)
+                this.projectService.bulkDeleteProjects(model.projectIds)
                   .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
               } else {
                 // Reassign projects to another Leader (this/Admin)
                 // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
                 const newLeader = this.leader;
-                const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, {
+                const projectsUpdate = this.projectService.bulkUpdateProjects(model.projectIds, {
                   managerId: newLeader._id,
                   managerEmail: newLeader.email,
                   managerName: newLeader.name + ' ' + newLeader.surName

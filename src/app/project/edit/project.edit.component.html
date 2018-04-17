@@ -66,10 +66,10 @@
 
       <!-- MOVE TO OTHER LEADER -->
       <div *ngIf="userService.isAdmin && isUpdateMode">
-        <button *ngIf="!leaders" mat-button (click)="requestLeadersToSelectFrom()">Змінити лідера</button>
-        <form *ngIf="leaders">
+        <button *ngIf="!leadersToMoveProjectTo" mat-button (click)="requestLeadersToSelectFrom()">Змінити лідера</button>
+        <form *ngIf="leadersToMoveProjectTo">
           <mat-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
-            <mat-option *ngFor="let leader of leaders" [value]="leader">
+            <mat-option *ngFor="let leader of leadersToMoveProjectTo" [value]="leader">
               {{leader.name}} {{leader.surName}}
               <span *ngIf="userService.isOwner(leader)">
                 [я]

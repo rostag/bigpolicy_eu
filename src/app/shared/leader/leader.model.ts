@@ -16,7 +16,7 @@ export class LeaderModel implements ILeader {
   videoUrl: string;
   photo: string;
   donations;
-  projects;
+  projectIds;
   // FIXME Check for Null prevention
   leaderFiles;
   totalDonationsReceived = 0;

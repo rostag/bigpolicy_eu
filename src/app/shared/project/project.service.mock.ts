@@ -289,7 +289,7 @@ export class ProjectServiceMock {
     return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - update projects:', res);
+          console.log('NG45 - update projects', res);
           return res;
         }),
         catchError(this.handleError)

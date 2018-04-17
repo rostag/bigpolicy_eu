@@ -22,10 +22,10 @@
 
     <mat-card *ngIf="profileLeader" class="leader-profile">
       <mat-card-content>
-        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
+        <!-- FIXME <h2 *ngIf="profileLeader.projectIds && profileLeader.projectIds.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
         <app-project-list
-          *ngIf="profileLeader.projects && profileLeader.projects.length > 0"
+          *ngIf="profileLeader.projectIds && profileLeader.projectIds.length > 0"
           title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.taskIds.length > 0" }'>
         </app-project-list>
 

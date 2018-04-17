@@ -10,7 +10,7 @@ export interface ILeader {
     videoUrl: string;
     photo: string;
     donations: any[];
-    projects: string[]; // TODO Must be renamed to projectIds
+    projectIds: string[]; // TODO Must be renamed to projectIds
     leaderFiles: any[];
     totalDonationsReceived: number;
     // id of party from parties list
@@ -27,9 +27,9 @@ export interface ILeader {
     docCorruptionRecord: string;
     docPassport: string;
 
-    parseData?: any;
-    applyModelToFormGroup?: any;
-    applyFormGroupToModel?: any;
+    parseData?: any;             // FIXME
+    applyModelToFormGroup?: any; // FIXME
+    applyFormGroupToModel?: any; // FIXME
 }
 
 export class IProject {
@@ -48,7 +48,8 @@ export class IProject {
     donations: any[];
     totalDonationsReceived: number;
 
-    parseData?: any;
+    parseData?: any;         // FIXME
+    onImageUrlChange?: any;  // FIXME
 }
 
 export interface ITask {
@@ -65,7 +66,7 @@ export interface ITask {
     donations: any[];
     totalDonationsReceived: number;
 
-    parseData?: any;
+    parseData?: any;     // FIXME
 };
 
 export interface IResponsePage<T> {

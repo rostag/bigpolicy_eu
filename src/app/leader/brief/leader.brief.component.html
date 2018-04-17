@@ -33,7 +33,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
     <div class="mat-card-image-clipper" class.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
       <div *ngIf="leader.photo; then images else videos"></div>
-      <p class="projects">Проектів: {{leader.projects?.length}}</p>
+      <p class="projects">Проектів: {{leader.projectIds?.length}}</p>
     </div>
     <div fxFlex="69" fxFlexOffset="7" fxFlexOffset.xs="0">
       <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
