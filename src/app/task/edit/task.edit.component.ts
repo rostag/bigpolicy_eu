@@ -24,7 +24,7 @@ export class TaskEditComponent implements OnInit {
   task: ITask;
 
   // FIXME Used for moving tasks to other projects - Extract to separate component
-  projects: IProject[] = null;
+  public projectsToMoveTaskTo: IProject[] = null;
   currentProject: IProject = new ProjectModel();
 
   constructor(
@@ -141,16 +141,17 @@ export class TaskEditComponent implements OnInit {
 
   // FIXME Move to service / component
   requestProjectsToSelectFrom() {
+    // Fixme do smarter query here, not just last 100 projects
     this.projectService.getProjectsPage(null, null, 1, 100, '{}')
       .subscribe((res) => {
-        this.projects = res['docs'];
-        console.log('got projects: ', this.projects);
-        for (const p in this.projects) {
-          if (this.projects.hasOwnProperty(p)) {
-            console.log('got project: ', this.projects[p]._id, this.projects[p].title);
-            if (this.task.projectId === this.projects[p]._id) {
+        this.projectsToMoveTaskTo = res['docs'];
+        console.log('got projects to move task to: ', this.projectsToMoveTaskTo);
+        for (const p in this.projectsToMoveTaskTo) {
+          if (this.projectsToMoveTaskTo.hasOwnProperty(p)) {
+            console.log('got project: ', this.projectsToMoveTaskTo[p]._id, this.projectsToMoveTaskTo[p].title);
+            if (this.task.projectId === this.projectsToMoveTaskTo[p]._id) {
               // Memorize current project for later usage - we'll remove task from him:
-              this.currentProject.parseData(this.projects[p]);
+              this.currentProject.parseData(this.projectsToMoveTaskTo[p]);
             }
           }
         }

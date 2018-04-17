@@ -51,7 +51,7 @@
           Проекти:
         </mat-card-title>
         <mat-card-content>
-          <app-project-list [leaderId]="leader._id" pageSize="12" *ngIf="leader.projects && leader.projects.length > 0;else projects_placeholder">
+          <app-project-list [leaderId]="leader._id" pageSize="12" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
           </app-project-list>
           <ng-template #projects_placeholder>Немає жодного проекту.
             <span *ngIf="userService.hasEditPermissions(leader)"> –

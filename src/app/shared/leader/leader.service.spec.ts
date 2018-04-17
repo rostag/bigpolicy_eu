@@ -41,7 +41,7 @@ describe('LeaderService', () => {
               'leaderFiles': [
                 { 'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk' }
               ],
-              'projects': ['5817073c41a8db05ab80f250', '581a6dbcc042e71cb07cbca1']
+              'projectIds': ['5817073c41a8db05ab80f250', '581a6dbcc042e71cb07cbca1']
             }, {
               '__v': 1, '_id': '58a0cf21dab2ecbe50b26ed5', 'email': 'rostyslav.siryk@globallogic.com',
               'mission': 'Зменшити вплив політики на владу.',
@@ -51,14 +51,14 @@ describe('LeaderService', () => {
                 { 'name': 'Abingdon.pdf', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHbHN3d0Z6Y0FuOFk/view?usp=drivesdk' },
                 { 'name': 'Auduino.png', 'link': 'https://drive.google.com/file/d/0B-BtyFkmQkLHYmFmUmUxU0xnQjg/view?usp=drivesdk' }
               ],
-              'projects': ['58a0cf8cdab2ecbe50b26ed6']
+              'projectIds': ['58a0cf8cdab2ecbe50b26ed6']
             }, {
               '__v': 1, '_id': '589d8925dab2ecbe50b26ed2', 'email': 'rostyslav.siryk@gmail.com',
               'mission': 'Змусити політиків відповідати.\n\ns\nd g\nsf\nh \ns\nh',
               'name': 'Віталій', 'parentName': ' ', 'surName': 'Приходько', 'totalDonationsReceived': 0,
               'vision': 'Занадто багато дешево безвідповідальної політики.\n\n\nda sg\n\nas \ngsa\n \nh', 'donations': [],
               'leaderFiles': [],
-              'projects': ['58cec544dd6a95d9520e148c', '58cec548dd6a95d9520e148d', '58cec54cdd6a95d9520e148e']
+              'projectIds': ['58cec544dd6a95d9520e148c', '58cec548dd6a95d9520e148d', '58cec54cdd6a95d9520e148e']
             }
           ],
           'total': 3, 'limit': 3, 'page': 1, 'pages': 1

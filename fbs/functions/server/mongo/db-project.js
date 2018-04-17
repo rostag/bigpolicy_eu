@@ -127,7 +127,7 @@ DBProject.bulkUpdateProjects = function(ids, data) {
       }).updateOne({
           $set: data
       });
-      // Prepare to add multiple projects to leader
+      // Prepare to add multiple projectIds to leader
       data.projectIds.push(id);
   }
   DBProject.addProjectToLeader(null, data);
@@ -172,20 +172,20 @@ DBProject.addOrRemoveProjectForLeader = function(projectIds, managerId, toRemove
 
   Leader.findOne( { _id: managerId }, function (err, leader) {
     if( leader ) {
-      console.log(`\tLeader found: ${leader.name}\n\tHis projects: ', ${leader.projects}\n\tA projects to`, toRemove ? 'remove:' : 'add:', projectIds);
+      console.log(`\tLeader found: ${leader.name}\n\tHis projectIds: ', ${leader.projectIds}\n\tA projectIds to`, toRemove ? 'remove:' : 'add:', projectIds);
 
       for (var i = 0; i < projectIds.length; i++) {
         const projectId = projectIds[i];
-        const projectIndex = leader.projects.indexOf(projectId);
+        const projectIndex = leader.projectIds.indexOf(projectId);
         if (toRemove === true) {
-          leader.projects.splice(projectIndex, 1);
+          leader.projectIds.splice(projectIndex, 1);
         } else if ( projectIndex === -1 ) {
-          leader.projects.push(projectId);
+          leader.projectIds.push(projectId);
         }
       }
-      console.log('\tNow projects: ', leader.projects);
+      console.log('\tNow projectIds: ', leader.projectIds);
 
-      leader.update({ projects: leader.projects }, (error, leader) => { console.log('< Leader projects updated'); });
+      leader.update({ projectIds: leader.projectIds }, (error, leader) => { console.log('< Leader projectIds updated'); });
     }
   });
 }
@@ -201,9 +201,9 @@ DBProject.bulkDeleteProjects = function(projectIds) {
   var bulk = Project.collection.initializeOrderedBulkOp();
   console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
 
-  // TODO get all projects
+  // TODO get all projectIds
   return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
-    console.log(' - Got paged projects:', pagedProjects.total);
+    console.log(' - Got paged projectIds:', pagedProjects.total);
 
     // Delete projects
     for (var i = 0; i < projectIds.length; i++) {

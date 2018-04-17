@@ -98,7 +98,7 @@ module.exports = function(app, router, DB, DBLeader){
     // console.log('project-api/get projects page for leader #', p.leaderId, ', query:', decodeURIComponent(p.dbQuery) );
     DBLeader.getLeader( p.leaderId )
       .then((leader) => {
-        DB.getPageOfProjects(leader.projects, p.page, p.limit, decodeURIComponent(p.dbQuery))
+        DB.getPageOfProjects(leader.projectIds, p.page, p.limit, decodeURIComponent(p.dbQuery))
           .then( data => res.json(data))
           .catch( err => res.json(err))
       })

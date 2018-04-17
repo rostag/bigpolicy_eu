@@ -18,7 +18,7 @@
     <!-- Спеціальні проекти -->
     <mat-card *ngIf="adminLeader" class="leader-profile">
       <mat-card-content>
-        <!-- FIXME <h2 *ngIf="adminLeader.projects && adminLeader.projects.length > 0">Проекти:</h2> -->
+        <!-- FIXME <h2 *ngIf="adminLeader.projectIds && adminLeader.projectIds.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="adminLeader._id" pageSize="2" > -->
 
         <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.taskIds.length < 1" }'>
