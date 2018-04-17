@@ -26,7 +26,7 @@ export class DonationsListComponent implements OnChanges {
   // How many list items to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.taskIds.length > 0" }'
   @Input() dbQuery = '{}';
 
   public items: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);

@@ -42,7 +42,7 @@ export class ProjectServiceMock {
           '588e065faa8da59ae4829043',
           '58cf1d71d8784e0edfcdb4e8'
         ],
-        'tasks': [
+        'taskIds': [
           '58553ddb3b2db8c32e33c25e',
           '581a6309dc79a49d33d8fd28',
           '581daededf738419b0c3b624'
@@ -63,7 +63,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '5842c92d3540984e175fc5a3',
           '5842c96b3540984e175fc5a4',
           '58cd0142ae6d40927988c239',
@@ -86,7 +86,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '5842ca0f3540984e175fc5a6',
           '5842ca533540984e175fc5a7',
           '5842cae83540984e175fc5a9',
@@ -111,7 +111,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '58d4e27a9ff81172407e0e5a',
           '58d4e2869ff81172407e0e5b',
           '58d60b61260e94051c643820'
@@ -132,7 +132,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': []
+        'taskIds': []
       },
       {
         '_id': '58d08119772ee0389d5aa069',
@@ -149,7 +149,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': []
+        'taskIds': []
       },
       {
         '_id': '58e8cf4b534fb9f782a832b5',
@@ -166,7 +166,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         '__v': 0,
         'donations': [],
-        'tasks': []
+        'taskIds': []
       }
     ],
     'total': 7,
@@ -331,7 +331,7 @@ export class ProjectServiceMock {
         // Delete Project immediately and, if there are tasks, re-assign them to other Project (placeholder)
         this.finalizeProjectDeletion(model, navigateToList);
 
-        if (model.tasks && model.tasks.length > 0) {
+        if (model.taskIds && model.taskIds.length > 0) {
           this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
             до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteTasks => {
@@ -339,14 +339,14 @@ export class ProjectServiceMock {
                 // Delete Tasks from DB
                 // TODO Delete Tasks Firebase data
                 // TODO Delete Donations and Task Donations?
-                this.taskService.bulkDeleteTasks(model.tasks)
+                this.taskService.bulkDeleteTasks(model.taskIds)
                   .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
               } else {
                 // Reassign tasks to another Project (placeholder)
                 // FIXME - Retrieve real Placeholder project
                 const newProject = new ProjectModel();
                 newProject._id = 'NE_NA_CHASI';
-                const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
+                const tasksUpdate = this.taskService.bulkUpdateTasks(model.taskIds, { projectId: newProject._id });
                 tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
               }
               this.finalizeProjectDeletion(model, navigateToList);

@@ -13,7 +13,7 @@ export class ProjectModel implements IProject {
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
   videoUrl = '';
-  tasks;
+  taskIds;
   donations;
   totalDonationsReceived = 0;
 
@@ -33,7 +33,7 @@ export class ProjectModel implements IProject {
       dateEnded: this.dateEnded,
       imageUrl: this.imageUrl,
       videoUrl: this.videoUrl,
-      tasks: this.tasks,
+      taskIds: this.taskIds,
       totalDonationsReceived: this.totalDonationsReceived
     });
   }

@@ -169,7 +169,7 @@ export class ProjectService {
         // Delete Project immediately and, if there are tasks, re-assign them to other Project (placeholder)
         this.finalizeProjectDeletion(model, navigateToList);
 
-        if (model.tasks && model.tasks.length > 0) {
+        if (model.taskIds && model.taskIds.length > 0) {
           this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
             до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteTasks => {
@@ -177,7 +177,7 @@ export class ProjectService {
                 // Delete Tasks from DB
                 // TODO Delete Tasks Firebase data
                 // TODO Delete Donations and Task Donations?
-                this.taskService.bulkDeleteTasks(model.tasks)
+                this.taskService.bulkDeleteTasks(model.taskIds)
                   .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
               } else {
                 // NE NA CHASI: reassign tasks to placeholder Project
@@ -185,7 +185,7 @@ export class ProjectService {
                 this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }')
                   .subscribe((res) => {
                     // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
-                    this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => { });
+                    this.taskService.bulkUpdateTasks(model.taskIds, { projectId: res['docs'][0]._id }).subscribe((result) => { });
                   });
               }
             });

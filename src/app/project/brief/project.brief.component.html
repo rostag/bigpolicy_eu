@@ -27,7 +27,7 @@
 
   <p class="date" matLine><b>Строки:</b> {{project.dateStarted | date}} - {{project.dateEnded | date}}</p>
   <p class="cost" matLine><b>Вартість:</b> {{project.cost}} UAH</p>
-  <p class="tasks" matLine><b>Заходів:</b> {{project.tasks?.length}} <span class="manager-name">{{project.managerName}}</span></p>
+  <p class="tasks" matLine><b>Заходів:</b> {{project.taskIds?.length}} <span class="manager-name">{{project.managerName}}</span></p>
   <p class="description" matLine>
     <small>{{project.description}}</small>
   </p>
