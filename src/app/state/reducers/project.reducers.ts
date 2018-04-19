@@ -1,5 +1,5 @@
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
-import { ProjectsAction, ProjectsActionTypes } from '../actions/projects.actions';
+import { ProjectAction, ProjectActionTypes } from '../actions/project.actions';
 import { IProject, IProjectResponsePage } from '../../common/models';
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -34,37 +34,39 @@ const initialState: IProjectState = {
  */
 export function reducer(
   state: IProjectState = initialState,
-  action: ProjectsAction
+  action: ProjectAction
 ): IProjectState {
 
   switch (action.type) {
 
-    // case ProjectsActionTypes.PROJECT_ADD_TASK:
+    // case ProjectActionTypes.PROJECT_ADD_TASK:
     // return state;
 
-    case ProjectsActionTypes.PROJECT_CREATE_SUCCESS:
+    case ProjectActionTypes.PROJECT_CREATE_SUCCESS:
       console.log('Reducer :: Create Project Success ::', action.payload);
       return { ...state, projects: { ...state.projects, ...action.payload } }
 
-    case ProjectsActionTypes.PROJECT_SELECT:
+    case ProjectActionTypes.PROJECT_SELECT:
       console.log('Reducer :: Project Select ::', action.payload);
       return { ...state, selectedProjectId: action.payload }
 
-    case ProjectsActionTypes.PROJECT_LOAD_SUCCESS:
-      let newState;
+    case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
+      let newState = { ...state };
       const loadedProject: IProject = { ...action.payload };
-      const s = { ...state };
-      if (s.projects && s.projects.indexOf(loadedProject) === -1) {
-        // Add to projects
-        s.projects = [...s.projects, loadedProject];
-        // Add to projects by id
-        s.projectsById[s.selectedProjectId] = { ...loadedProject }
-        newState = { ...s, projects: [...s.projects], selectedProjectId: s.selectedProjectId };
+      if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
+        const nid = [...newState.projectsById];
+        nid[newState.selectedProjectId] = { ...loadedProject };
+        console.log('Reducer :: Load Project Success ::', newState);
+        return {
+          ...newState,
+          projects: [...newState.projects, loadedProject],
+          projectsById: <IProject[]>nid,
+          selectedProjectId: newState.selectedProjectId
+        }
       }
-      console.log('Reducer :: Load Project Success ::', newState);
       return newState;
 
-    case ProjectsActionTypes.PROJECTS_LOAD_SUCCESS:
+    case ProjectActionTypes.PROJECTS_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
       responseData.docs.forEach(doc => {

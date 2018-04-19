@@ -4,8 +4,10 @@ import { UserService } from '../../shared/user/user.service';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
-import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
-import { SelectProject } from '../../state/actions/projects.actions';
+import { IProjectState, getProjectsState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { SelectProject, LoadProject } from '../../state/actions/project.actions';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-project-view',
@@ -16,11 +18,13 @@ import { SelectProject } from '../../state/actions/projects.actions';
 export class ProjectViewComponent implements OnInit {
 
   // Whether it has visual like image or video or it hasn't
-  hasVisual = false;
+  public hasVisual = false;
 
-  project: IProject = new ProjectModel();
+  public project: IProject;
+  // project: IProject = new ProjectModel();
+  public project$: BehaviorSubject<IProject> = new BehaviorSubject(null);
 
-  fundratio = 0;
+  public fundratio = 0;
 
   /**
   * Dependency Injection: route (for reading params later)
@@ -32,9 +36,16 @@ export class ProjectViewComponent implements OnInit {
     private projectService: ProjectService,
     private projectStore: Store<IProjectState>
   ) {
-    this.projectStore.pipe(select(getProjectsState))
-      .subscribe((pState: IProjectState) => {
-        this.setProject(pState.projectsById[pState.selectedProjectId]);
+    // this.projectStore.pipe(select(getProjectsState))
+    //   .subscribe((pState: IProjectState) => {
+    //     const selectedProject = pState.projectsById[pState.selectedProjectId];
+    //     this.project$.next(selectedProject)
+    //     this.setProject(selectedProject);
+    //   });
+    this.projectStore.pipe(select(getSelectedProject))
+      .subscribe((selectedProject: IProject) => {
+        this.project$.next(selectedProject)
+        this.setProject(selectedProject);
       });
   }
 
@@ -42,14 +53,10 @@ export class ProjectViewComponent implements OnInit {
    * Initialization Event Handler, used to parse route params
    * like `id` in project/:id/edit)
    */
-  ngOnInit() {
+  public ngOnInit() {
     this.route.params
       .map(params => params['id'])
-      .subscribe((id) => {
-        // console.log('View Project by ID from route params:', id)
-        this.projectStore.dispatch(new SelectProject(id));
-        this.loadProject(id);
-      });
+      .subscribe((id) => this.loadProject(id));
   }
 
   private setProject(data: IProject) {
@@ -60,15 +67,17 @@ export class ProjectViewComponent implements OnInit {
     ProjectService.cacheProject(this.project);
   }
 
-  loadProject(id) {
+  private loadProject(id) {
     if (id) {
-      this.projectService.getProject(id)
-        .subscribe(
-          // this.setProject,
-          data => data,
-          err => console.error(err),
-          () => { }
-        );
+      this.projectStore.dispatch(new SelectProject(id));
+      this.projectStore.dispatch(new LoadProject(id));
+      // this.projectService.getProject(id)
+      //   .subscribe(
+      //     // this.setProject,
+      //     data => data,
+      //     err => console.error(err),
+      //     () => { }
+      //   );
     }
   }
 

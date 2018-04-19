@@ -272,7 +272,7 @@ export class ProjectServiceMock {
         // FIXME NG45 - get back to typed HttpResponse:
         .map((response: IProject) => {
           // console.log('Project loaded, response: ', response);
-          // this.projectStore.dispatch(new LoadProjectSuccess(response))
+          // FIXME this.projectStore.dispatch(new LoadProjectSuccess(response))
           return response;
         });
     }    
