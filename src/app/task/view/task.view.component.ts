@@ -9,6 +9,9 @@ import { UserService } from '../../shared/user/user.service';
 import { ProjectService } from '../../shared/project/project.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { IProject, ITask } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { IProjectState } from '../../state/reducers/project.reducers';
+import { LoadProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-task-view',
@@ -43,9 +46,9 @@ export class TaskViewComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private ref: ChangeDetectorRef,
-    private dialogService: DialogService
-  ) {
-  }
+    private dialogService: DialogService,
+    private projectStore: Store<IProjectState>
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
@@ -89,7 +92,10 @@ export class TaskViewComponent implements OnInit, OnChanges {
   retrieveProject() {
     if (this.task.projectId) {
       // FIXME MOVE TO TASK SERVICE
-      this.projectService.getProject(this.task.projectId).subscribe(this.applyChanges);
+      // console.warn('LOAD PROJECT Explicitly FOR TEH TASK:', );
+
+      // this.projectStore.dispatch(new LoadProject(this.task.projectId));
+      // this.projectService.getProject(this.task.projectId).subscribe(this.applyChanges);
     }
   }
 

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
-import { IProjectState, getProjectsState } from '../../state/reducers/projects.reducers';
-import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/projects.actions';
+import { IProjectState, getProjectsState } from '../../state/reducers/project.reducers';
+import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/project.actions';
 import { IProject, IResponsePage } from '../../common/models';
 
 import { DialogService } from '../../shared/dialog/dialog.service';
@@ -102,13 +102,7 @@ export class ProjectService {
    */
   getProject(projectId: string): Observable<IProject> {
     if (projectId) {
-      return this.http.get(this.projectApiUrl + projectId)
-        // FIXME NG45 - get back to typed HttpResponse:
-        .map((response: IProject) => {
-          // console.log('Project loaded, response: ', response);
-          this.projectStore.dispatch(new LoadProjectSuccess(response));
-          return response;
-        });
+      return this.http.get<IProject>(this.projectApiUrl + projectId)
     }
   }
 
