@@ -69,7 +69,7 @@ export function reducer(
     case ProjectActionTypes.PROJECTS_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
-      responseData.docs.forEach(doc => {
+      responseData && responseData.docs && responseData.docs.forEach(doc => {
         if (state.projects.indexOf(doc) === -1) {
           newProjects.push(doc)
         }

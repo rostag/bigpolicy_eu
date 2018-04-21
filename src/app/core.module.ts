@@ -81,6 +81,7 @@ import {
 } from '@angular/material';
 import { LandingComponent } from './landing';
 import { ProjectEffects } from './state/effects/project.effects';
+import { LeaderEffects } from './state/effects/leaders.effects';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -104,7 +105,7 @@ export const firebaseConfig = {
       projectsState: projectsReducer,
       tasksState: tasksReducer
     }),
-    EffectsModule.forRoot([ ProjectEffects ]),
+    EffectsModule.forRoot([ ProjectEffects, LeaderEffects ]),
     // EffectsModule.forRoot([AuthEffects]),
     AngularFireDatabaseModule,
     FlexLayoutModule,

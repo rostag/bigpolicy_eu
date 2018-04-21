@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project/index';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState, getSelectedProject } from '../../state/reducers/project.reducers';
@@ -21,6 +21,7 @@ export class ProjectViewComponent implements OnInit {
   public hasVisual = false;
 
   public project: IProject;
+  // FIXME Apply this solution to all other cases of the ProjectModel
   // project: IProject = new ProjectModel();
   public project$: BehaviorSubject<IProject> = new BehaviorSubject(null);
 
@@ -33,7 +34,6 @@ export class ProjectViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService,
     private projectStore: Store<IProjectState>
   ) {
     // this.projectStore.pipe(select(getProjectsState))
@@ -64,20 +64,19 @@ export class ProjectViewComponent implements OnInit {
     this.project.parseData(data);
     this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
     this.fundratio = this.project.totalDonationsReceived / this.project.cost * 100;
-    ProjectService.cacheProject(this.project);
+    // ProjectService.cacheProject(this.project);
   }
 
   private loadProject(id) {
     if (id) {
       this.projectStore.dispatch(new SelectProject(id));
       this.projectStore.dispatch(new LoadProject(id));
-      // this.projectService.getProject(id)
-      //   .subscribe(
-      //     // this.setProject,
-      //     data => data,
-      //     err => console.error(err),
-      //     () => { }
-      //   );
+      // this.projectService.getProject(id).subscribe(
+      //   // this.setProject,
+      //   data => data,
+      //   err => console.error(err),
+      //   () => { }
+      // );
     }
   }
 
@@ -87,7 +86,8 @@ export class ProjectViewComponent implements OnInit {
    */
   deleteProject(project: IProject) {
     // Delete from DB
-    this.projectService.deleteProject(project, true);
+    // FIXME RESTORE WITH NGRX
+    // this.projectService.deleteProject(project, true);
 
     // this.router.navigate(['/projects']);
     return false;

@@ -3,6 +3,7 @@ import { Action, createSelector, createFeatureSelector, State } from '@ngrx/stor
 // import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 import { ILeader, ILeaderResponsePage } from '../../common/models';
 import { LeadersAction, LeadersActionTypes } from '../actions/leaders.actions';
+import { isArray } from 'util';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
@@ -62,7 +63,7 @@ export function reducer(
     case LeadersActionTypes.LEADERS_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
       const responseData: ILeaderResponsePage = action.payload;
-      responseData.docs.forEach(doc => {
+      responseData && responseData.docs && responseData.docs.forEach(doc => {
         if (state.leaders.indexOf(doc) === -1) {
           newLeaders.push(doc)
         }

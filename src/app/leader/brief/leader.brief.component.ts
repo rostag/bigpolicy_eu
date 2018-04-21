@@ -1,7 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { LeaderModel } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 import { ILeader } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { ILeadersState, getSelectedLeader } from '../../state/reducers/leaders.reducers';
+import { LoadLeader } from '../../state/actions/leaders.actions';
 
 @Component({
   selector: 'app-leader-brief',
@@ -12,7 +15,7 @@ export class LeaderBriefComponent implements OnChanges {
 
   @Input() public leaderId = '';
   @Input() public viewContext = '';
-  // FIXME Get Rid of new LeaderModel(), new ProjectModel(), and new TaskModel()
+  // FIXME Get Rid of new LeaderModel(), and new TaskModel()
   @Input() public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
@@ -20,8 +23,12 @@ export class LeaderBriefComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private leaderService: LeaderService
-  ) { }
+    private leaderStore: Store<ILeadersState>
+  ) {
+    leaderStore.select(getSelectedLeader).subscribe(
+      leader => this.applyChanges(leader)
+    )
+  }
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue) {
@@ -39,11 +46,7 @@ export class LeaderBriefComponent implements OnChanges {
   }
 
   requestLeader(id) {
-    this.leaderService.getLeader(id)
-      .subscribe(this.applyChanges,
-        err => console.error(err),
-        () => { }
-      );
+    this.leaderStore.dispatch(new LoadLeader(id))
   }
 
   public getLeaderLink(leader: ILeader) {

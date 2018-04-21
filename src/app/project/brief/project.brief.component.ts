@@ -1,7 +1,10 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { IProject } from '../../common/models';
+import { Store, select } from '@ngrx/store';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { LoadProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-brief',
@@ -19,13 +22,15 @@ export class ProjectBriefComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private projectService: ProjectService,
-    private cd: ChangeDetectorRef
-  ) { }
+    private cd: ChangeDetectorRef,
+    private projectStore: Store<IProjectState>
+  ) {
+    this.projectStore.pipe(select(getSelectedProject)).subscribe(
+      selectedProject => this.applyChanges(selectedProject))
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.projectId && changes.projectId.currentValue) {
-      // console.log('Get project by ID:', changes.projectId.currentValue);
       if (!this.project || !this.project._id || !this.project.managerId) {
         this.requestProject(changes.projectId.currentValue);
       } else {
@@ -37,16 +42,10 @@ export class ProjectBriefComponent implements OnChanges {
   private applyChanges(project: IProject) {
     this.project = project;
     this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
-    // this.cd.detectChanges();
   }
 
   private requestProject(id) {
-    this.projectService.getProject(id)
-      .subscribe(
-        this.applyChanges,
-        err => console.error(err),
-        () => { }
-      );
+    this.projectStore.dispatch(new LoadProject(id));
   }
 
   /**
@@ -54,8 +53,8 @@ export class ProjectBriefComponent implements OnChanges {
    * @param {project} Project being viewed
    */
   deleteProject(project: IProject) {
-    // Delete from DB
-    this.projectService.deleteProject(project, true);
+    // FIXME - restore functionality with NGRX
+    // this.projectService.deleteProject(project, true);
     return false;
   }
 }

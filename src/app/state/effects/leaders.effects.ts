@@ -4,20 +4,25 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { LeadersAction, LeadersActionTypes } from '../actions/leaders.actions';
+import { LeadersAction, LeadersActionTypes, LoadLeadersSuccess, LoadLeaderSuccess, LoadLeaderFail } from '../actions/leaders.actions';
+import { LeaderService } from '../../shared/leader';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
-export class LeadersEffects {
+export class LeaderEffects {
 
-    @Effect() $login: Observable<Action> = this.actions$.pipe(
-        ofType(LeadersActionTypes.LEADERS_LOAD),
-        map((action: LeadersAction) => {
-            console.log('Effect: Load Leader', action.payload);
-            return ({ type: LeadersActionTypes.LEADERS_LOAD_SUCCESS })
-        }));
+    @Effect() $loadLeaderrrr: Observable<LeadersAction> = this.$actions.pipe(
+        ofType(LeadersActionTypes.LEADER_LOAD),
+        mergeMap((action: LeadersAction) =>
+            this.leaderService.getLeader(action.payload).pipe(
+                map(data => new LoadLeaderSuccess(data)),
+                catchError(err => of(new LoadLeaderFail(err)))
+            )
+        )
+    )
 
     constructor(
-        public http: HttpClient,
-        public actions$: Actions
+        private leaderService: LeaderService,
+        private $actions: Actions
     ) { }
 }
