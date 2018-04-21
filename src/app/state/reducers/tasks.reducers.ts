@@ -75,7 +75,7 @@ export function reducer(
           case TasksActionTypes.TASKS_LOAD_SUCCESS:
             const newTasks: ITask[] = [];
             const responseData: ITaskResponsePage = action.payload;
-            responseData.docs.forEach(doc => {
+            responseData && responseData.docs && responseData.docs.forEach(doc => {
               if (state.tasks.indexOf(doc) === -1) {
                 newTasks.push(doc)
               }

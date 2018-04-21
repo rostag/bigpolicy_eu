@@ -1,11 +1,11 @@
 import { Component, Output, OnInit } from '@angular/core';
-import { LeaderService, LeaderModel } from '../../shared/leader/index';
+import { LeaderModel } from '../../shared/leader/index';
 import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ILeadersState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leaders.reducers';
-import { SelectLeader, LoadLeadersSuccess } from '../../state/actions/leaders.actions';
+import { LoadLeader } from '../../state/actions/leaders.actions';
 import { ILeader } from '../../common/models';
 
 @Component({
@@ -20,7 +20,6 @@ export class LeaderViewComponent implements OnInit {
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
 
-
   /**
    * Dependency Injection: route (for reading params later)
    */
@@ -28,7 +27,6 @@ export class LeaderViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leaderService: LeaderService,
     private leadersStore: Store<ILeadersState>
   ) {
     this.leadersStore.pipe(select(getLeadersState))
@@ -47,16 +45,7 @@ export class LeaderViewComponent implements OnInit {
       .map(params => params['id'])
       .subscribe((id) => {
         if (id) {
-          this.leadersStore.dispatch(new SelectLeader(id));
-          // In some circumstnaces run it
-          this.leaderService.getLeader(id)
-            .subscribe(
-              data => {
-                // this.setLeader(data);
-              },
-              err => console.error(err),
-              () => { }
-            );
+          this.leadersStore.dispatch(new LoadLeader(id));
         }
       });
   }
@@ -86,7 +75,8 @@ export class LeaderViewComponent implements OnInit {
    * @param {leader} Leader to delete
    */
   deleteLeader(leader: ILeader) {
-    this.leaderService.deleteLeader(leader);
+    // FIXME NGRX RESTORE
+    // this.leaderService.deleteLeader(leader);
     return false;
   }
 }

@@ -13,7 +13,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ENV } from 'app/../environments/env.config';
 import { Store } from '@ngrx/store';
 import { ILeadersState } from '../../state/reducers/leaders.reducers';
-import { LoadLeadersSuccess, LoadLeaderSuccess } from '../../state/actions/leaders.actions';
+import { LoadLeadersSuccess } from '../../state/actions/leaders.actions';
 import { ILeader } from '../../common/models';
 
 declare var localStorage: any;
@@ -170,13 +170,9 @@ export class LeaderService {
   getLeader(leaderId: string): Observable<ILeader> {
     if (leaderId) {
       return this.http.get(this.leaderApiUrl + leaderId)
-      // FIXME NG5 - get back to: 
-      // .map((responsePage: Response) => {
-      .map((response: ILeader) => {
-        console.log('Leaders loaded, response: ', response);
-        this.leaderStore.dispatch(new LoadLeaderSuccess(response))
-        return response;
-      });      
+        // FIXME NG5 - get back to: 
+        // .map((responsePage: Response) => {
+        .map((response: ILeader) => response);
     }
   }
 

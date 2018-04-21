@@ -1,4 +1,4 @@
-<mat-card *ngIf="viewContext==='homePage'" class="leader-brief-card" [routerLink]="getLeaderLink(leader)">
+<mat-card *ngIf="!!leader && viewContext==='homePage'" class="leader-brief-card" [routerLink]="getLeaderLink(leader)">
   <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
     <span *ngIf="userService.isOwner(leader)">
       [я]
