@@ -3,8 +3,8 @@ import { LeaderModel } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 import { ILeader } from '../../common/models';
 import { Store } from '@ngrx/store';
-import { ILeadersState, getSelectedLeader } from '../../state/reducers/leaders.reducers';
-import { LoadLeader } from '../../state/actions/leaders.actions';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader } from '../../state/actions/leader.actions';
 
 @Component({
   selector: 'app-leader-brief',
@@ -23,7 +23,7 @@ export class LeaderBriefComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private leaderStore: Store<ILeadersState>
+    private leaderStore: Store<ILeaderState>
   ) {
     leaderStore.select(getSelectedLeader).subscribe(
       leader => this.applyChanges(leader)

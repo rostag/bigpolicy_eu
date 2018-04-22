@@ -6,6 +6,8 @@ import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ILeader } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { ILeaderState } from '../../state/reducers/leader.reducers';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -25,6 +27,7 @@ export class LeaderEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private leaderService: LeaderService,
+    private leaderStore: Store<ILeaderState>,
     public userService: UserService,
     public driveService: DriveService,
     private location: Location,
@@ -59,6 +62,7 @@ export class LeaderEditComponent implements OnInit {
         console.log('Leader Editor by ID from route params:', id);
 
         // FIXME_SEC TEST_1 unauthorised user can't see the page
+        // 2NGRX
         if (id && this.userService.authenticated()) {
            this.isUpdateMode = true;
            this.leaderService.getLeader(id)
@@ -86,6 +90,7 @@ export class LeaderEditComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded Leader data
    */
+  // 2NGRX
   setLeader(data) {
     this.leaderModel = new LeaderModel();
     this.leaderModel.parseData(data);

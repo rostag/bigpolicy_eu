@@ -12,8 +12,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 
 import { ENV } from 'app/../environments/env.config';
 import { Store } from '@ngrx/store';
-import { ILeadersState } from '../../state/reducers/leaders.reducers';
-import { LoadLeadersSuccess } from '../../state/actions/leaders.actions';
+import { ILeaderState } from '../../state/reducers/leader.reducers';
+import { LoadLeadersSuccess } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
 
 declare var localStorage: any;
@@ -47,7 +47,7 @@ export class LeaderService {
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService,
-    private leaderStore: Store<ILeadersState>
+    private leaderStore: Store<ILeaderState>
   ) { }
 
   private get _authHeader(): string {
