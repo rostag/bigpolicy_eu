@@ -69,9 +69,9 @@ import { HttpClientModule, XhrFactory } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
-import { reducer as leadersReducer } from './state/reducers/leaders.reducers';
+import { reducer as leadersReducer } from './state/reducers/leader.reducers';
 import { reducer as projectsReducer } from './state/reducers/project.reducers';
-import { reducer as tasksReducer } from './state/reducers/tasks.reducers';
+import { reducer as tasksReducer } from './state/reducers/task.reducers';
 import { counterReducer } from './state/reducers/counter.reducers';
 import { AuthEffects } from './state/effects/auth.effects';
 import {
@@ -81,7 +81,7 @@ import {
 } from '@angular/material';
 import { LandingComponent } from './landing';
 import { ProjectEffects } from './state/effects/project.effects';
-import { LeaderEffects } from './state/effects/leaders.effects';
+import { LeaderEffects } from './state/effects/leader.effects';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
