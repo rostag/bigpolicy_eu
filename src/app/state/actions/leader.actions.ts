@@ -14,8 +14,13 @@ export enum LeaderActionTypes {
     LEADER_SELECT = '[Leaders] Select Leader',
 
     LEADER_LOAD = '[Leaders] Load Leader',
-    LEADER_LOAD_FAIL = '[Leaders]Load Leader Fail',
+    LEADER_LOAD_FAIL = '[Leaders] Load Leader Fail',
     LEADER_LOAD_SUCCESS = '[Leaders] Load Leader Success',
+
+    LEADER_DELETE = '[Leaders] Delete Leader',
+    LEADER_DELETE_FAIL = '[Leaders] Delete Leader Fail',
+    LEADER_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
+
     LEADERS_LOAD = '[Leaders] Load Leaders',
     LEADERS_LOAD_FAIL = '[Leaders] Load Leaders Fail',
     LEADERS_LOAD_SUCCESS = '[Leaders] Load Leaders Success'
@@ -28,7 +33,7 @@ export class SelectLeader implements LeaderAction {
 
 export class CreateLeader implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_CREATE;
-    constructor(public payload: string) { }
+    constructor(public payload: ILeader) { }
 }
 
 export class CreateLeaderFail implements LeaderAction {
@@ -56,6 +61,21 @@ export class LoadLeaderSuccess implements LeaderAction {
     constructor(public payload: ILeader) { }
 }
 
+export class DeleteLeader implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_DELETE;
+    constructor(public payload: ILeader) { }
+}
+
+export class DeleteLeaderFail implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_DELETE_FAIL;
+    constructor(public payload: string) { }
+}
+
+export class DeleteLeaderSuccess implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_DELETE_SUCCESS;
+    constructor(public payload: any) { }
+}
+
 export class LoadLeaders implements LeaderAction {
     readonly type = LeaderActionTypes.LEADERS_LOAD;
     constructor(public payload: string) { }
@@ -73,10 +93,17 @@ export class LoadLeadersSuccess implements LeaderAction {
 
 export type LeadersActions
     = SelectLeader
+    | CreateLeader
+    | CreateLeaderFail
+    | CreateLeaderSuccess
+    | DeleteLeader
+    | DeleteLeaderFail
+    | DeleteLeaderSuccess
     | LoadLeader
     | LoadLeaderFail
     | LoadLeaderSuccess
     | LoadLeaders
     | LoadLeadersFail
-    | LoadLeadersSuccess;
+    | LoadLeadersSuccess
+    ;
 

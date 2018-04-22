@@ -25,9 +25,7 @@ export class LeaderBriefComponent implements OnChanges {
     public userService: UserService,
     private leaderStore: Store<ILeaderState>
   ) {
-    leaderStore.select(getSelectedLeader).subscribe(
-      leader => this.applyChanges(leader)
-    )
+    leaderStore.select(getSelectedLeader).subscribe(leader => this.applyChanges(leader))
   }
 
   ngOnChanges(changes) {
