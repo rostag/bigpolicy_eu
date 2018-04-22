@@ -4,8 +4,8 @@ import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { ILeadersState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leaders.reducers';
-import { LoadLeader } from '../../state/actions/leaders.actions';
+import { ILeaderState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leader.reducers';
+import { LoadLeader } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
 
 @Component({
@@ -27,10 +27,10 @@ export class LeaderViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leadersStore: Store<ILeadersState>
+    private leadersStore: Store<ILeaderState>
   ) {
     this.leadersStore.pipe(select(getLeadersState))
-      .subscribe((ls: ILeadersState) => {
+      .subscribe((ls: ILeaderState) => {
         console.log('View: Got Leader from Reducer:', ls, ls.leadersById[ls.selectedLeaderId]);
         this.setLeader(ls.leadersById[ls.selectedLeaderId]);
       });

@@ -4,7 +4,7 @@ import { TaskService } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
+import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
 import { IProject } from '../../common/models';
 
 @Component({

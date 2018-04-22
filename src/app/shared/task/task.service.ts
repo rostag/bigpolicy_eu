@@ -4,7 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState } from '../../state/reducers/tasks.reducers';
+import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
 import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage } from '../../common/models';
 
