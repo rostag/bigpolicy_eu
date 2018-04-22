@@ -30,6 +30,7 @@ export interface ILeader {
     parseData?: any;             // FIXME
     applyModelToFormGroup?: any; // FIXME
     applyFormGroupToModel?: any; // FIXME
+    // projects?: string[];
 }
 
 export class IProject {
