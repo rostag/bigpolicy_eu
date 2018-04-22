@@ -276,11 +276,8 @@ export class LeaderService {
   // TODO Check if the same can be done for projects
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
-    const leaderId = leader._id;
-    if (leaderId) {
-      this.router.navigate(['/leader', leaderId]).then(_ => {
-        // navigation is done
-      });
+    if (leader._id) {
+      this.router.navigate(['/leader', leader._id]).then(_ => {});
     }
   }
 

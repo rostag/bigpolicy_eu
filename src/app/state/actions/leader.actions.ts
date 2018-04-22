@@ -36,6 +36,8 @@ export class SelectLeader implements LeaderAction {
     constructor(public payload: string) { }
 }
 
+
+
 export class CreateLeader implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_CREATE;
     constructor(public payload: ILeader) { }
@@ -50,6 +52,8 @@ export class CreateLeaderSuccess implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_CREATE_SUCCESS;
     constructor(public payload: any) { }
 }
+
+
 
 export class LoadLeader implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_LOAD;
@@ -66,6 +70,25 @@ export class LoadLeaderSuccess implements LeaderAction {
     constructor(public payload: ILeader) { }
 }
 
+
+
+export class UpdateLeader implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_UPDATE;
+    constructor(public payload: ILeader) { }
+}
+
+export class UpdateLeaderFail implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_UPDATE_FAIL;
+    constructor(public payload: string) { }
+}
+
+export class UpdateLeaderSuccess implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADER_UPDATE_SUCCESS;
+    constructor(public payload: any) { }
+}
+
+
+
 export class DeleteLeader implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_DELETE;
     constructor(public payload: ILeader) { }
@@ -80,6 +103,8 @@ export class DeleteLeaderSuccess implements LeaderAction {
     readonly type = LeaderActionTypes.LEADER_DELETE_SUCCESS;
     constructor(public payload: any) { }
 }
+
+
 
 // export class LoadLeadersPage implements LeaderAction {
 //     readonly type = LeaderActionTypes.LEADERS_LOAD_PAGE;

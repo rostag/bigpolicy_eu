@@ -8,6 +8,9 @@ import { Location } from '@angular/common';
 import { MatInputModule } from '@angular/material';
 import { ILeader, IProject } from '../../common/models';
 import { LeaderModel } from '../../shared/leader';
+import { Store } from '@ngrx/store';
+import { ILeaderState } from '../../state/reducers/leader.reducers';
+import { UpdateLeader } from '../../state/actions/leader.actions';
 
 
 @Component({
@@ -36,7 +39,8 @@ export class ProjectEditComponent implements OnInit {
     private projectService: ProjectService,
     private leaderService: LeaderService,
     private location: Location,
-    public userService: UserService
+    public userService: UserService,
+    private leaderStore: Store<ILeaderState>
   ) {
     this.project = new ProjectModel();
   }
@@ -168,10 +172,10 @@ export class ProjectEditComponent implements OnInit {
     // Add project to new Leader:
     if (newLeader.projectIds.indexOf(this.project._id) === -1) {
       newLeader.projectIds.push(this.project._id);
-      this.leaderService.updateLeader(newLeader).subscribe();
+      this.leaderStore.dispatch(new UpdateLeader(newLeader));
     }
     // Remove project from current Leader:
     this.currentLeader.projectIds.splice(this.currentLeader.projectIds.indexOf(this.project._id), 1);
-    this.leaderService.updateLeader(this.currentLeader).subscribe();
+    this.leaderStore.dispatch(new UpdateLeader(this.currentLeader));    
   }
 }

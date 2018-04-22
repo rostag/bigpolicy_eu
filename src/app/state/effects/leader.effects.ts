@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader } from '../actions/leader.actions';
+import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader, UpdateLeader, UpdateLeaderFail, UpdateLeaderSuccess, CreateLeader, LoadLeader } from '../actions/leader.actions';
 import { LeaderService } from '../../shared/leader';
 import { of } from 'rxjs/observable/of';
 
@@ -13,7 +13,7 @@ export class LeaderEffects {
 
     @Effect() $createLeader: Observable<LeaderAction> = this.$actions.pipe(
         ofType(LeaderActionTypes.LEADER_CREATE),
-        mergeMap((action: LeaderAction) =>
+        mergeMap((action: CreateLeader) =>
             this.leaderService.createLeader(action.payload).pipe(
                 map(data => new CreateLeaderSuccess(data)),
                 catchError(err => of(new CreateLeaderFail(err)))
@@ -23,10 +23,23 @@ export class LeaderEffects {
 
     @Effect() $loadLeader: Observable<LeaderAction> = this.$actions.pipe(
         ofType(LeaderActionTypes.LEADER_LOAD),
-        mergeMap((action: LeaderAction) =>
+        mergeMap((action: LoadLeader) =>
             this.leaderService.getLeader(action.payload).pipe(
                 map(data => new LoadLeaderSuccess(data)),
                 catchError(err => of(new LoadLeaderFail(err)))
+            )
+        )
+    )
+
+    @Effect() $updateLeader: Observable<LeaderAction> = this.$actions.pipe(
+        ofType(LeaderActionTypes.LEADER_UPDATE),
+        mergeMap((action: UpdateLeader) =>
+            this.leaderService.updateLeader(action.payload).pipe(
+                map(data => {
+                    this.leaderService.gotoLeaderView(data);
+                    return new UpdateLeaderSuccess(data)
+                }),
+                catchError(err => of(new UpdateLeaderFail(err)))
             )
         )
     )
