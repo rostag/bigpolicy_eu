@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ILeader } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, CreateLeader, DeleteLeader } from '../../state/actions/leader.actions';
+import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader } from '../../state/actions/leader.actions';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -103,17 +103,12 @@ export class LeaderEditComponent implements OnInit {
   */
   // FIXME: Complete Leader processing
   onSubmit() {
-    // Update leader from form
+    // Update leader from the Lader edit form
     this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
 
     if (this.isUpdateMode) {
       // Update existing Leader:
-      this.leaderService.updateLeader(this.leaderModel)
-        .subscribe(
-          data => { this.leaderService.gotoLeaderView(data); },
-          err => (er) => console.error('Leader update error: ', er),
-          () => { }
-        );
+      this.leaderStore.dispatch(new UpdateLeader(this.leaderModel));
     } else {
       // FTUX: Create new Leader. If user's unauthorised, use service to save him to local storage, continue after login
       if (this.userService.needToLoginFirst(this.leaderModel)) {
