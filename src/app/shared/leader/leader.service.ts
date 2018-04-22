@@ -14,7 +14,7 @@ import { ENV } from 'app/../environments/env.config';
 import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPageSuccess } from '../../state/actions/leader.actions';
-import { ILeader } from '../../common/models';
+import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
 
 declare var localStorage: any;
 
@@ -24,6 +24,7 @@ declare var localStorage: any;
 @Injectable()
 export class LeaderService {
 
+  // FIXME NGRX IT
   public leader: ILeader;
 
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
@@ -114,42 +115,32 @@ export class LeaderService {
   }
 
   /**
-   * Gets Leaders page from DB by given leaderId, groupId, page and limit
+   * Gets Leaders page from DB by given leaderId, groupId, page and limit.
+   * by URL like: /api/leader-api/page/:page/:limit/q/:dbQuery
    * Returns an Observable for the HTTP GET request.
-   * @param groupId Group to get Leaders for. Unused.
+   * @param req IDataPageRequest with the following fields:
+   * @param id Group to get Leaders for. Unused.
    * @param page Page number.
-   * @param limit Qualntity of items to get.
+   * @param pageSize Quantity of items to get.
    * @param dbQuery Database search query.
    * @return {Observable<ILeader>} The Observable for the HTTP request.
    */
-  public getLeadersPage(groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<ILeader> {
-
-    let requestUrl;
-
-    // Page of Leaders
-    // /api/leader-api/page/:page/:limit/q/:dbQuery
-    if (page !== null && limit !== null) {
-      requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+  // FIXME CHECK if single return type can be used here
+  public getLeadersPage(req: IDataPageRequest): Observable<ILeaderResponsePage> {
+    if (req === null || req.page === null || req.pageSize === null) {
+      return
     }
-    // OBSOLETE: All Leaders for Group:         /api/leader-api/group/:groupId/
-    // if (groupId) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId;
-    // }
-    // RESERVED: Page of leaders for Group:     /api/leader-api/group/:groupId/page/:page/:limit
-    // if (page !== null && limit !== null && groupId !== null) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
-    // }
 
     // console.log('get Leaders Page:', leaderId, groupId, page, limit);
 
-    return this.http.get(requestUrl)
-      // FIXME NG5 - get back to: 
-      // .map((responsePage: Response) => {
+    return this.http.get(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
+      // FIXME NG5 - get back to: .map((responsePage: ILeaderResponsePage) => {
       .map((responsePage: any) => {
         // console.log('Leaders Page loaded, response: ', responsePage);
-        this.leaderStore.dispatch(new LoadLeadersPageSuccess(responsePage))
+        // this.leaderStore.dispatch(new LoadLeadersPageSuccess(responsePage))
         return responsePage;
-      });
+      }
+    );
   }
 
   /**
@@ -166,7 +157,8 @@ export class LeaderService {
    * Seaches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
-  public requestLeaderByEmail(email: string): Observable<ILeader> {
+  // FIXME CHECK if single type can be used here
+  public requestLeaderByEmail(email: string): Observable<ILeader | ILeaderResponsePage> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
@@ -175,9 +167,10 @@ export class LeaderService {
     // } else {
     // }
 
-    console.log('LeaderService:RequestLeaderByEmail:', email);
+    console.log('LeaderService:RequestLeader ByEmail:', email);
 
-    const leaderResponse = this.getLeadersPage(null, 1, 1, '{ "email": "' + email + '" }');
+    // FIXME NGRX IT LP
+    const leaderResponse = this.getLeadersPage( { id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }' });
     leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
@@ -277,7 +270,7 @@ export class LeaderService {
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     if (leader._id) {
-      this.router.navigate(['/leader', leader._id]).then(_ => {});
+      this.router.navigate(['/leader', leader._id]).then(_ => { });
     }
   }
 

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ILeaderResponsePage, ILeader } from '../../common/models';
+import { ILeaderResponsePage, ILeader, IDataPageRequest } from '../../common/models';
 
 export interface LeaderAction extends Action {
     payload?: any;
@@ -26,8 +26,8 @@ export enum LeaderActionTypes {
     LEADER_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
 
     // TODO Implement it
-    // LEADERS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
-    // LEADERS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
+    LEADERS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
+    LEADERS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
     LEADERS_PAGE_LOAD_SUCCESS = '[Leaders] Load Page of Leaders Success'
 }
 
@@ -106,19 +106,19 @@ export class DeleteLeaderSuccess implements LeaderAction {
 
 
 
-// export class LoadLeadersPage implements LeaderAction {
-//     readonly type = LeaderActionTypes.LEADERS_LOAD_PAGE;
-//     constructor(public payload: string) { }
-// }
+export class LoadLeadersPage implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD;
+    constructor(public payload: IDataPageRequest) { }
+}
 
-// export class LoadLeadersPageFail implements LeaderAction {
-//     readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD_FAIL;
-//     constructor(public payload: string) { }
-// }
+export class LoadLeadersPageFail implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD_FAIL;
+    constructor(public payload: string) { }
+}
 
 export class LoadLeadersPageSuccess implements LeaderAction {
     readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS;
-    constructor(public payload: ILeaderResponsePage) { }
+    constructor(public payload: ILeaderResponsePage | ILeader) { }
 }
 
 export type LeadersActions
@@ -132,7 +132,7 @@ export type LeadersActions
     | LoadLeader
     | LoadLeaderFail
     | LoadLeaderSuccess
-    // | LoadLeadersPage
-    // | LoadLeadersPageFail
+    | LoadLeadersPage
+    | LoadLeadersPageFail
     | LoadLeadersPageSuccess
     ;

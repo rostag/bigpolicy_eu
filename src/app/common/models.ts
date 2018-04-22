@@ -30,7 +30,7 @@ export interface ILeader {
     parseData?: any;             // FIXME
     applyModelToFormGroup?: any; // FIXME
     applyFormGroupToModel?: any; // FIXME
-    // projects?: string[];
+    onPhotoUrlChange?: any; // FIXME
 }
 
 export class IProject {
@@ -69,6 +69,13 @@ export interface ITask {
 
     parseData?: any;     // FIXME
 };
+
+export interface IDataPageRequest {
+    id: string;
+    page: number;
+    pageSize: number;
+    dbQuery: string;
+}
 
 export interface IResponsePage<T> {
     docs: T[];

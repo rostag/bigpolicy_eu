@@ -14,13 +14,15 @@ export interface ILeaderState {
   leaders: ILeader[];
   selectedLeaderId: string;
   leadersById: ILeader[];
+  leadersPage: ILeaderResponsePage;
 }
 
 // The initial state of the auth store
 const initialState: ILeaderState = {
   leaders: [],
   selectedLeaderId: null,
-  leadersById: []
+  leadersById: [],
+  leadersPage: null
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -68,8 +70,7 @@ export function reducer(
           newLeaders.push(doc)
         }
       })
-
-      const nState = { ...state, leaders: [...newLeaders] };
+      const nState = { ...state, leaders: [...newLeaders], leadersPage: { ...action.payload } };
       console.log(':: Reducer :: Load LEADERS Success ::', nState);
       return nState;
 
@@ -87,6 +88,7 @@ export function reducer(
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getLeadersState = createFeatureSelector<ILeaderState>('leadersState');
 export const getLeaders = createSelector(getLeadersState, (state: ILeaderState) => state.leaders);
+export const getLeadersPage = createSelector(getLeadersState, (state: ILeaderState) => state.leadersPage);
 export const getSelectedLeaderId = createSelector(getLeadersState, (state: ILeaderState) => state.selectedLeaderId);
 export const getSelectedLeader = createSelector(getLeadersState, getSelectedLeaderId,
   (state: ILeaderState, selectedLeaderId: string) => state.leadersById[selectedLeaderId]

@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader, UpdateLeader, UpdateLeaderFail, UpdateLeaderSuccess, CreateLeader, LoadLeader } from '../actions/leader.actions';
+import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader, UpdateLeader, UpdateLeaderFail, UpdateLeaderSuccess, CreateLeader, LoadLeader, LoadLeadersPage, LoadLeadersPageSuccess, LoadLeadersPageFail } from '../actions/leader.actions';
 import { LeaderService } from '../../shared/leader';
 import { of } from 'rxjs/observable/of';
 
@@ -50,6 +50,17 @@ export class LeaderEffects {
             this.leaderService.deleteLeader(action.payload).pipe(
                 map(data => new DeleteLeaderSuccess(data)),
                 catchError(err => of(new DeleteLeaderFail(err)))
+            )
+        )
+    )
+
+    // TODO Look to update it to @Effect() $loadLeadersPage: Observable<LoadLeadersPage> = this.$actions.pipe(
+    @Effect() $loadLeadersPage: Observable<LeaderAction> = this.$actions.pipe(
+        ofType(LeaderActionTypes.LEADERS_PAGE_LOAD),
+        mergeMap((action: LoadLeadersPage) =>
+            this.leaderService.getLeadersPage(action.payload).pipe(
+                map(data => new LoadLeadersPageSuccess(data)),
+                catchError(err => of(new LoadLeadersPageFail(err)))
             )
         )
     )

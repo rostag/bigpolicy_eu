@@ -88,7 +88,6 @@ export class ProjectEditComponent implements OnInit {
     if (this.isUpdateMode) {
       // Update existing project
       // FIXME
-      // this.selectedLeader = this.leaderService.leader;
       this.projectService.updateProject(this.project)
         .subscribe(
           data => { this.gotoProject(data); },
@@ -138,7 +137,8 @@ export class ProjectEditComponent implements OnInit {
   // FIXME Move to service / component
   requestLeadersToSelectFrom() {
     // this.userService.isAdmin
-    this.leaderService.getLeadersPage(null, 1, 100, '{}')
+    // FIXME NGRX IT LP
+    this.leaderService.getLeadersPage({id: null, page: 1, pageSize: 100, dbQuery: '{}' })
       .subscribe((res) => {
         this.leadersToMoveProjectTo = res['docs'];
         console.log('got leadersToMoveProjectTo: ', this.leadersToMoveProjectTo);

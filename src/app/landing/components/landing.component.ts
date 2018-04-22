@@ -33,12 +33,13 @@ export class LandingComponent implements OnInit {
   }
 
   getLeaders() {
-    this.leaderService.getLeadersPage(null, 1, 3)
-      .subscribe(
-        data => this.setLeaders(data['docs']),
-        err => console.error(err),
-        () => this.app.leaders
-      );
+    // TODO RESTORE WHEN NEEDED
+    // this.leaderService.get LeadersPage(null, 1, 3)
+    //   .subscribe(
+    //     data => this.setLeaders(data['docs']),
+    //     err => console.error(err),
+    //     () => this.app.leaders
+    //   );
   }
 
   private setLeaders(data) {

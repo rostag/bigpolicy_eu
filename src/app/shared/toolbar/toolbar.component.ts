@@ -17,6 +17,7 @@ import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
 export class ToolbarComponent {
 
   get leaderId() {
+    // FIXME NGRX IT
     return this.leaderService.leader && this.leaderService.leader._id;
   }
 
@@ -33,6 +34,7 @@ export class ToolbarComponent {
   ) {
   }
 
+  // TODO REMOVE AFTER TEST
   public ping() {
     this.leaderService.ping().subscribe();
   }

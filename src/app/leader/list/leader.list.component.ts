@@ -1,9 +1,11 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LeaderService } from '../../shared/leader/index';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
-import { ILeader } from '../../common/models';
+import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { ILeaderState, getLeaders, getLeadersPage } from '../../state/reducers/leader.reducers';
+import { LoadLeadersPage } from '../../state/actions/leader.actions';
 
 @Component({
   selector: 'app-leader-list',
@@ -52,11 +54,12 @@ export class LeaderListComponent implements OnInit, OnChanges {
   constructor(
     public userService: UserService,
     private http: HttpClient,
-    private leaderService: LeaderService
+    private leaderStore: Store<ILeaderState>
   ) { }
 
   ngOnInit() {
     this.requestLeaders();
+    this.leaderStore.select(getLeadersPage).subscribe(data => this.setLeaderPage(data));
   }
 
   ngOnChanges(changes) {
@@ -82,19 +85,29 @@ export class LeaderListComponent implements OnInit, OnChanges {
   }
 
   requestLeaders() {
-    const proxySub = this.leaderService.getLeadersPage(
-      this.groupId,
-      this.itemsPage.page,
-      this.pageSize,
-      this.dbQuery)
-      .subscribe(responsePage => {
-        // console.log('Next, responsePage:', responsePage);
-        this.itemsPage.docs.next(responsePage['docs']);
-        this.itemsPage.limit = responsePage['limit'];
-        this.itemsPage.page = responsePage['page'];
-        this.itemsPage.pages = responsePage['pages'];
-        this.itemsPage.total = responsePage['total'];
-        proxySub.unsubscribe();
-      });
+    // FIXME NGRX IT LP
+
+    const pageRequest: IDataPageRequest = {
+      id: this.groupId,
+      page: this.itemsPage.page,
+      pageSize: this.pageSize,
+      dbQuery: this.dbQuery
+    }
+
+    this.leaderStore.dispatch(new LoadLeadersPage(pageRequest));
+  }
+
+  private setLeaderPage(responsePage: ILeaderResponsePage) {
+    if (!responsePage) {
+      return;
+    }
+    console.log('Next, responsePage:', responsePage);
+    this.itemsPage.docs.next(responsePage['docs']);
+    this.itemsPage.limit = responsePage['limit'];
+    this.itemsPage.page = responsePage['page'];
+    this.itemsPage.pages = responsePage['pages'];
+    this.itemsPage.total = responsePage['total'];
+    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
+    // proxySub.unsubscribe();
   }
 }

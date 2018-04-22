@@ -45,7 +45,7 @@ export class UserService {
     email: ''
   };
 
-  // TODO Move to NGRX
+  // FIXME NGRX IT
   isAdmin: boolean;
 
   constructor(
@@ -68,6 +68,7 @@ export class UserService {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = lsIsAdmin === 'true';
       this.setLoggedIn(true);
+      // FIXME NGRX IT
       this.leaderService.requestLeaderByEmail(this.getEmail());
     } else if (!this.tokenValid && lsProfile) {
       this.logout();
@@ -184,13 +185,13 @@ export class UserService {
       `\nIs Admin: ` + this.isAdmin +
       `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
     console.log('User status: ' + status);
-    console.log('Leader:', this.leaderService.leader);
   }
 
   /**
    * Returns true if leader matching by email has been found in DB
    */
   public hasLeader() {
+    // FIXME NGRX IT
     return !!this.leaderService.leader;
   }
 
@@ -277,7 +278,6 @@ export class UserService {
         .subscribe(res => {
           leader.email = this.getEmail();
           this.leaderStore.dispatch(new CreateLeader(leader));
-          // this.leaderService.createLeader(leader);
         });
     } else {
       // on registration failure — leader with that email is registered already

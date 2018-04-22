@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // FIXME NGRX IT
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
         console.log('ProfileComponent. set profile leader:', item);
