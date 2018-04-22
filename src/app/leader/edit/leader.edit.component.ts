@@ -1,5 +1,5 @@
 import { OnInit, Component } from '@angular/core';
-import { LeaderService, LeaderModel } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader';
 import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { UserService } from '../../shared/user/user.service';
@@ -27,7 +27,6 @@ export class LeaderEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private leaderService: LeaderService,
     private leaderStore: Store<ILeaderState>,
     public userService: UserService,
     public driveService: DriveService,

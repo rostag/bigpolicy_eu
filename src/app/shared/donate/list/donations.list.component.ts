@@ -74,6 +74,7 @@ export class DonationsListComponent implements OnChanges {
         this.itemsPage.page = responsePage['page'];
         this.itemsPage.pages = responsePage['pages'];
         this.itemsPage.total = responsePage['total'];
+        // FIXME RESTORE UNSUBSCRIBE via onDestroy hook        
         proxySub.unsubscribe();
       });
   }
