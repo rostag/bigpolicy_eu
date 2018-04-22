@@ -7,23 +7,28 @@ export interface LeaderAction extends Action {
 
 // These constants are Action names which we will dispatch from application to update the Store state
 export enum LeaderActionTypes {
+    LEADER_SELECT = '[Leaders] Select Leader',
+
     LEADER_CREATE = '[Leaders] Create Leader',
     LEADER_CREATE_FAIL = '[Leaders] Create Leader Fail',
     LEADER_CREATE_SUCCESS = '[Leaders] Create Leader Success',
-
-    LEADER_SELECT = '[Leaders] Select Leader',
 
     LEADER_LOAD = '[Leaders] Load Leader',
     LEADER_LOAD_FAIL = '[Leaders] Load Leader Fail',
     LEADER_LOAD_SUCCESS = '[Leaders] Load Leader Success',
 
+    LEADER_UPDATE = '[Leaders] Update Leader',
+    LEADER_UPDATE_FAIL = '[Leaders] Update Leader Fail',
+    LEADER_UPDATE_SUCCESS = '[Leaders] Update Leader Success',
+
     LEADER_DELETE = '[Leaders] Delete Leader',
     LEADER_DELETE_FAIL = '[Leaders] Delete Leader Fail',
     LEADER_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
 
-    LEADERS_LOAD = '[Leaders] Load Leaders',
-    LEADERS_LOAD_FAIL = '[Leaders] Load Leaders Fail',
-    LEADERS_LOAD_SUCCESS = '[Leaders] Load Leaders Success'
+    // TODO Implement it
+    // LEADERS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
+    // LEADERS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
+    LEADERS_PAGE_LOAD_SUCCESS = '[Leaders] Load Page of Leaders Success'
 }
 
 export class SelectLeader implements LeaderAction {
@@ -76,18 +81,18 @@ export class DeleteLeaderSuccess implements LeaderAction {
     constructor(public payload: any) { }
 }
 
-export class LoadLeaders implements LeaderAction {
-    readonly type = LeaderActionTypes.LEADERS_LOAD;
-    constructor(public payload: string) { }
-}
+// export class LoadLeadersPage implements LeaderAction {
+//     readonly type = LeaderActionTypes.LEADERS_LOAD_PAGE;
+//     constructor(public payload: string) { }
+// }
 
-export class LoadLeadersFail implements LeaderAction {
-    readonly type = LeaderActionTypes.LEADERS_LOAD_FAIL;
-    constructor(public payload: string) { }
-}
+// export class LoadLeadersPageFail implements LeaderAction {
+//     readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD_FAIL;
+//     constructor(public payload: string) { }
+// }
 
-export class LoadLeadersSuccess implements LeaderAction {
-    readonly type = LeaderActionTypes.LEADERS_LOAD_SUCCESS;
+export class LoadLeadersPageSuccess implements LeaderAction {
+    readonly type = LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS;
     constructor(public payload: ILeaderResponsePage) { }
 }
 
@@ -102,8 +107,7 @@ export type LeadersActions
     | LoadLeader
     | LoadLeaderFail
     | LoadLeaderSuccess
-    | LoadLeaders
-    | LoadLeadersFail
-    | LoadLeadersSuccess
+    // | LoadLeadersPage
+    // | LoadLeadersPageFail
+    | LoadLeadersPageSuccess
     ;
-

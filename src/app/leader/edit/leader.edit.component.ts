@@ -103,8 +103,6 @@ export class LeaderEditComponent implements OnInit {
   */
   // FIXME: Complete Leader processing
   onSubmit() {
-    console.log(this.leaderFormGroup.value, this.leaderFormGroup.valid);
-
     // Update leader from form
     this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
 
@@ -117,12 +115,11 @@ export class LeaderEditComponent implements OnInit {
           () => { }
         );
     } else {
-      // Create new Leader:
-      // FTUX: If user's unauthorised, use service to save him to local storage, continue after login
+      // FTUX: Create new Leader. If user's unauthorised, use service to save him to local storage, continue after login
       if (this.userService.needToLoginFirst(this.leaderModel)) {
         return false;
       }
-      // NO FTUX - user is authorized already
+      // NO FTUX: User is authorized already
       this.leaderModel.email = this.userService.getEmail();
       this.leaderStore.dispatch(new CreateLeader(this.leaderModel));
     }
