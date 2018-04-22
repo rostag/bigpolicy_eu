@@ -13,7 +13,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ENV } from 'app/../environments/env.config';
 import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
-import { LoadLeadersSuccess } from '../../state/actions/leader.actions';
+import { LoadLeadersPageSuccess } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
 
 declare var localStorage: any;
@@ -147,7 +147,7 @@ export class LeaderService {
       // .map((responsePage: Response) => {
       .map((responsePage: any) => {
         // console.log('Leaders Page loaded, response: ', responsePage);
-        this.leaderStore.dispatch(new LoadLeadersSuccess(responsePage))
+        this.leaderStore.dispatch(new LoadLeadersPageSuccess(responsePage))
         return responsePage;
       });
   }

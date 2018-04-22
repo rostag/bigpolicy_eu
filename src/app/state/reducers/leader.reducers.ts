@@ -60,7 +60,7 @@ export function reducer(
       console.log('Reducer :: Load Leader Success ::', state);
       return newState;
 
-    case LeaderActionTypes.LEADERS_LOAD_SUCCESS:
+    case LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
       const responseData: ILeaderResponsePage = action.payload;
       responseData && responseData.docs && responseData.docs.forEach(doc => {
