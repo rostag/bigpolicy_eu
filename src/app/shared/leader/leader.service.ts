@@ -24,12 +24,12 @@ declare var localStorage: any;
 @Injectable()
 export class LeaderService {
 
-  leader: ILeader;
+  public leader: ILeader;
 
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
 
-  leaderStream = this.leaderSource.asObservable();
+  public leaderStream = this.leaderSource.asObservable();
 
   /**
    * The array of models provided by the service.
@@ -55,7 +55,7 @@ export class LeaderService {
   }
 
   // Basic Ping
-  ping(): Observable<any> {
+  public ping(): Observable<any> {
     return this.http
       .get(`${ENV.BASE_API}leader-api/ping`)
       .pipe(
@@ -64,7 +64,7 @@ export class LeaderService {
   }
 
   // Basic Ping with JWT
-  pingJwt(): Observable<any> {
+  public pingJwt(): Observable<any> {
     return this.http
       .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -76,7 +76,7 @@ export class LeaderService {
 
   // Basic Ping with JWT and Admin
   // FIXME
-  pingJwtAdmin(): Observable<any> {
+  public pingJwtAdmin(): Observable<any> {
     return this.http
       .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -99,7 +99,7 @@ export class LeaderService {
    * Creates the Leader.
    * @param {ILeader} model - The Leader to create.
    */
-  createLeader(model: ILeader) {
+  public createLeader(model: ILeader) {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders()
       .set('Authorization', this._authHeader)
@@ -122,7 +122,7 @@ export class LeaderService {
    * @param dbQuery Database search query.
    * @return {Observable<ILeader>} The Observable for the HTTP request.
    */
-  getLeadersPage(groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<ILeader> {
+  public getLeadersPage(groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<ILeader> {
 
     let requestUrl;
 
@@ -156,7 +156,7 @@ export class LeaderService {
    * Returns single leader from DB by ID.
    * /api/leader-api/:leaderId
    */
-  getLeader(leaderId: string): Observable<ILeader> {
+  public getLeader(leaderId: string): Observable<ILeader> {
     if (leaderId) {
       return this.http.get<ILeader>(this.leaderApiUrl + leaderId);
     }
@@ -166,7 +166,7 @@ export class LeaderService {
    * Seaches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
-  requestLeaderByEmail(email: string): Observable<ILeader> {
+  public requestLeaderByEmail(email: string): Observable<ILeader> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
@@ -198,7 +198,7 @@ export class LeaderService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param ILeader A Leader to update
    */
-  updateLeader(model: ILeader): Observable<ILeader> {
+  public updateLeader(model: ILeader): Observable<ILeader> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
@@ -217,7 +217,7 @@ export class LeaderService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param ILeader A Leader to delete
    */
-  deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
+  public deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
     const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
 
@@ -258,7 +258,7 @@ export class LeaderService {
   /*
    * Deletes Leader
    */
-  finalizeLeaderDeletion(leaderModel: ILeader, navigateToList = true) {
+  private finalizeLeaderDeletion(leaderModel: ILeader, navigateToLeadersList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
       .pipe(
@@ -267,14 +267,14 @@ export class LeaderService {
       )
       .subscribe((res) => {
         this.setLeaderForUser(null);
-        if (navigateToList) {
+        if (navigateToLeadersList) {
           this.router.navigate(['/leaders']);
         }
       });
   }
 
   // TODO Check if the same can be done for projects
-  gotoLeaderView(leader) {
+  public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     const leaderId = leader._id;
     if (leaderId) {

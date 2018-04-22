@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail } from '../actions/leader.actions';
+import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader } from '../actions/leader.actions';
 import { LeaderService } from '../../shared/leader';
 import { of } from 'rxjs/observable/of';
 
@@ -27,6 +27,16 @@ export class LeaderEffects {
             this.leaderService.getLeader(action.payload).pipe(
                 map(data => new LoadLeaderSuccess(data)),
                 catchError(err => of(new LoadLeaderFail(err)))
+            )
+        )
+    )
+
+    @Effect() $deleteLeader: Observable<LeaderAction> = this.$actions.pipe(
+        ofType(LeaderActionTypes.LEADER_DELETE),
+        mergeMap((action: DeleteLeader) =>
+            this.leaderService.deleteLeader(action.payload).pipe(
+                map(data => new DeleteLeaderSuccess(data)),
+                catchError(err => of(new DeleteLeaderFail(err)))
             )
         )
     )

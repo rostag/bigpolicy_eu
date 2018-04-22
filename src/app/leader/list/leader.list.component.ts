@@ -33,14 +33,14 @@ export class LeaderListComponent implements OnInit, OnChanges {
   @Input() flexSettings = '33|33|33|50|100';
 
   flexState = {
-      flex: '33%',
-      lg: '33%',
-      md: '33%',
-      sm: '50%',
-      xs: '100%'
+    flex: '33%',
+    lg: '33%',
+    md: '33%',
+    sm: '50%',
+    xs: '100%'
   };
 
-  public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public leaders: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
   public itemsPage = {
     docs: this.leaders,
     limit: this.pageSize,
@@ -53,7 +53,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
     public userService: UserService,
     private http: HttpClient,
     private leaderService: LeaderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.requestLeaders();
@@ -61,11 +61,11 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (changes.groupId && changes.groupId.currentValue ||
-        changes.pageSize && changes.pageSize.currentValue ||
-        changes.dbQuery && changes.dbQuery.currentValue) {
+      changes.pageSize && changes.pageSize.currentValue ||
+      changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestLeaders();
     }
-    if (changes.flexSettings && changes.flexSettings.currentValue ) {
+    if (changes.flexSettings && changes.flexSettings.currentValue) {
       const f = changes.flexSettings.currentValue.split('|');
       this.flexState.flex = f[0];
       this.flexState.lg = f[1];
@@ -83,10 +83,10 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   requestLeaders() {
     const proxySub = this.leaderService.getLeadersPage(
-        this.groupId,
-        this.itemsPage.page,
-        this.pageSize,
-        this.dbQuery)
+      this.groupId,
+      this.itemsPage.page,
+      this.pageSize,
+      this.dbQuery)
       .subscribe(responsePage => {
         // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);
@@ -96,20 +96,5 @@ export class LeaderListComponent implements OnInit, OnChanges {
         this.itemsPage.total = responsePage['total'];
         proxySub.unsubscribe();
       });
-  }
-
-  deleteLeader(leaderToRemove: ILeader) {
-    // Delete from DB
-    this.leaderService.deleteLeader(leaderToRemove, false).subscribe( dialogResult => {
-      if (dialogResult === true ) {
-        // Delete in UI
-        let updatedLeaders;
-        this.leaders.subscribe ( leaders => {
-          updatedLeaders = leaders.filter( leader => leader._id !== leaderToRemove._id);
-        });
-        this.leaders.next( updatedLeaders );
-      }
-    });
-    return false;
   }
 }
