@@ -153,8 +153,7 @@ export class ProjectEditComponent implements OnInit {
   /**
    * Assigns project to another leader
    */
-  // FIXME Check reusing projects Re-assign from leaderService.deleteLeader method
-  // FIXME Move it to service
+  // FIXME NGRX IT
   moveProjectToOtherLeader(event) {
     const newLeader: ILeader = new LeaderModel();
     newLeader.parseData(event.value);

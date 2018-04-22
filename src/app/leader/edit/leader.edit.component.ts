@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ILeader } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, CreateLeader } from '../../state/actions/leader.actions';
+import { LoadLeader, CreateLeader, DeleteLeader } from '../../state/actions/leader.actions';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -125,7 +125,6 @@ export class LeaderEditComponent implements OnInit {
       // NO FTUX - user is authorized already
       this.leaderModel.email = this.userService.getEmail();
       this.leaderStore.dispatch(new CreateLeader(this.leaderModel));
-      // this.leaderService.createLeader(this.leaderModel);
     }
   }
 
@@ -133,8 +132,8 @@ export class LeaderEditComponent implements OnInit {
    * Removes the Leader from DB
    * @param {Leader} Leader to delete
    */
-  deleteLeader(leaderModel: ILeader) {
-    this.leaderService.deleteLeader(leaderModel);
+  public deleteLeader(leader: ILeader) {
+    this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
   }
 

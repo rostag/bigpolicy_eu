@@ -50,11 +50,7 @@ export class LeaderViewComponent implements OnInit {
    * @param {data} Loaded leader data
    */
   setLeader(data: ILeader) {
-    if (!data) {
-      return;
-    }
-    // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
-
+    if (!data) { return }
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
@@ -70,8 +66,6 @@ export class LeaderViewComponent implements OnInit {
    * @param {leader} Leader to delete
    */
   editLeader(leader: ILeader) {
-    // FIXME NGRX RESTORE
-    // this.leaderService.deleteLeader(leader);
     this.router.navigate(['/leader/' + leader._id + '/edit']);
     return false;
   }
@@ -80,10 +74,8 @@ export class LeaderViewComponent implements OnInit {
    * Removes the leader from DB
    * @param {leader} Leader to delete
    */
-  deleteLeader(leader: ILeader) {
-    // FIXME NGRX RESTORE
-    // this.leaderService.deleteLeader(leader);
-    // this.leaderStore.dispatch(new DeleteLeader(leader));
+  public deleteLeader(leader: ILeader) {
+    this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
   }
 }
