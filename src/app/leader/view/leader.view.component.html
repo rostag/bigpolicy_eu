@@ -100,7 +100,7 @@
 
   <mat-card-actions>
     <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <button [routerLink]="['/leader/' + leader._id + '/edit']" mat-raised-button color="accent">Редагувати</button>
+      <button (click)="editLeader(leader)" mat-raised-button color="accent">Редагувати</button>
       <button (click)="deleteLeader(leader)" mat-raised-button color="warn">Видалити</button>
     </div>
   </mat-card-actions>

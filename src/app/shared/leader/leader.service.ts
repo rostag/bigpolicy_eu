@@ -99,29 +99,18 @@ export class LeaderService {
    * Creates the Leader.
    * @param {ILeader} model - The Leader to create.
    */
-  createLeader(model: ILeader, email) {
-    model.email = email;
+  createLeader(model: ILeader) {
     const body: string = encodeURIComponent(model.toString());
-    // const body: string = model.toString();
     const headers = new HttpHeaders()
       .set('Authorization', this._authHeader)
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
-    // this.httpClient.post(this.leaderApiUrl, body, { headers: headers })
-    // console.log('Tey Leader:', this._authHeader);
-
-    this.http.post(this.leaderApiUrl, body, { headers: headers })
-      .subscribe(
-        data => {
-          // Normal Save
-          this.gotoLeaderView(data);
-          // Post-FTUX
-          // console.log('Finalizing leader registration, cleaning localLeader');
-          localStorage.removeItem('BigPolicyLeaderRegistration');
-        },
-        err => (er) => console.error('Leader creation error: ', er),
-        () => { }
-      );
+    return this.http.post<ILeader>(this.leaderApiUrl, body, { headers: headers })
+      .pipe(map(data => {
+        // Post-FTUX
+        localStorage.removeItem('BigPolicyLeaderRegistration');
+        this.gotoLeaderView(data);
+      }));
   }
 
   /**
@@ -169,10 +158,7 @@ export class LeaderService {
    */
   getLeader(leaderId: string): Observable<ILeader> {
     if (leaderId) {
-      return this.http.get(this.leaderApiUrl + leaderId)
-        // FIXME NG5 - get back to: 
-        // .map((responsePage: Response) => {
-        .map((response: ILeader) => response);
+      return this.http.get<ILeader>(this.leaderApiUrl + leaderId);
     }
   }
 

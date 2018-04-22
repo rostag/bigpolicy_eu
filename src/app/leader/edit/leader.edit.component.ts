@@ -6,8 +6,9 @@ import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ILeader } from '../../common/models';
-import { Store } from '@ngrx/store';
-import { ILeaderState } from '../../state/reducers/leader.reducers';
+import { Store, select } from '@ngrx/store';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader, CreateLeader } from '../../state/actions/leader.actions';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -32,14 +33,14 @@ export class LeaderEditComponent implements OnInit {
     public driveService: DriveService,
     private location: Location,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   /**
    * Initialization Event Handler, used to parse route params
    * like `id` in leader/:id/edit)
    */
   ngOnInit() {
-
+    // FIXME Protect with Guard from unauthorized edits
     console.log('Init Leader Editor, route params:', this.route.params);
 
     // FIXME
@@ -49,10 +50,10 @@ export class LeaderEditComponent implements OnInit {
 
     // FIXME Code duplication
     this.leaderFormGroup = this.fb.group({
-      name:     [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      surName:  [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      mission:  ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
-      vision:   ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
+      name: [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
+      vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       videoUrl: ['', this.videoUrlValidator]
     });
 
@@ -60,21 +61,15 @@ export class LeaderEditComponent implements OnInit {
       .map(params => params['id'])
       .subscribe((id) => {
         console.log('Leader Editor by ID from route params:', id);
-
         // FIXME_SEC TEST_1 unauthorised user can't see the page
         // 2NGRX
         if (id && this.userService.authenticated()) {
-           this.isUpdateMode = true;
-           this.leaderService.getLeader(id)
-          .subscribe(
-            data => {
-              this.setLeader(data);
-            },
-            err => console.error(err),
-            () => {}
-          );
+          this.leaderStore.dispatch(new LoadLeader(id));
+          this.isUpdateMode = true;
         }
       });
+
+    this.leaderStore.pipe(select(getSelectedLeader)).subscribe(leader => this.setLeader(leader));
   }
 
   // FIXME apply validation
@@ -83,7 +78,7 @@ export class LeaderEditComponent implements OnInit {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
     // console.log('yourube validity: ', c.value, c.value.match(youTubeRegexp) );
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
-    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
+    return isYouTubeUrl ? null : { 'forbiddenName': 'Erriis' };
   }
 
   /**
@@ -92,6 +87,7 @@ export class LeaderEditComponent implements OnInit {
    */
   // 2NGRX
   setLeader(data) {
+    if (!data) { return }
     this.leaderModel = new LeaderModel();
     this.leaderModel.parseData(data);
     this.driveService.checkConnection();
@@ -107,7 +103,7 @@ export class LeaderEditComponent implements OnInit {
   */
   // FIXME: Complete Leader processing
   onSubmit() {
-    console.log( this.leaderFormGroup.value, this.leaderFormGroup.valid );
+    console.log(this.leaderFormGroup.value, this.leaderFormGroup.valid);
 
     // Update leader from form
     this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
@@ -115,11 +111,11 @@ export class LeaderEditComponent implements OnInit {
     if (this.isUpdateMode) {
       // Update existing Leader:
       this.leaderService.updateLeader(this.leaderModel)
-      .subscribe(
-        data => { this.leaderService.gotoLeaderView(data); },
-        err => (er) => console.error('Leader update error: ', er),
-        () => {}
-      );
+        .subscribe(
+          data => { this.leaderService.gotoLeaderView(data); },
+          err => (er) => console.error('Leader update error: ', er),
+          () => { }
+        );
     } else {
       // Create new Leader:
       // FTUX: If user's unauthorised, use service to save him to local storage, continue after login
@@ -127,7 +123,9 @@ export class LeaderEditComponent implements OnInit {
         return false;
       }
       // NO FTUX - user is authorized already
-      this.leaderService.createLeader(this.leaderModel, this.userService.getEmail());
+      this.leaderModel.email = this.userService.getEmail();
+      this.leaderStore.dispatch(new CreateLeader(this.leaderModel));
+      // this.leaderService.createLeader(this.leaderModel);
     }
   }
 

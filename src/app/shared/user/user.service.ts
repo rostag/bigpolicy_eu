@@ -15,6 +15,8 @@ import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
 import { ILeader } from '../../common/models';
+import { ILeaderState } from '../../state/reducers/leader.reducers';
+import { CreateLeader } from '../../state/actions/leader.actions';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
@@ -48,6 +50,7 @@ export class UserService {
 
   constructor(
     public leaderService: LeaderService,
+    public leaderStore: Store<ILeaderState>,
     public projectService: ProjectService,
     private dialogService: DialogService,
     private store: Store<AuthState>,
@@ -272,7 +275,9 @@ export class UserService {
       this.dialogService
         .confirm('Вітаємо!', 'Ти успішно завершив реєстрацію в системі.')
         .subscribe(res => {
-          this.leaderService.createLeader(leader, this.getEmail());
+          leader.email = this.getEmail();
+          this.leaderStore.dispatch(new CreateLeader(leader));
+          // this.leaderService.createLeader(leader);
         });
     } else {
       // on registration failure — leader with that email is registered already

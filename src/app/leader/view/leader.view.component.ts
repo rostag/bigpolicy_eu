@@ -4,8 +4,8 @@ import { DonateComponent } from '../../shared/donate/donate.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { ILeaderState, getSelectedLeader, getLeaders, getLeadersState } from '../../state/reducers/leader.reducers';
-import { LoadLeader } from '../../state/actions/leader.actions';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader, DeleteLeader } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
 
 @Component({
@@ -27,14 +27,8 @@ export class LeaderViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leadersStore: Store<ILeaderState>
-  ) {
-    this.leadersStore.pipe(select(getLeadersState))
-      .subscribe((ls: ILeaderState) => {
-        console.log('View: Got Leader from Reducer:', ls, ls.leadersById[ls.selectedLeaderId]);
-        this.setLeader(ls.leadersById[ls.selectedLeaderId]);
-      });
-  }
+    private leaderStore: Store<ILeaderState>
+  ) { }
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -45,9 +39,10 @@ export class LeaderViewComponent implements OnInit {
       .map(params => params['id'])
       .subscribe((id) => {
         if (id) {
-          this.leadersStore.dispatch(new LoadLeader(id));
+          this.leaderStore.dispatch(new LoadLeader(id));
         }
       });
+    this.leaderStore.pipe(select(getSelectedLeader)).subscribe(leader => this.setLeader(leader));
   }
 
   /**
@@ -71,12 +66,24 @@ export class LeaderViewComponent implements OnInit {
   }
 
   /**
+   * Edits the leader
+   * @param {leader} Leader to delete
+   */
+  editLeader(leader: ILeader) {
+    // FIXME NGRX RESTORE
+    // this.leaderService.deleteLeader(leader);
+    this.router.navigate(['/leader/' + leader._id + '/edit']);
+    return false;
+  }
+
+  /**
    * Removes the leader from DB
    * @param {leader} Leader to delete
    */
   deleteLeader(leader: ILeader) {
     // FIXME NGRX RESTORE
     // this.leaderService.deleteLeader(leader);
+    // this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
   }
 }
