@@ -104,8 +104,8 @@ export class LeaderListComponent implements OnInit, OnChanges {
       if (dialogResult === true ) {
         // Delete in UI
         let updatedLeaders;
-        this.leaders.subscribe ( projects => {
-          updatedLeaders = projects.filter( project => project._id !== leaderToRemove._id);
+        this.leaders.subscribe ( leaders => {
+          updatedLeaders = leaders.filter( leader => leader._id !== leaderToRemove._id);
         });
         this.leaders.next( updatedLeaders );
       }

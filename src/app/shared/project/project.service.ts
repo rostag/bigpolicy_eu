@@ -132,7 +132,7 @@ export class ProjectService {
    * @param data {Object} The data to be applied during update in {field: name} format
    */
   // FIXME NG45 - get back to typed Observable<IProject>
-  // bulkUpdateProjects(ids: Array<string>, data: any): Observable<IProject> {
+  // bulk UpdateProjects(ids: Array<string>, data: any): Observable<IProject> {
   bulkUpdateProjects(ids: string[], data: any): Observable<any> {
     // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -142,7 +142,7 @@ export class ProjectService {
     return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - bulkUpdateProjects, res:', res);
+          console.log('NG45 - bulk UpdateProjects, res:', res);
           return res;
         }
         ),
