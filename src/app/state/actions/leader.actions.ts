@@ -25,7 +25,6 @@ export enum LeaderActionTypes {
     LEADER_DELETE_FAIL = '[Leaders] Delete Leader Fail',
     LEADER_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
 
-    // TODO Implement it
     LEADERS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
     LEADERS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
     LEADERS_PAGE_LOAD_SUCCESS = '[Leaders] Load Page of Leaders Success'

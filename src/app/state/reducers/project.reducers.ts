@@ -66,7 +66,7 @@ export function reducer(
       }
       return newState;
 
-    case ProjectActionTypes.PROJECTS_LOAD_SUCCESS:
+    case ProjectActionTypes.PROJECTS_PAGE_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
       responseData && responseData.docs && responseData.docs.forEach(doc => {
