@@ -48,12 +48,12 @@ export class LandingComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjectsPage(null, null, 1, 3)
-      .subscribe(
-        data => this.setProjects(['data']),
-        err => console.error(err),
-        () => this.app.projects
-      );
+    // this.projectService.get ProjectsPage(null, null, 1, 3)
+    //   .subscribe(
+    //     data => this.setProjects(['data']),
+    //     err => console.error(err),
+    //     () => this.app.projects
+    //   );
   }
 
   private setProjects(data) {

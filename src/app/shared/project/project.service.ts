@@ -3,7 +3,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState } from '../../state/reducers/project.reducers';
 import { LoadProjectSuccess, CreateProjectSuccess, LoadProjectsPageSuccess } from '../../state/actions/project.actions';
-import { IProject, IResponsePage } from '../../common/models';
+import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
 
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
@@ -76,7 +76,12 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<IResponsePage<IProject>> {
+  getProjectsPage(req: IDataPageRequest): Observable<IResponsePage<IProject>> {
+
+    const leaderId = req.id || null;
+    const page = req.page || null;
+    const limit = req.pageSize || null;
+    const dbQuery = req.dbQuery || '{}';
 
     let requestUrl;
 
@@ -96,8 +101,6 @@ export class ProjectService {
       // FIXME NG45 - get back to typed HttpResponse:
       // .map((responsePage: HttpResponse) => {
       .map((responsePage: IResponsePage<IProject>) => {
-        // console.log('Projects Page loaded, response: ', responsePage);
-        this.projectStore.dispatch(new LoadProjectsPageSuccess(responsePage))
         return responsePage;
       });
   }
@@ -177,10 +180,8 @@ export class ProjectService {
                   .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
               } else {
                 // NE NA CHASI: reassign tasks to placeholder Project
-                // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<IProject>
-                this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }')
+                this.getProjectsPage({ id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }' })
                   .subscribe((res) => {
-                    // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
                     this.taskService.bulkUpdateTasks(model.taskIds, { projectId: res['docs'][0]._id }).subscribe((result) => { });
                   });
               }
