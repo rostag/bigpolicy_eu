@@ -1,6 +1,6 @@
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, SimpleChange } from '@angular/core';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { IProjectResponsePage, IProject } from '../../common/models';
@@ -64,18 +64,17 @@ export class ProjectListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.projectStore.select(getProjectsPage).subscribe(pp => this.setProjectPage(pp));
+    this.projectStore.select(getProjectsPage).subscribe((pp: IProjectResponsePage) => this.setProjectPage(pp));
   }
 
-  ngOnChanges(changes) {
-    if (changes.leaderId && changes.leaderId.currentValue ||
-      changes.pageSize && changes.pageSize.currentValue ||
-      changes.dbQuery && changes.dbQuery.currentValue) {
+  ngOnChanges(c) {
+    if (c.leaderId && c.leaderId.currentValue ||
+      c.pageSize && c.pageSize.currentValue ||
+      c.dbQuery && c.dbQuery.currentValue) {
       this.requestProjects();
     }
-    if (changes.flexSettings && changes.flexSettings.currentValue) {
-      const flexSettings = changes.flexSettings.currentValue.split('|');
-
+    if (c.flexSettings && c.flexSettings.currentValue) {
+      const flexSettings = c.flexSettings.currentValue.split('|');
       this.flexState = {
         ...this.flexState,
         flex: flexSettings[0],
@@ -83,8 +82,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
         md: flexSettings[2],
         sm: flexSettings[3],
         xs: flexSettings[4]
-      };
-      console.log('viewContext:', this.flexState);
+      }
     }
   }
 
@@ -100,23 +98,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
       page: this.itemsPage.page,
       pageSize: this.pageSize,
       dbQuery: this.dbQuery
-    }));
-    // const proxySub = this.projectService.getProjectsPage(
-    //     null,
-    //     this.leaderId,
-    //     this.itemsPage.page,
-    //     this.pageSize,
-    //     this.dbQuery)
-    //   .subscribe( (responsePage: IProjectResponsePage) => {
-    //     // console.log('Next, responsePage:', responsePage);
-    //     this.itemsPage.docs.next(responsePage['docs']);
-    //     this.itemsPage.limit = responsePage['limit'];
-    //     this.itemsPage.page = responsePage['page'];
-    //     this.itemsPage.pages = responsePage['pages'];
-    //     this.itemsPage.total = responsePage['total'];
-    //     // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-    //     proxySub.unsubscribe();
-    //   });
+    }))
   }
 
   private setProjectPage(responsePage: IProjectResponsePage) {

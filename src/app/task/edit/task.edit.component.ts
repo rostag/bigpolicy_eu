@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { IProject, ITask, IProjectResponsePage } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
-import { UpdateProject } from '../../state/actions/project.actions';
+import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -31,12 +31,12 @@ export class TaskEditComponent implements OnInit {
   currentProject: IProject = new ProjectModel();
 
   constructor(
+    public userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
     private taskService: TaskService,
     private projectService: ProjectService,
     private location: Location,
-    public userService: UserService,
     private projectStore: Store<IProjectState>
   ) {
     this.task = new TaskModel();
@@ -143,9 +143,10 @@ export class TaskEditComponent implements OnInit {
     this.onCancelEdit.emit('cancel inline task edit');
   }
 
-  // FIXME TO NGRX PRJ
   // TODO Smarter query, not just last 100 projects
   requestProjectsToSelectFrom() {
+    // FIXME TO NGRX PRJ
+    // this.projectStore.dispatch(new LoadProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' }));
     this.projectService.getProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
       .subscribe((res) => {
         this.projectsToMoveTaskTo = res['docs'];
@@ -159,7 +160,7 @@ export class TaskEditComponent implements OnInit {
             }
           }
         }
-      });
+      })
   }
 
   /**
