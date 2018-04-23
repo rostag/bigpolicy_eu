@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ILeader } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader } from '../../state/actions/leader.actions';
+import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
 
 @Component({
   templateUrl: './leader.edit.component.html',
@@ -38,8 +38,8 @@ export class LeaderEditComponent implements OnInit {
    * Initialization Event Handler, used to parse route params
    * like `id` in leader/:id/edit)
    */
+  // FIXME Protect with Guard from unauthorized edits
   ngOnInit() {
-    // FIXME Protect with Guard from unauthorized edits
     console.log('Init Leader Editor, route params:', this.route.params);
 
     // FIXME
@@ -56,19 +56,16 @@ export class LeaderEditComponent implements OnInit {
       videoUrl: ['', this.videoUrlValidator]
     });
 
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('Leader Editor by ID from route params:', id);
-        // FIXME_SEC TEST_1 unauthorised user can't see the page
-        // 2NGRX
-        if (id && this.userService.authenticated()) {
-          this.leaderStore.dispatch(new LoadLeader(id));
-          this.isUpdateMode = true;
-        }
-      });
+    // FIXME_SEC TEST_1 unauthorised user can't see the page
+    // 2NGRX
+    this.route.params.subscribe((params) => {
+      if (params.id && this.userService.authenticated()) {
+        this.leaderStore.dispatch(new LoadLeader(params.id));
+        this.isUpdateMode = true;
+      }
+    })
 
-    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));    
   }
 
   // FIXME apply validation
@@ -84,16 +81,12 @@ export class LeaderEditComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded Leader data
    */
-  // 2NGRX
-  setLeader(data) {
+  private setLeader(data) {
     if (!data) { return }
     this.leaderModel = new LeaderModel();
     this.leaderModel.parseData(data);
     this.driveService.checkConnection();
-
     this.leaderModel.applyModelToFormGroup(this.leaderFormGroup);
-
-    console.log('Leader Form Group: ', this.leaderFormGroup);
   }
 
   /**

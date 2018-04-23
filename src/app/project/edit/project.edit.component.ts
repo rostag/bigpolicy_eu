@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { CreateProject, UpdateProject } from '../../state/actions/project.actions';
+import { CreateProject, UpdateProject, LoadProject } from '../../state/actions/project.actions';
 import { UserService } from '../../shared/user/user.service';
 
 
@@ -53,29 +53,20 @@ export class ProjectEditComponent implements OnInit {
    * like `id` in project/:id/edit)
    */
   ngOnInit() {
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        // console.log('Project Editor by ID from route params:', id)
-        if (id) {
-          this.isUpdateMode = true;
-          // FIXME NGRX IT PRJ LoadProject
-          this.projectService.getProject(id)
-            .subscribe(
-              data => this.setProject(data),
-              err => console.error(err),
-              () => { }
-            );
-        }
-      });
-      // TODO Consider Getting by ID:
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        this.isUpdateMode = true;
+        this.projectStore.dispatch(new LoadProject(params.id))
+      }
+    });
+    // TODO Consider Getting by ID:
     this.projectStore.select(getSelectedProject).subscribe(prj => this.setProject(prj));
   }
 
   private setProject(data: IProject) {
     this.project = new ProjectModel();
     this.project.parseData(data);
-  }  
+  }
 
   /**
    * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
