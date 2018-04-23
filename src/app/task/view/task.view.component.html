@@ -5,6 +5,7 @@
     <h2>
       <span *ngIf="showProjectLink=='show'">
         <a [routerLink]="['/project/' + task.projectId]">
+          <!-- FIXME THIS IS NOT DISPLAYED FOR SOME REASON -->
           <small>{{projectTitle}}</small>
         </a> | </span>
       <a [routerLink]="['/task/' + task._id]">

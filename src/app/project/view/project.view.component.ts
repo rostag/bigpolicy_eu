@@ -71,12 +71,6 @@ export class ProjectViewComponent implements OnInit {
     if (id) {
       this.projectStore.dispatch(new SelectProject(id));
       this.projectStore.dispatch(new LoadProject(id));
-      // this.projectService.getProject(id).subscribe(
-      //   // this.setProject,
-      //   data => data,
-      //   err => console.error(err),
-      //   () => { }
-      // );
     }
   }
 

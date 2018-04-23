@@ -1,7 +1,4 @@
-import {
-  Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -10,14 +7,13 @@ import { ProjectService } from '../../shared/project/project.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { IProject, ITask } from '../../common/models';
 import { Store } from '@ngrx/store';
-import { IProjectState } from '../../state/reducers/project.reducers';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { LoadProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-task-view',
   templateUrl: './task.view.component.html',
-  styleUrls: ['./task.view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./task.view.component.scss']
 })
 
 export class TaskViewComponent implements OnInit, OnChanges {
@@ -45,7 +41,6 @@ export class TaskViewComponent implements OnInit, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private taskService: TaskService,
-    private ref: ChangeDetectorRef,
     private dialogService: DialogService,
     private projectStore: Store<IProjectState>
   ) { }
@@ -68,34 +63,34 @@ export class TaskViewComponent implements OnInit, OnChanges {
         this.applyChanges(this.project);
       }
     } else {
-      this.route.params
-        .map(params => params['id'])
-        .subscribe((id) => {
-          console.log('View Task by ID from route params:', id);
-          if (id) {
-            this.taskService.getTask(id)
-              .subscribe(data => {
-                this.task = data;
-                this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
-                console.log('tpId =', this.task.projectId, data);
-                this.retrieveProject();
-              });
-          }
-        });
+      this.route.params.subscribe(params => {
+        if (params.id) {
+          this.taskService.getTask(params.id)
+            .subscribe(data => {
+              this.task = data;
+              this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
+              console.log('tpId =', this.task && this.task.projectId, data);
+              this.retrieveProject();
+            });
+        }
+      });
     }
+
+    this.projectStore.select(getSelectedProject).subscribe(this.applyChanges);
   }
 
   private applyChanges(project: IProject) {
-    this.projectTitle = project.title;
+    this.projectTitle = project ? project.title : '';
+    console.log('GOT PROJEJJJ:', project, this.projectTitle);
   }
 
   retrieveProject() {
-    if (this.task.projectId) {
+    if (this.task && this.task.projectId) {
       // FIXME MOVE TO TASK SERVICE
       // console.warn('LOAD PROJECT Explicitly FOR TEH TASK:', );
 
-      // this.projectStore.dispatch(new LoadProject(this.task.projectId));
-      // this.projectService.getProject(this.task.projectId).subscribe(this.applyChanges);
+      // FIXME TO NGRX PRJ
+      this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
   }
 

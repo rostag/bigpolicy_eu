@@ -1,12 +1,11 @@
-import { Component, Output, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LeaderModel } from '../../shared/leader/index';
-import { DonateComponent } from '../../shared/donate/donate.component';
-import { UserService } from '../../shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader, DeleteLeader } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './leader.view.component.html',
@@ -15,7 +14,8 @@ import { ILeader } from '../../common/models';
 
 export class LeaderViewComponent implements OnInit {
 
-  leader: ILeader = new LeaderModel();
+  // Leader object to be used in template
+  public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
@@ -31,17 +31,10 @@ export class LeaderViewComponent implements OnInit {
   ) { }
 
   /**
-   * Initialization Event Handler, used to parse route params
-   * like `id` in leader/:id/edit)
+   * Initialization Event Handler, parses route params like `id` in leader/:id/edit)
    */
-  ngOnInit() {
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        if (id) {
-          this.leaderStore.dispatch(new LoadLeader(id));
-        }
-      });
+  public ngOnInit() {
+    this.route.params.subscribe(params => { if (params.id) { this.leaderStore.dispatch(new LoadLeader(params.id)) } });
     this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
   }
 
@@ -49,7 +42,7 @@ export class LeaderViewComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data: ILeader) {
+  private setLeader(data: ILeader) {
     if (!data) { return }
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
@@ -65,7 +58,7 @@ export class LeaderViewComponent implements OnInit {
    * Edits the leader
    * @param {leader} Leader to delete
    */
-  editLeader(leader: ILeader) {
+  public editLeader(leader: ILeader) {
     this.router.navigate(['/leader/' + leader._id + '/edit']);
     return false;
   }
