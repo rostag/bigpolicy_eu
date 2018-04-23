@@ -37,7 +37,7 @@ export class TaskEditComponent implements OnInit {
     private projectService: ProjectService,
     private location: Location,
     public userService: UserService,
-    private projectStore: Store<IProjectState> 
+    private projectStore: Store<IProjectState>
   ) {
     this.task = new TaskModel();
   }
@@ -143,10 +143,10 @@ export class TaskEditComponent implements OnInit {
     this.onCancelEdit.emit('cancel inline task edit');
   }
 
-  // FIXME Move to service / component
+  // FIXME TO NGRX PRJ
+  // TODO Smarter query, not just last 100 projects
   requestProjectsToSelectFrom() {
-    // Fixme do smarter query here, not just last 100 projects
-    this.projectService.getProjectsPage(null, null, 1, 100, '{}')
+    this.projectService.getProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
       .subscribe((res) => {
         this.projectsToMoveTaskTo = res['docs'];
         console.log('got projects to move task to: ', this.projectsToMoveTaskTo);

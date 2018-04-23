@@ -11,13 +11,15 @@ export interface IProjectState {
   projects: IProject[];
   selectedProjectId: string;
   projectsById: IProject[];
+  projectsPage: IProjectResponsePage;
 }
 
 // The initial state of the auth store
 const initialState: IProjectState = {
   projects: [],
   selectedProjectId: null,
-  projectsById: []
+  projectsById: [],
+  projectsPage: null
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -75,7 +77,7 @@ export function reducer(
         }
       })
 
-      const nState = { ...state, projects: [...newProjects] };
+      const nState = { ...state, projects: [...newProjects], projectsPage: { ...action.payload } };
       console.log(':: Reducer :: Load PROJECTS Success ::', nState);
       return nState;
 
@@ -93,6 +95,7 @@ export function reducer(
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getProjectsState = createFeatureSelector<IProjectState>('projectsState');
 export const getProjects = createSelector(getProjectsState, (state: IProjectState) => state.projects);
+export const getProjectsPage = createSelector(getProjectsState, (state: IProjectState) => state.projectsPage);
 export const getSelectedProjectId = createSelector(getProjectsState, (state: IProjectState) => state.selectedProjectId);
 export const getSelectedProject = createSelector(getProjectsState, getSelectedProjectId,
   (state: IProjectState, selectedProjectId: string) => state.projectsById[selectedProjectId]

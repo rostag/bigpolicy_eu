@@ -1,10 +1,12 @@
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService } from '../../shared/project';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { IProjectResponsePage, IProject } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { IProjectState, getProjectsPage } from '../../state/reducers/project.reducers';
+import { LoadProjectsPage } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-list',
@@ -13,7 +15,7 @@ import { IProjectResponsePage, IProject } from '../../common/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ProjectListComponent implements OnChanges {
+export class ProjectListComponent implements OnInit, OnChanges {
 
   // List title
   @Input() title = '';
@@ -35,25 +37,16 @@ export class ProjectListComponent implements OnChanges {
 
   @Input() flexSettings = '33|30|30|50|100';
 
-  // 40 320px 320px
-  /* Leaders': 
-    flexState = {
-        flex: '33%',
-        lg: '33%',
-        md: '33%',
-        sm: '50%',
-        xs: '100%'
-    };  
-  */
   flexState = {
-      flex: '18%',
-      lg: '23%',
-      md: '31%',
-      sm: '48%',
-      xs: '98%'
+    flex: '18%',
+    lg: '23%',
+    md: '31%',
+    sm: '48%',
+    xs: '98%'
   };
 
-  public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public projects: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
+
   public itemsPage = {
     docs: this.projects,
     limit: this.pageSize,
@@ -66,23 +59,31 @@ export class ProjectListComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private projectService: ProjectService,
+    private projectStore: Store<IProjectState>,
     private http: HttpClient
-  ) {}
+  ) { }
+
+  ngOnInit() {
+    this.projectStore.select(getProjectsPage).subscribe(pp => this.setProjectPage(pp));
+  }
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue ||
-        changes.pageSize && changes.pageSize.currentValue ||
-        changes.dbQuery && changes.dbQuery.currentValue) {
+      changes.pageSize && changes.pageSize.currentValue ||
+      changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestProjects();
     }
-    if (changes.flexSettings && changes.flexSettings.currentValue ) {
-      const f = changes.flexSettings.currentValue.split('|');
-      this.flexState.flex = f[0];
-      this.flexState.lg = f[1];
-      this.flexState.md = f[2];
-      this.flexState.sm = f[3];
-      this.flexState.xs = f[4];
+    if (changes.flexSettings && changes.flexSettings.currentValue) {
+      const flexSettings = changes.flexSettings.currentValue.split('|');
+
+      this.flexState = {
+        ...this.flexState,
+        flex: flexSettings[0],
+        lg: flexSettings[1],
+        md: flexSettings[2],
+        sm: flexSettings[3],
+        xs: flexSettings[4]
+      };
       console.log('viewContext:', this.flexState);
     }
   }
@@ -92,39 +93,40 @@ export class ProjectListComponent implements OnChanges {
     this.requestProjects();
   }
 
+  // FIXME TO NGRX PRJ
   private requestProjects() {
-    const proxySub = this.projectService.getProjectsPage(
-        null,
-        this.leaderId,
-        this.itemsPage.page,
-        this.pageSize,
-        this.dbQuery)
-      .subscribe( (responsePage: IProjectResponsePage) => {
-        // console.log('Next, responsePage:', responsePage);
-        this.itemsPage.docs.next(responsePage['docs']);
-        this.itemsPage.limit = responsePage['limit'];
-        this.itemsPage.page = responsePage['page'];
-        this.itemsPage.pages = responsePage['pages'];
-        this.itemsPage.total = responsePage['total'];
-        // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-        proxySub.unsubscribe();
-      });
+    this.projectStore.dispatch(new LoadProjectsPage({
+      id: this.leaderId,
+      page: this.itemsPage.page,
+      pageSize: this.pageSize,
+      dbQuery: this.dbQuery
+    }));
+    // const proxySub = this.projectService.getProjectsPage(
+    //     null,
+    //     this.leaderId,
+    //     this.itemsPage.page,
+    //     this.pageSize,
+    //     this.dbQuery)
+    //   .subscribe( (responsePage: IProjectResponsePage) => {
+    //     // console.log('Next, responsePage:', responsePage);
+    //     this.itemsPage.docs.next(responsePage['docs']);
+    //     this.itemsPage.limit = responsePage['limit'];
+    //     this.itemsPage.page = responsePage['page'];
+    //     this.itemsPage.pages = responsePage['pages'];
+    //     this.itemsPage.total = responsePage['total'];
+    //     // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
+    //     proxySub.unsubscribe();
+    //   });
   }
 
-  // UNUSED - Apr 23 2018
-  // deleteProject(projectToRemove: IProject) {
-  //   // Delete from DB
-  //   // FIXME TO NGRX PRJ
-  //   this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
-  //     if (dialogResult === true ) {
-  //       // Delete in UI
-  //       let updatedProjects;
-  //       this.projects.subscribe ( projects => {
-  //         updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
-  //       });
-  //       this.projects.next( updatedProjects );
-  //     }
-  //   });
-  //   return false;
-  // }
+  private setProjectPage(responsePage: IProjectResponsePage) {
+    if (!responsePage) { return }
+    this.itemsPage.docs.next(responsePage['docs']);
+    this.itemsPage.limit = responsePage['limit'];
+    this.itemsPage.page = responsePage['page'];
+    this.itemsPage.pages = responsePage['pages'];
+    this.itemsPage.total = responsePage['total'];
+    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
+    // proxySub.unsubscribe();
+  }
 }
