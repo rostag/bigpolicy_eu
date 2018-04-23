@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { IResponsePage, IProject } from '../../common/models';
+import { IResponsePage, IProject, IDataPageRequest } from '../../common/models';
 
 export interface ProjectAction extends Action {
     payload?: any;
@@ -8,16 +8,28 @@ export interface ProjectAction extends Action {
 // These constants are Action names which we will dispatch from application to update the Store state
 export enum ProjectActionTypes {
     // PROJECT_ADD_TASK = '[Project] Add Task',
-    PROJECT_SELECT = '[Project] Select Project',
+
     PROJECT_CREATE = '[Project] Create Project',
     PROJECT_CREATE_FAIL = '[Project] Create Project Fail',
     PROJECT_CREATE_SUCCESS = '[Project] Create Project Success',
+
     PROJECT_LOAD = '[Project] Load Project',
     PROJECT_LOAD_FAIL = '[Project] Load Project Fail',
     PROJECT_LOAD_SUCCESS = '[Project] Load Project Success',
-    PROJECTS_LOAD = '[Project] Load Projects',
-    PROJECTS_LOAD_FAIL = '[Project] Load Projects Fail',
-    PROJECTS_LOAD_SUCCESS = '[Project] Load Projects Success'
+
+    PROJECT_UPDATE = '[Leaders] Update Leader',
+    PROJECT_UPDATE_FAIL = '[Leaders] Update Leader Fail',
+    PROJECT_UPDATE_SUCCESS = '[Leaders] Update Leader Success',
+
+    PROJECT_DELETE = '[Leaders] Delete Leader',
+    PROJECT_DELETE_FAIL = '[Leaders] Delete Leader Fail',
+    PROJECT_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
+
+    PROJECT_SELECT = '[Project] Select Project',
+
+    PROJECTS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
+    PROJECTS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
+    PROJECTS_PAGE_LOAD_SUCCESS = '[Leaders] Load Page of Leaders Success'
 }
 
 // export class AddTaskToProject implements ProjectAction {
@@ -40,11 +52,6 @@ export class CreateProjectSuccess implements ProjectAction {
     constructor(public payload: any) { }
 }
 
-export class SelectProject implements ProjectAction {
-    readonly type = ProjectActionTypes.PROJECT_SELECT;
-    constructor(public payload: string) { }
-}
-
 export class LoadProject implements ProjectAction {
     readonly type = ProjectActionTypes.PROJECT_LOAD;
     constructor(public payload: string) { }
@@ -60,30 +67,75 @@ export class LoadProjectSuccess implements ProjectAction {
     constructor(public payload: IProject) { }
 }
 
-export class LoadProjects implements ProjectAction {
-    readonly type = ProjectActionTypes.PROJECTS_LOAD;
+export class UpdateProject implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_UPDATE;
+    constructor(public payload: IProject) { }
+}
+
+export class UpdateProjectFail implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_UPDATE_FAIL;
     constructor(public payload: string) { }
 }
 
-export class LoadProjectsFail implements ProjectAction {
-    readonly type = ProjectActionTypes.PROJECTS_LOAD_FAIL;
+export class UpdateProjectSuccess implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_UPDATE_SUCCESS;
+    constructor(public payload: IProject) { }
+}
+
+
+
+export class DeleteProject implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_DELETE;
+    constructor(public payload: IProject) { }
+}
+
+export class DeleteProjectFail implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_DELETE_FAIL;
     constructor(public payload: string) { }
 }
 
-export class LoadProjectsSuccess implements ProjectAction {
-    readonly type = ProjectActionTypes.PROJECTS_LOAD_SUCCESS;
+export class DeleteProjectSuccess implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_DELETE_SUCCESS;
+    constructor(public payload: IProject) { }
+}
+
+
+export class SelectProject implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECT_SELECT;
+    constructor(public payload: string) { }
+}
+
+
+export class LoadProjectsPage implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECTS_PAGE_LOAD;
+    constructor(public payload: IDataPageRequest) { }
+}
+
+export class LoadProjectsPageFail implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECTS_PAGE_LOAD_FAIL;
+    constructor(public payload: string) { }
+}
+
+export class LoadProjectsPageSuccess implements ProjectAction {
+    readonly type = ProjectActionTypes.PROJECTS_PAGE_LOAD_SUCCESS;
     constructor(public payload: IResponsePage<IProject>) { }
 }
 
 export type ProjectsActions
-    = SelectProject
-    | CreateProject
+    = CreateProject
     | CreateProjectFail
     | CreateProjectSuccess
     | LoadProject
     | LoadProjectFail
     | LoadProjectSuccess
-    | LoadProjects
-    | LoadProjectsFail
-    | LoadProjectsSuccess
+    | UpdateProject
+    | UpdateProjectFail
+    | UpdateProjectSuccess
+    | DeleteProject
+    | DeleteProjectFail
+    | DeleteProjectSuccess
+    | SelectProject
+    | LoadProjectsPage
+    | LoadProjectsPageFail
+    | LoadProjectsPageSuccess
     ;

@@ -88,12 +88,7 @@ export class ProjectEditComponent implements OnInit {
     if (this.isUpdateMode) {
       // Update existing project
       // FIXME
-      this.projectService.updateProject(this.project)
-        .subscribe(
-          data => { this.gotoProject(data); },
-          err => (er) => console.error('Project update error: ', er),
-          () => { }
-        );
+      this.projectService.updateProject(this.project).subscribe(data => this.setProject(data));
     } else {
       // Create new project
       // FIXME - Potential Race Condition
@@ -104,14 +99,13 @@ export class ProjectEditComponent implements OnInit {
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
-      this.projectService.createProject(this.project)
-        .subscribe(
-          data => { this.gotoProject(data); },
-          err => (er) => console.error('Project creation error: ', er),
-          () => { }
-        );
+      this.projectService.createProject(this.project).subscribe(data => this.setProject(data));
     }
     return false;
+  }
+
+  private setProject(project: IProject) {
+    this.gotoProject(project);
   }
 
   /**
