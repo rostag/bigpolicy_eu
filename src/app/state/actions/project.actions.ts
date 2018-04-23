@@ -17,19 +17,19 @@ export enum ProjectActionTypes {
     PROJECT_LOAD_FAIL = '[Project] Load Project Fail',
     PROJECT_LOAD_SUCCESS = '[Project] Load Project Success',
 
-    PROJECT_UPDATE = '[Leaders] Update Leader',
-    PROJECT_UPDATE_FAIL = '[Leaders] Update Leader Fail',
-    PROJECT_UPDATE_SUCCESS = '[Leaders] Update Leader Success',
+    PROJECT_UPDATE = '[Projects] Update Project',
+    PROJECT_UPDATE_FAIL = '[Projects] Update Project Fail',
+    PROJECT_UPDATE_SUCCESS = '[Projects] Update Project Success',
 
-    PROJECT_DELETE = '[Leaders] Delete Leader',
-    PROJECT_DELETE_FAIL = '[Leaders] Delete Leader Fail',
-    PROJECT_DELETE_SUCCESS = '[Leaders] Delete Leader Success',
+    PROJECT_DELETE = '[Projects] Delete Project',
+    PROJECT_DELETE_FAIL = '[Projects] Delete Project Fail',
+    PROJECT_DELETE_SUCCESS = '[Projects] Delete Project Success',
 
     PROJECT_SELECT = '[Project] Select Project',
 
-    PROJECTS_PAGE_LOAD = '[Leaders] Load Page of Leaders',
-    PROJECTS_PAGE_LOAD_FAIL = '[Leaders] Load Page of Leaders Fail',
-    PROJECTS_PAGE_LOAD_SUCCESS = '[Leaders] Load Page of Leaders Success'
+    PROJECTS_PAGE_LOAD = '[Projects] Load Page of Projects',
+    PROJECTS_PAGE_LOAD_FAIL = '[Projects] Load Page of Projects Fail',
+    PROJECTS_PAGE_LOAD_SUCCESS = '[Projects] Load Page of Projects Success'
 }
 
 // export class AddTaskToProject implements ProjectAction {
