@@ -111,18 +111,20 @@ export class ProjectListComponent implements OnChanges {
       });
   }
 
-  deleteProject(projectToRemove: IProject) {
-    // Delete from DB
-    this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
-      if (dialogResult === true ) {
-        // Delete in UI
-        let updatedProjects;
-        this.projects.subscribe ( projects => {
-          updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
-        });
-        this.projects.next( updatedProjects );
-      }
-    });
-    return false;
-  }
+  // UNUSED - Apr 23 2018
+  // deleteProject(projectToRemove: IProject) {
+  //   // Delete from DB
+  //   // FIXME TO NGRX PRJ
+  //   this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
+  //     if (dialogResult === true ) {
+  //       // Delete in UI
+  //       let updatedProjects;
+  //       this.projects.subscribe ( projects => {
+  //         updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
+  //       });
+  //       this.projects.next( updatedProjects );
+  //     }
+  //   });
+  //   return false;
+  // }
 }

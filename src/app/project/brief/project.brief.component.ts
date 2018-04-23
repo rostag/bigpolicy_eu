@@ -4,7 +4,7 @@ import { UserService } from '../../shared/user/user.service';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { LoadProject } from '../../state/actions/project.actions';
+import { LoadProject, DeleteProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-brief',
@@ -48,13 +48,4 @@ export class ProjectBriefComponent implements OnChanges {
     this.projectStore.dispatch(new LoadProject(id));
   }
 
-  /**
-   * Remove this project
-   * @param {project} Project being viewed
-   */
-  deleteProject(project: IProject) {
-    // FIXME - restore functionality with NGRX
-    // this.projectService.deleteProject(project, true);
-    return false;
-  }
 }

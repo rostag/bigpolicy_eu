@@ -35,7 +35,6 @@
     <div fxLayout="row" fxLayoutAlign="end" class.lg="compact">
       <div *ngIf="userService.hasEditPermissions(project)" class="admin">
         <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button (click)="deleteProject(project)"><mat-icon>delete</mat-icon></button>
         <!-- FIXME RESTORE <button mat-icon-button disabled (click)="shareProject(project)"><mat-icon>share</mat-icon></button> -->
       </div>
       <button mat-button [routerLink]="['/project/' + project._id]" mat-raised-button color="primary" >Деталі</button>
