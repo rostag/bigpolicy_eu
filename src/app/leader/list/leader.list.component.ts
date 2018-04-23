@@ -85,16 +85,12 @@ export class LeaderListComponent implements OnInit, OnChanges {
   }
 
   requestLeaders() {
-    // FIXME NGRX IT LP
-
-    const pageRequest: IDataPageRequest = {
+    this.leaderStore.dispatch(new LoadLeadersPage({
       id: this.groupId,
       page: this.itemsPage.page,
       pageSize: this.pageSize,
       dbQuery: this.dbQuery
-    }
-
-    this.leaderStore.dispatch(new LoadLeadersPage(pageRequest));
+    }));
   }
 
   private setLeaderPage(responsePage: ILeaderResponsePage) {

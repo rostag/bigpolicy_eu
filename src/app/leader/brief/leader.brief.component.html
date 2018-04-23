@@ -8,8 +8,8 @@
     <img mat-card-image src="{{leader.photo || 'assets/img/avatar-generic.png'}}">
   </div>
   <mat-card-content>
-    <mat-card-subtitle>Місія: {{leader.mission}}</mat-card-subtitle>
     <p>Бачення: {{leader.vision}}</p>
+    <mat-card-subtitle>Місія: {{leader.mission}}</mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions align="end">
     <a [routerLink]="getLeaderLink(leader)"><button mat-button mat-raised-button color="primary" >Підтримати</button></a>
@@ -36,8 +36,8 @@
       <p class="projects">Проектів: {{leader.projectIds?.length}}</p>
     </div>
     <div fxFlex="69" fxFlexOffset="7" fxFlexOffset.xs="0">
-      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
       <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
     </div>
   </div>
   <mat-card-actions align="end">
@@ -65,8 +65,8 @@
           </span>
         </span>
       </mat-card-title>
-      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
       <p class="vision"><b>Візія:</b> {{leader.vision}}</p>
+      <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
     </div>
   </div>
   <mat-card-actions align="end">

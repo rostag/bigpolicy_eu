@@ -157,14 +157,12 @@ export class LeaderService {
    * Seaches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
-  // FIXME CHECK if single type can be used here
-  public requestLeaderByEmail(email: string): Observable<ILeader | ILeaderResponsePage> {
+  public requestLeaderByEmail(email: string): Observable<ILeaderResponsePage> {
 
     // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
     // if (leader) {
     //   leader = Observable.from({leader});
-    // } else {
     // }
 
     console.log('LeaderService:RequestLeader ByEmail:', email);
