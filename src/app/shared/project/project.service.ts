@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState } from '../../state/reducers/project.reducers';
-import { LoadProjectsSuccess, LoadProjectSuccess, CreateProjectSuccess } from '../../state/actions/project.actions';
+import { LoadProjectSuccess, CreateProjectSuccess, LoadProjectsPageSuccess } from '../../state/actions/project.actions';
 import { IProject, IResponsePage } from '../../common/models';
 
 import { DialogService } from '../../shared/dialog/dialog.service';
@@ -59,12 +59,22 @@ export class ProjectService {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     return this.http.post(this.projectApiUrl, body, { headers: headers })
-      .map(res => {
-        console.log('NG45 - createProject', res);
-        this.projectStore.dispatch(new CreateProjectSuccess(res))
-        return res;
-      });
+      .pipe(
+        map(
+          data => this.gotoProjectView(data)
+        )
+      );
   }
+
+  /**
+   * Finalizes opening of the project.
+   */
+  gotoProjectView(project) {
+    if (project && project._id) {
+      this.router.navigate(['/project', project._id]).then(_ => { });
+    }
+  }
+
 
   /**
    * Gets Projects page from DB by given projectId, leaderId, page and limit
@@ -92,7 +102,7 @@ export class ProjectService {
       // .map((responsePage: HttpResponse) => {
       .map((responsePage: IResponsePage<IProject>) => {
         // console.log('Projects Page loaded, response: ', responsePage);
-        this.projectStore.dispatch(new LoadProjectsSuccess(responsePage))
+        this.projectStore.dispatch(new LoadProjectsPageSuccess(responsePage))
         return responsePage;
       });
   }
@@ -120,6 +130,7 @@ export class ProjectService {
       .pipe(
         map(res => {
           console.log('NG45 - updateProject, res:', res);
+          this.gotoProjectView(res);
           return res;
         }),
         catchError(this.handleError)

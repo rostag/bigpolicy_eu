@@ -39,7 +39,7 @@ export enum ProjectActionTypes {
 
 export class CreateProject implements ProjectAction {
     readonly type = ProjectActionTypes.PROJECT_CREATE;
-    constructor(public payload: string) { }
+    constructor(public payload: IProject) { }
 }
 
 export class CreateProjectFail implements ProjectAction {
