@@ -4,7 +4,10 @@ import { ProjectModel, ProjectService } from '../../shared/project/index';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
-import { IProject, ITask } from '../../common/models';
+import { IProject, ITask, IProjectResponsePage } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { IProjectState } from '../../state/reducers/project.reducers';
+import { UpdateProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -33,7 +36,8 @@ export class TaskEditComponent implements OnInit {
     private taskService: TaskService,
     private projectService: ProjectService,
     private location: Location,
-    public userService: UserService
+    public userService: UserService,
+    private projectStore: Store<IProjectState> 
   ) {
     this.task = new TaskModel();
   }
@@ -175,12 +179,13 @@ export class TaskEditComponent implements OnInit {
     // Add Task to new Project:
     if (newProject.taskIds.indexOf(this.task._id) === -1) {
       newProject.taskIds.push(this.task._id);
-      this.projectService.updateProject(newProject).subscribe();
+      // FIXME TO NGRX TSK
+      this.projectStore.dispatch(new UpdateProject(newProject));
     }
     // Remove Task from current Project:
     // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
     this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1);
-    this.projectService.updateProject(this.currentProject).subscribe();
+    // FIXME TO NGRX TSK
+    this.projectStore.dispatch(new UpdateProject(this.currentProject));
   }
-
 }

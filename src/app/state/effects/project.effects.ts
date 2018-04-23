@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Action } from "rxjs/scheduler/Action";
 import { HttpClient } from "selenium-webdriver/http";
-import { ProjectActionTypes, LoadProjectFail, LoadProjectSuccess, ProjectAction, CreateProjectFail, CreateProjectSuccess } from "../actions/project.actions";
+import { ProjectActionTypes, LoadProjectFail, LoadProjectSuccess, ProjectAction, CreateProjectFail, CreateProjectSuccess, UpdateProjectFail, UpdateProjectSuccess } from "../actions/project.actions";
 import { mergeMap, map } from "rxjs/operators";
 import { ProjectService } from "../../shared/project";
 import { catchError } from "rxjs/operators";
@@ -28,6 +28,16 @@ export class ProjectEffects {
             this.projectService.getProject(action.payload).pipe(
                 map(data => new LoadProjectSuccess(data)),
                 catchError(err => of(new LoadProjectFail(err)))
+            )
+        )
+    )
+
+    @Effect() $updateProject: Observable<ProjectAction> = this.$actions.pipe(
+        ofType(ProjectActionTypes.PROJECT_UPDATE),
+        mergeMap((action: ProjectAction) =>
+            this.projectService.updateProject(action.payload).pipe(
+                map(data => new UpdateProjectSuccess(data)),
+                catchError(err => of(new UpdateProjectFail(err)))
             )
         )
     )

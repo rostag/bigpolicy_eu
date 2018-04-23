@@ -58,12 +58,7 @@ export class ProjectService {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.projectApiUrl, body, { headers: headers })
-      .pipe(
-        map(
-          data => this.gotoProjectView(data)
-        )
-      );
+    return this.http.post(this.projectApiUrl, body, { headers: headers }).pipe(map(data => this.gotoProjectView(data)));
   }
 
   /**
@@ -122,17 +117,13 @@ export class ProjectService {
    */
   // FIXME NG45 - get back to: Observable<IProject>
   // updateProject(model: IProject): Observable<IProject> {
-  updateProject(model: IProject): Observable<any> {
-    // TODO Consider encoding the body like in create project above
+  updateProject(model: IProject): Observable<IProject> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
+    // TODO Consider encoding the body like in create project above
     return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
-        map(res => {
-          console.log('NG45 - updateProject, res:', res);
-          this.gotoProjectView(res);
-          return res;
-        }),
+        map(res => this.gotoProjectView(res)),
         catchError(this.handleError)
       )
   }
