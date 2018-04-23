@@ -42,7 +42,7 @@ export class LeaderViewComponent implements OnInit {
           this.leaderStore.dispatch(new LoadLeader(id));
         }
       });
-    this.leaderStore.pipe(select(getSelectedLeader)).subscribe(leader => this.setLeader(leader));
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
   }
 
   /**

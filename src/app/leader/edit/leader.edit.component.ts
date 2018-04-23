@@ -68,7 +68,7 @@ export class LeaderEditComponent implements OnInit {
         }
       });
 
-    this.leaderStore.pipe(select(getSelectedLeader)).subscribe(leader => this.setLeader(leader));
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
   }
 
   // FIXME apply validation
