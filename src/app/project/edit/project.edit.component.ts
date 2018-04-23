@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
-import { ProjectServiceMock } from '../../shared/project/index';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { Location } from '@angular/common';
 import { MatInputModule } from '@angular/material';
@@ -86,16 +85,12 @@ export class ProjectEditComponent implements OnInit {
   saveProject(): boolean {
     if (this.isUpdateMode) {
       // Update existing project
-      // FIXME NGRX PRJ
-      // this.projectStore.dispatch(new UpdateProject(this.project));
-      this.projectService.updateProject(this.project).subscribe();
+      this.projectStore.dispatch(new UpdateProject(this.project));
     } else {
       // Create new project
       // FIXME - Potential Race Condition
       const leader = this.leaderService.leader;
-      if (!leader) {
-        return false;
-      }
+      if (!leader) { return false };
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
@@ -103,7 +98,6 @@ export class ProjectEditComponent implements OnInit {
     }
     return false;
   }
-
 
   cancelEditing() {
     this.location.back();

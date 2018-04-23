@@ -79,9 +79,9 @@ export class TaskViewComponent implements OnInit, OnChanges {
     this.projectStore.select(getSelectedProject).subscribe(this.applyChanges);
   }
 
+  // TODO Ensure it is called for Tasks lists to show the already loaded project
   private applyChanges(project: IProject) {
     this.projectTitle = project ? project.title : '';
-    console.log('GOT PROJEJJJ:', project, this.projectTitle);
   }
 
   retrieveProject() {
