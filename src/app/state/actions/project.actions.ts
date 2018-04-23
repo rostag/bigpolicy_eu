@@ -96,7 +96,7 @@ export class DeleteProjectFail implements ProjectAction {
 
 export class DeleteProjectSuccess implements ProjectAction {
     readonly type = ProjectActionTypes.PROJECT_DELETE_SUCCESS;
-    constructor(public payload: IProject) { }
+    constructor(public payload: boolean) { }
 }
 
 

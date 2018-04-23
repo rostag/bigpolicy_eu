@@ -5,7 +5,7 @@ import { ProjectModel } from '../../shared/project/index';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { SelectProject, LoadProject } from '../../state/actions/project.actions';
+import { SelectProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 
@@ -79,11 +79,8 @@ export class ProjectViewComponent implements OnInit {
    * @param {project} Project being viewed
    */
   deleteProject(project: IProject) {
-    // Delete from DB
-    // FIXME RESTORE WITH NGRX
-    // this.projectService.deleteProject(project, true);
+    this.projectStore.dispatch(new DeleteProject(project));
 
-    // this.router.navigate(['/projects']);
     return false;
   }
 }

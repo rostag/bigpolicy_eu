@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { CreateProject, UpdateProject, LoadProject } from '../../state/actions/project.actions';
+import { CreateProject, UpdateProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
 import { UserService } from '../../shared/user/user.service';
 
 
@@ -71,11 +71,11 @@ export class ProjectEditComponent implements OnInit {
    * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
    * @param {project} Project being viewed
    */
-  private deleteProject(project: IProject) {
-    // Delete from DB
-    this.projectService.deleteProject(project, true);
-    return false;
-  }
+  // Unused
+  // private deleteProject(project: IProject) {
+  //   this.projectStore.dispatch(new DeleteProject(project));
+  //   return false;
+  // }
 
   /**
    * Saves new or edited project by asking one of two service methods for DB.

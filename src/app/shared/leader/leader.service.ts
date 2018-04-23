@@ -252,10 +252,7 @@ export class LeaderService {
   private finalizeLeaderDeletion(leaderModel: ILeader, navigateToLeadersList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
-      .pipe(
-        map(res => { return res; }),
-        catchError(this.handleError)
-      )
+      .pipe(catchError(this.handleError))
       .subscribe((res) => {
         this.setLeaderForUser(null);
         if (navigateToLeadersList) {

@@ -184,6 +184,7 @@ export class ProjectService {
                     this.taskService.bulkUpdateTasks(model.taskIds, { projectId: res['docs'][0]._id }).subscribe((result) => { });
                   });
               }
+              this.finalizeProjectDeletion(model, navigateToList);
             });
         } // If Task reassignment was needed
       }
