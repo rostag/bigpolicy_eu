@@ -42,9 +42,9 @@ export function reducer(
     // case ProjectActionTypes.PROJECT_ADD_TASK:
     // return state;
 
-    case ProjectActionTypes.PROJECT_CREATE_SUCCESS:
-      console.log('Reducer :: Create Project Success ::', action.payload);
-      return { ...state, projects: [ ...state.projects, ...action.payload ] }
+    // case ProjectActionTypes.PROJECT_CREATE_SUCCESS:
+    //   console.log('Reducer :: Create Project Success ::', action.payload);
+    //   return { ...state, projects: [ ...state.projects, ...action.payload ] }
 
     case ProjectActionTypes.PROJECT_SELECT:
       console.log('Reducer :: Project Select ::', action.payload);
