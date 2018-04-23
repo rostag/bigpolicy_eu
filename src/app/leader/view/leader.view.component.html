@@ -47,32 +47,31 @@
 
       <!-- Projects -->
       <div fxFlex>
-        <mat-card-title class="projects-title">
-          Проекти:
-        </mat-card-title>
-        <mat-card-content>
-          <app-project-list [leaderId]="leader._id" pageSize="12" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
-          </app-project-list>
-          <ng-template #projects_placeholder>Немає жодного проекту.
-            <span *ngIf="userService.hasEditPermissions(leader)"> –
-              <a [routerLink]="['/add-project']">створити</a>?</span>
-          </ng-template>
-        </mat-card-content>
-      </div>
-    </div>
-
-    <!-- Video, Mission, Vision -->
-    <div fxLayout="row wrap" fxLayoutGap="5%" fxLayoutAlign="space-between stretch">
-      <div fxFlex>
-        <div class="mission">
-          <h2>Місія:</h2>
-          <p>{{leader.mission}}</p>
-        </div>
         <div class="vision">
           <h2>Візія:</h2>
           <p>{{leader.vision}}</p>
         </div>
+        <div class="mission">
+          <h2>Місія:</h2>
+          <p>{{leader.mission}}</p>
+        </div>
       </div>
+    </div>
+
+    <mat-card-title class="projects-title">
+      Проекти:
+    </mat-card-title>
+    <mat-card-content>
+      <app-project-list [leaderId]="leader._id" pageSize="6" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
+      </app-project-list>
+      <ng-template #projects_placeholder>Немає жодного проекту.
+        <span *ngIf="userService.hasEditPermissions(leader)"> –
+          <a [routerLink]="['/add-project']">створити</a>?</span>
+      </ng-template>
+    </mat-card-content>
+
+    <!-- Video, Mission, Vision -->
+    <div fxLayout="row wrap" fxLayoutGap="5%" fxLayoutAlign="space-between stretch">
 
       <!-- Show video only if image was present -->
       <div *ngIf="leader.photo" fxFlex="45% 320px 480px" fxFlex.sm="100%">
@@ -82,7 +81,7 @@
         </div>
         <p>&nbsp;</p>
       </div>
-      
+
     </div>
 
     <!-- FIXME <h2>Навички та вміння:</h2>

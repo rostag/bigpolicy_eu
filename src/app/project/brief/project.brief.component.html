@@ -5,8 +5,8 @@
     <img mat-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   </div>
   <mat-card-content>
-    <mat-card-subtitle>Про проект: {{project.description}}</mat-card-subtitle>
-    <p>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</p>
+    <p>Проект: {{project.description}}</p>
+    <mat-card-subtitle>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions align="end">
     <a [routerLink]="['/project/', project._id]"><button mat-raised-button color="primary" >Деталі</button></a>

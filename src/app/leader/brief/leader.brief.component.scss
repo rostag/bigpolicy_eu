@@ -69,14 +69,9 @@ a {
   .vision {
     margin-bottom: 0;
     margin-top: 0;
-    max-height: 4.7em;
+    max-height: 4.5em;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .vision {
-    margin-top: 1em;
-    // max-height: 5.9em;
   }
 
   .buttons-space {
@@ -91,11 +86,6 @@ a {
   background-color: $col-fafafa;
   margin: .95em 1em 1.25em;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
-
-  .mission,
-  .vision {
-    max-height: 3.7em;
-  }
 
   .buttons-space {
     display: block;
