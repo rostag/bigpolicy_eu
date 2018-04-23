@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import { IProjectState, getProjectsState } from '../../state/reducers/project.reducers';
 import { LoadProjectSuccess, CreateProjectSuccess, LoadProjectsPageSuccess } from '../../state/actions/project.actions';
 import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
@@ -44,8 +43,7 @@ export class ProjectService {
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private taskService: TaskService,
-    private projectStore: Store<IProjectState>
+    private taskService: TaskService
   ) { }
 
   /**

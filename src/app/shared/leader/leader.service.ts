@@ -11,7 +11,6 @@ import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ENV } from 'app/../environments/env.config';
-import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPageSuccess } from '../../state/actions/leader.actions';
 import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
@@ -47,8 +46,7 @@ export class LeaderService {
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private projectService: ProjectService,
-    private leaderStore: Store<ILeaderState>
+    private projectService: ProjectService
   ) { }
 
   private get _authHeader(): string {
@@ -131,13 +129,9 @@ export class LeaderService {
       return
     }
 
-    // console.log('get Leaders Page:', leaderId, groupId, page, limit);
-
-    return this.http.get(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
-      // FIXME NG5 - get back to: .map((responsePage: ILeaderResponsePage) => {
+    // `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
+    return this.http.get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
       .map((responsePage: any) => {
-        // console.log('Leaders Page loaded, response: ', responsePage);
-        // this.leaderStore.dispatch(new LoadLeadersPageSuccess(responsePage))
         return responsePage;
       }
     );

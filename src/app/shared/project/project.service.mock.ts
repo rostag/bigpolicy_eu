@@ -241,7 +241,7 @@ export class ProjectServiceMock {
     }
 
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
-    const respOptions = {
+    const respOptions = <any>{
       body: this.responsePageMock,
       status: 200
     };
@@ -266,9 +266,8 @@ export class ProjectServiceMock {
    * Returns single project from DB
    */
   getProject(projectId: string): Observable<IProject> {
-    // return this.getProjectsPage(projectId);
     if (projectId) {
-      return this.http.get(this.projectApiUrl + projectId)
+      return this.http.get<IProject>(this.projectApiUrl + projectId)
         // FIXME NG45 - get back to typed HttpResponse:
         .map((response: IProject) => {
           // console.log('Project loaded, response: ', response);
