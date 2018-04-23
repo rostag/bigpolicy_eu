@@ -8,6 +8,8 @@ import { IProject, ITask, IProjectResponsePage } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
+import { ITaskState } from '../../state/reducers/task.reducers';
+import { CreateTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -37,7 +39,8 @@ export class TaskEditComponent implements OnInit {
     private taskService: TaskService,
     private projectService: ProjectService,
     private location: Location,
-    private projectStore: Store<IProjectState>
+    private projectStore: Store<IProjectState>,
+    private taskStore: Store<ITaskState>
   ) {
     this.task = new TaskModel();
   }
@@ -113,14 +116,16 @@ export class TaskEditComponent implements OnInit {
       // Create new task
       this.task.projectId = this.projectId;
       console.log('Task Project id =', this.task.projectId);
-      this.taskService.createTask(this.task)
-        .subscribe(
-          data => {
-            this.onSaveEdit.emit(data);
-          },
-          err => (er) => console.error('Task creation error: ', er),
-          () => { }
-        );
+      // NGRX IT
+      this.taskStore.dispatch(new CreateTask(this.task));
+      // this.taskService.createTask(this.task)
+      //   .subscribe(
+      //     data => {
+             // FIXME this.onSaveEdit.emit(data);
+      //     },
+      //     err => (er) => console.error('Task creation error: ', er),
+      //     () => { }
+      //   );
     }
     return false;
   }

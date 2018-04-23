@@ -134,16 +134,14 @@ export class TaskService {
    * @param ITask A Task to delete
    */
   deleteTask(model: ITask) {
-    this.http.delete(this.apiUrl + model._id)
+    return this.http.delete(this.apiUrl + model._id)
       .pipe(
         map(res => {
           console.log('NG45 - Task deleted, res:', res);
           return res;
         }),
         catchError(this.handleError)
-
       )
-      .subscribe();
   }
 
   /**
