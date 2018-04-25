@@ -19,12 +19,12 @@
   </div>
 
   <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
-    <a [routerLink]="['/task/' + task._id + '/edit']">
+    <button mat-icon-button [routerLink]="['/task/' + task._id + '/edit']">
       <mat-icon color="primary">edit</mat-icon>
-    </a>
-    <a href (click)="deleteTask(task, $event)">
+    </button>
+    <button mat-icon-button (click)="deleteTask(task, $event)">
       <mat-icon color="primary">delete</mat-icon>
-    </a>
+    </button>
   </div>
 
 </div>
@@ -96,13 +96,9 @@
 
     <mat-card-actions>
       <mat-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
-        <a [routerLink]="['/task/' + task._id + '/edit']">
-          <button mat-raised-button>Редагувати</button>
-        </a>
+        <button [routerLink]="['/task/' + task._id + '/edit']" mat-raised-button>Редагувати</button>
         <span class="add-fill-remaining"></span>
-        <a href (click)="deleteTask(task)">
-          <button mat-raised-button color="warn">Видалити</button>
-        </a>
+        <button mat-raised-button color="warn" (click)="deleteTask(task, $event)">Видалити</button>
       </mat-toolbar>
     </mat-card-actions>
   </mat-card-content>

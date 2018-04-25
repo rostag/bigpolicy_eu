@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
 import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
-import { CreateTask, LoadTask } from '../../state/actions/task.actions';
+import { CreateTask, LoadTask, DeleteTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -77,7 +77,7 @@ export class TaskEditComponent implements OnInit {
    * @param {data} Loaded task data
    */
   private parseLoadedTask(task: ITask) {
-    console.log('Set task:', task, ', project =', task.projectId);
+    if (!task) { return };
     this.isUpdateMode = true;
     this.task = new TaskModel();
     this.task.parseData(task);
@@ -88,13 +88,8 @@ export class TaskEditComponent implements OnInit {
    * @param {task} Task being viewed
    */
   public deleteTask(task: ITask) {
-    const projectId = task.projectId;
-    console.log('Delete from project:', projectId);
-
-    // Delete from DB
-    this.taskService.deleteTask(task);
-
-    this.router.navigate(['/project/' + projectId]);
+    this.taskStore.dispatch(new DeleteTask(task));
+    this.router.navigate(['/project/' + task.projectId]);
     return false;
   }
 
@@ -165,7 +160,7 @@ export class TaskEditComponent implements OnInit {
   /**
    * Assigns Task to other Project
    */
-  // FIXME CHECK how to reuse projects Re-assign from taskService.deleteTask method
+  // FIXME CHECK how to reuse projects Re-assign from taskService deleteTask method
   // FIXME Move it to Service
   public moveTaskToOtherProject(event) {
     const newProject: IProject = new ProjectModel();
