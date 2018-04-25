@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { TaskModel, TaskService } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -9,6 +9,8 @@ import { IProject, ITask } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { LoadProject } from '../../state/actions/project.actions';
+import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
+import { LoadTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-task-view',
@@ -18,19 +20,19 @@ import { LoadProject } from '../../state/actions/project.actions';
 
 export class TaskViewComponent implements OnInit, OnChanges {
 
-  @Input() task: ITask = new TaskModel();
+  @Input() public task: ITask = new TaskModel();
 
-  @Input() project: IProject;
+  @Input() public project: IProject;
 
-  @Input() compactView = false;
+  @Input() public compactView = false;
 
-  @Input() isUsedInline = false;
+  @Input() public isUsedInline = false;
 
-  @Input() projectTitle = '';
+  @Input() public projectTitle = '';
 
-  @Input() showProjectLink = 'dontShow';
+  @Input() public showProjectLink = 'dontShow';
 
-  hasVisual = false;
+  public hasVisual = false;
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -42,10 +44,11 @@ export class TaskViewComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private dialogService: DialogService,
-    private projectStore: Store<IProjectState>
+    private projectStore: Store<IProjectState>,
+    private taskStore: Store<ITaskState>
   ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
   }
 
@@ -53,43 +56,39 @@ export class TaskViewComponent implements OnInit, OnChanges {
    * Initialization Event Handler, used to parse route params
    * like `id` in task/:id/edit)
    */
-  ngOnInit() {
+  public ngOnInit() {
     if (this.isUsedInline) {
       // FIXME Use caching - too many requests otherwise
-      // FIXME Apply the same technique to Projects retrieving Leader info
       if (!this.project || !this.project._id || !this.project.managerId) {
         this.retrieveProject();
       } else {
-        this.applyChanges(this.project);
+        this.applyProjectChanges(this.project);
       }
     } else {
       this.route.params.subscribe(params => {
         if (params.id) {
-          this.taskService.getTask(params.id)
-            .subscribe(data => {
-              this.task = data;
-              this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
-              console.log('tpId =', this.task && this.task.projectId, data);
-              this.retrieveProject();
-            });
+          this.taskStore.dispatch(new LoadTask(params.id));
         }
       });
     }
+    this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
+    this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
+  }
 
-    this.projectStore.select(getSelectedProject).subscribe(this.applyChanges);
+  private applyTaskChanges(task: ITask) {
+    if (!task) { return };
+    this.task = task;
+    this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
+    this.retrieveProject();
   }
 
   // TODO Ensure it is called for Tasks lists to show the already loaded project
-  private applyChanges(project: IProject) {
+  private applyProjectChanges(project: IProject) {
     this.projectTitle = project ? project.title : '';
   }
 
-  retrieveProject() {
+  private retrieveProject() {
     if (this.task && this.task.projectId) {
-      // FIXME MOVE TO TASK SERVICE
-      // console.warn('LOAD PROJECT Explicitly FOR TEH TASK:', );
-
-      // FIXME TO NGRX PRJ
       this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
   }
@@ -98,14 +97,13 @@ export class TaskViewComponent implements OnInit, OnChanges {
    * Remove this task
    * @param {task} Task being viewed
    */
-  deleteTask(task: ITask, event) {
+  public deleteTask(task: ITask, event) {
     event.stopPropagation();
 
     const projectId = task.projectId;
 
     this.dialogService.info('Захід видалено', 'Ми видалили цей захід');
 
-    // Delete from DB
     this.taskService.deleteTask(task);
 
     this.router.navigate(['/project/' + projectId]);
