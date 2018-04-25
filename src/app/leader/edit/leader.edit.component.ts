@@ -81,10 +81,10 @@ export class LeaderEditComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded Leader data
    */
-  private setLeader(data) {
-    if (!data) { return }
+  private setLeader(leader: ILeader) {
+    if (!leader) { return }
     this.leaderModel = new LeaderModel();
-    this.leaderModel.parseData(data);
+    this.leaderModel.parseData(leader);
     this.driveService.checkConnection();
     this.leaderModel.applyModelToFormGroup(this.leaderFormGroup);
   }

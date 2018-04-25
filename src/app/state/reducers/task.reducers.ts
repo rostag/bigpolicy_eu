@@ -11,13 +11,15 @@ export interface ITaskState {
     tasks: ITask[];
     selectedTaskId: string;
     tasksById: ITask[];
+    tasksPage: ITaskResponsePage;
 }
 
 // The initial state of the auth store
 const initialState: ITaskState = {
     tasks: [],
     selectedTaskId: null,
-    tasksById: []
+    tasksById: [],
+    tasksPage: null
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -80,7 +82,7 @@ export function reducer(
                 }
             })
 
-            const nState = { ...state, tasks: [...newTasks] };
+            const nState = { ...state, tasks: [...newTasks], tasksPage: { ...action.payload } };
             console.log(':: Reducer :: Load TASKS Success ::', nState);
             return nState;
         default:
@@ -97,6 +99,7 @@ export function reducer(
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getTasksState = createFeatureSelector<ITaskState>('tasksState');
 export const getTasks = createSelector(getTasksState, (state: ITaskState) => state.tasks);
+export const getTasksPage = createSelector(getTasksState, (state: ITaskState) => state.tasksPage);
 export const getSelectedTaskId = createSelector(getTasksState, (state: ITaskState) => state.selectedTaskId);
 export const getSelectedTask = createSelector(getTasksState, getSelectedTaskId,
     (state: ITaskState, selectedTaskId: string) => state.tasksById[selectedTaskId]

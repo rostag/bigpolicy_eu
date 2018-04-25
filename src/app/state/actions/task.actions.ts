@@ -105,7 +105,7 @@ export class UpdateTaskSuccess implements TasksAction {
 
 export class DeleteTask implements TasksAction {
     readonly type = TasksActionTypes.TASK_DELETE;
-    constructor(public payload: string) { }
+    constructor(public payload: ITask) { }
 }
 
 export class DeleteTaskFail implements TasksAction {
@@ -115,7 +115,7 @@ export class DeleteTaskFail implements TasksAction {
 
 export class DeleteTaskSuccess implements TasksAction {
     readonly type = TasksActionTypes.TASK_DELETE_SUCCESS;
-    constructor(public payload: ITask) { }
+    constructor(public payload: any) { }
 }
 
 

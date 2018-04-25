@@ -59,7 +59,7 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.requestLeaders();
-    this.leaderStore.select(getLeadersPage).subscribe(data => this.setLeaderPage(data));
+    this.leaderStore.select(getLeadersPage).subscribe(leaderPage => this.setLeaderPage(leaderPage));
   }
 
   ngOnChanges(changes) {

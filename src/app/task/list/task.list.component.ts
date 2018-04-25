@@ -1,11 +1,12 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { TaskService } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
-import { IProject } from '../../common/models';
+import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/task.reducers';
+import { IProject, ITaskResponsePage } from '../../common/models';
+import { DeleteTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-task-list',
@@ -14,7 +15,7 @@ import { IProject } from '../../common/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskListComponent implements OnChanges {
+export class TaskListComponent implements OnChanges, OnInit {
 
   // List title
   @Input() title = '';
@@ -60,7 +61,11 @@ export class TaskListComponent implements OnChanges {
       });
   }
 
-  ngOnChanges(changes) {
+  public ngOnInit() {
+    this.taskStore.select(getTasksPage).subscribe((tp: ITaskResponsePage) => this.setTasksPage(tp));
+  }
+
+  public ngOnChanges(changes) {
     const project = changes.project && changes.project.currentValue;
     if (project && project._id ||
       changes.pageSize && changes.pageSize.currentValue ||
@@ -68,6 +73,18 @@ export class TaskListComponent implements OnChanges {
       this.requestTasks();
     }
   }
+
+  private setTasksPage(responsePage: ITaskResponsePage) {
+    if (!responsePage) { return }
+    this.itemsPage.docs.next(responsePage['docs']);
+    this.itemsPage.limit = responsePage['limit'];
+    this.itemsPage.page = responsePage['page'];
+    this.itemsPage.pages = responsePage['pages'];
+    this.itemsPage.total = responsePage['total'];
+    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
+    // proxySub.unsubscribe();
+  }
+
 
   pageChanged(pageNumber) {
     this.itemsPage.page = pageNumber;
@@ -83,16 +100,7 @@ export class TaskListComponent implements OnChanges {
       this.pageSize,
       this.dbQuery
     )
-      .subscribe(responsePage => {
-        // console.log('Next, responsePage:', responsePage);
-        this.itemsPage.docs.next(responsePage['docs']);
-        this.itemsPage.limit = responsePage['limit'];
-        this.itemsPage.page = responsePage['page'];
-        this.itemsPage.pages = responsePage['pages'];
-        this.itemsPage.total = responsePage['total'];
-        // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-        proxySub.unsubscribe();
-      });
+      .subscribe(responsePage => this.setTasksPage(responsePage));
   }
 
   addTask() {
@@ -105,15 +113,7 @@ export class TaskListComponent implements OnChanges {
   }
 
   deleteTask(taskToRemove: any) {
-    // Delete in UI
-    let updatedTasks;
-    this.tasks.subscribe(tasks => {
-      updatedTasks = tasks.filter(task => task._id !== taskToRemove._id);
-    });
-    this.tasks.next(updatedTasks);
-
-    // Delete from DB
-    this.taskService.deleteTask(taskToRemove);
+    this.taskStore.dispatch(new DeleteTask(taskToRemove));
     return false;
   }
 

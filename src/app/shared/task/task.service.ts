@@ -63,17 +63,7 @@ export class TaskService {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // console.log('get TasksPage:', taskId, projectId, page, limit, dbQuery);
-
-    return this.http.get(requestUrl)
-      // FIXME NG45 - get back to:  
-      // .map((responsePage: Response) => {
-      .map((responsePage: ITaskResponsePage) => {
-        // console.log('Tasks Page loaded, response: ', responsePage);
-        this.taskStore.dispatch(new LoadTasksSuccess(responsePage));
-
-        return responsePage;
-      });
+    return this.http.get<ITaskResponsePage>(requestUrl);
   }
 
   /**
@@ -126,15 +116,8 @@ export class TaskService {
    * Deletes a model by performing a request with DELETE HTTP method.
    * @param ITask A Task to delete
    */
-  deleteTask(model: ITask) {
+  deleteTask(model: ITask): Observable<any> {
     return this.http.delete(this.apiUrl + model._id)
-      .pipe(
-        map(res => {
-          console.log('NG45 - Task deleted, res:', res);
-          return res;
-        }),
-        catchError(this.handleError)
-      )
   }
 
   /**
