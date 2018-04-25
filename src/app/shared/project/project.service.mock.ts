@@ -268,14 +268,7 @@ export class ProjectServiceMock {
   getProject(projectId: string): Observable<IProject> {
     if (projectId) {
       return this.http.get<IProject>(this.projectApiUrl + projectId)
-        // FIXME NG45 - get back to typed HttpResponse:
-        .map((response: IProject) => {
-          // console.log('Project loaded, response: ', response);
-          // FIXME NGRX IT PRJ
-          // FIXME this.projectStore.dispatch(new LoadProjectSuccess(response))
-          return response;
-        });
-    }    
+    }
   }
 
   /**

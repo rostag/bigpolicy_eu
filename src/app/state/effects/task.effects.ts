@@ -33,6 +33,7 @@ export class TaskEffects {
         )
     )
 
+    // FIXME WIP
     @Effect() $updateTask: Observable<TasksAction> = this.$actions.pipe(
         ofType(TasksActionTypes.TASK_UPDATE),
         mergeMap((action: TasksAction) =>
@@ -43,6 +44,7 @@ export class TaskEffects {
         )
     )
 
+    // FIXME WIP
     @Effect() $deleteTask: Observable<TasksAction> = this.$actions.pipe(
         ofType(TasksActionTypes.TASK_DELETE),
         mergeMap((action: TasksAction) =>
