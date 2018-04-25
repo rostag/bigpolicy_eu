@@ -8,8 +8,8 @@ import { IProject, ITask, IProjectResponsePage } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
-import { ITaskState } from '../../state/reducers/task.reducers';
-import { CreateTask } from '../../state/actions/task.actions';
+import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
+import { CreateTask, LoadTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -49,7 +49,7 @@ export class TaskEditComponent implements OnInit {
    * Initialization Event Handler, used to parse route params
    * like `id` in task/:id/edit)
    */
-  ngOnInit() {
+  public ngOnInit() {
     // if project id is provided, it means we editing / adding task from inside the parent project
     console.log('Task Editor Initialization, provided Project Id:', this.projectId);
 
@@ -65,18 +65,18 @@ export class TaskEditComponent implements OnInit {
       .subscribe((taskId) => {
         console.log('Task Editor by ID from route params:', taskId);
         if (taskId) {
-          this.taskService.getTask(taskId).subscribe(data => {
-            this.parseLoadedTask(data);
-          });
+          this.taskStore.dispatch(new LoadTask(taskId));
         }
       });
+
+    this.taskStore.select(getSelectedTask).subscribe(task => this.parseLoadedTask(task));
   }
 
   /**
    * Task loading handler
    * @param {data} Loaded task data
    */
-  parseLoadedTask(task) {
+  private parseLoadedTask(task: ITask) {
     console.log('Set task:', task, ', project =', task.projectId);
     this.isUpdateMode = true;
     this.task = new TaskModel();
@@ -87,7 +87,7 @@ export class TaskEditComponent implements OnInit {
    * Remove this task
    * @param {task} Task being viewed
    */
-  deleteTask(task: ITask) {
+  public deleteTask(task: ITask) {
     const projectId = task.projectId;
     console.log('Delete from project:', projectId);
 
@@ -103,7 +103,7 @@ export class TaskEditComponent implements OnInit {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   // FIXME: Complete Task processing
-  saveTask(): boolean {
+  public saveTask(): boolean {
     if (this.isUpdateMode) {
       // Update existing task
       this.taskService.updateTask(this.task)
@@ -118,19 +118,13 @@ export class TaskEditComponent implements OnInit {
       console.log('Task Project id =', this.task.projectId);
       // NGRX IT
       this.taskStore.dispatch(new CreateTask(this.task));
-      // this.taskService.createTask(this.task)
-      //   .subscribe(
-      //     data => {
-             // FIXME this.onSaveEdit.emit(data);
-      //     },
-      //     err => (er) => console.error('Task creation error: ', er),
-      //     () => { }
-      //   );
+      // FIXME check effect
+      this.onSaveEdit.emit(this.task);
     }
     return false;
   }
 
-  gotoTask(task: ITask) {
+  private gotoTask(task: ITask) {
     const taskId = task._id;
     if (taskId) {
       console.log('𝕱 𝕱 𝕱 Go to task by ID: ', taskId);
@@ -142,14 +136,14 @@ export class TaskEditComponent implements OnInit {
     }
   }
 
-  cancelEditing() {
+  public cancelEditing() {
     // this is to do after editing in the standalone mode this.location.back();
     // this is to do after editing inline:
     this.onCancelEdit.emit('cancel inline task edit');
   }
 
   // TODO Smarter query, not just last 100 projects
-  requestProjectsToSelectFrom() {
+  public requestProjectsToSelectFrom() {
     // FIXME TO NGRX PRJ
     // this.projectStore.dispatch(new LoadProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' }));
     this.projectService.getProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
@@ -173,7 +167,7 @@ export class TaskEditComponent implements OnInit {
    */
   // FIXME CHECK how to reuse projects Re-assign from taskService.deleteTask method
   // FIXME Move it to Service
-  moveTaskToOtherProject(event) {
+  public moveTaskToOtherProject(event) {
     const newProject: IProject = new ProjectModel();
     newProject.parseData(event.value);
     console.log(`> Move Task to: `, newProject.title);

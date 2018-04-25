@@ -78,17 +78,10 @@ export class TaskService {
 
   /**
    * Returns single Task from DB, reuses get TasksPage by ID :: api/task-api/:taskId
+   * FIXME Request cached / Load project data to populate on loaded task
    */
   getTask(taskId: string): Observable<ITask> {
-    // FIXME Request cached / Load project data to populate on loaded task
-    if (taskId) {
-      // return this.getTasksPage(taskId);
-      return this.http.get(this.apiUrl + taskId)
-        .map((response: ITask) => {
-          this.taskStore.dispatch(new LoadTaskSuccess(response));
-          return response;
-        });
-    }
+    return this.http.get<ITask>(this.apiUrl + taskId);
   }
 
   /**

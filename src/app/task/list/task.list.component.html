@@ -29,12 +29,12 @@
         totalItems: itemsPage.total
       }">
       <app-task-view 
+        class="task-list-item"
         [task]="task"
         [project]="project"
         [compactView]="compactTasksView"
         [showProjectLink]="showProjectLink"
-        class="task-list-item"
-        isUsedInline="true"
+        [isUsedInline]="true"
         >
       </app-task-view>
     </li>

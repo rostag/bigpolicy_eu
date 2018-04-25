@@ -53,7 +53,8 @@
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
       <div fxFlex="45%">
         <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
-        <p>Проект <a [routerLink]="['/project/',task.projectId]">{{projectTitle}}</a>
+        <p>Проект
+          <a [routerLink]="['/project/',task.projectId]">{{projectTitle}}</a>
           <br/> Початок: {{task.dateStarted | date}}
           <br/> Кінець: {{task.dateEnded | date}}</p>
         <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}" class="SHARE FACEBOOK" onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
