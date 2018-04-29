@@ -91,7 +91,6 @@ export class ProjectListComponent implements OnInit, OnChanges {
     this.requestProjects();
   }
 
-  // FIXME TO NGRX PRJ
   private requestProjects() {
     this.projectStore.dispatch(new LoadProjectsPage({
       id: this.leaderId,

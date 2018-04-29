@@ -122,6 +122,7 @@ export class ProjectService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     // TODO Consider encoding the body like in create project above
+    // TODO Check is going to proejct from the service like this.gotoProjectView below is the best solution
     return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => this.gotoProjectView(res)),

@@ -28,7 +28,7 @@ const initialState: ITaskState = {
 
 /**
  * Reducer is a pure function, with input-output only and no side effects. 
- * This is the only one who is allowed to update the state directly, it must return the updated state.
+ * This is the only one who is allowed to change the state directly, it must return the new state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
  * @param state The previous state.
@@ -71,6 +71,7 @@ export function reducer(
                 s.tasksById[s.selectedTaskId] = { ...loadedTask }
                 newState = { ...s, tasks: [...s.tasks], selectedTaskId: s.selectedTaskId };
             }
+            console.log(':: Reducer :: Load Task Success ::', newState);            
             return newState;
 
         case TasksActionTypes.TASK_PAGE_LOAD_SUCCESS:

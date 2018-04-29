@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
 import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage } from '../../common/models';
+import { Router } from '@angular/router';
 
 /**
  * This class provides the TaskList service with methods to get and save tasks.
@@ -20,6 +21,7 @@ export class TaskService {
    * Creates a new TaskService with the injected Http
    */
   constructor(
+    private router: Router,    
     private http: HttpClient,
     private taskStore: Store<ITaskState>
   ) { }
@@ -35,13 +37,23 @@ export class TaskService {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     return this.http.post(this.apiUrl, body, { headers: headers })
-      .map(res => {
+      .map((res: ITask) => {
         console.log('NG45 - createTask, response:', res);
         this.taskStore.dispatch(new CreateTaskSuccess(res));
+        this.gotoTaskView(res);
         return res;
       });
   }
 
+  /**
+   * Finalizes opening of the project.
+   */
+  gotoTaskView(task) {
+    if (task && task._id) {
+      this.router.navigate(['/task', task._id]).then(_ => { });
+    }
+  }
+  
   // TODO: implement local cache
 
   /**
@@ -84,6 +96,7 @@ export class TaskService {
       .pipe(
         map(res => {
           console.log('NG45 - updateTask, res:', res);
+          this.gotoTaskView(res);
           return res;
         }),
         catchError(this.handleError)
