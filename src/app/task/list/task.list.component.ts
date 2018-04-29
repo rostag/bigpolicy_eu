@@ -1,6 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { TaskService } from '../../shared/task/index';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
@@ -47,7 +46,6 @@ export class TaskListComponent implements OnChanges, OnInit {
 
   constructor(
     public userService: UserService,
-    private taskService: TaskService,
     private taskStore: Store<ITaskState>
   ) {
     // task

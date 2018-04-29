@@ -1,6 +1,5 @@
 import { OnInit, Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
-import { ProjectService } from './shared/project/project.service';
 import { Router, NavigationEnd } from '@angular/router';
 
 import * as appVersion from './app-version.json';
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private projectService: ProjectService,
     private router: Router
   ) {
     userService.handleAuth();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project/index';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { Location } from '@angular/common';
 import { MatInputModule } from '@angular/material';
@@ -38,7 +38,6 @@ export class ProjectEditComponent implements OnInit {
     public userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService,
     private leaderService: LeaderService,
     private location: Location,
     private leaderStore: Store<ILeaderState>,
