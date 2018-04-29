@@ -2,8 +2,6 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef }
 import { TaskModel } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-// FIXME MOVE TO TASK SERVICE
-import { ProjectService } from '../../shared/project/project.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { IProject, ITask } from '../../common/models';
 import { Store } from '@ngrx/store';
@@ -39,7 +37,6 @@ export class TaskViewComponent implements OnInit, OnChanges {
    */
   constructor(
     public userService: UserService,
-    public projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
     private dialogService: DialogService,

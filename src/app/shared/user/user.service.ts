@@ -51,7 +51,6 @@ export class UserService {
   constructor(
     public leaderService: LeaderService,
     public leaderStore: Store<ILeaderState>,
-    public projectService: ProjectService,
     private dialogService: DialogService,
     private store: Store<AuthState>,
     private router: Router

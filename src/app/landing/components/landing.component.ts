@@ -1,6 +1,5 @@
 // FIXME To be removed
 import { OnInit, Component } from '@angular/core';
-import { ProjectService } from '../../shared/project';
 import { LeaderService } from '../../shared/leader';
 import { UserService } from '../../shared/user/user.service';
 
@@ -22,7 +21,6 @@ export class LandingComponent implements OnInit {
 
   constructor(
     public userService: UserService,
-    private projectService: ProjectService,
     private leaderService: LeaderService
   ) {}
 
