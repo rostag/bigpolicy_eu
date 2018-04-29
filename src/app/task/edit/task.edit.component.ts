@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel, ProjectService } from '../../shared/project/index';
-import { TaskModel, TaskService } from '../../shared/task/index';
+import { TaskModel } from '../../shared/task/index';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { IProject, ITask, IProjectResponsePage } from '../../common/models';
@@ -9,7 +9,8 @@ import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
 import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
-import { CreateTask, LoadTask, DeleteTask } from '../../state/actions/task.actions';
+import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -19,24 +20,22 @@ import { CreateTask, LoadTask, DeleteTask } from '../../state/actions/task.actio
 
 export class TaskEditComponent implements OnInit {
 
-  @Input() projectId = '';
-
-  @Output() onCancelEdit = new EventEmitter<any>();
-  @Output() onSaveEdit = new EventEmitter<any>();
-
-  isUpdateMode = false;
-
-  task: ITask;
+  @Input() public projectId = '';
+  @Output() public onCancelEdit = new EventEmitter<any>();
+  @Output() public onSaveEdit = new EventEmitter<any>();
 
   // FIXME Used for moving tasks to other projects - Extract to separate component
   public projectsToMoveTaskTo: IProject[] = null;
-  currentProject: IProject = new ProjectModel();
+  public isUpdateMode = false;
+  public task: ITask;
+
+  private currentProject: IProject = new ProjectModel();
+  private savePending;
 
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService,
     private projectService: ProjectService,
     private location: Location,
     private projectStore: Store<IProjectState>,
@@ -46,16 +45,10 @@ export class TaskEditComponent implements OnInit {
   }
 
   /**
-   * Initialization Event Handler, used to parse route params
-   * like `id` in task/:id/edit)
+   * Initialization Event Handler, used to parse route params like `id` in task/:id/edit)
    */
   public ngOnInit() {
-    // if project id is provided, it means we editing / adding task from inside the parent project
-    console.log('Task Editor Initialization, provided Project Id:', this.projectId);
-
-    if (this.projectId) {
-      return;
-    }
+    if (this.projectId) { return }
 
     this.route.params
       .map(params => {
@@ -68,19 +61,7 @@ export class TaskEditComponent implements OnInit {
           this.taskStore.dispatch(new LoadTask(taskId));
         }
       });
-
     this.taskStore.select(getSelectedTask).subscribe(task => this.parseLoadedTask(task));
-  }
-
-  /**
-   * Task loading handler
-   * @param {data} Loaded task data
-   */
-  private parseLoadedTask(task: ITask) {
-    if (!task) { return };
-    this.isUpdateMode = true;
-    this.task = new TaskModel();
-    this.task.parseData(task);
   }
 
   /**
@@ -97,44 +78,25 @@ export class TaskEditComponent implements OnInit {
    * Saves new or edited task by asking one of two service methods for DB.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
-  // FIXME: Complete Task processing
   public saveTask(): boolean {
+    this.savePending = true;
     if (this.isUpdateMode) {
       // Update existing task
-      this.taskService.updateTask(this.task)
-        .subscribe(
-          data => { this.gotoTask(data); },
-          err => (er) => console.error('Task update error: ', er),
-          () => { }
-        );
+      this.taskStore.dispatch(new UpdateTask(this.task));
     } else {
       // Create new task
       this.task.projectId = this.projectId;
       console.log('Task Project id =', this.task.projectId);
-      // NGRX IT
       this.taskStore.dispatch(new CreateTask(this.task));
-      // FIXME check effect
+      // FIXME Complete Task processing, check the result of the below.
       this.onSaveEdit.emit(this.task);
     }
     return false;
   }
 
-  private gotoTask(task: ITask) {
-    const taskId = task._id;
-    if (taskId) {
-      console.log('𝕱 𝕱 𝕱 Go to task by ID: ', taskId);
-      if (true /* standalone edit */) {
-        this.router.navigate(['/task', taskId]).then(_ => {
-          // navigation is done
-        });
-      }
-    }
-  }
-
   public cancelEditing() {
-    // this is to do after editing in the standalone mode this.location.back();
-    // this is to do after editing inline:
     this.onCancelEdit.emit('cancel inline task edit');
+    this.gotoTask(this.task);
   }
 
   // TODO Smarter query, not just last 100 projects
@@ -144,10 +106,10 @@ export class TaskEditComponent implements OnInit {
     this.projectService.getProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
       .subscribe((res) => {
         this.projectsToMoveTaskTo = res['docs'];
-        console.log('got projects to move task to: ', this.projectsToMoveTaskTo);
+        console.log('I got projects to move Task to: ', this.projectsToMoveTaskTo);
         for (const p in this.projectsToMoveTaskTo) {
           if (this.projectsToMoveTaskTo.hasOwnProperty(p)) {
-            console.log('got project: ', this.projectsToMoveTaskTo[p]._id, this.projectsToMoveTaskTo[p].title);
+            console.log('The project selected: ', this.projectsToMoveTaskTo[p]._id, this.projectsToMoveTaskTo[p].title);
             if (this.task.projectId === this.projectsToMoveTaskTo[p]._id) {
               // Memorize current project for later usage - we'll remove task from him:
               this.currentProject.parseData(this.projectsToMoveTaskTo[p]);
@@ -160,8 +122,7 @@ export class TaskEditComponent implements OnInit {
   /**
    * Assigns Task to other Project
    */
-  // FIXME CHECK how to reuse projects Re-assign from taskService deleteTask method
-  // FIXME Move it to Service
+  // FIXME CHECK how to reuse projects Re-assign from taskStore / Service deleteTask method
   public moveTaskToOtherProject(event) {
     const newProject: IProject = new ProjectModel();
     newProject.parseData(event.value);
@@ -179,8 +140,27 @@ export class TaskEditComponent implements OnInit {
     }
     // Remove Task from current Project:
     // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
-    this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1);
-    // FIXME TO NGRX TSK
+    isArray(this.currentProject.taskIds) && this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1);
     this.projectStore.dispatch(new UpdateProject(this.currentProject));
+  }
+
+  /**
+   * Task loading handler
+   * @param {data} Loaded task data
+   */
+  private parseLoadedTask(task: ITask) {
+    if (!task) { return };
+    this.isUpdateMode = true;
+    this.task = new TaskModel();
+    this.task.parseData(task);
+    console.log('Save Pending task:', this.savePending);
+
+    if (this.savePending === true) {
+      this.gotoTask(this.task);
+    }
+  }
+
+  private gotoTask(task: ITask) {
+    if (task._id) { this.router.navigate(['/task', task._id]).then(_ => { }) }
   }
 }

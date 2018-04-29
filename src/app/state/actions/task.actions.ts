@@ -89,7 +89,7 @@ export class LoadTaskPageSuccess implements TasksAction {
 
 export class UpdateTask implements TasksAction {
     readonly type = TasksActionTypes.TASK_UPDATE;
-    constructor(public payload: string) { }
+    constructor(public payload: ITask) { }
 }
 
 export class UpdateTaskFail implements TasksAction {
