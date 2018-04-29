@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
 import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
-import { ITask, ITaskResponsePage } from '../../common/models';
+import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { Router } from '@angular/router';
 
 /**
@@ -21,7 +21,7 @@ export class TaskService {
    * Creates a new TaskService with the injected Http
    */
   constructor(
-    private router: Router,    
+    private router: Router,
     private http: HttpClient,
     private taskStore: Store<ITaskState>
   ) { }
@@ -53,7 +53,7 @@ export class TaskService {
       this.router.navigate(['/task', task._id]).then(_ => { });
     }
   }
-  
+
   // TODO: implement local cache
 
   /**
@@ -61,20 +61,24 @@ export class TaskService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<ITaskResponsePage> {
+  loadTasksPage(req: IDataPageRequest): Observable<ITaskResponsePage> {
 
     let requestUrl;
 
-    // Page of Tasks :: api/task-api/page/:page/:limit/q/:dbQuery
+    const projectId = req.id;
+    const page = req.page;
+    const limit = req.pageSize;
+    const dbQuery = req.dbQuery;
+
+    // Page of Tasks - api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
       requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // Page of tasks for Project :: api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
+    // Page of Tasks for Project - api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && projectId !== null) {
       requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
-
     return this.http.get<ITaskResponsePage>(requestUrl);
   }
 

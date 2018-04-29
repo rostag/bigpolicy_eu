@@ -74,7 +74,7 @@ export function reducer(
             console.log(':: Reducer :: Load Task Success ::', newState);            
             return newState;
 
-        case TasksActionTypes.TASK_PAGE_LOAD_SUCCESS:
+        case TasksActionTypes.LoadTaskPageSuccess:
             const newTasks: ITask[] = [];
             const responseData: ITaskResponsePage = action.payload;
             responseData && responseData.docs && responseData.docs.forEach(doc => {

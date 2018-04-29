@@ -55,10 +55,10 @@ export class TaskEffects {
         )
     )
 
-    @Effect() $loadTasksPage: Observable<TasksAction> = this.$actions.pipe(
-        ofType(TasksActionTypes.TASK_PAGE_LOAD),
+    @Effect() $loadTaskPage: Observable<TasksAction> = this.$actions.pipe(
+        ofType(TasksActionTypes.LoadTasksPage),
         mergeMap((action: TasksAction) =>
-            this.taskService.getTasksPage(action.payload).pipe(
+            this.taskService.loadTasksPage(action.payload).pipe(
                 map(data => new LoadTaskPageSuccess(data)),
                 catchError(err => of(new LoadTaskPageFail(err)))
             )

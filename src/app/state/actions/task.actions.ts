@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ITaskResponsePage, ITask } from '../../common/models';
+import { ITaskResponsePage, ITask, IDataPageRequest } from '../../common/models';
 
 export interface TasksAction extends Action {
     payload?: any;
@@ -28,9 +28,9 @@ export enum TasksActionTypes {
 
     TASK_SELECT = '[Tasks] Select Task',
 
-    TASK_PAGE_LOAD = '[Tasks] Load',
-    TASK_PAGE_LOAD_FAIL = '[Tasks] Load Fail',
-    TASK_PAGE_LOAD_SUCCESS = '[Tasks] Load Success',
+    LoadTasksPage = '[Tasks] Load Task Page',
+    LoadTaskPageFail = '[Tasks] Load Task Page Fail',
+    LoadTaskPageSuccess = '[Tasks] Load Task Page Success',
 
 }
 
@@ -72,17 +72,17 @@ export class LoadTaskSuccess implements TasksAction {
 
 
 export class LoadTaskPage implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD;
-    constructor(public payload: string) { }
+    readonly type = TasksActionTypes.LoadTasksPage;
+    constructor(public payload: IDataPageRequest) { }
 }
 
 export class LoadTaskPageFail implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD_FAIL;
+    readonly type = TasksActionTypes.LoadTaskPageFail;
     constructor(public payload: string) { }
 }
 
 export class LoadTaskPageSuccess implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD_SUCCESS;
+    readonly type = TasksActionTypes.LoadTaskPageSuccess;
     constructor(public payload: ITaskResponsePage) { }
 }
 
@@ -125,17 +125,17 @@ export class SelectTask implements TasksAction {
 }
 
 export class LoadTasks implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD;
+    readonly type = TasksActionTypes.LoadTasksPage;
     constructor(public payload: string) { }
 }
 
 export class LoadTasksFail implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD_FAIL;
+    readonly type = TasksActionTypes.LoadTaskPageFail;
     constructor(public payload: string) { }
 }
 
 export class LoadTasksSuccess implements TasksAction {
-    readonly type = TasksActionTypes.TASK_PAGE_LOAD_SUCCESS;
+    readonly type = TasksActionTypes.LoadTaskPageSuccess;
     constructor(public payload: ITaskResponsePage) { }
 }
 
