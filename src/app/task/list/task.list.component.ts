@@ -5,8 +5,8 @@ import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/task.reducers';
-import { IProject, ITaskResponsePage } from '../../common/models';
-import { DeleteTask } from '../../state/actions/task.actions';
+import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
+import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-task-list',
@@ -93,14 +93,14 @@ export class TaskListComponent implements OnChanges, OnInit {
 
   // FIXME Consider elimintation of the code duplication in paginator
   requestTasks() {
-    const proxySub = this.taskService.getTasksPage(
-      null,
-      this.project._id,
-      this.itemsPage.page,
-      this.pageSize,
-      this.dbQuery
-    )
-      .subscribe(responsePage => this.setTasksPage(responsePage));
+    if (!this.project || !this.project._id) { return }
+    const req: IDataPageRequest = {
+      id: this.project._id,
+      page: this.itemsPage.page,
+      pageSize: this.pageSize,
+      dbQuery: this.dbQuery
+    }
+    this.taskStore.dispatch(new LoadTaskPage(req));
   }
 
   addTask() {
