@@ -24,7 +24,16 @@ declare var localStorage: any;
 export class LeaderService {
 
   // FIXME NGRX IT
-  public leader: ILeader;
+  public get leader(): ILeader {
+    return this._leader;
+  };
+
+  public set leader(lader: ILeader) {
+    // FIXME TO NGRX LDR - store selected leader from here
+    this._leader = lader;
+  };
+
+  private _leader: ILeader;
 
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
@@ -134,7 +143,7 @@ export class LeaderService {
       .map((responsePage: any) => {
         return responsePage;
       }
-    );
+      );
   }
 
   /**
@@ -162,7 +171,7 @@ export class LeaderService {
     console.log('LeaderService:RequestLeader ByEmail:', email);
 
     // FIXME NGRX IT LP
-    const leaderResponse = this.getLeadersPage( { id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }' });
+    const leaderResponse = this.getLeadersPage({ id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }' });
     leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
