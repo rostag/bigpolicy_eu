@@ -1,6 +1,5 @@
 // FIXME To be removed
 import { OnInit, Component } from '@angular/core';
-import { LeaderService } from '../../shared/leader';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -20,24 +19,12 @@ export class LandingComponent implements OnInit {
   };
 
   constructor(
-    public userService: UserService,
-    private leaderService: LeaderService
+    public userService: UserService
   ) {}
 
 
   ngOnInit() {
     this.getProjects();
-    this.getLeaders();
-  }
-
-  getLeaders() {
-    // TODO RESTORE WHEN NEEDED
-    // this.leaderService.get LeadersPage(null, 1, 3)
-    //   .subscribe(
-    //     data => this.setLeaders(data['docs']),
-    //     err => console.error(err),
-    //     () => this.app.leaders
-    //   );
   }
 
   private setLeaders(data) {

@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material';
 import { ILeader, IProject } from '../../common/models';
 import { LeaderModel } from '../../shared/leader';
 import { Store } from '@ngrx/store';
-import { ILeaderState } from '../../state/reducers/leader.reducers';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { CreateProject, UpdateProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
@@ -82,13 +82,20 @@ export class ProjectEditComponent implements OnInit {
    */
   // FIXME: Complete Project processing
   saveProject(): boolean {
+    const leader = this.leaderService.leader;
+    // FIXME TO NGRX LDR
+    // this.leaderStore.select(getSelectedLeader).subscribe(l => {
+    //   console.log('Leeeeeader:', l);
+    //   leader = l;
+    //   return l;
+    // });
+
     if (this.isUpdateMode) {
       // Update existing project
       this.projectStore.dispatch(new UpdateProject(this.project));
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      const leader = this.leaderService.leader;
       if (!leader) { return false };
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;

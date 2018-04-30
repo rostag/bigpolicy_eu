@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/task.reducers';
 import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-task-list',
@@ -49,14 +50,9 @@ export class TaskListComponent implements OnChanges, OnInit {
     private taskStore: Store<ITaskState>
   ) {
     // task
-    this.taskStore.pipe(select(getTasksState))
-      .subscribe((ls: ITaskState) => {
-        console.log('Got Tasks State:', ls);
-        // TODO Finalize Task List update
-        // if (ls.tasks.length > 0) {
-        //   this.itemsPage.docs.next(ls.tasks);
-        // }
-      });
+    this.taskStore.pipe(select(getTasksState)).subscribe((ls: ITaskState) => {
+      if (isArray(ls.tasks)) { this.itemsPage.docs.next(ls.tasks) }
+    });
   }
 
   public ngOnInit() {
