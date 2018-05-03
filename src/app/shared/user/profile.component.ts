@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     // FIXME NGRX IT
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
-        console.log('ProfileComponent. set profile leader:', item);
+        console.log('ProfileComponent. Set profile leader:', item);
         this.profileLeader = item;
       });
   }

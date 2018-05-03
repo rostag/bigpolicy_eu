@@ -277,7 +277,7 @@ export class LeaderService {
       return;
     }
     // FIXME Impersonation happens - check with admin editing different leaders (and see Profile then)
-    console.log('👤 Leader service. Set leader for', leader.email);
+    console.log('Leader service. Set leader for', leader.email);
     this.leader = leader;
     // Notify observers;
     // http://stackoverflow.com/questions/34376854/delegation-eventemitter-or-observable-in-angular2/35568924#35568924
