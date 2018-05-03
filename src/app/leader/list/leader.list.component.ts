@@ -75,7 +75,6 @@ export class LeaderListComponent implements OnInit, OnChanges {
       this.flexState.md = f[2];
       this.flexState.sm = f[3];
       this.flexState.xs = f[4];
-      console.log('Leader List flexState:', this.flexState);
     }
   }
 
@@ -97,7 +96,6 @@ export class LeaderListComponent implements OnInit, OnChanges {
     if (!responsePage) {
       return;
     }
-    console.log('Next, responsePage:', responsePage);
     this.itemsPage.docs.next(responsePage['docs']);
     this.itemsPage.limit = responsePage['limit'];
     this.itemsPage.page = responsePage['page'];

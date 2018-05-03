@@ -49,7 +49,7 @@ export function reducer(
     //   return { ...state, projects: [ ...state.projects, ...action.payload ] }
 
     case ProjectActionTypes.PROJECT_SELECT:
-      console.log('Reducer :: Project Select ::', action.payload);
+      // console.log('Reducer :: Project Select ::', action.payload);
       return { ...state, selectedProjectId: action.payload }
 
     case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
@@ -58,7 +58,7 @@ export function reducer(
       if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
         const nid = [...newState.projectsById];
         nid[newState.selectedProjectId] = { ...loadedProject };
-        console.log('Reducer :: Load Project Success ::', newState);
+        // console.log('Reducer :: Load Project Success ::', newState);
         return {
           ...newState,
           projects: [...newState.projects, loadedProject],
@@ -78,7 +78,7 @@ export function reducer(
       })
 
       const nState = { ...state, projects: [...newProjects], projectsPage: { ...action.payload } };
-      console.log(':: Reducer :: Load PROJECTS Success ::', nState);
+      // console.log(':: Reducer :: Load PROJECTS Success ::', nState);
       return nState;
 
     default:
