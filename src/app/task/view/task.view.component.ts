@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { TaskModel } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -16,7 +16,7 @@ import { LoadTask, DeleteTask } from '../../state/actions/task.actions';
   styleUrls: ['./task.view.component.scss']
 })
 
-export class TaskViewComponent implements OnInit, OnChanges {
+export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public task: ITask = new TaskModel();
 
@@ -31,6 +31,9 @@ export class TaskViewComponent implements OnInit, OnChanges {
   @Input() public showProjectLink = 'dontShow';
 
   public hasVisual = false;
+
+  private selectedTask$;
+  private selectedProject$;
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -55,7 +58,7 @@ export class TaskViewComponent implements OnInit, OnChanges {
   public ngOnInit() {
     if (this.isUsedInline) {
       // FIXME Use caching - too many requests otherwise
-      this.initProject();
+      this.applyProjectChanges(this.project);
     } else {
       this.route.params.subscribe(params => {
         if (params.id) {
@@ -63,28 +66,30 @@ export class TaskViewComponent implements OnInit, OnChanges {
         }
       });
     }
-    this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
-    this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
+    this.selectedTask$ = this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
+    this.selectedProject$ = this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
+  }
+
+  public ngOnDestroy() {
+    this.selectedTask$.unsubscribe();
+    this.selectedProject$.unsubscribe();
   }
 
   private applyTaskChanges(task: ITask) {
     if (!task) { return };
     this.task = task;
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
-    this.initProject();
-  }
 
-  // TODO Ensure it is called for Tasks lists to show the already loaded project
-  private applyProjectChanges(project: IProject) {
-    this.projectTitle = project ? project.title : '';
-  }
-
-  private initProject() {
     if (!this.project || !this.project._id || !this.project.managerId) {
       this.retrieveProject();
     } else {
       this.applyProjectChanges(this.project);
     }
+  }
+
+  // TODO Ensure it is called for Tasks lists to show the already loaded project
+  private applyProjectChanges(project: IProject) {
+    this.projectTitle = project ? project.title : '';
   }
 
   private retrieveProject() {
