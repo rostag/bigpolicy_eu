@@ -88,9 +88,9 @@ export class TaskViewComponent implements OnInit, OnChanges {
   }
 
   private retrieveProject() {
-    if (this.task && this.task.projectId) {
+    if (this.task && this.task.projectId && !this.project ) {
       // FIXME Verify this is working
-      // this.projectStore.dispatch(new LoadProject(this.task.projectId));
+      this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
   }
 
