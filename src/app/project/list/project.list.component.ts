@@ -1,12 +1,13 @@
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, SimpleChange } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, SimpleChange, OnDestroy } from '@angular/core';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { IProjectResponsePage, IProject } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { IProjectState, getProjectsPage } from '../../state/reducers/project.reducers';
 import { LoadProjectsPage } from '../../state/actions/project.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-project-list',
@@ -15,7 +16,7 @@ import { LoadProjectsPage } from '../../state/actions/project.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ProjectListComponent implements OnInit, OnChanges {
+export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
 
   // List title
   @Input() title = '';
@@ -57,6 +58,8 @@ export class ProjectListComponent implements OnInit, OnChanges {
 
   isAddingTaskMode = false;
 
+  private projectsPage$: Subscription;
+
   constructor(
     public userService: UserService,
     private projectStore: Store<IProjectState>,
@@ -64,7 +67,11 @@ export class ProjectListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.projectStore.select(getProjectsPage).subscribe((pp: IProjectResponsePage) => this.setProjectPage(pp));
+    this.projectsPage$ = this.projectStore.select(getProjectsPage).subscribe((pp: IProjectResponsePage) => this.setProjectPage(pp));
+  }
+
+  ngOnDestroy() {
+    this.projectsPage$.unsubscribe();
   }
 
   ngOnChanges(c) {
@@ -107,7 +114,5 @@ export class ProjectListComponent implements OnInit, OnChanges {
     this.itemsPage.page = responsePage['page'];
     this.itemsPage.pages = responsePage['pages'];
     this.itemsPage.total = responsePage['total'];
-    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-    // proxySub.unsubscribe();
   }
 }

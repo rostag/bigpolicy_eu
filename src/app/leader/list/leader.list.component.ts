@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/mod
 import { Store } from '@ngrx/store';
 import { ILeaderState, getLeaders, getLeadersPage } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPage } from '../../state/actions/leader.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-leader-list',
@@ -13,7 +14,7 @@ import { LoadLeadersPage } from '../../state/actions/leader.actions';
   styleUrls: ['./leader.list.component.scss']
 })
 
-export class LeaderListComponent implements OnInit, OnChanges {
+export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() title = '';
 
@@ -51,6 +52,8 @@ export class LeaderListComponent implements OnInit, OnChanges {
     total: 0
   };
 
+  private leadersPage$: Subscription;
+
   constructor(
     public userService: UserService,
     private http: HttpClient,
@@ -59,7 +62,11 @@ export class LeaderListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.requestLeaders();
-    this.leaderStore.select(getLeadersPage).subscribe(leaderPage => this.setLeaderPage(leaderPage));
+    this.leadersPage$ = this.leaderStore.select(getLeadersPage).subscribe(leaderPage => this.setLeaderPage(leaderPage));
+  }
+
+  ngOnDestroy() {
+    this.leadersPage$.unsubscribe();
   }
 
   ngOnChanges(changes) {
@@ -101,7 +108,5 @@ export class LeaderListComponent implements OnInit, OnChanges {
     this.itemsPage.page = responsePage['page'];
     this.itemsPage.pages = responsePage['pages'];
     this.itemsPage.total = responsePage['total'];
-    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-    // proxySub.unsubscribe();
   }
 }

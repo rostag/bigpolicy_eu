@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
 import { Store, select } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/ta
 import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
 import { isArray } from 'util';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -15,7 +16,7 @@ import { isArray } from 'util';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskListComponent implements OnChanges, OnInit {
+export class TaskListComponent implements OnChanges, OnInit, OnDestroy {
 
   // List title
   @Input() title = '';
@@ -45,18 +46,20 @@ export class TaskListComponent implements OnChanges, OnInit {
 
   isAddingTaskMode = false;
 
+  private tasksPage$: Subscription;
+
   constructor(
     public userService: UserService,
     private taskStore: Store<ITaskState>
   ) {
-    // task
-    this.taskStore.pipe(select(getTasksState)).subscribe((ls: ITaskState) => {
-      if (isArray(ls.tasks)) { this.itemsPage.docs.next(ls.tasks) }
-    });
   }
 
   public ngOnInit() {
-    this.taskStore.select(getTasksPage).subscribe((tp: ITaskResponsePage) => this.setTasksPage(tp));
+    this.tasksPage$ = this.taskStore.select(getTasksPage).subscribe((tp: ITaskResponsePage) => this.setTasksPage(tp));
+  }
+
+  public ngOnDestroy() {
+    this.tasksPage$.unsubscribe();
   }
 
   public ngOnChanges(changes) {
@@ -75,8 +78,6 @@ export class TaskListComponent implements OnChanges, OnInit {
     this.itemsPage.page = responsePage['page'];
     this.itemsPage.pages = responsePage['pages'];
     this.itemsPage.total = responsePage['total'];
-    // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
-    // proxySub.unsubscribe();
   }
 
 
