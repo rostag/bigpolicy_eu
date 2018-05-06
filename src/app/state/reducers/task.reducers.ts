@@ -61,17 +61,19 @@ export function reducer(
             return state;
 
         case TasksActionTypes.TASK_LOAD_SUCCESS:
-            let newState;
             const loadedTask: ITask = { ...action.payload };
-            const s = { ...state };
-            if (s.tasks && s.tasks.indexOf(loadedTask) === -1) {
-                // Add to tasks
-                s.tasks = [...s.tasks, loadedTask];
-                // Add to tasks by id
-                s.tasksById[s.selectedTaskId] = { ...loadedTask }
-                newState = { ...s, tasks: [...s.tasks], selectedTaskId: s.selectedTaskId };
+            let newState = { ...state, selectedTaskId: loadedTask._id };
+            if (newState.tasks && newState.tasks.indexOf(loadedTask) === -1) {
+                const tasksById = [...newState.tasksById];
+                tasksById[newState.selectedTaskId] = { ...loadedTask };
+                console.log('Reducer :: Load Task Success ::', newState);
+                return {
+                    ...newState,
+                    tasks: [...newState.tasks, loadedTask],
+                    tasksById: <ITask[]>tasksById,
+                    selectedTaskId: newState.selectedTaskId
+                }
             }
-            console.log(':: Reducer :: Load Task Success ::', newState);            
             return newState;
 
         case TasksActionTypes.LoadTaskPageSuccess:
@@ -89,6 +91,13 @@ export function reducer(
         default:
             return state;
     }
+}
+
+function hasThisTask(tasks, loadedTask: ITask) {
+    let result = tasks && tasks.indexOf(loadedTask) === -1;
+    console.log('HAS THIS TASK:', loadedTask.title, result);
+
+    return result;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
