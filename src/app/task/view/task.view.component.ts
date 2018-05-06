@@ -65,14 +65,16 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
           this.taskStore.dispatch(new LoadTask(params.id));
         }
       });
+      this.selectedTask$ = this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
+      this.selectedProject$ = this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
     }
-    this.selectedTask$ = this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
-    this.selectedProject$ = this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
   }
 
   public ngOnDestroy() {
-    this.selectedTask$.unsubscribe();
-    this.selectedProject$.unsubscribe();
+    if (this.selectedTask$) {
+      this.selectedTask$.unsubscribe();
+      this.selectedProject$.unsubscribe();
+    }
   }
 
   private applyTaskChanges(task: ITask) {
@@ -93,7 +95,7 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private retrieveProject() {
-    if (this.task && this.task.projectId && !this.project ) {
+    if (this.task && this.task.projectId && !this.project) {
       // FIXME Verify this is working
       this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
