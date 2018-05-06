@@ -53,16 +53,16 @@ export function reducer(
       return { ...state, selectedProjectId: action.payload }
 
     case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
-      let newState = { ...state };
       const loadedProject: IProject = { ...action.payload };
+      let newState = { ...state, selectedProjectId: loadedProject._id };
       if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
-        const nid = [...newState.projectsById];
-        nid[newState.selectedProjectId] = { ...loadedProject };
-        // console.log('Reducer :: Load Project Success ::', newState);
+        const projectsById = [...newState.projectsById];
+        projectsById[newState.selectedProjectId] = { ...loadedProject };
+        console.log('Reducer :: Load Project Success ::', newState);
         return {
           ...newState,
           projects: [...newState.projects, loadedProject],
-          projectsById: <IProject[]>nid,
+          projectsById: <IProject[]>projectsById,
           selectedProjectId: newState.selectedProjectId
         }
       }
