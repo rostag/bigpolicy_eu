@@ -23,6 +23,7 @@ const leaderSchema = new Schema({
 	leaderFiles: { type: Array },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number },
+	location: { type: String },
 
 	// group membership
 	// leader's party id

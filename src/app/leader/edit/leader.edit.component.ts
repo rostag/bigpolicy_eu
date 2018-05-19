@@ -9,7 +9,8 @@ import { ILeader } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
-
+import { Observable } from 'rxjs/Observable';
+import { startWith, map } from 'rxjs/operators';
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
@@ -25,6 +26,38 @@ export class LeaderEditComponent implements OnInit {
   // Must be public, used in template
   public isUpdateMode = false;
 
+  public filteredOptions: Observable<string[]>;  
+
+  private regions = [
+    'Одеська область',
+    'Дніпропетровська область',
+    'Чернігівська область',
+    'Харківська область',
+    'Житомирська область',
+    'Полтавська область',
+    'Херсонська область',
+    'Київська область',
+    'Запорізька область',
+    'Луганська область',
+    'Донецька область',
+    'Вінницька область',
+    'Автономна Республіка Крим',
+    'Миколаївська область',
+    'Кіровоградська область',
+    'Сумська область',
+    'Львівська область',
+    'Черкаська область',
+    'Хмельницька область',
+    'Волинська область',
+    'Рівненська область',
+    'Івано-Франківська область',
+    'Тернопільська область',
+    'Закарпатська область',
+    'Чернівецька область',
+    'м. Севастополь',
+    'м. Київ'
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private leaderStore: Store<ILeaderState>,
@@ -39,7 +72,7 @@ export class LeaderEditComponent implements OnInit {
    * like `id` in leader/:id/edit)
    */
   // FIXME Protect with Guard from unauthorized edits
-  ngOnInit() {
+  public ngOnInit() {
     console.log('Init Leader Editor, route params:', this.route.params);
 
     // FIXME
@@ -53,7 +86,8 @@ export class LeaderEditComponent implements OnInit {
       surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
-      videoUrl: ['', this.videoUrlValidator]
+      videoUrl: ['', this.videoUrlValidator],
+      location: [''],
     });
 
     // FIXME_SEC TEST_1 unauthorised user can't see the page
@@ -65,12 +99,24 @@ export class LeaderEditComponent implements OnInit {
       }
     })
 
-    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));    
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
+
+    this.filteredOptions = this.leaderFormGroup.controls.location.valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val))
+      );
   }
+
+  private filter(val: string): string[] {
+    return this.regions.filter(option =>
+      option.toLowerCase().includes(val.toLowerCase()));
+  }
+
 
   // FIXME apply validation
   // returns either null if the control value is valid or a validation error object
-  videoUrlValidator(c: FormControl) {
+  private videoUrlValidator(c: FormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
     // console.log('yourube validity: ', c.value, c.value.match(youTubeRegexp) );
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
@@ -94,7 +140,7 @@ export class LeaderEditComponent implements OnInit {
   * @returns return false to prevent default form submit behavior to refresh the page.
   */
   // FIXME: Complete Leader processing
-  onSubmit() {
+  public onSubmit() {
     // Update leader from the Lader edit form
     this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
 
@@ -135,7 +181,7 @@ export class LeaderEditComponent implements OnInit {
     this.leaderModel.leaderFiles = files;
   }
 
-  cancelEditing() {
+  public cancelEditing() {
     this.location.back();
   }
 }

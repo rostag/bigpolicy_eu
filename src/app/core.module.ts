@@ -77,7 +77,7 @@ import { AuthEffects } from './state/effects/auth.effects';
 import {
   MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule,
   MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule,
-  MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule
+  MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule, MatAutocompleteModule
 } from '@angular/material';
 import { LandingComponent } from './landing';
 import { ProjectEffects } from './state/effects/project.effects';
@@ -127,7 +127,8 @@ export const firebaseConfig = {
     MatProgressSpinnerModule,
     MatListModule,
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    MatAutocompleteModule
   ],
   exports: [
     // components we want to make available
