@@ -37,6 +37,8 @@ export class LeaderModel implements ILeader {
   docCorruptionRecord: string;
   docPassport: string;
 
+  location: string;
+
   /**
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
@@ -69,6 +71,7 @@ export class LeaderModel implements ILeader {
     this.vision = f.get('vision').value;
     this.mission = f.get('mission').value;
     this.videoUrl = f.get('videoUrl').value;
+    this.location = f.get('location').value;
   }
 
   applyModelToFormGroup(formGroup: FormGroup) {

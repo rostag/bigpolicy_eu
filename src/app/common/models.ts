@@ -31,6 +31,8 @@ export interface ILeader {
     applyModelToFormGroup?: any; // FIXME
     applyFormGroupToModel?: any; // FIXME
     onPhotoUrlChange?: any; // FIXME
+
+    location: string;
 }
 
 export class IProject {
