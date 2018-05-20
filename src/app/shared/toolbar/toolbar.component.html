@@ -45,14 +45,17 @@
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</button>
   <div *ngIf="userService.authenticated()">
-    <button mat-menu-item [disabled]="true">{{userService?.userProfile?.name}}</button>
+    <button mat-menu-item><b>{{userService?.userProfile?.name}}</b></button>
     <button mat-menu-item [routerLink]="['/profile']" color="primary">Обліковий запис</button>
     <button mat-menu-item (click)="userService.logout()" color="primary">Вийти</button>
-  </div>
-  <div mat-menu-item *ngIf="false">
-    <a (click)="ping()">Ping</a>,
-    <a (click)="pingJwt()">PingJWT</a>,
-    <a (click)="pingJwtAdmin()">PingJWTAdmin</a>,
+    <div *ngIf="userService.isAdmin">
+      <div class="separator"></div>
+      <button mat-menu-item (click)="ping()">Ping</button>
+      <button mat-menu-item (click)="pingJwt()">PingJWT</button>
+      <button mat-menu-item (click)="pingJwtAdmin()">PingJWTAdmin</button>
+    </div>
+    <div class="separator"></div>
+    <button mat-menu-item>BigPolicy v. {{appVersion}}</button>
   </div>
 </mat-menu>
 

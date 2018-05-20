@@ -100,7 +100,7 @@ export class LeaderService {
       // FIXME: dispatch LoginRequest action (to be created)
       // this.auth.login();
     }
-    return Observable.throw(errorMsg);
+    return Observable.of(errorMsg);
   }
 
   /**
