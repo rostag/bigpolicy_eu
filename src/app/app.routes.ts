@@ -22,6 +22,7 @@ import { ProjectViewComponent } from './project/view';
 import { TaskEditComponent } from './task/edit';
 import { TaskListComponent } from './task/list';
 import { TaskViewComponent } from './task/view';
+import { GeneratorComponent } from './generator/generator.component';
 
 //
 // The order of routes is IMPORTANT.
@@ -47,6 +48,7 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
 
   { path: 'about', component: AboutComponent },
+  { path: 'generator', component: GeneratorComponent },
   { path: 'privacy', component: DisclaimerComponent },
   // { path: 'landing', component: LandingComponent },
   { path: '', component: HomeComponent },

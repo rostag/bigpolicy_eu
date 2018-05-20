@@ -83,6 +83,7 @@ import { LandingComponent } from './landing';
 import { ProjectEffects } from './state/effects/project.effects';
 import { LeaderEffects } from './state/effects/leader.effects';
 import { TaskEffects } from './state/effects/task.effects';
+import { GeneratorComponent } from './generator/generator.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
@@ -205,7 +206,8 @@ export const firebaseConfig = {
     LeaderBriefComponent,
     ProjectBriefComponent,
     WorkingSpinnerComponent,
-    DisclaimerComponent
+    DisclaimerComponent,
+    GeneratorComponent
   ],
   providers: [
     // singleton services
