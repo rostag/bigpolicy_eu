@@ -12,7 +12,7 @@
     "body-parser": "1.18.2",
     "cors": "2.8.4",
     "express": "4.16.2",
-    "express-jwt": "5.3.0",
+    "express-jwt": "5.3.1",
     "firebase-admin": "5.5.0",
     "firebase-functions": "0.7.1",
     "jwks-rsa": "1.2.1",
