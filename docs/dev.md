@@ -1,3 +1,6 @@
+## Added May 20 2018 - on user mgmt:
+https://hackernoon.com/how-to-build-a-node-js-user-management-app-12d900695ef6
+
 ## Rough TODO Further integrations:
 
 + Facebook Story
