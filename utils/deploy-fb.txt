@@ -13,7 +13,11 @@ cd [project root folder]/bp/ && yarn && npm run build-prod && rsync -a dist/* fb
 
 =====================
 
-rsync -a dist/* fbs/dist
+cd functions/
+
+npm i --save firebase-functions
+
+
 
 "Technology recommendations are off-topic on Stack Overflow. 
 I've used Cloud Functions (on a paid plan, the cost is quite minimal), App Engine Flex, and Zeit in the past. But there are probably dozens more, many of them with their own advantages"
