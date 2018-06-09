@@ -1,20 +1,15 @@
-var app = require('./models/app');
-var mongoose = require('mongoose');
+const config = require('./../config');
+const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 var options = {
-    poolSize: 5,
-    native_parser: true
+  poolSize: 5,
+  native_parser: true
 };
 
-//  Local:
-var MNG_URL = 'mongodb://localhost:27027/bigpolicy';
-//  Remote: 
-// var MNG_URL = 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa'
-
 try {
-  console.log('  𝖄 Mongoose connection:' + MNG_URL);
-  mongoose.connect(MNG_URL, options);
+  console.log('Mongo connected:' + config.MONGO_URI);
+  mongoose.connect(config.MONGO_URI, options);
 } catch (err) {
-  console.error('A Mongoose connection failed with error: ', err);
+  console.error('Mongo connection failed: ', err);
 }
