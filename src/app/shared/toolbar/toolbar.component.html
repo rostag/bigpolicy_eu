@@ -23,7 +23,7 @@
   <span fxFlex="23" style="white-space:nowrap;">
     <button [routerLink]="['/leader/', leaderId]" title="Email: {{userService.userProfile?.email || 'User email'}}" *ngIf="userService.authenticated()"
       mat-button color="primary">
-      {{userService.userProfile ? userService.userProfile.name : ''}}
+      {{leaderService?.leader?.name || userService?.userProfile?.name || ''}}
     </button>
     <button mat-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
       Увійти
@@ -45,17 +45,19 @@
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</button>
   <div *ngIf="userService.authenticated()">
-    <button mat-menu-item><b>{{userService?.userProfile?.name}}</b></button>
+    <button mat-menu-item>
+      <b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b>
+    </button>
     <button mat-menu-item [routerLink]="['/profile']" color="primary">Обліковий запис</button>
     <button mat-menu-item (click)="userService.logout()" color="primary">Вийти</button>
-    <div *ngIf="userService.isAdmin">
+    <!-- <div *ngIf="userService.isAdmin">
       <div class="separator"></div>
       <button mat-menu-item (click)="ping()">Ping</button>
       <button mat-menu-item (click)="pingJwt()">PingJWT</button>
       <button mat-menu-item (click)="pingJwtAdmin()">PingJWTAdmin</button>
-    </div>
+    </div> -->
     <div class="separator"></div>
-    <button mat-menu-item>BigPolicy v. {{appVersion}}</button>
+    <button [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</button>
   </div>
 </mat-menu>
 
