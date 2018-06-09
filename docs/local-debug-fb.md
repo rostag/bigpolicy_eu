@@ -8,7 +8,7 @@ There are client configs we need to put in order, please look for these:
   BASE_URI: getHost(),
   BASE_API: apiURI
 
-//Also:
+// Also:
 
 cd ~/dev/bp/bp && rosty$ ng build --prod && echo OK OK OK && rm -rf fbs/dist/ && echo OK OK && mv dist/ fbs/ && echo OK
 
@@ -18,14 +18,12 @@ cd ~/dev/bp/bp && firebase serve
 
 1. Local debug on local Mongo and Local API
 2. Local debug on remote Mongo and FBS API
-...
 
+...
 
 ng build && rm -rf fbs/dist/ && mv dist/ fbs/
 
-//////
-
-Local Dev with FB:
+// Local Dev with FB:
 
 cd bp/fb
 
@@ -39,11 +37,9 @@ cd bp
 
 npm run ng-serve
 
-
 Chrome for localhost CORS:
 
 open /Applications/Google\ Chrome.app --args --disable-web-security --user-data-dir
-
 
 ============
 
@@ -52,9 +48,3 @@ var prod = true;
  var MNG_URL = 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa';
  // local Mongo:
  var MNG_URL = 'mongodb://localhost:27027/bigpolicy';
-
- export const environment = {
-    production: false,		    production: false,
- -  api_url: 'http://localhost:4300/bigpolicy-qa/us-central1/appExpress'		 +  api_url: 'http://localhost:4300'
-  };
-};
