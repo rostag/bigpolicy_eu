@@ -12,16 +12,14 @@ var server = http.createServer(appExpress);
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
-      res.redirect('https://' + req.headers.host + req.path);
-      return;
+    res.redirect('https://' + req.headers.host + req.path);
+    return;
   } else {
     next();
   }
 }
 
-if (hostname === '127.0.0.1') {
-  port = 4300;
-} else {
+if (!hostname === '127.0.0.1') {
   appExpress.use(redirectToSecure);
 }
 
@@ -29,6 +27,6 @@ appExpress.use(express.static(__dirname + '/dist'));
 
 middleware(appExpress, router);
 
-server.listen(port,hostname);
+server.listen(port, hostname);
 
 console.log('  • BigPolicy is listening on http://' + hostname + ':' + port);
