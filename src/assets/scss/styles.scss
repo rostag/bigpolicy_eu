@@ -9,6 +9,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+pre {
+  font-family: 'Andale Mono', 'Courier New', Courier, monospace;
+}
+
 .add-toolbar {
   padding: 0 0.5rem 0 1em;
 }

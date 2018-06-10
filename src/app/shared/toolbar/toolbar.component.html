@@ -45,9 +45,7 @@
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</button>
   <div *ngIf="userService.authenticated()">
-    <button mat-menu-item>
-      <b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b>
-    </button>
+    <button mat-menu-item><b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b></button>
     <button mat-menu-item [routerLink]="['/profile']" color="primary">Обліковий запис</button>
     <button mat-menu-item (click)="userService.logout()" color="primary">Вийти</button>
     <!-- <div *ngIf="userService.isAdmin">
