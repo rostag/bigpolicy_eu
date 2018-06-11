@@ -40,11 +40,3 @@ npm run ng-serve
 Chrome for localhost CORS:
 
 open /Applications/Google\ Chrome.app --args --disable-web-security --user-data-dir
-
-============
-
-var prod = true;
- // remote Mongo:
- var MNG_URL = 'mongodb://bpqa:bpqa81@ds119436.mlab.com:19436/bpqa';
- // local Mongo:
- var MNG_URL = 'mongodb://localhost:27027/bigpolicy';
