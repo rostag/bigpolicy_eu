@@ -15,7 +15,6 @@ cd [project root folder]/bp/ && yarn && npm run build-prod && rsync -a dist/* fb
 
 cd ~/dev/bp/bp/ && yarn && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy
 
-
 =====================
 
 cd functions/

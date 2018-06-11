@@ -85,6 +85,7 @@ import { LeaderEffects } from './state/effects/leader.effects';
 import { TaskEffects } from './state/effects/task.effects';
 import { GeneratorComponent } from './generator/generator.component';
 
+// FIXME_SEC
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
   authDomain: 'testbase-eb57f.firebaseapp.com',
