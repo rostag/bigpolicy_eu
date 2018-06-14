@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 // Firebase environment adopted:
 const functions = require('firebase-functions');
-const MONGO_URI = functions.config().mongo.uri || 'mongodb://localhost:27027/bigpolicy';
+const MONGO_URI = functions && functions.config() && functions.config().mongo && functions.config().mongo.uri ||
+  'mongodb://localhost:27027/bigpolicy';
 
 mongoose.Promise = global.Promise;
 
