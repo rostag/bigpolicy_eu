@@ -58,10 +58,12 @@ md-icon.pointer {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  line-height: normal;
 }
 
-.project-brief-card,
-.leader-brief-card {
+.mat-card.project-brief-card,
+.mat-card.leader-brief-card {
+  padding: 18px 24px 24px 24px;
   cursor: pointer;
 }
 
