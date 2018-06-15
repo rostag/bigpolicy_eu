@@ -8,8 +8,8 @@
         <div class="small">{{leader.location}}</div>
       </div>
       <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
-        <button mat-icon-button mat-raised-button (click)="editLeader(leader)" color="accent"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button mat-raised-button (click)="deleteLeader(leader)" color="warn"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
         <!-- FIXME
           <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
           <button mat-icon-button><mat-icon>share</mat-icon></button mat-icon-button>

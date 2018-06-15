@@ -10,11 +10,10 @@
       <div *ngIf="userService.hasEditPermissions(project)" class="admin">
         <a [routerLink] = "['/project/' + project._id + '/edit']"><button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button></a>
         <!-- TODO Enable it -->
-        <button (click)="deleteProject(project)" mat-icon-button color="primary"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button (click)="deleteProject(project)" color="primary"><mat-icon>delete</mat-icon></button>
+        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
       </div>
     </div>
-
-    <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
 
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
       <div fxFlex="53" >
