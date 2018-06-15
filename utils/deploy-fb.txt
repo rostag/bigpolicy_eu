@@ -1,3 +1,9 @@
+## Update Jun 15 2018:
+
+To deploy, just run this command:
+
+npm run deploy-fbs
+
 ## Deployment: cd to project, build, copy assets to the local deploy folder, deploy
 
 cd [project root folder]bp/
