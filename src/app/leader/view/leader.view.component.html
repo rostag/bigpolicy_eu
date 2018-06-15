@@ -1,20 +1,27 @@
 <div>
 
-  <mat-card-title title="Email: {{leader.email}}">{{leader.name}} {{leader.surName}}
-    <span *ngIf="userService.isOwner(leader)" title="Місце: {{leader.location}}">
-      [я]
-    </span>
-    <div class="small">{{leader.location}}</div>
-    <!-- FIXME
-        <a href><mat-icon>thumb_up</mat-icon></a>
-        <a href><mat-icon>share</mat-icon></a>
-        <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
-      -->
+  <mat-card-title title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+      <div>
+        <span>{{leader.name}} {{leader.surName}}</span>
+        <span *ngIf="userService.isOwner(leader)">[я]</span>
+        <div class="small">{{leader.location}}</div>
+      </div>
+      <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
+        <button mat-icon-button mat-raised-button (click)="editLeader(leader)" color="accent"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button mat-raised-button (click)="deleteLeader(leader)" color="warn"><mat-icon>delete</mat-icon></button>
+        <!-- FIXME
+          <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
+          <button mat-icon-button><mat-icon>share</mat-icon></button mat-icon-button>
+          <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
+        -->
+        <!-- FIXME - Implement as Dialog -->
+        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
+      </div>
+    </div>
   </mat-card-title>
 
   <mat-card-content>
-
-    <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
 
     <!-- Leader image/video and Support Button + Projects -->
     <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
