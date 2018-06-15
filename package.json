@@ -12,7 +12,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "db": "mongod --dbpath=data/db --port 27027",
-    "client": "ng serve --port=5000"
+    "client": "ng serve --port=5000",
+    "deploy-fbs": "yarn && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy"
   },
   "main": "start.js",
   "private": true,
