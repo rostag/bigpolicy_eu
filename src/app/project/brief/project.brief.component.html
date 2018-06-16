@@ -1,12 +1,12 @@
 <!-- Project Card View (for display standalone) -->
 <mat-card class="project-brief-card" [routerLink]="['/project/', project._id]" *ngIf="!!project && viewContext==='homePage'">
   <mat-card-title>{{project.title}}</mat-card-title>
+  <mat-card-subtitle>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</mat-card-subtitle>
   <div class="mat-card-image-clipper">
     <img mat-card-image src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   </div>
   <mat-card-content>
     <p>Проект: {{project.description}}</p>
-    <mat-card-subtitle>Строки: {{project.dateStarted | date}} - {{project.dateEnded | date}}</mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions align="end">
     <a [routerLink]="['/project/', project._id]"><button mat-raised-button color="primary" >Деталі</button></a>

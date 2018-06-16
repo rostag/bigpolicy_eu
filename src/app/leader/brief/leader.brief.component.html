@@ -4,6 +4,9 @@
       [я]
     </span>
   </mat-card-title>
+  <mat-card-subtitle>
+    {{leader.location}}
+  </mat-card-subtitle>
   <div class="mat-card-image-clipper">
     <img mat-card-image src="{{leader.photo || 'assets/img/avatar-generic.png'}}">
   </div>
@@ -29,6 +32,9 @@
       </span>
     </a>
   </mat-card-title>
+  <mat-card-subtitle>
+    {{leader.location}}
+  </mat-card-subtitle>  
 
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
     <div class="mat-card-image-clipper" class.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
