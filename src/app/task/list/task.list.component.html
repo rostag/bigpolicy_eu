@@ -1,8 +1,6 @@
 <!-- Usage: <app-task-list title="Given title" [project]="project" [pageSize]="10" dbQuery="{}"></app-task-list> -->
 
-<mat-card-content>
-  <mat-card-actions>
-    <mat-toolbar class="add-toolbar" color="primary"><span *ngIf="title !== ''">{{title}} <span>({{itemsPage.total}})</span></span>
+    <mat-toolbar class="add-toolbar"><span *ngIf="title !== ''">{{title}} <span>({{itemsPage.total}})</span></span>
       <span class="add-fill-remaining"></span>
 
       <span *ngIf="!isAddingTaskMode">
@@ -11,7 +9,6 @@
         <button mat-icon-button (click)="addTask(project)" *ngIf="userService.hasEditPermissions(project)" color="accent" matTooltip="Додати захід"><mat-icon>add_circle</mat-icon></button>
       </span>
     </mat-toolbar>
-  </mat-card-actions>
 
   <!-- Add task -->
   <app-bp-task-edit
@@ -71,5 +68,3 @@
                       autoHide="true"
                       >
   </pagination-controls>
-
-</mat-card-content>
