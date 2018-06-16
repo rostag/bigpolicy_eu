@@ -45,7 +45,7 @@ export class DonateComponent implements OnChanges {
     this.donationService.createDonation(this.getDonationModel())
       .subscribe((res) => {
         const b = res['_body'];
-        const id = b.substring(1, b.length - 1);
+        const id = b && b.substring(1, b.length - 1);
         // TODO if not virtual transaction
         this.readyToDonate = !this.readyToDonate;
         this.getDonationForm(id);
