@@ -6,9 +6,10 @@ import { AdminComponent } from '././shared/admin/admin.component';
 
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AboutComponent } from './about';
-import { LandingComponent } from './landing';
+// import { LandingComponent } from './landing';
 import { HomeComponent } from './home';
 
+import { LeadersComponent } from './leader/landing';
 import { LeaderEditComponent } from './leader/edit';
 import { LeaderListComponent } from './leader/list';
 import { LeaderViewComponent } from './leader/view';
@@ -21,6 +22,7 @@ import { ProjectViewComponent } from './project/view';
 import { TaskEditComponent } from './task/edit';
 import { TaskListComponent } from './task/list';
 import { TaskViewComponent } from './task/view';
+import { GeneratorComponent } from './generator/generator.component';
 
 //
 // The order of routes is IMPORTANT.
@@ -34,7 +36,7 @@ export const routes: Routes = [
   { path: 'project/:id', component: ProjectViewComponent },
   { path: 'task/:id', component: TaskViewComponent },
 
-  { path: 'leaders', component: LeaderListComponent },
+  { path: 'leaders', component: LeadersComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'tasks', component: TaskListComponent },
   { path: 'add-leader', component: LeaderEditComponent },
@@ -46,8 +48,9 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
 
   { path: 'about', component: AboutComponent },
+  { path: 'generator', component: GeneratorComponent },
   { path: 'privacy', component: DisclaimerComponent },
-  { path: 'landing', component: LandingComponent },
+  // { path: 'landing', component: LandingComponent },
   { path: '', component: HomeComponent },
 
   { path: 'admin', component: AdminComponent, canActivate: [LoggedInGuard] }

@@ -1,9 +1,10 @@
 <div>
+  <div *ngIf="!userService.authenticated() || !userService.userProfile">WIP: Auth</div>
   <div *ngIf="userService.authenticated() && userService.userProfile">
     <!-- FIXME Override User Profile Name with Leader Name ? -->
     <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">
       <h1>{{userService.userProfile.name}}</h1>
-      <p *ngIf="userService.isAdmin()"><a [routerLink]="['/admin']">Адміністратор</a></p>
+      <p *ngIf="userService.isAdmin"><a [routerLink]="['/admin']">Адміністратор</a></p>
       <p *ngIf="profileLeader">Лідер: <a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a></p>
       <p><a href="#" (click)="userService.logout()">Вийти</a></p>
     </div>
@@ -19,25 +20,25 @@
       </div>
     </div>
 
-    <md-card *ngIf="profileLeader" class="leader-profile">
-      <md-card-content>
-        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
+    <mat-card *ngIf="profileLeader" class="leader-profile">
+      <mat-card-content>
+        <!-- FIXME <h2 *ngIf="profileLeader.projectIds && profileLeader.projectIds.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
         <app-project-list
-          *ngIf="profileLeader.projects && profileLeader.projects.length > 0"
-          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+          *ngIf="profileLeader.projectIds && profileLeader.projectIds.length > 0"
+          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.taskIds.length > 0" }'>
         </app-project-list>
 
-        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.taskIds.length < 1" }'>
         </app-project-list>
 
-      </md-card-content>
-      <md-card-actions>
+      </mat-card-content>
+      <mat-card-actions>
         <span *ngIf="userService.hasEditPermissions(profileLeader)">
-          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button mat-button color="accent">Редагувати</button></a>
         </span>
-      </md-card-actions>
-    </md-card>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
   <div *ngIf="!userService.authenticated()">
@@ -59,7 +60,7 @@
     <p>
       Будь ласка, натисніть "Увійти", для авторизації.
     </p>
-    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+    <a (click)="userService.login()"><button mat-raised-button color="accent">Увійти</button></a>
   </div>
 
 </div>

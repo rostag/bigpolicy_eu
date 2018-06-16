@@ -1,6 +1,5 @@
+// FIXME To be removed
 import { OnInit, Component } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project';
-import { LeaderService, LeaderModel } from '../../shared/leader';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -20,24 +19,12 @@ export class LandingComponent implements OnInit {
   };
 
   constructor(
-    public userService: UserService,
-    private projectService: ProjectService,
-    private leaderService: LeaderService
+    public userService: UserService
   ) {}
 
 
   ngOnInit() {
     this.getProjects();
-    this.getLeaders();
-  }
-
-  getLeaders() {
-    this.leaderService.getLeadersPage(null, null, 1, 3)
-      .subscribe(
-        data => this.setLeaders(data['docs']),
-        err => console.error(err),
-        () => this.app.leaders
-      );
   }
 
   private setLeaders(data) {
@@ -46,12 +33,12 @@ export class LandingComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjectsPage(null, null, 1, 3)
-      .subscribe(
-        data => this.setProjects(['data']),
-        err => console.error(err),
-        () => this.app.projects
-      );
+    // this.projectService.get ProjectsPage(null, null, 1, 3)
+    //   .subscribe(
+    //     data => this.setProjects(['data']),
+    //     err => console.error(err),
+    //     () => this.app.projects
+    //   );
   }
 
   private setProjects(data) {

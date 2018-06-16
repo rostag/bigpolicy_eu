@@ -1,100 +1,116 @@
-import {
-  Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges,
-  SimpleChanges
-} from '@angular/core';
-import { TaskModel, TaskService } from '../../shared/task/index';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { TaskModel } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-// FIXME MOVE TO TASK SERVICE
-import { ProjectService } from '../../shared/project/project.service';
+import { DialogService } from '../../shared/dialog/dialog.service';
+import { IProject, ITask } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { LoadProject } from '../../state/actions/project.actions';
+import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
+import { LoadTask, DeleteTask } from '../../state/actions/task.actions';
 
 @Component({
   selector: 'app-task-view',
   templateUrl: './task.view.component.html',
-  styleUrls: ['./task.view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./task.view.component.scss']
 })
 
-export class TaskViewComponent implements OnInit, OnChanges {
+export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() task: TaskModel = new TaskModel();
+  @Input() public task: ITask = new TaskModel();
 
-  @Input() compactView = false;
+  @Input() public project: IProject;
 
-  @Input() dataprovided = false;
+  @Input() public compactView = false;
 
-  @Input() projectTitle = '';
+  @Input() public isUsedInline = false;
 
-  @Input() showProjectLink = 'dontShow';
+  @Input() public projectTitle = '';
 
-  hasVisual = false;
+  @Input() public showProjectLink = 'dontShow';
+
+  public hasVisual = false;
+
+  private selectedTask$;
+  private selectedProject$;
 
   /**
    * Dependency Injection: route (for reading params later)
    */
   constructor(
     public userService: UserService,
-    public projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
-    private taskService: TaskService,
-    private ref: ChangeDetectorRef
-  ) {
-  }
+    private dialogService: DialogService,
+    private projectStore: Store<IProjectState>,
+    private taskStore: Store<ITaskState>
+  ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
   }
 
   /**
    * Initialization Event Handler, used to parse route params
    * like `id` in task/:id/edit)
    */
-  ngOnInit() {
-    if (this.dataprovided) {
+  public ngOnInit() {
+    if (this.isUsedInline) {
       // FIXME Use caching - too many requests otherwise
-      // FIXME Apply the same technique to Projects retrieving Leader info
-      this.retrieveProject();
+      this.applyProjectChanges(this.project);
     } else {
-      this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('View Task by ID from route params:', id);
-        if (id) {
-          this.taskService.getTask(id)
-          .subscribe( data => {
-            this.task = data;
-            this.hasVisual = Boolean(this.task.imageUrl) || Boolean(this.task.videoUrl);
-            console.log('tpId =', this.task.projectId, data);
-            this.retrieveProject();
-          });
+      this.route.params.subscribe(params => {
+        if (params.id) {
+          this.taskStore.dispatch(new LoadTask(params.id));
         }
       });
+      this.selectedTask$ = this.taskStore.select(getSelectedTask).subscribe(task => this.applyTaskChanges(task));
+      this.selectedProject$ = this.projectStore.select(getSelectedProject).subscribe(project => this.applyProjectChanges(project));
     }
   }
 
-  retrieveProject() {
-    if (this.task.projectId) {
-      // FIXME MOVE TO TASK SERVICE
-      this.projectService.getProject(this.task.projectId)
-      .subscribe( project => {
-        this.projectTitle = project.title;
-        // console.log('a title:', this.projectTitle);
-        this.ref.markForCheck();
-      });
+  public ngOnDestroy() {
+    if (this.selectedTask$) {
+      this.selectedTask$.unsubscribe();
+      this.selectedProject$.unsubscribe();
+    }
+  }
+
+  private applyTaskChanges(task: ITask) {
+    if (!task) { return };
+    this.task = task;
+    this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
+
+    if (!this.project || !this.project._id || !this.project.managerId) {
+      this.retrieveProject();
+    } else {
+      this.applyProjectChanges(this.project);
+    }
+  }
+
+  // TODO Ensure it is called for Tasks lists to show the already loaded project
+  private applyProjectChanges(project: IProject) {
+    this.projectTitle = project ? project.title : '';
+  }
+
+  private retrieveProject() {
+    if (this.task && this.task.projectId && !this.project) {
+      // FIXME Verify this is working
+      this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
   }
 
   /**
    * Remove this task
-   * @param {task} Task being viewed
+   * @param {task} ITask being viewed
    */
-  deleteTask(task: TaskModel) {
-    // Delete from DB
-    this.taskService.deleteTask(task);
-
+  public deleteTask(task: ITask, event) {
+    this.taskStore.dispatch(new DeleteTask(task));
+    this.dialogService.info('Захід видалено', 'Ми видалили цей захід');
     this.router.navigate(['/project/' + task.projectId]);
 
+    event.stopPropagation();
     return false;
   }
 }

@@ -1,5 +1,0 @@
-Initial setup expeirence:
-
-1. Clone
-
-2. Mongo: https://treehouse.github.io/installation-guides/mac/mongo-mac.html

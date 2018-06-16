@@ -1,5 +1,5 @@
 // CoreModule.ts
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -11,32 +11,31 @@ import { TaskService } from './shared/task';
 import { DriveService } from './shared/drive';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { DialogService } from './shared/dialog/dialog.service';
-import { MaterialModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CookieLawModule } from 'angular2-cookie-law';
 
-
 // Components
-import { NavbarComponent, ToolbarComponent } from './shared/index';
+import { NavbarComponent, ToolbarComponent } from './shared';
 
-import { TaskEditComponent } from './task/edit/index';
-import { TaskListComponent } from './task/list/index';
-import { TaskViewComponent } from './task/view/index';
+import { TaskEditComponent } from './task/edit';
+import { TaskListComponent } from './task/list';
+import { TaskViewComponent } from './task/view';
 
-import { ProjectsComponent } from './project/landing/index';
-import { ProjectEditComponent } from './project/edit/index';
-import { ProjectListComponent } from './project/list/index';
-import { ProjectViewComponent } from './project/view/index';
+import { ProjectsComponent } from './project/landing';
+import { ProjectEditComponent } from './project/edit';
+import { ProjectListComponent } from './project/list';
+import { ProjectViewComponent } from './project/view';
 
-import { LeaderEditComponent } from './leader/edit/index';
-import { LeaderListComponent } from './leader/list/index';
-import { LeaderViewComponent } from './leader/view/index';
+import { LeadersComponent } from './leader/landing';
+import { LeaderEditComponent } from './leader/edit';
+import { LeaderListComponent } from './leader/list';
+import { LeaderViewComponent } from './leader/view';
 
 import { ProfileComponent } from './shared/user/profile.component';
 import { AdminComponent } from './shared/admin/admin.component';
-import { AboutComponent } from './about/index';
-import { LandingComponent } from './landing/index';
+import { AboutComponent } from './about';
+// import { LandingComponent } from './landing';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
@@ -64,10 +63,29 @@ import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
-import { HttpModule, BrowserXhr } from '@angular/http';
 import { CustomBrowserXhr } from './shared/xhr/xhr';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
+import { HttpClientModule, XhrFactory } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducer as authReducer } from './state/reducers/auth.reducers';
+import { reducer as leadersReducer } from './state/reducers/leader.reducers';
+import { reducer as projectsReducer } from './state/reducers/project.reducers';
+import { reducer as tasksReducer } from './state/reducers/task.reducers';
+import { counterReducer } from './state/reducers/counter.reducers';
+import { AuthEffects } from './state/effects/auth.effects';
+import {
+  MatSnackBarModule, MatDialogModule, MatIconModule, MatCardModule, MatFormFieldModule,
+  MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule,
+  MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule, MatAutocompleteModule
+} from '@angular/material';
+import { LandingComponent } from './landing';
+import { ProjectEffects } from './state/effects/project.effects';
+import { LeaderEffects } from './state/effects/leader.effects';
+import { TaskEffects } from './state/effects/task.effects';
+import { GeneratorComponent } from './generator/generator.component';
 
+// FIXME_SEC
 export const firebaseConfig = {
   apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
   authDomain: 'testbase-eb57f.firebaseapp.com',
@@ -79,18 +97,40 @@ export const firebaseConfig = {
 @NgModule({
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule,
     CommonModule,
-    MaterialModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    StoreModule.forRoot({
+      authState: authReducer,
+      leadersState: leadersReducer,
+      projectsState: projectsReducer,
+      tasksState: tasksReducer
+    }),
+    EffectsModule.forRoot([ LeaderEffects, ProjectEffects, TaskEffects ]),
+    // EffectsModule.forRoot([AuthEffects]),
     AngularFireDatabaseModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     Ng2PaginationModule,
-    CookieLawModule
+    CookieLawModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatTabsModule,
+    MatInputModule,
+    MatAutocompleteModule
   ],
   exports: [
     // components we want to make available
@@ -104,13 +144,14 @@ export const firebaseConfig = {
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,
+    LeadersComponent,
     LeaderEditComponent,
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -129,10 +170,12 @@ export const firebaseConfig = {
     WorkingSpinnerComponent,
     Ng2PaginationModule,
     FormsModule,
-    CookieLawModule
+    CookieLawModule,
+    HttpClientModule
   ],
   declarations: [
     // components to use in this module
+    LandingComponent,
     NavbarComponent,
     ToolbarComponent,
     TaskEditComponent,
@@ -142,13 +185,14 @@ export const firebaseConfig = {
     ProjectEditComponent,
     ProjectViewComponent,
     ProjectListComponent,
+    LeadersComponent,
     LeaderEditComponent,
     LeaderViewComponent,
     LeaderListComponent,
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    LandingComponent,
+    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -163,7 +207,8 @@ export const firebaseConfig = {
     LeaderBriefComponent,
     ProjectBriefComponent,
     WorkingSpinnerComponent,
-    DisclaimerComponent
+    DisclaimerComponent,
+    GeneratorComponent
   ],
   providers: [
     // singleton services
@@ -177,7 +222,9 @@ export const firebaseConfig = {
     DriveService,
     DialogService,
     CustomBrowserXhr,
-    { provide: BrowserXhr, useExisting: CustomBrowserXhr }
+    Title,
+    HttpClientModule,
+    { provide: XhrFactory, useExisting: CustomBrowserXhr }
   ],
   entryComponents: [
     DialogComponent

@@ -1,20 +1,19 @@
 <div class="project-view">
 
-  <md-card-content>
+  <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="project-title">
         <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
         <h1>{{project.title}}</h1>
       </div>
 
-      <div *ngIf="userService.hasEditPermissions(project)" class="admin">
-        <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-icon-button color="primary"><md-icon>edit</md-icon></button></a>
+      <div class="admin">
+        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>edit</mat-icon></button>
         <!-- TODO Enable it -->
-        <button (click)="deleteProject(project)" md-icon-button color="primary"><md-icon>delete</md-icon></button>
+        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>delete</mat-icon></button>
+        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
       </div>
     </div>
-
-    <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
 
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
       <div fxFlex="53" >
@@ -57,12 +56,12 @@
 
         <div class="funding-summary">Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</div>
 
-        <md-progress-bar
+        <mat-progress-bar
             class="brogress"
             color="accent"
             [value]="project.totalDonationsReceived / project.cost * 100"
             [bufferValue]="2">
-        </md-progress-bar>
+        </mat-progress-bar>
 
         <h4>Початок: {{project.dateStarted | date}}
           <br/>Кінець: {{project.dateEnded | date}}
@@ -84,11 +83,11 @@
     </div>
 
     <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
-      <a [routerLink] = "['/project/' + project._id + '/edit']"><button md-raised-button color="primary">Редагувати проект</button></a>
+      <a [routerLink] = "['/project/' + project._id + '/edit']"><button mat-raised-button color="primary">Редагувати проект</button></a>
       <!-- TODO Enable it -->
-      <button (click)="deleteProject(project)" md-raised-button color="warn">Видалити проект</button>
+      <button (click)="deleteProject(project)" mat-raised-button color="warn">Видалити проект</button>
     </div>
 
-  </md-card-content>
+  </mat-card-content>
 
 </div>

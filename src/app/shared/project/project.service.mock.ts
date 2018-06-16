@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, ResponseOptions } from '@angular/http';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { ProjectModel } from './project.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IProject } from '../../common/models';
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -41,7 +42,7 @@ export class ProjectServiceMock {
           '588e065faa8da59ae4829043',
           '58cf1d71d8784e0edfcdb4e8'
         ],
-        'tasks': [
+        'taskIds': [
           '58553ddb3b2db8c32e33c25e',
           '581a6309dc79a49d33d8fd28',
           '581daededf738419b0c3b624'
@@ -62,7 +63,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '5842c92d3540984e175fc5a3',
           '5842c96b3540984e175fc5a4',
           '58cd0142ae6d40927988c239',
@@ -85,7 +86,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '5842ca0f3540984e175fc5a6',
           '5842ca533540984e175fc5a7',
           '5842cae83540984e175fc5a9',
@@ -110,7 +111,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': [
+        'taskIds': [
           '58d4e27a9ff81172407e0e5a',
           '58d4e2869ff81172407e0e5b',
           '58d60b61260e94051c643820'
@@ -131,7 +132,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': []
+        'taskIds': []
       },
       {
         '_id': '58d08119772ee0389d5aa069',
@@ -148,7 +149,7 @@ export class ProjectServiceMock {
         '__v': 0,
         'imageUrl': '',
         'donations': [],
-        'tasks': []
+        'taskIds': []
       },
       {
         '_id': '58e8cf4b534fb9f782a832b5',
@@ -165,7 +166,7 @@ export class ProjectServiceMock {
         'totalDonationsReceived': 0,
         '__v': 0,
         'donations': [],
-        'tasks': []
+        'taskIds': []
       }
     ],
     'total': 7,
@@ -190,24 +191,29 @@ export class ProjectServiceMock {
    * @constructor
    */
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
     private taskService: TaskService
-  ) {}
+  ) { }
 
   /**
    * Creates new Project.
    * @param {ProjectModel} model Project to create.
    */
-  createProject(model: ProjectModel): Observable<ProjectModel> {
+  // FIXME NG45 - createProject(model: ProjectModel): Observable<ProjectModel> {
+  createProject(model: ProjectModel): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    // FIXME - NG45 to be:
+    // const options = new RequestOptions({ headers: headers });
+    const options = { headers: headers };
     return this.http.post(this.projectApiUrl, body, options)
-      .map(res => res.json()
-    );
+      .map(res => {
+        console.log('NG45 - Project created:', res);
+        return res;
+      }
+      );
   }
 
   /**
@@ -235,30 +241,34 @@ export class ProjectServiceMock {
     }
 
     // console.log('get Projects Page:', projectId, leaderId, page, limit);
-    const respOptions = new ResponseOptions({
+    const respOptions = <any>{
       body: this.responsePageMock,
       status: 200
-    });
-    const responseMock = new Response( respOptions );
-    const o = Observable.from([ responseMock ]);
+    };
+    const responseMock = new Response(respOptions);
+    const o = Observable.from([responseMock]);
 
-    return o.map((responsePage: Response) => {
+    // FIXME NG45 revert to: 
+    // return o.map((responsePage: Response) => {
+    return o.map((responsePage: any) => {
       // console.log('Projects Page loaded, response: ', responsePage);
-      return responsePage.json();
+      return responsePage;
     });
 
     // return this.http.get(requestUrl)
     //   .map((responsePage: Response) => {
     //     console.log('Projects Page loaded, response: ', responsePage);
-    //     return responsePage.json();
+    //     return responsePage;
     //   });
   }
 
   /**
    * Returns single project from DB
    */
-  getProject(projectId: string): Observable<ProjectModel> {
-    return this.getProjectsPage(projectId);
+  getProject(projectId: string): Observable<IProject> {
+    if (projectId) {
+      return this.http.get<IProject>(this.projectApiUrl + projectId)
+    }
   }
 
   /**
@@ -267,12 +277,16 @@ export class ProjectServiceMock {
    */
   updateProject(model: ProjectModel): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
+      .pipe(
+        map(res => {
+          console.log('NG45 - update projects', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   /**
@@ -282,15 +296,19 @@ export class ProjectServiceMock {
    */
   bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
     // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
     console.log('Project service, try to update:', ids, data, body);
 
-    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
-      .catch( this.handleError );
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
+      .pipe(
+        map(res => {
+          console.log('NG45 - Bulk Update Ptjects:', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      )
   }
 
   /**
@@ -306,26 +324,26 @@ export class ProjectServiceMock {
         // Delete Project immediately and, if there are tasks, re-assign them to other Project (placeholder)
         this.finalizeProjectDeletion(model, navigateToList);
 
-        if (model.tasks && model.tasks.length > 0) {
+        if (model.taskIds && model.taskIds.length > 0) {
           this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
             до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteTasks => {
-            if (toDeleteTasks === true) {
-              // Delete Tasks from DB
-              // TODO Delete Tasks Firebase data
-              // TODO Delete Donations and Task Donations?
-              this.taskService.bulkDeleteTasks(model.tasks)
-              .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
-            } else {
-              // Reassign tasks to another Project (placeholder)
-              // FIXME - Retrieve real Placeholder project
-              const newProject = new ProjectModel();
-              newProject._id = 'NE_NA_CHASI';
-              const tasksUpdate = this.taskService.bulkUpdateTasks(model.tasks, { projectId: newProject._id });
-              tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
-            }
-            this.finalizeProjectDeletion(model, navigateToList);
-          });
+              if (toDeleteTasks === true) {
+                // Delete Tasks from DB
+                // TODO Delete Tasks Firebase data
+                // TODO Delete Donations and Task Donations?
+                this.taskService.bulkDeleteTasks(model.taskIds)
+                  .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
+              } else {
+                // Reassign tasks to another Project (placeholder)
+                // FIXME - Retrieve real Placeholder project
+                const newProject = new ProjectModel();
+                newProject._id = 'NE_NA_CHASI';
+                const tasksUpdate = this.taskService.bulkUpdateTasks(model.taskIds, { projectId: newProject._id });
+                tasksUpdate.subscribe((updateResult) => { console.log('Tasks update result:', updateResult); });
+              }
+              this.finalizeProjectDeletion(model, navigateToList);
+            });
         } // If Task reassignment was needed
       }
     });
@@ -338,13 +356,18 @@ export class ProjectServiceMock {
   finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-    .map(res => { return res.json(); })
-    .catch( this.handleError )
-    .subscribe((res) => {
-      if (navigateToList) {
-        this.router.navigate(['/projects']);
-      }
-    });
+      .pipe(
+        map(res => {
+          console.log('NG45 - finalizeProjectDeletion', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      )
+      .subscribe((res) => {
+        if (navigateToList) {
+          this.router.navigate(['/projects']);
+        }
+      });
   }
 
   /**
@@ -352,19 +375,23 @@ export class ProjectServiceMock {
    * @param ids Project IDs to delete
    */
   bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    const body = JSON.stringify({ ids: ids});
+    const body = JSON.stringify({ ids: ids });
     console.log('Project service, try to delete:', ids, body);
 
-    return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
-    .catch( this.handleError );
+    return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
+      .pipe(
+        map(res => {
+          console.log('NG45 - bulkDeleteProjects', res);
+          return res;
+        }),
+        catchError(this.handleError)
+      )
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error || 'Server error');
   }
 }

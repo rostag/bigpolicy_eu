@@ -1,11 +1,16 @@
 import { OnInit, Component } from '@angular/core';
-import { LeaderService, LeaderModel, ILeader } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader';
 import { ActivatedRoute } from '@angular/router';
 import { DriveService } from '../../shared/drive';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { ILeader } from '../../common/models';
+import { Store, select } from '@ngrx/store';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
+import { Observable } from 'rxjs/Observable';
+import { startWith, map } from 'rxjs/operators';
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
@@ -16,26 +21,58 @@ export class LeaderEditComponent implements OnInit {
   public leaderFormGroup: FormGroup;
 
   // Must be public, used in template
-  public leaderModel: LeaderModel = new LeaderModel();
+  public leaderModel: ILeader = new LeaderModel();
 
   // Must be public, used in template
   public isUpdateMode = false;
 
+  public filteredOptions: Observable<string[]>;  
+
+  private regions = [
+    'Одеська область',
+    'Дніпропетровська область',
+    'Чернігівська область',
+    'Харківська область',
+    'Житомирська область',
+    'Полтавська область',
+    'Херсонська область',
+    'Київська область',
+    'Запорізька область',
+    'Луганська область',
+    'Донецька область',
+    'Вінницька область',
+    'Автономна Республіка Крим',
+    'Миколаївська область',
+    'Кіровоградська область',
+    'Сумська область',
+    'Львівська область',
+    'Черкаська область',
+    'Хмельницька область',
+    'Волинська область',
+    'Рівненська область',
+    'Івано-Франківська область',
+    'Тернопільська область',
+    'Закарпатська область',
+    'Чернівецька область',
+    'м. Севастополь',
+    'м. Київ'
+  ];
+
   constructor(
     private route: ActivatedRoute,
-    private leaderService: LeaderService,
+    private leaderStore: Store<ILeaderState>,
     public userService: UserService,
     public driveService: DriveService,
     private location: Location,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   /**
    * Initialization Event Handler, used to parse route params
    * like `id` in leader/:id/edit)
    */
-  ngOnInit() {
-
+  // FIXME Protect with Guard from unauthorized edits
+  public ngOnInit() {
     console.log('Init Leader Editor, route params:', this.route.params);
 
     // FIXME
@@ -45,54 +82,57 @@ export class LeaderEditComponent implements OnInit {
 
     // FIXME Code duplication
     this.leaderFormGroup = this.fb.group({
-      name:     [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      surName:  [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      mission:  ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
-      vision:   ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
-      videoUrl: ['', this.videoUrlValidator]
+      name: [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
+      vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
+      videoUrl: ['', this.videoUrlValidator],
+      location: [''],
     });
 
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        console.log('Leader Editor by ID from route params:', id);
+    // FIXME_SEC TEST_1 unauthorised user can't see the page
+    // 2NGRX
+    this.route.params.subscribe((params) => {
+      if (params.id && this.userService.authenticated()) {
+        this.leaderStore.dispatch(new LoadLeader(params.id));
+        this.isUpdateMode = true;
+      }
+    })
 
-        // FIXME_SEC TEST_1 unauthorised user can't see the page
-        if (id && this.userService.authenticated()) {
-           this.isUpdateMode = true;
-           this.leaderService.getLeader(id)
-          .subscribe(
-            data => {
-              this.setLeader(data);
-            },
-            err => console.error(err),
-            () => {}
-          );
-        }
-      });
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
+
+    this.filteredOptions = this.leaderFormGroup.controls.location.valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val))
+      );
   }
+
+  private filter(val: string): string[] {
+    return this.regions.filter(option =>
+      option.toLowerCase().includes(val.toLowerCase()));
+  }
+
 
   // FIXME apply validation
   // returns either null if the control value is valid or a validation error object
-  videoUrlValidator(c: FormControl) {
+  private videoUrlValidator(c: FormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
     // console.log('yourube validity: ', c.value, c.value.match(youTubeRegexp) );
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
-    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
+    return isYouTubeUrl ? null : { 'forbiddenName': 'Erriis' };
   }
 
   /**
    * Leader loading handler
    * @param {data} Loaded Leader data
    */
-  setLeader(data) {
+  private setLeader(leader: ILeader) {
+    if (!leader) { return }
     this.leaderModel = new LeaderModel();
-    this.leaderModel.parseData(data);
+    this.leaderModel.parseData(leader);
     this.driveService.checkConnection();
-
     this.leaderModel.applyModelToFormGroup(this.leaderFormGroup);
-
-    console.log('Leader Form Group: ', this.leaderFormGroup);
   }
 
   /**
@@ -100,28 +140,21 @@ export class LeaderEditComponent implements OnInit {
   * @returns return false to prevent default form submit behavior to refresh the page.
   */
   // FIXME: Complete Leader processing
-  onSubmit() {
-    console.log( this.leaderFormGroup.value, this.leaderFormGroup.valid );
-
-    // Update leader from form
+  public onSubmit() {
+    // Update leader from the Lader edit form
     this.leaderModel.applyFormGroupToModel(this.leaderFormGroup);
 
     if (this.isUpdateMode) {
       // Update existing Leader:
-      this.leaderService.updateLeader(this.leaderModel)
-      .subscribe(
-        data => { this.leaderService.gotoLeaderView(data); },
-        err => (er) => console.error('Leader update error: ', er),
-        () => {}
-      );
+      this.leaderStore.dispatch(new UpdateLeader(this.leaderModel));
     } else {
-      // Create new Leader:
-      // FTUX: If user's unauthorised, use service to save him to local storage, continue after login
+      // FTUX: Create new Leader. If user's unauthorised, use service to save him to local storage, continue after login
       if (this.userService.needToLoginFirst(this.leaderModel)) {
         return false;
       }
-      // NO FTUX - user is authorized already
-      this.leaderService.createLeader(this.leaderModel, this.userService.getEmail());
+      // NO FTUX: User is authorized already
+      this.leaderModel.email = this.userService.getEmail();
+      this.leaderStore.dispatch(new CreateLeader(this.leaderModel));
     }
   }
 
@@ -129,8 +162,8 @@ export class LeaderEditComponent implements OnInit {
    * Removes the Leader from DB
    * @param {Leader} Leader to delete
    */
-  deleteLeader(leaderModel: LeaderModel) {
-    this.leaderService.deleteLeader(leaderModel);
+  public deleteLeader(leader: ILeader) {
+    this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
   }
 
@@ -148,7 +181,7 @@ export class LeaderEditComponent implements OnInit {
     this.leaderModel.leaderFiles = files;
   }
 
-  cancelEditing() {
+  public cancelEditing() {
     this.location.back();
   }
 }

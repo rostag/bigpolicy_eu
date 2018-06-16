@@ -20,6 +20,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // FIXME NGRX IT
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
         console.log('AdminComponent. Set leader:', item);

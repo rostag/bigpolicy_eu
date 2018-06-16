@@ -1,10 +1,10 @@
 <nav class="app-toolbar" color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/leaders']" color="primary">Лідери</button>
+    <button mat-button [routerLink]="['/leaders']" color="primary">Лідери</button>
   </span>
   <span fxFlex="23">
-    <button md-button [routerLink]="['/projects']" color="primary">Проекти</button>
+    <button mat-button [routerLink]="['/projects']" color="primary">Проекти</button>
   </span>
 
   <span fxFlex="8" class="logo">
@@ -12,42 +12,56 @@
   </span>
 
   <span fxFlex="23">
-    <button md-button [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton" color="primary">Стати лідером</button>
+    <button mat-button [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton" color="primary">Стати лідером</button>
     <ng-template #addProjectButton>
-      <button md-button [routerLink]="['/add-project']" color="primary">Створити проект</button>
+      <button mat-button [routerLink]="['/add-project']" color="primary">Створити проект</button>
     </ng-template>
   </span>
 
   <!-- FIXME Override User Profile Name with Leader Name ? -->
   <!-- WIP -->
   <span fxFlex="23" style="white-space:nowrap;">
-    <button [routerLink]="['/leader/', leaderId]" title="Email: {{'User email' || userService.userProfile?.email}}" *ngIf="userService.authenticated()"
-      md-button color="primary">
-      {{userService.userProfile ? userService.userProfile.name : ''}}
+    <button [routerLink]="['/leader/', leaderId]" title="Email: {{userService.userProfile?.email || 'User email'}}" *ngIf="userService.authenticated()"
+      mat-button color="primary">
+      {{leaderService?.leader?.name || userService?.userProfile?.name || ''}}
     </button>
-    <button md-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
+    <button mat-button *ngIf="!userService.authenticated()" (click)="userService.login()" color="primary">
       Увійти
     </button>
 
-    <button md-icon-button [md-menu-trigger-for]="menu" color="accent">
-      <md-icon *ngIf="!userService.isAdmin()">account_circle</md-icon>
-      <md-icon *ngIf="userService.isAdmin()">account_box</md-icon>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" color="accent">
+      <mat-icon *ngIf="!userService.isAdmin">account_circle</mat-icon>
+      <mat-icon *ngIf="userService.isAdmin">account_box</mat-icon>
     </button>
   </span>
 
+  <!-- TEST -->
+  <!-- <div class="mat-elevation-z8" style="position:absolute;right:5px;top:40px;background:#eee;padding:.5em;max-width:380px;font-size:10px!important;text-align:right">
+  </div> -->
+
 </nav>
 
-
 <!-- Initially invisible drop-down menu -->
-<md-menu x-position="before" #menu="mdMenu">
-  <button md-menu-item [routerLink]="['/profile']" color="primary" *ngIf="userService.authenticated()">Обліковий запис
-  </button>
-  <button md-menu-item (click)="userService.logout()" color="primary" *ngIf="userService.authenticated()">Вийти</button>
-</md-menu>
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</button>
+  <div *ngIf="userService.authenticated()">
+    <button mat-menu-item><b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b></button>
+    <button mat-menu-item [routerLink]="['/profile']" color="primary">Обліковий запис</button>
+    <button mat-menu-item (click)="userService.logout()" color="primary">Вийти</button>
+    <!-- <div *ngIf="userService.isAdmin">
+      <div class="separator"></div>
+      <button mat-menu-item (click)="ping()">Ping</button>
+      <button mat-menu-item (click)="pingJwt()">PingJWT</button>
+      <button mat-menu-item (click)="pingJwtAdmin()">PingJWTAdmin</button>
+    </div> -->
+    <div class="separator"></div>
+    <button [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</button>
+  </div>
+</mat-menu>
 
 <app-working-progress></app-working-progress>
 
-<button class.xs="fab-logo-xs" color="warn" class="fab-logo" md-fab [routerLink]="['/']">
+<button class.xs="fab-logo-xs" color="warn" class="fab-logo" mat-fab [routerLink]="['/']">
   <svg class="logo logo-white" viewBox="0 0 3500 3300">
     <style type="text/css">
       .logo-red path {

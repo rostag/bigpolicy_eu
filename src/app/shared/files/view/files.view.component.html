@@ -1,7 +1,7 @@
-<md-card class="files-card" *ngIf="!!files && files.length > 0">
-  <md-toolbar color="primary">
+<mat-card class="files-card" *ngIf="!!files && files.length > 0">
+  <mat-toolbar color="primary">
     <span>Файли та документи</span>
-  </md-toolbar>
+  </mat-toolbar>
 
   <!-- FIXME Deal with null objects sometimes appeaing in DB -->
 
@@ -10,16 +10,16 @@
     - report such files back to author
   -->
 
-  <md-card-content class="files-card-content">
+  <mat-card-content class="files-card-content">
 
-    <md-list class="file-list">
-      <md-list-item *ngFor="let file of files">
+    <mat-list class="file-list">
+      <mat-list-item *ngFor="let file of files">
         <!-- TODO File link should open document preview -->
-        <md-icon color="warn" title="{{file.name}}" class="file-icon">insert_drive_file</md-icon>
+        <mat-icon color="warn" title="{{file.name}}" class="file-icon">insert_drive_file</mat-icon>
         <a href="{{file.link}}" title="{{file.name}}" target="_blank">{{file.name}}</a>
-      </md-list-item>
-    </md-list>
+      </mat-list-item>
+    </mat-list>
 
-  </md-card-content>
+  </mat-card-content>
 
-</md-card>
+</mat-card>

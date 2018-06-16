@@ -1,4 +1,4 @@
-@import '~@angular/material/core/theming/all-theme';
+// @import '~@angular/material/_theming.scss';
 
 $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
@@ -13,13 +13,7 @@ a {
 
 // Card View
 
-.project-brief-card-header-image {
-  // Parametrize via leader photo
-  background-image: url('../../../assets/img/project/project-placeholder.png');
-  background-size: cover;
-}
-
-.md-card-image-clipper {
+.mat-card-image-clipper {
   border-bottom: 1px solid $col-eee;
   border-top: 1px solid $col-eee;
   height: 300px;
@@ -65,7 +59,7 @@ a {
     white-space: nowrap;
   }
 
-  .md-card-image-clipper {
+  .mat-card-image-clipper {
     height: 8em;
     margin: 0 -24px;
 
@@ -106,7 +100,8 @@ a {
     width: calc(100% + .1em);
     padding: 1em;
     background: #fff;
-    @include mat-elevation(2);
+    // FIXME NG45
+    // @include mat-elevation(2);
   }
 }
 
@@ -121,7 +116,7 @@ a {
     display: none;
   }
 
-  .md-card-image-clipper {
+  .mat-card-image-clipper {
     height: 13em;
   }
 
@@ -140,7 +135,8 @@ a {
 
 
 .list-brief:hover {
-  // .md-card-image-clipper {
+  color: inherit;
+  // .mat-card-image-clipper {
   //   display: none;
   // }
 

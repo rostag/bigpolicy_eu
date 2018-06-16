@@ -1,6 +1,10 @@
-import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { ProjectModel } from '../../shared/project/index';
 import { UserService } from '../../shared/user/user.service';
+import { IProject } from '../../common/models';
+import { Store, select } from '@ngrx/store';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { LoadProject, DeleteProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-brief',
@@ -10,48 +14,38 @@ import { UserService } from '../../shared/user/user.service';
 export class ProjectBriefComponent implements OnChanges {
 
   @Input() projectId = '';
+  @Input() project: IProject = new ProjectModel();
   @Input() viewContext = '';
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
 
-  project: ProjectModel = new ProjectModel();
-
   constructor(
     public userService: UserService,
-    private projectService: ProjectService,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+    private projectStore: Store<IProjectState>
+  ) {
+    this.projectStore.pipe(select(getSelectedProject)).subscribe(
+      selectedProject => this.applyChanges(selectedProject))
+  }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes.projectId && changes.projectId.currentValue) {
-      // console.log('Get project BY ID:', changes.projectId.currentValue);
-      this.requestProject(changes.projectId.currentValue);
+      if (!this.project || !this.project._id || !this.project.managerId) {
+        this.requestProject(changes.projectId.currentValue);
+      } else {
+        this.applyChanges(this.project)
+      }
     }
   }
 
-  requestProject(id) {
-    this.projectService.getProject(id)
-    .subscribe(
-      (data) => {
-        // console.log('Got a Project:', data);
-        this.project = data;
-        this.hasVisual = Boolean(this.project.imageUrl) || Boolean(this.project.videoUrl);
-        this.cd.detectChanges();
-      },
-      err => console.error(err),
-      () => {}
-    );
+  private applyChanges(project: IProject) {
+    this.project = project;
+    this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
   }
 
-  /**
-   * Remove this project
-   * @param {project} Project being viewed
-   */
-  deleteProject(project: ProjectModel) {
-    // Delete from DB
-    this.projectService.deleteProject(project, true);
-    return false;
+  private requestProject(id) {
+    this.projectStore.dispatch(new LoadProject(id));
   }
 
 }

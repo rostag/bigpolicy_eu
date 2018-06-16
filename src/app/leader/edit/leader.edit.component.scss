@@ -2,12 +2,12 @@
   padding: 0; 
   text-align: center;
 
-  md-card-content {
+  mat-card-content {
     padding: 24px;
   }
 }
 
-md-input-container,
+mat-form-field,
 input,
 textarea {
   width: 100%;

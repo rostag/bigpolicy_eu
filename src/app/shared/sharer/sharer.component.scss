@@ -1,4 +1,4 @@
-@import '~@angular/material/core/theming/all-theme';
+@import '~@angular/material/_theming.scss';
 
 $sgray: #777;
 $agray: #bbb;
@@ -6,6 +6,12 @@ $lgray: #eee;
 $reddish: #f44336;
 $cblack: #000;
 $cred: #0f0;
+
+:host-context(.sharer-host) {
+  ::ng-deep .share-card {
+    margin-top: -2em;
+  }
+}
 
 .share-card {
   border: 7px dashed $lgray;
@@ -17,7 +23,8 @@ $cred: #0f0;
   right: 1em;
   z-index: 100;
 
-  @include mat-elevation(24);
+  // FIXME NG45
+  // @include $mat-elevation(24);
 }
 
 // For toggling the sharer
@@ -26,10 +33,7 @@ $cred: #0f0;
 }
 
 .show-sharer-button {
-  position: absolute;
-  right: 2em;
-  z-index: 120;
-  top: 2em;
+  position: relative;
 }
 
 .email-input.invalid {

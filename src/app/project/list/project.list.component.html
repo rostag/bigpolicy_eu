@@ -1,9 +1,21 @@
+<!--
+  Usage: 
+  <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list>
+-->
+
 <h2 *ngIf="title !== ''">{{title}}</h2>
 
-<!-- Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list> -->
-
-<div fxLayout="row" fxLayoutWrap fxLayoutGap="1em" >
-  <div [fxFlex]="flexState.flex" [fxFlex.lg]="flexState.lg" [fxFlex.md]="flexState.md" [fxFlex.sm]="flexState.sm" [fxFlex.xs]="flexState.xs"
+<div fxLayout="row wrap" fxLayoutGap="1em">
+  <!--
+    
+    fxFlex="20%"
+  -->
+  <div 
+  [fxFlex]="flexState.flex"
+  [fxFlex.lg]="flexState.lg" 
+  [fxFlex.sm]="flexState.sm" 
+  [fxFlex.md]="flexState.md" 
+  [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
@@ -12,10 +24,9 @@
     }">
     <app-project-brief
       [projectId]="project._id"
-      [viewContext]="viewContext"
-      >
+      [project]="project"
+      [viewContext]="viewContext">
     </app-project-brief>
-
   </div>
 </div>
 
@@ -38,20 +49,19 @@
 <!-- TODO Also show Projects as Cards / Thumbs -->
 
 <!-- <div *ngFor="let project of itemsPage.docs | async ">
-  <md-card>
-    <md-card-header>
-      <img md-card-avatar src="assets/img/avatar-generic.png" alt="{{project.title}}">
-      <md-card-title>{{project.title}}</md-card-title>
-      <md-card-subtitle>{{project.managerName}}, Дніпро</md-card-subtitle>
-    </md-card-header>
-    <md-card-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{project.title}}</mat-card-title>
+      <mat-card-subtitle>{{project.managerName}}, Дніпро</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
         {{project.description}}
         <br/>
         <br/>
         <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
-    </md-card-content>
-    <md-card-actions>
-      <a [routerLink]="['/project/' + project._id]"><button md-button color="primary">Підтримати</button></a>
-    </md-card-actions>
-  </md-card>
+    </mat-card-content>
+    <mat-card-actions>
+      <a [routerLink]="['/project/' + project._id]"><button mat-button color="primary">Підтримати</button></a>
+    </mat-card-actions>
+  </mat-card>
 </div> -->

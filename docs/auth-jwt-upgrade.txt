@@ -1,1 +1,0 @@
-https://github.com/auth0/angular2-jwt/blob/e61abf054c89bd3fa91c56c541e6b269d91dbf16/README.md

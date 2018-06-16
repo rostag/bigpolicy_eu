@@ -1,4 +1,6 @@
-export class ProjectModel {
+import { IProject } from "../../common/models";
+
+export class ProjectModel implements IProject {
   _id: string;
   title: string;
   description: string;
@@ -11,7 +13,7 @@ export class ProjectModel {
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
   videoUrl = '';
-  tasks;
+  taskIds;
   donations;
   totalDonationsReceived = 0;
 
@@ -31,7 +33,7 @@ export class ProjectModel {
       dateEnded: this.dateEnded,
       imageUrl: this.imageUrl,
       videoUrl: this.videoUrl,
-      tasks: this.tasks,
+      taskIds: this.taskIds,
       totalDonationsReceived: this.totalDonationsReceived
     });
   }
