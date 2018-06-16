@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
+
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 /**
  * Provides the donation service with methods to create, read, update and delete models.
@@ -21,7 +21,7 @@ export class DonationService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Create a donation for target
@@ -52,8 +52,9 @@ export class DonationService {
     console.log('Donation Service: get by', requestUrl);
 
     const responseObservable = this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        const donations = responsePage.json();
+      // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
+      .map((responsePage: any) => {
+        const donations = responsePage;
         return donations;
       });
       return responseObservable;
@@ -62,7 +63,9 @@ export class DonationService {
   /**
    * Get a model from DB or from cache.
    */
-  getDonation(donationId: string): Observable<Response> {
+  // FIXME - NG45 Get back to:
+  // getDonation(donationId: string): Observable<HttpResponse> {
+  getDonation(donationId: string): Observable<any> {
     return this.getDonationsPage(donationId);
   }
 
@@ -83,11 +86,11 @@ export class DonationService {
    * Internal utility to get post data
    */
   private getPostData(model: DonationModel) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
-      options: new RequestOptions({ headers: headers })
+      // FIXME - NG45
+      options: { headers: headers } 
     };
   }
 

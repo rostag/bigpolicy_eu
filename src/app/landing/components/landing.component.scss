@@ -19,7 +19,7 @@
   margin-bottom: 0.5em;
 }
 
-md-card {
+mat-card {
   margin: 16px 0;
 }
 
@@ -33,7 +33,7 @@ p {
   margin-bottom: 1em;
 }
 
-#stats md-grid-tile {
+#stats mat-grid-tile {
   background: rgba(0, 0, 0, 0);
 }
 
@@ -78,7 +78,7 @@ p {
   right: 1rem;
 }
 
-#top-projects md-card-title {
+#top-projects mat-card-title {
   font-size: 1.2em;
 }
 

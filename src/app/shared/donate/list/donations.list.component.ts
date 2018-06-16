@@ -1,9 +1,8 @@
-import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DonationModel } from '../donation.model';
 import { DonationService } from '../donation.service';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-donations-list',
@@ -27,7 +26,7 @@ export class DonationsListComponent implements OnChanges {
   // How many list items to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.taskIds.length > 0" }'
   @Input() dbQuery = '{}';
 
   public items: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
@@ -50,7 +49,7 @@ export class DonationsListComponent implements OnChanges {
 
   constructor(
     private donationService: DonationService,
-    private http: Http
+    private http: HttpClient
   ) {}
 
   pageChanged(pageNumber) {
@@ -75,6 +74,7 @@ export class DonationsListComponent implements OnChanges {
         this.itemsPage.page = responsePage['page'];
         this.itemsPage.pages = responsePage['pages'];
         this.itemsPage.total = responsePage['total'];
+        // FIXME RESTORE UNSUBSCRIBE via onDestroy hook
         proxySub.unsubscribe();
       });
   }

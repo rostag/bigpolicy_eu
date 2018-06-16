@@ -3,8 +3,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { LeaderBriefComponent } from './leader.brief.component';
-import { LeaderModel, LeaderService } from '../../shared/leader/index';
-import { MaterialModule, MdCardTitle, MdCard } from '@angular/material';
+import { LeaderService } from '../../shared/leader/index';
 import { ProjectService } from '../../shared/project/project.service';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,7 +15,7 @@ xdescribe('WIP - Fixed the imports and providers. LeaderBriefComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ MaterialModule, RouterTestingModule ],
+      imports: [ RouterTestingModule ],
       providers: [ LeaderService, DialogService, ProjectService, TaskService ],
       declarations: [ LeaderBriefComponent ]
     })

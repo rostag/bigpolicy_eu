@@ -3,7 +3,6 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageComponent } from '../../shared/image/image.component';
 import { LeaderEditComponent } from './';
-import { MaterialModule, MdCardTitle, MdCard } from '@angular/material';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UploaderComponent } from '../../shared/uploader/uploader.component';
 import { FilesViewComponent } from '../../shared/files/view/files.view.component';
@@ -30,7 +29,7 @@ describe('WIP: LeaderEditComponent', () => {
   beforeEach(() => {
     // .withRoutes([ { path: 'add-leader', component: LeaderEditComponent } ]),
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule, MaterialModule, RouterTestingModule,
+      imports: [ ReactiveFormsModule, RouterTestingModule,
         AngularFireModule.initializeApp(firebaseConfig)
       ],
       providers: [ LeaderService, DialogService, ProjectService, TaskService, UserService, DriveService, {

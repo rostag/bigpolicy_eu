@@ -1,10 +1,13 @@
-import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { TaskService, TaskModel } from '../../shared/task/index';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { ProjectModel } from '../../shared/project/index';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserService } from '../../shared/user/user.service';
+import { Store, select } from '@ngrx/store';
+import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/task.reducers';
+import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
+import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
+import { isArray } from 'util';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -13,7 +16,7 @@ import { UserService } from '../../shared/user/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskListComponent implements OnChanges {
+export class TaskListComponent implements OnChanges, OnInit, OnDestroy {
 
   // List title
   @Input() title = '';
@@ -21,18 +24,18 @@ export class TaskListComponent implements OnChanges {
   // How many tasks to show and to request from db in single turn
   @Input() pageSize = 5;
 
-  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.taskIds.length > 0" }'
   @Input() dbQuery = '{}';
 
   // An project this task list belongs to
-  @Input() project: ProjectModel = new ProjectModel();
+  @Input() project: IProject = new ProjectModel();
 
   @Input() showProjectLink = 'dontShow';
 
   // Show tasks collapsed initially, but let user to expand
   compactTasksView = true;
 
-  public tasks: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+  public tasks: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
   public itemsPage = {
     docs: this.tasks,
     limit: this.pageSize,
@@ -43,20 +46,40 @@ export class TaskListComponent implements OnChanges {
 
   isAddingTaskMode = false;
 
+  private tasksPage$: Subscription;
+
   constructor(
     public userService: UserService,
-    private taskService: TaskService,
-    private http: Http
-  ) {}
+    private taskStore: Store<ITaskState>
+  ) {
+  }
 
-  ngOnChanges(changes) {
+  public ngOnInit() {
+    this.tasksPage$ = this.taskStore.select(getTasksPage).subscribe((tp: ITaskResponsePage) => this.setTasksPage(tp));
+  }
+
+  public ngOnDestroy() {
+    this.tasksPage$.unsubscribe();
+  }
+
+  public ngOnChanges(changes) {
     const project = changes.project && changes.project.currentValue;
     if (project && project._id ||
-        changes.pageSize && changes.pageSize.currentValue ||
-        changes.dbQuery && changes.dbQuery.currentValue) {
+      changes.pageSize && changes.pageSize.currentValue ||
+      changes.dbQuery && changes.dbQuery.currentValue) {
       this.requestTasks();
     }
   }
+
+  private setTasksPage(responsePage: ITaskResponsePage) {
+    if (!responsePage) { return }
+    this.itemsPage.docs.next(responsePage['docs']);
+    this.itemsPage.limit = responsePage['limit'];
+    this.itemsPage.page = responsePage['page'];
+    this.itemsPage.pages = responsePage['pages'];
+    this.itemsPage.total = responsePage['total'];
+  }
+
 
   pageChanged(pageNumber) {
     this.itemsPage.page = pageNumber;
@@ -65,22 +88,14 @@ export class TaskListComponent implements OnChanges {
 
   // FIXME Consider elimintation of the code duplication in paginator
   requestTasks() {
-    const proxySub = this.taskService.getTasksPage(
-      null,
-      this.project._id,
-      this.itemsPage.page,
-      this.pageSize,
-      this.dbQuery
-    )
-    .subscribe(responsePage => {
-      // console.log('Next, responsePage:', responsePage);
-      this.itemsPage.docs.next(responsePage['docs']);
-      this.itemsPage.limit = responsePage['limit'];
-      this.itemsPage.page = responsePage['page'];
-      this.itemsPage.pages = responsePage['pages'];
-      this.itemsPage.total = responsePage['total'];
-      proxySub.unsubscribe();
-    });
+    if (!this.project || !this.project._id) { return }
+    const req: IDataPageRequest = {
+      id: this.project._id,
+      page: this.itemsPage.page,
+      pageSize: this.pageSize,
+      dbQuery: this.dbQuery
+    }
+    this.taskStore.dispatch(new LoadTaskPage(req));
   }
 
   addTask() {
@@ -93,16 +108,13 @@ export class TaskListComponent implements OnChanges {
   }
 
   deleteTask(taskToRemove: any) {
-    // Delete in UI
-    let updatedTasks;
-    this.tasks.subscribe ( tasks => {
-      updatedTasks = tasks.filter( task => task._id !== taskToRemove._id);
-    });
-    this.tasks.next( updatedTasks );
-
-    // Delete from DB
-    this.taskService.deleteTask(taskToRemove);
+    this.taskStore.dispatch(new DeleteTask(taskToRemove));
     return false;
+  }
+
+  onSaveTaskEdit(evt) {
+    this.isAddingTaskMode = false;
+    // TODO: Update Task store via NGRX
   }
 
   onCancelTaskEdit(evt) {

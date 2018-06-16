@@ -1,7 +1,7 @@
 import { PathReference, AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
 
 interface Image {

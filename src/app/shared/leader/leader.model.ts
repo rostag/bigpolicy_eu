@@ -1,16 +1,8 @@
 import { UserService } from '../user/user.service';
 import { FormGroup } from '@angular/forms';
+import { ILeader } from '../../common/models';
 
-export interface ILeader {
-  name: string;
-  surName: string;
-  vision: string;
-  mission: string;
-  email: string;
-  videoUrl: string;
-}
-
-export class LeaderModel {
+export class LeaderModel implements ILeader {
 
   _id: string;
 
@@ -24,13 +16,13 @@ export class LeaderModel {
   videoUrl: string;
   photo: string;
   donations;
-  projects;
+  projectIds;
   // FIXME Check for Null prevention
   leaderFiles;
-  totalDonationsReceived: Number = 0;
+  totalDonationsReceived = 0;
 
   // id of party from parties list
-  party: Number;
+  party: number;
   officialPost: string;
 
   // other
@@ -44,6 +36,8 @@ export class LeaderModel {
   docCriminalRecord: string;
   docCorruptionRecord: string;
   docPassport: string;
+
+  location: string;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -77,6 +71,7 @@ export class LeaderModel {
     this.vision = f.get('vision').value;
     this.mission = f.get('mission').value;
     this.videoUrl = f.get('videoUrl').value;
+    this.location = f.get('location').value;
   }
 
   applyModelToFormGroup(formGroup: FormGroup) {

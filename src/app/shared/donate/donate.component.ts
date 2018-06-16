@@ -1,5 +1,4 @@
 import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
-import { ProjectModel } from '../../shared/project/index';
 import { DonationModel } from './donation.model';
 import { DonationService } from './donation.service';
 import { UserService } from '../../shared/user/user.service';
@@ -46,7 +45,7 @@ export class DonateComponent implements OnChanges {
     this.donationService.createDonation(this.getDonationModel())
       .subscribe((res) => {
         const b = res['_body'];
-        const id = b.substring(1, b.length - 1);
+        const id = b && b.substring(1, b.length - 1);
         // TODO if not virtual transaction
         this.readyToDonate = !this.readyToDonate;
         this.getDonationForm(id);
@@ -96,7 +95,7 @@ export class DonateComponent implements OnChanges {
         const formStr =
         '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
           'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' + sgndta[1] + '" />' +
-          '<button md-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
+          '<button mat-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
           + this.amount + ' UAH</button>' +
         '</form>';
         // FIXME - Update button visual style, broken after ng update

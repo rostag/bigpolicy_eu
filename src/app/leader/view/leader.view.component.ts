@@ -1,8 +1,11 @@
-import { Component, Output, OnInit } from '@angular/core';
-import { LeaderModel, LeaderService } from '../../shared/leader/index';
-import { DonateComponent } from '../../shared/donate/donate.component';
-import { UserService } from '../../shared/user/user.service';
+import { Component, OnInit } from '@angular/core';
+import { LeaderModel } from '../../shared/leader/index';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader, DeleteLeader } from '../../state/actions/leader.actions';
+import { ILeader } from '../../common/models';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   templateUrl: './leader.view.component.html',
@@ -11,11 +14,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class LeaderViewComponent implements OnInit {
 
-  leader: LeaderModel = new LeaderModel();
+  // Leader object to be used in template
+  public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
-
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -24,37 +27,23 @@ export class LeaderViewComponent implements OnInit {
     public userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private leaderService: LeaderService
-  ) {}
+    private leaderStore: Store<ILeaderState>
+  ) { }
 
   /**
-   * Initialization Event Handler, used to parse route params
-   * like `id` in leader/:id/edit)
+   * Initialization Event Handler, parses route params like `id` in leader/:id/edit)
    */
-  ngOnInit() {
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => {
-        if (id) {
-          this.leaderService.getLeader(id)
-          .subscribe(
-            data => {
-              this.setLeader(data);
-            },
-            err => console.error(err),
-            () => {}
-          );
-        }
-      });
+  public ngOnInit() {
+    this.route.params.subscribe(params => { if (params.id) { this.leaderStore.dispatch(new LoadLeader(params.id)) } });
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
   }
 
   /**
    * Leader loading handler
    * @param {data} Loaded leader data
    */
-  setLeader(data: LeaderModel) {
-    // console.log(`Got Leader: ${JSON.stringify(data, null, ' ')}`);
-
+  private setLeader(data: ILeader) {
+    if (!data) { return }
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
@@ -62,15 +51,24 @@ export class LeaderViewComponent implements OnInit {
       data.leaderFiles.splice(nullIndex, 1);
     }
     this.leader = data;
-    this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
+    this.hasVisual = !!(this.leader && (this.leader.photo || this.leader.videoUrl));
+  }
+
+  /**
+   * Edits the leader
+   * @param {leader} Leader to delete
+   */
+  public editLeader(leader: ILeader) {
+    this.router.navigate(['/leader/' + leader._id + '/edit']);
+    return false;
   }
 
   /**
    * Removes the leader from DB
    * @param {leader} Leader to delete
    */
-  deleteLeader(leader: LeaderModel) {
-    this.leaderService.deleteLeader(leader);
+  public deleteLeader(leader: ILeader) {
+    this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
   }
 }
