@@ -50,7 +50,6 @@
     "zone.js": "0.8.18"
   },
   "devDependencies": {
-    "hoek": "4.2.1",
     "@angular/cli": "1.7.2",
     "@types/gapi.auth2": "0.0.45",
     "@types/google-drive-realtime-api": "0.0.33",
