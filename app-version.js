@@ -2,13 +2,13 @@
 var jsonfile = require('jsonfile')
 
 // version is stored here
-var file = 'src/app/app-version.json'
+var file = 'package.json'
 
 var value = jsonfile.readFileSync(file);
 // console.dir('Increasing version from:');
 // console.dir(value['app-version']);
 
-var v = value['app-version'].split('.');
+var v = value['version'].split('.');
 var major = v[0];
 var minor = v[1];
 var build = v[2];
