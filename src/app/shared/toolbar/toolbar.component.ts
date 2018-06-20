@@ -4,7 +4,7 @@ import { LeaderService } from 'app/shared/leader';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
-import * as appVersion from '../../app-version.json';
+import * as appVersion from '../../../../package.json';
 
 /**
  * This class represents the toolbar component.
@@ -16,7 +16,7 @@ import * as appVersion from '../../app-version.json';
 })
 export class ToolbarComponent {
 
-  public appVersion = appVersion['app-version'];
+  public appVersion = appVersion['version'];
 
   get leaderId() {
     // FIXME NGRX IT
