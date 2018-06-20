@@ -5,6 +5,6 @@ Remove:
 
 Add:
 
-    "auth0-js": "9.1.2",    
+    "auth0-js": "9.1.2"
 
 Updated UserService
