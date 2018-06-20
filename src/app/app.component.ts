@@ -2,7 +2,7 @@ import { OnInit, Component } from '@angular/core';
 import { UserModel } from './shared/user/user.model';
 import { Router, NavigationEnd } from '@angular/router';
 
-import * as appVersion from './app-version.json';
+import * as appVersion from '../../package.json';
 import { UserService } from './shared/user/user.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   title = 'BigPolicy';
   user: UserModel;
-  version = appVersion['app-version'];
+  version = appVersion['version'];
 
   constructor(
     private userService: UserService,
