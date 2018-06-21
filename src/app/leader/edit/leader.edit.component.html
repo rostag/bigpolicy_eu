@@ -105,13 +105,11 @@
     </div>
 
     <mat-toolbar class="add-toolbar" color="#fff">
-      <button mat-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
-      <button mat-button (click)="cancelEditing()" color="primary">
-        Відмінити
-      </button>
+      <button mat-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leaderModel)">Видалити</button>
       <!-- <button mat-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button> -->
       <span class="add-fill-remaining"></span>
-      <button mat-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leaderModel)">Видалити</button>
+      <button mat-button (click)="cancelEditing()" color="primary">Відмінити</button>
+      <button mat-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
     </mat-toolbar>
 
   </mat-card-content>
