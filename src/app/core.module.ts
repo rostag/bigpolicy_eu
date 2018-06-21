@@ -84,6 +84,7 @@ import { ProjectEffects } from './state/effects/project.effects';
 import { LeaderEffects } from './state/effects/leader.effects';
 import { TaskEffects } from './state/effects/task.effects';
 import { GeneratorComponent } from './generator/generator.component';
+import { AudioComponent } from './generator/audio.component';
 
 // FIXME_SEC
 export const firebaseConfig = {
@@ -208,7 +209,8 @@ export const firebaseConfig = {
     ProjectBriefComponent,
     WorkingSpinnerComponent,
     DisclaimerComponent,
-    GeneratorComponent
+    GeneratorComponent,
+    AudioComponent
   ],
   providers: [
     // singleton services
