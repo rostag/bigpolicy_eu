@@ -41,16 +41,7 @@
        </div>
 
       <mat-toolbar>
-        <button type="submit" mat-raised-button (click)="saveTask()" color="primary">
-          <span *ngIf="!isUpdateMode">Додати</span>
-          <span *ngIf="isUpdateMode">Зберегти</span>
-           захід</button>
-           <button *ngIf="isUpdateMode" (click)="deleteTask(task)" mat-raised-button color="warn">Видалити</button>
-         <button mat-button (click)="cancelEditing()" color="primary">
-           Відмінити
-         </button>
-        <span class="add-fill-remaining"></span>
-
+        <button *ngIf="isUpdateMode" (click)="deleteTask(task)" mat-raised-button color="warn">Видалити</button>
         <!-- MOVE TO OTHER PROJECT -->
         <div *ngIf="userService.isAdmin && isUpdateMode">
           <button *ngIf="!projectsToMoveTaskTo" mat-button (click)="requestProjectsToSelectFrom()">До іншого проекту</button>
@@ -62,6 +53,18 @@
             </mat-select>
           </form>
         </div>
+  
+        <span class="add-fill-remaining"></span>
+
+        <button mat-button (click)="cancelEditing()" color="primary">
+          Відмінити
+        </button>
+   
+        <button type="submit" mat-raised-button (click)="saveTask()" color="primary">
+          <span *ngIf="!isUpdateMode">Додати</span>
+          <span *ngIf="isUpdateMode">Зберегти</span>
+          <span>захід</span>
+        </button>
 
       </mat-toolbar>
 
