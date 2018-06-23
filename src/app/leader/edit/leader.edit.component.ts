@@ -26,7 +26,7 @@ export class LeaderEditComponent implements OnInit {
   // Must be public, used in template
   public isUpdateMode = false;
 
-  public filteredOptions: Observable<string[]>;  
+  public filteredOptions: Observable<string[]>;
 
   private regions = [
     'Одеська область',
@@ -71,9 +71,9 @@ export class LeaderEditComponent implements OnInit {
    * Initialization Event Handler, used to parse route params
    * like `id` in leader/:id/edit)
    */
-  // FIXME Protect with Guard from unauthorized edits
+  // FIXME Protect with Guard from unauthorized access
   public ngOnInit() {
-    console.log('Init Leader Editor, route params:', this.route.params);
+    console.log('Init Leader, route params:', this.route.params);
 
     // FIXME
     const profile = this.userService.userProfile;
@@ -97,7 +97,7 @@ export class LeaderEditComponent implements OnInit {
         this.leaderStore.dispatch(new LoadLeader(params.id));
         this.isUpdateMode = true;
       }
-    })
+    });
 
     this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
 
@@ -113,12 +113,10 @@ export class LeaderEditComponent implements OnInit {
       option.toLowerCase().includes(val.toLowerCase()));
   }
 
-
-  // FIXME apply validation
-  // returns either null if the control value is valid or a validation error object
+  // FIXME apply validation - shall return either null if the control value is valid or a validation error object
   private videoUrlValidator(c: FormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-    // console.log('yourube validity: ', c.value, c.value.match(youTubeRegexp) );
+    // console.log('utube validity: ', c.value, c.value.match(youTubeRegexp) );
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
     return isYouTubeUrl ? null : { 'forbiddenName': 'Erriis' };
   }
@@ -127,8 +125,8 @@ export class LeaderEditComponent implements OnInit {
    * Leader loading handler
    * @param {data} Loaded Leader data
    */
-  private setLeader(leader: ILeader) {
-    if (!leader) { return }
+  public setLeader(leader: ILeader) {
+    if (!leader) { return; }
     this.leaderModel = new LeaderModel();
     this.leaderModel.parseData(leader);
     this.driveService.checkConnection();
