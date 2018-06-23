@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { GeneratorRoutingModule } from './generator-routing.module';
 import { GeneratorComponent } from './generator.component';
 import { AudioComponent } from './audio.component';
+import { MaterialModule } from '../common/modules/material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    GeneratorRoutingModule
+    GeneratorRoutingModule,
+    MaterialModule
   ],
   declarations: [
     GeneratorComponent,
