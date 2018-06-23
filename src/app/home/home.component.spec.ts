@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Ng2PaginationModule } from 'ng2-pagination';
 
-import { CoreModule } from '../core.module';
+// import { CoreModule } from '../core.module';
 import { HomeComponent } from './home.component';
 import { LeaderListComponent } from '../leader/list/index';
 import { ProjectListComponent } from '../project/list/index';

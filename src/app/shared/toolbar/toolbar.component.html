@@ -37,7 +37,7 @@
 
 <!-- Initially invisible drop-down menu -->
 <mat-menu #userMenu="matMenu">
-  <a mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</a>
+  <!-- Duplicate <a mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</a> -->
   <div *ngIf="userService.authenticated()">
     <button mat-menu-item>
       <b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b>
@@ -50,12 +50,12 @@
       <button mat-menu-item (click)="pingJwt()">PingJWT</button>
       <button mat-menu-item (click)="pingJwtAdmin()">PingJWTAdmin</button>
     </div> -->
-    <div class="separator"></div>
-    <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
   </div>
+  <div class="separator"></div>
+  <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
 </mat-menu>
 
-<app-working-progress></app-working-progress>
+<!-- FIXME <app-working-progress></app-working-progress> -->
 
 <button class.xs="fab-logo-xs" color="warn" class="fab-logo" mat-fab [routerLink]="['/']">
   <svg class="logo logo-white" viewBox="0 0 3500 3300">
@@ -80,5 +80,3 @@
     />
   </svg>
 </button>
-
-<app-bp-navbar></app-bp-navbar>
