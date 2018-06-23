@@ -1,6 +1,6 @@
 // FIXME To be removed
 import { OnInit, Component } from '@angular/core';
-import { UserService } from '../../shared/user/user.service';
+import { UserService } from '../shared/user/user.service';
 
 @Component({
   selector: 'app-bp-landing',

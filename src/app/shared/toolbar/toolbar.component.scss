@@ -1,4 +1,9 @@
 .app-toolbar {
+  a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+  }
   // FIXME Use Theme BG color
   background-color: #455a64;
   .mat-button,

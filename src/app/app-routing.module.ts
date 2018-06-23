@@ -1,4 +1,6 @@
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LoggedInGuard } from './shared/login/logged-in.guard';
 
 import { ProfileComponent } from '././shared/user/profile.component';
@@ -10,23 +12,18 @@ import { HomeComponent } from './home';
 
 import { LeadersComponent } from './leader/landing';
 import { LeaderEditComponent } from './leader/edit';
-import { LeaderListComponent } from './leader/list';
 import { LeaderViewComponent } from './leader/view';
 
 import { ProjectsComponent } from './project/landing';
 import { ProjectEditComponent } from './project/edit';
-import { ProjectListComponent } from './project/list';
 import { ProjectViewComponent } from './project/view';
 
 import { TaskEditComponent } from './task/edit';
 import { TaskListComponent } from './task/list';
 import { TaskViewComponent } from './task/view';
 
-//
-// The order of routes is IMPORTANT.
-// More specific come first.
-//
-export const routes: Routes = [
+// The order of routes is important. More specific come first.
+const routes: Routes = [
   { path: 'leader/:id/edit', component: LeaderEditComponent },
   { path: 'project/:id/edit', component: ProjectEditComponent },
   { path: 'task/:id/edit', component: TaskEditComponent },
@@ -52,4 +49,9 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [LoggedInGuard] }
 ];
 
-export const routing = RouterModule.forRoot(routes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+
+export class AppRoutingModule { }
