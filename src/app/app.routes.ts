@@ -6,7 +6,6 @@ import { AdminComponent } from '././shared/admin/admin.component';
 
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AboutComponent } from './about';
-// import { LandingComponent } from './landing';
 import { HomeComponent } from './home';
 
 import { LeadersComponent } from './leader/landing';
