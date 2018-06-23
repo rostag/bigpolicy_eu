@@ -1,5 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
+import { interval } from 'rxjs/observable/interval';
+import { timeInterval, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
+
+// ankursethi.in/2016/01/13/build-a-sampler-with-angular-2-webaudio-and-webmidi-lesson-1-introduction-to-the-webaudio-api
+
 @Component({
     selector: 'app-audio',
     templateUrl: './audio.component.html',
@@ -7,40 +12,45 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AudioComponent implements OnInit {
 
-    public ac: AudioContext;
-
     public loadingSample = false;
 
-    private audioBuffer: AudioBuffer;
+    private audioContext: AudioContext[] = [];
+    private audioBuffer: AudioBuffer[] = [];
+
+    private onDestroy$ = new Subject<void>();
+    private _binauralFreq: number;
+    private _sampleFreq: number;
+
+    public sampleNames = ['kick', 'dsb-thinner'];
+    public currentSample = 'dsb-thinner';
 
     constructor() { }
 
     public ngOnInit() {
         this.createAudio();
-
-        this.loadingSample = true;
-        this.fetchSample()
-            .then(audioBuffer => {
-                this.loadingSample = false;
-                this.audioBuffer = audioBuffer;
-            })
-            .catch(error => {
-                throw error;
-            });
     }
 
     public createAudio() {
-        this.ac = new AudioContext();
-        console.log(`Init audio:
-        https://ankursethi.in/2016/01/13/build-a-sampler-with-angular-2-webaudio-and-webmidi-lesson-1-introduction-to-the-webaudio-api/`);
+        for (let s = 0; s < this.sampleNames.length; s++) {
+            this.loadingSample = true;
+            this.fetchSample(this.sampleNames[s])
+                .then(audioBuffer => {
+                    this.loadingSample = false;
+                    this.audioBuffer[this.sampleNames[s]] = audioBuffer;
+                })
+                .catch(error => {
+                    throw error;
+                });
+        }
     }
 
-    public fetchSample(): Promise<AudioBuffer> {
-        return fetch('/assets/wav/kick.wav')
+    public fetchSample(sampleName): Promise<AudioBuffer> {
+        return fetch(`/assets/wav/${sampleName}.wav`)
             .then(response => response.arrayBuffer())
             .then(buffer => {
                 return new Promise<AudioBuffer>((resolve, reject) => {
-                    this.ac.decodeAudioData(
+                    this.audioContext[sampleName] = new AudioContext();
+                    this.audioContext[sampleName].decodeAudioData(
                         buffer,
                         resolve,
                         reject
@@ -49,11 +59,68 @@ export class AudioComponent implements OnInit {
             });
     }
 
-    public playSample() {
-        const bufferSource = this.ac.createBufferSource();
-        bufferSource.buffer = this.audioBuffer;
-        bufferSource.connect(this.ac.destination);
+    public stopLoop(loopName) {
+        console.log('Loop:', loopName);
+        this.onDestroy$.next();
+    }
+
+    public playLoop(sample) {
+        this._sampleFreq = Math.round(Math.random() * 100) + 100;
+        this.initLoop(sample, this._sampleFreq);
+    }
+
+    public initLoop(sample, time) {
+        interval(time)
+            .pipe(
+                timeInterval(),
+                takeUntil(this.onDestroy$)
+            )
+            .subscribe(a => {
+                this.playSample(sample || this.currentSample);
+            });
+    }
+
+    public playSample(loopName) {
+        const bufferSource = this.audioContext[loopName].createBufferSource();
+        bufferSource.buffer = this.audioBuffer[loopName];
+        bufferSource.connect(this.audioContext[loopName].destination);
         bufferSource.start(0);
+    }
+
+    public y(x) {
+        return Math.round(Math.exp(x));
+    }
+
+    public r(r) {
+        const a = Math.random() * r;
+        return Math.round(a * a + a);
+    }
+
+    /******
+     * Try Hz:
+     * 34
+     * 94
+     * 102
+     * 253
+     * -264
+     * -302
+     * -364
+     * 404
+     ******/
+
+    public playBinaural(sample, baze, hz) {
+        this.stopLoop(this.currentSample);
+        this._binauralFreq = baze;
+        this.initLoop(sample, baze);
+        this.initLoop(sample, baze + hz);
+    }
+
+    public get binauralFreq() {
+        return this._binauralFreq;
+    }
+
+    public get sampleFreq() {
+        return this._sampleFreq;
     }
 
 }
