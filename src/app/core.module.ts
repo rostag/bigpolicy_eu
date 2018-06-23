@@ -35,7 +35,6 @@ import { LeaderViewComponent } from './leader/view';
 import { ProfileComponent } from './shared/user/profile.component';
 import { AdminComponent } from './shared/admin/admin.component';
 import { AboutComponent } from './about';
-// import { LandingComponent } from './landing';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
@@ -79,7 +78,6 @@ import {
   MatToolbarModule, MatButtonModule, MatMenuModule, MatSelectModule, MatProgressBarModule,
   MatListModule, MatTabsModule, MatProgressSpinnerModule, MatInputModule, MatAutocompleteModule
 } from '@angular/material';
-import { LandingComponent } from './landing';
 import { ProjectEffects } from './state/effects/project.effects';
 import { LeaderEffects } from './state/effects/leader.effects';
 import { TaskEffects } from './state/effects/task.effects';
@@ -150,7 +148,6 @@ export const firebaseConfig = {
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
@@ -174,7 +171,6 @@ export const firebaseConfig = {
   ],
   declarations: [
     // components to use in this module
-    LandingComponent,
     NavbarComponent,
     ToolbarComponent,
     TaskEditComponent,
@@ -191,7 +187,6 @@ export const firebaseConfig = {
     ProfileComponent,
     AdminComponent,
     AboutComponent,
-    // LandingComponent,
     SharerComponent,
     DonateComponent,
     DonationsListComponent,
