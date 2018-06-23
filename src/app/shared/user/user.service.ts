@@ -1,16 +1,12 @@
 // import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../dialog/dialog.service';
-import { environment } from '../../../environments/environment';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { AuthState, getUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
 
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
@@ -21,10 +17,6 @@ import { CreateLeader } from '../../state/actions/leader.actions';
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
-
-interface AppState {
-  count: number;
-}
 
 @Injectable()
 export class UserService {
@@ -40,13 +32,13 @@ export class UserService {
   });
 
   // Store profile object in auth class
-  userProfile: any = {
+  public userProfile: IUserProfile = {
     name: '',
     email: ''
   };
 
   // FIXME NGRX IT
-  isAdmin: boolean;
+  public isAdmin: boolean;
 
   constructor(
     public leaderService: LeaderService,
@@ -86,11 +78,11 @@ export class UserService {
     }
   }
 
-  login() {
+  public login() {
     this._auth0.authorize();
   }
 
-  handleAuth() {
+  public handleAuth() {
     // When Auth0 hash parsed, get profile
     this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -168,7 +160,7 @@ export class UserService {
     this.router.navigate(['/']);
   }
 
-  get tokenValid(): boolean {
+  private get tokenValid(): boolean {
     // Check if current time is past access token's expiration
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
@@ -240,7 +232,7 @@ export class UserService {
   * Lazy Leader Registration.
   * Save Leader to LocalStorage to let unauthorised user to start registration
   */
-  needToLoginFirst(leader: ILeader) {
+  public needToLoginFirst(leader: ILeader) {
     if (!this.authenticated()) {
 
       // save Leader data to LocalStorage
@@ -297,5 +289,4 @@ export class UserService {
       }
     }
   }
-
 }

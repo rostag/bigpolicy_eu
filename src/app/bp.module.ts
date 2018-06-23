@@ -16,7 +16,7 @@ import { ProjectEditComponent } from './project/edit';
 import { ProjectListComponent } from './project/list';
 import { ProjectViewComponent } from './project/view';
 
-import { LeadersComponent } from './leader/landing';
+import { LeadersComponent } from './leader/landing/leaders.component';
 import { LeaderEditComponent } from './leader/edit';
 import { LeaderListComponent } from './leader/list';
 import { LeaderViewComponent } from './leader/view';
