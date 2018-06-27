@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "run-db-local": "cd ../ && mongod --dbpath=data/db --port 27027",
+    "db": "cd ../ && mongod --dbpath=data/db --port 27027",
     "client": "ng serve --port=5000",
     "deploy-fbs": "npm version patch && npm install && npm run build-prod && git push origin && rsync -a dist/* fbs/dist && cd fbs && firebase deploy"
   },

@@ -1,5 +1,5 @@
 <div>
-  <div *ngIf="!userService.authenticated() || !userService.userProfile">WIP: Auth</div>
+  <div *ngIf="!userService.authenticated() || !userService.userProfile">Потрібно зайти в систему</div>
   <div *ngIf="userService.authenticated() && userService.userProfile">
     <!-- FIXME Override User Profile Name with Leader Name ? -->
     <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">

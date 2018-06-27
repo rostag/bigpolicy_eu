@@ -1,13 +1,17 @@
-import { Injectable } from "@angular/core";
-import { Effect, Actions, ofType } from "@ngrx/effects";
-import { Action } from "rxjs/scheduler/Action";
-import { HttpClient } from "selenium-webdriver/http";
-import { ProjectActionTypes, LoadProjectFail, LoadProjectSuccess, ProjectAction, CreateProjectFail, CreateProjectSuccess, UpdateProjectFail, UpdateProjectSuccess, DeleteProjectSuccess, DeleteProjectFail, LoadProjectsPageSuccess, LoadProjectsPageFail } from "../actions/project.actions";
-import { mergeMap, map } from "rxjs/operators";
-import { ProjectService } from "../../shared/project";
-import { catchError } from "rxjs/operators";
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
+import { Injectable } from '@angular/core';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Action } from 'rxjs/scheduler/Action';
+import { HttpClient } from 'selenium-webdriver/http';
+import {
+    ProjectActionTypes, LoadProjectFail, LoadProjectSuccess, ProjectAction, CreateProjectFail,
+    CreateProjectSuccess, UpdateProjectFail, UpdateProjectSuccess, DeleteProjectSuccess, DeleteProjectFail,
+    LoadProjectsPageSuccess, LoadProjectsPageFail
+} from '../actions/project.actions';
+import { mergeMap, map } from 'rxjs/operators';
+import { ProjectService } from '../../shared/project';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProjectEffects {
@@ -23,7 +27,7 @@ export class ProjectEffects {
                         catchError(err => of(new CreateProjectFail(err)))
                     )
             )
-        )
+        );
 
     @Effect() $loadProject: Observable<ProjectAction> = this.$actions
         .pipe(
@@ -36,7 +40,7 @@ export class ProjectEffects {
                         catchError(err => of(new LoadProjectFail(err)))
                     )
             )
-        )
+        );
 
     @Effect() $updateProject: Observable<ProjectAction> = this.$actions
         .pipe(
@@ -49,7 +53,7 @@ export class ProjectEffects {
                         catchError(err => of(new UpdateProjectFail(err)))
                     )
             )
-        )
+        );
 
     @Effect() $deleteProject: Observable<ProjectAction> = this.$actions
         .pipe(
@@ -62,7 +66,7 @@ export class ProjectEffects {
                         catchError(err => of(new DeleteProjectFail(err)))
                     )
             )
-        )
+        );
 
     @Effect() $loadProjectsPage: Observable<ProjectAction> = this.$actions
         .pipe(
@@ -75,7 +79,7 @@ export class ProjectEffects {
                         catchError(err => of(new LoadProjectsPageFail(err)))
                     )
             )
-        )
+        );
 
     constructor(
         private projectService: ProjectService,
