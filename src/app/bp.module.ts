@@ -51,6 +51,8 @@ import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { BpRoutingModule } from './bp-routing.module';
 import { MaterialModule } from './common/modules/material/material.module';
 import { CoreModule } from './core.module';
+import { LocationComponent } from './common/location/location.component';
+import { LocationService } from './common/location/location.service';
 
 
 // FIXME_SEC
@@ -132,14 +134,16 @@ export const firebaseConfig = {
         ImageComponent,
         LeaderBriefComponent,
         ProjectBriefComponent,
-        DisclaimerComponent
+        DisclaimerComponent,
+        LocationComponent
     ],
     providers: [
         // singleton services
         LoggedInGuard,
         ShareService,
         DonationService,
-        DriveService
+        DriveService,
+        LocationService
     ]
 })
 

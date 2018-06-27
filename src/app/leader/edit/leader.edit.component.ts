@@ -26,7 +26,7 @@ export class LeaderEditComponent implements OnInit {
   // Must be public, used in template
   public isUpdateMode = false;
 
-  public filteredOptions: Observable<string[]>;
+  public regionOptions: Observable<string[]>;
 
   private regions = [
     'Одеська область',
@@ -101,14 +101,14 @@ export class LeaderEditComponent implements OnInit {
 
     this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
 
-    this.filteredOptions = this.leaderFormGroup.controls.location.valueChanges
+    this.regionOptions = this.leaderFormGroup.controls.location.valueChanges
       .pipe(
         startWith(''),
-        map(val => this.filter(val))
+        map(val => this.filterLocations(val))
       );
   }
 
-  private filter(val: string): string[] {
+  private filterLocations(val: string): string[] {
     return this.regions.filter(option =>
       option.toLowerCase().includes(val.toLowerCase()));
   }
