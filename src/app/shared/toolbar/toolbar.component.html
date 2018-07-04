@@ -21,7 +21,7 @@
   <!-- FIXME Override User Profile Name with Leader Name ? -->
   <span fxFlex="23" style="white-space:nowrap;">
     <a [routerLink]="['/leader/', leaderId]" title="Email: {{userService.userProfile?.email || 'User email'}}" *ngIf="userService.authenticated()">
-      {{leaderService?.leader?.name || userService?.userProfile?.name || ''}}
+      {{leaderService?.leader?.name + ' ' + leaderService?.leader?.surName || userService?.userProfile?.name || ''}}
     </a>
     <a *ngIf="!userService.authenticated()" (click)="userService.login()">
       Увійти
@@ -39,9 +39,9 @@
 <mat-menu #userMenu="matMenu">
   <!-- Duplicate <a mat-menu-item *ngIf="!userService.authenticated()" (click)="userService.login()">Увійти</a> -->
   <div *ngIf="userService.authenticated()">
-    <button mat-menu-item>
+    <!-- <button mat-menu-item>
       <b>{{(leaderService?.leader?.name + ' ' + leaderService?.leader?.surName) || userService?.userProfile?.name}}</b>
-    </button>
+    </button> -->
     <button mat-menu-item [routerLink]="['/profile']">Обліковий запис</button>
     <button mat-menu-item (click)="userService.logout()">Вийти</button>
     <!-- <div *ngIf="userService.isAdmin">
