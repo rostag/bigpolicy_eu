@@ -20,14 +20,14 @@ const initialState: IProjectState = {
   selectedProjectId: null,
   projectsById: [],
   projectsPage: null
-}
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 // Reducer
 // --------------------------------------------------------------------------------------------------------------------
 
 /**
- * Reducer is a pure function, with input-output only and no side effects. 
+ * Reducer is a pure function, with input-output only and no side effects.
  * This is the only one who is allowed to update the state directly, it must return the updated state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
@@ -50,11 +50,11 @@ export function reducer(
 
     case ProjectActionTypes.PROJECT_SELECT:
       // console.log('Reducer :: Project Select ::', action.payload);
-      return { ...state, selectedProjectId: action.payload }
+      return { ...state, selectedProjectId: action.payload };
 
     case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
       const loadedProject: IProject = { ...action.payload };
-      let newState = { ...state, selectedProjectId: loadedProject._id };
+      const newState = { ...state, selectedProjectId: loadedProject._id };
       if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
         const projectsById = [...newState.projectsById];
         projectsById[newState.selectedProjectId] = { ...loadedProject };
@@ -64,18 +64,18 @@ export function reducer(
           projects: [...newState.projects, loadedProject],
           projectsById: <IProject[]>projectsById,
           selectedProjectId: newState.selectedProjectId
-        }
+        };
       }
       return newState;
 
     case ProjectActionTypes.PROJECTS_PAGE_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
-      responseData && responseData.docs && responseData.docs.forEach(doc => {
+      (responseData && responseData.docs && responseData.docs).forEach(doc => {
         if (state.projects.indexOf(doc) === -1) {
-          newProjects.push(doc)
+          newProjects.push(doc);
         }
-      })
+      });
 
       const nState = { ...state, projects: [...newProjects], projectsPage: { ...action.payload } };
       // console.log(':: Reducer :: Load PROJECTS Success ::', nState);

@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { CreateProject, UpdateProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
+import { CreateProject, UpdateProject, LoadProject, SelectProject } from '../../state/actions/project.actions';
 import { UserService } from '../../shared/user/user.service';
 
 
@@ -54,11 +54,15 @@ export class ProjectEditComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.isUpdateMode = true;
-        this.projectStore.dispatch(new LoadProject(params.id))
+        this.projectStore.dispatch(new LoadProject(params.id));
+      } else {
+        this.projectStore.dispatch(new SelectProject(null));
       }
     });
     // TODO Consider Getting by ID:
-    this.projectStore.select(getSelectedProject).subscribe(prj => this.setProject(prj));
+    this.projectStore.select(getSelectedProject).subscribe(prj => {
+      this.setProject(prj);
+    });
   }
 
   private setProject(data: IProject) {

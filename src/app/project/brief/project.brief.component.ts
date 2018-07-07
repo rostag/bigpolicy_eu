@@ -26,7 +26,7 @@ export class ProjectBriefComponent implements OnChanges {
     private projectStore: Store<IProjectState>
   ) {
     this.projectStore.pipe(select(getSelectedProject)).subscribe(
-      selectedProject => this.applyChanges(selectedProject))
+      selectedProject => this.applyChanges(selectedProject));
   }
 
   ngOnChanges(changes: SimpleChanges) {
