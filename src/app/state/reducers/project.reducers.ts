@@ -87,6 +87,7 @@ export function reducer(
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getProjectsState = createFeatureSelector<IProjectState>('projectsState');
 export const getProjects = createSelector(getProjectsState, (state: IProjectState) => state.projects);
+export const getProjectsById = createSelector(getProjectsState, (state: IProjectState) => state.projectsById);
 export const getProjectsPage = createSelector(getProjectsState, (state: IProjectState) => state.projectsPage);
 export const getSelectedProjectId = createSelector(getProjectsState, (state: IProjectState) => state.selectedProjectId);
 export const getSelectedProject = createSelector(getProjectsState, getSelectedProjectId,
