@@ -64,7 +64,6 @@ export class ProjectViewComponent implements OnInit {
     this.project.parseData(data);
     this.hasVisual = !!(this.project && (this.project.imageUrl || this.project.videoUrl));
     this.fundratio = this.project.totalDonationsReceived / this.project.cost * 100;
-    // ProjectService.cacheProject(this.project);
   }
 
   private loadProject(id) {

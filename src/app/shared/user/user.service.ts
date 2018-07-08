@@ -42,6 +42,7 @@ export class UserService {
 
   constructor(
     public leaderService: LeaderService,
+    public projectService: ProjectService,
     public leaderStore: Store<ILeaderState>,
     private dialogService: DialogService,
     private store: Store<AuthState>,
@@ -221,7 +222,7 @@ export class UserService {
 
     const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
     const leaderIsOwnedBy = userEmail === item['email'];
-    const taskIsOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
+    const taskIsOwnedBy = item['projectId'] && userEmail === this.projectService.getCachedProject(item['projectId'])['managerEmail'];
 
     return this.authenticated() && (taskIsOwnedBy || projectIsOwnedBy || leaderIsOwnedBy);
   }
