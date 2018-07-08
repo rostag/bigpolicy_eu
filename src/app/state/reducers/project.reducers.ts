@@ -20,14 +20,14 @@ const initialState: IProjectState = {
   selectedProjectId: null,
   projectsById: [],
   projectsPage: null
-}
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 // Reducer
 // --------------------------------------------------------------------------------------------------------------------
 
 /**
- * Reducer is a pure function, with input-output only and no side effects. 
+ * Reducer is a pure function, with input-output only and no side effects.
  * This is the only one who is allowed to update the state directly, it must return the updated state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
@@ -41,44 +41,36 @@ export function reducer(
 
   switch (action.type) {
 
-    // case ProjectActionTypes.PROJECT_ADD_TASK:
-    // return state;
-
-    // case ProjectActionTypes.PROJECT_CREATE_SUCCESS:
-    //   console.log('Reducer :: Create Project Success ::', action.payload);
-    //   return { ...state, projects: [ ...state.projects, ...action.payload ] }
-
     case ProjectActionTypes.PROJECT_SELECT:
-      // console.log('Reducer :: Project Select ::', action.payload);
-      return { ...state, selectedProjectId: action.payload }
+      return { ...state, selectedProjectId: action.payload };
 
     case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
       const loadedProject: IProject = { ...action.payload };
-      let newState = { ...state, selectedProjectId: loadedProject._id };
+      const newState = { ...state, selectedProjectId: loadedProject._id };
       if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
         const projectsById = [...newState.projectsById];
         projectsById[newState.selectedProjectId] = { ...loadedProject };
-        console.log('Reducer :: Load Project Success ::', newState);
         return {
           ...newState,
           projects: [...newState.projects, loadedProject],
           projectsById: <IProject[]>projectsById,
           selectedProjectId: newState.selectedProjectId
-        }
+        };
       }
       return newState;
 
     case ProjectActionTypes.PROJECTS_PAGE_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
-      responseData && responseData.docs && responseData.docs.forEach(doc => {
-        if (state.projects.indexOf(doc) === -1) {
-          newProjects.push(doc)
-        }
-      })
+      if (responseData && responseData.docs && responseData.docs) {
+        responseData.docs.forEach(doc => {
+          if (state.projects.indexOf(doc) === -1) {
+            newProjects.push(doc);
+          }
+        });
+      }
 
       const nState = { ...state, projects: [...newProjects], projectsPage: { ...action.payload } };
-      // console.log(':: Reducer :: Load PROJECTS Success ::', nState);
       return nState;
 
     default:
@@ -95,6 +87,7 @@ export function reducer(
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getProjectsState = createFeatureSelector<IProjectState>('projectsState');
 export const getProjects = createSelector(getProjectsState, (state: IProjectState) => state.projects);
+export const getProjectsById = createSelector(getProjectsState, (state: IProjectState) => state.projectsById);
 export const getProjectsPage = createSelector(getProjectsState, (state: IProjectState) => state.projectsPage);
 export const getSelectedProjectId = createSelector(getProjectsState, (state: IProjectState) => state.selectedProjectId);
 export const getSelectedProject = createSelector(getProjectsState, getSelectedProjectId,

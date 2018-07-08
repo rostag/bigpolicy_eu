@@ -61,7 +61,7 @@ export interface ITask {
     description: string;
     cost: number;
     projectId: string;
-    project: string;
+    project: IProject;
     imageUrl: string;
     videoUrl: string;
     dateStarted: string;

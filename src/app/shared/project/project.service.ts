@@ -1,15 +1,14 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { IProjectState, getProjectsState } from '../../state/reducers/project.reducers';
-import { LoadProjectSuccess, CreateProjectSuccess, LoadProjectsPageSuccess } from '../../state/actions/project.actions';
+import { IProjectState, getProjectsById } from '../../state/reducers/project.reducers';
 import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
-
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Store, select } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 
 /**
@@ -18,45 +17,38 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ProjectService {
 
-  // TODO Implement caching
-  static _cachedProjects = [];
-
   private projectApiUrl = environment.api_url + '/api/project-api/';
 
-  static cacheProject(project) {
-    // FIXME Move it to NGRX
-    this._cachedProjects[project._id] = project;
-    // console.log('cache project: ', this._cachedProjects[project._id]);
+  private projects$ = this.projectStore.pipe(
+    select(getProjectsById)
+  );
+
+  public getCachedProject(projectId) {
+    let project;
+    this.projects$.subscribe(projects => {
+      project = projects[projectId];
+    });
+    return project || {};
   }
 
-  static getCachedProject(projectId) {
-    // console.log('get cached project by id:', projectId, ': ', this._cachedProjects[projectId]);
-    return this._cachedProjects[projectId] || {};
-  }
-
-  /**
-   * Creates a new ProjectService with the injected Http.
-   * @param {http} http - The injected Http.
-   * @constructor
-   */
   constructor(
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private projectStore: Store<IProjectState>
   ) { }
 
-  /**
-   * Creates new Project.
-   * @param {IProject} model Project to create.
-   */
   // FIXME NG45 - get back to typed as Observable<IProject>:
   // createProject(model: IProject): Observable<IProject> {
   createProject(model: IProject): Observable<any> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.projectApiUrl, body, { headers: headers }).pipe(map(data => this.gotoProjectView(data)));
+    return this.http.post(this.projectApiUrl, body, { headers: headers }).pipe(
+      map(data => this.gotoProjectView(data)),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -93,14 +85,7 @@ export class ProjectService {
       requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
     }
 
-    // console.log('get Projects Page:', projectId, leaderId, page, limit);
-
-    return this.http.get(requestUrl)
-      // FIXME NG45 - get back to typed HttpResponse:
-      // .map((responsePage: HttpResponse) => {
-      .map((responsePage: IResponsePage<IProject>) => {
-        return responsePage;
-      });
+    return this.http.get<IResponsePage<IProject>>(requestUrl);
   }
 
   /**
@@ -108,7 +93,7 @@ export class ProjectService {
    */
   getProject(projectId: string): Observable<IProject> {
     if (projectId) {
-      return this.http.get<IProject>(this.projectApiUrl + projectId)
+      return this.http.get<IProject>(this.projectApiUrl + projectId);
     }
   }
 
@@ -127,7 +112,7 @@ export class ProjectService {
       .pipe(
         map(res => this.gotoProjectView(res)),
         catchError(this.handleError)
-      )
+      );
   }
 
   /**
@@ -145,13 +130,8 @@ export class ProjectService {
 
     return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
-        map(res => {
-          console.log('NG45 - bulk UpdateProjects, res:', res);
-          return res;
-        }
-        ),
         catchError(this.handleError)
-      )
+      );
   }
 
   /**
@@ -176,7 +156,7 @@ export class ProjectService {
                 // TODO Delete Tasks Firebase data
                 // TODO Delete Donations and Task Donations?
                 this.taskService.bulkDeleteTasks(model.taskIds)
-                  .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
+                  .subscribe(() => { });
               } else {
                 // NE NA CHASI: reassign tasks to placeholder Project
                 this.getProjectsPage({ id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }' })
@@ -199,12 +179,6 @@ export class ProjectService {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
       .pipe(
-        map(res => {
-          {
-            console.log('NG45 - finalizeProjectDeletion, res: ', res);
-            return res;
-          }
-        }),
         catchError(this.handleError)
       )
       .subscribe((res) => {
@@ -224,12 +198,8 @@ export class ProjectService {
 
     return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
       .pipe(
-        map(res => {
-          console.log('NG45 - bulkDeleteProjects, res:', res);
-          return res;
-        }),
         catchError(this.handleError)
-      )
+      );
   }
 
   private handleError(error: Response) {

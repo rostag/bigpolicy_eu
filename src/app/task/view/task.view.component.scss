@@ -1,11 +1,19 @@
 $col-fafafa: #fafafa;
 $col-eee: #eee;
 $col-000: #000;
+$col-gray: #777;
+$col-darkgray: #555;
 
 :host {
   display: block;
 
-  .project-name {
+  .leader-name {
+    color: $col-gray;
+    margin-bottom: 1.5em;
+    display: inline-block;
+  }
+  .project-title {
+    color: $col-gray;
     margin-bottom: 1.5em;
     display: inline-block;
   }
@@ -19,7 +27,7 @@ $col-000: #000;
 
 a:link,
 a:visited {
-  color: $col-000;
+  color: inherit;
   text-decoration: underline;
 }
 

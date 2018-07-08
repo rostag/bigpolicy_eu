@@ -1,16 +1,12 @@
 // import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
 import { ProjectService } from '../project';
 import { LeaderService, LeaderModel } from '../leader';
 import { DialogService } from '../dialog/dialog.service';
-import { environment } from '../../../environments/environment';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { AuthState, getUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
 
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
 import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
@@ -21,10 +17,6 @@ import { CreateLeader } from '../../state/actions/leader.actions';
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
-
-interface AppState {
-  count: number;
-}
 
 @Injectable()
 export class UserService {
@@ -40,16 +32,17 @@ export class UserService {
   });
 
   // Store profile object in auth class
-  userProfile: any = {
+  public userProfile: IUserProfile = {
     name: '',
     email: ''
   };
 
   // FIXME NGRX IT
-  isAdmin: boolean;
+  public isAdmin: boolean;
 
   constructor(
     public leaderService: LeaderService,
+    public projectService: ProjectService,
     public leaderStore: Store<ILeaderState>,
     private dialogService: DialogService,
     private store: Store<AuthState>,
@@ -75,10 +68,6 @@ export class UserService {
   }
 
   private setLoggedIn(toLogin: boolean, userProfile: IUserProfile = null) {
-    // Update login status subject
-    // FIXME NGRX
-    // this.loggedIn$.next(value);
-    // this.loggedIn = value;
     if (toLogin) {
       this.store.dispatch(new LoginSuccess(userProfile));
     } else {
@@ -86,11 +75,11 @@ export class UserService {
     }
   }
 
-  login() {
+  public login() {
     this._auth0.authorize();
   }
 
-  handleAuth() {
+  public handleAuth() {
     // When Auth0 hash parsed, get profile
     this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -139,11 +128,8 @@ export class UserService {
     // Update login status in loggedIn$ stream
     this.setLoggedIn(true, profile);
 
-    // Was
-    console.log('Authenticated, authResult =', authResult);
     this.leaderService.requestLeaderByEmail(this.getEmail())
       .subscribe(leaderResponse => {
-        console.log('UserService: gotLeaderByEmail:', leaderResponse);
         this.showStatus();
         this.tryToContinueLeaderRegistration();
       });
@@ -168,7 +154,7 @@ export class UserService {
     this.router.navigate(['/']);
   }
 
-  get tokenValid(): boolean {
+  private get tokenValid(): boolean {
     // Check if current time is past access token's expiration
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
@@ -229,7 +215,7 @@ export class UserService {
 
     const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
     const leaderIsOwnedBy = userEmail === item['email'];
-    const taskIsOwnedBy = item['projectId'] && userEmail === ProjectService.getCachedProject(item['projectId'])['managerEmail'];
+    const taskIsOwnedBy = item['projectId'] && userEmail === this.projectService.getCachedProject(item['projectId'])['managerEmail'];
 
     return this.authenticated() && (taskIsOwnedBy || projectIsOwnedBy || leaderIsOwnedBy);
   }
@@ -240,18 +226,16 @@ export class UserService {
   * Lazy Leader Registration.
   * Save Leader to LocalStorage to let unauthorised user to start registration
   */
-  needToLoginFirst(leader: ILeader) {
+  public needToLoginFirst(leader: ILeader) {
     if (!this.authenticated()) {
 
       // save Leader data to LocalStorage
-      console.log('≥≥≥ unauthorised, saving to localStorage');
       localStorage.setItem('BigPolicyLeaderRegistration', leader.toString());
 
       // show Registration is needed warning
       this.dialogService
         .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
-        .subscribe(res => {
-          console.log('Заходимо у систему');
+        .subscribe(() => {
           this.login();
         });
       return true;
@@ -269,7 +253,6 @@ export class UserService {
 
       const leader: ILeader = new LeaderModel();
       leader.parseData(JSON.parse(lsRegistration));
-      console.log('FTUX: continue leader registration, parsed leader: ', leader);
 
       // on registration success
       this.dialogService
@@ -284,18 +267,13 @@ export class UserService {
         this.dialogService
           .confirm('Існуючий користувач?', 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!')
           .subscribe(res => {
-            console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), lsRegistration);
-            // Cleanup
             localStorage.removeItem('BigPolicyLeaderRegistration');
           });
       } else {
         this.dialogService
           .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
-          .subscribe(res => {
-            console.log('Вітаємо!', 'Ти успішно увійшов у систему: ', this.authenticated(), this.hasLeader());
-          });
+          .subscribe(() => { });
       }
     }
   }
-
 }

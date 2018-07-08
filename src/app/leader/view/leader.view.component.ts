@@ -3,7 +3,7 @@ import { LeaderModel } from '../../shared/leader/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, DeleteLeader } from '../../state/actions/leader.actions';
+import { LoadLeader, DeleteLeader, SelectLeader } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
 import { UserService } from '../../shared/user/user.service';
 
@@ -34,7 +34,12 @@ export class LeaderViewComponent implements OnInit {
    * Initialization Event Handler, parses route params like `id` in leader/:id/edit)
    */
   public ngOnInit() {
-    this.route.params.subscribe(params => { if (params.id) { this.leaderStore.dispatch(new LoadLeader(params.id)) } });
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        this.leaderStore.dispatch(new SelectLeader(params.id));
+        this.leaderStore.dispatch(new LoadLeader(params.id));
+      }
+    });
     this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
   }
 

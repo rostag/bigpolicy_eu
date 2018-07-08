@@ -15,7 +15,7 @@ import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user/user.service';
 import { DriveService } from '../../shared/drive';
 import { AngularFireModule } from 'angularfire2';
-import { firebaseConfig } from '../../core.module';
+import { firebaseConfig } from '../../bp.module';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 

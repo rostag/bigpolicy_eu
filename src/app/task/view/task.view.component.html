@@ -32,31 +32,29 @@
 <!-- FULL VIEW -->
 <mat-card class="task-view" *ngIf="!compactView">
   <mat-card-content>
-
-    <div>
-      <!-- FIXME Implement ngrx store data selection: 
-        <span>
-          <a [routerLink]="['/project/' + task.project?.managerName]">{{task.project?.managerName}}:</a>
-        </span>
-      -->
-      <span class="project-name">
-        <a [routerLink]="['/project/' + task.projectId]">
-          Проект {{projectTitle}}
-        </a>
+    <small>
+      <!-- TODO Implement ngrx store leader name selection:  -->
+      <span class="leader-name">
+        <a [routerLink]="['/leader/' + managerId]">{{managerName}}, </a>
       </span>
-    </div>
+      <span class="project-title">
+        <a [routerLink]="['/project/' + task.projectId]">проект {{projectTitle}}</a>
+      </span>
+    </small>
     <h1>{{task.title}}</h1>
-    <!-- FIXME -->
-    <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
-    <!-- -->
+
+    <div class="description">
+      <p>{{task.description}}</p>
+    </div>
+    <p>{{task.dateStarted | date}} - {{task.dateEnded | date}}</p>
 
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
       <div fxFlex="45%">
-        <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
-        <p>Проект
-          <a [routerLink]="['/project/',task.projectId]">{{projectTitle}}</a>
-          <br/> Початок: {{task.dateStarted | date}}
-          <br/> Кінець: {{task.dateEnded | date}}</p>
+        <p>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</p>
+
+        <!-- FIXME -->
+        <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
+
         <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}" class="SHARE FACEBOOK" onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
           target="social">
           Share on FB
@@ -87,11 +85,6 @@
         </ng-template>
 
       </div>
-    </div>
-
-    <div class="description">
-      <h3>Детальніше</h3>
-      <p>{{task.description}}</p>
     </div>
 
     <mat-card-actions>

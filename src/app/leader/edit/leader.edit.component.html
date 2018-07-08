@@ -42,7 +42,6 @@
             Прізвище мусить бути не довшим за 50 символів
           </div>
 
-
           <!-- TODO: Use existing video control to auto-extend functionality on input -->
           <mat-form-field >
             <input matInput name="videoUrl" formControlName="videoUrl" placeholder="Посилання на відео YouTube" maxLength="250" >
@@ -54,12 +53,15 @@
           <mat-form-field class="example-full-width">
             <input type="text" placeholder="Вкажи область" aria-label="Number" matInput formControlName="location" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              <mat-option *ngFor="let option of regionOptions | async" [value]="option">
                 {{ option }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
 
+          <app-location>
+
+          </app-location>
         </div>
       </div>
 
@@ -105,13 +107,11 @@
     </div>
 
     <mat-toolbar class="add-toolbar" color="#fff">
-      <button mat-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
-      <button mat-button (click)="cancelEditing()" color="primary">
-        Відмінити
-      </button>
+      <button mat-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leaderModel)">Видалити</button>
       <!-- <button mat-raised-button disabled color="accent">Як буде виглядати моя сторінка?</button> -->
       <span class="add-fill-remaining"></span>
-      <button mat-button *ngIf="isUpdateMode" color="warn" (click)="deleteLeader(leaderModel)">Видалити</button>
+      <button mat-button (click)="cancelEditing()" color="primary">Відмінити</button>
+      <button mat-raised-button color="primary" type="submit" type="submit" [disabled]="leaderFormGroup.invalid">Готово</button>
     </mat-toolbar>
 
   </mat-card-content>
