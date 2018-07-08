@@ -1,0 +1,15 @@
+<div>
+  <h4>Loops, frequency {{sampleFreq}}Hz</h4>
+  <button mat-button *ngFor="let sampleName of sampleNames" [disabled]="loadingSample" (click)="playLoop(sampleName)">
+    {{sampleName}}
+  </button>
+</div>
+
+<div>
+  <h4>Binaural, frequency {{binauralFreq}}Hz</h4>
+  <button mat-button *ngFor="let sampleName of sampleNames" [disabled]="loadingSample" (click)="playBinaural(sampleName, r(20), 20)">
+    {{sampleName}}
+  </button>
+</div>
+
+<button mat-button [disabled]="loadingSample" (click)="stopLoop('')">Stop</button>

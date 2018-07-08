@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TaskModel } from '../../shared/task/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
@@ -19,19 +19,15 @@ import { LoadTask, DeleteTask } from '../../state/actions/task.actions';
 export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public task: ITask = new TaskModel();
-
   @Input() public project: IProject;
-
   @Input() public compactView = false;
-
   @Input() public isUsedInline = false;
-
-  @Input() public projectTitle = '';
-
   @Input() public showProjectLink = 'dontShow';
 
   public hasVisual = false;
-
+  public projectTitle = '';
+  public managerName = '';
+  public managerId = '';
   private selectedTask$;
   private selectedProject$;
 
@@ -78,7 +74,7 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private applyTaskChanges(task: ITask) {
-    if (!task) { return };
+    if (!task) { return; };
     this.task = task;
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
 
@@ -89,22 +85,19 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  // TODO Ensure it is called for Tasks lists to show the already loaded project
   private applyProjectChanges(project: IProject) {
+    this.project = project;
     this.projectTitle = project ? project.title : '';
+    this.managerName = project ? project.managerName : '';
+    this.managerId = project ? project.managerId : '';
   }
 
   private retrieveProject() {
     if (this.task && this.task.projectId && !this.project) {
-      // FIXME Verify this is working
       this.projectStore.dispatch(new LoadProject(this.task.projectId));
     }
   }
 
-  /**
-   * Remove this task
-   * @param {task} ITask being viewed
-   */
   public deleteTask(task: ITask, event) {
     this.taskStore.dispatch(new DeleteTask(task));
     this.dialogService.info('Захід видалено', 'Ми видалили цей захід');

@@ -7,8 +7,8 @@ import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 // --------------------------------------------------------------------------------------------------------------------
 
 export interface IUserProfile {
-  name: string,
-  email: string
+  name: string;
+  email: string;
 }
 
 // The AuthState iterface describes the structure of the auth store we create
@@ -23,14 +23,14 @@ const initialState = {
   loginAttemptsCount: 0,
   loggedIn: false,
   userProfile: null
-}
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 // Reducer
 // --------------------------------------------------------------------------------------------------------------------
 
 /**
- * Reducer is a pure function, with input-output only and no side effects. 
+ * Reducer is a pure function, with input-output only and no side effects.
  * This is the only one who is allowed to update the state directly, it must return the updated state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
@@ -54,7 +54,7 @@ export function reducer(
       return { ...state, loginAttemptsCount: state.loginAttemptsCount + 1 };
 
     case AuthActionTypes.LOGIN_ATTEMPT_RESET:
-      return { ...state, loginAttemptsCount: 0 }
+      return { ...state, loginAttemptsCount: 0 };
 
     default:
       return state;

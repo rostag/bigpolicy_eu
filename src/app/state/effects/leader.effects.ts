@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess, CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader, UpdateLeader, UpdateLeaderFail, UpdateLeaderSuccess, CreateLeader, LoadLeader, LoadLeadersPage, LoadLeadersPageSuccess, LoadLeadersPageFail } from '../actions/leader.actions';
+import {
+    LeaderAction, LeaderActionTypes, LoadLeaderSuccess, LoadLeaderFail, CreateLeaderSuccess,
+    CreateLeaderFail, DeleteLeaderFail, DeleteLeaderSuccess, DeleteLeader, UpdateLeader, UpdateLeaderFail,
+    UpdateLeaderSuccess, CreateLeader, LoadLeader, LoadLeadersPage, LoadLeadersPageSuccess, LoadLeadersPageFail
+} from '../actions/leader.actions';
 import { LeaderService } from '../../shared/leader';
 import { of } from 'rxjs/observable/of';
 

@@ -1,20 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { MatCard, MatCardTitle, MatCardSubtitle, MatCardModule } from '@angular/material';
+
 @Component({
   selector: 'app-leaders',
   templateUrl: './leaders.component.html',
   styleUrls: ['./leaders.component.scss']
 })
 
-export class LeadersComponent {
+export class LeadersComponent implements OnInit {
 
-  constructor(private titleService: Title) {
-
-  }
+  constructor(private titleService: Title) { }
 
   ngOnInit() {
     // FIXME Implement title change for all components
     this.titleService.setTitle('Лідери — BigPolicy');
   }
- }
+}
