@@ -41,15 +41,7 @@ export function reducer(
 
   switch (action.type) {
 
-    // case ProjectActionTypes.PROJECT_ADD_TASK:
-    // return state;
-
-    // case ProjectActionTypes.PROJECT_CREATE_SUCCESS:
-    //   console.log('Reducer :: Create Project Success ::', action.payload);
-    //   return { ...state, projects: [ ...state.projects, ...action.payload ] }
-
     case ProjectActionTypes.PROJECT_SELECT:
-      // console.log('Reducer :: Project Select ::', action.payload);
       return { ...state, selectedProjectId: action.payload };
 
     case ProjectActionTypes.PROJECT_LOAD_SUCCESS:
@@ -58,7 +50,6 @@ export function reducer(
       if (newState.projects && newState.projects.indexOf(loadedProject) === -1) {
         const projectsById = [...newState.projectsById];
         projectsById[newState.selectedProjectId] = { ...loadedProject };
-        console.log('Reducer :: Load Project Success ::', newState);
         return {
           ...newState,
           projects: [...newState.projects, loadedProject],
@@ -71,14 +62,15 @@ export function reducer(
     case ProjectActionTypes.PROJECTS_PAGE_LOAD_SUCCESS:
       const newProjects: IProject[] = [];
       const responseData: IProjectResponsePage = action.payload;
-      (responseData && responseData.docs && responseData.docs).forEach(doc => {
-        if (state.projects.indexOf(doc) === -1) {
-          newProjects.push(doc);
-        }
-      });
+      if (responseData && responseData.docs && responseData.docs) {
+        responseData.docs.forEach(doc => {
+          if (state.projects.indexOf(doc) === -1) {
+            newProjects.push(doc);
+          }
+        });
+      }
 
       const nState = { ...state, projects: [...newProjects], projectsPage: { ...action.payload } };
-      // console.log(':: Reducer :: Load PROJECTS Success ::', nState);
       return nState;
 
     default:

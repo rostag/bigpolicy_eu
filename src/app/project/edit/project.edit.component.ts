@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel } from '../../shared/project/index';
 import { LeaderService } from '../../shared/leader/leader.service';
 import { Location } from '@angular/common';
-import { MatInputModule } from '@angular/material';
 import { ILeader, IProject } from '../../common/models';
 import { LeaderModel } from '../../shared/leader';
 import { Store } from '@ngrx/store';
-import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { CreateProject, UpdateProject, LoadProject, SelectProject } from '../../state/actions/project.actions';
@@ -65,9 +64,10 @@ export class ProjectEditComponent implements OnInit {
     });
   }
 
-  private setProject(data: IProject) {
+  private setProject(project: IProject) {
+
     this.project = new ProjectModel();
-    this.project.parseData(data);
+    this.project.parseData(project);
   }
 
   /**
@@ -89,7 +89,6 @@ export class ProjectEditComponent implements OnInit {
     const leader = this.leaderService.leader;
     // FIXME TO NGRX LDR
     // this.leaderStore.select(getSelectedLeader).subscribe(l => {
-    //   console.log('Leeeeeader:', l);
     //   leader = l;
     //   return l;
     // });
@@ -100,7 +99,7 @@ export class ProjectEditComponent implements OnInit {
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      if (!leader) { return false };
+      if (!leader) { return false; };
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
@@ -123,10 +122,8 @@ export class ProjectEditComponent implements OnInit {
     this.leaderService.getLeadersPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
       .subscribe((res) => {
         this.leadersToMoveProjectTo = res['docs'];
-        console.log('got leadersToMoveProjectTo: ', this.leadersToMoveProjectTo);
         for (const d in this.leadersToMoveProjectTo) {
           if (this.leadersToMoveProjectTo.hasOwnProperty(d)) {
-            console.log('Got leader: ', this.leadersToMoveProjectTo[d]._id, this.leadersToMoveProjectTo[d].name);
             if (this.project.managerId === this.leadersToMoveProjectTo[d]._id) {
               // Memorize current leader for later usage - we'll remove project from him:
               this.currentLeader.parseData(this.leadersToMoveProjectTo[d]);
@@ -143,7 +140,6 @@ export class ProjectEditComponent implements OnInit {
   moveProjectToOtherLeader(event) {
     const newLeader: ILeader = new LeaderModel();
     newLeader.parseData(event.value);
-    console.log(`> Move Project to: `, newLeader.email);
 
     // Update Project:
     this.project.managerId = newLeader._id;
