@@ -68,10 +68,6 @@ export class UserService {
   }
 
   private setLoggedIn(toLogin: boolean, userProfile: IUserProfile = null) {
-    // Update login status subject
-    // FIXME NGRX
-    // this.loggedIn$.next(value);
-    // this.loggedIn = value;
     if (toLogin) {
       this.store.dispatch(new LoginSuccess(userProfile));
     } else {
@@ -132,11 +128,8 @@ export class UserService {
     // Update login status in loggedIn$ stream
     this.setLoggedIn(true, profile);
 
-    // Was
-    console.log('Authenticated, authResult =', authResult);
     this.leaderService.requestLeaderByEmail(this.getEmail())
       .subscribe(leaderResponse => {
-        console.log('UserService: gotLeaderByEmail:', leaderResponse);
         this.showStatus();
         this.tryToContinueLeaderRegistration();
       });
@@ -237,14 +230,12 @@ export class UserService {
     if (!this.authenticated()) {
 
       // save Leader data to LocalStorage
-      console.log('≥≥≥ unauthorised, saving to localStorage');
       localStorage.setItem('BigPolicyLeaderRegistration', leader.toString());
 
       // show Registration is needed warning
       this.dialogService
         .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
-        .subscribe(res => {
-          console.log('Заходимо у систему');
+        .subscribe(() => {
           this.login();
         });
       return true;
@@ -262,7 +253,6 @@ export class UserService {
 
       const leader: ILeader = new LeaderModel();
       leader.parseData(JSON.parse(lsRegistration));
-      console.log('FTUX: continue leader registration, parsed leader: ', leader);
 
       // on registration success
       this.dialogService
@@ -277,16 +267,12 @@ export class UserService {
         this.dialogService
           .confirm('Існуючий користувач?', 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!')
           .subscribe(res => {
-            console.log('FTUX: DON\'t continue leader registration: ', this.authenticated(), this.hasLeader(), lsRegistration);
-            // Cleanup
             localStorage.removeItem('BigPolicyLeaderRegistration');
           });
       } else {
         this.dialogService
           .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
-          .subscribe(res => {
-            console.log('Вітаємо!', 'Ти успішно увійшов у систему: ', this.authenticated(), this.hasLeader());
-          });
+          .subscribe(() => { });
       }
     }
   }

@@ -90,5 +90,8 @@ export const getLeaders = createSelector(getLeadersState, (state: ILeaderState) 
 export const getLeadersPage = createSelector(getLeadersState, (state: ILeaderState) => state.leadersPage);
 export const getSelectedLeaderId = createSelector(getLeadersState, (state: ILeaderState) => state.selectedLeaderId);
 export const getSelectedLeader = createSelector(getLeadersState, getSelectedLeaderId,
-  (state: ILeaderState, selectedLeaderId: string) => { return state.leadersById[selectedLeaderId]; }
+  (state: ILeaderState, selectedLeaderId: string) => {
+    // console.log('...get selectedLeaderId:', selectedLeaderId);
+    return state.leadersById[selectedLeaderId];
+  }
 );
