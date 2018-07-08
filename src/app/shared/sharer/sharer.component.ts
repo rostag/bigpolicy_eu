@@ -79,7 +79,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   ngOnChanges(data?: any): void {
     if (data.itemToShare) {
-      console.log('item to share has changed:', this.itemToShare);
       this.prepareItemForSharing();
     }
   }
@@ -179,7 +178,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
       this.itemToShare.managerName = this.itemToShare.name;
       this.itemToShare.managerEmail = this.itemToShare.email;
     }
-    // console.log('!!! - !!! ', this.itemToShare);
   }
 
   /**
@@ -207,7 +205,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
         data => {
           this.formStatus = 'emailSent';
           scroll(0, 0);
-          console.log('Project Shared', data);
         },
         err => (er) => {
           this.formStatus = 'emailSendError';
