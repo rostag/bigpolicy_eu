@@ -96,10 +96,15 @@ export class LeaderEditComponent implements OnInit {
       if (params.id && this.userService.authenticated()) {
         this.leaderStore.dispatch(new LoadLeader(params.id));
         this.isUpdateMode = true;
+      } else {
+        this.setLeader(null);
+        this.leaderStore.dispatch(new SelectLeader(null));
       }
     });
 
-    this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
+    this.leaderStore.select(getSelectedLeader).subscribe(leader => {
+      this.setLeader(leader);
+    });
 
     this.regionOptions = this.leaderFormGroup.controls.location.valueChanges
       .pipe(
@@ -126,7 +131,9 @@ export class LeaderEditComponent implements OnInit {
    * @param {data} Loaded Leader data
    */
   public setLeader(leader: ILeader) {
-    if (!leader) { return; }
+    // if (!leader) { return; }
+    console.log('Set leader:', leader);
+
     this.leaderModel = new LeaderModel();
     this.leaderModel.parseData(leader);
     this.driveService.checkConnection();

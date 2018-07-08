@@ -23,14 +23,14 @@ const initialState: ILeaderState = {
   selectedLeaderId: null,
   leadersById: [],
   leadersPage: null
-}
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 // Reducer
 // --------------------------------------------------------------------------------------------------------------------
 
 /**
- * Reducer is a pure function, with input-output only and no side effects. 
+ * Reducer is a pure function, with input-output only and no side effects.
  * This is the only one who is allowed to update the state directly, it must return the updated state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
@@ -45,8 +45,7 @@ export function reducer(
   switch (action.type) {
 
     case LeaderActionTypes.LEADER_SELECT:
-      console.log('Reducer :: Leader Select ::', action.payload);
-      return { ...state, selectedLeaderId: action.payload }
+      return { ...state, selectedLeaderId: action.payload };
 
     case LeaderActionTypes.LEADER_LOAD_SUCCESS:
       let newState;
@@ -56,22 +55,22 @@ export function reducer(
         // Add to leaders
         s.leaders = [...s.leaders, loadedLeader];
         // Add to leaders by id
-        s.leadersById[s.selectedLeaderId] = { ...loadedLeader }
+        s.leadersById[s.selectedLeaderId] = { ...loadedLeader };
         newState = { ...s, leaders: [...s.leaders], selectedLeaderId: s.selectedLeaderId };
       }
-      console.log('Reducer :: Load Leader Success ::', state);
       return newState;
 
     case LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
       const responseData: ILeaderResponsePage = action.payload;
-      responseData && responseData.docs && responseData.docs.forEach(doc => {
-        if (state.leaders.indexOf(doc) === -1) {
-          newLeaders.push(doc)
-        }
-      })
+      if (responseData && responseData.docs && responseData) {
+        responseData.docs.forEach(doc => {
+          if (state.leaders.indexOf(doc) === -1) {
+            newLeaders.push(doc);
+          }
+        });
+      }
       const nState = { ...state, leaders: [...newLeaders], leadersPage: { ...action.payload } };
-      console.log(':: Reducer :: Load LEADERS Success ::', nState);
       return nState;
 
     default:
@@ -91,5 +90,5 @@ export const getLeaders = createSelector(getLeadersState, (state: ILeaderState) 
 export const getLeadersPage = createSelector(getLeadersState, (state: ILeaderState) => state.leadersPage);
 export const getSelectedLeaderId = createSelector(getLeadersState, (state: ILeaderState) => state.selectedLeaderId);
 export const getSelectedLeader = createSelector(getLeadersState, getSelectedLeaderId,
-  (state: ILeaderState, selectedLeaderId: string) => state.leadersById[selectedLeaderId]
+  (state: ILeaderState, selectedLeaderId: string) => { return state.leadersById[selectedLeaderId]; }
 );
