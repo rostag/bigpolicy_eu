@@ -18,7 +18,7 @@ const leaderSchema = new Schema({
 	photo: { type: String },
 	videoUrl: { type: String },
 	email: { type: String, required: true },
-	projectIds: { type: Array },
+	projectIds: { type: [Schema.Types.ObjectId] },
   // An array of cached Leader's files, which are stored in GDrive
 	leaderFiles: { type: Array },
 	donations: { type: Array },
