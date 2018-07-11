@@ -1,9 +1,6 @@
-// Import necessary building blocks from the library
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
-// import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 import { ILeader, ILeaderResponsePage } from '../../common/models';
 import { LeaderAction, LeaderActionTypes } from '../actions/leader.actions';
-import { isArray } from 'util';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
@@ -48,17 +45,13 @@ export function reducer(
       return { ...state, selectedLeaderId: action.payload };
 
     case LeaderActionTypes.LEADER_LOAD_SUCCESS:
-      let newState;
       const loadedLeader: ILeader = { ...action.payload };
       const s = { ...state };
       if (s.leaders && s.leaders.indexOf(loadedLeader) === -1) {
-        // Add to leaders
         s.leaders = [...s.leaders, loadedLeader];
-        // Add to leaders by id
-        s.leadersById[s.selectedLeaderId] = { ...loadedLeader };
-        newState = { ...s, leaders: [...s.leaders], selectedLeaderId: s.selectedLeaderId };
+        s.leadersById[loadedLeader._id] = { ...loadedLeader };
       }
-      return newState;
+      return { ...s, leaders: [...s.leaders], selectedLeaderId: loadedLeader._id };
 
     case LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
@@ -70,8 +63,7 @@ export function reducer(
           }
         });
       }
-      const nState = { ...state, leaders: [...newLeaders], leadersPage: { ...action.payload } };
-      return nState;
+      return { ...state, leaders: [...newLeaders], leadersPage: { ...action.payload } };
 
     default:
       return state;
@@ -90,8 +82,5 @@ export const getLeaders = createSelector(getLeadersState, (state: ILeaderState) 
 export const getLeadersPage = createSelector(getLeadersState, (state: ILeaderState) => state.leadersPage);
 export const getSelectedLeaderId = createSelector(getLeadersState, (state: ILeaderState) => state.selectedLeaderId);
 export const getSelectedLeader = createSelector(getLeadersState, getSelectedLeaderId,
-  (state: ILeaderState, selectedLeaderId: string) => {
-    // console.log('...get selectedLeaderId:', selectedLeaderId);
-    return state.leadersById[selectedLeaderId];
-  }
+  (state: ILeaderState, selectedLeaderId: string) => state.leadersById[selectedLeaderId]
 );
