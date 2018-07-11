@@ -44,7 +44,7 @@ export class LeaderBriefComponent implements OnChanges {
   }
 
   requestLeader(id) {
-    this.leaderStore.dispatch(new LoadLeader(id))
+    this.leaderStore.dispatch(new LoadLeader(id));
   }
 
   public getLeaderLink(leader: ILeader) {

@@ -19,7 +19,7 @@ const projectSchema = new Schema({
 	dateEnded: { type: Date, required: true },
 	videoUrl: { type: String },
 	imageUrl: { type: String },
-	taskIds: { type: Array },
+	taskIds: { type: [Schema.Types.ObjectId] },
 	donations: { type: Array },
 	totalDonationsReceived: { type: Number }
 });
