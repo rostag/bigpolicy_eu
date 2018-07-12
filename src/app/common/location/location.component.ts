@@ -8,11 +8,15 @@ import { LocationService } from './location.service';
 })
 export class LocationComponent implements OnInit {
 
+  private locationOptions = null;
+
   constructor(private locationService: LocationService) { }
 
   ngOnInit() {
-    this.locationService.getRegions();
+    this.locationService.getRegions().subscribe(result => {
+      this.locationOptions = result;
+      console.log('>> location options:', this.locationOptions);
+    });
     // this.locationService.getCitiesForRegion(1);
   }
-
 }
