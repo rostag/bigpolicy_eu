@@ -1,3 +1,12 @@
-<p>
-  location works!
-</p>
+<div>
+  <form class="location-form">
+    <mat-form-field class="location-full-width">
+      <input type="text" placeholder="Pick one" aria-label="Region" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
