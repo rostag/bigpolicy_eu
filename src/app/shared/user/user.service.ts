@@ -34,7 +34,8 @@ export class UserService {
   // Store profile object in auth class
   public userProfile: IUserProfile = {
     name: '',
-    email: ''
+    email: '',
+    nickname: null
   };
 
   // FIXME NGRX IT

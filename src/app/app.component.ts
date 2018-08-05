@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(' BigPolicy v. ' + this.version + '. User Auth service: ', this.userService);
+    console.log('BigPolicy v. ' + this.version);
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
