@@ -35,7 +35,10 @@ export class UserService {
   public userProfile: IUserProfile = {
     name: '',
     email: '',
-    nickname: null
+    nickname: null,
+    created_at: null,
+    updated_at: null,
+    picture: null
   };
 
   // FIXME NGRX IT
