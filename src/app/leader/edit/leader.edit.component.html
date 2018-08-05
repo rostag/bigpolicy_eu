@@ -52,6 +52,7 @@
 
           <mat-form-field class="example-full-width">
             <input type="text" placeholder="Вкажи область" aria-label="Number" matInput formControlName="location" [matAutocomplete]="auto">
+            <!-- // FIXME MOVE TO LOCATION COMPONENT -->  
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let option of regionOptions | async" [value]="option">
                 {{ option }}
