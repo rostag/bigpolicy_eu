@@ -11,22 +11,21 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class LocationComponent implements OnInit {
 
-  private locationOptions = null;
-
-  public myControl = new FormControl();
-  public options: string[] = ['Київ', 'Харківська', 'Львівська'];
-  public filteredOptions: Observable<string[]>;
+  public region = new FormControl();
+  public regionOptions = [];
+  public cityOptions = null;
+  public filteredRegionOptions: Observable<string[]>;
 
   constructor(private locationService: LocationService) { }
 
   public ngOnInit() {
-    this.locationService.getRegions().subscribe(result => {
-      this.locationOptions = result;
-      console.log('>> location options:', this.locationOptions);
-    });
     // this.locationService.getCitiesForRegion(1);
+    this.locationService.getRegions().subscribe(result => {
+      this.regionOptions = result.map(element => element.sName);
+      console.log('>> regionOptions:', JSON.stringify(this.regionOptions, null, '  '));
+    });
 
-    this.filteredOptions = this.myControl.valueChanges
+    this.filteredRegionOptions = this.region.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -36,6 +35,6 @@ export class LocationComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.regionOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
 }
