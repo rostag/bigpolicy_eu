@@ -9,6 +9,7 @@ import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 export interface IUserProfile {
   name: string;
   email: string;
+  nickname: string;
 }
 
 // The AuthState iterface describes the structure of the auth store we create
