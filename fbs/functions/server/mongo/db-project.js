@@ -41,7 +41,7 @@ DBProject.getProject = function(projectId) {
   //  console.log('DB :: getProject, id:', projectId);
 
    if (projectId === 'random') {
-     return Project.count().exec()
+     return Project.countDocuments().exec()
        .then((cnt, err) => {
          const rndm = Math.floor(Math.random() * cnt);
          return Project.findOne().skip(rndm).exec()

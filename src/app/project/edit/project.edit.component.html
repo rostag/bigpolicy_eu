@@ -60,9 +60,7 @@
             <mat-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
               <mat-option *ngFor="let leader of leadersToMoveProjectTo" [value]="leader">
                 {{leader.name}} {{leader.surName}}
-                <span *ngIf="userService.isOwner(leader)">
-                  [я]
-                </span>
+                <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
               </mat-option>
             </mat-select>
           </form>
