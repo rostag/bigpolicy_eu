@@ -28,7 +28,7 @@ DBLeader.getLeader = function(leaderId) {
     // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
     // db.mycoll.aggregate( { $sample: { size: 1 } } );
     // See also for Mongoose: https://larry-price.com/blog/2014/09/15/fetching-random-mongoose-objects-the-simple-way
-    return Leader.count().exec()
+    return Leader.countDocuments().exec()
       .then((cnt, err) => {
         const rndm = Math.floor(Math.random() * cnt);
         return Leader.findOne().skip(rndm).exec()
