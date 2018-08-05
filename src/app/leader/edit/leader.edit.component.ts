@@ -26,8 +26,10 @@ export class LeaderEditComponent implements OnInit {
   // Must be public, used in template
   public isUpdateMode = false;
 
+  // FIXME MOVE TO LOCATION COMPONENT
   public regionOptions: Observable<string[]>;
 
+  // FIXME MOVE TO LOCATION COMPONENT
   private regions = [
     'Одеська область',
     'Дніпропетровська область',
@@ -106,6 +108,7 @@ export class LeaderEditComponent implements OnInit {
       this.setLeader(leader);
     });
 
+    // FIXME MOVE TO LOCATION COMPONENT
     this.regionOptions = this.leaderFormGroup.controls.location.valueChanges
       .pipe(
         startWith(''),
