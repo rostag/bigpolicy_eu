@@ -18,7 +18,6 @@ DBProject.createProject = function(dataObj) {
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-  // console.log('DBProject: CreateProject: ', data)
 
   if (!data.title || !data.description) {
     throw ('DBProject: Invalid project cannot be saved. Either title or description is missed.')
@@ -70,7 +69,6 @@ DBProject.getProject = function(projectId) {
   </app-project-list>
 **/
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
-  // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 
   var query = {};
 
@@ -84,7 +82,6 @@ DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
     query['_id'] = { $in: projectIds };
   }
 
-  // console.log('query =', query);
   return Project.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 

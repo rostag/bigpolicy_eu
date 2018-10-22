@@ -1,7 +1,7 @@
-import { PathReference, AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import {PathReference, AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {Component, Input, Output, OnChanges, ViewChild, EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
 import * as firebase from 'firebase';
 
 interface Image {
@@ -70,7 +70,8 @@ export class UploaderComponent implements OnChanges {
 
   constructor(
     public afDb: AngularFireDatabase
-  ) { }
+  ) {
+  }
 
   ngOnChanges(changes) {
 
@@ -104,27 +105,12 @@ export class UploaderComponent implements OnChanges {
     this.imageList = this.fileList.valueChanges()
       .map(itemList =>
         itemList.map((item: Image) => {
-          const pathReference = storage.ref(item.path);
-          const result = {
+          return {
             $key: item.$key,
-            downloadURL: pathReference.getDownloadURL(),
+            downloadURL: storage.ref(item.path).getDownloadURL(),
             path: item.path,
             filename: item.filename
           };
-
-          // const aaa = this.afDb.object(item.path).snapshotChanges();
-          
-          // this.afDb.object(item.path).snapshotChanges().map(action => {
-          //   const $key = action.payload.key;
-          //   const data = { $key, ...action.payload.val() };
-          //   return data;
-          // }).subscribe(item => {
-          //   console.log('ITEM KEY:', item.$key);
-          // });
-
-          console.log('Iameg List:', itemList);
-          console.log(result);
-          return result;
         })
       );
   }
@@ -143,14 +129,14 @@ export class UploaderComponent implements OnChanges {
       const iRef = storageRef.child(path);
       // console.log(`Upload a file, path = ${path}, selectedFile: ${selectedFile}, folder = ${folder}, iRef = ${iRef}`);
       iRef.put(selectedFile).then((snapshot) => {
-        // console.log('Uploaded a blob or file! Now storing the reference at', folder, snapshot.downloadURL, snapshot);
         this.uploadedFileUrl = snapshot.downloadURL;
-        this.afDb.list(`/${folder}`).push({ path: path, filename: selectedFile.name });
+        this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
         this.onFileUploadComplete();
       });
     }
 
   }
+
   delete(image: Image) {
     const storagePath = image.path;
     const referencePath = `${this.folder}${this.postfix}/` + image.$key;
@@ -160,8 +146,9 @@ export class UploaderComponent implements OnChanges {
     // Delete from Storage
     firebase.storage().ref().child(storagePath).delete()
       .then(
-      () => { },
-      (error) => console.error('Error deleting stored file', storagePath)
+        () => {
+        },
+        (error) => console.error('Error deleting stored file', storagePath)
       );
 
     // Delete references

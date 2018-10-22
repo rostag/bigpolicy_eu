@@ -58,7 +58,7 @@
  * Auth0 dependencies added
  * RC1-RC4 migration done
  * Added Custom Auth0 Login
- * Added Profile WIP
+ * Added Profile
  * User Profile is working
  * Added Leader Email - form User Profile
 
@@ -88,7 +88,7 @@ Donations feature:
  * Virtual payments - initial version.
  * Payments history - initial version.
  * Leader - User matching.
- * WIP: FTUX for Registration.
+ * FTUX for Registration.
 
  * Fixed login error (now user properly redirected).
  * Fixed display in Safari.

@@ -1,12 +1,30 @@
-<div>
-  <form class="location-form">
-    <mat-form-field class="location-full-width">
-      <input type="text" placeholder="Вибери область" aria-label="Region" matInput [formControl]="region" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredRegionOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
-</div>
+<form
+  class="location-form">
+
+  <mat-form-field
+    class="location-full-width">
+
+    <input
+      type="text"
+      placeholder="Вибери область"
+      aria-label="Region"
+      matInput
+      [formControl]="region"
+      [matAutocomplete]="auto"
+      (change)="onLocationChange($event)">
+
+    <mat-autocomplete
+      #auto="matAutocomplete">
+
+      <mat-option
+        *ngFor="let option of filteredRegionOptions | async"
+        [value]="option">
+
+        {{option}}
+      </mat-option>
+
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+</form>

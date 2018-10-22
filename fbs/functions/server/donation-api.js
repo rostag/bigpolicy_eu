@@ -13,9 +13,8 @@ module.exports = function(app, router, DB){
       d = JSON.parse(item);
     }
 
-    // we use mongo ID here, to use it later as back reference for order_id in liqpay order status callback
+    // we use mongo _id here, to use it later as back reference for order_id in liqpay order status callback
     d.externalId = 'bpdon___id_' + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
-    // console.log('getParamsFromRequestData. externalId = ', d.externalId);
 
     return {
       'action'        : 'pay',
@@ -50,18 +49,11 @@ module.exports = function(app, router, DB){
   router.get('/donation-api/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
 
     var p = req.params;
-    // console.log('donation-api/get: ' + JSON.stringify(p, null, '  ') );
     DB.getDonationTarget( p.targetType, p.targetId )
       .then( (target) => {
         DB.getPageOfDonations(target.donations, p.page, p.limit, decodeURIComponent(p.dbQuery))
-          .then( data => {
-            // console.log('Got page of donations:', data, target.donations);
-            res.json(data)
-          })
-          .catch( err => {
-            console.log('Error of getting donations page:', err);
-            res.json(err)
-          })
+          .then( data => res.json(data))
+          .catch( err => res.json(err))
       })
       .catch( err => res.json(err))
   })
@@ -105,7 +97,7 @@ module.exports = function(app, router, DB){
       var sign = liqpay.str_to_sign(private_key + dta + private_key);
 
       // FIXME_SEC Check sign
-      if ( true /* sign === sgn */ ) {
+      if ( sign === sgn ) {
         // write proper value to DB
         DB.updateDonationStatus(donatonId, {
           "status": sts
@@ -129,14 +121,12 @@ module.exports = function(app, router, DB){
    */
   // router.post('/check-donation-status', function (req, res) {
   //   var prm = getParamsFromRequestData(req);
-  //   // console.log(' • LiqPay::check-status', prn.order_id);
   //
   //   liqpay.api("request", {
   //     "action"   : "status",
   //     "version"  : "3",
   //     "order_id" : prm.order_id
   //   }, function( json ){
-  //     // console.log( json.status );
   //     // res.send( dta + '-BGPLCXX-' + sgn );
   //   });
   //
