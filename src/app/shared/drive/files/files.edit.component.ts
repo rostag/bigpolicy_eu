@@ -117,7 +117,6 @@ export class FilesEditComponent implements AfterViewInit {
       console.log('All the saints are signed out');
       this.updateFilesList([{}]);
     }
-    // console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
 
   /**
@@ -247,10 +246,7 @@ export class FilesEditComponent implements AfterViewInit {
     const folderMetadata = {
       q: 'name = "BigPolicy Files"',
       fields: 'nextPageToken, files(id, name)'
-      // pageToken: pageToken
     };
-
-    // console.log('Get folder:', folderMetadata);
 
     gapi.client.drive.files.list(folderMetadata)
       .execute((resp, raw_resp) => {

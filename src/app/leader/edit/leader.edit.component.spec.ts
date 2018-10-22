@@ -8,9 +8,9 @@ import { UploaderComponent } from '../../shared/uploader/uploader.component';
 import { FilesViewComponent } from '../../shared/files/view/files.view.component';
 import { FilesEditComponent } from '../../shared/drive/files/files.edit.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LeaderService } from '../../shared/leader/leader.service';
-import { ProjectService } from '../../shared/project/project.service';
-import { TaskService } from '../../shared/task/task.service';
+import { LeaderService } from '../../shared/leader';
+import { ProjectService } from '../../shared/project';
+import { TaskService } from '../../shared/task';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user/user.service';
 import { DriveService } from '../../shared/drive';
@@ -19,7 +19,7 @@ import { firebaseConfig } from '../../bp.module';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-describe('WIP: LeaderEditComponent', () => {
+describe('LeaderEditComponent', () => {
 
   let component: LeaderEditComponent;
   let fixture: ComponentFixture<LeaderEditComponent>;
@@ -60,7 +60,7 @@ describe('WIP: LeaderEditComponent', () => {
 
   it('should create a `FormGroup` comprised of `FormControl`s', () => {
     component.ngOnInit();
-    expect(component.leaderFormGroup instanceof FormGroup).toBe(true);
+    expect(component.leaderFormGroup).toBe(true);
   });
 
   it('should require to enter the Leader data, submit button should be disabled', () => {
@@ -73,20 +73,16 @@ describe('WIP: LeaderEditComponent', () => {
     fixture.detectChanges();
     component.setLeader({name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
     fixture.detectChanges();
-    console.log('afterr detectChanges - submitButton disabled:', submitButton.attributes['disabled']);
     expect(submitButton.attributes['disabled']).toBeUndefined();
   });
 
   it('submit button should be disabled if Leader name is too short and then become enabled when it\'s OK', () => {
     fixture.detectChanges();
-    console.log('submitButton disabled:', submitButton.attributes['disabled']);
     component.setLeader({name: 'A', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
     fixture.detectChanges();
-    console.log('submitButton disabled:', submitButton.attributes['disabled']);
     expect(submitButton.attributes['disabled']).toBeDefined();
     component.setLeader({name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
     fixture.detectChanges();
-    console.log('submitButton disabled:', submitButton.attributes['disabled']);
     expect(submitButton.attributes['disabled']).toBeUndefined();
   });
 

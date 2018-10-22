@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
-import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
+import { Store} from '@ngrx/store';
+import { ITaskState } from '../../state/reducers/task.reducers';
+import { CreateTaskSuccess} from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { Router } from '@angular/router';
 
@@ -117,7 +117,6 @@ export class TaskService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const body = JSON.stringify({ ids: ids, data: data });
-    // console.log('Tasks service, try to update:', ids, data, body);
 
     return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
@@ -126,7 +125,7 @@ export class TaskService {
           return res;
         }),
         catchError(this.handleError)
-      )
+      );
   }
 
   /**
@@ -134,7 +133,7 @@ export class TaskService {
    * @param ITask A Task to delete
    */
   deleteTask(model: ITask): Observable<any> {
-    return this.http.delete(this.apiUrl + model._id)
+    return this.http.delete(this.apiUrl + model._id);
   }
 
   /**
@@ -153,7 +152,7 @@ export class TaskService {
           return res;
         }),
         catchError(this.handleError)
-      )
+      );
   }
 
   private handleError(error: Response) {

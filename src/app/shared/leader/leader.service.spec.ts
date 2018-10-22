@@ -1,14 +1,11 @@
-// WIP: This is the beginning or first Service Test
-
-import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService } from '../../shared/dialog/dialog.service';
+import { Router } from '@angular/router';
+import { DialogService } from '../dialog/dialog.service';
 import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
 import { MatDialog } from '@angular/material';
-// FIXME NG45 - Where's the MockBackend in new HttpClient?
 import { MockBackend } from '@angular/http/testing';
-import { ProjectService } from '../project/project.service';
-import { TaskService } from '../task/task.service';
+import { ProjectService } from '../project';
+import { TaskService } from '../task';
 import { HttpClientModule, HttpXhrBackend, HttpResponse } from '@angular/common/http';
 
 describe('LeaderService', () => {
@@ -27,7 +24,7 @@ describe('LeaderService', () => {
 
   describe('getLeadersPage(groupId, page, limit, dbQuery)', () => {
 
-    it('// WIP: should return an Observable<Array<ILeader>>',
+    it('should return an Observable<Array<ILeader>>',
       inject([LeaderService, HttpXhrBackend], (leaderService, mockBackend) => {
 
         const mockResponse = {

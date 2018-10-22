@@ -20,14 +20,14 @@ const initialState: ITaskState = {
     selectedTaskId: null,
     tasksById: [],
     tasksPage: null
-}
+};
 
 // --------------------------------------------------------------------------------------------------------------------
 // Reducer
 // --------------------------------------------------------------------------------------------------------------------
 
 /**
- * Reducer is a pure function, with input-output only and no side effects. 
+ * Reducer is a pure function, with input-output only and no side effects.
  * This is the only one who is allowed to change the state directly, it must return the new state.
  * It will be called automatically in response to store.dispatch() of any action named above.
  * Important: state object MUST be immutable.
@@ -46,7 +46,7 @@ export function reducer(
 
         case TasksActionTypes.TASK_SELECT:
             console.log('Reducer :: Task Select ::', action.payload);
-            return { ...state, selectedTaskId: action.payload }
+            return { ...state, selectedTaskId: action.payload };
 
 
         case TasksActionTypes.TASK_CREATE_SUCCESS:
@@ -57,12 +57,12 @@ export function reducer(
                 tasks: [...state.tasks, task],
                 tasksById: [...[state.tasksById[task._id] = task]],
                 selectedTaskId: task._id
-            }
+            };
             return state;
 
         case TasksActionTypes.TASK_LOAD_SUCCESS:
             const loadedTask: ITask = { ...action.payload };
-            let newState = { ...state, selectedTaskId: loadedTask._id };
+            const newState = { ...state, selectedTaskId: loadedTask._id };
             if (newState.tasks && newState.tasks.indexOf(loadedTask) === -1) {
                 const tasksById = [...newState.tasksById];
                 tasksById[newState.selectedTaskId] = { ...loadedTask };
@@ -72,7 +72,7 @@ export function reducer(
                     tasks: [...newState.tasks, loadedTask],
                     tasksById: <ITask[]>tasksById,
                     selectedTaskId: newState.selectedTaskId
-                }
+                };
             }
             return newState;
 
@@ -81,9 +81,9 @@ export function reducer(
             const responseData: ITaskResponsePage = action.payload;
             responseData && responseData.docs && responseData.docs.forEach(doc => {
                 if (state.tasks.indexOf(doc) === -1) {
-                    newTasks.push(doc)
+                    newTasks.push(doc);
                 }
-            })
+            });
 
             const nState = { ...state, tasks: [...newTasks], tasksPage: { ...action.payload } };
             console.log(':: Reducer :: Load TASKS Success ::', nState);
@@ -91,13 +91,6 @@ export function reducer(
         default:
             return state;
     }
-}
-
-function hasThisTask(tasks, loadedTask: ITask) {
-    let result = tasks && tasks.indexOf(loadedTask) === -1;
-    console.log('HAS THIS TASK:', loadedTask.title, result);
-
-    return result;
 }
 
 // --------------------------------------------------------------------------------------------------------------------
