@@ -68,7 +68,6 @@
     </div>
 
     <mat-card-title class="projects-title">
-      Проекти:
     </mat-card-title>
     <mat-card-content>
       <app-project-list [leaderId]="leader._id" pageSize="6" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
