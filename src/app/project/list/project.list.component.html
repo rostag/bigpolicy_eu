@@ -1,21 +1,30 @@
 <!--
-  Usage: 
-  <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list>
+  Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list>
 -->
-
-<h2 *ngIf="title !== ''">{{title}}</h2>
+<div fxLayout="column">
+  <div fxFlex fxLayout="row" fxLayoutAlign="start center" *ngIf="showPagination">
+    <div fxFlex><h3>Проекти ({{itemsPage.total}})</h3></div>
+    <pagination-controls fxflex
+                         [ngClass]="'pagination'"
+                         id="projectItemsPage"
+                         (pageChange)="pageChanged($event)"
+                         [maxSize]="5"
+                         directionLinks="true"
+                         previousLabel=""
+                         nextLabel=""
+                         autoHide="true"
+    >
+    </pagination-controls>
+  </div>
+</div>
 
 <div fxLayout="row wrap" fxLayoutGap="1em">
-  <!--
-    
-    fxFlex="20%"
-  -->
-  <div 
-  [fxFlex]="flexState.flex"
-  [fxFlex.lg]="flexState.lg" 
-  [fxFlex.sm]="flexState.sm" 
-  [fxFlex.md]="flexState.md" 
-  [fxFlex.xs]="flexState.xs"
+  <div
+    [fxFlex]="flexState.flex"
+    [fxFlex.lg]="flexState.lg"
+    [fxFlex.sm]="flexState.sm"
+    [fxFlex.md]="flexState.md"
+    [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
@@ -28,22 +37,6 @@
       [viewContext]="viewContext">
     </app-project-brief>
   </div>
-</div>
-
-<div *ngIf="showPagination">
-  <pagination-controls
-                      id = "projectItemsPage"
-                      (pageChange)="pageChanged($event)"
-                      [maxSize]="5"
-                      directionLinks="true"
-                      previousLabel="Previous"
-                      nextLabel="Next"
-                      autoHide="true"
-                      >
-  </pagination-controls>
-
-  <p>Усього: {{itemsPage.total}}</p>
-
 </div>
 
 <!-- TODO Also show Projects as Cards / Thumbs -->
