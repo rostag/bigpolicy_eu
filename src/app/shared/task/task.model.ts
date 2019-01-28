@@ -1,4 +1,4 @@
-import { ITask } from "../../common/models";
+import { ITask } from '../../common/models';
 
 export class TaskModel implements ITask {
   _id: string;
@@ -31,19 +31,6 @@ export class TaskModel implements ITask {
       videoUrl: this.videoUrl,
       totalDonationsReceived: this.totalDonationsReceived
     });
-  }
-
-  /**
-   * Populate model from a json representation loaded from DB
-   */
-  parseData(data) {
-    for (const item in data) {
-      if (data.hasOwnProperty(item)) {
-        this[item] = data[item];
-      }
-    }
-    this.dateStarted = this.toDateInputValue(this.dateStarted);
-    this.dateEnded = this.toDateInputValue(this.dateEnded);
   }
 
   /**

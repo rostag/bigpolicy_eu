@@ -1,4 +1,4 @@
-import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { TasksAction, TasksActionTypes } from '../actions/task.actions';
 import { ITask, ITaskResponsePage } from '../../common/models';
 
@@ -6,20 +6,20 @@ import { ITask, ITaskResponsePage } from '../../common/models';
 // Store
 // --------------------------------------------------------------------------------------------------------------------
 
-// The AuthState iterface describes the structure of the auth store we create
+// The AuthState interface describes the structure of the auth store we create
 export interface ITaskState {
-    tasks: ITask[];
-    selectedTaskId: string;
-    tasksById: ITask[];
-    tasksPage: ITaskResponsePage;
+  tasks: ITask[];
+  selectedTaskId: string;
+  tasksById: ITask[];
+  tasksPage: ITaskResponsePage;
 }
 
 // The initial state of the auth store
 const initialState: ITaskState = {
-    tasks: [],
-    selectedTaskId: null,
-    tasksById: [],
-    tasksPage: null
+  tasks: [],
+  selectedTaskId: null,
+  tasksById: [],
+  tasksPage: null
 };
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -35,62 +35,63 @@ const initialState: ITaskState = {
  * @param action The Action to apply to the state.
  */
 export function reducer(
-    state: ITaskState = initialState,
-    action: TasksAction
+  state: ITaskState = initialState,
+  action: TasksAction
 ): ITaskState {
 
-    switch (action.type) {
+  switch (action.type) {
 
-        // case TasksActionTypes.TASK_ADD_TASK:
-        // return state;
+    // case TasksActionTypes.TASK_ADD_TASK:
+    // return state;
 
-        case TasksActionTypes.TASK_SELECT:
-            console.log('Reducer :: Task Select ::', action.payload);
-            return { ...state, selectedTaskId: action.payload };
+    case TasksActionTypes.TASK_SELECT:
+      console.log('Reducer :: Task Select ::', action.payload);
+      return {...state, selectedTaskId: action.payload};
 
 
-        case TasksActionTypes.TASK_CREATE_SUCCESS:
-            console.log('Reducer :: Create Tasks Success ::', action.payload);
-            const task: ITask = action.payload;
-            state = {
-                ...state,
-                tasks: [...state.tasks, task],
-                tasksById: [...[state.tasksById[task._id] = task]],
-                selectedTaskId: task._id
-            };
-            return state;
+    case TasksActionTypes.TASK_CREATE_SUCCESS:
+      console.log('Reducer :: Create Tasks Success ::', action.payload);
+      const task: ITask = action.payload;
+      state = {
+        ...state,
+        tasks: [...state.tasks, task],
+        tasksById: [...[state.tasksById[task._id] = task]],
+        selectedTaskId: task._id
+      };
+      return state;
 
-        case TasksActionTypes.TASK_LOAD_SUCCESS:
-            const loadedTask: ITask = { ...action.payload };
-            const newState = { ...state, selectedTaskId: loadedTask._id };
-            if (newState.tasks && newState.tasks.indexOf(loadedTask) === -1) {
-                const tasksById = [...newState.tasksById];
-                tasksById[newState.selectedTaskId] = { ...loadedTask };
-                console.log('Reducer :: Load Task Success ::', newState);
-                return {
-                    ...newState,
-                    tasks: [...newState.tasks, loadedTask],
-                    tasksById: <ITask[]>tasksById,
-                    selectedTaskId: newState.selectedTaskId
-                };
-            }
-            return newState;
+    case TasksActionTypes.TASK_LOAD_SUCCESS:
+      const loadedTask: ITask = {...action.payload};
+      const newState = {...state, selectedTaskId: loadedTask._id};
+      if (newState.tasks && newState.tasks.indexOf(loadedTask) === -1) {
+        const tasksById = [...newState.tasksById];
+        tasksById[newState.selectedTaskId] = {...loadedTask};
+        console.log('Reducer :: Load Task Success ::', newState);
+        return {
+          ...newState,
+          tasks: [...newState.tasks, loadedTask],
+          tasksById: <ITask[]>tasksById,
+          selectedTaskId: newState.selectedTaskId
+        };
+      }
+      return newState;
 
-        case TasksActionTypes.LoadTaskPageSuccess:
-            const newTasks: ITask[] = [];
-            const responseData: ITaskResponsePage = action.payload;
-            responseData && responseData.docs && responseData.docs.forEach(doc => {
-                if (state.tasks.indexOf(doc) === -1) {
-                    newTasks.push(doc);
-                }
-            });
+    case TasksActionTypes.LoadTaskPageSuccess:
+      let temp: any;
+      const newTasks: ITask[] = [];
+      const responseData: ITaskResponsePage = action.payload;
+      temp = responseData && responseData.docs && responseData.docs.forEach(doc => {
+        if (state.tasks.indexOf(doc) === -1) {
+          newTasks.push(doc);
+        }
+      });
 
-            const nState = { ...state, tasks: [...newTasks], tasksPage: { ...action.payload } };
-            console.log(':: Reducer :: Load TASKS Success ::', nState);
-            return nState;
-        default:
-            return state;
-    }
+      const nState = {...state, tasks: [...newTasks], tasksPage: {...action.payload}};
+      console.log(':: Reducer :: Load TASKS Success ::', nState);
+      return nState;
+    default:
+      return state;
+  }
 }
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -105,5 +106,5 @@ export const getTasks = createSelector(getTasksState, (state: ITaskState) => sta
 export const getTasksPage = createSelector(getTasksState, (state: ITaskState) => state.tasksPage);
 export const getSelectedTaskId = createSelector(getTasksState, (state: ITaskState) => state.selectedTaskId);
 export const getSelectedTask = createSelector(getTasksState, getSelectedTaskId,
-    (state: ITaskState, selectedTaskId: string) => state.tasksById[selectedTaskId]
+  (state: ITaskState, selectedTaskId: string) => state.tasksById[selectedTaskId]
 );
