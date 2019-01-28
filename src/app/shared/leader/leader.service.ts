@@ -1,19 +1,17 @@
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { ProjectService } from '../../shared/project/project.service';
-import { environment } from '../../../environments/environment';
+import {Router} from '@angular/router';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {DialogService} from '../../shared/dialog/dialog.service';
+import {ProjectService} from '../../shared/project/project.service';
+import {environment} from '../../../environments/environment';
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { map, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {map, catchError} from 'rxjs/operators';
 
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 
-import { ENV } from 'app/../environments/env.config';
-import { ILeaderState } from '../../state/reducers/leader.reducers';
-import { LoadLeadersPageSuccess } from '../../state/actions/leader.actions';
-import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
+import {ENV} from 'app/../environments/env.config';
+import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
 
 declare var localStorage: any;
 
@@ -56,7 +54,8 @@ export class LeaderService {
     private router: Router,
     private dialogService: DialogService,
     private projectService: ProjectService
-  ) { }
+  ) {
+  }
 
   private get _authHeader(): string {
     return `Bearer ${localStorage.getItem('access_token')}`;
@@ -113,7 +112,7 @@ export class LeaderService {
       .set('Authorization', this._authHeader)
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post<ILeader>(this.leaderApiUrl, body, { headers: headers })
+    return this.http.post<ILeader>(this.leaderApiUrl, body, {headers: headers})
       .pipe(map(data => {
         // Post-FTUX
         localStorage.removeItem('BigPolicyLeaderRegistration');
@@ -135,14 +134,15 @@ export class LeaderService {
   // FIXME CHECK if single return type can be used here
   public getLeadersPage(req: IDataPageRequest): Observable<ILeaderResponsePage> {
     if (req === null || req.page === null || req.pageSize === null) {
-      return
+      return;
     }
 
     // `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
-    return this.http.get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
+    return this.http
+      .get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
       .map((responsePage: any) => {
-        return responsePage;
-      }
+          return responsePage;
+        }
       );
   }
 
@@ -171,12 +171,13 @@ export class LeaderService {
     console.log('LeaderService:RequestLeader ByEmail:', email);
 
     // FIXME NGRX IT LP
-    const leaderResponse = this.getLeadersPage({ id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }' });
+    const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }'});
     leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
 
     return leaderResponse;
   }
 
+  // FIXME Unused
   private findCachedLeaderByEmail(email: string): ILeader {
     const leaders = this.models;
     let foundLeader;
@@ -190,12 +191,12 @@ export class LeaderService {
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param ILeader A Leader to update
+   * @param model ILeader A Leader to update
    */
   public updateLeader(model: ILeader): Observable<ILeader> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.put(this.leaderApiUrl + model._id, model.toString(), { headers: headers })
+    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
       .pipe(
         map(res => {
           console.log('NG45 - Leader updated, server response:', res);
@@ -229,7 +230,9 @@ export class LeaderService {
                 // TODO Delete Projects Firebase data
                 // TODO Delete Donations and Task Donations?
                 this.projectService.bulkDeleteProjects(model.projectIds)
-                  .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
+                  .subscribe((deleteResult) => {
+                    console.log('Projects deleted:', deleteResult);
+                  });
               } else {
                 // Reassign projects to another Leader (this/Admin)
                 // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
@@ -239,7 +242,9 @@ export class LeaderService {
                   managerEmail: newLeader.email,
                   managerName: newLeader.name + ' ' + newLeader.surName
                 });
-                projectsUpdate.subscribe((updateResult) => { console.log('Projects update result:', updateResult); });
+                projectsUpdate.subscribe((updateResult) => {
+                  console.log('Projects update result:', updateResult);
+                });
               }
               this.finalizeLeaderDeletion(model, navigateToList);
             });
@@ -268,7 +273,8 @@ export class LeaderService {
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     if (leader._id) {
-      this.router.navigate(['/leader', leader._id]).then(_ => { });
+      this.router.navigate(['/leader', leader._id]).then(_ => {
+      });
     }
   }
 

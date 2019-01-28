@@ -2,11 +2,11 @@ import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
-import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
+import { ILeaderResponsePage } from '../../common/models';
 import { Store } from '@ngrx/store';
-import { ILeaderState, getLeaders, getLeadersPage } from '../../state/reducers/leader.reducers';
+import { ILeaderState, getLeadersPage } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPage } from '../../state/actions/leader.actions';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-leader-list',
@@ -43,7 +43,7 @@ export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
     xs: '100%'
   };
 
-  public leaders: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
+  public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
   public itemsPage = {
     docs: this.leaders,
     limit: this.pageSize,
@@ -58,7 +58,8 @@ export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
     public userService: UserService,
     private http: HttpClient,
     private leaderStore: Store<ILeaderState>
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.requestLeaders();

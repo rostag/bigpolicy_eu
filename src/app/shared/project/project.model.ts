@@ -1,4 +1,4 @@
-import { IProject } from "../../common/models";
+import { IProject } from '../../common/models';
 
 export class ProjectModel implements IProject {
   _id: string;
@@ -38,19 +38,6 @@ export class ProjectModel implements IProject {
     });
   }
 
-  /**
-   * Populates model from a JSON representation loaded from DB
-   */
-  parseData(data) {
-    for (const item in data) {
-      if (data.hasOwnProperty(item)) {
-        this[item] = data[item];
-      }
-    }
-    this.dateStarted = this.toDateInputValue(this.dateStarted);
-    this.dateEnded = this.toDateInputValue(this.dateEnded);
-  }
-
 /**
  * Adopts date from Mongo DB format for UI datepicker
  */
@@ -60,10 +47,5 @@ export class ProjectModel implements IProject {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
     return local.toJSON().slice(0, 10);
-  }
-
-  onImageUrlChange(newUrlValue) {
-    console.log('Project image url:', newUrlValue);
-    this.imageUrl = newUrlValue;
   }
 }
