@@ -38,14 +38,34 @@ export class ProjectModel implements IProject {
     });
   }
 
-/**
- * Adopts date from Mongo DB format for UI datepicker
- */
+  /**
+   * Adopts date from Mongo DB format for UI datepicker
+   */
   private toDateInputValue(dateToParse) {
     const date = new Date(dateToParse);
     const local = new Date(dateToParse);
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
     return local.toJSON().slice(0, 10);
+  }
+
+  /**
+   * Populates model from a JSON representation loaded from DB
+   */
+  // FIXME Rework to be Project Reducer / Service method
+  parseData(data) {
+    for (const item in data) {
+      if (data.hasOwnProperty(item)) {
+        this[item] = data[item];
+      }
+    }
+    this.dateStarted = this.toDateInputValue(this.dateStarted);
+    this.dateEnded = this.toDateInputValue(this.dateEnded);
+  }
+
+  // FIXME Move to be Project Reducer / Service method
+  onImageUrlChange(newUrlValue) {
+    console.log('Project image url:', newUrlValue);
+    this.imageUrl = newUrlValue;
   }
 }
