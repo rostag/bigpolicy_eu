@@ -43,4 +43,14 @@ export class TaskModel implements ITask {
     // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
     return local.toJSON().slice(0, 10);
   }
+
+  parseData(data) {
+    for (const item in data) {
+      if (data.hasOwnProperty(item)) {
+        this[item] = data[item];
+      }
+    }
+    this.dateStarted = this.toDateInputValue(this.dateStarted);
+    this.dateEnded = this.toDateInputValue(this.dateEnded);
+  }
 }
