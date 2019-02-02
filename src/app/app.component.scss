@@ -1,4 +1,9 @@
+@import '../assets/scss/styles.scss';
+
+
 :host {
+  background-color: $bp-bg;
+
   display: block;
   box-sizing: border-box;
 }
