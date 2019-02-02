@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {UserService} from '../../shared/user/user.service';
-import {ProjectModel} from '../../shared/project';
-import {IProject} from '../../common/models';
-import {Store, select} from '@ngrx/store';
-import {IProjectState, getSelectedProject} from '../../state/reducers/project.reducers';
-import {SelectProject, LoadProject, DeleteProject} from '../../state/actions/project.actions';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../../shared/user/user.service';
+import { ProjectModel } from '../../shared/project';
+import { IProject } from '../../common/models';
+import { Store, select } from '@ngrx/store';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { SelectProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-project-view',
@@ -25,6 +25,10 @@ export class ProjectViewComponent implements OnInit {
   public project$: BehaviorSubject<IProject> = new BehaviorSubject(null);
 
   public fundratio = 0;
+
+  public get percentage(): number {
+    return Math.floor(this.project.totalDonationsReceived / this.project.cost * 100);
+  };
 
   /**
    * Dependency Injection: route (for reading params later)

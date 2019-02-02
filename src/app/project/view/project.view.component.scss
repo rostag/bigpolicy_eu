@@ -14,6 +14,7 @@
     }
 
     .content {
+      margin-top: 8px;
 
       .main {
         background-color: $bp-white;
@@ -41,8 +42,56 @@
       }
 
       .aside {
+        text-align: center;
         background-color: $bp-white;
         padding: 30px;
+
+        .brogress {
+          position: relative;
+          height: 16px;
+          margin-bottom: .3em;
+          display: inline-block;
+          margin-bottom: 40px;
+        }
+
+        .percentage {
+          color: $bp-text;
+          position: relative;
+          top: -140px;
+          font-size: 41px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          line-height: 48px;
+          font-weight: 700;
+        }
+
+        .funding-summary {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: .5em;
+
+          .total {
+            color: $bp-icon;
+            font-size: 12px;
+          }
+        }
+
+        .dates {
+          margin-top: 30px;
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: .5em;
+
+          .sub {
+            color: $bp-icon;
+            font-size: 12px;
+
+          }
+        }
+
+        .donate {
+          margin-top: 30px;
+        }
       }
     }
 
@@ -106,11 +155,6 @@
       margin-bottom: 30px;
     }
 
-    .funding-summary {
-      font-size: 2em;
-      margin-bottom: .5em;
-    }
-
     .project-toolbar {
       margin-top: 2em;
     }
@@ -121,11 +165,6 @@
 
     .project-video {
       height: 100%;
-    }
-
-    .brogress {
-      height: 16px;
-      margin-bottom: .3em;
     }
   }
 }
