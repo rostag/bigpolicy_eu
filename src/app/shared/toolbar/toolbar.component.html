@@ -1,4 +1,4 @@
-<nav class="app-toolbar" color="primary" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
+<nav class="app-toolbar" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class.xs="nav-xs">
 
   <span fxFlex="23">
     <a [routerLink]="['/leaders']">Лідери</a>
@@ -8,7 +8,7 @@
   </span>
 
   <span fxFlex="8" class="logo">
-    .
+    &nbsp;
   </span>
 
   <span fxFlex="23">
@@ -27,9 +27,9 @@
       Увійти
     </a>
 
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" color="accent">
-      <mat-icon *ngIf="!userService.isAdmin">account_circle</mat-icon>
-      <mat-icon *ngIf="userService.isAdmin">account_box</mat-icon>
+    <button class="user-icon-wrapper" mat-icon-button [matMenuTriggerFor]="userMenu" color="accent">
+      <mat-icon color="warn" *ngIf="!userService.isAdmin">account_circle</mat-icon>
+      <mat-icon color="warn" *ngIf="userService.isAdmin">account_box</mat-icon>
     </button>
   </span>
 
@@ -65,7 +65,6 @@
         stroke-width: 35;
         fill: #C13833;
       }
-
       .logo-white path {
         stroke: #ffffff;
         stroke-width: 35;
