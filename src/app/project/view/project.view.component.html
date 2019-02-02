@@ -3,8 +3,8 @@
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="project-title">
-        <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
         <h1>{{project.title}}</h1>
+        <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
       </div>
 
       <div class="admin">
@@ -15,8 +15,8 @@
       </div>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="53" >
+    <div class="content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
+      <div fxFlex="73" class="main">
 
         <div *ngIf="hasVisual; else novisual">
           <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
@@ -40,16 +40,22 @@
         </ng-template>
 
         <div class="description">
-          <h3>Опис</h3>
+          <h3>Про проект</h3>
+          <!-- Show video only if image was present -->
+          <div *ngIf="project.imageUrl" class="media-inline">
+            <div class="visual-wrapper" *ngIf="project.videoUrl">
+              <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
+            </div>
+          </div>
           <p>{{project.description}}</p>
         </div>
 
         <!-- Project Tasks -->
-        <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>
+        <!-- TODO Re-enable in release <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>-->
         <!-- /Project Tasks -->
       </div>
 
-      <div fxFlex="35" fxFlexOffset="1" >
+      <div fxFlex="20" fxFlexOffset="1" class="aside" >
         <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
 
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
@@ -67,14 +73,6 @@
           <br/>Кінець: {{project.dateEnded | date}}
         </h4>
 
-        <!-- Show video only if image was present -->
-        <div *ngIf="project.imageUrl">
-          <div class="visual-wrapper" *ngIf="project.videoUrl">
-            <h3>Відео:</h3>
-            <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
-          </div>
-          <p>&nbsp;</p>
-        </div>
       </div>
 
       <div fxFlex="4">

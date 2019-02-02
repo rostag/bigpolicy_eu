@@ -1,6 +1,7 @@
 <!-- Show/Hide Sharer Button -->
 <a href (click)="toggleSharer()" class="show-sharer-button">
-  <button *ngIf="!sharerIsVisible" mat-raised-button color="accent">Поширити</button>
+  <mat-icon class="share-icon">share</mat-icon>
+  <!--<button *ngIf="!sharerIsVisible" mat-button color="accent">Поширити</button>-->
 </a>
 
 <!-- TODO Let user enter few addresses, separated by comma or semicolon -->

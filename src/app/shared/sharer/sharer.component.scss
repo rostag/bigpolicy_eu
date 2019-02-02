@@ -1,4 +1,5 @@
 @import '~@angular/material/_theming.scss';
+@import '../../../assets/scss/styles.scss';
 
 $sgray: #777;
 $agray: #bbb;
@@ -11,6 +12,10 @@ $cred: #0f0;
   ::ng-deep .share-card {
     margin-top: -2em;
   }
+}
+
+.share-icon {
+  color: $bp-icon;
 }
 
 .share-card {
