@@ -4,19 +4,25 @@
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="project-title">
         <h1>{{project.title}}</h1>
-        <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
+        <small><a [routerLink]="['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
       </div>
 
       <div class="admin">
-        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"
+                *ngIf="userService.hasEditPermissions(project)" color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>
         <!-- TODO Enable it -->
-        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)"
+                color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
         <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
       </div>
     </div>
 
     <div class="content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="73" class="main">
+      <div fxFlex="72" class="main">
 
         <div *ngIf="hasVisual; else novisual">
           <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
@@ -27,14 +33,15 @@
         </ng-template>
 
         <ng-template #videos>
-          <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
+          <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"
+                        placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
         </ng-template>
 
         <ng-template #novisual>
           <div *ngIf="userService.hasEditPermissions(project)">
             <h3>Додати відео чи зображення?</h3>
             <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
-              <a [routerLink] = "['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
+              <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
             </p>
           </div>
         </ng-template>
@@ -55,23 +62,35 @@
         <!-- /Project Tasks -->
       </div>
 
-      <div fxFlex="20" fxFlexOffset="1" class="aside" >
-        <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
+      <div fxFlex="20" fxFlexOffset="1" class="aside">
+        <mat-progress-spinner
+          [diameter]="145"
+          [strokeWidth]="9"
+          [color]="warn"
+          [value]="project.totalDonationsReceived / project.cost * 100"
+          class="brogress"
+        >
+        </mat-progress-spinner>
+        <div class="percentage">{{percentage}}%</div>
+
+        <div class="funding-summary">
+          <div class="amount">{{project.totalDonationsReceived || 0}}</div>
+          <div class="total">зібрано з {{project.cost}} UAH</div>
+        </div>
+
+        <div class="dates">
+          <div>{{project.dateStarted | date}}</div>
+          <div class="sub">Початок</div>
+        </div>
+
+        <div class="dates">
+          <div>{{project.dateEnded | date}}</div>
+          <div class="sub">Завершення</div>
+        </div>
+
+        <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
 
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
-
-        <div class="funding-summary">Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</div>
-
-        <mat-progress-bar
-            class="brogress"
-            color="accent"
-            [value]="project.totalDonationsReceived / project.cost * 100"
-            [bufferValue]="2">
-        </mat-progress-bar>
-
-        <h4>Початок: {{project.dateStarted | date}}
-          <br/>Кінець: {{project.dateEnded | date}}
-        </h4>
 
       </div>
 
@@ -81,7 +100,9 @@
     </div>
 
     <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
-      <a [routerLink] = "['/project/' + project._id + '/edit']"><button mat-raised-button color="primary">Редагувати проект</button></a>
+      <a [routerLink]="['/project/' + project._id + '/edit']">
+        <button mat-raised-button color="primary">Редагувати проект</button>
+      </a>
       <!-- TODO Enable it -->
       <button (click)="deleteProject(project)" mat-raised-button color="warn">Видалити проект</button>
     </div>
