@@ -8,15 +8,20 @@
     box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, .1);
 
     a {
-      color: $bp-link;
+      color: $bp-icon;
       cursor: pointer;
+      font-family: Helvetica, Arial, sans-serif;
       font-weight: 500;
       font-size: 16px;
-      color: $bp-link;
       text-decoration: none;
-      letter-spacing:0.5px;
+      letter-spacing: 0.25px;
       padding: 4px 0 2px 0;
       border-bottom: 2px solid transparent;
+
+      &:hover {
+        color: $bp-link;
+        border-bottom: 2px solid $bp-link;
+      }
     }
 
     .mat-button,
@@ -26,7 +31,7 @@
     }
 
     .mat-button:hover {
-      background-color: #fff;
+      background-color: #ff0;
       color: #c30;
     }
     > button,
@@ -45,32 +50,26 @@
   .fab-logo {
     width: 100px;
     height: 100px;
-    left: -80px;
+    left: -60px;
     margin: -100px 50%;
     position: absolute;
     box-shadow: none;
+    background-color: transparent;
     ::ng-deep .mat-button-wrapper {
       padding: 0;
     }
-  }
-
-  .fab-logo-xs {
-    margin-top: -10.1em;
+    .mat-button-ripple-round {
+      background-color: black !important;
+    }
   }
 
   .logo {
-    height: 45px;
-    margin: .62em auto .2em;
-    width: 45px;
-    position: relative;
-    top: -4px;
+    width: 60px;
+    height: 60px;
   }
 
-  .fab-logo:hover {
-    border: 1px solid $bp-white;
-    .logo {
-      margin-top: 4px;
-    }
+  .logo:active {
+    box-shadow: none;
   }
 
   .separator {

@@ -39,7 +39,8 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null, dbQuery = '{}'): Observable<any> {
+  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null,
+                   dbQuery = '{}'): Observable<DonationModel> {
     // FIXME Implement interface for three types of targets
     let requestUrl;
 
@@ -63,8 +64,6 @@ export class DonationService {
   /**
    * Get a model from DB or from cache.
    */
-  // FIXME - NG45 Get back to:
-  // getDonation(donationId: string): Observable<HttpResponse> {
   getDonation(donationId: string): Observable<any> {
     return this.getDonationsPage(donationId);
   }
@@ -89,7 +88,6 @@ export class DonationService {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
-      // FIXME - NG45
       options: {headers: headers}
     };
   }

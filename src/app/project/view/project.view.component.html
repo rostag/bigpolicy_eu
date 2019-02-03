@@ -65,27 +65,27 @@
       <div fxFlex="20" fxFlexOffset="1" class="aside">
         <mat-progress-spinner
           [diameter]="145"
-          [strokeWidth]="9"
-          [color]="warn"
+          [strokeWidth]="10"
+          color="accent"
           [value]="project.totalDonationsReceived / project.cost * 100"
           class="brogress"
         >
         </mat-progress-spinner>
         <div class="percentage">{{percentage}}%</div>
 
-        <div class="funding-summary">
+        <div class="item">
           <div class="amount">{{project.totalDonationsReceived || 0}}</div>
-          <div class="total">зібрано з {{project.cost}} UAH</div>
+          <div class="info">зібрано з {{project.cost}} UAH</div>
         </div>
 
-        <div class="dates">
+        <div class="item">
           <div>{{project.dateStarted | date}}</div>
-          <div class="sub">Початок</div>
+          <div class="info">Початок</div>
         </div>
 
-        <div class="dates">
+        <div class="item">
           <div>{{project.dateEnded | date}}</div>
-          <div class="sub">Завершення</div>
+          <div class="info">Завершення</div>
         </div>
 
         <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>

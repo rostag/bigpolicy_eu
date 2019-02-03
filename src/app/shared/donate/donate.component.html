@@ -11,7 +11,6 @@
   <button *ngIf="!readyToDonate" (click)="onDonateToggle()" mat-raised-button color="accent">{{label + ' ' + this.amount + ' UAH'}}</button>
   <button *ngIf="!readyToDonate && target.totalDonationsReceived>0" (click)="onToggleDonationsList()" mat-button color="accent">Усього: {{target.totalDonationsReceived || 0}} UAH</button>
 
-
   <app-donations-list title="Усі внески:" [target]="target" [targetType]="targetType" [pageSize]="10" dbQuery="{}" *ngIf="donationsListVisible" ></app-donations-list>
 
 </div>

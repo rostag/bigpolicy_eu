@@ -30,15 +30,12 @@ export class TaskService {
    * Creates new Task in DB
    * @param {ITask} model Task model to create.
    */
-  // FIXME NG45 - get back to Observable<ITask>:
-  // createTask(model: ITask): Observable<ITask> {
-  createTask(model: ITask): Observable<any> {
+  createTask(model: ITask): Observable<ITask> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     return this.http.post(this.apiUrl, body, { headers: headers })
       .map((res: ITask) => {
-        console.log('NG45 - createTask, response:', res);
         this.taskStore.dispatch(new CreateTaskSuccess(res));
         this.gotoTaskView(res);
         return res;
@@ -99,7 +96,6 @@ export class TaskService {
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - updateTask, res:', res);
           this.gotoTaskView(res);
           return res;
         }),
@@ -113,15 +109,12 @@ export class TaskService {
    * @param data {Object} The data to be applied during update in {field: name} format
    */
   bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
-    // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     const body = JSON.stringify({ ids: ids, data: data });
 
     return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - bulkUpdateTasks, response:', res);
           return res;
         }),
         catchError(this.handleError)
@@ -148,7 +141,6 @@ export class TaskService {
     return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - bulkDeleteTasks, res:', res);
           return res;
         }),
         catchError(this.handleError)
