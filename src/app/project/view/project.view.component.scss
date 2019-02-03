@@ -1,6 +1,12 @@
 @import '../../../assets/scss/styles.scss';
 
 :host {
+
+  .mat-progress-spinner circle, .mat-spinner circle {
+    border: 3px solid #ddd000;
+    stroke: #2A79FF !important;
+  }
+
   .project-view {
 
     margin-left: 100px;
@@ -52,6 +58,11 @@
           margin-bottom: .3em;
           display: inline-block;
           margin-bottom: 40px;
+          .mat-progress-spinner {
+            circle {
+              stroke: #ee3300 !important;
+            }
+          }
         }
 
         .percentage {
@@ -65,27 +76,15 @@
           font-weight: 700;
         }
 
-        .funding-summary {
-          font-size: 24px;
-          font-weight: bold;
-          margin-bottom: .5em;
-
-          .total {
-            color: $bp-icon;
-            font-size: 12px;
-          }
-        }
-
-        .dates {
+        .item {
           margin-top: 30px;
           font-size: 24px;
           font-weight: bold;
           margin-bottom: .5em;
 
-          .sub {
+          .info {
             color: $bp-icon;
-            font-size: 12px;
-
+            font-size: 13px;
           }
         }
 
@@ -138,7 +137,7 @@
     }
 
     h3 {
-      color: $bp-header;
+      color: $bp-head;
       font-size: 24px;
       margin: 1em 0 .5em;
       text-transform: uppercase;

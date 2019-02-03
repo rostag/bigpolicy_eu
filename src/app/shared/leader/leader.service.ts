@@ -198,15 +198,10 @@ export class LeaderService {
 
     return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
       .pipe(
-        map(res => {
-          console.log('NG45 - Leader updated, server response:', res);
-          return res;
-        }),
+        map(res => !!res),
         catchError(this.handleError)
       );
   }
-
-  // TODO Bulk Update Leaders (Like Project and Tasks).
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.

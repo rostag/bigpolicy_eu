@@ -39,9 +39,7 @@ export class ProjectService {
     private projectStore: Store<IProjectState>
   ) { }
 
-  // FIXME NG45 - get back to typed as Observable<IProject>:
-  // createProject(model: IProject): Observable<IProject> {
-  createProject(model: IProject): Observable<any> {
+  createProject(model: IProject): Observable<IProject> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -101,14 +99,10 @@ export class ProjectService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param IProject A Project to update
    */
-  // FIXME NG45 - get back to: Observable<IProject>
-  // updateProject(model: IProject): Observable<IProject> {
   updateProject(model: IProject): Observable<IProject> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    // TODO Consider encoding the body like in create project above
-    // TODO Check is going to proejct from the service like this.gotoProjectView below is the best solution
-    return this.http.put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
+    return this.http
+      .put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => this.gotoProjectView(res)),
         catchError(this.handleError)
@@ -120,15 +114,11 @@ export class ProjectService {
    * @param ids {Array} Project IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  // FIXME NG45 - get back to typed Observable<IProject>
-  // bulk UpdateProjects(ids: Array<string>, data: any): Observable<IProject> {
-  bulkUpdateProjects(ids: string[], data: any): Observable<any> {
-    // TODO Consider encoding the body like in create project above
+  bulkUpdateProjects(ids: string[], data: any): Observable<IProject> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     const body = JSON.stringify({ ids: ids, data: data });
-
-    return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
+    return this.http
+      .put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
         catchError(this.handleError)
       );

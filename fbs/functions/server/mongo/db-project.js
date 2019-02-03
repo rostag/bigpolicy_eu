@@ -172,7 +172,6 @@ DBProject.bulkDeleteProjects = function(projectIds) {
   var bulk = Project.collection.initializeOrderedBulkOp();
   console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
 
-  // TODO get all projectIds
   return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
     console.log(' - Got paged projectIds:', pagedProjects.total);
 
