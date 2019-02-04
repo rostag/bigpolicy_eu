@@ -1,0 +1,11 @@
+{
+  "appConfig": {
+    "port": 8090
+  },
+  "dbConfig": {
+    "host": "mongodb://localhost:27017/test"
+  },
+  "dbConfigTest": {
+    "host": "mongodb://localhost:27017/test"
+  }
+}
