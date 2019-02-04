@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LeaderModel } from '../../shared/leader/index';
+import { LeaderModel } from '../../shared/leader';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader, DeleteLeader, SelectLeader } from '../../state/actions/leader.actions';
 import { ILeader } from '../../common/models';
@@ -45,10 +45,10 @@ export class LeaderViewComponent implements OnInit {
 
   /**
    * Leader loading handler
-   * @param {data} Loaded leader data
+   * @param {data} data ILeader loaded leader data
    */
   private setLeader(data: ILeader) {
-    if (!data) { return }
+    if (!data) { return; }
     // fix for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
@@ -61,7 +61,7 @@ export class LeaderViewComponent implements OnInit {
 
   /**
    * Edits the leader
-   * @param {leader} Leader to delete
+   * @param {leader} leader ILeader to delete
    */
   public editLeader(leader: ILeader) {
     this.router.navigate(['/leader/' + leader._id + '/edit']);
@@ -70,7 +70,7 @@ export class LeaderViewComponent implements OnInit {
 
   /**
    * Removes the leader from DB
-   * @param {leader} Leader to delete
+   * @param {leader} leader Leader to delete
    */
   public deleteLeader(leader: ILeader) {
     this.leaderStore.dispatch(new DeleteLeader(leader));

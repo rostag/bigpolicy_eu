@@ -1,14 +1,11 @@
-// WIP - Fixed the imports and providers
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { ProjectBriefComponent } from './project.brief.component';
-import { ProjectService } from '../../shared/project/project.service';
-import { Router } from '@angular/router';
+import { ProjectService } from '../../shared/project';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TaskService } from '../../shared/task/task.service';
+import { TaskService } from '../../shared/task';
 
-xdescribe('WIP - Fixed the imports and providers. ProjectBriefComponent', () => {
+xdescribe('ProjectBriefComponent', () => {
   let component: ProjectBriefComponent;
   let fixture: ComponentFixture<ProjectBriefComponent>;
 

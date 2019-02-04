@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs/Rx';
 import { DialogComponent } from './dialog.component';
-// FIXME Look can in be removed
 import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { Injectable } from '@angular/core';
 
@@ -22,8 +21,8 @@ export class DialogService {
 
     dialogRef.componentInstance.title = title;
     dialogRef.componentInstance.message = message;
-    dialogRef.componentInstance.btnOkText = btnOkText;
     dialogRef.componentInstance.btnCancelText = btnCancelText;
+    dialogRef.componentInstance.btnOkText = btnOkText;
 
     const result = dialogRef.afterClosed();
 

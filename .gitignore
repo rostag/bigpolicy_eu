@@ -82,5 +82,6 @@ data/db
 gulpfile.js
 gulpfile.js.map
 
+package-lock.*
 
 nestjsserver/node_modules

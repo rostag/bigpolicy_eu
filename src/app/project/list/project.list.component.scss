@@ -1,13 +1,32 @@
 :host {
   display: block;
-}
 
-h1 {
-  font-size: 3em;
-}
+  ::ng-deep .pagination {
+    .ng2-pagination {
+      margin: 0;
+      padding: 0;
 
-h2 {
-  font-size: 2em;
-  margin-top: .83em;
-  padding-top: 0;
+      li {
+        cursor: pointer;
+
+        &:hover {
+          background-color: #ee3300;
+        }
+      }
+
+      .current {
+        background-color: #cc3300;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-top: .83em;
+    padding-top: 0;
+  }
 }

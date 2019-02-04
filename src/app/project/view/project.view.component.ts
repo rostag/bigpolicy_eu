@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-import { ProjectModel } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
-import { IProjectState, getProjectsState, getSelectedProject } from '../../state/reducers/project.reducers';
+import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { SelectProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-project-view',
@@ -27,9 +26,13 @@ export class ProjectViewComponent implements OnInit {
 
   public fundratio = 0;
 
+  public get percentage(): number {
+    return Math.floor(this.project.totalDonationsReceived / this.project.cost * 100);
+  };
+
   /**
-  * Dependency Injection: route (for reading params later)
-  */
+   * Dependency Injection: route (for reading params later)
+   */
   constructor(
     public userService: UserService,
     private router: Router,
@@ -44,7 +47,7 @@ export class ProjectViewComponent implements OnInit {
     //   });
     this.projectStore.pipe(select(getSelectedProject))
       .subscribe((selectedProject: IProject) => {
-        this.project$.next(selectedProject)
+        this.project$.next(selectedProject);
         this.setProject(selectedProject);
       });
   }
@@ -75,7 +78,7 @@ export class ProjectViewComponent implements OnInit {
 
   /**
    * Remove this project
-   * @param {project} Project being viewed
+   * @param {project} project IProject being viewed
    */
   deleteProject(project: IProject) {
     this.projectStore.dispatch(new DeleteProject(project));

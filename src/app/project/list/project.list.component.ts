@@ -1,13 +1,11 @@
-
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, SimpleChange, OnDestroy } from '@angular/core';
-import { UserService } from '../../shared/user/user.service';
-import { HttpClient } from '@angular/common/http';
-import { IProjectResponsePage, IProject } from '../../common/models';
-import { Store } from '@ngrx/store';
-import { IProjectState, getProjectsPage } from '../../state/reducers/project.reducers';
-import { LoadProjectsPage } from '../../state/actions/project.actions';
-import { Subscription } from 'rxjs';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
+import {UserService} from '../../shared/user/user.service';
+import {IProjectResponsePage} from '../../common/models';
+import {Store} from '@ngrx/store';
+import {IProjectState, getProjectsPage} from '../../state/reducers/project.reducers';
+import {LoadProjectsPage} from '../../state/actions/project.actions';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-project-list',
@@ -46,7 +44,7 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
     xs: '98%'
   };
 
-  public projects: BehaviorSubject<any> = new BehaviorSubject([{ title: 'Loading...' }]);
+  public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
 
   public itemsPage = {
     docs: this.projects,
@@ -56,15 +54,13 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
     total: 0
   };
 
-  isAddingTaskMode = false;
-
   private projectsPage$: Subscription;
 
   constructor(
     public userService: UserService,
-    private projectStore: Store<IProjectState>,
-    private http: HttpClient
-  ) { }
+    private projectStore: Store<IProjectState>
+  ) {
+  }
 
   ngOnInit() {
     this.projectsPage$ = this.projectStore.select(getProjectsPage).subscribe((pp: IProjectResponsePage) => this.setProjectPage(pp));
@@ -89,7 +85,7 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
         md: flexSettings[2],
         sm: flexSettings[3],
         xs: flexSettings[4]
-      }
+      };
     }
   }
 
@@ -104,11 +100,13 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
       page: this.itemsPage.page,
       pageSize: this.pageSize,
       dbQuery: this.dbQuery
-    }))
+    }));
   }
 
   private setProjectPage(responsePage: IProjectResponsePage) {
-    if (!responsePage) { return }
+    if (!responsePage) {
+      return;
+    }
     this.itemsPage.docs.next(responsePage['docs']);
     this.itemsPage.limit = responsePage['limit'];
     this.itemsPage.page = responsePage['page'];

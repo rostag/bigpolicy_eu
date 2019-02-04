@@ -68,7 +68,6 @@ export class DonationsListComponent implements OnChanges {
         this.dbQuery
       )
       .subscribe(responsePage => {
-        // console.log('Next, responsePage:', responsePage);
         this.itemsPage.docs.next(responsePage['docs']);
         this.itemsPage.limit = responsePage['limit'];
         this.itemsPage.page = responsePage['page'];

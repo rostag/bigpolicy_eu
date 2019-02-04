@@ -1,17 +1,14 @@
-// WIP - Fixed the imports and providers
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { ProjectService } from '../../shared/project/project.service';
-import { Router } from '@angular/router';
+import { DialogService } from '../dialog/dialog.service';
+import { ProjectService } from '../project';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TaskService } from '../../shared/task/task.service';
+import { TaskService } from '../task';
 import { UploaderComponent } from './uploader.component';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../../core.module';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-xdescribe('WIP - Fixed the imports and providers. UploaderComponent', () => {
+xdescribe('UploaderComponent', () => {
   let component: UploaderComponent;
   let fixture: ComponentFixture<UploaderComponent>;
 

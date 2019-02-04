@@ -16,7 +16,7 @@
         <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
         <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
         <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
-        <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+        <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at | date: 'dd MMM yy, HH:MM:SS'}}</p>
       </div>
     </div>
 

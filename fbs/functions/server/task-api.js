@@ -38,7 +38,6 @@ module.exports = function(app, router, DB, DBProject){
     console.log('task-api.put/bulk-delete', req.body.ids);
     DB.bulkDeleteTasks(req.body.ids)
       .then(function (data) {
-        // console.log('DONE task-api.put/bulk-delete', data);
         res.json(data);
       })
       .catch(function(err){

@@ -24,12 +24,12 @@ export class ProjectEditComponent implements OnInit {
     return this.isUpdateMode;
   };
 
-  // If true, editor is used on existing item, false if used for thecreation of new one
+  // if true, editor is used on existing item, false if used for thecreation of new one
   isUpdateMode = false;
 
   project: IProject;
 
-  // FIXME Used for changing leaders by admin - need to extract it to separate component
+  // need to extract it to separate component
   public leadersToMoveProjectTo: ILeader[] = null;
   currentLeader: ILeader = new LeaderModel();
 
@@ -71,16 +71,6 @@ export class ProjectEditComponent implements OnInit {
   }
 
   /**
-   * Removes this project and it's tasks (giving user a choice to move it, see service implementation)
-   * @param {project} Project being viewed
-   */
-  // Unused
-  // private deleteProject(project: IProject) {
-  //   this.projectStore.dispatch(new DeleteProject(project));
-  //   return false;
-  // }
-
-  /**
    * Saves new or edited project by asking one of two service methods for DB.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
@@ -99,7 +89,10 @@ export class ProjectEditComponent implements OnInit {
     } else {
       // Create new project
       // FIXME - Potential Race Condition
-      if (!leader) { return false; };
+      if (!leader) {
+        return false;
+      }
+      ;
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
       this.project.managerName = leader.name + ' ' + leader.surName;
@@ -119,7 +112,7 @@ export class ProjectEditComponent implements OnInit {
   requestLeadersToSelectFrom() {
     // this.userService.isAdmin
     // FIXME NGRX IT LP
-    this.leaderService.getLeadersPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
+    this.leaderService.getLeadersPage({id: null, page: 1, pageSize: 100, dbQuery: '{}'})
       .subscribe((res) => {
         this.leadersToMoveProjectTo = res['docs'];
         for (const d in this.leadersToMoveProjectTo) {

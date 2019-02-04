@@ -1,13 +1,12 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { ProjectModel } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project';
 import { UserService } from '../../shared/user/user.service';
-import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState, getTasksPage } from '../../state/reducers/task.reducers';
+import { Store } from '@ngrx/store';
+import { ITaskState, getTasksPage } from '../../state/reducers/task.reducers';
 import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
-import { isArray } from 'util';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-task-list',
@@ -72,7 +71,7 @@ export class TaskListComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private setTasksPage(responsePage: ITaskResponsePage) {
-    if (!responsePage) { return }
+    if (!responsePage) { return; }
     this.itemsPage.docs.next(responsePage['docs']);
     this.itemsPage.limit = responsePage['limit'];
     this.itemsPage.page = responsePage['page'];
@@ -86,15 +85,15 @@ export class TaskListComponent implements OnChanges, OnInit, OnDestroy {
     this.requestTasks();
   }
 
-  // FIXME Consider elimintation of the code duplication in paginator
+  // FIXME Consider elimination of the code duplication in paginator
   requestTasks() {
-    if (!this.project || !this.project._id) { return }
+    if (!this.project || !this.project._id) { return; }
     const req: IDataPageRequest = {
       id: this.project._id,
       page: this.itemsPage.page,
       pageSize: this.pageSize,
       dbQuery: this.dbQuery
-    }
+    };
     this.taskStore.dispatch(new LoadTaskPage(req));
   }
 
@@ -112,12 +111,12 @@ export class TaskListComponent implements OnChanges, OnInit, OnDestroy {
     return false;
   }
 
-  onSaveTaskEdit(evt) {
+  onSaveTaskEdit() {
     this.isAddingTaskMode = false;
     // TODO: Update Task store via NGRX
   }
 
-  onCancelTaskEdit(evt) {
+  onCancelTaskEdit() {
     this.isAddingTaskMode = false;
   }
 }
