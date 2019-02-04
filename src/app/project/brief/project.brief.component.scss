@@ -39,7 +39,11 @@ a {
   }
 
   .title {
-    height: 1.3em;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: -5px;
 
     .compact {
       font-size: .7em;
@@ -130,7 +134,6 @@ a {
     display: none;
   }
 }
-
 
 .list-brief:hover {
   color: inherit;
