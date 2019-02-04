@@ -4,10 +4,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AllExceptionsFilter } from './filters/exceptionsFilter.filter';
 import { APP_FILTER } from '@nestjs/core';
-import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
+// TODO: to config
 @Module({
-  imports: [DatabaseModule, ProjectsModule],
+  imports: [TypeOrmModule.forRoot({
+    useNewUrlParser: true,
+    type: 'mongodb',
+    host: 'localhost',
+    database: 'test',
+    entities: ['src/**/**.entity{.ts,.js}'],
+    synchronize: true,
+    logging: true,
+  }), ProjectsModule],
   controllers: [AppController],
   providers: [
     AppService,
