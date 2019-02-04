@@ -55,6 +55,7 @@
     position: absolute;
     box-shadow: none;
     background-color: transparent;
+
     ::ng-deep .mat-button-wrapper {
       padding: 0;
     }
@@ -63,12 +64,22 @@
     }
   }
 
-  .logo {
-    width: 60px;
+  .fab-logo-xs {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    width: 100px;
+    height: 0px;
+    left: unset;
+    zoom: 0.30;
+    top: 25px;
+  }
+
+  .logo-placeholder {
     height: 60px;
   }
 
-  .logo:active {
+  .logo-placeholder:active {
     box-shadow: none;
   }
 
