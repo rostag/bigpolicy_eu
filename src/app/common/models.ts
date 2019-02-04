@@ -1,5 +1,5 @@
 export interface ILeader {
-    _id: string;
+    _id?: string;
     // personal info
     name: string;
     surName: string;

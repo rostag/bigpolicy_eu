@@ -17,7 +17,7 @@ export enum AuthActionTypes {
 }
 
 export class Login implements AuthAction {
-    readonly type = AuthActionTypes.LOGIN
+    readonly type = AuthActionTypes.LOGIN;
     constructor(public payload: string) { }
 }
 
@@ -27,11 +27,11 @@ export class LoginSuccess implements AuthAction {
 }
 
 export class Logout implements AuthAction {
-    readonly type = AuthActionTypes.LOGOUT
+    readonly type = AuthActionTypes.LOGOUT;
 }
 
 export class LogoutSuccess implements AuthAction {
-    readonly type = AuthActionTypes.LOGOUT_SUCCESS
+    readonly type = AuthActionTypes.LOGOUT_SUCCESS;
 }
 
 export type AuthActions

@@ -47,21 +47,13 @@
             <input matInput name="videoUrl" formControlName="videoUrl" placeholder="Посилання на відео YouTube" maxLength="250" >
           </mat-form-field>
           <div *ngIf="leaderFormGroup.get('videoUrl').hasError('forbiddenName') && leaderFormGroup.get('videoUrl').touched" class="validation-error">
-            Будь ласка, уведи правильне посилання на відео YouTube
+            Будь ласка, надай вірне посилання на відео YouTube
           </div>
 
-          <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Вкажи область" aria-label="Number" matInput formControlName="location" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of regionOptions | async" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <app-location>
-
+          <!-- matInput formControlName="location" -->
+          <app-location aria-label="Вкажи область, будь ласка" (locationChange)="setLocation($event)">
           </app-location>
+
         </div>
       </div>
 

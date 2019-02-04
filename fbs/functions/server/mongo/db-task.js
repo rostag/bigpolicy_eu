@@ -94,7 +94,7 @@ DBTask.updateTask = function (id, data) {
  * @param taskIds Array of Task IDs.
  * @param data Data to set in format { projectId: value }
  */
-// TODO Check it better to refactor to make single method of update, merging this method with updateTask (above)
+// TODO Check if it's better to refactor to make single method of update, merging this method with updateTask (above)
 // http://codingmiles.com/nodejs-bulk-update-to-mongodb-using-mongoose/
 // https://www.mongodb.com/blog/post/mongodbs-new-bulk-api
 // http://stackoverflow.com/questions/28218460/nodejs-mongoose-bulk-update

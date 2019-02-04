@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import './bp-theme.scss';
 
+$bp-head: #1B1B1B;
+$bp-text: #3b3b3b;
+$bp-link: #d20915;
+$bp-icon: #465A64;
+$bp-white: #ffffff;
+$bp-border: #e7e7e7;
+$bp-red: #C13833;
+$bp-bg: #F8F8F8;
+$bp-grey: #949494;
+
 html, body {
   margin: 0;
   padding: 0;
@@ -28,10 +38,10 @@ pre {
 a:link,
 a:visited,
 a:active {
-  color: #000;
+  color: #1B1B1B;
 }
 a:hover {
-  color: #333;
+  color: #C13833;
 }
 
 md-list-item h3 a:link,

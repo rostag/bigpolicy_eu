@@ -1,8 +1,6 @@
 <mat-card *ngIf="!!leader && viewContext==='homePage'" class="leader-brief-card" [routerLink]="getLeaderLink(leader)">
   <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
-    <span *ngIf="userService.isOwner(leader)">
-      [я]
-    </span>
+    <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
   </mat-card-title>
   <mat-card-subtitle>
     {{leader.location}}
@@ -27,9 +25,7 @@
   <mat-card-title>
     <a [routerLink] = "getLeaderLink(leader)" class="name" title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}">
       {{leader.name}} {{leader.surName}}
-      <span *ngIf="userService.isOwner(leader)">
-        [я]
-      </span>
+      <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
     </a>
   </mat-card-title>
   <mat-card-subtitle>
@@ -66,9 +62,7 @@
       <mat-card-title>
         <span title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}" class="name">
           {{leader.name}} {{leader.surName}}
-          <span *ngIf="userService.isOwner(leader)">
-            [я]
-          </span>
+          <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
         </span>
       </mat-card-title>
       <p class="vision"><b>Візія:</b> {{leader.vision}}</p>

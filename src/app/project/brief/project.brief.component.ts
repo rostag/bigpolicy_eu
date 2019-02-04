@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { ProjectModel } from '../../shared/project/index';
+import { ProjectModel } from '../../shared/project';
 import { UserService } from '../../shared/user/user.service';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { LoadProject, DeleteProject } from '../../state/actions/project.actions';
+import { LoadProject } from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-brief',
@@ -34,7 +34,7 @@ export class ProjectBriefComponent implements OnChanges {
       if (!this.project || !this.project._id || !this.project.managerId) {
         this.requestProject(changes.projectId.currentValue);
       } else {
-        this.applyChanges(this.project)
+        this.applyChanges(this.project);
       }
     }
   }
