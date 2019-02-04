@@ -18,10 +18,10 @@ export class ProjectsController {
   @ApiOperation({ title: 'Get list of projects' })
   @ApiResponse({ status: HttpStatus.OK, description: 'return list of projects' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  @ApiImplicitQuery({ name: 'order', enum: ['abc', 'cba'] })
-  @ApiImplicitQuery({ name: 'page' })
-  @ApiImplicitQuery({ name: 'limit' })
-  @ApiImplicitQuery({ name: 'sort' })
+  @ApiImplicitQuery({ required: false, name: 'order', enum: ['abc', 'cba'] })
+  @ApiImplicitQuery({ required: false, name: 'page' })
+  @ApiImplicitQuery({ required: false, name: 'limit' })
+  @ApiImplicitQuery({ required: false, name: 'sort' })
   public async findAll(
     @Query() queryParams: { page: number, limit: number, order: string, sort: string },
   ) {
@@ -45,7 +45,7 @@ export class ProjectsController {
   @ApiOperation({ title: 'Find project' })
   @ApiResponse({ status: HttpStatus.OK, description: 'return project' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  public async findOne(@Param('id') id: number) {
+  public async findOne(@Param('id') id: string) {
     return await this.projectsService.findOne(id);
   }
 
@@ -56,7 +56,7 @@ export class ProjectsController {
   @UseGuards(AuthGuard)
   @UsePipes(ValidationPipe, SanitizePipe)
   public async updateOne(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() command: UpdateProjectDto,
   ) {
     return await this.projectsService.updateOne(id, command);
@@ -67,7 +67,7 @@ export class ProjectsController {
   @ApiResponse({ status: HttpStatus.OK, description: 'return ok' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  public async deleteOne(@Param('id') id: number) {
+  public async deleteOne(@Param('id') id: string) {
     return await this.projectsService.deleteOne(id);
   }
 }
