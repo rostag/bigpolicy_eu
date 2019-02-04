@@ -22,7 +22,7 @@
     </div>
 
     <div class="content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="72" class="main">
+      <div fxFlex="67" class="main">
 
         <div *ngIf="hasVisual; else novisual">
           <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
@@ -62,7 +62,7 @@
         <!-- /Project Tasks -->
       </div>
 
-      <div fxFlex="20" fxFlexOffset="1" class="aside">
+      <div fxFlex="25" fxFlexOffset="1" class="aside">
         <mat-progress-spinner
           [diameter]="145"
           [strokeWidth]="10"

@@ -40,7 +40,6 @@
           p {
             font-weight: 300;
             font-size: 18px;
-            font-family: 'Ubuntu', sans-serif;
             color: $bp-text;
             white-space: pre-line;
           }
@@ -77,13 +76,13 @@
         }
 
         .item {
-          margin-top: 30px;
+          color: $bp-text;
+          margin-top: 36px;
           font-size: 24px;
           font-weight: bold;
-          margin-bottom: .5em;
 
           .info {
-            color: $bp-icon;
+            color: $bp-grey;
             font-size: 13px;
           }
         }
@@ -108,19 +107,13 @@
       h1 {
         font-weight: 500;
         font-size: 34px;
-        font-family: 'Ubuntu', sans-serif;
         color: #1b1b1b;
-
-        //font-size: 3em;
-        //margin-bottom: .5em;
-        //margin-top: .5em;
       }
 
       small {
         a {
           font-weight: 400;
           font-size: 20px;
-          font-family: 'Ubuntu', sans-serif;
           color: #5b5b5b;
           text-decoration: none;
 
