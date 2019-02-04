@@ -88,8 +88,8 @@
           <div class="info">Завершення</div>
         </div>
 
-        <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
-
+        <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project"
+                       [targetType]="'project'"></app-bp-donate>
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
 
       </div>
@@ -100,11 +100,12 @@
     </div>
 
     <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
-      <a [routerLink]="['/project/' + project._id + '/edit']">
-        <button mat-raised-button color="primary">Редагувати проект</button>
-      </a>
-      <!-- TODO Enable it -->
-      <button (click)="deleteProject(project)" mat-raised-button color="warn">Видалити проект</button>
+      <button mat-raised-button color="primary" [routerLink]="['/project/' + project._id + '/edit']">
+        Змінити
+      </button>
+      <button (click)="deleteProject(project)" mat-raised-button color="warn">
+        Видалити
+      </button>
     </div>
 
   </mat-card-content>
