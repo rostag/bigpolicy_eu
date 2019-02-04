@@ -28,6 +28,14 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 To develop locally, you need to [MongoDB installation](https://docs.mongodb.com/manual/installation/).
 
+
+#### Nest Js server
+
+- Install packages: `cd nestjsserver && npm i`
+- Run `docker-compose up` - run mongo
+- Run `server:start:dev` to serve server in dev mode
+- Docs available on `http://localhost:3001/docs/`
+
 #### Clone our repository
 
 ```git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>```

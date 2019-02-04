@@ -83,4 +83,5 @@ gulpfile.js
 gulpfile.js.map
 
 package-lock.*
-package-lock.json
+
+nestjsserver/node_modules
