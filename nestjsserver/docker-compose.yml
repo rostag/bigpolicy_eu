@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  mongodb:
+    container_name: bigpolicy-mongodb
+    build: docker/db
+    ports:
+      - 27017:27017
+    volumes:
+      - ./.data/mongodb:/data/db
+    networks:
+      - bigpolicy_network
+
+networks:
+  bigpolicy_network:
+    external: true
