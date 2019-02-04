@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node start",
+    "server:start:dev": "cd nestjsserver && npm run start:dev",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "serve": "ng build --watch true",
