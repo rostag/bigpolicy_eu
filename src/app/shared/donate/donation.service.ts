@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
 
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 /**
  * Provides the donation service with methods to create, read, update and delete models.
@@ -21,11 +20,12 @@ export class DonationService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   /**
    * Create a donation for target
-   * @param DonationModel A Donation to create
+   * @param model DonationModel A Donation to create
    */
   createDonation(model: DonationModel) {
     const p = this.getPostData(model);
@@ -39,7 +39,8 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null, dbQuery = '{}'): Observable<any> {
+  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null,
+                   dbQuery = '{}'): Observable<DonationModel> {
     // FIXME Implement interface for three types of targets
     let requestUrl;
 
@@ -52,19 +53,17 @@ export class DonationService {
     console.log('Donation Service: get by', requestUrl);
 
     const responseObservable = this.http.get(requestUrl)
-      // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
+    // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
       .map((responsePage: any) => {
         const donations = responsePage;
         return donations;
       });
-      return responseObservable;
+    return responseObservable;
   }
 
   /**
    * Get a model from DB or from cache.
    */
-  // FIXME - NG45 Get back to:
-  // getDonation(donationId: string): Observable<HttpResponse> {
   getDonation(donationId: string): Observable<any> {
     return this.getDonationsPage(donationId);
   }
@@ -89,8 +88,7 @@ export class DonationService {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
-      // FIXME - NG45
-      options: { headers: headers } 
+      options: {headers: headers}
     };
   }
 

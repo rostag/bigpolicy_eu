@@ -22,18 +22,16 @@ DBLeader.createLeader = function(data) {
  * Returns single Leader by ID
  */
 DBLeader.getLeader = function(leaderId) {
-  // console.log('DB :: getLeader, id:', leaderId);
 
   if (leaderId === 'random') {
     // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
     // db.mycoll.aggregate( { $sample: { size: 1 } } );
     // See also for Mongoose: https://larry-price.com/blog/2014/09/15/fetching-random-mongoose-objects-the-simple-way
-    return Leader.count().exec()
+    return Leader.countDocuments().exec()
       .then((cnt, err) => {
         const rndm = Math.floor(Math.random() * cnt);
         return Leader.findOne().skip(rndm).exec()
           .then((randomLeader, err) => {
-            // console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
             return randomLeader;
           })
       });
@@ -51,7 +49,6 @@ DBLeader.getLeader = function(leaderId) {
  */
 DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
   // parse query
-  // console.log('DBLeader.getPageOfLeaders, leaderIds =', leaderIds, ', page =', page, 'limit =', limit, ', dbQuery =', dbQuery);
   var query = {};
 
   // If passed, populate DB query from params. Documentation: https://github.com/edwardhotchkiss/mongoose-paginate
@@ -64,7 +61,6 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
     query['_id'] = { $in: projectIds };
   }
 
-  // console.log('query:', query);
   return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 

@@ -39,7 +39,11 @@ a {
   }
 
   .title {
-    height: 1.3em;
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: -5px;
 
     .compact {
       font-size: .7em;
@@ -100,8 +104,6 @@ a {
     width: calc(100% + .1em);
     padding: 1em;
     background: #fff;
-    // FIXME NG45
-    // @include mat-elevation(2);
   }
 }
 
@@ -132,7 +134,6 @@ a {
     display: none;
   }
 }
-
 
 .list-brief:hover {
   color: inherit;

@@ -18,7 +18,6 @@ DBProject.createProject = function(dataObj) {
   for ( var item in dataObj ) {
     data = JSON.parse(item);
   }
-  // console.log('DBProject: CreateProject: ', data)
 
   if (!data.title || !data.description) {
     throw ('DBProject: Invalid project cannot be saved. Either title or description is missed.')
@@ -41,7 +40,7 @@ DBProject.getProject = function(projectId) {
   //  console.log('DB :: getProject, id:', projectId);
 
    if (projectId === 'random') {
-     return Project.count().exec()
+     return Project.countDocuments().exec()
        .then((cnt, err) => {
          const rndm = Math.floor(Math.random() * cnt);
          return Project.findOne().skip(rndm).exec()
@@ -70,7 +69,6 @@ DBProject.getProject = function(projectId) {
   </app-project-list>
 **/
 DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
-  // console.log('DBProject.getPageOfProjects, projectIds =', projectIds, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 
   var query = {};
 
@@ -84,7 +82,6 @@ DBProject.getPageOfProjects = function (projectIds, page, limit, dbQuery) {
     query['_id'] = { $in: projectIds };
   }
 
-  // console.log('query =', query);
   return Project.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
@@ -175,7 +172,6 @@ DBProject.bulkDeleteProjects = function(projectIds) {
   var bulk = Project.collection.initializeOrderedBulkOp();
   console.log('> DBProject.bulkDeleteProjects:', projectIds.length);
 
-  // TODO get all projectIds
   return DBProject.getPageOfProjects(projectIds, 1, 1000, '{}').then((pagedProjects) => {
     console.log(' - Got paged projectIds:', pagedProjects.total);
 

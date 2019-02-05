@@ -1,16 +1,15 @@
-import { OnInit, Component } from '@angular/core';
-import { LeaderModel } from '../../shared/leader';
-import { ActivatedRoute } from '@angular/router';
-import { DriveService } from '../../shared/drive';
-import { UserService } from '../../shared/user/user.service';
-import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ILeader } from '../../common/models';
-import { Store, select } from '@ngrx/store';
-import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
-import { Observable } from 'rxjs/Observable';
-import { startWith, map } from 'rxjs/operators';
+import {OnInit, Component} from '@angular/core';
+import {LeaderModel} from '../../shared/leader';
+import {ActivatedRoute} from '@angular/router';
+import {DriveService} from '../../shared/drive';
+import {UserService} from '../../shared/user/user.service';
+import {Location} from '@angular/common';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {ILeader} from '../../common/models';
+import {Store} from '@ngrx/store';
+import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
+import {LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader} from '../../state/actions/leader.actions';
+
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
@@ -26,38 +25,6 @@ export class LeaderEditComponent implements OnInit {
   // Must be public, used in template
   public isUpdateMode = false;
 
-  public regionOptions: Observable<string[]>;
-
-  private regions = [
-    'Одеська область',
-    'Дніпропетровська область',
-    'Чернігівська область',
-    'Харківська область',
-    'Житомирська область',
-    'Полтавська область',
-    'Херсонська область',
-    'Київська область',
-    'Запорізька область',
-    'Луганська область',
-    'Донецька область',
-    'Вінницька область',
-    'Автономна Республіка Крим',
-    'Миколаївська область',
-    'Кіровоградська область',
-    'Сумська область',
-    'Львівська область',
-    'Черкаська область',
-    'Хмельницька область',
-    'Волинська область',
-    'Рівненська область',
-    'Івано-Франківська область',
-    'Тернопільська область',
-    'Закарпатська область',
-    'Чернівецька область',
-    'м. Севастополь',
-    'м. Київ'
-  ];
-
   constructor(
     private route: ActivatedRoute,
     private leaderStore: Store<ILeaderState>,
@@ -65,7 +32,8 @@ export class LeaderEditComponent implements OnInit {
     public driveService: DriveService,
     private location: Location,
     private fb: FormBuilder
-  ) { }
+  ) {
+  }
 
   /**
    * Initialization Event Handler, used to parse route params
@@ -73,17 +41,35 @@ export class LeaderEditComponent implements OnInit {
    */
   // FIXME Protect with Guard from unauthorized access
   public ngOnInit() {
-    console.log('Init Leader, route params:', this.route.params);
-
     // FIXME
     const profile = this.userService.userProfile;
     // FIXME
     const fullname = profile ? profile['name'] : '';
 
+    const name = new FormControl({
+      disabled: true,
+      value: fullname.split(' ')[0] + '^',
+      validators: [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)]
+    });
+
+    const surName = new FormControl({
+      disabled: true,
+      name: fullname.split(' ')[1],
+      validators: [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)]
+    });
+
     // FIXME Code duplication
+    // name: [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    // surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     this.leaderFormGroup = this.fb.group({
-      name: [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      name,
+      surName,
       mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       videoUrl: ['', this.videoUrlValidator],
@@ -105,25 +91,13 @@ export class LeaderEditComponent implements OnInit {
     this.leaderStore.select(getSelectedLeader).subscribe(leader => {
       this.setLeader(leader);
     });
-
-    this.regionOptions = this.leaderFormGroup.controls.location.valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.filterLocations(val))
-      );
-  }
-
-  private filterLocations(val: string): string[] {
-    return this.regions.filter(option =>
-      option.toLowerCase().includes(val.toLowerCase()));
   }
 
   // FIXME apply validation - shall return either null if the control value is valid or a validation error object
   private videoUrlValidator(c: FormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-    // console.log('utube validity: ', c.value, c.value.match(youTubeRegexp) );
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
-    return isYouTubeUrl ? null : { 'forbiddenName': 'Erriis' };
+    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
   }
 
   /**
@@ -141,9 +115,9 @@ export class LeaderEditComponent implements OnInit {
   }
 
   /**
-  * Saves new or edited Leader by asking one of two service methods for DB.
-  * @returns return false to prevent default form submit behavior to refresh the page.
-  */
+   * Saves new or edited Leader by asking one of two service methods for DB.
+   * @returns return false to prevent default form submit behavior to refresh the page.
+   */
   // FIXME: Complete Leader processing
   public onSubmit() {
     // Update leader from the Lader edit form
@@ -188,5 +162,9 @@ export class LeaderEditComponent implements OnInit {
 
   public cancelEditing() {
     this.location.back();
+  }
+
+  public setLocation(location) {
+    this.leaderFormGroup.controls.location.setValue(location);
   }
 }

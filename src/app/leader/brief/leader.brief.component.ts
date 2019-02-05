@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderModel } from '../../shared/leader/index';
+import { LeaderModel } from '../../shared/leader';
 import { UserService } from '../../shared/user/user.service';
 import { ILeader } from '../../common/models';
 import { Store } from '@ngrx/store';
@@ -25,7 +25,7 @@ export class LeaderBriefComponent implements OnChanges {
     public userService: UserService,
     private leaderStore: Store<ILeaderState>
   ) {
-    leaderStore.select(getSelectedLeader).subscribe(leader => this.applyChanges(leader))
+    leaderStore.select(getSelectedLeader).subscribe(leader => this.applyChanges(leader));
   }
 
   ngOnChanges(changes) {
