@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DonationModel } from '../donation.model';
 import { DonationService } from '../donation.service';

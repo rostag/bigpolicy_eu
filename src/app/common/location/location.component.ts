@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {LocationService} from './location.service';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {startWith, map} from 'rxjs/operators';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { LocationService } from './location.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-location',

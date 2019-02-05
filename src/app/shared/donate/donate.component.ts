@@ -1,8 +1,9 @@
-import { Component, OnChanges, Input, AfterViewChecked, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { DonationModel } from './donation.model';
 import { DonationService } from './donation.service';
 import { UserService } from '../../shared/user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bp-donate',
@@ -27,7 +28,8 @@ export class DonateComponent implements OnChanges {
     private sanitizer: DomSanitizer,
     private donationService: DonationService,
     private userService: UserService
-  ) {}
+  ) {
+  }
 
   /**
    * Populate target properties when it's ready from parent component
@@ -51,7 +53,7 @@ export class DonateComponent implements OnChanges {
         this.getDonationForm(id);
       });
 
-      return false;
+    return false;
   }
 
   private getDonationModel() {
@@ -72,32 +74,28 @@ export class DonateComponent implements OnChanges {
 
     if (this.targetType === 'leader') {
       d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName +
-      '. Донор: ' + donorName + '. Дякуємо!';
+        '. Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'project') {
       d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     } else if (this.targetType === 'task') {
       d.description = 'Переказ ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
     }
-
     return d;
   }
 
-  // FIXME Fix Button Display
+  // FIXME Button Display
   private getDonationForm(_id) {
     const model = this.getDonationModel();
     model._id = _id;
-    return this.donationService.requireSign(model)
-      .map(res => {
-        return res;
-      })
+    return this.donationService.requireSign(model).pipe(map(res => res))
       .subscribe((res) => {
         const sgndta = res['_body'].split('-BGPLCXX-');
         const formStr =
-        '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
+          '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
           'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' + sgndta[1] + '" />' +
           '<button mat-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
           + this.amount + ' UAH</button>' +
-        '</form>';
+          '</form>';
         // FIXME - Update button visual style, broken after ng update
         this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr);
       });
@@ -106,15 +104,4 @@ export class DonateComponent implements OnChanges {
   onToggleDonationsList() {
     this.donationsListVisible = !this.donationsListVisible;
   }
-
-  // UNUSED
-  // private requireDonationForm() {
-  //   return this.donationService.requireDonationForm(this.getDonationModel())
-  //     .map(res => {
-  //       return res;
-  //     })
-  //     .subscribe((res) => {
-  //       this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(decodeURIComponent(res["_body"]))
-  //     });
-  // }
 }

@@ -1,17 +1,13 @@
-import {Router} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {DialogService} from '../../shared/dialog/dialog.service';
-import {ProjectService} from '../../shared/project/project.service';
-import {environment} from '../../../environments/environment';
-
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {map, catchError} from 'rxjs/operators';
-
-import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
-
-import {ENV} from 'app/../environments/env.config';
-import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
+import { throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { DialogService } from '../../shared/dialog/dialog.service';
+import { ProjectService } from '../../shared/project/project.service';
+import { environment } from '../../../environments/environment';
+import { Injectable } from '@angular/core';
+import { map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { ENV } from 'app/../environments/env.config';
+import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
 
 declare var localStorage: any;
 
@@ -63,43 +59,22 @@ export class LeaderService {
 
   // Basic Ping
   public ping(): Observable<any> {
-    return this.http
-      .get(`${ENV.BASE_API}leader-api/ping`)
-      .pipe(
-        catchError(this._handleError)
-      );
+    return this.http.get(`${ENV.BASE_API}leader-api/ping`);
   }
 
   // Basic Ping with JWT
   public pingJwt(): Observable<any> {
-    return this.http
-      .get(`${ENV.BASE_API}leader-api/ping-jwt`, {
+    return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
-      })
-      .pipe(
-        catchError(this._handleError)
-      );
+      });
   }
 
   // Basic Ping with JWT and Admin
   // FIXME
   public pingJwtAdmin(): Observable<any> {
-    return this.http
-      .get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
+    return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
-      })
-      .pipe(
-        catchError(this._handleError)
-      );
-  }
-
-  private _handleError(err: HttpErrorResponse | any) {
-    const errorMsg = err.message || 'Error: Unable to complete request.';
-    if (err.message && err.message.indexOf('No JWT present') > -1) {
-      // FIXME: dispatch LoginRequest action (to be created)
-      // this.auth.login();
-    }
-    return Observable.of(errorMsg);
+      });
   }
 
   /**
@@ -138,12 +113,8 @@ export class LeaderService {
     }
 
     // `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
-    return this.http
-      .get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' + encodeURIComponent(req.dbQuery))
-      .map((responsePage: any) => {
-          return responsePage;
-        }
-      );
+    return this.http.get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' +
+      encodeURIComponent(req.dbQuery));
   }
 
   /**
@@ -196,9 +167,9 @@ export class LeaderService {
   public updateLeader(model: ILeader): Observable<ILeader> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
+    return this.http.put<ILeader>(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
       .pipe(
-        map(res => !!res),
+        map(res => res),
         catchError(this.handleError)
       );
   }
@@ -209,7 +180,8 @@ export class LeaderService {
    */
   public deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
-    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+    const dialogResult = this.dialogService.confirm('Точно видалити?',
+      'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
@@ -217,7 +189,8 @@ export class LeaderService {
         this.finalizeLeaderDeletion(model, navigateToList);
 
         if (model.projectIds && model.projectIds.length > 0) {
-          this.dialogService.confirm('Що робити з проектами?', `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
+          this.dialogService.confirm('Що робити з проектами?',
+            `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
             до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
             .subscribe(toDeleteProjects => {
               if (toDeleteProjects === true) {
@@ -287,6 +260,6 @@ export class LeaderService {
 
   private handleError(error: Response) {
     console.error('Error occured: ', error);
-    return Observable.throw(error.json() || 'Server error');
+    return observableThrowError(error.json() || 'Server error');
   }
 }

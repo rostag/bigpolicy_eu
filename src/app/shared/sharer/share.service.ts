@@ -1,5 +1,6 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -34,13 +35,12 @@ export class ShareService {
   share(modelToShare: any): Observable<any> {
     const body: string = encodeURIComponent(JSON.stringify(modelToShare));
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(this.mailApiUrl + 'share', body, { headers: headers })
-      .map(res => !!res);
+    return this.http.post<any>(this.mailApiUrl + 'share', body, { headers: headers });
   }
 
   private handleError(error: Response) {
       console.error('Error occured:', error);
-      return Observable.throw(error.json() || 'Server error');
+      return observableThrowError(error.json() || 'Server error');
   }
 
   /**

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 /**
  * Provides the donation service with methods to create, read, update and delete models.
@@ -52,12 +53,12 @@ export class DonationService {
 
     console.log('Donation Service: get by', requestUrl);
 
-    const responseObservable = this.http.get(requestUrl)
+    const responseObservable = this.http.get(requestUrl).pipe(
     // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
-      .map((responsePage: any) => {
+      map((responsePage: DonationModel) => {
         const donations = responsePage;
         return donations;
-      });
+      }));
     return responseObservable;
   }
 

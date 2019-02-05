@@ -48,10 +48,12 @@
     "intl": "1.2.5",
     "ng2-pagination": "2.0.2",
     "rxjs": "^6.4.0",
-    "typescript": "3.3.1",
+    "tslib": "^1.9.3",
+    "typescript": "3.1.1",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.13.0",
     "@angular/cli": "7.3.0",
     "@types/gapi.auth2": "0.0.48",
     "@types/google-drive-realtime-api": "0.0.33",
