@@ -15,7 +15,6 @@ DBDonation.getDonation = function(id) {
 }
 
 DBDonation.getDonationTarget = function( targetType, targetId ) {
-  // console.log('getDonationTarget:', targetType, targetId )
   if (targetType === 'leader') {
     return Leader.findById(targetId);
   } else if (targetType === 'project') {
@@ -34,7 +33,6 @@ DBDonation.getDonationTarget = function( targetType, targetId ) {
  *        dbQuery='{ "$where": "this.taskIds.length > 0" }'
  */
 DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
-  // console.log('DBDonation.get page of Donations, donationIds =', donationIds.length, ', page =', page, 'limit =', limit, 'dbQuery =', dbQuery);
 
   var query = {};
 
@@ -48,7 +46,6 @@ DBDonation.getPageOfDonations = function (donationIds, page, limit, dbQuery) {
     query['_id'] = { $in: donationIds };
   }
 
-  // console.log('query =', query);
   return Donation.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
 }
 
@@ -80,7 +77,6 @@ DBDonation.updateDonationStatus = function(id, data) {
   console.log('DBDonation: updateDonationStatus', id, data)
 
   return Donation.findById(id, function(err, model) {
-    // console.log(' -> virtual: ', model.virtual, model)
     if (err || !model || !data) {
       return;
     }
@@ -89,16 +85,11 @@ DBDonation.updateDonationStatus = function(id, data) {
       model[field] = data[field]
     }
     model.save();
-
-    // if (!model.virtual) {
-    // DBDonation.addDonationToTarget(null, model);
-    // }
   });
 }
 
 DBDonation.addDonationToTarget = function(error, savedDonation) {
   // Add this donation to the corresponding target's array
-  // console.log('find this donation target by target type ', savedDonation.targetType, ' and id: ', savedDonation.targetId);
 
   var targetByIdQuery;
 
@@ -120,13 +111,10 @@ DBDonation.addDonationToTarget = function(error, savedDonation) {
   targetByIdQuery.findOne( function (err, target) {
     if (target) {
       target.donations.push(savedDonation.id);
-      // console.log('New donation: ', savedDonation._id, ', target found: ', target._id);
-      // console.log('\t\Target updated: ', target.donations);
 
       // FIXME implement scheduled cash re-calculation
       var totalDonationsReceived = target.totalDonationsReceived || 0;
       target.update({ donations: target.donations, totalDonationsReceived: totalDonationsReceived + savedDonation.amount }, function (error, target){
-        // console.log('\tadded donation to target');
       })
     }
   });

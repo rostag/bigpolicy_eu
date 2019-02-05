@@ -17,8 +17,8 @@ import { MatDialogRef } from '@angular/material';
         </mat-dialog-content>
 
         <mat-dialog-actions>
-          <button mat-raised-button color="primary" (click)="dialogRef.close(true)">{{btnOkText}}</button>
           <button mat-button color="primary" (click)="dialogRef.close(false)">{{btnCancelText}}</button>
+          <button mat-raised-button color="primary" (click)="dialogRef.close(true)">{{btnOkText}}</button>
         </mat-dialog-actions>
       </div>
     `,

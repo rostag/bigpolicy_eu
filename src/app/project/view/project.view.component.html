@@ -3,20 +3,26 @@
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="project-title">
-        <small><a [routerLink] = "['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
         <h1>{{project.title}}</h1>
+        <small><a [routerLink]="['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
       </div>
 
       <div class="admin">
-        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"
+                *ngIf="userService.hasEditPermissions(project)" color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>
         <!-- TODO Enable it -->
-        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)" color="primary"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)"
+                color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
         <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
       </div>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="53" >
+    <div class="content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
+      <div fxFlex="67" class="main">
 
         <div *ngIf="hasVisual; else novisual">
           <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
@@ -27,54 +33,65 @@
         </ng-template>
 
         <ng-template #videos>
-          <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title" placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
+          <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"
+                        placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
         </ng-template>
 
         <ng-template #novisual>
           <div *ngIf="userService.hasEditPermissions(project)">
             <h3>Додати відео чи зображення?</h3>
             <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
-              <a [routerLink] = "['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
+              <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
             </p>
           </div>
         </ng-template>
 
         <div class="description">
-          <h3>Опис</h3>
+          <h3>Про проект</h3>
+          <!-- Show video only if image was present -->
+          <div *ngIf="project.imageUrl" class="media-inline">
+            <div class="visual-wrapper" *ngIf="project.videoUrl">
+              <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
+            </div>
+          </div>
           <p>{{project.description}}</p>
         </div>
 
         <!-- Project Tasks -->
-        <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>
+        <!-- TODO Re-enable in release <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>-->
         <!-- /Project Tasks -->
       </div>
 
-      <div fxFlex="35" fxFlexOffset="1" >
-        <app-bp-donate [label]="'Підтримати проект:'" [amount]="70" [target]="project" [targetType]="'project'"></app-bp-donate>
+      <div fxFlex="25" fxFlexOffset="1" class="aside">
+        <mat-progress-spinner
+          [diameter]="145"
+          [strokeWidth]="10"
+          color="accent"
+          [value]="project.totalDonationsReceived / project.cost * 100"
+          class="brogress"
+        >
+        </mat-progress-spinner>
+        <div class="percentage">{{percentage}}%</div>
 
+        <div class="item">
+          <div class="amount">{{project.totalDonationsReceived || 0}}</div>
+          <div class="info">зібрано з {{project.cost}} UAH</div>
+        </div>
+
+        <div class="item">
+          <div>{{project.dateStarted | date}}</div>
+          <div class="info">Початок</div>
+        </div>
+
+        <div class="item">
+          <div>{{project.dateEnded | date}}</div>
+          <div class="info">Завершення</div>
+        </div>
+
+        <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project"
+                       [targetType]="'project'"></app-bp-donate>
         <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
 
-        <div class="funding-summary">Зібрано {{project.totalDonationsReceived || 0}} з {{project.cost}} UAH</div>
-
-        <mat-progress-bar
-            class="brogress"
-            color="accent"
-            [value]="project.totalDonationsReceived / project.cost * 100"
-            [bufferValue]="2">
-        </mat-progress-bar>
-
-        <h4>Початок: {{project.dateStarted | date}}
-          <br/>Кінець: {{project.dateEnded | date}}
-        </h4>
-
-        <!-- Show video only if image was present -->
-        <div *ngIf="project.imageUrl">
-          <div class="visual-wrapper" *ngIf="project.videoUrl">
-            <h3>Відео:</h3>
-            <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
-          </div>
-          <p>&nbsp;</p>
-        </div>
       </div>
 
       <div fxFlex="4">
@@ -83,9 +100,12 @@
     </div>
 
     <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
-      <a [routerLink] = "['/project/' + project._id + '/edit']"><button mat-raised-button color="primary">Редагувати проект</button></a>
-      <!-- TODO Enable it -->
-      <button (click)="deleteProject(project)" mat-raised-button color="warn">Видалити проект</button>
+      <button mat-raised-button color="primary" [routerLink]="['/project/' + project._id + '/edit']">
+        Змінити
+      </button>
+      <button (click)="deleteProject(project)" mat-raised-button color="warn">
+        Видалити
+      </button>
     </div>
 
   </mat-card-content>

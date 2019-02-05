@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Store, select } from '@ngrx/store';
-import { ITaskState, getTasksState } from '../../state/reducers/task.reducers';
-import { LoadTasksSuccess, CreateTaskSuccess, LoadTaskSuccess } from '../../state/actions/task.actions';
+import { Store} from '@ngrx/store';
+import { ITaskState } from '../../state/reducers/task.reducers';
+import { CreateTaskSuccess} from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { Router } from '@angular/router';
 
@@ -30,15 +30,12 @@ export class TaskService {
    * Creates new Task in DB
    * @param {ITask} model Task model to create.
    */
-  // FIXME NG45 - get back to Observable<ITask>:
-  // createTask(model: ITask): Observable<ITask> {
-  createTask(model: ITask): Observable<any> {
+  createTask(model: ITask): Observable<ITask> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     return this.http.post(this.apiUrl, body, { headers: headers })
       .map((res: ITask) => {
-        console.log('NG45 - createTask, response:', res);
         this.taskStore.dispatch(new CreateTaskSuccess(res));
         this.gotoTaskView(res);
         return res;
@@ -99,7 +96,6 @@ export class TaskService {
     return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - updateTask, res:', res);
           this.gotoTaskView(res);
           return res;
         }),
@@ -113,20 +109,16 @@ export class TaskService {
    * @param data {Object} The data to be applied during update in {field: name} format
    */
   bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
-    // TODO Consider encoding the body like in create project above
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     const body = JSON.stringify({ ids: ids, data: data });
-    // console.log('Tasks service, try to update:', ids, data, body);
 
     return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - bulkUpdateTasks, response:', res);
           return res;
         }),
         catchError(this.handleError)
-      )
+      );
   }
 
   /**
@@ -134,7 +126,7 @@ export class TaskService {
    * @param ITask A Task to delete
    */
   deleteTask(model: ITask): Observable<any> {
-    return this.http.delete(this.apiUrl + model._id)
+    return this.http.delete(this.apiUrl + model._id);
   }
 
   /**
@@ -149,11 +141,10 @@ export class TaskService {
     return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
       .pipe(
         map(res => {
-          console.log('NG45 - bulkDeleteTasks, res:', res);
           return res;
         }),
         catchError(this.handleError)
-      )
+      );
   }
 
   private handleError(error: Response) {

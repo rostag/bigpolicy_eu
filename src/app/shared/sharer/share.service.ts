@@ -31,20 +31,11 @@ export class ShareService {
    * Shares a model
    * @param IProject A Project to share
    */
-  // FIXME NG45 - get back to Observable<Response>:
-  // share(modelToShare: any): Observable<Response> {
   share(modelToShare: any): Observable<any> {
     const body: string = encodeURIComponent(JSON.stringify(modelToShare));
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return this.http.post(this.mailApiUrl + 'share', body, { headers: headers })
-      .map(res => {
-          console.log('NG45 - Share, response:', res);
-          return res;
-        }
-      );
-
-    // TODO: Upsert model in DB:
-    // model.events.push({'type': 'share'});
+      .map(res => !!res);
   }
 
   private handleError(error: Response) {

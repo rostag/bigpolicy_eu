@@ -21,7 +21,7 @@ export class LeaderEffects {
                 catchError(err => of(new CreateLeaderFail(err)))
             )
         )
-    )
+    );
 
     @Effect() $loadLeader: Observable<LeaderAction> = this.$actions.pipe(
         ofType(LeaderActionTypes.LEADER_LOAD),
@@ -31,7 +31,7 @@ export class LeaderEffects {
                 catchError(err => of(new LoadLeaderFail(err)))
             )
         )
-    )
+    );
 
     @Effect() $updateLeader: Observable<LeaderAction> = this.$actions.pipe(
         ofType(LeaderActionTypes.LEADER_UPDATE),
@@ -39,12 +39,12 @@ export class LeaderEffects {
             this.leaderService.updateLeader(action.payload).pipe(
                 map(data => {
                     this.leaderService.gotoLeaderView(data);
-                    return new UpdateLeaderSuccess(data)
+                    return new UpdateLeaderSuccess(data);
                 }),
                 catchError(err => of(new UpdateLeaderFail(err)))
             )
         )
-    )
+    );
 
     @Effect() $deleteLeader: Observable<LeaderAction> = this.$actions.pipe(
         ofType(LeaderActionTypes.LEADER_DELETE),
@@ -54,7 +54,7 @@ export class LeaderEffects {
                 catchError(err => of(new DeleteLeaderFail(err)))
             )
         )
-    )
+    );
 
     // TODO Look to update it to @Effect() $loadLeadersPage: Observable<LoadLeadersPage> = this.$actions.pipe(
     @Effect() $loadLeadersPage: Observable<LeaderAction> = this.$actions.pipe(
@@ -65,7 +65,7 @@ export class LeaderEffects {
                 catchError(err => of(new LoadLeadersPageFail(err)))
             )
         )
-    )
+    );
 
     constructor(
         private leaderService: LeaderService,

@@ -1,16 +1,16 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel, ProjectService } from '../../shared/project/index';
-import { TaskModel } from '../../shared/task/index';
-import { UserService } from '../../shared/user/user.service';
-import { Location } from '@angular/common';
-import { IProject, ITask, IProjectResponsePage } from '../../common/models';
-import { Store } from '@ngrx/store';
-import { IProjectState } from '../../state/reducers/project.reducers';
-import { UpdateProject, LoadProjectsPage } from '../../state/actions/project.actions';
-import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
-import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
-import { isArray } from 'util';
+import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProjectModel, ProjectService} from '../../shared/project';
+import {TaskModel} from '../../shared/task';
+import {UserService} from '../../shared/user/user.service';
+import {Location} from '@angular/common';
+import {IProject, ITask} from '../../common/models';
+import {Store} from '@ngrx/store';
+import {IProjectState} from '../../state/reducers/project.reducers';
+import {UpdateProject} from '../../state/actions/project.actions';
+import {ITaskState, getSelectedTask} from '../../state/reducers/task.reducers';
+import {CreateTask, LoadTask, DeleteTask, UpdateTask} from '../../state/actions/task.actions';
+import {isArray} from 'util';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -31,6 +31,7 @@ export class TaskEditComponent implements OnInit {
 
   private currentProject: IProject = new ProjectModel();
   private savePending;
+  private tempdata: any;
 
   constructor(
     public userService: UserService,
@@ -48,15 +49,15 @@ export class TaskEditComponent implements OnInit {
    * Initialization Event Handler, used to parse route params like `id` in task/:id/edit)
    */
   public ngOnInit() {
-    if (this.projectId) { return }
+    if (this.projectId) {
+      return;
+    }
 
     this.route.params
       .map(params => {
-        console.log('Route params:', params);
         return params['id'];
       })
       .subscribe((taskId) => {
-        console.log('Task Editor by ID from route params:', taskId);
         if (taskId) {
           this.taskStore.dispatch(new LoadTask(taskId));
         }
@@ -66,7 +67,7 @@ export class TaskEditComponent implements OnInit {
 
   /**
    * Remove this task
-   * @param {task} Task being viewed
+   * @param {task} task ITask being viewed
    */
   public deleteTask(task: ITask) {
     this.taskStore.dispatch(new DeleteTask(task));
@@ -86,7 +87,6 @@ export class TaskEditComponent implements OnInit {
     } else {
       // Create new task
       this.task.projectId = this.projectId;
-      console.log('Task Project id =', this.task.projectId);
       this.taskStore.dispatch(new CreateTask(this.task));
       // FIXME Complete Task processing, check the result of the below.
       this.onSaveEdit.emit(this.task);
@@ -103,20 +103,18 @@ export class TaskEditComponent implements OnInit {
   public requestProjectsToSelectFrom() {
     // FIXME TO NGRX PRJ
     // this.projectStore.dispatch(new LoadProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' }));
-    this.projectService.getProjectsPage({ id: null, page: 1, pageSize: 100, dbQuery: '{}' })
+    this.projectService.getProjectsPage({id: null, page: 1, pageSize: 100, dbQuery: '{}'})
       .subscribe((res) => {
         this.projectsToMoveTaskTo = res['docs'];
-        console.log('I got projects to move Task to: ', this.projectsToMoveTaskTo);
         for (const p in this.projectsToMoveTaskTo) {
           if (this.projectsToMoveTaskTo.hasOwnProperty(p)) {
-            console.log('The project selected: ', this.projectsToMoveTaskTo[p]._id, this.projectsToMoveTaskTo[p].title);
             if (this.task.projectId === this.projectsToMoveTaskTo[p]._id) {
               // Memorize current project for later usage - we'll remove task from him:
               this.currentProject.parseData(this.projectsToMoveTaskTo[p]);
             }
           }
         }
-      })
+      });
   }
 
   /**
@@ -126,7 +124,6 @@ export class TaskEditComponent implements OnInit {
   public moveTaskToOtherProject(event) {
     const newProject: IProject = new ProjectModel();
     newProject.parseData(event.value);
-    console.log(`> Move Task to: `, newProject.title);
 
     // Update task
     this.task.projectId = newProject._id;
@@ -140,27 +137,32 @@ export class TaskEditComponent implements OnInit {
     }
     // Remove Task from current Project:
     // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
-    isArray(this.currentProject.taskIds) && this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1);
+    this.tempdata = !!isArray(this.currentProject.taskIds)
+      ? this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1)
+      : null;
     this.projectStore.dispatch(new UpdateProject(this.currentProject));
   }
 
   /**
    * Task loading handler
-   * @param {data} Loaded task data
+   * @param {task} task Loaded task data
    */
   private parseLoadedTask(task: ITask) {
-    if (!task) { return };
+    if (!task) {
+      return;
+    }
     this.isUpdateMode = true;
     this.task = new TaskModel();
     this.task.parseData(task);
-    console.log('Save Pending task:', this.savePending);
-
     if (this.savePending === true) {
       this.gotoTask(this.task);
     }
   }
 
   private gotoTask(task: ITask) {
-    if (task._id) { this.router.navigate(['/task', task._id]).then(_ => { }) }
+    if (task._id) {
+      this.router.navigate(['/task', task._id]).then(() => {
+      });
+    }
   }
 }
