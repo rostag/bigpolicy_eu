@@ -1,7 +1,5 @@
-import {
-  Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, OnChanges,
-  ViewChild, trigger, state, style, transition, animate
-} from '@angular/core';
+import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, OnChanges, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
 import { MatTextareaAutosize } from '@angular/material';
@@ -12,8 +10,8 @@ import { MatTextareaAutosize } from '@angular/material';
   styleUrls: ['./sharer.component.scss'],
   animations: [
     trigger('visibilityChanged', [
-      state('true', style({ opacity: 1 })),
-      state('false', style({ opacity: 0.2 })),
+      state('true', style({opacity: 1})),
+      state('false', style({opacity: 0.2})),
       transition('1 => 0', animate('600ms')),
       transition('0 => 1', animate('400ms'))
     ])
@@ -46,7 +44,7 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   @ViewChild('shareForm') currentForm: NgForm;
 
   // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
-  @ViewChild(MatTextareaAutosize, { read: ViewContainerRef }) resizableTextArea: ViewContainerRef;
+  @ViewChild(MatTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -70,7 +68,8 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   constructor(
     private shareService: ShareService
-  ) { }
+  ) {
+  }
 
   // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
   ngAfterViewInit() {
@@ -92,7 +91,9 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   }
 
   formChanged() {
-    if (this.currentForm === this.shareForm) { return; }
+    if (this.currentForm === this.shareForm) {
+      return;
+    }
     this.shareForm = this.currentForm;
     if (this.shareForm) {
       this.shareForm.valueChanges
@@ -210,7 +211,8 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
           this.formStatus = 'emailSendError';
           console.error('Project sharing error: ', er);
         },
-        () => { }
+        () => {
+        }
       );
 
     return false;

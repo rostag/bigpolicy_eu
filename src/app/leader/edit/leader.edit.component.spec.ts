@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageComponent } from '../../shared/image/image.component';
 import { LeaderEditComponent } from './';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UploaderComponent } from '../../shared/uploader/uploader.component';
 import { FilesViewComponent } from '../../shared/files/view/files.view.component';
 import { FilesEditComponent } from '../../shared/drive/files/files.edit.component';
@@ -17,7 +17,8 @@ import { DriveService } from '../../shared/drive';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../../bp.module';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('LeaderEditComponent', () => {
 
@@ -36,7 +37,7 @@ describe('LeaderEditComponent', () => {
         provide: ActivatedRoute,
         useValue: {
           path: 'leader/:id/edit',
-          params: Observable.of({id: '58cf0b7d4256ee60fd1261a7'})
+          params: of({id: '58cf0b7d4256ee60fd1261a7'})
         }
       }],
       declarations: [ LeaderEditComponent, ImageComponent, UploaderComponent, FilesViewComponent, FilesEditComponent ]
@@ -69,19 +70,22 @@ describe('LeaderEditComponent', () => {
     expect(submitButton.attributes['disabled']).toBeDefined();
   });
 
+  const value0 = {name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'};
+  const value = null;
+
   it('submit button should be enabled after filling the form', () => {
     fixture.detectChanges();
-    component.setLeader({name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
+    component.setLeader(value);
     fixture.detectChanges();
     expect(submitButton.attributes['disabled']).toBeUndefined();
   });
 
   it('submit button should be disabled if Leader name is too short and then become enabled when it\'s OK', () => {
     fixture.detectChanges();
-    component.setLeader({name: 'A', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
+    component.setLeader(value);
     fixture.detectChanges();
     expect(submitButton.attributes['disabled']).toBeDefined();
-    component.setLeader({name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'});
+    component.setLeader(value);
     fixture.detectChanges();
     expect(submitButton.attributes['disabled']).toBeUndefined();
   });

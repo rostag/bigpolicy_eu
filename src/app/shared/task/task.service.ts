@@ -1,11 +1,11 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ITaskState } from '../../state/reducers/task.reducers';
-import { CreateTaskSuccess} from '../../state/actions/task.actions';
+import { CreateTaskSuccess } from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { Router } from '@angular/router';
 
@@ -24,7 +24,8 @@ export class TaskService {
     private router: Router,
     private http: HttpClient,
     private taskStore: Store<ITaskState>
-  ) { }
+  ) {
+  }
 
   /**
    * Creates new Task in DB
@@ -34,12 +35,15 @@ export class TaskService {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.apiUrl, body, { headers: headers })
-      .map((res: ITask) => {
-        this.taskStore.dispatch(new CreateTaskSuccess(res));
-        this.gotoTaskView(res);
-        return res;
-      });
+    return this.http
+      .post(this.apiUrl, body, {headers: headers})
+      .pipe(
+        map((res: ITask) => {
+          this.taskStore.dispatch(new CreateTaskSuccess(res));
+          this.gotoTaskView(res);
+          return res;
+        })
+      );
   }
 
   /**
@@ -47,7 +51,8 @@ export class TaskService {
    */
   gotoTaskView(task) {
     if (task && task._id) {
-      this.router.navigate(['/task', task._id]).then(_ => { });
+      this.router.navigate(['/task', task._id]).then(_ => {
+      });
     }
   }
 
@@ -91,9 +96,9 @@ export class TaskService {
    * Updates a model by performing a request with PUT HTTP method.
    * @param ITask A Task to update
    */
-  updateTask(model: ITask): Observable<ITask> {
+  updateTask(model: ITask): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.put(this.apiUrl + model._id, model.toString(), { headers: headers })
+    return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
       .pipe(
         map(res => {
           this.gotoTaskView(res);
@@ -108,17 +113,10 @@ export class TaskService {
    * @param ids {Array} Task IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
+  bulkUpdateTasks(ids: Array<string>, data: any): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify({ ids: ids, data: data });
-
-    return this.http.put(this.apiUrl + 'bulk-update', body, { headers: headers })
-      .pipe(
-        map(res => {
-          return res;
-        }),
-        catchError(this.handleError)
-      );
+    const body = JSON.stringify({ids: ids, data: data});
+    return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers});
   }
 
   /**
@@ -133,22 +131,14 @@ export class TaskService {
    * Deletes multiple Tasks by performing a request with PUT HTTP method.
    * @param ids Task IDs to delete
    */
-  bulkDeleteTasks(ids: Array<string>): Observable<ITask> {
+  bulkDeleteTasks(ids: Array<string>): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    const body = JSON.stringify({ ids: ids });
-
-    return this.http.put(this.apiUrl + 'bulk-delete', body, { headers: headers })
-      .pipe(
-        map(res => {
-          return res;
-        }),
-        catchError(this.handleError)
-      );
+    const body = JSON.stringify({ids: ids});
+    return this.http.put(this.apiUrl + 'bulk-delete', body, {headers: headers});
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json() || 'Server error');
+    return observableThrowError(error.json() || 'Server error');
   }
 }

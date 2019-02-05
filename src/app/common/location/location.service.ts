@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class LocationService {
@@ -2803,7 +2804,7 @@ export class LocationService {
     return this.httpClient.get('api/regions').pipe(
       catchError((err: Response) => {
         console.log('Error getting regions:', err);
-        return Observable.of(this.regions);
+        return of(this.regions);
       })
     );
   }

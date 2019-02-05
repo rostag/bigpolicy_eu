@@ -1,5 +1,4 @@
-import { Subscriber } from 'rxjs/Subscriber';
-import { Observable } from 'rxjs/Observable';
+import { Subscriber ,  Observable } from 'rxjs';
 // FIXME NG45 - Where's the BrowserXhr in HttpClientModule?
 import { BrowserXhr } from '@angular/http';
 import { Injectable } from '@angular/core';

@@ -14,10 +14,8 @@ import {
   LoadTaskPageSuccess,
   LoadTaskPageFail
 } from '../actions/task.actions';
-import {mergeMap, map} from 'rxjs/operators';
-import {catchError} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
+import {mergeMap, map, catchError} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {TaskService} from '../../shared/task';
 
 @Injectable()

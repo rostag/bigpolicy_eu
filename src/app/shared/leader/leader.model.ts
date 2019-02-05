@@ -3,10 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ILeader } from '../../common/models';
 
 export class LeaderModel implements ILeader {
-
   _id: string;
-
-	// personal info
   name: string;
   surName: string;
   parentName: string;
@@ -17,19 +14,15 @@ export class LeaderModel implements ILeader {
   photo: string;
   donations;
   projectIds;
-  // FIXME Check for Null prevention
   leaderFiles;
   totalDonationsReceived = 0;
 
-  // id of party from parties list
   party: number;
   officialPost: string;
-
-  // other
   socialNetworks: string;
   skills: string;
 
-  // important personal documents
+  // documents
   docActionPlan: string;
   docElectionProgram: string;
   docPropertyDeclaration: string;
@@ -44,12 +37,12 @@ export class LeaderModel implements ILeader {
    * @returns String Serialized Leader
    */
   toString() {
-      // FIXME TEST_1 -- Somehow it stops saving if switch to next string instead of bulky code
-      console.log('leader model.toString', this);
-      return JSON.stringify( this );
+    // FIXME TEST_1 -- Somehow it stops saving if switch to next string instead of bulky code
+    console.log('leader model.toString', this);
+    return JSON.stringify(this);
   }
 
-	/**
+  /**
    * Populate model from a json representation loaded from DB or local storage
    */
   parseData(data) {
