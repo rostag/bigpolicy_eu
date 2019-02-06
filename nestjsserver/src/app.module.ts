@@ -1,13 +1,24 @@
+import { LeadersModule } from './leaders/leaders.module';
+import { CheckJwtMiddleware } from './core/authorization/check.jwt.middleware';
 import { ProjectsModule } from './projects/projects.module';
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AllExceptionsFilter } from './filters/exceptionsFilter.filter';
 import { APP_FILTER } from '@nestjs/core';
-import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
+// TODO: to config
 @Module({
-  imports: [DatabaseModule, ProjectsModule],
+  imports: [TypeOrmModule.forRoot({
+    useNewUrlParser: true,
+    type: 'mongodb',
+    host: 'localhost',
+    database: 'test',
+    entities: ['src/**/**.entity{.ts,.js}'],
+    synchronize: true,
+    logging: true,
+  }), ProjectsModule, LeadersModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -17,4 +28,12 @@ import { DatabaseModule } from './database/database.module';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer
+      .apply(CheckJwtMiddleware)
+      .forRoutes(
+        { path: 'leaders', method: RequestMethod.POST },
+      );
+  }
+}
