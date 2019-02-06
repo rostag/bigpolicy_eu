@@ -3,7 +3,7 @@ export interface ILeader {
     // personal info
     name: string;
     surName: string;
-    parentName: string;
+    parentName?: string;
     vision: string;
     mission: string;
     email: string;

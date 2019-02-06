@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs/observable/interval';
+import { interval ,  Subject } from 'rxjs';
 import { timeInterval, take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 
 // ankursethi.in/2016/01/13/build-a-sampler-with-angular-2-webaudio-and-webmidi-lesson-1-introduction-to-the-webaudio-api
 

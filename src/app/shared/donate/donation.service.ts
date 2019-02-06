@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 /**
  * Provides the donation service with methods to create, read, update and delete models.
@@ -39,26 +40,18 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null,
-                   dbQuery = '{}'): Observable<DonationModel> {
-    // FIXME Implement interface for three types of targets
-    let requestUrl;
-
-    // Page of Donations for Target:     /api/donation-api/target/:targetType/:targetId/page/:page/:limit
-    if (targetId !== null && targetType !== null && page !== null && limit !== null) {
-      requestUrl =
-        this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+  getDonationsPage(
+    donationId = null,
+    targetId = null,
+    targetType = 'leader',
+    page = null, limit = null,
+    dbQuery = '{}'
+  ): Observable<DonationModel> {
+    if (!!targetId && !!targetType && !!page && !!limit) {
+      return this.http
+        .get(`${this.apiUrl}target/${targetType}/${targetId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`)
+        .pipe(map((donations: DonationModel) => donations));
     }
-
-    console.log('Donation Service: get by', requestUrl);
-
-    const responseObservable = this.http.get(requestUrl)
-    // FIXME: Get back to it: .map((responsePage: HttpResponse) => {
-      .map((responsePage: any) => {
-        const donations = responsePage;
-        return donations;
-      });
-    return responseObservable;
   }
 
   /**
@@ -74,7 +67,7 @@ export class DonationService {
 
   /**
    * Requires donation form
-   * @param DonationModel A Donation to send
+   * @param model DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
     const p = this.getPostData(model);

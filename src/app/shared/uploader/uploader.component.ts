@@ -1,8 +1,8 @@
-import {PathReference, AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {Component, Input, Output, OnChanges, ViewChild, EventEmitter} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
+import { PathReference, AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
+import { map } from 'rxjs/operators';
 
 interface Image {
   path: string;
@@ -102,8 +102,8 @@ export class UploaderComponent implements OnChanges {
     //   });
 
     // FIXME
-    this.imageList = this.fileList.valueChanges()
-      .map(itemList =>
+    this.imageList = this.fileList.valueChanges().pipe(
+      map(itemList =>
         itemList.map((item: Image) => {
           return {
             $key: item.$key,
@@ -112,7 +112,8 @@ export class UploaderComponent implements OnChanges {
             filename: item.filename
           };
         })
-      );
+      )
+    );
   }
 
   initUpload() {

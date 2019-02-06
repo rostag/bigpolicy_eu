@@ -6,7 +6,8 @@ import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { SelectProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-view',
@@ -57,9 +58,7 @@ export class ProjectViewComponent implements OnInit {
    * like `id` in project/:id/edit)
    */
   public ngOnInit() {
-    this.route.params
-      .map(params => params['id'])
-      .subscribe((id) => this.loadProject(id));
+    this.route.params.pipe().subscribe((params) => this.loadProject(params['id']));
   }
 
   private setProject(data: IProject) {
