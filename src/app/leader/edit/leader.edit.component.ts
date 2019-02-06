@@ -1,14 +1,14 @@
-import {OnInit, Component} from '@angular/core';
-import {LeaderModel} from '../../shared/leader';
-import {ActivatedRoute} from '@angular/router';
-import {DriveService} from '../../shared/drive';
-import {UserService} from '../../shared/user/user.service';
-import {Location} from '@angular/common';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
-import {ILeader} from '../../common/models';
-import {Store} from '@ngrx/store';
-import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
-import {LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader} from '../../state/actions/leader.actions';
+import { OnInit, Component } from '@angular/core';
+import { LeaderModel } from '../../shared/leader';
+import { ActivatedRoute } from '@angular/router';
+import { DriveService } from '../../shared/drive';
+import { UserService } from '../../shared/user/user.service';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ILeader } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
 
 @Component({
   templateUrl: './leader.edit.component.html',

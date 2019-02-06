@@ -1,16 +1,17 @@
-import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProjectModel, ProjectService} from '../../shared/project';
-import {TaskModel} from '../../shared/task';
-import {UserService} from '../../shared/user/user.service';
-import {Location} from '@angular/common';
-import {IProject, ITask} from '../../common/models';
-import {Store} from '@ngrx/store';
-import {IProjectState} from '../../state/reducers/project.reducers';
-import {UpdateProject} from '../../state/actions/project.actions';
-import {ITaskState, getSelectedTask} from '../../state/reducers/task.reducers';
-import {CreateTask, LoadTask, DeleteTask, UpdateTask} from '../../state/actions/task.actions';
-import {isArray} from 'util';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectModel, ProjectService } from '../../shared/project';
+import { TaskModel } from '../../shared/task';
+import { UserService } from '../../shared/user/user.service';
+import { Location } from '@angular/common';
+import { IProject, ITask } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { IProjectState } from '../../state/reducers/project.reducers';
+import { UpdateProject } from '../../state/actions/project.actions';
+import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
+import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
+import { isArray } from 'util';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -53,15 +54,11 @@ export class TaskEditComponent implements OnInit {
       return;
     }
 
-    this.route.params
-      .map(params => {
-        return params['id'];
-      })
-      .subscribe((taskId) => {
-        if (taskId) {
-          this.taskStore.dispatch(new LoadTask(taskId));
-        }
-      });
+    this.route.params.subscribe((task) => {
+      if (task['id']) {
+        this.taskStore.dispatch(new LoadTask(task['id']));
+      }
+    });
     this.taskStore.select(getSelectedTask).subscribe(task => this.parseLoadedTask(task));
   }
 

@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LeaderService } from '../leader';
 import { UserService } from './user.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   templateUrl: './profile.component.html',
@@ -12,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   profileLeader;
-  subscription: Subscription;
+  subscription: any;
 
   constructor(
     public leaderService: LeaderService,

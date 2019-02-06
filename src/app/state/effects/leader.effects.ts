@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
@@ -8,7 +8,6 @@ import {
     UpdateLeaderSuccess, CreateLeader, LoadLeader, LoadLeadersPage, LoadLeadersPageSuccess, LoadLeadersPageFail
 } from '../actions/leader.actions';
 import { LeaderService } from '../../shared/leader';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class LeaderEffects {

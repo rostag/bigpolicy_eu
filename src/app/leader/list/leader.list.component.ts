@@ -1,12 +1,11 @@
 import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject ,  Subscription } from 'rxjs';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { ILeaderResponsePage } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getLeadersPage } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPage } from '../../state/actions/leader.actions';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-leader-list',

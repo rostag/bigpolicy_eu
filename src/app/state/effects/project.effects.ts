@@ -5,11 +5,9 @@ import {
   CreateProjectSuccess, UpdateProjectFail, UpdateProjectSuccess, DeleteProjectSuccess, DeleteProjectFail,
   LoadProjectsPageSuccess, LoadProjectsPageFail
 } from '../actions/project.actions';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map ,  catchError } from 'rxjs/operators';
 import { ProjectService } from '../../shared/project';
-import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 
 @Injectable()
 export class ProjectEffects {

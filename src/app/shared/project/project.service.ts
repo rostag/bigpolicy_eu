@@ -1,15 +1,17 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { IProjectState, getProjectsById } from '../../state/reducers/project.reducers';
 import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { TaskService } from '../../shared/task/task.service';
-import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Store, select } from '@ngrx/store';
-import 'rxjs/add/operator/map';
+import { of } from 'rxjs/internal/observable/of';
+
 
 /**
  * Provides ProjectList service with methods to get and save projects.
@@ -52,10 +54,11 @@ export class ProjectService {
   /**
    * Finalizes opening of the project.
    */
-  gotoProjectView(project) {
+  gotoProjectView(project): IProject {
     if (project && project._id) {
       this.router.navigate(['/project', project._id]).then(_ => { });
     }
+    return null;
   }
 
 
@@ -114,14 +117,10 @@ export class ProjectService {
    * @param ids {Array} Project IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateProjects(ids: string[], data: any): Observable<IProject> {
+  bulkUpdateProjects(ids: string[], data: any) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids, data: data });
-    return this.http
-      .put(this.projectApiUrl + 'bulk-update', body, { headers: headers })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers });
   }
 
   /**
@@ -182,18 +181,14 @@ export class ProjectService {
    * Deletes multiple projects by performing a request with PUT HTTP method.
    * @param ids Project IDs to delete
    */
-  bulkDeleteProjects(ids: string[]): Observable<IProject> {
+  bulkDeleteProjects(ids: string[]): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids });
-
-    return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.put(`${this.projectApiUrl} bulk-delete`, body, { headers: headers });
   }
 
   private handleError(error: Response) {
     console.error('Error occured:', error);
-    return Observable.throw(error.json() || 'Server error');
+    return observableThrowError(error.json() || 'Server error');
   }
 }

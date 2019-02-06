@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject ,  Subscription } from 'rxjs';
 import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { ProjectModel } from '../../shared/project';
 import { UserService } from '../../shared/user/user.service';
@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { ITaskState, getTasksPage } from '../../state/reducers/task.reducers';
 import { IProject, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { DeleteTask, LoadTaskPage } from '../../state/actions/task.actions';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-task-list',

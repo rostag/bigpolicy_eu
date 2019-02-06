@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from 'app/shared/user/user.service';
 import { LeaderService } from 'app/shared/leader';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
 import * as appVersion from '../../../../package.json';
 
