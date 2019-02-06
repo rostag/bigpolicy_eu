@@ -1,14 +1,51 @@
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ObjectID, ObjectIdColumn } from 'typeorm';
 
 @Entity()
 export class Project {
-  @PrimaryGeneratedColumn()
-  public id: number;
+  @ObjectIdColumn()
+  public id: ObjectID;
 
   @Column({ length: 50 })
-  public name: string;
+  public title: string;
 
   @Column({ length: 50 })
-  public test: string;
+  public description: string;
+
+  // TODO: relation, delete field?
+  @Column({ length: 50 })
+  public managerName: string;
+
+  // TODO: relation
+  @Column()
+  public managerId: string;
+
+  // TODO: relation, delete field?
+  @Column()
+  public managerEmail: string;
+
+  @Column()
+  public cost: string;
+
+  @Column()
+  public dateStarted: Date;
+
+  @Column()
+  public dateEnded: Date;
+
+  @Column()
+  public videoUrl: string;
+
+  @Column()
+  public imageUrl: string;
+
+  // TODO: type: [Schema.Types.ObjectId]
+  @Column()
+  public taskIds: string[];
+
+  @Column()
+  public donations: string[];
+
+  @Column()
+  public totalDonationsReceived: string[];
 }
