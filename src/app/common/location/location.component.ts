@@ -36,7 +36,8 @@ export class LocationComponent extends FormControl implements OnInit {
     this.filteredRegionOptions = this.region.valueChanges
       .pipe(
         startWith(''),
-        map(value => this.regionOptions.filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        map(value => this.regionOptions
+          .filter(option => option.toLowerCase().includes(value.toLowerCase()))));
   }
 
   public onLocationChange() {

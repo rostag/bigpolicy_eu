@@ -113,10 +113,10 @@ export class TaskService {
    * @param ids {Array} Task IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateTasks(ids: Array<string>, data: any): Observable<Object> {
+  bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ids: ids, data: data});
-    return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers});
+    return this.http.put<ITask>(this.apiUrl + 'bulk-update', body, {headers: headers});
   }
 
   /**
