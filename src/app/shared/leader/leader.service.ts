@@ -5,7 +5,7 @@ import { ProjectService } from '../../shared/project/project.service';
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ENV } from 'app/../environments/env.config';
 import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
 
@@ -65,16 +65,16 @@ export class LeaderService {
   // Basic Ping with JWT
   public pingJwt(): Observable<any> {
     return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt`, {
-        headers: new HttpHeaders().set('Authorization', this._authHeader)
-      });
+      headers: new HttpHeaders().set('Authorization', this._authHeader)
+    });
   }
 
   // Basic Ping with JWT and Admin
   // FIXME
   public pingJwtAdmin(): Observable<any> {
     return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
-        headers: new HttpHeaders().set('Authorization', this._authHeader)
-      });
+      headers: new HttpHeaders().set('Authorization', this._authHeader)
+    });
   }
 
   /**
