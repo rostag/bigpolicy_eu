@@ -86,4 +86,6 @@ package-lock.json
 
 nestjsserver/node_modules
 
+nestjsserver/.data
+
 .firebase

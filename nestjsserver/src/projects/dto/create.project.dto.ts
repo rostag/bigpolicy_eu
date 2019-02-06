@@ -8,8 +8,8 @@ export class CreateProjectDto {
   @IsString()
   @Length(0, 50)
   @Trim()
-  public readonly name: string;
+  public readonly title: string;
 
   @ApiModelProperty()
-  public readonly test: string;
+  public readonly description: string;
 }
