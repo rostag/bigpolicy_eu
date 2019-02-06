@@ -184,8 +184,7 @@ export class ProjectService {
   bulkDeleteProjects(ids: string[]): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify({ ids: ids });
-
-    return this.http.put(this.projectApiUrl + 'bulk-delete', body, { headers: headers });
+    return this.http.put(`${this.projectApiUrl} bulk-delete`, body, { headers: headers });
   }
 
   private handleError(error: Response) {
