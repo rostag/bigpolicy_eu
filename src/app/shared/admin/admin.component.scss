@@ -1,4 +1,4 @@
-$col-grey: #707070;
+@import '../../../assets/scss/styles';
 
 .user-title {
   h1 {
@@ -6,27 +6,11 @@ $col-grey: #707070;
   }
 
   p {
-    color: $col-grey;
+    color: $bp-grey;
     margin-top: 1rem;
   }
 
   a {
-    color: $col-grey;
-  }
-}
-
-.user-avatar {
-  margin-bottom: 2rem;
-  margin-right: 2rem;
-  width: 8rem;
-}
-
-.user-info {
-  margin-top: -1.2rem;
-}
-
-.leader-profile {
-  app-project-list:first-of-type {
-    margin-top: -1.5rem;
+    color: $bp-grey;
   }
 }
