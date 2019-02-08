@@ -138,7 +138,6 @@ export class TaskService {
   }
 
   private handleError(error: Response) {
-    console.error('Error occured:', error);
     return observableThrowError(error.json() || 'Server error');
   }
 }
