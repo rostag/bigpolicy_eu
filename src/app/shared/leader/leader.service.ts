@@ -1,7 +1,7 @@
 import { throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { ProjectService } from '../../shared/project/project.service';
+import { DialogService } from '../dialog/dialog.service';
+import { ProjectService } from '../project';
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { map, catchError } from 'rxjs/operators';
@@ -22,29 +22,18 @@ export class LeaderService {
     return this._leader;
   };
 
-  public set leader(lader: ILeader) {
-    // FIXME TO NGRX LDR - store selected leader from here
-    this._leader = lader;
+  // FIXME TO NGRX LDR - store selected leader from here
+  public set leader(leader: ILeader) {
+    this._leader = leader;
   };
 
+  private models;
   private _leader: ILeader;
-
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
-
   public leaderStream = this.leaderSource.asObservable();
 
-  /**
-   * The array of models provided by the service.
-   * @type {Array}
-   */
-  private models;
 
-  /**
-   * Creates a new LeaderService with the injected Http.
-   * @param {Http} http - The injected Http.
-   * @constructor
-   */
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -57,30 +46,22 @@ export class LeaderService {
     return `Bearer ${localStorage.getItem('access_token')}`;
   }
 
-  // Basic Ping
   public ping(): Observable<any> {
     return this.http.get(`${ENV.BASE_API}leader-api/ping`);
   }
 
-  // Basic Ping with JWT
   public pingJwt(): Observable<any> {
     return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt`, {
       headers: new HttpHeaders().set('Authorization', this._authHeader)
     });
   }
 
-  // Basic Ping with JWT and Admin
-  // FIXME
   public pingJwtAdmin(): Observable<any> {
     return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
       headers: new HttpHeaders().set('Authorization', this._authHeader)
     });
   }
 
-  /**
-   * Creates the Leader.
-   * @param {ILeader} model - The Leader to create.
-   */
   public createLeader(model: ILeader) {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders()
@@ -100,21 +81,18 @@ export class LeaderService {
    * by URL like: /api/leader-api/page/:page/:limit/q/:dbQuery
    * Returns an Observable for the HTTP GET request.
    * @param req IDataPageRequest with the following fields:
-   * @param id Group to get Leaders for. Unused.
-   * @param page Page number.
-   * @param pageSize Quantity of items to get.
-   * @param dbQuery Database search query.
+   *   id       Group to get Leaders for. Unused.
+   *   page     Page number.
+   *   pageSize Quantity of items to get.
+   *   dbQuery  Database search query.
    * @return {Observable<ILeader>} The Observable for the HTTP request.
    */
-  // FIXME CHECK if single return type can be used here
   public getLeadersPage(req: IDataPageRequest): Observable<ILeaderResponsePage> {
-    if (req === null || req.page === null || req.pageSize === null) {
-      return;
+    if (!!req && !!req.page && !!req.pageSize) {
+      return this.http.get<ILeaderResponsePage>(
+        `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
+      );
     }
-
-    // `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
-    return this.http.get<ILeaderResponsePage>(this.leaderApiUrl + 'page/' + req.page + '/' + req.pageSize + '/q/' +
-      encodeURIComponent(req.dbQuery));
   }
 
   /**
@@ -132,11 +110,9 @@ export class LeaderService {
    * If found, saves it via callback as userService.leader propery.
    */
   public requestLeaderByEmail(email: string): Observable<ILeaderResponsePage> {
-
-    // FIXME Optimize - use caching, no need to load leaders each time
     // let leader: any = this.findCachedLeaderByEmail(email);
     // if (leader) {
-    //   leader = Observable.from({leader});
+    //   leader = of({leader});
     // }
 
     console.log('LeaderService:RequestLeader ByEmail:', email);
@@ -148,7 +124,6 @@ export class LeaderService {
     return leaderResponse;
   }
 
-  // FIXME Unused
   private findCachedLeaderByEmail(email: string): ILeader {
     const leaders = this.models;
     let foundLeader;
@@ -176,7 +151,8 @@ export class LeaderService {
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param ILeader A Leader to delete
+   * @param model ILeader A Leader to delete
+   * @param navigateToList
    */
   public deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
@@ -195,8 +171,7 @@ export class LeaderService {
             .subscribe(toDeleteProjects => {
               if (toDeleteProjects === true) {
                 // Delete Projects and Tasks in DB
-                // TODO Delete Projects Firebase data
-                // TODO Delete Donations and Task Donations?
+                // TODO delete projects fbs, donations and task donations data
                 this.projectService.bulkDeleteProjects(model.projectIds)
                   .subscribe((deleteResult) => {
                     console.log('Projects deleted:', deleteResult);
@@ -229,7 +204,7 @@ export class LeaderService {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
       .pipe(catchError(this.handleError))
-      .subscribe((res) => {
+      .subscribe(() => {
         this.setLeaderForUser(null);
         if (navigateToLeadersList) {
           this.router.navigate(['/leaders']);
@@ -241,8 +216,7 @@ export class LeaderService {
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     if (leader._id) {
-      this.router.navigate(['/leader', leader._id]).then(_ => {
-      });
+      this.router.navigate(['/leader', leader._id]);
     }
   }
 
@@ -250,16 +224,12 @@ export class LeaderService {
     if (!leader) {
       return;
     }
-    // FIXME Impersonation happens - check with admin editing different leaders (and see Profile then)
-    console.log('Leader service. Set leader for', leader.email);
+    // FIXME Depersonation happens, check admin editing different leaders, see Profile for each
     this.leader = leader;
-    // Notify observers;
-    // http://stackoverflow.com/questions/34376854/delegation-eventemitter-or-observable-in-angular2/35568924#35568924
     this.leaderSource.next(leader);
   }
 
   private handleError(error: Response) {
-    console.error('Error occured: ', error);
     return observableThrowError(error.json() || 'Server error');
   }
 }

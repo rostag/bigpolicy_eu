@@ -38,11 +38,6 @@ export class ShareService {
     return this.http.post<any>(this.mailApiUrl + 'share', body, { headers: headers });
   }
 
-  private handleError(error: Response) {
-      console.error('Error occured:', error);
-      return observableThrowError(error.json() || 'Server error');
-  }
-
   /**
    * Takes videoUrl and returns thumbnail images for it
    * Standard YouTube Thumbs:
