@@ -1,5 +1,4 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { IProjectState, getProjectsById } from '../../state/reducers/project.reducers';
@@ -39,15 +38,15 @@ export class ProjectService {
     private dialogService: DialogService,
     private taskService: TaskService,
     private projectStore: Store<IProjectState>
-  ) { }
+  ) {
+  }
 
   createProject(model: IProject): Observable<IProject> {
     const body: string = encodeURIComponent(model.toString());
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.projectApiUrl, body, { headers: headers }).pipe(
-      map(data => this.gotoProjectView(data)),
-      catchError(this.handleError)
+    return this.http.post(this.projectApiUrl, body, {headers: headers}).pipe(
+      map(data => this.gotoProjectView(data))
     );
   }
 
@@ -56,7 +55,8 @@ export class ProjectService {
    */
   gotoProjectView(project): IProject {
     if (project && project._id) {
-      this.router.navigate(['/project', project._id]).then(_ => { });
+      this.router.navigate(['/project', project._id]).then(_ => {
+      });
     }
     return null;
   }
@@ -105,11 +105,8 @@ export class ProjectService {
   updateProject(model: IProject): Observable<IProject> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http
-      .put(this.projectApiUrl + model._id, model.toString(), { headers: headers })
-      .pipe(
-        map(res => this.gotoProjectView(res)),
-        catchError(this.handleError)
-      );
+      .put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
+      .pipe(map(res => this.gotoProjectView(res)));
   }
 
   /**
@@ -119,8 +116,8 @@ export class ProjectService {
    */
   bulkUpdateProjects(ids: string[], data: any) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify({ ids: ids, data: data });
-    return this.http.put(this.projectApiUrl + 'bulk-update', body, { headers: headers });
+    const body = JSON.stringify({ids: ids, data: data});
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers});
   }
 
   /**
@@ -142,15 +139,16 @@ export class ProjectService {
             .subscribe(toDeleteTasks => {
               if (toDeleteTasks === true) {
                 // Delete Tasks from DB
-                // TODO Delete Tasks Firebase data
-                // TODO Delete Donations and Task Donations?
+                // TODO delete tasks fbs, donations and task donations data
                 this.taskService.bulkDeleteTasks(model.taskIds)
-                  .subscribe(() => { });
+                  .subscribe(() => {
+                  });
               } else {
-                // NE NA CHASI: reassign tasks to placeholder Project
-                this.getProjectsPage({ id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }' })
+                // NENACHASI: reassign tasks to placeholder Project
+                this.getProjectsPage({id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }'})
                   .subscribe((res) => {
-                    this.taskService.bulkUpdateTasks(model.taskIds, { projectId: res['docs'][0]._id }).subscribe((result) => { });
+                    this.taskService.bulkUpdateTasks(model.taskIds, {projectId: res['docs'][0]._id}).subscribe((result) => {
+                    });
                   });
               }
               this.finalizeProjectDeletion(model, navigateToList);
@@ -167,9 +165,6 @@ export class ProjectService {
   finalizeProjectDeletion(projectModel: IProject, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-      .pipe(
-        catchError(this.handleError)
-      )
       .subscribe((res) => {
         if (navigateToList) {
           this.router.navigate(['/projects']);
@@ -183,12 +178,7 @@ export class ProjectService {
    */
   bulkDeleteProjects(ids: string[]): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify({ ids: ids });
-    return this.http.put(`${this.projectApiUrl} bulk-delete`, body, { headers: headers });
-  }
-
-  private handleError(error: Response) {
-    console.error('Error occured:', error);
-    return observableThrowError(error.json() || 'Server error');
+    const body = JSON.stringify({ids: ids});
+    return this.http.put(`${this.projectApiUrl} bulk-delete`, body, {headers: headers});
   }
 }
