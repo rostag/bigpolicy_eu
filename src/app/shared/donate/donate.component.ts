@@ -67,7 +67,7 @@ export class DonateComponent implements OnChanges {
     d.amount = this.amount;
     d.dateStarted = new Date();
     const wl = window.location;
-    d.server_url = wl.protocol + '//' + wl.host;
+    d.server_url = `${wl.protocol}//${wl.host}`;
     d.result_url = wl.href;
 
     if (this.targetType === 'leader') {
