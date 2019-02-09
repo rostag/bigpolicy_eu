@@ -1,9 +1,7 @@
 import { OnInit, Component } from '@angular/core';
-import { UserModel } from './shared/user/user.model';
 import { Router, NavigationEnd } from '@angular/router';
-
-import * as appVersion from '../../package.json';
 import { UserService } from './shared/user/user.service';
+import * as appVersion from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +12,6 @@ import { UserService } from './shared/user/user.service';
 export class AppComponent implements OnInit {
 
   title = 'BigPolicy';
-  user: UserModel;
   version = appVersion['version'];
 
   constructor(
@@ -25,8 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('BigPolicy v. ' + this.version);
-
+    console.log(`BigPolicy v.${this.version}`);
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;

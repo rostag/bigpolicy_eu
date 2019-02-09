@@ -61,7 +61,6 @@ export class DonateComponent implements OnChanges {
     const userProfile = this.userService.userProfile;
     const donorName = userProfile && userProfile['name'] || 'Анонімний донор';
 
-    // FIXME
     d.targetType = this.targetType;
     d.targetId = this.target._id;
     d.donorId = this.userService.getEmail() || 'Anonymous';
@@ -70,15 +69,13 @@ export class DonateComponent implements OnChanges {
     const wl = window.location;
     d.server_url = wl.protocol + '//' + wl.host;
     d.result_url = wl.href;
-    console.log('##server_url: ', d.server_url);
 
     if (this.targetType === 'leader') {
-      d.description = 'Переказ ' + d.amount + ' UAH. Отримувач: ' + this.target.name + ' ' + this.target.surName +
-        '. Донор: ' + donorName + '. Дякуємо!';
+      d.description = `Переказ ${d.amount} UAH. Отримувач: S{this.target.name} ${this.target.surName}. Донор: ${donorName}. Дякуємо!`;
     } else if (this.targetType === 'project') {
-      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: проект "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
+      d.description = `Переказ ${d.amount} UAH. Призначення: проект "${this.target.title}". Донор: ${donorName}. Дякуємо!`;
     } else if (this.targetType === 'task') {
-      d.description = 'Переказ ' + d.amount + ' UAH. Призначення: захід "' + this.target.title + '". Донор: ' + donorName + '. Дякуємо!';
+      d.description = `Переказ ${d.amount} UAH. Призначення: захід "${this.target.title}". Донор: ${donorName}. Дякуємо!`;
     }
     return d;
   }
@@ -91,11 +88,12 @@ export class DonateComponent implements OnChanges {
       .subscribe((res) => {
         const sgndta = res['_body'].split('-BGPLCXX-');
         const formStr =
-          '<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8"><input type="hidden" name="data" ' +
-          'value="' + sgndta[0] + '" /><input type="hidden" name="signature" value="' + sgndta[1] + '" />' +
-          '<button mat-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">Переказати '
-          + this.amount + ' UAH</button>' +
-          '</form>';
+          `<form method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8">
+            <input type="hidden" name="data" value="${sgndta[0]}" />
+            <input type="hidden" name="signature" value="${sgndta[1]}" />
+            <button mat-raised-button style="font-size:1.1em;font-weight:bold;padding:0.8em;cursor:pointer;" color="accent">
+            Переказати ${this.amount} UAH</button>
+          </form>`;
         // FIXME - Update button visual style, broken after ng update
         this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr);
       });

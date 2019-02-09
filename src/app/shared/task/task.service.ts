@@ -74,12 +74,12 @@ export class TaskService {
 
     // Page of Tasks - api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
     // Page of Tasks for Project - api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && projectId !== null) {
-      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}project/${projectId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
     return this.http.get<ITaskResponsePage>(requestUrl);
   }
