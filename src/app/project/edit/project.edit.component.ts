@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel } from '../../shared/project/index';
-import { LeaderService } from '../../shared/leader/leader.service';
+import { ProjectModel } from '../../shared/project';
+import { LeaderService } from '../../shared/leader';
 import { Location } from '@angular/common';
 import { ILeader, IProject } from '../../common/models';
 import { LeaderModel } from '../../shared/leader';
@@ -11,7 +11,6 @@ import { UpdateLeader } from '../../state/actions/leader.actions';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { CreateProject, UpdateProject, LoadProject, SelectProject } from '../../state/actions/project.actions';
 import { UserService } from '../../shared/user/user.service';
-
 
 @Component({
   templateUrl: './project.edit.component.html',
@@ -88,14 +87,13 @@ export class ProjectEditComponent implements OnInit {
       this.projectStore.dispatch(new UpdateProject(this.project));
     } else {
       // Create new project
-      // FIXME - Potential Race Condition
+      // FIXME Potential Race Condition
       if (!leader) {
         return false;
       }
-      ;
       this.project.managerId = leader._id;
       this.project.managerEmail = leader.email;
-      this.project.managerName = leader.name + ' ' + leader.surName;
+      this.project.managerName = `${leader.name} ${leader.surName}`;
       this.projectStore.dispatch(new CreateProject(this.project));
     }
     return false;
@@ -126,17 +124,14 @@ export class ProjectEditComponent implements OnInit {
       });
   }
 
-  /**
-   * Assigns project to another leader
-   */
-  // FIXME NGRX IT
   moveProjectToOtherLeader(event) {
+    // FIXME NGRX IT
     const newLeader: ILeader = new LeaderModel();
     newLeader.parseData(event.value);
 
     // Update Project:
     this.project.managerId = newLeader._id;
-    this.project.managerName = newLeader.name + ' ' + newLeader.surName;
+    this.project.managerName = `${newLeader.name} ${newLeader.surName}`;
     this.project.managerEmail = newLeader.email;
     this.saveProject();
 
@@ -145,6 +140,7 @@ export class ProjectEditComponent implements OnInit {
       newLeader.projectIds.push(this.project._id);
       this.leaderStore.dispatch(new UpdateLeader(newLeader));
     }
+
     // Remove project from current Leader:
     this.currentLeader.projectIds.splice(this.currentLeader.projectIds.indexOf(this.project._id), 1);
     this.leaderStore.dispatch(new UpdateLeader(this.currentLeader));

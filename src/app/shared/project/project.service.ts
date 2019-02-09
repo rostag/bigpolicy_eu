@@ -78,12 +78,12 @@ export class ProjectService {
 
     // Page of Projects :: api/project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.projectApiUrl}page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
     // Page of Projects for Leader :: api/project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
-      requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.projectApiUrl}leader/${leaderId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
     return this.http.get<IResponsePage<IProject>>(requestUrl);

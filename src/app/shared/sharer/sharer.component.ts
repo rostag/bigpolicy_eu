@@ -97,15 +97,15 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
     this.shareForm = this.currentForm;
     if (this.shareForm) {
       this.shareForm.valueChanges
-        .subscribe(data => this.onValueChanged(data));
+        .subscribe(() => this.onValueChanged());
     }
   }
 
-  handleInputBlur(e) {
-    this.onValueChanged(e);
+  handleInputBlur() {
+    this.onValueChanged();
   }
 
-  onValueChanged(data?: any) {
+  onValueChanged() {
     if (!this.shareForm) {
       return;
     }
@@ -117,7 +117,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
         this.formErrors[field] = '';
         const control = form.get(field);
 
-        // Here's the complex logic for which we needed this method
         if (control && (control.dirty || control.touched) && !control.valid) {
           const messages = this.validationMessages[field];
           for (const key in control.errors) {
@@ -156,24 +155,24 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
     if (this.itemToShare.hasOwnProperty('title')) {
       // Leaders have .name / surName properties
       this.itemToShare.textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
-      this.itemToShare.subject = 'Проект "' + this.itemToShare.title + '" - BigPolicy';
+      this.itemToShare.subject = `Проект "${this.itemToShare.title}" - BigPolicy`;
       this.itemToShare.text = this.itemToShare.description;
 
       this.itemToShare.detailsLink =
         `
       <br><br>
-      <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
+      <a href="${this.shareService.getUrl()}">Тут можна детальніше переглянути проект</a>
       <br><br>
       `;
     } else if (this.itemToShare.hasOwnProperty('name')) {
       // Leader properties 'name' and 'surName'
-      this.itemToShare.subject = '' + this.itemToShare.name + ' ' + this.itemToShare.surName;
-      this.itemToShare.text = this.itemToShare.mission + '<p></p>' + this.itemToShare.vision;
+      this.itemToShare.subject = `${this.itemToShare.name} ${this.itemToShare.surName}`;
+      this.itemToShare.text = `${this.itemToShare.mission}<p></p>${this.itemToShare.vision}`;
       this.itemToShare.textToReader = 'Будьмо знайомі: ';
       this.itemToShare.detailsLink =
         `
       <br><br>
-      <a href="` + this.shareService.getUrl() + `">Відвідай мою сторінку на БігПолісі</a>
+      <a href="${this.shareService.getUrl()}">Відвідай мою сторінку на БігПолісі</a>
       <br><br>
       `;
       this.itemToShare.managerName = this.itemToShare.name;
@@ -222,30 +221,18 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
    * Populate email properties on itemToShare before share or preview;
    */
   get emailHtml() {
-    return this.itemToShare.textToReader
-
-      + `<h1 align="center" class="emailH1">
-            `
-      + this.itemToShare.subject + `</h1>
-
+    return `${this.itemToShare.textToReader}
+      <h1 align="center" class="emailH1">
+      ${this.itemToShare.subject}</h1>
             <p style="display:none;">
-            `
-      + this.itemToShare.text + `<br><br></p><p align="center">
-            `
-      + this.shareService.getYouTubeThumbnail(this.videoUrl, `full`)
-
-      +
-
-      this.itemToShare.detailsLink +
-      `
-            </p>
-            <p>Щиро вдячний,<br>`
-      + this.itemToShare.managerName + `<br>
-            <small>` + this.itemToShare.managerEmail + `</small></p>
-            `
-      +
-      `
-            <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
+      ${this.itemToShare.text}<br><br></p><p align="center">
+      ${this.shareService.getYouTubeThumbnail(this.videoUrl, 'full')}
+      ${this.itemToShare.detailsLink}
+        </p>
+        <p>Щиро вдячний,<br>
+        ${this.itemToShare.managerName}<br>
+        <small>${this.itemToShare.managerEmail}</small></p>
+        <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
   toggleSharer() {

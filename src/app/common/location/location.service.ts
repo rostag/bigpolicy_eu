@@ -2810,7 +2810,7 @@ export class LocationService {
   }
 
   // public getCitiesForRegion(regionId: number): Observable<any> {
-  //   return this.httpClient.get('api/region/' + regionId + 'cities');
+  //   return this.httpClient.get(`api/region/${regionId}cities`);
   // }
 
 }

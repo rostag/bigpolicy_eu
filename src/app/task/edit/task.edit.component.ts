@@ -68,7 +68,7 @@ export class TaskEditComponent implements OnInit {
    */
   public deleteTask(task: ITask) {
     this.taskStore.dispatch(new DeleteTask(task));
-    this.router.navigate(['/project/' + task.projectId]);
+    this.router.navigate([`/project/${task.projectId}`]);
     return false;
   }
 
