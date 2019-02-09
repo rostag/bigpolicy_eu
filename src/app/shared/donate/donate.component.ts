@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { DonationModel } from './donation.model';
 import { DonationService } from './donation.service';
-import { UserService } from '../../shared/user/user.service';
+import { UserService } from '../user/user.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 

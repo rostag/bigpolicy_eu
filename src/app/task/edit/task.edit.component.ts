@@ -11,7 +11,6 @@ import { UpdateProject } from '../../state/actions/project.actions';
 import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
 import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
 import { isArray } from 'util';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bp-task-edit',
