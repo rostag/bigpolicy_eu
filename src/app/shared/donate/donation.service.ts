@@ -30,7 +30,7 @@ export class DonationService {
    */
   createDonation(model: DonationModel) {
     const p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options);
+    return this.http.post<string>(this.apiUrl + 'create-donation', p.body, p.options);
   }
 
   // TODO: implement local cache
@@ -71,7 +71,7 @@ export class DonationService {
    */
   requireSign(model: DonationModel) {
     const p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options);
+    return this.http.post<string>(this.apiUrl + 'getsgndta', p.body, p.options);
   }
 
   /**
@@ -81,7 +81,7 @@ export class DonationService {
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
-      options: {headers: headers}
+      options: {headers: headers, responseType: 'text' as 'json'}
     };
   }
 
