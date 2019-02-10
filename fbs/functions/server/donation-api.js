@@ -64,7 +64,7 @@ module.exports = function(app, router, DB){
     console.log('  • LiqPay::getsgndta::URL::', prm);
 
     var sgn = liqpay.cnb_signature(prm);
-		var dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
+		var dta = new Buffer(JSON.stringify(liqpay.cnb_parahttp://localhost:4300/api/donation-api/getsgndtams(prm))).toString('base64');
     res.send( dta + '-BGPLCXX-' + sgn );
   });
 

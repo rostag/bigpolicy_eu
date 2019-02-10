@@ -115,12 +115,11 @@ export class LeaderService {
     //   leader = of({leader});
     // }
 
-    console.log('LeaderService:RequestLeader ByEmail:', email);
+    console.log('RequestLeader ByEmail:', email);
 
     // FIXME NGRX IT LP
-    const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: '{ "email": "' + email + '" }'});
+    const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: `{ "email": "${email}" }`});
     leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
-
     return leaderResponse;
   }
 
@@ -183,11 +182,9 @@ export class LeaderService {
                 const projectsUpdate = this.projectService.bulkUpdateProjects(model.projectIds, {
                   managerId: newLeader._id,
                   managerEmail: newLeader.email,
-                  managerName: newLeader.name + ' ' + newLeader.surName
+                  managerName: `${newLeader.name} ${newLeader.surName}`
                 });
-                projectsUpdate.subscribe((updateResult) => {
-                  console.log('Projects update result:', updateResult);
-                });
+                projectsUpdate.subscribe();
               }
               this.finalizeLeaderDeletion(model, navigateToList);
             });

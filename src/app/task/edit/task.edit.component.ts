@@ -11,7 +11,6 @@ import { UpdateProject } from '../../state/actions/project.actions';
 import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
 import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
 import { isArray } from 'util';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -68,7 +67,7 @@ export class TaskEditComponent implements OnInit {
    */
   public deleteTask(task: ITask) {
     this.taskStore.dispatch(new DeleteTask(task));
-    this.router.navigate(['/project/' + task.projectId]);
+    this.router.navigate([`/project/${task.projectId}`]);
     return false;
   }
 

@@ -28,7 +28,8 @@ export class LeaderViewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private leaderStore: Store<ILeaderState>
-  ) { }
+  ) {
+  }
 
   /**
    * Initialization Event Handler, parses route params like `id` in leader/:id/edit)
@@ -48,11 +49,13 @@ export class LeaderViewComponent implements OnInit {
    * @param {data} data ILeader loaded leader data
    */
   private setLeader(data: ILeader) {
-    if (!data) { return; }
-    // fix for leaderFiles: [null] sometimes coming from DB:
+    if (!data) {
+      return;
+    }
+    // FIXME workaround for leaderFiles: [null] sometimes coming from DB:
     if (data.leaderFiles && data.leaderFiles.length) {
       const nullIndex = data.leaderFiles.indexOf(null);
-      console.warn('Fixing null index:', nullIndex, data);
+      console.warn(`Fixing null index:${nullIndex}`, data);
       data.leaderFiles.splice(nullIndex, 1);
     }
     this.leader = data;
@@ -64,7 +67,7 @@ export class LeaderViewComponent implements OnInit {
    * @param {leader} leader ILeader to delete
    */
   public editLeader(leader: ILeader) {
-    this.router.navigate(['/leader/' + leader._id + '/edit']);
+    this.router.navigate([`/leader/${leader._id}/edit`]);
     return false;
   }
 

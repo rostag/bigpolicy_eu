@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { TaskModel } from '../../shared/task/index';
+import { TaskModel } from '../../shared/task';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
@@ -41,7 +41,8 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
     private dialogService: DialogService,
     private projectStore: Store<IProjectState>,
     private taskStore: Store<ITaskState>
-  ) { }
+  ) {
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
@@ -74,7 +75,10 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private applyTaskChanges(task: ITask) {
-    if (!task) { return; };
+    if (!task) {
+      return;
+    }
+    ;
     this.task = task;
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
 
@@ -100,9 +104,8 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
 
   public deleteTask(task: ITask, event) {
     this.taskStore.dispatch(new DeleteTask(task));
-    this.dialogService.info('Захід видалено', 'Ми видалили цей захід');
-    this.router.navigate(['/project/' + task.projectId]);
-
+    this.dialogService.info(`Захід видалено`, `Ми видалили цей захід`);
+    this.router.navigate([`/project/${task.projectId}`]);
     event.stopPropagation();
     return false;
   }

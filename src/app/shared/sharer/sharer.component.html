@@ -27,8 +27,8 @@
     <mat-form-field class="wide">
       <mat-placeholder>Кому:</mat-placeholder>
       <input matInput appValidateEmail [(ngModel)]="toEmail" name="toEmail"
-        class="wide bt-input email-input" (blur)="handleInputBlur($event)"
-        [class.invalid]="formErrors.toEmail">
+             class="wide bt-input email-input" (blur)="handleInputBlur()"
+             [class.invalid]="formErrors.toEmail">
     </mat-form-field>
 
     <!-- Validation error display -->
@@ -52,7 +52,7 @@
     <mat-form-field class="wide">
       <mat-placeholder>Текст:</mat-placeholder>
       <textarea matInput matTextareaAutosize #resizableTextArea class="mailtext"
-        [(ngModel)]="itemToShare.textToReader" name="textToReader">
+                [(ngModel)]="itemToShare.textToReader" name="textToReader">
       </textarea>
     </mat-form-field>
 
@@ -72,7 +72,8 @@
     <button (click)="toggleHtmlPreview()" *ngIf="!showHtmlPreview" mat-button>Показати HTML</button>
     <button (click)="toggleHtmlPreview()" *ngIf="showHtmlPreview" mat-raised-button>Сховати HTML</button>
     <button (click)="toggleSharer()" mat-button>Відмінити</button>
-    <button (click)="shareItem(shareForm.value)" mat-raised-button color="accent" class="bt-input">Надіслати листа</button>
+    <button (click)="shareItem(shareForm.value)" mat-raised-button color="accent" class="bt-input">Надіслати листа
+    </button>
   </div>
 
 </mat-card>

@@ -173,7 +173,6 @@ export class UserService {
       `\nHas Leader: ` + this.hasLeader() +
       `\nIs Admin: ` + this.isAdmin +
       `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
-    console.log('User status: ' + status);
   }
 
   /**

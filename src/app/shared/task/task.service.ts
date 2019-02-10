@@ -9,17 +9,11 @@ import { CreateTaskSuccess } from '../../state/actions/task.actions';
 import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
 import { Router } from '@angular/router';
 
-/**
- * This class provides the TaskList service with methods to get and save tasks.
- */
 @Injectable()
 export class TaskService {
 
   private apiUrl = environment.api_url + '/api/task-api/';
 
-  /**
-   * Creates a new TaskService with the injected Http
-   */
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -56,17 +50,13 @@ export class TaskService {
     }
   }
 
-  // TODO: implement local cache
-
   /**
    * Gets tasks page from DB by given taskId, projectId, page and limit
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
   loadTasksPage(req: IDataPageRequest): Observable<ITaskResponsePage> {
-
     let requestUrl;
-
     const projectId = req.id;
     const page = req.page;
     const limit = req.pageSize;
@@ -74,12 +64,12 @@ export class TaskService {
 
     // Page of Tasks - api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
     // Page of Tasks for Project - api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && projectId !== null) {
-      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}project/${projectId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
     return this.http.get<ITaskResponsePage>(requestUrl);
   }
@@ -94,7 +84,7 @@ export class TaskService {
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param ITask A Task to update
+   * @param model ITask A Task to update
    */
   updateTask(model: ITask): Observable<Object> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
