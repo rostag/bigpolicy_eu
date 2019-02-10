@@ -1,5 +1,3 @@
-// bp/start.js
-
 var http = require('http');
 var express = require('express');
 var port = 4300;
@@ -12,7 +10,7 @@ var server = http.createServer(appExpress);
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
-    res.redirect('https://' + req.headers.host + req.path);
+    res.redirect(`https://${req.headers.host}${req.path}`);
     return;
   } else {
     next();
@@ -29,4 +27,4 @@ middleware(appExpress, router);
 
 server.listen(port, hostname);
 
-console.log('  • BigPolicy is listening on http://' + hostname + ':' + port);
+console.log(`bigpolicy is listening on ${hostname}:${port}`);

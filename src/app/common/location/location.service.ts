@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map, catchError} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
@@ -2810,7 +2810,7 @@ export class LocationService {
   }
 
   // public getCitiesForRegion(regionId: number): Observable<any> {
-  //   return this.httpClient.get('api/region/' + regionId + 'cities');
+  //   return this.httpClient.get(`api/region/${regionId}cities`);
   // }
 
 }
