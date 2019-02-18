@@ -16,7 +16,7 @@ import { ProjectEditComponent } from './project/edit';
 import { ProjectListComponent } from './project/list';
 import { ProjectViewComponent } from './project/view';
 
-import { LeadersComponent } from './leader/landing/leaders.component';
+import { LeadersComponent } from './leader/landing';
 import { LeaderEditComponent } from './leader/edit';
 import { LeaderListComponent } from './leader/list';
 import { LeaderViewComponent } from './leader/view';
@@ -34,12 +34,12 @@ import { ProjectBriefComponent } from './project/brief/project.brief.component';
 
 import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
-import { DonationsListComponent } from './shared/donate/list/donations.list.component';
+import { DonationsListComponent } from './shared/donate/list';
 
 import { VideoComponent } from './shared/video/video.component';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home';
 import { EmailValidatorDirective } from './shared/validation/email.validator';
 
 // Services
@@ -53,16 +53,10 @@ import { MaterialModule } from './common/modules/material/material.module';
 import { CoreModule } from './core.module';
 import { LocationComponent } from './common/location/location.component';
 import { LocationService } from './common/location/location.service';
+import { environment } from '../environments/environment';
 
-
-// FIXME_SEC
-export const firebaseConfig = {
-    apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
-    authDomain: 'testbase-eb57f.firebaseapp.com',
-    databaseURL: 'https://testbase-eb57f.firebaseio.com',
-    storageBucket: 'testbase-eb57f.appspot.com',
-    messagingSenderId: '780191546457'
-};
+const K = environment.K;
+export const firebaseConfig = K.fbs;
 
 @NgModule({
     imports: [
