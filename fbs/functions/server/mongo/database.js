@@ -9,7 +9,8 @@ mongoose.Promise = global.Promise;
 
 var options = {
   poolSize: 5,
-  native_parser: true
+  native_parser: true,
+  useNewUrlParser: true
 };
 
 try {
