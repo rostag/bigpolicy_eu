@@ -1,8 +1,9 @@
+const k = require('../../functions/.konfig');
+
 module.exports = function(app, router, DB){
   var LiqPay = require('liqpay-sdk');
-  // FIXME_SEC
-  var public_key = 'i77061351482';
-  var private_key = 'v26xvBR6w6h9JVxGKLCSDzHnHg6GpIEoQeECKhuG';
+  var public_key = k.liq.public_key;
+  var private_key = k.liq.private_key;
   var liqpay = new LiqPay(public_key, private_key);
 
   const url = require('url');
