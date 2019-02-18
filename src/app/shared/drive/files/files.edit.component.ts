@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-bp-files',
@@ -61,7 +62,7 @@ export class FilesEditComponent implements AfterViewInit {
   ngAfterViewInit() {
     console.log('BP User:', this.userService);
     gapi.load('client:auth2', () => {
-      this.initClient(this);
+      this.initClient();
     });
   }
 
@@ -79,17 +80,12 @@ export class FilesEditComponent implements AfterViewInit {
   /**
    *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
-  initClient(that) {
+  initClient() {
     // FIXME 0 - Ensure logged in user observes leader's files, not it's own
-    // FIXME_SEC
-    // Client ID and API key from the Developer Console
-    const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
-
-    // Array of API discovery doc URLs for APIs used by the quickstart
+    const CLIENT_ID = environment.K.gdrive.client_id;
     const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
+    // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
     const SCOPES = [
       'https://www.googleapis.com/auth/drive',
       'https://www.googleapis.com/auth/drive.appdata',
@@ -100,7 +96,7 @@ export class FilesEditComponent implements AfterViewInit {
       discoveryDocs: DISCOVERY_DOCS,
       clientId: CLIENT_ID,
       scope: SCOPES
-    }).then((res) => {
+    }).then(() => {
       // Listen for sign-in state changes.
       gapi.auth2.getAuthInstance().isSignedIn.listen((result) => {
         this.updateSigninStatus(result);
@@ -129,7 +125,7 @@ export class FilesEditComponent implements AfterViewInit {
   /**
    *  Sign in the user upon button click.
    */
-  handleAuthClick(event) {
+  handleAuthClick() {
     console.log('All the saints are signing in');
     gapi.auth2.getAuthInstance().signIn();
     return false;
@@ -138,7 +134,7 @@ export class FilesEditComponent implements AfterViewInit {
   /**
    *  Sign out the user upon button click.
    */
-  handleSignoutClick(event) {
+  handleSignoutClick() {
     console.log('All the saints are signing out');
     gapi.auth2.getAuthInstance().signOut();
     return false;
