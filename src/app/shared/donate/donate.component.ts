@@ -1,10 +1,10 @@
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Component, OnChanges, Input } from '@angular/core';
-import { DonationModel } from './donation.model';
+import { environment } from '../../../environments/environment';
 import { DonationService } from './donation.service';
 import { UserService } from '../user/user.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DonationModel } from './donation.model';
 import { map } from 'rxjs/operators';
-import { K } from '../../bp.module';
 
 @Component({
   selector: 'app-bp-donate',
@@ -84,7 +84,7 @@ export class DonateComponent implements OnChanges {
     return this.donationService.requireSign(model).pipe(map(res => res))
       .subscribe((res) => {
         console.log('Donation form:', res);
-        const sgndta = res.split(K.liq.dataSeparator);
+        const sgndta = res.split(environment.K.liq.dataSeparator);
         const formStr =
 `<form style="margin: 7px auto 27px auto;" method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8">
 <input type="hidden" name="data" value="${sgndta[0]}" />
