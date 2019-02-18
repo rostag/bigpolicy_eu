@@ -1,4 +1,4 @@
-const K = require('../../functions/.konfig');
+const K = require('../../functions/konfig');
 
 module.exports = function (app, router, DB) {
   var LiqPay = require('liqpay-sdk');

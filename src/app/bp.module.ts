@@ -55,7 +55,7 @@ import { LocationComponent } from './common/location/location.component';
 import { LocationService } from './common/location/location.service';
 import { environment } from '../environments/environment';
 
-const K = environment.K;
+export const K = environment.K;
 export const firebaseConfig = K.fbs;
 
 @NgModule({
