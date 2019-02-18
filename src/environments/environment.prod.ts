@@ -1,4 +1,4 @@
-import * as K from '../../fbs/functions/.konfig';
+import * as K from '../../fbs/functions/konfig';
 
 export const environment = {
   production: true,
