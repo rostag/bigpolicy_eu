@@ -2,6 +2,7 @@ import { OnInit, Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from './shared/user/user.service';
 import * as appVersion from '../../package.json';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(`BigPolicy v.${this.version}`);
+    console.log(`BigPolicy v.${this.version}`, environment.K);
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;

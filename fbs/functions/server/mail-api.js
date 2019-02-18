@@ -1,11 +1,12 @@
+const K = require('../../functions/.konfig');
+
 module.exports = function(app, router, DB){
 
   // Mailgun-js wrapper
   var Mailgun = require('mailgun-js');
 
-  // FIXME_SEC
-  var mailgun_api_key = 'key-fbb7eae260ccda81270645824316856a';
-  var mailgun_domain = 'bigpolicy.eu';
+  var mailgun_api_key = K.mailgun.apiKey;
+  var mailgun_domain = K.mailgun.domain;
 
   // Send a message to the specified email address. All params passed via req
   router.post('/mail-api/share', function (req, res) {
