@@ -22,12 +22,11 @@ export class LeaderService {
     return this._leader;
   };
 
-  // FIXME TO NGRX LDR - store selected leader from here
+  // FIXME TO NGRX LDR Store selected leader from here
   public set leader(leader: ILeader) {
     this._leader = leader;
   };
 
-  private models;
   private _leader: ILeader;
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
@@ -123,16 +122,16 @@ export class LeaderService {
     return leaderResponse;
   }
 
-  private findCachedLeaderByEmail(email: string): ILeader {
-    const leaders = this.models;
-    let foundLeader;
-    for (const l in leaders) {
-      if (leaders[l].email === email) {
-        foundLeader = leaders[l];
-      }
-    }
-    return foundLeader;
-  }
+  // private findCachedLeaderByEmail(email: string): ILeader {
+  //   const leaders = this.models;
+  //   let foundLeader;
+  //   for (const l in leaders) {
+  //     if (leaders[l].email === email) {
+  //       foundLeader = leaders[l];
+  //     }
+  //   }
+  //   return foundLeader;
+  // }
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
@@ -215,7 +214,6 @@ export class LeaderService {
       });
   }
 
-  // TODO Check if the same can be done for projects
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     if (leader._id) {

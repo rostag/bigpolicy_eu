@@ -37,7 +37,7 @@ export class LeaderModel implements ILeader {
    * @returns String Serialized Leader
    */
   toString() {
-    // FIXME TEST_1 -- Somehow it stops saving if switch to next string instead of bulky code
+    // FIXME TEST_1 Somehow it stops saving if switch to next string instead of bulky code
     console.log('leader model.toString', this);
     return JSON.stringify(this);
   }

@@ -54,7 +54,6 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
    */
   public ngOnInit() {
     if (this.isUsedInline) {
-      // FIXME Use caching - too many requests otherwise
       this.applyProjectChanges(this.project);
     } else {
       this.route.params.subscribe(params => {
@@ -78,7 +77,7 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
     if (!task) {
       return;
     }
-    ;
+
     this.task = task;
     this.hasVisual = !!(this.task && (this.task.imageUrl || this.task.videoUrl));
 
@@ -104,8 +103,8 @@ export class TaskViewComponent implements OnInit, OnChanges, OnDestroy {
 
   public deleteTask(task: ITask, event) {
     this.taskStore.dispatch(new DeleteTask(task));
-    this.dialogService.info(`Захід видалено`, `Ми видалили цей захід`);
-    this.router.navigate([`/project/${task.projectId}`]);
+    this.dialogService.info({title: `Захід видалено`, message: `Ми видалили цей захід`});
+    this.router.navigate([`/project/${task.projectId}`]).then();
     event.stopPropagation();
     return false;
   }
