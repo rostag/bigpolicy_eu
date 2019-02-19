@@ -1,4 +1,4 @@
-const K = require('../../../konfig');
+const K = require('../../../app-konfig');
 
 module.exports = function(app, router){
 
