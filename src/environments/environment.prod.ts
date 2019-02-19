@@ -1,4 +1,4 @@
-import * as K from '../../konfig';
+import * as K from '../../app-konfig';
 
 export const environment = {
   production: true,

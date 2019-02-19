@@ -1,1 +1,1 @@
-konfig filter=git-crypt diff=git-crypt
+app-konfig.js filter=git-crypt diff=git-crypt
