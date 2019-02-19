@@ -126,7 +126,12 @@ export class ProjectService {
    */
   deleteProject(model: IProject, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
-    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+    const dialogResult = this.dialogService.confirm({
+      title: 'Точно видалити?',
+      message: 'Ця дія незворотня, продовжити?',
+      btnOkText: 'Видалити',
+      btnCancelText: 'Відмінити'
+    });
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
@@ -134,25 +139,29 @@ export class ProjectService {
         this.finalizeProjectDeletion(model, navigateToList);
 
         if (model.taskIds && model.taskIds.length > 0) {
-          this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
-            до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
-            .subscribe(toDeleteTasks => {
-              if (toDeleteTasks === true) {
-                // Delete Tasks from DB
-                // TODO delete tasks fbs, donations and task donations data
-                this.taskService.bulkDeleteTasks(model.taskIds)
-                  .subscribe(() => {
+          this.dialogService.confirm({
+            title: 'Що робити з заходами?',
+            message: `Проект має заходи. Видалити їх, чи залишити у системі,
+            передавши до спецпроекту "Не на часі"?`,
+            btnOkText: 'Видалити',
+            btnCancelText: 'Залишити у системі'
+          }).subscribe(toDeleteTasks => {
+            if (toDeleteTasks === true) {
+              // Delete Tasks from DB
+              // TODO delete tasks, donations and task donations data
+              this.taskService.bulkDeleteTasks(model.taskIds)
+                .subscribe(() => {
+                });
+            } else {
+              // NENACHASI: reassign tasks to placeholder Project
+              this.getProjectsPage({id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }'})
+                .subscribe((res) => {
+                  this.taskService.bulkUpdateTasks(model.taskIds, {projectId: res['docs'][0]._id}).subscribe((result) => {
                   });
-              } else {
-                // NENACHASI: reassign tasks to placeholder Project
-                this.getProjectsPage({id: null, page: 1, pageSize: 3, dbQuery: '{ "$where": "this.title == \\"Не на часі\\"" }'})
-                  .subscribe((res) => {
-                    this.taskService.bulkUpdateTasks(model.taskIds, {projectId: res['docs'][0]._id}).subscribe((result) => {
-                    });
-                  });
-              }
-              this.finalizeProjectDeletion(model, navigateToList);
-            });
+                });
+            }
+            this.finalizeProjectDeletion(model, navigateToList);
+          });
         } // If Task reassignment was needed
       }
     });

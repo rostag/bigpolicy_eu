@@ -133,8 +133,7 @@ export class UserService {
     this.setLoggedIn(true, profile);
 
     this.leaderService.requestLeaderByEmail(this.getEmail())
-      .subscribe(leaderResponse => {
-        this.showStatus();
+      .subscribe(() => {
         this.tryToContinueLeaderRegistration();
       });
   }
@@ -162,17 +161,6 @@ export class UserService {
     // Check if current time is past access token's expiration
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
-  }
-
-  // Was
-
-  public showStatus() {
-    const status =
-      `Email: ` + this.getEmail() +
-      `\nAuthenticated: ` + this.authenticated() +
-      `\nHas Leader: ` + this.hasLeader() +
-      `\nIs Admin: ` + this.isAdmin +
-      `\nSaved registration: ` + localStorage.getItem('BigPolicyLeaderRegistration');
   }
 
   /**
@@ -226,9 +214,9 @@ export class UserService {
   // FTUX
 
   /**
-  * Lazy Leader Registration.
-  * Save Leader to LocalStorage to let unauthorised user to start registration
-  */
+   * Lazy Leader Registration.
+   * Save Leader to LocalStorage to let unauthorised user to start registration
+   */
   public needToLoginFirst(leader: ILeader) {
     if (!this.authenticated()) {
 
@@ -237,7 +225,10 @@ export class UserService {
 
       // show Registration is needed warning
       this.dialogService
-        .confirm('Потрібна авторизація', 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"')
+        .confirm({
+          title: 'Потрібна авторизація',
+          message: 'Для завершення реєстрації треба увійти в систему. Будь ласка, натиcни "Продовжити"'
+        })
         .subscribe(() => {
           this.login();
         });
@@ -259,8 +250,8 @@ export class UserService {
 
       // on registration success
       this.dialogService
-        .confirm('Вітаємо!', 'Ти успішно завершив реєстрацію в системі.')
-        .subscribe(res => {
+        .confirm({title: 'Вітаємо!', message: 'Ти успішно завершив реєстрацію в системі.'})
+        .subscribe(() => {
           leader.email = this.getEmail();
           this.leaderStore.dispatch(new CreateLeader(leader));
         });
@@ -268,14 +259,15 @@ export class UserService {
       // on registration failure — leader with that email is registered already
       if (!!lsRegistration) {
         this.dialogService
-          .confirm('Існуючий користувач?', 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!')
-          .subscribe(res => {
+          .confirm({title: 'Існуючий користувач?', message: 'Лідера з таким email вже зареєстровано в системі. \n\nЗдається, це ти!'})
+          .subscribe(() => {
             localStorage.removeItem('BigPolicyLeaderRegistration');
           });
       } else {
         this.dialogService
-          .confirm('Вітаємо!', 'Ти успішно увійшов у систему.')
-          .subscribe(() => { });
+          .confirm({title: 'Вітаємо!', message: 'Ти успішно увійшов у систему.'})
+          .subscribe(() => {
+          });
       }
     }
   }
