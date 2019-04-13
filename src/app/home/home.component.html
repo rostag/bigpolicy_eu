@@ -25,29 +25,30 @@
 </div>
 
 <div class="how-it-works">
-  <h2 align="center">Як це працює?</h2>
+  <h2 class="how-it-works-headline" align="left">Як це працює?</h2>
+  <div class="header-line"></div>
   <div fxLayout="row wrap" fxLayoutAlign="space-around start">
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons mat-48">face</div>
+  		<img src="assets/svg/smile.svg">
       <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером</a></div>
+  		<div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
   		<div *ngIf="userService.hasLeader()">Ви стали лідером</div>
       <!-- /FTUX - LEADER END -->
   		<div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
   	</div>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons mat-48">loop</div>
+  		<img src="assets/svg/thumbs-up.svg">
   		<div>Прихильники ідеї підтримують її реалізацію коштами</div>
   		<div>Невелика сума краща за лайки в фейсбуці.</div>
   	</div>
   	<div fxFlex="21" fxFlelo ax.sm="42" fxFlex.xs="84">
-  		<div class="material-icons mat-48">mic</div>
-  		<div>Ви завершуєте проект і розповідаєте про нього світові</div>
-  		<div>BIGPOLICY допомагає вам.</div>
+  		<img src="assets/svg/microphone.svg">
+  		<div>Ви завершуєте проект і розповідаєте про нього світові.</div>
+  		<div>BIGPOLICY надає вам необхідні інструменти та прозорість  .</div>
   	</div>
   	<div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
-  		<div class="material-icons mat-48">movie</div>
-  		<div>Місія виконана з відповідними результатами</div>
+  		<img src="assets/svg/check-circle.svg">
+  		<div>Проект місії виконана з відповідними результатами</div>
   		<div>Нова ініціатива реалізована до життя!</div>
   	</div>
   </div>
@@ -73,17 +74,19 @@
   </mat-tab>
 </mat-tab-group>
 
-<p class="bottom-title">
-    BigPolicy — платформа прямої демократії
-    <br/>
-    Твої політики для тебе і від тебе
-</p>
+<div fxLayout="row" fxLayoutGap="50" class="bottom-title">
+    <div fxFlex="80"><b>BigPolicy</b> — платформа прямої демократії.<br>Всі лідери - для тебе!</div>
+      <div><button mat-raised-button color="red" href="/about">Детальніше</button>
+      </div>
+</div>
 
 <!-- Останні проекти та політики — це зменшені мініатюри -->
 <!-- FIXME dbQuery to get recent ones only -->
 <h2>Останні проекти</h2>
+<div class="header-line"></div>
 <app-project-list [pageSize]="6" [showPagination]="false" viewContext="compactProjectList" [flexSettings]="'16|16|33|50|100'" dbQuery='{ "$where": "this.tasks.length < 100" }' ></app-project-list>
 <h2>Нові лідери</h2>
+<div class="header-line"></div>
 <app-leader-list [pageSize]="6" [showPagination]="false" viewContext="compactLeaderList" [flexSettings]="'33|33|33|50|100'" dbQuery='{ "$where": "this.projectIds.length < 100" }'></app-leader-list>
 
 <!-- Contacts / Footer -->
