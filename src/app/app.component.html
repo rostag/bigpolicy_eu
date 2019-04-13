@@ -1,4 +1,4 @@
-<div class="mat-typography app" fxLayout="column" fxLayoutAlign="space-between stretch">
+<div class="mat-typography app" fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutAlign.xs="start">
 
   <app-bp-toolbar fxFlex></app-bp-toolbar>
 
@@ -8,7 +8,7 @@
 
   </div>
 
-  <footer fxFlex fxLayout="row" fxLayoutAlign="space-between center" >
+  <footer fxFlex fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" fxLayoutAlign.xs="stretch">
     <div fxFlex="10">
       <a [routerLink]="['/about']">
         <img width="40" class="logo" src="assets/img/logo.png" />
