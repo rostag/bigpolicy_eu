@@ -10,7 +10,7 @@ describe('DialogService', () => {
       providers: [
         DialogService,
         MatDialog
-    ]
+      ]
     });
   });
 
@@ -18,8 +18,8 @@ describe('DialogService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('FIXME should ... show confirmation', inject([DialogService], (service: DialogService) => {
+  it('FIXME should ... show confirmation', inject([DialogService], () => {
     expect(true).toBeTruthy();
-  //   // expect(service.confirm('Hello', 'Service')).toBeTruthy();
+    // expect(service.confirm('Hello', 'Service')).toBeTruthy();
   }));
 });

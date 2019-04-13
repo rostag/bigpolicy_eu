@@ -65,7 +65,8 @@ export class DonateComponent implements OnChanges {
     d.dateStarted = new Date();
     const wl = window.location;
     d.server_url = `${wl.protocol}//${wl.host}`;
-    d.result_url = wl.href;
+    // FIXME Find out why it redirects to POST and how to fix it
+    // d.result_url = wl.href + '?thank-you';
 
     if (this.targetType === 'leader') {
       d.description = `Переказ ${d.amount} UAH. Отримувач: ${this.target.name} ${this.target.surName}. Донор: ${donorName}. Дякуємо!`;
@@ -83,17 +84,19 @@ export class DonateComponent implements OnChanges {
     model._id = _id;
     return this.donationService.requireSign(model).pipe(map(res => res))
       .subscribe((res) => {
-        console.log('Donation form:', res);
         const sgndta = res.split(environment.K.liq.dataSeparator);
+        console.log('Donation form:', res, sgndta);
         const formStr =
-`<form style="margin: 7px auto 27px auto;" method="POST" action="https://www.liqpay.com/api/3/checkout" accept-charset="utf-8">
+`<form style="margin: 7px auto 27px auto;" method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
 <input type="hidden" name="data" value="${sgndta[0]}" />
 <input type="hidden" name="signature" value="${sgndta[1]}" />
 <button style="border-radius:4px;border:none;background-color:lightskyblue;font-size:1.05em;font-weight:bold;padding:0.8em;cursor:pointer;">
 Переказати ${this.amount} UAH</button>
 </form>`;
         // FIXME - Update button visual style, broken after ng update
-        this.donationFormHtml = this.sanitizer.bypassSecurityTrustHtml(formStr);
+        const sanitized = this.sanitizer.bypassSecurityTrustHtml(formStr);
+        console.log('FORM:', formStr, sanitized);
+        this.donationFormHtml = sanitized; // this.sanitizer.bypassSecurityTrustHtml(formStr);
       });
   }
 

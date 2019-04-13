@@ -22,12 +22,11 @@ export class LeaderService {
     return this._leader;
   };
 
-  // FIXME TO NGRX LDR - store selected leader from here
+  // FIXME TO NGRX LDR Store selected leader from here
   public set leader(leader: ILeader) {
     this._leader = leader;
   };
 
-  private models;
   private _leader: ILeader;
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
@@ -123,16 +122,16 @@ export class LeaderService {
     return leaderResponse;
   }
 
-  private findCachedLeaderByEmail(email: string): ILeader {
-    const leaders = this.models;
-    let foundLeader;
-    for (const l in leaders) {
-      if (leaders[l].email === email) {
-        foundLeader = leaders[l];
-      }
-    }
-    return foundLeader;
-  }
+  // private findCachedLeaderByEmail(email: string): ILeader {
+  //   const leaders = this.models;
+  //   let foundLeader;
+  //   for (const l in leaders) {
+  //     if (leaders[l].email === email) {
+  //       foundLeader = leaders[l];
+  //     }
+  //   }
+  //   return foundLeader;
+  // }
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
@@ -155,8 +154,12 @@ export class LeaderService {
    */
   public deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
-    const dialogResult = this.dialogService.confirm('Точно видалити?',
-      'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+    const dialogResult = this.dialogService.confirm({
+      title: 'Точно видалити?',
+      message: 'Ця дія незворотня, продовжити?',
+      btnOkText: 'Видалити',
+      btnCancelText: 'Відмінити'
+    });
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
@@ -164,30 +167,32 @@ export class LeaderService {
         this.finalizeLeaderDeletion(model, navigateToList);
 
         if (model.projectIds && model.projectIds.length > 0) {
-          this.dialogService.confirm('Що робити з проектами?',
-            `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
-            до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
-            .subscribe(toDeleteProjects => {
-              if (toDeleteProjects === true) {
-                // Delete Projects and Tasks in DB
-                // TODO delete projects fbs, donations and task donations data
-                this.projectService.bulkDeleteProjects(model.projectIds)
-                  .subscribe((deleteResult) => {
-                    console.log('Projects deleted:', deleteResult);
-                  });
-              } else {
-                // Reassign projects to another Leader (this/Admin)
-                // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
-                const newLeader = this.leader;
-                const projectsUpdate = this.projectService.bulkUpdateProjects(model.projectIds, {
-                  managerId: newLeader._id,
-                  managerEmail: newLeader.email,
-                  managerName: `${newLeader.name} ${newLeader.surName}`
+          this.dialogService.confirm({
+            title: 'Що робити з проектами?',
+            message: `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
+            до тимчасової адміністрації?`,
+            btnOkText: 'Видалити',
+            btnCancelText: 'Залишити у системі'
+          }).subscribe(toDeleteProjects => {
+            if (toDeleteProjects === true) {
+              // Delete Projects and Tasks in DB, TODO delete task donations data
+              this.projectService.bulkDeleteProjects(model.projectIds)
+                .subscribe((deleteResult) => {
+                  console.log('Projects deleted:', deleteResult);
                 });
-                projectsUpdate.subscribe();
-              }
-              this.finalizeLeaderDeletion(model, navigateToList);
-            });
+            } else {
+              // Reassign projects to another Leader (this/Admin)
+              // FIXME Check mixing of the logged in, profile, user leader, or leader to be deleted
+              const newLeader = this.leader;
+              const projectsUpdate = this.projectService.bulkUpdateProjects(model.projectIds, {
+                managerId: newLeader._id,
+                managerEmail: newLeader.email,
+                managerName: `${newLeader.name} ${newLeader.surName}`
+              });
+              projectsUpdate.subscribe();
+            }
+            this.finalizeLeaderDeletion(model, navigateToList);
+          });
         } // If Project reassignment was needed
       }
     });
@@ -209,7 +214,6 @@ export class LeaderService {
       });
   }
 
-  // TODO Check if the same can be done for projects
   public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
     if (leader._id) {

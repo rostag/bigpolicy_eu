@@ -3,33 +3,30 @@ import { DialogComponent } from './dialog.component';
 import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { Injectable } from '@angular/core';
 
+export interface BPDialogConfig extends MatDialogConfig {
+  [key: string]: any
+}
+
 @Injectable()
 export class DialogService {
 
-  constructor(private dialog: MatDialog) { }
-
-  public confirm(
-    title: string,
-    message: string,
-    btnOkText: string = 'Продовжити',
-    btnCancelText: string = 'Відмінити'): Observable<boolean> {
-
-    let dialogRef: MatDialogRef<DialogComponent>;
-    const dialogConfig = new MatDialogConfig();
-
-    dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-
-    dialogRef.componentInstance.title = title;
-    dialogRef.componentInstance.message = message;
-    dialogRef.componentInstance.btnCancelText = btnCancelText;
-    dialogRef.componentInstance.btnOkText = btnOkText;
-
-    const result = dialogRef.afterClosed();
-
-    return result;
+  constructor(private dialog: MatDialog) {
   }
 
-  public info(title: string, message: string): Observable<boolean> {
-    return this.confirm(title, message, 'OK', null);
+  public confirm(dialogConfig?: BPDialogConfig): Observable<boolean> {
+    const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent, dialogConfig);
+    const comp: any = dialogRef.componentInstance;
+
+    comp.title = dialogConfig.title;
+    comp.message = dialogConfig.message;
+    comp.btnCancelText = dialogConfig.btnCancelText || 'Відмінити';
+    comp.btnOkText = dialogConfig.btnOkText || 'Продовжити';
+    dialogRef.componentInstance = comp;
+
+    return dialogRef.afterClosed();
+  }
+
+  public info(dialogConfig?: BPDialogConfig): Observable<boolean> {
+    return this.confirm({...dialogConfig, btnOkText: 'OK'});
   }
 }
