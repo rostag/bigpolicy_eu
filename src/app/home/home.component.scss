@@ -1,7 +1,9 @@
+@import '../../assets/scss/styles.scss';
 $llgrey: #eee;
 $lgrey: #ccc;
 $grey: #999;
 $gry: #555;
+
 
 app-home:host {
   background-color: transparent;
@@ -12,6 +14,27 @@ app-home:host {
 
 .how-it-works {
   margin-top: 7rem;
+
+.how-it-works-headline{
+  text-transform: uppercase;
+}
+
+  img {
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+}
+
+.header-line{
+  height:3px;
+  width:100px;
+  display: block;
+  background-color: #C13833;
+  margin-bottom:60px;
 }
 
 .projects-leaders-list {
@@ -37,13 +60,21 @@ app-home:host {
 
   .bt-show-all {
     margin-bottom: 1em;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: normal;
+    color: #FFFFFF;
+    background: #C13833;
+    border-radius: 5px;
   }
 }
 
 .bottom-title {
-  font-size: 2rem;
-  margin: 7rem;
-  text-align: center;
+  font-size: 30px;
+  margin: 100px;
+  text-align: left;
+  line-height: 35px;
 }
 
 .contacts {
