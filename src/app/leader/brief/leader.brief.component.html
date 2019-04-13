@@ -21,19 +21,21 @@
 <!-- State: Leader List Page -->
 <!-- *ngIf="viewContext==='leaderListPage'" -->
 
-<mat-card class="leader-list-card" class.xs="leader-list-card-single-column" [routerLink]="getLeaderLink(leader)" *ngIf="viewContext==='leaderListPage'" >
-  <mat-card-title>
-    <a [routerLink] = "getLeaderLink(leader)" class="name" title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}">
+<mat-card class="leader-list-card" ngClass.xs="leader-list-card-single-column"
+          [routerLink]="getLeaderLink(leader)"
+          *ngIf="viewContext==='leaderListPage'" >
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a [routerLink]="getLeaderLink(leader)" class="name" title="{{leader.name}} {{leader.surName}}. Email: {{leader.email}}">
       {{leader.name}} {{leader.surName}}
       <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
     </a>
-  </mat-card-title>
-  <mat-card-subtitle>
-    {{leader.location}}
-  </mat-card-subtitle>  
+    <a>
+      {{leader.location}}
+    </a>
+  </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
-    <div class="mat-card-image-clipper" class.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
+    <div class="mat-card-image-clipper" ngClass.xs="media-xs" *ngIf="hasVisual" fxFlex="35" fxFlexAlign.xs="center" >
       <div *ngIf="leader.photo; then images else videos"></div>
       <p class="projects">Проектів: {{leader.projectIds?.length}}</p>
     </div>
@@ -42,18 +44,14 @@
       <p class="mission"><b>Місія:</b> {{leader.mission}}</p>
     </div>
   </div>
-  <mat-card-actions align="end">
-    <div class="buttons-space">
-      <span *ngIf="userService.hasEditPermissions(leader)">
-        <button mat-icon-button [routerLink]="[getLeaderLink(leader) + '/edit']"><mat-icon>edit</mat-icon></button>
-      </span>
-      <button class="lead-button" [routerLink] = "getLeaderLink(leader)" mat-button color="primary">Підтримати</button>
-    </div>
-  </mat-card-actions>
+  <div class="buttons-space">
+    <a *ngIf="userService.hasEditPermissions(leader)" [routerLink]="[getLeaderLink(leader) + '/edit']"><mat-icon>edit</mat-icon></a>
+    <a class="lead-button" [routerLink]="getLeaderLink(leader)">Підтримати</a>
+  </div>
 </mat-card>
 
 <!-- Item Brief View (for display in compact lists) on Home page -->
-<mat-card class="leader-list-card list-brief" class.xs="leader-list-card-single-column" [routerLink]="getLeaderLink(leader)" *ngIf="viewContext==='compactLeaderList'" >
+<mat-card class="leader-list-card list-brief" ngClass.xs="leader-list-card-single-column" [routerLink]="getLeaderLink(leader)" *ngIf="viewContext==='compactLeaderList'" >
   <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" >
     <div fxFlex="30" fxFlexAlign.xs="center">
       <app-image class="leader-photo" [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>

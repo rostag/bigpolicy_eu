@@ -45,7 +45,7 @@ export class TaskService {
    */
   gotoTaskView(task) {
     if (task && task._id) {
-      this.router.navigate(['/task', task._id]).then(_ => {
+      this.router.navigate(['/task', task._id]).then(() => {
       });
     }
   }
@@ -111,7 +111,7 @@ export class TaskService {
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param ITask A Task to delete
+   * @param model ITask A Task to delete
    */
   deleteTask(model: ITask): Observable<any> {
     return this.http.delete(this.apiUrl + model._id);

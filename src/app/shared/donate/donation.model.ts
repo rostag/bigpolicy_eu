@@ -15,8 +15,8 @@ export class DonationModel {
   description: string;
   status = 'unfinished';
   // Not stored in DB. Used as backlink for liqpay.
-  result_url: String;
-  server_url: String;
+  result_url: string;
+  server_url: string;
 
   toString() {
     return JSON.stringify({

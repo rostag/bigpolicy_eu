@@ -76,7 +76,7 @@ export class LeaderEditComponent implements OnInit {
       location: [''],
     });
 
-    // FIXME_SEC TEST_1 2NGRX unauthorised user can't see the page
+    // FIXME TEST_1 2NGRX unauthorised user can't see the page
     this.route.params.subscribe((params) => {
       if (params.id && this.userService.authenticated()) {
         this.leaderStore.dispatch(new LoadLeader(params.id));

@@ -172,7 +172,6 @@ export class FilesEditComponent implements AfterViewInit {
    * Initiate the upload.
    */
   initUpload() {
-    const self = this;
     const xhr = new XMLHttpRequest();
     const file = this.fileToUpload;
     this.uploadInProgress = true;
@@ -209,14 +208,13 @@ export class FilesEditComponent implements AfterViewInit {
   sendFile(fileId) {
     this.fileToUpload.id = fileId;
     const content = this.fileToUpload;
-    const end = this.fileToUpload.size;
 
     const xhr = new XMLHttpRequest();
     xhr.open(`PATCH`, `https://www.googleapis.com/upload/drive/v3/files/${fileId}`, true);
     xhr.setRequestHeader(`Content-Type`, this.fileToUpload.type);
     xhr.setRequestHeader(`Authorization`, `Bearer ${this.savedSignInUserInfo.getAuthResponse().access_token}`);
     xhr.setRequestHeader(`X-Upload-Content-Type`, this.fileToUpload.type);
-    xhr.onload = (res) => this.onFileUploadComplete();
+    xhr.onload = () => this.onFileUploadComplete();
     xhr.onerror = (err) => console.log('Upload error:', err);
     xhr.send(content);
   };
@@ -252,7 +250,7 @@ export class FilesEditComponent implements AfterViewInit {
     };
 
     gapi.client.drive.files.list(folderMetadata)
-      .execute((resp, raw_resp) => {
+      .execute((resp) => {
         const folder = resp.files[0];
         if (!folder) {
           this.createFolder();
