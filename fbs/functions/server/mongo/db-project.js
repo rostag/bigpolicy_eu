@@ -45,7 +45,9 @@ DBProject.getProject = function(projectId) {
          const rndm = Math.floor(Math.random() * cnt);
          return Project.findOne().skip(rndm).exec()
            .then((randomLeader, err) => {
-             console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
+             if(randomLeader){
+               console.log(`Random ${rndm} of ${cnt} = ${randomLeader._id}`);
+             }
              return randomLeader;
            })
        });

@@ -9,8 +9,13 @@ import { UserService } from './user.service';
 
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  profileLeader;
-  subscription: any;
+  private _profileLeader: {};
+
+  public get profileLeader() {
+    return this._profileLeader || {};
+  };
+
+  private subscription: any;
 
   constructor(
     public leaderService: LeaderService,
@@ -22,12 +27,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscription = this.leaderService.leaderStream
       .subscribe(item => {
         console.log('ProfileComponent. Set profile leader:', item);
-        this.profileLeader = item;
+        this._profileLeader = item;
       });
   }
 
   ngOnDestroy() {
-    // prevent memory leak when component is destroyed
     this.subscription.unsubscribe();
   }
 }
