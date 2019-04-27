@@ -48,7 +48,7 @@ module.exports = function(app, router, DB, jwtCheck, adminCheck){
    */
   .get('/leader-api/:id', function (req, res) {
     if (req.params.id) {
-      console.log('\n\nleader-api/', req.params.id);
+      console.log(`\n\nleader-api/${req.params.id}`);
       DB.getLeader(req.params.id)
         .then(function (data) {
           res.json(data || []);
