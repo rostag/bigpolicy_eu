@@ -71,8 +71,9 @@ This will show waiting for connections message on the console output, which indi
 
 At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, node serves as web + mongodb. Run ng to build, telling it to watch and rebuild sources:
 
-```npm run db
-npm run server```
+```npm run db```
+
+```npm run server```
 
 #### Run node express app:
 
