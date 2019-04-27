@@ -10,18 +10,15 @@ var DBLeader = {};
  * Creates a Leader by provided data
  * @param dataObj Properties object of Leader to be created
  */
-DBLeader.createLeader = function(data) {
-  const model = new Leader(data);
-  var saved = model.save();
-  var saved2 = model.save(saved);
-  console.log('saved2: ', saved2);
-  return saved2;
+DBLeader.createLeader = async function (data) {
+  const newLeader = await new Leader(data).save();
+  return newLeader;
 }
 
 /**
  * Returns single Leader by ID
  */
-DBLeader.getLeader = function(leaderId) {
+DBLeader.getLeader = function (leaderId) {
 
   if (leaderId === 'random') {
     // FIXME after MongoDB update to 3.2: Get one random document from the mycoll collection.
@@ -58,10 +55,10 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
 
   // If passed, use project IDs in query
   if (leaderIds) {
-    query['_id'] = { $in: projectIds };
+    query['_id'] = {$in: projectIds};
   }
 
-  return Leader.paginate(query, { page: parseInt(page), limit: parseInt(limit) });
+  return Leader.paginate(query, {page: parseInt(page), limit: parseInt(limit)});
 }
 
 /**
@@ -69,14 +66,14 @@ DBLeader.getPageOfLeaders = function (leaderIds, page, limit, dbQuery) {
  * @param id {string} Leader ID to update
  * @param dataObj {Object} Properties object of Leader to be created
  */
-DBLeader.updateLeader = function(id, data) {
-  if ( !data.name || !data.surName || !data.vision || !data.mission || !data.email ) {
-    throw ( 'DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
+DBLeader.updateLeader = function (id, data) {
+  if (!data.name || !data.surName || !data.vision || !data.mission || !data.email) {
+    throw ('DBLeader: Invalid Leader cannot be saved. Either name, surname, vision, email or mission is missed.')
   }
 
-  if ( !data ) data = {};
-  return Leader.findById(id, function(err, model) {
-    if(err || !model){
+  if (!data) data = {};
+  return Leader.findById(id, function (err, model) {
+    if (err || !model) {
       return;
     }
     for (var field in data) {
@@ -90,7 +87,7 @@ DBLeader.updateLeader = function(id, data) {
  * Deletes a Leader by ID
  * @param id Leader ID to delete from DB
  */
-DBLeader.deleteLeader = function(id) {
+DBLeader.deleteLeader = function (id) {
   return Leader.findById(id).remove();
 }
 
