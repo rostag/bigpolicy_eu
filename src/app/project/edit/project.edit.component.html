@@ -3,13 +3,8 @@
     <mat-card-content>
       <mat-card-title fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
         <div class="title">
-          <!--<span *ngIf="!isUpdateMode">Створити проект</span>-->
-          <span *ngIf="isUpdateMode">
-            <mat-form-field>
-              <input style="width: 100%;" matInput required [(ngModel)]="project.title" characterCounter
-                     [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </span>
+          <span *ngIf="!isUpdateMode">Створити проект</span>
+          <span *ngIf="isUpdateMode">Редагувати проект</span>
         </div>
         <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
                       buttonType="regular" buttonLabel="Додати зображення"
@@ -19,6 +14,13 @@
       <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
 
       <small>Проект</small>
+
+      <mat-form-field>
+        <input style="width: 100%;" matInput required
+               placeholder="Назва проекту"
+               [(ngModel)]="project.title" characterCounter
+               [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
 
       <mat-form-field>
         <textarea matInput matTextareaAutosize required class="bp-textarea" rows="4" maxLength="1000"
