@@ -1,3 +1,5 @@
+@import '../../../assets/scss/styles.scss';
+
 $col-555: #555;
 $col-eee: #eee;
 $col-fafafa: #fafafa;
@@ -22,6 +24,70 @@ a {
     }
   }
 }
+
+// -------------------- new code --------------------------
+
+.mat-card {
+  min-height: 420px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
+}
+
+.leader-cover-wraper {
+  position: relative;
+  max-height: 300px;
+}
+
+.leader-cover {
+  position: relative;
+  top: -3px;
+  max-height: 300px;
+}
+
+.leader-name {
+  position: absolute;
+  top: 5px;
+  left: -16px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 30px 10px 10px;
+
+  mat-card-title {
+    font-family: 'Montserrat Alternates';
+    color: $red;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+.leader-title {
+  font-weight: 600;
+  font-size: 24px;
+  white-space: nowrap;
+}
+.leader-description {
+  font-weight: 400;
+  font-size: 20px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  // white-space: pre-line;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 20px;
+}
+
+.info-btn-color {
+  font-size: 20px;
+  padding: 5px 45px;
+}
+
+ 
+// -------------------- new code --------------------------
 
 // List View
 

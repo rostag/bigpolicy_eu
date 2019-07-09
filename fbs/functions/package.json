@@ -19,8 +19,7 @@
     "mailgun-js": "^0.20.0",
     "method-override": "2.3.10",
     "mongoose": "^5.5.4",
-    "mongoose-paginate": "5.0.3",
-    "sdk-nodejs": "git+ssh://git@github.com/rostag/sdk-nodejs.git"
+    "mongoose-paginate": "5.0.3"
   },
   "private": true
 }

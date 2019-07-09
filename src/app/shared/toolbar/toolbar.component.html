@@ -1,7 +1,6 @@
 <nav class="app-toolbar" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" ngClass.xs="nav-xs">
-
-  <span fxFlex="23"><a [routerLink]="['/leaders']">Лідери</a></span>
   <span fxFlex="23"><a [routerLink]="['/projects']">Проекти</a></span>
+  <span fxFlex="23"><a [routerLink]="['/leaders']">Лідери</a></span>
   <span fxFlex="8" class="logo-placeholder">&nbsp;</span>
   <span fxFlex="23">
     <a [routerLink]="['/add-leader']" *ngIf="!hasAuthenticatedLeader; else addProjectButton">Стати лідером</a>

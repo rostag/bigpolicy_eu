@@ -20,20 +20,66 @@
 <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
 <div fxLayout="row" fxLayoutAlign="space-around start" fxLayout.xs="column">
-  <app-project-brief fxFlex="42" projectId="random" [viewContext]="'homePage'"></app-project-brief>
-  <app-leader-brief fxFlex="42" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
+  <app-project-brief fxFlex="49" projectId="random" [viewContext]="'homePage'"></app-project-brief>
+  <app-leader-brief fxFlex="49" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
 </div>
 
-<div class="how-it-works">
-  <h2 class="how-it-works-headline" align="left">Як це працює?</h2>
-  <div class="header-line"></div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-around start">
-    <div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
+<div class="how-it-works-wraper">
+  <h2 class="how-it-works-headline" align="center">Як це працює?</h2>
+  <div fxLayout="row wrap" fxLayoutAlign="space-around start" class="how-it-works-section">
+    <div fxFlex="24" fxFlex.sm="48" fxFlex.xs="84" class="how-it-works-card">
+      <mat-card>
+        <div fxLayoutAlign="center center" class="card-icon">
+          <img src="../../assets/img/how-its-work/thumb-up-gesture.png" alt="">
+        </div>
+        <div class="card-description">
+          <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+          <div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
+          <div *ngIf="userService.hasLeader()">Ви стали лідером</div>
+          <!-- /FTUX - LEADER END -->
+          <div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex="24" fxFlex.sm="48" fxFlex.xs="84" class="how-it-works-card">
+      <mat-card>
+        <div fxLayoutAlign="center center" class="card-icon">
+          <img src="../../assets/img/how-its-work/map-point-pointer.png" alt="">
+        </div>
+        <div class="card-description">
+          <div>Прихильники ідеї підтримують її реалізацію коштами</div>
+          <div>Невелика сума краща за лайки в фейсбуці.</div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex="24" fxFlex.sm="48" fxFlex.xs="84" class="how-it-works-card">
+      <mat-card>
+        <div fxLayoutAlign="center center" class="card-icon">
+          <img src="../../assets/img/how-its-work/loudspeaker-announce.png" alt="">
+        </div>
+        <div class="card-description">
+          <div>Ви завершуєте проект і розповідаєте про нього світові.</div>
+          <div>BIGPOLICY надає вам необхідні інструменти та прозорість .</div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex="24" fxFlex.sm="48" fxFlex.xs="84" class="how-it-works-card">
+      <mat-card>
+        <div fxLayoutAlign="center center" class="card-icon">
+          <img src="../../assets/img/how-its-work/circular-wall-clock.png" alt="">
+        </div>
+        <div class="card-description">
+          <div>Проект місії виконана з відповідними результатами</div>
+          <div>Нова ініціатива реалізована до життя!</div>
+        </div>
+      </mat-card>
+    </div>
+    <!-- <div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84"> 
       <img src="assets/svg/smile.svg">
-      <!-- FTUX - LEADER - Section is visible to non-leaders only -->
+      FTUX - LEADER - Section is visible to non-leaders only
       <div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
       <div *ngIf="userService.hasLeader()">Ви стали лідером</div>
-      <!-- /FTUX - LEADER END -->
+      /FTUX - LEADER END
       <div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
     </div>
     <div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84">
@@ -50,7 +96,7 @@
       <img src="assets/svg/check-circle.svg">
       <div>Проект місії виконана з відповідними результатами</div>
       <div>Нова ініціатива реалізована до життя!</div>
-    </div>
+    </div> -->
   </div>
 </div>
 

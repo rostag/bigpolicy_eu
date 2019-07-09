@@ -12,21 +12,59 @@ app-home:host {
   padding: 2rem;
 }
 
-.how-it-works {
-  margin-top: 7rem;
+.how-it-works-wraper {
+  margin-top: 6rem;
 
 .how-it-works-headline{
-  text-transform: uppercase;
+  font-family: 'Montserrat Alternates';
+  font-size: 2.8rem;
+  color: $gray;
+  font-weight: 600;
+  margin: 5rem 0 8rem 0;
 }
 
-  img {
-    width: 40px;
-    height: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    display: block;
+.how-it-works-card {
+  position: relative;
+
+  mat-card {
+    min-height: 260px;
+    border-radius: 15px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
 }
+
+.card-icon {
+  position: relative;
+  width: 122px;
+  height: 122px;
+  top: -60px;
+  background-color: $red;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.card-description {
+  font-family: 'Montserrat';
+  font-size: 19px;
+  color: $gray;
+  font-weight: 400;
+  text-align: center;
+
+  :nth-child(2) {
+    margin-top: 15px;
+  }
+}
+
+
+
+//   img {
+//     width: 40px;
+//     height: 40px;
+//     margin-left: auto;
+//     margin-right: auto;
+//     margin-bottom: 10px;
+//     display: block;
+// }
 }
 
 .header-line{
