@@ -1,4 +1,5 @@
 // @import '~@angular/material/_theming.scss';
+@import '../../../assets/scss/styles.scss';
 
 $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
@@ -13,15 +14,128 @@ a {
 
 // Card View
 
-.mat-card-image-clipper {
-  border-bottom: 1px solid $col-eee;
-  border-top: 1px solid $col-eee;
-  height: 300px;
-  margin: 0 -24px 16px;
-  max-height: 300px;
-  overflow: hidden;
-  width: calc(100% + 48px);
+// .mat-card-image-clipper {
+//   border-bottom: 1px solid $col-eee;
+//   border-top: 1px solid $col-eee;
+//   height: 300px;
+//   margin: 0 -24px 16px;
+//   max-height: 300px;
+//   overflow: hidden;
+//   width: calc(100% + 48px);
+// }
+
+// -------------------- new code --------------------------
+
+.mat-card {
+  min-height: 420px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
 }
+
+.project-cover-wraper {
+  position: relative;
+  max-height: 300px;
+}
+
+.project-cover {
+  position: relative;
+  top: -3px;
+  max-height: 300px;
+}
+
+.time-left {
+  position: absolute;
+  bottom: 49px;
+  left: 0;
+  align-items: center;
+}
+
+.timer-num {
+  width: 36px;
+  height: 39px;
+  background-color: $red;
+  border-radius: 5px;
+}
+
+.timer-num span {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.timer-word {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  padding: 3px;
+}
+
+.collected-money {
+  position: absolute;
+  bottom: 36px;
+  right: -16px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 10px 10px 10px 40px;
+
+    :nth-child(1) {
+      font-family: 'Montserrat Alternates';
+      color: $red;
+      font-size: 29px;
+      font-weight: 600;
+    }
+    :nth-child(2) {
+      font-family: 'Montserrat Alternates';
+      color: #707070;
+      font-size: 17px;
+      font-weight: 500;
+    }
+}
+
+
+.project-title {
+  font-weight: 600;
+  font-size: 24px;
+  white-space: nowrap;
+}
+.project-description {
+  font-weight: 400;
+  font-size: 20px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.bottom-section {
+  width: 100%;
+  padding: 20px;
+}
+
+.left-to-collect-money {
+  font-weight: 800;
+  font-size: 31px;
+}
+
+.left-to-collect-description {
+  font-weight: 400;
+  font-size: 15px;
+  padding-left: 10px;
+}
+
+.info-btn-color {
+  font-size: 20px;
+  padding: 5px 45px;
+}
+
+ 
+// -------------------- new code --------------------------
 
 // List View - Normal
 

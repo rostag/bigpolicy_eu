@@ -1,4 +1,4 @@
-<mat-card *ngIf="!!leader && viewContext==='homePage'" class="leader-brief-card" [routerLink]="getLeaderLink(leader)">
+<!-- <mat-card *ngIf="!!leader && viewContext==='homePage'" class="leader-brief-card" [routerLink]="getLeaderLink(leader)">
   <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
     <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
   </mat-card-title>
@@ -14,9 +14,35 @@
   </mat-card-content>
   <mat-card-actions align="end">
     <a [routerLink]="getLeaderLink(leader)"><button mat-button mat-raised-button color="primary" >Підтримати</button></a>
-    <!-- <a [routerLink]="['/leaders']"><button mat-button>Усі лідери</button></a> -->
-  </mat-card-actions>
-</mat-card>
+    <a [routerLink]="['/leaders']"><button mat-button>Усі лідери</button></a> -->
+  <!-- </mat-card-actions>
+</mat-card> --> 
+
+<!-- -------------- new code -------------------------------------- -->
+<div class="main-section">
+  <mat-card class="leader-brief-block" [routerLink]="getLeaderLink(leader)" *ngIf="!!leader && viewContext==='homePage'">
+    <div class="leader-cover-wraper">
+      <img mat-card-image class="leader-cover"  src="{{leader.imageUrl || '../../../assets/img/Group 813.png'}}" alt="leader image">
+      <div class="leader-name">
+        <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
+          <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+        </mat-card-title>
+      </div>
+    </div>
+    <mat-card-content>
+      <mat-card-title class="leader-title">Бачення: {{leader.vision}}</mat-card-title>
+      <p class="leader-description">Місія: {{leader.mission | slice : 0 : 100}}</p>
+    </mat-card-content>
+    <div class="btn-action">
+      <mat-card-actions fxLayoutAlign="center">
+        <a [routerLink]="getLeaderLink(leader)"><button mat-raised-button  class="info-btn-color">Підтримати</button></a>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>
+  <!-- -------------- new code -------------------------------------- -->
+
+
 
 <!-- State: Leader List Page -->
 <!-- *ngIf="viewContext==='leaderListPage'" -->
