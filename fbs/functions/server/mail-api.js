@@ -1,4 +1,4 @@
-const K = require('../../../app-config');
+const K = require('../../../bp-app-config');
 
 module.exports = function(app, router){
 
