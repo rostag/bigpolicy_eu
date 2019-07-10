@@ -1,4 +1,5 @@
 // bp-app-config.js
+// Update config
 
 module.exports = {
     liq: {

@@ -1,4 +1,4 @@
-const K = require('../../../bp-config');
+const K = require('../../../bp-app-config');
 
 module.exports = function (app, router, DB) {
   var LiqPay = require('sdk-nodejs');
