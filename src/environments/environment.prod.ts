@@ -1,4 +1,4 @@
-import * as K from '../../bp-config';
+import * as K from '../../app-config';
 
 export const environment = {
   production: true,
