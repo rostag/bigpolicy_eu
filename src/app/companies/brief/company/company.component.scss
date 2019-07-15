@@ -1,0 +1,101 @@
+@import '../../../../assets/scss/styles.scss';
+
+
+.popular-companies {
+    display: flex;       
+    
+    mat-card {
+        flex-wrap: wrap;
+        min-height: 420px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
+      }
+}
+
+  .company-brief-block {
+      width: 24%;
+      margin: 10px;
+  }
+  
+  .company-cover-wraper {
+    position: relative;
+    max-height: 300px;
+  }
+  
+  .company-cover {
+    position: relative;
+    top: -3px;
+    max-height: 300px;
+  }
+  
+  .last-pay-block {
+    position: absolute;
+    width: 20%;
+    bottom: 49px;
+    left: 0;
+    align-items: center;
+  }
+  
+  .last-pay {
+    background-color: $red;
+    border-radius: 5px;
+    padding: 8px;
+      
+    p {
+        width: 90%;
+        font-family: 'Montserrat';
+        line-height: 1.1;
+        color: #fff;
+    }
+    :first-child {
+        font-size: 27px;
+        font-weight: 600;
+    }
+    :nth-child(2) {
+        font-size: 14px;
+        font-weight: 400;
+    }
+  }
+
+  mat-card-content {
+    display: grid;
+      :first-child {
+        color: #C3372E;
+        font-family: 'Montserrat Alternates';
+        font-size: 14px;
+        font-weight: 400;
+      }
+      .company-title {
+        font-weight: 600;
+        font-size: 21px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden; 
+        white-space: nowrap;
+      }
+      .company-description {
+        font-weight: 400;
+        font-size: 16px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden; 
+    }
+    :nth-child(3) {
+        -webkit-line-clamp: 3;
+    }
+    :nth-child(4) {
+        -webkit-line-clamp: 2;
+    }
+  }
+  
+
+  .btn-action {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .info-btn {
+    font-size: 16px;
+    padding: 4px 30px;
+  }

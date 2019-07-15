@@ -73,7 +73,6 @@ a {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  // white-space: pre-line;
 }
 
 .btn-action {
@@ -81,74 +80,109 @@ a {
   padding: 20px;
 }
 
-.info-btn-color {
+.info-btn {
   font-size: 20px;
   padding: 5px 45px;
 }
 
- 
-// -------------------- new code --------------------------
-
 // List View
 
-.leader-list-card {
-  cursor: pointer;
-  height: 14em;
-  margin: 1em 1em 1.2em;
-  padding: 16px 24px;
-  overflow: hidden;
+.leader-list-item {
+  margin: 15px;
+  box-shadow: none !important;
+  background-color: $bp-bg;
+  min-height: 500px;
 
-  .mat-card-title {
-    margin-bottom: .5em;
-    margin-top: -.3em;
+  .leader-img img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .leader-name-list-view {
+    font-family: 'Montserrat';
+    color: $gray;
+    font-size: 27px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .leader-vision {
+    min-width: 400px;
+    font-weight: 400;
+    font-size: 22px;
+    text-align: center;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mat-card-image-clipper {
-    .leader-video {
-      display: inline-block;
-      height: 5em;
-      margin: auto auto 1.2em;
-      // max-width: 14em;
-    }
-  }
-
-  .media-xs {
-    .leader-video {
-      height: auto;
-    }
-  }
-
-  .name {
-    font-size: .8em;
-  }
-
-  .projects {
-    color: $col-555;
-    display: block;
-    font-size: .85em;
-    margin-top: -.5em;
-  }
-
-  .mission,
-  .vision {
-    margin-bottom: 0;
-    margin-top: 0;
-    max-height: 4.5em;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
+
+
+
+
+// .leader-list-card {
+//   cursor: pointer;
+//   height: 14em;
+//   margin: 1em 1em 1.2em;
+//   padding: 16px 24px;
+//   overflow: hidden;
+
+//   .mat-card-title {
+//     margin-bottom: .5em;
+//     margin-top: -.3em;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//   }
+
+//   .mat-card-image-clipper {
+//     .leader-video {
+//       display: inline-block;
+//       height: 5em;
+//       margin: auto auto 1.2em;
+//       // max-width: 14em;
+//     }
+//   }
+
+//   .media-xs {
+//     .leader-video {
+//       height: auto;
+//     }
+//   }
+
+//   .name {
+//     font-size: .8em;
+//   }
+
+//   .projects {
+//     color: $col-555;
+//     display: block;
+//     font-size: .85em;
+//     margin-top: -.5em;
+//   }
+
+//   .mission,
+//   .vision {
+//     margin-bottom: 0;
+//     margin-top: 0;
+//     max-height: 4.5em;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//   }
+// }
 
 // List View - on hover
 
-.leader-list-card:hover {
-  //box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
-  background-color: $col-fafafa;
-  margin: .95em 1em 1.25em;
-}
+// .leader-list-card:hover {
+//   //box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+//   background-color: $col-fafafa;
+//   margin: .95em 1em 1.25em;
+// }
 
 // Single-col view
 
