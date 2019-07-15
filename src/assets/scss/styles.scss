@@ -7,11 +7,13 @@ $bp-icon: #465A64;
 $bp-white: #ffffff;  //--- use
 $bp-border: #e7e7e7;
 $bp-red: #c3372e;
-$bp-bg: #F8F8F8;
+$bp-bg: #F9FAFC;  //--- use
 $bp-grey: #949494;
 
 $red: #C3372E;   //--- use 
+$dark-red: #A31F16;   //--- use 
 $gray: #707070;   //--- use
+$light-gray: #AAB0BB;   //--- use
 
 html, body {
   margin: 0;
@@ -44,7 +46,7 @@ a:active {
   color: #1B1B1B;
 }
 a:hover {
-  color: #C13833;
+  color:$red;
 }
 
 md-list-item h3 a:link,
@@ -61,6 +63,10 @@ md-icon.pointer {
   cursor: pointer;
 }
 
+.mat-card {
+  box-shadow: none !important;
+}
+
 .mat-card-actions {
   margin: 0;
   padding: 0;
@@ -73,7 +79,11 @@ md-icon.pointer {
 .project-description, .project-title,
 .leader-brief-card .mat-card-title,
 .leader-brief-card .mat-card-subtitle,
-.leader-title, .leader-description {
+.leader-title, .leader-description, 
+.project-title-list-view,
+.project-description-list-view,
+.leader-vision, .company-title,
+.company-description {
   text-overflow: ellipsis;
   overflow: hidden;
   // white-space: nowrap;
@@ -81,7 +91,9 @@ md-icon.pointer {
 }
 
 .project-brief-block p,
-.project-title, .leader-title {
+.project-title, .leader-title,
+.leader-vision, .company-title,
+.company-description {
   font-family: 'Montserrat';
   color: #707070;
   line-height: 1.1;
@@ -99,10 +111,25 @@ md-icon.pointer {
   cursor: pointer;
 }
 
-.info-btn-color {
-  background-color: $red;
+.mat-raised-button {
+  box-shadow: none !important;
+}
+
+.info-btn {
   font-family: 'Montserrat Alternates';
   font-weight: 600;
-  color: $bp-white;
   border-radius: 18px;
 }
+.color-btn {
+  background-color: $red;
+  color: $bp-white;
+}
+.white-btn {
+  background-color: $bp-white;
+  color: $gray;
+}
+.gray-btn {
+  background-color: $light-gray;
+  color: $bp-white;
+}
+

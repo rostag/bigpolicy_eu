@@ -1,7 +1,7 @@
 <!--
   Usage: <app-project-list [leaderId]="123" [pageSize]="10"></app-project-list>
 -->
-<div fxLayout="column">
+<!-- <div fxLayout="column">
   <div fxFlex fxLayout="row" fxLayoutAlign="start center" *ngIf="showPagination">
     <div fxFlex><h3>Проекти ({{itemsPage.total}})</h3></div>
     <pagination-controls fxflex
@@ -16,14 +16,13 @@
     >
     </pagination-controls>
   </div>
-</div>
+</div> -->
 
-<div fxLayout="row wrap" fxLayoutGap="1em">
+<div fxLayout="row wrap" fxLayoutAlign="center" >
   <div
     [fxFlex]="flexState.flex"
     [fxFlex.lg]="flexState.lg"
-    [fxFlex.sm]="flexState.sm"
-    [fxFlex.md]="flexState.md"
+    [fxFlex.sm]="flexState.sm"  
     [fxFlex.xs]="flexState.xs"
     *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
