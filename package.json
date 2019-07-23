@@ -1,6 +1,6 @@
 {
   "name": "bp-project",
-  "version": "1.1.111",
+  "version": "1.1.112",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
