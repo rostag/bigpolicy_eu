@@ -16,7 +16,8 @@
     "server": "node start",
     "client": "ng serve --port=5000",
     "deploy-fbs-and-code-update": "npm version patch && npm install && npm run build-prod && git push origin && rsync -a dist/* fbs/dist && cd fbs && firebase deploy --only hosting",
-    "deploy-fbs": "npm version patch && npm install && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy --only hosting"
+    "deploy-fbs-hosting": "npm version patch && npm install && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy --only hosting",
+    "deploy-fbs": "npm version patch && npm install && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy"
   },
   "main": "start.js",
   "private": true,
