@@ -4,9 +4,9 @@ import { ProjectService } from '../project';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TaskService } from '../task';
 import { UploaderComponent } from './uploader.component';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from '../../core.module';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 xdescribe('UploaderComponent', () => {
   let component: UploaderComponent;
