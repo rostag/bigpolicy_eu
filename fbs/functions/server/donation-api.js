@@ -1,7 +1,7 @@
 const K = require('../../../bp-app-config');
 
 module.exports = function (app, router, DB) {
-  var LiqPay = require('sdk-nodejs');
+  var LiqPay = require('liqpay-sdk-nodejs');
   var public_key = K.liq.public_key;
   var private_key = K.liq.private_key;
   var liqpay = new LiqPay(public_key, private_key);
