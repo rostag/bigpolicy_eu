@@ -27,7 +27,6 @@ import { AboutComponent } from './about';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
@@ -71,7 +70,6 @@ export const firebaseConfig = K.fbs;
         BpRoutingModule,
         CookieLawModule,
         Ng2PaginationModule,
-        AngularFireDatabaseModule,
         AngularFireModule.initializeApp(firebaseConfig),
         NguCarouselModule
     ],
