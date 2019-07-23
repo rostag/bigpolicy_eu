@@ -26,7 +26,7 @@ import { AdminComponent } from './shared/admin/admin.component';
 import { AboutComponent } from './about';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
