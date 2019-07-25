@@ -3,7 +3,8 @@
 
 .popular-companies {
     display: flex;       
-    
+    max-width: 1640px;
+    justify-content: center;
     mat-card {
         flex-wrap: wrap;
         min-height: 420px;
@@ -13,7 +14,7 @@
 }
 
   .company-brief-block {
-      width: 24%;
+      width: 23%;
       margin: 10px;
   }
   
@@ -72,7 +73,7 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden; 
-        white-space: nowrap;
+        white-space: pre-wrap;
       }
       .company-description {
         font-weight: 400;

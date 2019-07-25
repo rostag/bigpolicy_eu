@@ -8,33 +8,38 @@ $col-eee: #eee;
 $col-333: #555;
 $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
 
+:host {
+  width: 100%;
+}
+
 a {
   text-decoration: none;
 }
-
-// -------------------- new code --------------------------
 
 .main-section mat-card {
   min-height: 420px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
+  padding: 0;
+  margin-top: 40px;
 }
 
 .project-cover-wraper {
   position: relative;
-  max-height: 300px;
 }
 
 .project-cover {
   position: relative;
+  width: 100%;
   top: -3px;
   max-height: 300px;
+  margin: 0;
 }
 
 .time-left {
   position: absolute;
   bottom: 49px;
-  left: 0;
+  left: 30px;
   align-items: center;
 }
 
@@ -67,9 +72,9 @@ a {
 .collected-money {
   position: absolute;
   bottom: 36px;
-  right: -16px;
+  right: 0;
   background-color: #fff;
-  border-radius: 15px;
+  // border-radius: 15px;
   padding: 10px 10px 10px 40px;
 
     :nth-child(1) {
@@ -86,18 +91,22 @@ a {
     }
 }
 
-.project-title {
-  font-weight: 600;
-  font-size: 24px;
-  white-space: nowrap;
-}
-.project-description {
-  font-weight: 400;
-  font-size: 20px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden; 
+mat-card-content {
+  padding: 20px 20px 0 20px;
+
+  .project-title {
+    font-weight: 600;
+    font-size: 24px;
+    white-space: nowrap;
+  }
+  .project-description {
+    font-weight: 400;
+    font-size: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden; 
+  }
 }
 
 .bottom-section {
@@ -116,6 +125,10 @@ a {
   padding-left: 10px;
 }
 
+.btn-action {
+  margin-top: 20px;
+}
+
 .info-btn {
   font-size: 20px;
   padding: 5px 45px;
@@ -123,6 +136,8 @@ a {
 
 
 // List View - Normal
+
+
 
 .project-list-item {
   background-color: $dark-red;

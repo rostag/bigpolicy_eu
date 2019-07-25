@@ -22,7 +22,7 @@
 <div class="main-section">
   <mat-card class="leader-brief-block" [routerLink]="getLeaderLink(leader)" *ngIf="!!leader && viewContext==='homePage'">
     <div class="leader-cover-wraper">
-      <img mat-card-image class="leader-cover"  src="{{leader.imageUrl || '../../../assets/img/Group 813.png'}}" alt="leader image">
+      <img mat-card-image class="leader-cover" src="{{leader.imageUrl || '../../../assets/img/Group 813.png'}}" alt="leader image">
       <div class="leader-name">
         <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
           <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
@@ -31,28 +31,30 @@
     </div>
     <mat-card-content>
       <mat-card-title class="leader-title">Бачення: {{leader.vision}}</mat-card-title>
-      <p class="leader-description">Місія: {{leader.mission | slice : 0 : 150}}</p>
+      <p class="leader-description">Місія: {{leader.mission}}</p>
     </mat-card-content>
     <div class="btn-action">
       <mat-card-actions fxLayoutAlign="center">
-        <a [routerLink]="getLeaderLink(leader)"><button mat-raised-button  class="info-btn color-btn">Підтримати</button></a>
+        <a [routerLink]="getLeaderLink(leader)"><button mat-raised-button class="info-btn color-btn">Підтримати</button></a>
       </mat-card-actions>
     </div>
   </mat-card>
 </div>
 
-
 <!-- State: Leader List Page -->
 <!-- *ngIf="viewContext==='leaderListPage'" -->
 
-<mat-card fxLayout="column" fxLayoutAlign="space-between center" class="leader-list-item" *ngIf="viewContext==='leaderListPage'">
+<mat-card fxLayout="column" fxLayoutAlign="space-between center" class="leader-list-item" *ngIf="leader && viewContext==='leaderListPage'" >
   <div class="leader-img">
     <img src="{{leader.imageUrl || '../../../assets/img/leader/deadpool.jpg'}}" alt="Leader image">
   </div>
-  <mat-card-title class="leader-name-list-view">{{leader.name}} {{leader.surName}}</mat-card-title>
-  <p class="leader-vision">{{leader.vision | slice : 0 : 150}}</p>
+  <div class="leader-name-block">
+    <mat-card-title class="leader-name-list-view">{{leader.name}} {{leader.surName}}</mat-card-title>
+    <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+  </div>
+  <p class="leader-vision">{{leader.vision}}</p>
   <mat-card-actions class="card-actions">
-    <button mat-raised-button [routerLink]="['/leader/' + leader._id]" class="info-btn color-btn" >Детальніше</button>
+    <button mat-raised-button [routerLink]="['/leader/' + leader._id]" class="info-btn color-btn">Детальніше</button>
   </mat-card-actions>
 </mat-card>
 
