@@ -2,10 +2,11 @@ import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject ,  Subscription } from 'rxjs';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
-import { ILeaderResponsePage } from '../../common/models';
+import { ILeaderResponsePage, ILeader } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getLeadersPage } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPage } from '../../state/actions/leader.actions';
+
 
 @Component({
   selector: 'app-leader-list',
@@ -15,6 +16,8 @@ import { LoadLeadersPage } from '../../state/actions/leader.actions';
 
 export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
 
+  @Input() public leaderId = '';
+ 
   @Input() title = '';
 
   // How many leaders to show and to request from db in single turn
@@ -34,6 +37,10 @@ export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() flexSettings = '33|33|33|50|100';
 
+  // get getAllUser(): ILeader[] {
+  //   return this.leaders.getValue();
+  // }
+
   flexState = {
     flex: '33%',
     lg: '33%',
@@ -43,6 +50,7 @@ export class LeaderListComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   public leaders: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+
   public itemsPage = {
     docs: this.leaders,
     limit: this.pageSize,
