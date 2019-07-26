@@ -1,9 +1,9 @@
-import * as K from '../../../bp-app-config';
+import { liq as liqConfig } from '../../../bp-app-config';
 
 module.exports = function (app, router, DB) {
   const LiqPay = require('liqpay-sdk');
-  const public_key = K.liq.public_key;
-  const private_key = K.liq.private_key;
+  const public_key = liqConfig.public_key;
+  const private_key = liqConfig.private_key;
   const liqpay = new LiqPay(public_key, private_key);
 
   require('url');
@@ -18,7 +18,7 @@ module.exports = function (app, router, DB) {
     const d = JSON.parse(req.body.keys()[0]);
 
     // we use mongo _id here, to use it later as back reference for order_id in liqpay order status callback
-    d.externalId = K.liq.donationPrefix + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
+    d.externalId = liqConfig.donationPrefix + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
 
     const result = {
       'action': 'pay',
@@ -72,7 +72,7 @@ module.exports = function (app, router, DB) {
 
     const sgn = liqpay.cnb_signature(prm);
     const dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
-    res.send(dta + K.liq.dataSeparator + sgn);
+    res.send(dta + liqConfig.dataSeparator + sgn);
   });
 
   /**
@@ -92,7 +92,7 @@ module.exports = function (app, router, DB) {
       const jsn = JSON.parse(dta);
       const sts = jsn.status;
       const oid = jsn.order_id;
-      const donatonId = oid.substring(K.liq.donationPrefix.length, oid.indexOf('__amt_'));
+      const donatonId = oid.substring(liqConfig.donationPrefix.length, oid.indexOf('__amt_'));
 
       // Check Callback signature
       const sign = liqpay.str_to_sign(private_key + dta + private_key);
@@ -127,7 +127,7 @@ module.exports = function (app, router, DB) {
   //     "version"  : "3",
   //     "order_id" : prm.order_id
   //   }, function( json ){
-  //     // res.send( dta + K.liq.dataSeparator + sgn );
+  //     // res.send( dta + liqConfig.dataSeparator + sgn );
   //   });
   //
   // });
