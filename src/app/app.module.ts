@@ -24,6 +24,7 @@ import { UserService } from './shared/user/user.service';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './shared/dialog/dialog.component';
+import { NguCarouselModule } from '@ngu/carousel';
 
 // FIXME Re-enable after modules refactoring
 // import { CustomBrowserXhr } from './shared/xhr/xhr';
@@ -47,7 +48,8 @@ import { DialogComponent } from './shared/dialog/dialog.component';
       leadersState: leadersReducer,
       projectsState: projectsReducer,
       tasksState: tasksReducer
-    })
+    }),
+    NguCarouselModule
   ],
   exports: [
     MaterialModule

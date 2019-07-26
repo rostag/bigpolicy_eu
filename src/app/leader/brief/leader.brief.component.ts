@@ -23,7 +23,7 @@ export class LeaderBriefComponent implements OnChanges {
 
   constructor(
     public userService: UserService,
-    private leaderStore: Store<ILeaderState>
+    private leaderStore: Store<ILeaderState>,
   ) {
     leaderStore.select(getSelectedLeader).subscribe(leader => this.applyChanges(leader));
   }

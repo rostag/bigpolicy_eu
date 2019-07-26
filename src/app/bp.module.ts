@@ -26,8 +26,8 @@ import { AdminComponent } from './shared/admin/admin.component';
 import { AboutComponent } from './about';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { ImageComponent } from './shared/image/image.component';
 import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
 import { ProjectBriefComponent } from './project/brief/project.brief.component';
@@ -42,6 +42,8 @@ import { FilesViewComponent } from './shared/files/view/files.view.component';
 import { HomeComponent } from './home';
 import { EmailValidatorDirective } from './shared/validation/email.validator';
 
+import { CarouselComponent } from './shared/carousel/carousel/carousel.component';
+
 // Services
 import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
@@ -54,6 +56,9 @@ import { CoreModule } from './core.module';
 import { LocationComponent } from './common/location/location.component';
 import { LocationService } from './common/location/location.service';
 import { environment } from '../environments/environment';
+import { NguCarouselModule } from '@ngu/carousel';
+import { CompanyComponent } from './companies/brief/company/company.component';
+import { QuestionsFormComponent } from './shared/questions-form/questions-form.component';
 
 export const K = environment.K;
 export const firebaseConfig = K.fbs;
@@ -67,7 +72,8 @@ export const firebaseConfig = K.fbs;
         CookieLawModule,
         Ng2PaginationModule,
         AngularFireDatabaseModule,
-        AngularFireModule.initializeApp(firebaseConfig)
+        AngularFireModule.initializeApp(firebaseConfig),
+        NguCarouselModule
     ],
     exports: [
         // components we want to make available
@@ -129,7 +135,10 @@ export const firebaseConfig = K.fbs;
         LeaderBriefComponent,
         ProjectBriefComponent,
         DisclaimerComponent,
-        LocationComponent
+        LocationComponent,
+        CarouselComponent,
+        CompanyComponent,
+        QuestionsFormComponent
     ],
     providers: [
         // singleton services
@@ -137,7 +146,7 @@ export const firebaseConfig = K.fbs;
         ShareService,
         DonationService,
         DriveService,
-        LocationService
+        LocationService,
     ]
 })
 

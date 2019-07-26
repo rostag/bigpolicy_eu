@@ -1,4 +1,4 @@
-import { PathReference, AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { PathReference, AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';

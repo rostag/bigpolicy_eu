@@ -36,10 +36,9 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() flexSettings = '33|30|30|50|100';
 
   flexState = {
-    flex: '18%',
-    lg: '23%',
-    md: '31%',
-    sm: '48%',
+    flex: '48%',
+    lg: '48%',
+    sm: '98%',
     xs: '98%'
   };
 
@@ -81,7 +80,6 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
         ...this.flexState,
         flex: flexSettings[0],
         lg: flexSettings[1],
-        md: flexSettings[2],
         sm: flexSettings[3],
         xs: flexSettings[4]
       };
