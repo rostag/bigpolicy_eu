@@ -1,11 +1,11 @@
-import * as K from '../../../bp-app-config';
+import { mailgun as mailgunConfig } from '../../../bp-app-config';
 
 module.exports = function(app, router){
 
   // Mailgun-js wrapper
   const Mailgun = require('mailgun-js');
-  const mailgun_api_key = K.mailgun.apiKey;
-  const mailgun_domain = K.mailgun.domain;
+  const mailgun_api_key = mailgunConfig.apiKey;
+  const mailgun_domain = mailgunConfig.domain;
 
   // Send a message to the specified email address. All params passed via req
   router.post('/mail-api/share', function (req, res) {
