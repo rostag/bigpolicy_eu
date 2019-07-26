@@ -1,4 +1,4 @@
-import { mailgun as mailgunConfig } from '../../../bp-app-config';
+import mailgunConfig from '../../../bp-app-config';
 
 module.exports = function(app, router){
 
