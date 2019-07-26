@@ -1,5 +1,7 @@
 :host {
   display: block;
+  max-width: 1640px;
+  width: 100%;
 
   ::ng-deep .pagination {
     .ng2-pagination {

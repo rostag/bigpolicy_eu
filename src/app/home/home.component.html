@@ -19,10 +19,10 @@
      { "projectIds": { $size: 2 } } -->
 <!-- <app-leader-list [pageSize]="1" dbQuery="{}"></app-leader-list> -->
 
-<div fxLayout="row" fxLayoutAlign="space-around start" fxLayout.xs="column" class="main-section">
+<div fxLayout="row" fxLayoutAlign="space-around center" fxLayout.xs="column" fxLayout.sm="column" class="main-section">
   <app-project-brief fxFlex="49" projectId="random" [viewContext]="'homePage'"></app-project-brief>
   <app-leader-brief fxFlex="49" leaderId="random" [viewContext]="'homePage'"></app-leader-brief>
-</div>
+</div>              
 
 <div class="how-it-works-wraper">
   <h2 class="how-it-works-headline" align="center">Як це працює?</h2>
@@ -112,20 +112,36 @@
   <button [routerLink]="['/projects']" class="info-btn white-btn" mat-raised-button>Більше проектів</button>
 </div>
 
-
-<div fxLayout="column" fxLayoutAlign="space-evenly center" class="leaders-list-item-section __color">
+<div fxLayout="column" fxLayoutAlign="space-evenly center" class="leaders-list-item-section __color" *ngIf="'!!leader'">
   <h2>Нові лідери</h2>
-  <app-carousel></app-carousel>  
+  <app-carousel [dataSource]="[first, second, third, forth, fifth, sixth]">
+    <ng-template #first>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template> 
+    <ng-template #second>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template>
+    <ng-template #third>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template>
+    <ng-template #forth>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template> 
+    <ng-template #fifth>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template>
+    <ng-template #sixth>
+      <app-leader-brief leaderId="random" [viewContext]="'leaderListPage'"></app-leader-brief>
+    </ng-template>
+  </app-carousel>  
   <button [routerLink]="['/leaders']" class="info-btn gray-btn" mat-raised-button>Більше лідерів</button>
-</div>                                            
+</div>
 
 <div fxLayout="column" fxLayoutAlign="space-evenly center" class="companies-brief-item-section __color">
-  <h2>Популярні компанії</h2>
+  <h2>Популярні кампанії</h2>
   <app-company></app-company>  
   <button class="info-btn gray-btn" mat-raised-button>Більше кампаній</button>
 </div>                                            
-
-
 
 <!-- <div fxLayout="row" fxLayoutGap="50" class="bottom-title">
   <div fxFlex="80"><b>BigPolicy</b> — платформа прямої демократії.<br>Всі лідери - для тебе!</div>
@@ -145,8 +161,8 @@
   <div fxFlex="45">
     <app-questions-form></app-questions-form>
   </div>
-  <div fxFlex="45">
-    <iframe width="100%" height="300" style="border:none;overflow:hidden;max-width: 560px;"
+  <div fxFlex="45" fxHide.xs>
+    <iframe width="100%"  style="border:none;overflow:hidden;min-height: 415px;"
       src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBIGPOLICY%2Fvideos%2F161167597610702%2F&show_text=0&width=560"
       scrolling="no" frameborder="0" allowTransparency="true" id="fb_video_post">
     </iframe>

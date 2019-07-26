@@ -105,6 +105,7 @@ export const firebaseConfig = K.fbs;
         ProjectBriefComponent,
         Ng2PaginationModule,
         CookieLawModule,
+        CarouselComponent,
     ],
     declarations: [
         // components to use in this module
