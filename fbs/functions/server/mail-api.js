@@ -1,11 +1,11 @@
-import mailgunConfig from '../../../bp-app-config';
+const K = require('./bp-app-config');
 
 module.exports = function(app, router){
 
   // Mailgun-js wrapper
   const Mailgun = require('mailgun-js');
-  const mailgun_api_key = mailgunConfig.apiKey;
-  const mailgun_domain = mailgunConfig.domain;
+  const mailgun_api_key = K.mailgun.apiKey;
+  const mailgun_domain = K.mailgun.domain;
 
   // Send a message to the specified email address. All params passed via req
   router.post('/mail-api/share', function (req, res) {
@@ -16,12 +16,13 @@ module.exports = function(app, router){
       domain: mailgun_domain
     });
 
-    // WAS: let data = req.body;
+    // let data = req.body;
     // for ( const item in req.body ) {
     //   data = JSON.parse(item);
     // }
 
     const data = JSON.parse(req.body.keys()[0]);
+
     console.log('Mail API got project to share:\n', data );
 
     // FIXME un-hardcode to's

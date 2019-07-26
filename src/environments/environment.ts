@@ -1,6 +1,6 @@
 
 
-import * as K from '../../bp-app-config';
+import * as K from '../../fbs/functions/server/bp-app-config';
 
 export const environment = {
   production: false,
