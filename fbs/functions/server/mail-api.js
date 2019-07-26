@@ -1,4 +1,4 @@
-const K = require('../../../bp-app-config');
+const K = require('./bp-app-config');
 
 module.exports = function(app, router){
 
@@ -16,13 +16,14 @@ module.exports = function(app, router){
       domain: mailgun_domain
     });
 
-    let data = req.body;
+    // let data = req.body;
+    // for ( const item in req.body ) {
+    //   data = JSON.parse(item);
+    // }
+
+    const data = JSON.parse(req.body.keys()[0]);
 
     console.log('Mail API got project to share:\n', data );
-
-    for ( const item in req.body ) {
-      data = JSON.parse(item);
-    }
 
     // FIXME un-hardcode to's
     data.to = Object.keys(data.toEmails)[0];

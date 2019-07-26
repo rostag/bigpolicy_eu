@@ -9,66 +9,107 @@ app-home:host {
   background-color: transparent;
   box-sizing: border-box;
   display: block;
-  padding: 2rem;
 }
 
-.how-it-works {
-  margin-top: 7rem;
-
-.how-it-works-headline{
-  text-transform: uppercase;
+.main-section {
+  padding: 4rem 6rem 0 6rem;
 }
 
-  img {
-    width: 40px;
-    height: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    display: block;
-}
+.how-it-works-wraper {
+  padding: 3rem 6rem 4rem 6rem;
 }
 
-.header-line{
-  height:3px;
-  width:100px;
-  display: block;
-  background-color: #C13833;
-  margin-bottom:60px;
+.how-it-works-headline {
+  font-family: 'Montserrat Alternates';
+  font-size: 2.8rem;
+  color: $gray;
+  font-weight: 600;
+  margin: 5rem 0 8rem 0;
 }
 
-.projects-leaders-list {
-  margin-top: 6rem;
+.how-it-works-card {
+  position: relative;
 
-  /deep/ .mat-tab-label {
-    font-size: 1.4em;
-  }
-
-  app-project-list {
-    // background: #ffc;
-    padding: 1rem;
-  }
-
-  app-leader-list {
-    // background: #ffc;
-    padding: 1rem;
-  }
-
-  .controls {
-    text-align: center;
-  }
-
-  .bt-show-all {
-    margin-bottom: 1em;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: normal;
-    color: #FFFFFF;
-    background: #C13833;
-    border-radius: 5px;
+  mat-card {
+    min-height: 260px;
+    border-radius: 15px;
+    box-shadow: none;
   }
 }
+
+.card-icon {
+  position: relative;
+  width: 122px;
+  height: 122px;
+  top: -60px;
+  background-color: $red;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.card-description {
+  font-family: 'Montserrat';
+  font-size: 19px;
+  color: $gray;
+  font-weight: 400;
+  text-align: center;
+
+  :nth-child(2) {
+    margin-top: 15px;
+  }
+}
+
+.project-list-item-section, .leaders-list-item-section, .companies-brief-item-section {
+  padding: 6rem;
+
+  &.__bg-color {
+    background-color: $red;
+  }
+  
+  &.__color {
+    h2 {
+      color: $gray;
+    }
+  }
+  
+  h2 {
+    font-family: 'Montserrat Alternates';
+    color: $bp-white;
+    font-size: 62px;
+    font-weight: 600;
+    margin: 0 0 50px 0;
+  }
+
+  .info-btn {
+    font-size: 22px;
+    padding: 5px 45px;
+    margin-top: 50px;
+  }
+}
+
+
+
+// .projects-leaders-list {
+//   margin-top: 6rem;
+
+//   /deep/ .mat-tab-label {
+//     font-size: 1.4em;
+//   }
+
+//   app-project-list {
+//     // background: #ffc;
+//     padding: 1rem;
+//   }
+
+//   app-leader-list {
+//     // background: #ffc;
+//     padding: 1rem;
+//   }
+
+//   .controls {
+//     text-align: center;
+//   }
+// }
 
 .bottom-title {
   font-size: 30px;
@@ -78,5 +119,5 @@ app-home:host {
 }
 
 .contacts {
-  margin-top: 3em;
+  padding: 3em 6rem ;
 }

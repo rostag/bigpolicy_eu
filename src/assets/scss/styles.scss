@@ -1,19 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
 @import './bp-theme.scss';
 
 $bp-head: #1B1B1B;
 $bp-text: #3b3b3b;
 $bp-link: #d20915;
 $bp-icon: #465A64;
-$bp-white: #ffffff;
+$bp-white: #ffffff;  //--- use
 $bp-border: #e7e7e7;
 $bp-red: #c3372e;
-$bp-bg: #F8F8F8;
+$bp-bg: #F9FAFC;  //--- use
 $bp-grey: #949494;
+
+$red: #C3372E;   //--- use 
+$dark-red: #A31F16;   //--- use 
+$gray: #707070;   //--- use
+$light-gray: #AAB0BB;   //--- use
 
 html, body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,7 +46,7 @@ a:active {
   color: #1B1B1B;
 }
 a:hover {
-  color: #C13833;
+  color:$red;
 }
 
 md-list-item h3 a:link,
@@ -58,25 +63,73 @@ md-icon.pointer {
   cursor: pointer;
 }
 
+.mat-card {
+  box-shadow: none !important;
+}
+
+.mat-card-actions {
+  margin: 0;
+  padding: 0;
+}
 /* Project Brief and Leader Brief for Home etc */
 .project-brief-card p,
 .project-brief-card .mat-card-title,
 .project-brief-card .mat-card-subtitle,
 .leader-brief-card p,
+.project-description, .project-title,
 .leader-brief-card .mat-card-title,
-.leader-brief-card .mat-card-subtitle {
+.leader-brief-card .mat-card-subtitle,
+.leader-title, .leader-description, 
+.project-title-list-view,
+.project-description-list-view,
+.leader-vision, .company-title,
+.company-description {
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+  // white-space: nowrap;
   line-height: normal;
 }
 
-.mat-card.project-brief-card,
-.mat-card.leader-brief-card {
-  padding: 18px 24px 24px 24px;
+.project-brief-block p,
+.project-title, .leader-title,
+.leader-vision, .company-title,
+.company-description {
+  font-family: 'Montserrat';
+  color: #707070;
+  line-height: 1.1;
+}
+
+.left-to-collect span,
+.leader-description {
+  font-family: 'Montserrat Alternates';
+  color: #707070;
+  line-height: 1.1;
+}
+
+.mat-card.project-brief-block,
+.mat-card.leader-brief-block {
   cursor: pointer;
 }
 
-.mat-card-actions button {
-  text-transform: uppercase;
+.mat-raised-button {
+  box-shadow: none !important;
 }
+
+.info-btn {
+  font-family: 'Montserrat Alternates';
+  font-weight: 600;
+  border-radius: 18px;
+}
+.color-btn {
+  background-color: $red;
+  color: $bp-white;
+}
+.white-btn {
+  background-color: $bp-white;
+  color: $gray;
+}
+.gray-btn {
+  background-color: $light-gray;
+  color: $bp-white;
+}
+
