@@ -1,10 +1,10 @@
-const K = require('../../../bp-app-config');
+import * as K from '../../../bp-app-config';
 
 module.exports = function (app, router, DB) {
-  var LiqPay = require('liqpay-sdk');
-  var public_key = K.liq.public_key;
-  var private_key = K.liq.private_key;
-  var liqpay = new LiqPay(public_key, private_key);
+  const LiqPay = require('liqpay-sdk');
+  const public_key = K.liq.public_key;
+  const private_key = K.liq.private_key;
+  const liqpay = new LiqPay(public_key, private_key);
 
   require('url');
 
@@ -15,12 +15,12 @@ module.exports = function (app, router, DB) {
     //   d = JSON.parse(item);
     // }
 
-    const d = d = JSON.parse(req.body.keys()[0]);
+    const d = JSON.parse(req.body.keys()[0]);
 
     // we use mongo _id here, to use it later as back reference for order_id in liqpay order status callback
     d.externalId = K.liq.donationPrefix + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
 
-    return {
+    const result = {
       'action': 'pay',
       'amount': d.amount,
       'currency': 'UAH',
@@ -31,7 +31,10 @@ module.exports = function (app, router, DB) {
       'language': 'uk',
       'result_url': d.result_url,
       'server_url': d.server_url + '/donation-api/post-donation-status'
-    }
+    };
+
+    console.log('Donation params:', result);
+    return result;
   }
 
   /**
@@ -39,7 +42,7 @@ module.exports = function (app, router, DB) {
    * All params passed via req.
    */
   router.post('/donation-api/create-donation', function (req, res) {
-    var donationId = DB.createDonation(req.body);
+    const donationId = DB.createDonation(req.body);
     res.send(donationId);
   });
 
@@ -52,7 +55,7 @@ module.exports = function (app, router, DB) {
    **/
   router.get('/donation-api/target/:targetType/:targetId/page/:page/:limit/q/:dbQuery', function (req, res) {
 
-    var p = req.params;
+    const p = req.params;
     DB.getDonationTarget(p.targetType, p.targetId)
       .then((target) => {
         DB.getPageOfDonations(target.donations, p.page, p.limit, decodeURIComponent(p.dbQuery))
@@ -63,12 +66,12 @@ module.exports = function (app, router, DB) {
   });
 
   router.post('/donation-api/getsgndta', function (req, res) {
-    var prm = getParamsFromRequestData(req);
+    const prm = getParamsFromRequestData(req);
 
     console.log('  • LiqPay::getsgndta::URL::', prm);
 
-    var sgn = liqpay.cnb_signature(prm);
-    var dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
+    const sgn = liqpay.cnb_signature(prm);
+    const dta = new Buffer(JSON.stringify(liqpay.cnb_params(prm))).toString('base64');
     res.send(dta + K.liq.dataSeparator + sgn);
   });
 
@@ -82,17 +85,17 @@ module.exports = function (app, router, DB) {
    *  signature - результат функции base64_encode( sha1( $private_key . $data . $private_key, 1 ) )
    **/
   router.post('/donation-api/post-donation-status', function (req, res) {
-    var dta = Buffer.from(req.body['data'], 'base64').toString();
-    var sgn = Buffer.from(req.body['signature'], 'base64').toString();
+    const dta = Buffer.from(req.body['data'], 'base64').toString();
+    const sgn = Buffer.from(req.body['signature'], 'base64').toString();
 
     try {
-      var jsn = JSON.parse(dta);
-      var sts = jsn.status;
-      var oid = jsn.order_id;
-      var donatonId = oid.substring(K.liq.donationPrefix.length, oid.indexOf('__amt_'));
+      const jsn = JSON.parse(dta);
+      const sts = jsn.status;
+      const oid = jsn.order_id;
+      const donatonId = oid.substring(K.liq.donationPrefix.length, oid.indexOf('__amt_'));
 
       // Check Callback signature
-      var sign = liqpay.str_to_sign(private_key + dta + private_key);
+      const sign = liqpay.str_to_sign(private_key + dta + private_key);
 
       if (sign === sgn) {
         // write proper value to DB
