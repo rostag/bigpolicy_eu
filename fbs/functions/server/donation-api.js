@@ -1,18 +1,21 @@
 const K = require('../../../bp-app-config');
 
 module.exports = function (app, router, DB) {
-  var LiqPay = require('liqpay-sdk-nodejs');
+  var LiqPay = require('liqpay-sdk');
   var public_key = K.liq.public_key;
   var private_key = K.liq.private_key;
   var liqpay = new LiqPay(public_key, private_key);
 
-  const url = require('url');
+  require('url');
 
   function getParamsFromRequestData(req) {
-    var d;
-    for (var item in req.body) {
-      d = JSON.parse(item);
-    }
+    // WAS:
+    // var d;
+    // for (var item in req.body) {
+    //   d = JSON.parse(item);
+    // }
+
+    const d = d = JSON.parse(req.body.keys()[0]);
 
     // we use mongo _id here, to use it later as back reference for order_id in liqpay order status callback
     d.externalId = K.liq.donationPrefix + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();
@@ -57,7 +60,7 @@ module.exports = function (app, router, DB) {
           .catch(err => res.json(err))
       })
       .catch(err => res.json(err))
-  })
+  });
 
   router.post('/donation-api/getsgndta', function (req, res) {
     var prm = getParamsFromRequestData(req);
@@ -125,4 +128,4 @@ module.exports = function (app, router, DB) {
   //   });
   //
   // });
-}
+};
