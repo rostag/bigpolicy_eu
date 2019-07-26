@@ -1,4 +1,4 @@
-import { liq as liqConfig } from '../../../bp-app-config';
+import liqConfig from '../../../bp-app-config';
 
 module.exports = function (app, router, DB) {
   const LiqPay = require('liqpay-sdk');

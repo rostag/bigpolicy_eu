@@ -1,13 +1,13 @@
 // bp-app-config.js
 
 module.exports = {
-  liq: {
+  liqConfig: {
     donationPrefix: 'bpdon___id_',
     dataSeparator: '-BGPLCXX-',
     public_key: 'i77061351482',
     private_key: 'v26xvBR6w6h9JVxGKLCSDzHnHg6GpIEoQeECKhuG'
   },
-  mailgun: {
+  mailgunConfig: {
     apiKey: 'key-fbb7eae260ccda81270645824316856a',
     domain: 'bigpolicy.eu'
   },
