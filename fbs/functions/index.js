@@ -1,6 +1,9 @@
 const express = require('express');
-require('./server/')(express(), express.Router());
-exports
-  .appExpress = require('firebase-functions')
-  .https
-  .onRequest(appExpress);
+const expressApp = express();
+const expressRouter = express.Router();
+
+require('./server/')(expressApp, expressRouter);
+
+const expressHttpServer = require('firebase-functions').https.onRequest(expressApp);
+
+exports.appExpress = expressHttpServer;
