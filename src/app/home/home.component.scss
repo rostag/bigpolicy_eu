@@ -7,16 +7,19 @@ $gry: #555;
 
 app-home:host {
   background-color: transparent;
-  box-sizing: border-box;
   display: block;
 }
 
 .main-section {
-  padding: 4rem 6rem 0 6rem;
+  margin: 35px auto 0 auto;
+  max-width: 1640px;
+  padding: 0 10px;
 }
 
 .how-it-works-wraper {
-  padding: 3rem 6rem 4rem 6rem;
+  margin: 3rem auto 2rem auto;
+  max-width: 1640px;
+  padding: 0 10px;
 }
 
 .how-it-works-headline {
@@ -29,9 +32,10 @@ app-home:host {
 
 .how-it-works-card {
   position: relative;
+  margin-bottom: 65px;
 
   mat-card {
-    min-height: 260px;
+    height: 330px;
     border-radius: 15px;
     box-shadow: none;
   }
@@ -44,10 +48,13 @@ app-home:host {
   top: -60px;
   background-color: $red;
   border-radius: 50%;
-  margin: 0 auto;
+  margin: 0 auto; 
 }
 
 .card-description {
+  position: relative;
+  top: -40px;
+  padding: 20px;
   font-family: 'Montserrat';
   font-size: 19px;
   color: $gray;
@@ -60,7 +67,9 @@ app-home:host {
 }
 
 .project-list-item-section, .leaders-list-item-section, .companies-brief-item-section {
-  padding: 6rem;
+  max-width: 1640px;
+  margin: 0 auto 3rem auto;
+  padding: 0 10px;
 
   &.__bg-color {
     background-color: $red;
@@ -77,39 +86,17 @@ app-home:host {
     color: $bp-white;
     font-size: 62px;
     font-weight: 600;
-    margin: 0 0 50px 0;
+    margin: 40px 0;
+    text-align: center;
+    line-height: 1.05;
   }
 
   .info-btn {
     font-size: 22px;
     padding: 5px 45px;
-    margin-top: 50px;
+    margin: 50px 0;
   }
 }
-
-
-
-// .projects-leaders-list {
-//   margin-top: 6rem;
-
-//   /deep/ .mat-tab-label {
-//     font-size: 1.4em;
-//   }
-
-//   app-project-list {
-//     // background: #ffc;
-//     padding: 1rem;
-//   }
-
-//   app-leader-list {
-//     // background: #ffc;
-//     padding: 1rem;
-//   }
-
-//   .controls {
-//     text-align: center;
-//   }
-// }
 
 .bottom-title {
   font-size: 30px;
@@ -119,5 +106,8 @@ app-home:host {
 }
 
 .contacts {
-  padding: 3em 6rem ;
+  width: 100%;
+  max-width: 1640px;
+  padding: 0 15px;
+  margin: 2em auto 4rem auto;
 }

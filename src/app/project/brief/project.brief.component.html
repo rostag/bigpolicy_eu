@@ -38,9 +38,9 @@
     </div>
     <mat-card-content>
       <mat-card-title class="project-title">{{project.title}}</mat-card-title>
-      <p class="project-description">{{project.description | slice : 0 : 150}}</p>
+      <p class="project-description">{{project.description}}</p>
     </mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.sm="column" fxLayout.xs="column" class="bottom-section">
+    <div fxLayout="row" fxLayoutAlign="space-between center"  fxLayout.xs="column" class="bottom-section">
       <div fxLayout="row" fxLayoutAlign="space-around center" class="left-to-collect">
         <span [ngStyle.sm]="{'font-size.px': 28}" [ngStyle.xs]="{'font-size.px': 22}" class="left-to-collect-money">150₴</span>
         <div fxLayout="column" class="left-to-collect-description">

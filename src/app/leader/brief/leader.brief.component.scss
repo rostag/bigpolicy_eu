@@ -4,53 +4,45 @@ $col-555: #555;
 $col-eee: #eee;
 $col-fafafa: #fafafa;
 
+:host {
+  width: 100%;
+}
+
 a {
   text-decoration: none;
 }
 
-.leader-brief-card {
-  // width: 100%;
-  .mat-card-image-clipper {
-    border-bottom: 1px solid $col-eee;
-    border-top: 1px solid $col-eee;
-    height: 300px;
-    margin: 0 -24px 16px;
-    max-height: 300px;
-    overflow: hidden;
-    width: calc(100% + 48px);
-
-    :first-child {
-      margin-top: -24px;
-    }
-  }
-}
-
-// -------------------- new code --------------------------
-
-.mat-card {
+.main-section mat-card {
   min-height: 420px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
+  padding: 0;
+  margin-top: 40px;
 }
 
 .leader-cover-wraper {
   position: relative;
-  max-height: 300px;
 }
 
 .leader-cover {
   position: relative;
+  width: 100%;
   top: -3px;
   max-height: 300px;
+  margin: 0;
 }
 
 .leader-name {
   position: absolute;
   top: 5px;
-  left: -16px;
+  left: 25px;
   background-color: #fff;
   border-radius: 10px;
   padding: 10px 30px 10px 10px;
+
+  .icon-me {
+    left: 10px;
+  }
 
   mat-card-title {
     font-family: 'Montserrat Alternates';
@@ -61,22 +53,26 @@ a {
   }
 }
 
-.leader-title {
-  font-weight: 600;
-  font-size: 24px;
-  white-space: nowrap;
-}
-.leader-description {
-  font-weight: 400;
-  font-size: 20px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+mat-card-content {
+  padding: 20px;
+
+  .leader-title {
+    font-weight: 600;
+    font-size: 24px;
+    white-space: nowrap;
+  }
+  .leader-description {
+    font-weight: 400;
+    font-size: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 }
 
 .btn-action {
-  width: 100%;
+  // width: 100%;
   padding: 20px;
 }
 
@@ -100,6 +96,16 @@ a {
     object-fit: cover;
   }
 
+  .leader-name-block {
+    position: relative;
+
+    .icon-me {
+      position: absolute;
+      right: -25px;
+      top: 12px;
+    }
+  }
+
   .leader-name-list-view {
     font-family: 'Montserrat';
     color: $gray;
@@ -110,7 +116,7 @@ a {
   }
 
   .leader-vision {
-    min-width: 400px;
+    min-width: 360px;
     font-weight: 400;
     font-size: 22px;
     text-align: center;
@@ -119,62 +125,9 @@ a {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    padding: 0 10px;
   }
 }
-
-
-
-
-// .leader-list-card {
-//   cursor: pointer;
-//   height: 14em;
-//   margin: 1em 1em 1.2em;
-//   padding: 16px 24px;
-//   overflow: hidden;
-
-//   .mat-card-title {
-//     margin-bottom: .5em;
-//     margin-top: -.3em;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-//   }
-
-//   .mat-card-image-clipper {
-//     .leader-video {
-//       display: inline-block;
-//       height: 5em;
-//       margin: auto auto 1.2em;
-//       // max-width: 14em;
-//     }
-//   }
-
-//   .media-xs {
-//     .leader-video {
-//       height: auto;
-//     }
-//   }
-
-//   .name {
-//     font-size: .8em;
-//   }
-
-//   .projects {
-//     color: $col-555;
-//     display: block;
-//     font-size: .85em;
-//     margin-top: -.5em;
-//   }
-
-//   .mission,
-//   .vision {
-//     margin-bottom: 0;
-//     margin-top: 0;
-//     max-height: 4.5em;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//   }
-// }
 
 // List View - on hover
 

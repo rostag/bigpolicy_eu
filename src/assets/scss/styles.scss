@@ -15,10 +15,13 @@ $dark-red: #A31F16;   //--- use
 $gray: #707070;   //--- use
 $light-gray: #AAB0BB;   //--- use
 
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,19 +52,19 @@ a:hover {
   color:$red;
 }
 
-md-list-item h3 a:link,
-md-list-item h3 a:visited,
-md-list-item h3 a:active {
-  text-decoration: none;
-}
+// md-list-item h3 a:link,
+// md-list-item h3 a:visited,
+// md-list-item h3 a:active {
+//   text-decoration: none;
+// }
 
-md-list-item h3 a:hover {
-  text-decoration: underline;
-}
+// md-list-item h3 a:hover {
+//   text-decoration: underline;
+// }
 
-md-icon.pointer {
-  cursor: pointer;
-}
+// md-icon.pointer {
+//   cursor: pointer;
+// }
 
 .mat-card {
   box-shadow: none !important;

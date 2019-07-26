@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
+import { ILeader, IProject } from '../../../common/models';
 
 @Component({
   selector: 'app-carousel',
@@ -12,18 +13,21 @@ export class CarouselComponent implements AfterViewInit, OnInit {
   slideNo = 0;
   withAnim = true;
   resetAnim = true;
+  leader: ILeader;
+  @Input() dataSource = [];
 
-  @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
+  @ViewChild('myCarousel') myCarousel: NguCarousel;
   carouselConfig: NguCarouselConfig = {
-    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    load: 3,
-    interval: {timing: 4000, initialDelay: 1000},
+    grid: { xs: 1, sm: 2, md: 3, lg: 3, all: 0 },
+    load: 2,
+    speed: 2000,
+    animation: 'lazy',
+    // interval: {timing: 4000, initialDelay: 1000},
     loop: true,
     touch: true,
     velocity: 0.2
   }
-  carouselItems = [1, 2, 3];
-
+  // CarouselItems = [1, 2, 3];
 
   constructor(private cdr: ChangeDetectorRef) { }
 
@@ -44,4 +48,5 @@ export class CarouselComponent implements AfterViewInit, OnInit {
   moveTo(slide) {
     this.myCarousel.moveTo(slide, !this.withAnim);
   }
+
 }
