@@ -5,7 +5,7 @@ import { LeaderModel } from '../leader/leader.model';
 import { LeaderService } from '../leader/leader.service';
 import { DialogService } from '../dialog/dialog.service';
 import { Store, select } from '@ngrx/store';
-import { AuthState, getUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
+import { AuthState, selectUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
 
 import { Router } from '@angular/router';
 import { AUTH_CONFIG } from './auth.config';
@@ -78,7 +78,7 @@ export class UserService {
     private store: Store<AuthState>,
     private router: Router
   ) {
-    this.store.pipe(select(getUserProfile)).subscribe(profile => this.userProfile = profile);
+    this.store.pipe(select(selectUserProfile)).subscribe(profile => this.userProfile = profile);
     // If authenticated, set local profile property
     // and update login status subject.
     // If not authenticated but there are still items

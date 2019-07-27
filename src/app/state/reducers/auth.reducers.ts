@@ -1,5 +1,5 @@
 // Import necessary building blocks from the library
-import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ export interface IUserProfile {
   picture: string;
 }
 
-// The AuthState iterface describes the structure of the auth store we create
+// The AuthState interface describes the structure of the auth store we create
 export interface AuthState {
   loginAttemptsCount: number;
   loggedIn: boolean;
@@ -82,4 +82,4 @@ export const getAuthState = createFeatureSelector<AuthState>('authState');
 
 export const getLoggedIn = createSelector(getAuthState, (state: AuthState) => state.loggedIn);
 
-export const getUserProfile = createSelector(getAuthState, (state: AuthState) => state.userProfile);
+export const selectUserProfile = createSelector(getAuthState, (state: AuthState) => state.userProfile);

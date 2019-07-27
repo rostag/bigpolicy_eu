@@ -24,11 +24,11 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { NguCarouselModule } from '@ngu/carousel';
+import { AuthEffects } from './state/effects/auth.effects';
 
 // FIXME Re-enable after modules refactoring
 // import { CustomBrowserXhr } from './shared/xhr/xhr';
 // import { XhrFactory } from '@angular/common/http';
-// import { AuthEffects } from './state/effects/auth.effects';
 
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { NguCarouselModule } from '@ngu/carousel';
       LeaderEffects,
       ProjectEffects,
       TaskEffects,
-      // AuthEffects
+      AuthEffects
     ]),
     StoreModule.forRoot({
       authState: authReducer,
