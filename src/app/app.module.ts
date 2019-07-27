@@ -10,12 +10,11 @@ import { LeaderEffects } from './state/effects/leader.effects';
 import { ProjectEffects } from './state/effects/project.effects';
 import { TaskEffects } from './state/effects/task.effects';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducer as authReducer } from './state/reducers/auth.reducers';
 import { reducer as leadersReducer } from './state/reducers/leader.reducers';
 import { reducer as projectsReducer } from './state/reducers/project.reducers';
 import { reducer as tasksReducer } from './state/reducers/task.reducers';
-// import { counterReducer } from './state/reducers/counter.reducers';
-// import { AuthEffects } from './state/effects/auth.effects';
 import { LeaderService } from './shared/leader/leader.service';
 import { ProjectService } from './shared/project/project.service';
 import { TaskService } from './shared/task/task.service';
@@ -29,6 +28,7 @@ import { NguCarouselModule } from '@ngu/carousel';
 // FIXME Re-enable after modules refactoring
 // import { CustomBrowserXhr } from './shared/xhr/xhr';
 // import { XhrFactory } from '@angular/common/http';
+// import { AuthEffects } from './state/effects/auth.effects';
 
 @NgModule({
   imports: [
@@ -48,6 +48,9 @@ import { NguCarouselModule } from '@ngu/carousel';
       leadersState: leadersReducer,
       projectsState: projectsReducer,
       tasksState: tasksReducer
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 10
     }),
     NguCarouselModule
   ],

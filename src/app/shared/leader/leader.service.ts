@@ -1,13 +1,13 @@
-import { throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { DialogService } from '../dialog/dialog.service';
-import { ProjectService } from '../project/project.service';
-import { environment } from '../../../environments/environment';
-import { Injectable } from '@angular/core';
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ENV } from 'app/../environments/env.config';
-import { ILeader, ILeaderResponsePage, IDataPageRequest } from '../../common/models';
+import {throwError as observableThrowError, BehaviorSubject, Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {DialogService} from '../dialog/dialog.service';
+import {ProjectService} from '../project/project.service';
+import {environment} from '../../../environments/environment';
+import {Injectable} from '@angular/core';
+import {map, catchError} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ENV} from 'app/../environments/env.config';
+import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
 
 declare var localStorage: any;
 
@@ -121,7 +121,13 @@ export class LeaderService {
 
     // FIXME NGRX IT LP
     const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: `{ "email": "${email}" }`});
-    leaderResponse.subscribe(leader => this.setLeaderForUser(leader['docs'][0]));
+    leaderResponse.subscribe((response: any) => {
+      if (response && response.name && response.name === 'MongoError') {
+        console.error('Error getting leader by email, response is: ', response);
+      } else {
+        this.setLeaderForUser(response['docs'][0]);
+      }
+    });
     return leaderResponse;
   }
 

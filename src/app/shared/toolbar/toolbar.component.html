@@ -12,7 +12,7 @@
   <span fxFlex="23" style="white-space:nowrap;">
     <a [matMenuTriggerFor]="userMenu" title="Email: {{userService.userProfile?.email || 'User email'}}"
        *ngIf="userService.authenticated()">
-      {{leaderService?.leader?.name || '' + ' ' + (leaderService?.leader?.surName || '') || (userService?.userProfile?.name || '') || ''}}
+      [{{leaderService?.leader?.name || '' + ' ' + (leaderService?.leader?.surName || '') || (userService?.userProfile?.name || '') || ''}}]
     </a>
     <a *ngIf="!userService.authenticated()" (click)="userService.login()">
       Увійти
