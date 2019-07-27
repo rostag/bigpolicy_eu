@@ -29,7 +29,7 @@ export class LeaderEditComponent implements OnInit {
   private static videoUrlValidator(c: FormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
-    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
+    return isYouTubeUrl ? null : {'forbiddenName': 'Error'};
   }
 
   constructor(
