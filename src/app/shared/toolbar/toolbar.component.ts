@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from 'app/shared/user/user.service';
 import { LeaderService } from 'app/shared/leader/leader.service';
 import * as appVersion from '../../../../package.json';
+import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * This class represents the toolbar component.
@@ -11,9 +15,11 @@ import * as appVersion from '../../../../package.json';
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.scss']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit, OnDestroy {
 
   public appVersion = appVersion['version'];
+
+  unsubscribe: Subject<any> = new Subject();
 
   get leaderId() {
     // FIXME NGRX IT
@@ -26,9 +32,16 @@ export class ToolbarComponent {
     return this.userService.authenticated() && this.userService.hasLeader();
   };
 
+  public userProfile$: Observable<IUserProfile> = this.store.pipe(
+    select(selectUserProfile),
+    takeUntil(this.unsubscribe)
+  );
+
+
   constructor(
     public userService: UserService,
-    public leaderService: LeaderService
+    public leaderService: LeaderService,
+    private store: Store<AuthState>
   ) {
   }
 
@@ -43,5 +56,16 @@ export class ToolbarComponent {
 
   public pingJwtAdmin() {
     this.leaderService.pingJwtAdmin().subscribe();
+  }
+
+  ngOnInit(): void {
+    this.userProfile$.subscribe(userProfile => {
+      console.log('usr profile:', userProfile);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
