@@ -6,7 +6,7 @@ import { DialogService } from '../dialog/dialog.service';
 import { Store, select } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { TaskService } from '../task';
+import { TaskService } from '../task/task.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

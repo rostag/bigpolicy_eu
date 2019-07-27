@@ -16,7 +16,7 @@ import {
 } from '../actions/task.actions';
 import {mergeMap, map, catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {TaskService} from '../../shared/task';
+import {TaskService} from '../../shared/task/task.service';
 
 @Injectable()
 export class TaskEffects {

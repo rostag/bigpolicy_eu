@@ -2,28 +2,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DriveService } from './shared/drive';
+import { DriveService } from './shared/drive/drive.service';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { CookieLawModule } from 'angular2-cookie-law';
 
 // Components
-import { TaskEditComponent } from './task/edit';
-import { TaskListComponent } from './task/list';
-import { TaskViewComponent } from './task/view';
+import { TaskEditComponent } from './task/edit/task.edit.component';
+import { TaskListComponent } from './task/list/task.list.component';
+import { TaskViewComponent } from './task/view/task.view.component';
 
-import { ProjectsComponent } from './project/landing';
-import { ProjectEditComponent } from './project/edit';
-import { ProjectListComponent } from './project/list';
-import { ProjectViewComponent } from './project/view';
+import { ProjectsComponent } from './project/landing/projects.component';
+import { ProjectEditComponent } from './project/edit/project.edit.component';
+import { ProjectListComponent } from './project/list/project.list.component';
+import { ProjectViewComponent } from './project/view/project.view.component';
 
-import { LeadersComponent } from './leader/landing';
-import { LeaderEditComponent } from './leader/edit';
-import { LeaderListComponent } from './leader/list';
-import { LeaderViewComponent } from './leader/view';
+import { LeadersComponent } from './leader/landing/leaders.component';
+import { LeaderEditComponent } from './leader/edit/leader.edit.component';
+import { LeaderListComponent } from './leader/list/leader.list.component';
+import { LeaderViewComponent } from './leader/view/leader.view.component';
 
 import { ProfileComponent } from './shared/user/profile.component';
 import { AdminComponent } from './shared/admin/admin.component';
-import { AboutComponent } from './about';
+import { AboutComponent } from './about/components/about.component';
 
 import { UploaderComponent } from './shared/uploader/uploader.component';
 import { AngularFireModule } from '@angular/fire';
@@ -34,12 +34,12 @@ import { ProjectBriefComponent } from './project/brief/project.brief.component';
 
 import { SharerComponent } from './shared/sharer/sharer.component';
 import { DonateComponent } from './shared/donate/donate.component';
-import { DonationsListComponent } from './shared/donate/list';
+import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
 import { VideoComponent } from './shared/video/video.component';
 import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
-import { HomeComponent } from './home';
+import { HomeComponent } from './home/home.component';
 import { EmailValidatorDirective } from './shared/validation/email.validator';
 
 import { CarouselComponent } from './shared/carousel/carousel/carousel.component';

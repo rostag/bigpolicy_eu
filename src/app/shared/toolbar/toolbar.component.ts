@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from 'app/shared/user/user.service';
-import { LeaderService } from 'app/shared/leader';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { getLoggedIn, AuthState } from '../../state/reducers/auth.reducers';
+import { LeaderService } from 'app/shared/leader/leader.service';
 import * as appVersion from '../../../../package.json';
 
 /**
@@ -31,8 +28,7 @@ export class ToolbarComponent {
 
   constructor(
     public userService: UserService,
-    public leaderService: LeaderService,
-    private store: Store<AuthState>
+    public leaderService: LeaderService
   ) {
   }
 
@@ -40,9 +36,11 @@ export class ToolbarComponent {
   public ping() {
     this.leaderService.ping().subscribe();
   }
+
   public pingJwt() {
     this.leaderService.pingJwt().subscribe();
   }
+
   public pingJwtAdmin() {
     this.leaderService.pingJwtAdmin().subscribe();
   }

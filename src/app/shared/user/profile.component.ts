@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LeaderService } from '../leader';
+import { LeaderService } from '../leader/leader.service';
 import { UserService } from './user.service';
 
 @Component({

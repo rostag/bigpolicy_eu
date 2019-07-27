@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { ProjectBriefComponent } from './project.brief.component';
-import { ProjectService } from '../../shared/project';
+import { ProjectService } from '../../shared/project/project.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TaskService } from '../../shared/task';
+import { TaskService } from '../../shared/task/task.service';
 
 xdescribe('ProjectBriefComponent', () => {
   let component: ProjectBriefComponent;

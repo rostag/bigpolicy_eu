@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import {Injectable} from '@angular/core';
+import {Effect, Actions, ofType} from '@ngrx/effects';
 import {
   ProjectActionTypes, LoadProjectFail, LoadProjectSuccess, ProjectAction, CreateProjectFail,
   CreateProjectSuccess, UpdateProjectFail, UpdateProjectSuccess, DeleteProjectSuccess, DeleteProjectFail,
   LoadProjectsPageSuccess, LoadProjectsPageFail
 } from '../actions/project.actions';
-import { mergeMap, map ,  catchError } from 'rxjs/operators';
-import { ProjectService } from '../../shared/project';
-import { Observable ,  of } from 'rxjs';
+import {mergeMap, map, catchError} from 'rxjs/operators';
+import {ProjectService} from '../../shared/project/project.service';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class ProjectEffects {

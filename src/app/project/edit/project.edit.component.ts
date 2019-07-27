@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel } from '../../shared/project';
-import { LeaderService } from '../../shared/leader';
+import { ProjectModel } from '../../shared/project/project.model';
+import { LeaderService } from '../../shared/leader/leader.service';
 import { Location } from '@angular/common';
 import { ILeader, IProject } from '../../common/models';
-import { LeaderModel } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { Store } from '@ngrx/store';
 import { ILeaderState } from '../../state/reducers/leader.reducers';
 import { UpdateLeader } from '../../state/actions/leader.actions';

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { LeaderBriefComponent } from './leader.brief.component';
-import { LeaderService } from '../../shared/leader/index';
+import { LeaderService } from '../../shared/leader/leader.service';
 import { ProjectService } from '../../shared/project/project.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TaskService } from '../../shared/task/task.service';

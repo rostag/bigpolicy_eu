@@ -1,7 +1,8 @@
 // import Auth0Lock from 'auth0-lock';
 import { Injectable } from '@angular/core';
-import { ProjectService } from '../project';
-import { LeaderService, LeaderModel } from '../leader';
+import { ProjectService } from '../project/project.service';
+import { LeaderModel } from '../leader/leader.model';
+import { LeaderService } from '../leader/leader.service';
 import { DialogService } from '../dialog/dialog.service';
 import { Store, select } from '@ngrx/store';
 import { AuthState, getUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
@@ -44,6 +45,31 @@ export class UserService {
   // FIXME NGRX IT
   public isAdmin: boolean;
 
+  /**
+   * Returns true if user has admin role.
+   */
+  private static _checkAdmin(profile) {
+    // Check if the user has admin role
+    const roles = profile[AUTH_CONFIG.NAMESPACE] || [];
+    return roles.indexOf('admin') > -1;
+  }
+
+  private static get tokenValid(): boolean {
+    // Check if current time is past access token's expiration
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return Date.now() < expiresAt;
+  }
+
+  /**
+   * Returns true if user is logged in.
+   * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
+   */
+  public authenticated() {
+    // FIXME Move to using NGRX/store
+    // return tokenNotExpired('id_token');
+    return UserService.tokenValid;
+  };
+
   constructor(
     public leaderService: LeaderService,
     public projectService: ProjectService,
@@ -60,13 +86,13 @@ export class UserService {
     const lsProfile = localStorage.getItem('profile');
     const lsIsAdmin = localStorage.getItem('isAdmin');
 
-    if (this.tokenValid) {
+    if (UserService.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = lsIsAdmin === 'true';
       this.setLoggedIn(true);
       // FIXME NGRX IT
       this.leaderService.requestLeaderByEmail(this.getEmail());
-    } else if (!this.tokenValid && lsProfile) {
+    } else if (!UserService.tokenValid && lsProfile) {
       this.logout();
     }
   }
@@ -106,15 +132,6 @@ export class UserService {
     });
   }
 
-  /**
-   * Returns true if user has admin role.
-   */
-  private _checkAdmin(profile) {
-    // Check if the user has admin role
-    const roles = profile[AUTH_CONFIG.NAMESPACE] || [];
-    return roles.indexOf('admin') > -1;
-  }
-
   private _setSession(authResult, profile) {
     // Save session data and update login status subject
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
@@ -126,7 +143,7 @@ export class UserService {
     this.userProfile = profile;
 
     // Save admin data
-    this.isAdmin = this._checkAdmin(profile);
+    this.isAdmin = UserService._checkAdmin(profile);
     localStorage.setItem('isAdmin', this.isAdmin.toString());
 
     // Update login status in loggedIn$ stream
@@ -157,12 +174,6 @@ export class UserService {
     this.router.navigate(['/']);
   }
 
-  private get tokenValid(): boolean {
-    // Check if current time is past access token's expiration
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return Date.now() < expiresAt;
-  }
-
   /**
    * Returns true if leader matching by email has been found in DB
    */
@@ -182,16 +193,6 @@ export class UserService {
   public getEmail(): string {
     return this.userProfile && this.userProfile['email'];
   }
-
-  /**
-   * Returns true if user is logged in.
-   * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
-   */
-  public authenticated() {
-    // FIXME Move to using ngrx/store
-    // return tokenNotExpired('id_token');
-    return this.tokenValid;
-  };
 
   // FIXME_TEST In the first place
   /**

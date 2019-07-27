@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LeaderService } from '../leader';
+import { LeaderService } from '../leader/leader.service';
 import { UserService } from '../user/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({

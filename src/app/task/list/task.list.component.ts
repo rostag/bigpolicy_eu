@@ -1,6 +1,6 @@
 import { BehaviorSubject ,  Subscription } from 'rxjs';
 import { Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { ProjectModel } from '../../shared/project';
+import { ProjectModel } from '../../shared/project/project.model';
 import { UserService } from '../../shared/user/user.service';
 import { Store } from '@ngrx/store';
 import { ITaskState, getTasksPage } from '../../state/reducers/task.reducers';

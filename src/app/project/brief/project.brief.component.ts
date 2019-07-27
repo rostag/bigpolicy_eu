@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { ProjectModel } from '../../shared/project';
+import { ProjectModel } from '../../shared/project/project.model';
 import { UserService } from '../../shared/user/user.service';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
