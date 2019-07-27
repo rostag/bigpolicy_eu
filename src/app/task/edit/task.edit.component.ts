@@ -1,7 +1,8 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel, ProjectService } from '../../shared/project';
-import { TaskModel } from '../../shared/task';
+import { ProjectModel } from '../../shared/project/project.model';
+import { ProjectService } from '../../shared/project/project.service';
+import { TaskModel } from '../../shared/task/task.model';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { IProject, ITask } from '../../common/models';

@@ -1,7 +1,7 @@
 import { throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { DialogService } from '../dialog/dialog.service';
-import { ProjectService } from '../project';
+import { ProjectService } from '../project/project.service';
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { map, catchError } from 'rxjs/operators';
@@ -32,6 +32,9 @@ export class LeaderService {
   private leaderSource = new BehaviorSubject<ILeader>(this.leader);
   public leaderStream = this.leaderSource.asObservable();
 
+  private static handleError(error: Response) {
+    return observableThrowError(error.json() || 'Server error');
+  }
 
   constructor(
     private http: HttpClient,
@@ -105,7 +108,7 @@ export class LeaderService {
   }
 
   /**
-   * Seaches for leader by user email in DB
+   * Searches for leader by user email in DB
    * If found, saves it via callback as userService.leader propery.
    */
   public requestLeaderByEmail(email: string): Observable<ILeaderResponsePage> {
@@ -143,7 +146,7 @@ export class LeaderService {
     return this.http.put<ILeader>(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
       .pipe(
         map(res => res),
-        catchError(this.handleError)
+        catchError(LeaderService.handleError)
       );
   }
 
@@ -205,7 +208,7 @@ export class LeaderService {
   private finalizeLeaderDeletion(leaderModel: ILeader, navigateToLeadersList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(LeaderService.handleError))
       .subscribe(() => {
         this.setLeaderForUser(null);
         if (navigateToLeadersList) {
@@ -228,9 +231,5 @@ export class LeaderService {
     // FIXME Depersonation happens, check admin editing different leaders, see Profile for each
     this.leader = leader;
     this.leaderSource.next(leader);
-  }
-
-  private handleError(error: Response) {
-    return observableThrowError(error.json() || 'Server error');
   }
 }

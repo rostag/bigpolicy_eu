@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-import { ProjectModel } from '../../shared/project';
+import { ProjectModel } from '../../shared/project/project.model';
 import { IProject } from '../../common/models';
 import { Store, select } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { SelectProject, LoadProject, DeleteProject } from '../../state/actions/project.actions';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-view',

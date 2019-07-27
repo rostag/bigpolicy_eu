@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LeaderEditComponent } from './leader/edit';
+import { LeaderEditComponent } from './leader/edit/leader.edit.component';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
-import { ProjectEditComponent } from './project/edit';
-import { TaskEditComponent } from './task/edit';
-import { LeaderViewComponent } from './leader/view';
-import { ProjectViewComponent } from './project/view';
-import { TaskViewComponent } from './task/view';
-import { LeadersComponent } from './leader/landing';
-import { ProjectsComponent } from './project/landing';
-import { TaskListComponent } from './task/list';
+import { ProjectEditComponent } from './project/edit/project.edit.component';
+import { TaskEditComponent } from './task/edit/task.edit.component';
+import { LeaderViewComponent } from './leader/view/leader.view.component';
+import { ProjectViewComponent } from './project/view/project.view.component';
+import { TaskViewComponent } from './task/view/task.view.component';
+import { LeadersComponent } from './leader/landing/leaders.component';
+import { ProjectsComponent } from './project/landing/projects.component';
+import { TaskListComponent } from './task/list/task.list.component';
 import { ProfileComponent } from './shared/user/profile.component';
-import { AboutComponent } from './about';
+import { AboutComponent } from './about/components/about.component';
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { AdminComponent } from './shared/admin/admin.component';
-import { HomeComponent } from './home';
+import { HomeComponent } from './home/home.component';
 
 // The order of routes is important. More specific come first.
 const routes: Routes = [

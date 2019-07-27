@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { TaskModel } from '../../shared/task';
+import { TaskModel } from '../../shared/task/task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { DialogService } from '../../shared/dialog/dialog.service';

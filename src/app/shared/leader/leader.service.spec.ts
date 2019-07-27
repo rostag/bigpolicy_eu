@@ -4,8 +4,8 @@ import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
 import { MatDialog } from '@angular/material';
 import { MockBackend } from '@angular/http/testing';
-import { ProjectService } from '../project';
-import { TaskService } from '../task';
+import { ProjectService } from '../project/project.service';
+import { TaskService } from '../task/task.service';
 import { HttpClientModule, HttpXhrBackend} from '@angular/common/http';
 
 describe('LeaderService', () => {

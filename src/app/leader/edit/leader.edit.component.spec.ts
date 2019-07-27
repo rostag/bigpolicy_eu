@@ -1,23 +1,22 @@
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageComponent } from '../../shared/image/image.component';
-import { LeaderEditComponent } from './';
-import { ReactiveFormsModule } from '@angular/forms';
+import { LeaderEditComponent } from './leader.edit.component';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { UploaderComponent } from '../../shared/uploader/uploader.component';
 import { FilesViewComponent } from '../../shared/files/view/files.view.component';
 import { FilesEditComponent } from '../../shared/drive/files/files.edit.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LeaderService } from '../../shared/leader';
-import { ProjectService } from '../../shared/project';
-import { TaskService } from '../../shared/task';
+import { LeaderService } from '../../shared/leader/leader.service';
+import { ProjectService } from '../../shared/project/project.service';
+import { TaskService } from '../../shared/task/task.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user/user.service';
-import { DriveService } from '../../shared/drive';
-import { AngularFireModule } from 'angularfire2';
+import { DriveService } from '../../shared/drive/drive.service';
+import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from '../../bp.module';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 
 describe('LeaderEditComponent', () => {
@@ -61,7 +60,7 @@ describe('LeaderEditComponent', () => {
 
   it('should create a `FormGroup` comprised of `FormControl`s', () => {
     component.ngOnInit();
-    expect(component.leaderFormGroup).toBe(true);
+    expect(component.leaderFormGroup).toBe(new FormGroup(null));
   });
 
   it('should require to enter the Leader data, submit button should be disabled', () => {
@@ -70,8 +69,8 @@ describe('LeaderEditComponent', () => {
     expect(submitButton.attributes['disabled']).toBeDefined();
   });
 
-  const value0 = {name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'};
-  const value = null;
+  let value = <any>{name: 'The', surName: 'Leader', vision: 'Some vision do I have', mission: 'Here is my dear mission'};
+  value = null;
 
   it('submit button should be enabled after filling the form', () => {
     fixture.detectChanges();
@@ -81,7 +80,6 @@ describe('LeaderEditComponent', () => {
   });
 
   it('submit button should be disabled if Leader name is too short and then become enabled when it\'s OK', () => {
-    fixture.detectChanges();
     component.setLeader(value);
     fixture.detectChanges();
     expect(submitButton.attributes['disabled']).toBeDefined();

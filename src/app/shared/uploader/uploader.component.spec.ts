@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogService } from '../dialog/dialog.service';
-import { ProjectService } from '../project';
+import { ProjectService } from '../project/project.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TaskService } from '../task';
+import { TaskService } from '../task/task.service';
 import { UploaderComponent } from './uploader.component';
 import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from '../../core.module';

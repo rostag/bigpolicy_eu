@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LeaderModel } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';

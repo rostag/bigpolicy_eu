@@ -1,7 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FilesViewComponent } from './files.view.component';
-import { ToolbarComponent } from '../../index';
+import { async, TestBed } from '@angular/core/testing';
 
 describe('FIXME FilesViewComponent', () => {
   // let component: FilesViewComponent;

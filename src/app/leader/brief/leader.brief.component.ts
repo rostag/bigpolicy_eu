@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderModel } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { UserService } from '../../shared/user/user.service';
 import { ILeader } from '../../common/models';
 import { Store } from '@ngrx/store';

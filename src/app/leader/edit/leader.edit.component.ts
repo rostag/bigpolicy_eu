@@ -1,7 +1,7 @@
 import { OnInit, Component } from '@angular/core';
-import { LeaderModel } from '../../shared/leader';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { ActivatedRoute } from '@angular/router';
-import { DriveService } from '../../shared/drive';
+import { DriveService } from '../../shared/drive/drive.service';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -24,6 +24,13 @@ export class LeaderEditComponent implements OnInit {
 
   // Must be public, used in template
   public isUpdateMode = false;
+
+  // FIXME apply validation - shall return either null if the control value is valid or a validation error object
+  private static videoUrlValidator(c: FormControl) {
+    const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
+    const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
+    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -72,7 +79,7 @@ export class LeaderEditComponent implements OnInit {
       surName,
       mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
-      videoUrl: ['', this.videoUrlValidator],
+      videoUrl: ['', LeaderEditComponent.videoUrlValidator],
       location: [''],
     });
 
@@ -92,17 +99,6 @@ export class LeaderEditComponent implements OnInit {
     });
   }
 
-  // FIXME apply validation - shall return either null if the control value is valid or a validation error object
-  private videoUrlValidator(c: FormControl) {
-    const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-    const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
-    return isYouTubeUrl ? null : {'forbiddenName': 'Erriis'};
-  }
-
-  /**
-   * Leader loading handler
-   * @param {data} Loaded Leader data
-   */
   public setLeader(leader: ILeader) {
     // if (!leader) { return; }
     console.log('Set leader:', leader);
@@ -136,10 +132,6 @@ export class LeaderEditComponent implements OnInit {
     }
   }
 
-  /**
-   * Removes the Leader from DB
-   * @param {Leader} Leader to delete
-   */
   public deleteLeader(leader: ILeader) {
     this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
