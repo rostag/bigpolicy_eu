@@ -22,7 +22,7 @@ module.exports = function (app, router) {
   const DBDonation = require('./mongo/db-donation');
 
   app.use(bodyParser.urlencoded({'extended': true})); // parse application/x-www-form-urlencoded
-  app.use(bodyParser.json());                          // parse application/json
+  app.use(bodyParser.json());                                 // parse application/json
   app.use(methodOverride('X-HTTP-Method-Override'));
   app.use(cors());
 
