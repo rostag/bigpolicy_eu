@@ -123,7 +123,7 @@ export class LeaderService {
     const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: `{ "email": "${email}" }`});
     leaderResponse.subscribe((response: any) => {
       if (response && response.name && response.name === 'MongoError') {
-        console.error('Error getting leader by email, response is: ', response);
+        console.warn('Error getting leader by email, response is: ', response);
       } else {
         this.setLeaderForUser(response['docs'][0]);
       }
