@@ -6,7 +6,7 @@ import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ILeader } from '../../common/models';
-import { Store } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
 import {BaseUnsubscribe} from '../../shared/base-unsubscribe/base.unsubscribe';
@@ -28,6 +28,12 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
 
   // Must be public, used in template
   public isUpdateMode = false;
+  public userProfile: IUserProfile;
+
+  private userProfile$: Observable<IUserProfile> = this.store.pipe(
+    takeUntil(this.unsubscribe),
+    select(selectUserProfile)
+  );
 
   // FIXME apply validation - shall return either null if the control value is valid or a validation error object
   private static videoUrlValidator(c: FormControl) {
@@ -42,7 +48,8 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
     public userService: UserService,
     public driveService: DriveService,
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: Store<AuthState>
   ) {
     super();
   }
@@ -53,6 +60,11 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
    */
   // FIXME Protect with Guard from unauthorized access
   public ngOnInit() {
+
+    this.userProfile$.subscribe(userProfile => {
+      this.userProfile = userProfile;
+    });
+
     // FIXME
     const profile = this.userService.userProfile;
     // FIXME
