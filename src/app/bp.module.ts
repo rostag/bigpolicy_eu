@@ -41,14 +41,10 @@ import { FilesEditComponent } from './shared/drive/files/files.edit.component';
 import { FilesViewComponent } from './shared/files/view/files.view.component';
 import { HomeComponent } from './home/home.component';
 import { EmailValidatorDirective } from './shared/validation/email.validator';
-
 import { CarouselComponent } from './shared/carousel/carousel/carousel.component';
-
-// Services
 import { ShareService } from './shared/sharer/share.service';
 import { DonationService } from './shared/donate/donation.service';
 import { LoggedInGuard } from './shared/login/logged-in.guard';
-
 import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
 import { BpRoutingModule } from './bp-routing.module';
 import { MaterialModule } from './common/modules/material/material.module';
