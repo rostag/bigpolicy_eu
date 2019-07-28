@@ -32,6 +32,8 @@ export class UserService {
 
   // Store profile object in auth class
   public userProfile: IUserProfile = {
+    given_name: '',
+    family_name: '',
     name: '',
     email: '',
     nickname: null,

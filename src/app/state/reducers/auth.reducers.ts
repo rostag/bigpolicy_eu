@@ -7,12 +7,15 @@ import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 // --------------------------------------------------------------------------------------------------------------------
 
 export interface IUserProfile {
+  given_name: string;
+  family_name: string;
   name: string;
   email: string;
   nickname: string;
   created_at: string;
   updated_at: string;
   picture: string;
+  leader?: any;
 }
 
 // The AuthState interface describes the structure of the auth store we create
