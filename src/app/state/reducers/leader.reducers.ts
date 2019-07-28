@@ -1,12 +1,10 @@
-import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
-import { ILeader, ILeaderResponsePage } from '../../common/models';
-import { LeaderAction, LeaderActionTypes } from '../actions/leader.actions';
+import {createSelector, createFeatureSelector} from '@ngrx/store';
+import {ILeader, ILeaderResponsePage} from '../../common/models';
+import {LeaderAction, LeaderActionTypes} from '../actions/leader.actions';
 
-// --------------------------------------------------------------------------------------------------------------------
 // Store
-// --------------------------------------------------------------------------------------------------------------------
 
-// The AuthState iterface describes the structure of the auth store we create
+// The AuthState interface describes the structure of the auth store we create
 export interface ILeaderState {
   leaders: ILeader[];
   selectedLeaderId: string;
@@ -22,9 +20,7 @@ const initialState: ILeaderState = {
   leadersPage: null
 };
 
-// --------------------------------------------------------------------------------------------------------------------
 // Reducer
-// --------------------------------------------------------------------------------------------------------------------
 
 /**
  * Reducer is a pure function, with input-output only and no side effects.
@@ -42,16 +38,16 @@ export function reducer(
   switch (action.type) {
 
     case LeaderActionTypes.LEADER_SELECT:
-      return { ...state, selectedLeaderId: action.payload };
+      return {...state, selectedLeaderId: action.payload};
 
     case LeaderActionTypes.LEADER_LOAD_SUCCESS:
-      const loadedLeader: ILeader = { ...action.payload };
-      const s = { ...state };
+      const loadedLeader: ILeader = {...action.payload};
+      const s = {...state};
       if (s.leaders && s.leaders.indexOf(loadedLeader) === -1) {
         s.leaders = [...s.leaders, loadedLeader];
-        s.leadersById[loadedLeader._id] = { ...loadedLeader };
+        s.leadersById[loadedLeader._id] = {...loadedLeader};
       }
-      return { ...s, leaders: [...s.leaders], selectedLeaderId: loadedLeader._id };
+      return {...s, leaders: [...s.leaders], selectedLeaderId: loadedLeader._id};
 
     case LeaderActionTypes.LEADERS_PAGE_LOAD_SUCCESS:
       const newLeaders: ILeader[] = [];
@@ -63,18 +59,16 @@ export function reducer(
           }
         });
       }
-      return { ...state, leaders: [...newLeaders], leadersPage: { ...action.payload } };
+      return {...state, leaders: [...newLeaders], leadersPage: {...action.payload}};
 
     default:
       return state;
   }
 }
 
-// --------------------------------------------------------------------------------------------------------------------
 // Selector functions are used to access the slices of the state from application
 // More info on 'createFeatureSelector' and 'createSelector' can be found here:
 // https://github.com/ngrx/platform/blob/master/docs/store/selectors.md
-// --------------------------------------------------------------------------------------------------------------------
 
 // This 'feature' selector selects auth store itself as a feature to be reused in other selectors
 export const getLeadersState = createFeatureSelector<ILeaderState>('leadersState');
