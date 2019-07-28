@@ -18,6 +18,7 @@ import {takeUntil} from 'rxjs/operators';
 export class ToolbarComponent implements OnInit, OnDestroy {
 
   public appVersion = appVersion['version'];
+  public userProfile: IUserProfile;
 
   unsubscribe: Subject<any> = new Subject();
 
@@ -36,7 +37,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     select(selectUserProfile),
     takeUntil(this.unsubscribe)
   );
-
 
   constructor(
     public userService: UserService,
@@ -60,7 +60,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userProfile$.subscribe(userProfile => {
-      console.log('usr profile:', userProfile);
+      this.userProfile = userProfile;
     });
   }
 
