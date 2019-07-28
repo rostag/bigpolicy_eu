@@ -55,7 +55,6 @@ export class UserService {
   }
 
   private static get tokenValid(): boolean {
-    // Check if current time is past access token's expiration
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
   }
@@ -89,7 +88,7 @@ export class UserService {
     if (UserService.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = lsIsAdmin === 'true';
-      this.setLoggedIn(true);
+      this.setLoggedIn(true, JSON.parse(lsProfile));
       // FIXME NGRX IT
       this.leaderService.requestLeaderByEmail(this.getEmail());
     } else if (!UserService.tokenValid && lsProfile) {
