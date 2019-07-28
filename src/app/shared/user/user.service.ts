@@ -1,19 +1,17 @@
-// import Auth0Lock from 'auth0-lock';
-import { Injectable } from '@angular/core';
-import { ProjectService } from '../project/project.service';
-import { LeaderModel } from '../leader/leader.model';
-import { LeaderService } from '../leader/leader.service';
-import { DialogService } from '../dialog/dialog.service';
-import { Store, select } from '@ngrx/store';
-import { AuthState, selectUserProfile, IUserProfile } from '../../state/reducers/auth.reducers';
-
-import { Router } from '@angular/router';
-import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
-import { LoginSuccess, Logout } from '../../state/actions/auth.actions';
-import { ILeader } from '../../common/models';
-import { ILeaderState } from '../../state/reducers/leader.reducers';
-import { CreateLeader } from '../../state/actions/leader.actions';
+import {AUTH_CONFIG} from './auth.config';
+import {Injectable} from '@angular/core';
+import {ProjectService} from '../project/project.service';
+import {LeaderModel} from '../leader/leader.model';
+import {LeaderService} from '../leader/leader.service';
+import {DialogService} from '../dialog/dialog.service';
+import {Store, select} from '@ngrx/store';
+import {AuthState, selectUserProfile, IUserProfile} from '../../state/reducers/auth.reducers';
+import {Router} from '@angular/router';
+import {LoginSuccess, Logout} from '../../state/actions/auth.actions';
+import {ILeader} from '../../common/models';
+import {ILeaderState} from '../../state/reducers/leader.reducers';
+import {CreateLeader} from '../../state/actions/leader.actions';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
@@ -54,6 +52,9 @@ export class UserService {
     return roles.indexOf('admin') > -1;
   }
 
+  /**
+   * Check if current time is past access token's expiration
+   */
   private static get tokenValid(): boolean {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
@@ -78,10 +79,10 @@ export class UserService {
     private router: Router
   ) {
     this.store.pipe(select(selectUserProfile)).subscribe(profile => this.userProfile = profile);
-    // If authenticated, set local profile property
-    // and update login status subject.
-    // If not authenticated but there are still items
-    // in localStorage, log out.
+
+    // If authenticated, set local profile property, and update login status subject.
+    // If not authenticated, but there are still items in localStorage, log out.
+
     const lsProfile = localStorage.getItem('profile');
     const lsIsAdmin = localStorage.getItem('isAdmin');
 
