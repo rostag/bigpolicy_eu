@@ -38,3 +38,28 @@ ls -lah
 cd $APP_HOME
 
 exit 0
+
+## WIP:
+## TODO: set acceess control: https://stackoverflow.com/questions/38921414/mongodb-what-are-the-default-user-and-password
+
+## 1 Start MongoDB without access control.
+# mongod --port 27027 --dbpath=data/db
+
+## 2 Connect to the instance.
+# mongo --port 27027
+
+## 3 Create the user administrator
+# db.createUser(
+#   {
+#     user: "bpqa",
+#     pwd: "bpqa81",
+#     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+#   }
+# )
+
+## 4 Re-start the MongoDB instance with access control.
+# mongod --auth --port 27027 --dbpath=data/db
+
+## 5 Authenticate as the user administrator.
+# mongo --port 27027 -u "bpqa" -p "bpqa81" --authenticationDatabase "admin"
+
