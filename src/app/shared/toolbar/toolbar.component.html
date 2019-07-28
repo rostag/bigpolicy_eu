@@ -24,7 +24,7 @@
   </span>
 </nav>
 
-<mat-menu #userMenu="matMenu">
+<!-- mat-menu #userMenu="matMenu">
   <div *ngIf="userService.authenticated()">
     <button mat-menu-item [routerLink]="['/profile']">Обліковий запис</button>
     <button mat-menu-item (click)="userService.logout()">Вийти</button>
@@ -33,7 +33,7 @@
   <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
   <a [routerLink]="['./about']" mat-menu-item *ngIf="userService.isAdmin" (click)="pingJwt()">Ping JWT</a>
   <a [routerLink]="['./about']" mat-menu-item *ngIf="userService.isAdmin" (click)="pingJwtAdmin()">Ping JWT Admin</a>
-</mat-menu>
+</mat-menu -->
 
 <button ngClass.xs="fab-logo-xs" color="warn" class="fab-logo" mat-fab [routerLink]="['/']">
   <svg class="logo-placeholder logo-white" viewBox="0 0 3500 3300">
