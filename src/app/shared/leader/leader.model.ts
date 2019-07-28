@@ -1,11 +1,10 @@
-import { UserService } from '../user/user.service';
 import { FormGroup } from '@angular/forms';
 import { ILeader } from '../../common/models';
 
 export class LeaderModel implements ILeader {
   _id: string;
-  name: string;
-  surName: string;
+  name = '';
+  surName = '';
   parentName: string;
   vision: string;
   mission: string;
