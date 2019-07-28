@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class LocationService {
@@ -2796,17 +2794,19 @@ export class LocationService {
       }]
     }];
 
-  constructor(private httpClient: HttpClient) {
+  constructor() {
   }
 
   // WIP
   public getRegions(): Observable<any> {
-    return this.httpClient.get('api/regions').pipe(
-      catchError((err: Response) => {
-        console.log('Error getting regions:', err);
-        return of(this.regions);
-      })
-    );
+    return of(this.regions);
+    // TODO: replace mock with real data from BE
+    // return this.httpClient.get('api/regions').pipe(
+    //   catchError((err: Response) => {
+    //     console.log('Error getting regions:', err);
+    //     return of(this.regions);
+    //   })
+    // );
   }
 
   // public getCitiesForRegion(regionId: number): Observable<any> {
