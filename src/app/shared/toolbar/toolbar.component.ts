@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from 'app/shared/user/user.service';
 import {LeaderService} from 'app/shared/leader/leader.service';
-import * as appVersion from '../../../../package.json';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
@@ -18,7 +17,6 @@ import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 })
 export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
 
-  public appVersion = appVersion['version'];
   public userProfile: IUserProfile;
 
   get leaderId() {
@@ -43,19 +41,6 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     private store: Store<AuthState>
   ) {
     super();
-  }
-
-  // TODO REMOVE AFTER TEST
-  public ping() {
-    this.leaderService.ping().subscribe();
-  }
-
-  public pingJwt() {
-    this.leaderService.pingJwt().subscribe();
-  }
-
-  public pingJwtAdmin() {
-    this.leaderService.pingJwtAdmin().subscribe();
   }
 
   ngOnInit(): void {
