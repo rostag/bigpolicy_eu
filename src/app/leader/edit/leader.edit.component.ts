@@ -1,14 +1,14 @@
-import { OnInit, Component } from '@angular/core';
-import { LeaderModel } from '../../shared/leader/leader.model';
-import { ActivatedRoute } from '@angular/router';
-import { DriveService } from '../../shared/drive/drive.service';
-import { UserService } from '../../shared/user/user.service';
-import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ILeader } from '../../common/models';
+import {OnInit, Component} from '@angular/core';
+import {LeaderModel} from '../../shared/leader/leader.model';
+import {ActivatedRoute} from '@angular/router';
+import {DriveService} from '../../shared/drive/drive.service';
+import {UserService} from '../../shared/user/user.service';
+import {Location} from '@angular/common';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {ILeader} from '../../common/models';
 import {select, Store} from '@ngrx/store';
-import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
+import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
+import {LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader} from '../../state/actions/leader.actions';
 import {BaseUnsubscribe} from '../../shared/base-unsubscribe/base.unsubscribe';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {Observable} from 'rxjs';
@@ -61,43 +61,21 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
   // FIXME Protect with Guard from unauthorized access
   public ngOnInit() {
 
-    this.userProfile$.subscribe(userProfile => {
-      this.userProfile = userProfile;
-    });
-
-    // FIXME
-    const profile = this.userService.userProfile;
-    // FIXME
-    const fullname = profile ? profile['name'] : '';
-
-    const name = new FormControl({
-      disabled: true,
-      value: fullname.split(' ')[0] + '^',
-      validators: [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(50)]
-    });
-
-    const surName = new FormControl({
-      disabled: true,
-      name: fullname.split(' ')[1],
-      validators: [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(50)]
-    });
-
-    // FIXME Code duplication
-    // name: [fullname.split(' ')[0], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    // surName: [fullname.split(' ')[1], [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     this.leaderFormGroup = this.fb.group({
-      name,
-      surName,
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      surName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       mission: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       vision: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(999)]],
       videoUrl: ['', LeaderEditComponent.videoUrlValidator],
       location: [''],
+    });
+
+    this.userProfile$.subscribe(userProfile => {
+      this.userProfile = userProfile;
+      this.leaderFormGroup.patchValue({
+        name: userProfile ? userProfile.given_name : '',
+        surName: userProfile ? userProfile.family_name : ''
+      });
     });
 
     // FIXME TEST_1 2NGRX unauthorised user can't see the page
@@ -111,7 +89,7 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
       }
     });
 
-    this.leaderStore.select(getSelectedLeader).subscribe(leader => {
+    this.leaderStore.pipe(takeUntil(this.unsubscribe), select(getSelectedLeader)).subscribe(leader => {
       this.setLeader(leader);
     });
   }
