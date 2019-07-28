@@ -13,6 +13,7 @@ export interface IUserProfile {
   created_at: string;
   updated_at: string;
   picture: string;
+  leader?: any;
 }
 
 // The AuthState interface describes the structure of the auth store we create
