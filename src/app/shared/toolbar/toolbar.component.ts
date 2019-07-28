@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { UserService } from 'app/shared/user/user.service';
-import { LeaderService } from 'app/shared/leader/leader.service';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from 'app/shared/user/user.service';
+import {LeaderService} from 'app/shared/leader/leader.service';
 import * as appVersion from '../../../../package.json';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 
@@ -21,8 +21,6 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
   public appVersion = appVersion['version'];
   public userProfile: IUserProfile;
 
-  unsubscribe: Subject<any> = new Subject();
-
   get leaderId() {
     // FIXME NGRX IT
     return this.leaderService.leader && this.leaderService.leader._id;
@@ -34,9 +32,9 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     return this.userService.authenticated() && this.userService.hasLeader();
   };
 
-  public userProfile$: Observable<IUserProfile> = this.store.pipe(
-    select(selectUserProfile),
-    takeUntil(this.unsubscribe)
+  private userProfile$: Observable<IUserProfile> = this.store.pipe(
+    takeUntil(this.unsubscribe),
+    select(selectUserProfile)
   );
 
   constructor(
