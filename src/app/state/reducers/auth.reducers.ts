@@ -7,6 +7,8 @@ import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
 // --------------------------------------------------------------------------------------------------------------------
 
 export interface IUserProfile {
+  given_name: string;
+  family_name: string;
   name: string;
   email: string;
   nickname: string;

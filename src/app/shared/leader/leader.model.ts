@@ -3,8 +3,8 @@ import { ILeader } from '../../common/models';
 
 export class LeaderModel implements ILeader {
   _id: string;
-  name = '';
-  surName = '';
+  name: string;
+  surName: string;
   parentName: string;
   vision: string;
   mission: string;
