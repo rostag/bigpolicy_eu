@@ -55,7 +55,6 @@ import {environment} from '../environments/environment';
 import {NguCarouselModule} from '@ngu/carousel';
 import {CompanyComponent} from './companies/brief/company/company.component';
 import {QuestionsFormComponent} from './shared/questions-form/questions-form.component';
-import {BaseUnsubscribe} from './shared/base-unsubscribe/base.unsubscribe';
 
 export const K = environment.K;
 export const firebaseConfig = K.fbs;
@@ -102,8 +101,7 @@ export const firebaseConfig = K.fbs;
     ProjectBriefComponent,
     Ng2PaginationModule,
     CookieLawModule,
-    CarouselComponent,
-    BaseUnsubscribe
+    CarouselComponent
   ],
   declarations: [
     // components to use in this module
