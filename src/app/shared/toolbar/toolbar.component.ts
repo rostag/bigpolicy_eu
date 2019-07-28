@@ -6,6 +6,7 @@ import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/a
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 
 /**
  * This class represents the toolbar component.
@@ -15,7 +16,7 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
 
   public appVersion = appVersion['version'];
   public userProfile: IUserProfile;
@@ -43,6 +44,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     public leaderService: LeaderService,
     private store: Store<AuthState>
   ) {
+    super();
   }
 
   // TODO REMOVE AFTER TEST
@@ -62,10 +64,5 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.userProfile$.subscribe(userProfile => {
       this.userProfile = userProfile;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

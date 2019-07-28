@@ -9,13 +9,17 @@ import { ILeader } from '../../common/models';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader } from '../../state/actions/leader.actions';
+import {BaseUnsubscribe} from '../../shared/base-unsubscribe/base.unsubscribe';
+import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
+import {Observable} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: './leader.edit.component.html',
   styleUrls: ['./leader.edit.component.scss']
 })
 
-export class LeaderEditComponent implements OnInit {
+export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
 
   public leaderFormGroup: FormGroup;
 
@@ -40,6 +44,7 @@ export class LeaderEditComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder
   ) {
+    super();
   }
 
   /**
