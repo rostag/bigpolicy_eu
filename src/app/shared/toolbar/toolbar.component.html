@@ -10,7 +10,7 @@
   </span>
 
   <span fxFlex="23" style="white-space:nowrap;">
-    <a [matMenuTriggerFor]="userMenu" title="Email: {{userService.userProfile?.email || 'User email'}}"
+    <a title="Email: {{userService.userProfile?.email || 'User email'}}" [routerLink]="['/profile']"
        *ngIf="userService.authenticated()">
       {{userProfile?.name || 'User'}}
     </a>
