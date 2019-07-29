@@ -8,8 +8,14 @@
         <div class="small">{{leader.location}}</div>
       </div>
       <div class="admin">
-        <button mat-icon-button (click)="editLeader(leader)" *ngIf="userService.hasEditPermissions(leader)" color="primary"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button (click)="deleteLeader(leader)" *ngIf="userService.hasEditPermissions(leader)" color="primary"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button (click)="editLeader(leader)" *ngIf="userService.hasEditPermissions(leader)"
+                color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteLeader(leader)" *ngIf="userService.hasEditPermissions(leader)"
+                color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
         <!-- FIXME
           <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
           <button mat-icon-button><mat-icon>share</mat-icon></button mat-icon-button>
@@ -49,7 +55,8 @@
         </ng-template>
 
         <ng-template #videos>
-          <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
+          <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name"
+                        placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
         </ng-template>
 
         <ng-template #novisual>
@@ -70,7 +77,8 @@
     <mat-card-title class="projects-title">
     </mat-card-title>
     <mat-card-content>
-      <app-project-list [leaderId]="leader._id" pageSize="6" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
+      <app-project-list [leaderId]="leader._id" pageSize="6"
+                        *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
       </app-project-list>
       <ng-template #projects_placeholder>Немає жодного проекту.
         <span *ngIf="userService.hasEditPermissions(leader)"> –
@@ -107,8 +115,19 @@
 
   <mat-card-actions>
     <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <button (click)="editLeader(leader)" mat-raised-button color="accent">Редагувати</button>
-      <button (click)="deleteLeader(leader)" mat-raised-button color="warn">Видалити</button>
+      <button mat-icon-button (click)="editLeader(leader)" color="primary">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteLeader(leader)" color="primary">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <!-- FIXME
+        <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
+        <button mat-icon-button><mat-icon>share</mat-icon></button mat-icon-button>
+        <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
+      -->
+      <!-- FIXME - Implement as Dialog -->
+      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
   </mat-card-actions>
 </div>

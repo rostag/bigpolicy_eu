@@ -10,7 +10,7 @@ module.exports = {
     domain: 'bigpolicy.eu'
   },
   gdrive: {
-    client_id: '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com'
+    client_id: '47982322024-38jq62m1gvv5ask0hgds67fna4nlt6r9.apps.googleusercontent.com'
   },
   fbs: {
     apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',

@@ -10,7 +10,7 @@ $cred: #0f0;
 
 :host-context(.sharer-host) {
   ::ng-deep .share-card {
-    margin-top: -2em;
+    margin-top: -70px;
   }
 }
 
@@ -36,6 +36,8 @@ $cred: #0f0;
 
 .show-sharer-button {
   position: relative;
+  top: 8px;
+  left: 4px;
 }
 
 .email-input.invalid {
