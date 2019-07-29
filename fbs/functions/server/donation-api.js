@@ -9,13 +9,10 @@ module.exports = function (app, router, DB) {
   require('url');
 
   function getParamsFromRequestData(req) {
-    // WAS:
-    // const d;
-    // for (var item in req.body) {
-    //   d = JSON.parse(item);
-    // }
-
-    const d = JSON.parse(req.body.keys()[0]);
+    let d;
+    for (var item in req.body) {
+      d = JSON.parse(item);
+    }
 
     // we use mongo _id here, to use it later as back reference for order_id in liqpay order status callback
     d.externalId = K.liq.donationPrefix + d._id + '__amt_' + d.amount + '__from_' + d.donorId + '__to_' + d.targetId + '__type_' + d.targetType + '__t_' + Date.now();

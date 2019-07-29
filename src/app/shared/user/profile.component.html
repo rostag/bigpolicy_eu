@@ -4,10 +4,10 @@
     <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="2%" class="user-title">
       <h1 fxFlex>{{userProfile.name}}</h1>&nbsp;
       <span fxFlex fxLayout="row" fxLayoutAlign="end">
-        <button mat-icon-button color="primary" (click)="userService.logout()"><mat-icon>exit_to_app</mat-icon></button>
         <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
                 *ngIf="userService.hasEditPermissions(profileLeader)"><mat-icon>edit</mat-icon>
         </button>
+        <button mat-icon-button color="primary" (click)="userService.logout()"><mat-icon>exit_to_app</mat-icon></button>
       </span>
     </div>
 
@@ -18,7 +18,8 @@
       <div class="user-info">
         <!-- FIXME Override User Profile Name with Leader Name ? -->
         <p *ngIf="userService.isAdmin"><strong>Роль: </strong><a [routerLink]="['/admin']">Адміністратор</a></p>
-        <p *ngIf="profileLeader"><strong>Лідер: </strong><a [routerLink]="['/leader/' + profileLeader?._id]">{{profileLeader?.name}}
+        <p *ngIf="profileLeader"><strong>Лідер: </strong><a
+          [routerLink]="['/leader/' + profileLeader?._id]">{{profileLeader?.name}}
           {{profileLeader?.surName}}</a></p>
         <p><strong>Емейл: </strong>{{userProfile.email}}</p>
         <p><strong>Нікнейм: </strong>{{userProfile.nickname}}</p>
@@ -28,93 +29,35 @@
     </div>
 
     <div *ngIf="profileLeader" class="leader-profile">
-      <!-- FIXME <h2 *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0">Проекти:</h2> -->
-      <!-- <app-project-list [leaderId]="profileLeader?._id" pageSize="2" > -->
       <app-project-list
         *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0"
         title="Проекти" [leaderId]="profileLeader?._id" [pageSize]="24"
         dbQuery='{ "$where": "this.taskIds.length > 0" }'>
       </app-project-list>
-
       <app-project-list title="Проекти без заходів" [leaderId]="profileLeader?._id" [pageSize]="24"
                         dbQuery='{ "$where": "this.taskIds.length < 1" }'>
       </app-project-list>
     </div>
-    <mat-card-actions>
-        <span *ngIf="userService.hasEditPermissions(profileLeader)">
-          <a [routerLink]="['/leader/' + profileLeader?._id + '/edit']"><button mat-button
-                                                                               color="accent">Редагувати</button></a>
-        </span>
-    </mat-card-actions>
   </div>
 
   <div *ngIf="!userService.authenticated()">
     <h4>Ви не зайшли в систему</h4>
-    <p>
-      Авторизовані користувачі можуть:
-    </p>
+    <p>Авторизовані користувачі можуть:</p>
     <ul>
-      <li>
-        створювати проекти
-      </li>
-      <li>
-        ставати лідерами
-      </li>
-      <li>
-        користуватися розширеними фунціями системи.
-      </li>
+      <li>створювати проекти</li>
+      <li>ставати лідерами</li>
+      <li>користуватися розширеними фунціями системи.</li>
     </ul>
-    <p>
-      Будь ласка, натисніть "Увійти", для авторизації.
-    </p>
+    <p>Будь ласка, натисніть "Увійти", для авторизації.</p>
     <a (click)="userService.login()">
       <button mat-raised-button color="accent">Увійти</button>
     </a>
   </div>
-
   <div *ngIf="userService.isAdmin">
-    <h2>Admin Area:</h2>
-    <pre style="text-align: left;">{{userProfile | json }}</pre>
-
-    <!--
-     FB:
-     {
-      "sub": "facebook|10157296858170402",
-      "given_name": "Rostyslav",
-      "family_name": "Siryk",
-      "nickname": "rostyslav.siryk",
-      "name": "Rostyslav Siryk",
-      "picture": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10157296858170402&height=50&width=50&ext=1566926510&hash=AeSbO2IKDni9ql4H",
-      "updated_at": "2019-07-28T17:21:50.835Z",
-      "email": "rostyslav.siryk@gmail.com",
-      "email_verified": true,
-      "https://bigpolicy.eu/roles": [
-        "admin"
-      ]
-    }
-
-    GGL:
-    {
-      "sub": "google-oauth2|107231010576060034480",
-      "given_name": "Rostyslav",
-      "family_name": "Siryk",
-      "nickname": "rostyslav.siryk",
-      "name": "Rostyslav Siryk",
-      "picture": "https://lh4.googleusercontent.com/-nutVAzpFpr4/AAAAAAAAAAI/AAAAAAAACzc/9YVp5wwMF88/photo.jpg",
-      "locale": "en",
-      "updated_at": "2019-07-28T17:33:33.574Z",
-      "email": "rostyslav.siryk@globallogic.com",
-      "email_verified": true,
-      "https://bigpolicy.eu/roles": [
-        "user"
-      ]
-    }
-  -->
-
-    <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
-    <a [routerLink]="['./about']" mat-menu-item *ngIf="userService.isAdmin" (click)="pingJwt()">Ping JWT</a>
-    <a [routerLink]="['./about']" mat-menu-item *ngIf="userService.isAdmin" (click)="pingJwtAdmin()">Ping JWT Admin</a>
-
+    <h5>Admin</h5>
+    <a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a>
+    <a [routerLink]="['./about']" (click)="pingJwtAdmin()">Ping JWT Admin</a>
+    <pre style="text-align: left; font-size: x-small;">{{userProfile | json}}</pre>
   </div>
-
+  <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
 </div>

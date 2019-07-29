@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TaskService } from '../task/task.service';
 import { UploaderComponent } from './uploader.component';
 import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from '../../core.module';
+import { firebaseConfig } from '../../bp.module';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 xdescribe('UploaderComponent', () => {
@@ -16,6 +16,11 @@ xdescribe('UploaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule,
+        // FIXME FIREBASE_CONFIG
+//       const firebase = require('firebase');
+//     const admin = require('firebase-admin');
+// // Initialize Firebase
+//     firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
         AngularFireModule.initializeApp(firebaseConfig)
       ],
       providers: [ ProjectService, TaskService, DialogService, AngularFireDatabase ],

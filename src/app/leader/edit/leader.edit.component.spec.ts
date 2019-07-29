@@ -30,6 +30,11 @@ describe('LeaderEditComponent', () => {
     // .withRoutes([ { path: 'add-leader', component: LeaderEditComponent } ]),
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule, RouterTestingModule,
+        // FIXME FIREBASE_CONFIG
+//       const firebase = require('firebase');
+//     const admin = require('firebase-admin');
+// // Initialize Firebase
+//     firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
         AngularFireModule.initializeApp(firebaseConfig)
       ],
       providers: [ LeaderService, DialogService, ProjectService, TaskService, UserService, DriveService, {
