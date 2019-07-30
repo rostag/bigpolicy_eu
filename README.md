@@ -81,7 +81,7 @@ At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, 
 
 ### See your local BP
 
-Visit [localhost:5000](http://localhost:5000/) -- this is your local BigPolicy application.
+Visit [localhost:5555](http://localhost:5555/) -- this is your local BigPolicy application.
 
 After you edited and saved a file, the project is being rebuilt automatically. But you need to manually refresh the page in browser to see the changes (we'll fix it later)
 
@@ -92,7 +92,7 @@ After you edited and saved a file, the project is being rebuilt automatically. B
 
 To run functions locally, use firebase serve:
 
-```firebase serve --only functions,hosting --port 5000 # to emulate both functions and hosting ```
+```firebase serve --only functions,hosting --port 5555 # to emulate both functions and hosting ```
 
 (as per https://firebase.google.com/docs/functions/local-emulator)
 

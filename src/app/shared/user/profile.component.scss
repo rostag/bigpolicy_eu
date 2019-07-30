@@ -20,7 +20,7 @@
     margin-right: 24px;
     width: 100px;
     border-radius: 50px;
-    border: 0px solid #800000;
+    border: 0 solid #800000;
     box-shadow: 6px 14px 33px -9px rgba(0, 0, 0, 0.75);
   }
 
@@ -35,6 +35,18 @@
         width: 140px;
         color: $bp-text;
       }
+    }
+  }
+
+  .admin {
+    border: 1px solid $bp-border;
+    padding: 60px;
+
+    pre {
+      text-align: left;
+      font-size: x-small;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 }
