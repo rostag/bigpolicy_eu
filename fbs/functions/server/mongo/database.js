@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 // Firebase environment adopted:
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
 const MONGO_URI = functions && functions.config() && functions.config().mongo && functions.config().mongo.uri ||
   'mongodb://localhost:27027/bigpolicy';
 

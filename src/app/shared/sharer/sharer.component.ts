@@ -37,7 +37,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   toEmail: string;
 
   showEmailPreview = true;
-  showHtmlPreview = false;
 
   shareForm: NgForm;
 
@@ -182,9 +181,8 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   /**
    * Send the form
-   * @param {formValue} Form value to share
    */
-  shareItem(formValue) {
+  shareItem() {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -202,11 +200,11 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
     this.shareService.share(this.emailToShare)
       .subscribe(
-        data => {
+        () => {
           this.formStatus = 'emailSent';
           scroll(0, 0);
         },
-        err => (er) => {
+        (er) => {
           this.formStatus = 'emailSendError';
           console.error('Project sharing error: ', er);
         },
@@ -222,10 +220,10 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
    */
   get emailHtml() {
     return `${this.itemToShare.textToReader}
-      <h1 align="center" class="emailH1">
+      <h1 class="emailH1">
       ${this.itemToShare.subject}</h1>
             <p style="display:none;">
-      ${this.itemToShare.text}<br><br></p><p align="center">
+      ${this.itemToShare.text}<br><br></p><p>
       ${this.shareService.getYouTubeThumbnail(this.videoUrl, 'full')}
       ${this.itemToShare.detailsLink}
         </p>
@@ -237,11 +235,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   toggleSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
-    return false;
-  }
-
-  toggleHtmlPreview() {
-    this.showHtmlPreview = !this.showHtmlPreview;
     return false;
   }
 }

@@ -27,17 +27,6 @@
         <p><strong>Останій вхід: </strong>{{userProfile.updated_at | date: 'dd MMM yy, HH:MM:SS'}}</p>
       </div>
     </div>
-
-    <div *ngIf="profileLeader" class="leader-profile">
-      <app-project-list
-        *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0"
-        title="Проекти" [leaderId]="profileLeader?._id" [pageSize]="24"
-        dbQuery='{ "$where": "this.taskIds.length > 0" }'>
-      </app-project-list>
-      <app-project-list title="Проекти без заходів" [leaderId]="profileLeader?._id" [pageSize]="24"
-                        dbQuery='{ "$where": "this.taskIds.length < 1" }'>
-      </app-project-list>
-    </div>
   </div>
 
   <div *ngIf="!userService.authenticated()">
@@ -53,11 +42,28 @@
       <button mat-raised-button color="accent">Увійти</button>
     </a>
   </div>
-  <div *ngIf="userService.isAdmin">
-    <h5>Admin</h5>
-    <a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a>
-    <a [routerLink]="['./about']" (click)="pingJwtAdmin()">Ping JWT Admin</a>
-    <pre style="text-align: left; font-size: x-small;">{{userProfile | json}}</pre>
-  </div>
+
   <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
+
+  <app-leader-view [leaderId]="profileLeader._id"></app-leader-view>
+
+  <div class="admin" *ngIf="userService.isAdmin">
+    <pre>Admin</pre>
+    <pre><a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a> <a [routerLink]="['./about']" (click)="pingJwtAdmin()">Ping JWT Admin</a>
+    </pre>
+    <pre>userProfile: {{userProfile | json}}</pre>
+    <pre>profileLeader: {{profileLeader | json}}</pre>
+  </div>
+
+  <div *ngIf="profileLeader" class="leader-profile">
+    <app-project-list
+      *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0"
+      title="Проекти" [leaderId]="profileLeader?._id" [pageSize]="24"
+      dbQuery='{ "$where": "this.taskIds.length > 0" }'>
+    </app-project-list>
+    <app-project-list title="Проекти без заходів" [leaderId]="profileLeader?._id" [pageSize]="24"
+                      dbQuery='{ "$where": "this.taskIds.length < 1" }'>
+    </app-project-list>
+  </div>
+
 </div>

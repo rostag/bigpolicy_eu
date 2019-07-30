@@ -15,7 +15,7 @@
     "db": "cd ../ && mongod --dbpath=data/db --port 27027",
     "db-auth": "cd ../ && mongod --auth --dbpath=data/db --port 27027",
     "server": "node start",
-    "client": "ng serve --port=5000",
+    "client": "ng serve --port=5555",
     "deploy-fbs-and-code-update": "npm version patch && npm install && npm run build-prod && git push origin && rsync -a dist/* fbs/dist && cd fbs && firebase deploy --only hosting",
     "deploy-fbs-hosting": "npm version patch && npm install && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy --only hosting",
     "deploy-fbs-functions": "npm version patch && cd fbs && firebase deploy --only functions",
