@@ -14,8 +14,6 @@ import { TaskService } from '../../shared/task/task.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { UserService } from '../../shared/user/user.service';
 import { DriveService } from '../../shared/drive/drive.service';
-import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from '../../bp.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 
@@ -33,8 +31,8 @@ describe('LeaderEditComponent', () => {
         // FIXME FIREBASE_CONFIG
         //    const firebase = require('firebase');
         //    const admin = require('firebase-admin');
-        //    firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
-        AngularFireModule.initializeApp(firebaseConfig)
+        //    firebase.initialize App(JSON.parse(process.env.FIREBASE_CONFIG));
+        // AngularFireModule.initialize App(firebaseConfig)
       ],
       providers: [ LeaderService, DialogService, ProjectService, TaskService, UserService, DriveService, {
         provide: ActivatedRoute,

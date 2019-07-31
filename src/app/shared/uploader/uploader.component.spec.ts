@@ -4,8 +4,6 @@ import { ProjectService } from '../project/project.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TaskService } from '../task/task.service';
 import { UploaderComponent } from './uploader.component';
-import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from '../../bp.module';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 xdescribe('UploaderComponent', () => {
@@ -19,8 +17,8 @@ xdescribe('UploaderComponent', () => {
         // FIXME FIREBASE_CONFIG
         //    const firebase = require('firebase');
         //    const admin = require('firebase-admin');
-        //    firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
-        AngularFireModule.initializeApp(firebaseConfig)
+        //    firebase.initialize App(JSON.parse(process.env.FIREBASE_CONFIG));
+        // AngularFireModule.initialize App(firebaseConfig)
       ],
       providers: [ ProjectService, TaskService, DialogService, AngularFireDatabase ],
       declarations: [ UploaderComponent ]

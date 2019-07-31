@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+// FIXME
+const firebase = require('firebase');
+const admin = require('firebase-admin');
+// Initialize Firebase
+firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
+// END FIXME
+
 // Firebase environment adopted:
 const functions = require('firebase-functions');
 const MONGO_URI = functions && functions.config() && functions.config().mongo && functions.config().mongo.uri ||

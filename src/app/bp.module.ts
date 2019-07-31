@@ -71,7 +71,9 @@ export const firebaseConfig = K.fbs;
     // FIXME FIREBASE_CONFIG
     //    const firebase = require('firebase');
     //    const admin = require('firebase-admin');
-    //    firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
+    //    firebase.initialize App(JSON.parse(process.env.FIREBASE_CONFIG));
+    // AngularFireModule.initializeApp(firebaseConfig),
+    // FIXME
     AngularFireModule.initializeApp(firebaseConfig),
     NguCarouselModule
   ],
