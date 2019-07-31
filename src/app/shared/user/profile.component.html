@@ -2,7 +2,7 @@
   <div *ngIf="!userService.authenticated() || !userProfile">Потрібно зайти в систему</div>
   <div *ngIf="userService.authenticated() && userProfile">
     <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="2%" class="user-title">
-      <h1 fxFlex>{{userProfile.name}}</h1>&nbsp;
+      <h1 fxFlex>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>&nbsp;
       <span fxFlex fxLayout="row" fxLayoutAlign="end">
         <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
                 *ngIf="userService.hasEditPermissions(profileLeader)"><mat-icon>edit</mat-icon>

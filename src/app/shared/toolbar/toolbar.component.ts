@@ -4,8 +4,9 @@ import {LeaderService} from 'app/shared/leader/leader.service';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
+import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
 
 /**
  * This class represents the toolbar component.
@@ -38,7 +39,8 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
   constructor(
     public userService: UserService,
     public leaderService: LeaderService,
-    private store: Store<AuthState>
+    private store: Store<AuthState>,
+    private leaderStore: Store<ILeaderState>
   ) {
     super();
   }
@@ -47,5 +49,14 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     this.userProfile$.subscribe(userProfile => {
       this.userProfile = userProfile;
     });
+
+    this.leaderStore.pipe(
+      filter(l => !!l),
+      // take(2),
+      select(getSelectedLeader))
+      .subscribe(th => {
+        console.log('We have it:', th);
+        this.userProfile.leader = this.leaderService.leader;
+      })
   }
 }
