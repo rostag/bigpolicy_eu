@@ -50,6 +50,7 @@ export class ProjectEditComponent implements OnInit {
    */
   ngOnInit() {
     this.route.params.subscribe(params => {
+      console.log('Project Edit init:', params);
       if (params.id) {
         this.isUpdateMode = true;
         this.projectStore.dispatch(new LoadProject(params.id));
