@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 // Firebase environment adopted:
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-admin.initializeApp();
+console.log('INIT DB:', process, process.env, process.env.FIREBASE_CONFIG, JSON.parse(process.env.FIREBASE_CONFIG));
+console.log('INIT DB 2:', JSON.stringify(functions.config()));
+admin.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
+// admin.initialize App();
 
 const MONGO_URI = functions && functions.config() && functions.config().mongo && functions.config().mongo.uri ||
   'mongodb://localhost:27027/bigpolicy';
