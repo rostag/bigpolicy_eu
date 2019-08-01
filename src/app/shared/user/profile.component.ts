@@ -24,7 +24,7 @@ export class ProfileComponent extends BaseUnsubscribe implements OnInit {
     select(selectUserProfile)
   );
 
-  public profileLeader: ILeader;
+  public profileLeader: ILeader = <any>{};
 
   constructor(
     public leaderService: LeaderService,
