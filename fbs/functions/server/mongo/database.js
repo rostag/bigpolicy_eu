@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 // FIXME
-const firebase = require('firebase');
+const firebase = require('firebase/app');
 const admin = require('firebase-admin');
 // Initialize Firebase
+console.log('Firebase config:', process, process.env, process.env.FIREBASE_CONFIG, JSON.parse(process.env.FIREBASE_CONFIG));
 firebase.initializeApp(JSON.parse(process.env.FIREBASE_CONFIG));
 // END FIXME
 
