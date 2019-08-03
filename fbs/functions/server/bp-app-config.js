@@ -20,3 +20,5 @@ module.exports = {
     messagingSenderId: '780191546457'
   }
 };
+
+// projectId: '<your-project-id>',
