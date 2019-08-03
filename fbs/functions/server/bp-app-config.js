@@ -13,10 +13,11 @@ module.exports = {
     client_id: '47982322024-38jq62m1gvv5ask0hgds67fna4nlt6r9.apps.googleusercontent.com'
   },
   fbs: {
-    apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
-    authDomain: 'testbase-eb57f.firebaseapp.com',
-    databaseURL: 'https://testbase-eb57f.firebaseio.com',
-    storageBucket: 'testbase-eb57f.appspot.com',
+    apiKey: 'AIzaSyDOUnfY0JcCVl53dsQjTdDX82OnTgYXA84',
+    authDomain: 'bigpolicy-qa.firebaseapp.com',
+    databaseURL: 'https://bigpolicy-qa.firebaseio.com',
+    projectId: 'bigpolicy-qa',
+    storageBucket: 'bigpolicy-qa.appspot.com',
     messagingSenderId: '780191546457'
   }
 };
