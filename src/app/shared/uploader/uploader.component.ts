@@ -1,4 +1,4 @@
-import { PathReference, AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
@@ -31,7 +31,7 @@ export class UploaderComponent implements OnChanges {
 
   listFilesOnStart = false;
 
-  // FIXME Why Oncnages were neded to bloody get rid of this for prod build:
+  // FIXME Why onChanges were needed to get rid of this for prod build:
   // ERROR in /Users/rsiryk/dev/BP/bp/src/$$_gendir/app/shared/uploader/uploader.component.ngfactory.ts (1,1):
   // Operator '===' cannot be applied to types 'boolean' and '"fab"'.
   @Input() buttonType = 'nofab';
@@ -71,6 +71,7 @@ export class UploaderComponent implements OnChanges {
   constructor(
     public afDb: AngularFireDatabase
   ) {
+    console.log('afDb:', this.afDb);
   }
 
   ngOnChanges(changes) {
@@ -149,7 +150,7 @@ export class UploaderComponent implements OnChanges {
       .then(
         () => {
         },
-        (error) => console.error('Error deleting stored file', storagePath)
+        (error) => console.error('Error deleting stored file', storagePath, error)
       );
 
     // Delete references
