@@ -12,10 +12,11 @@ TypeError: Cannot read property 'databaseURL' of null
     at t.databaseFromApp (4.df99a6774f8e47984022.js:1)
     at Object.n.INTERNAL.registerService.Reference [as database] (4.df99a6774f8e47984022.js:1)
     at t._getService (4.df99a6774f8e47984022.js:1)
+  -->
 
-         app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
+         <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
                       buttonType="regular" buttonLabel="Додати зображення"
-                      (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader -->
+                      (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
 
       </mat-card-title>
 
