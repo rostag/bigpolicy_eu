@@ -10,10 +10,17 @@
         <div fxFlex="36%" fxFlex.xs="100%">
           <!-- FIXME - process tmp_user_reg_id in FTUX process -->
           <app-image [src]="leaderModel.photo || 'assets/img/avatar-generic.png'"></app-image>
+          <!-- FIXME re-enable after fixing the:
+         main.5e9c440a7af411b7e506.js:1 ERROR Error: Uncaught (in promise): TypeError: Cannot read property 'databaseURL' of null
+TypeError: Cannot read property 'databaseURL' of null
+    at t.databaseFromApp (4.df99a6774f8e47984022.js:1)
+    at Object.n.INTERNAL.registerService.Reference [as database] (4.df99a6774f8e47984022.js:1)
+    at t._getService (4.df99a6774f8e47984022.js:1)
+
           <app-uploader folder="bp-files/users/{{leaderModel._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
                         buttonType="regular" buttonLabel="Завантажити фото"
                         (uploadedFileUrlChange)="leaderModel.onPhotoUrlChange($event)">
-          </app-uploader>
+          </app-uploader> -->
         </div>
 
         <div fxFlex.xs="100%">
