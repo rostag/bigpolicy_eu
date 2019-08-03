@@ -7,6 +7,7 @@ import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/a
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as appVersion from '../../../../package.json';
+import {ILeader} from '../../common/models';
 
 @Component({
   templateUrl: './profile.component.html',
@@ -23,7 +24,7 @@ export class ProfileComponent extends BaseUnsubscribe implements OnInit {
     select(selectUserProfile)
   );
 
-  public profileLeader;
+  public profileLeader: ILeader = <any>{};
 
   constructor(
     public leaderService: LeaderService,
