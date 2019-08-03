@@ -60,12 +60,14 @@ export const K = environment.K;
 // export const firebaseConfig = K.fbs;
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
-  authDomain: 'testbase-eb57f.firebaseapp.com',
-  databaseURL: 'https://testbase-eb57f.firebaseio.com',
   projectId: 'bigpolicy-qa',
-  storageBucket: 'testbase-eb57f.appspot.com',
-  messagingSenderId: '780191546457'
+  appId: '1:47982322024:web:021225fcd4662f85',
+  databaseURL: 'https://bigpolicy-qa.firebaseio.com',
+  storageBucket: 'bigpolicy-qa.appspot.com',
+  locationId: 'us-central',
+  apiKey: 'AIzaSyARq-uMZPwOSr-oOKqVRes8yEwmeGgATKQ',
+  authDomain: 'bigpolicy-qa.firebaseapp.com',
+  messagingSenderId: '47982322024"'
 };
 
 @NgModule({
