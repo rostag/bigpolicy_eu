@@ -1,8 +1,8 @@
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {Component, Input, Output, OnChanges, ViewChild, EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs';
 import * as firebase from 'firebase';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 interface Image {
   path: string;
@@ -127,16 +127,25 @@ export class UploaderComponent implements OnChanges {
       const folder = this.folder + this.postfix;
       const path = `/${this.folder}/${selectedFile.name}`;
 
-      // Upload happens here
+      // Upload
       const iRef = storageRef.child(path);
-      // console.log(`Upload a file, path = ${path}, selectedFile: ${selectedFile}, folder = ${folder}, iRef = ${iRef}`);
-      iRef.put(selectedFile).then((snapshot) => {
-        this.uploadedFileUrl = snapshot.downloadURL;
+      console.log(`Upload a file, path = ${path}, selectedFile: ${selectedFile}, folder = ${folder}, iRef = ${iRef}`);
+      const uploadTask = iRef.put(selectedFile);
+
+      // uploadTask.then((snapshot) => {
+      //   console.log('Upload snapshot:', snapshot, path);
+      //   this.uploadedFileUrl = snapshot.downloadURL;
+      //   this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
+      //   this.onFileUploadComplete();
+      // });
+
+      uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+        console.log('File available at: ', downloadURL);
+        this.uploadedFileUrl = downloadURL;
         this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
         this.onFileUploadComplete();
       });
     }
-
   }
 
   delete(image: Image) {
