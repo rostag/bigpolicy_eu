@@ -6,9 +6,17 @@
           <span *ngIf="!isUpdateMode">Створити проект</span>
           <span *ngIf="isUpdateMode">Редагувати проект</span>
         </div>
-        <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
+        <!-- FIXME re-enable after fixing the:
+         main.5e9c440a7af411b7e506.js:1 ERROR Error: Uncaught (in promise): TypeError: Cannot read property 'databaseURL' of null
+TypeError: Cannot read property 'databaseURL' of null
+    at t.databaseFromApp (4.df99a6774f8e47984022.js:1)
+    at Object.n.INTERNAL.registerService.Reference [as database] (4.df99a6774f8e47984022.js:1)
+    at t._getService (4.df99a6774f8e47984022.js:1)
+
+         app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
                       buttonType="regular" buttonLabel="Додати зображення"
-                      (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
+                      (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader -->
+
       </mat-card-title>
 
       <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
@@ -35,7 +43,7 @@
       </mat-form-field>
 
       <div class="cost-and-dates" fxLayoutGap="3%" fxLayout="row" fxLayoutAlign="space-between stretch"
-           fxLayout.xs="column" fxLayout.sm="column" fxLayout.xs="column">
+           fxLayout.xs="column" fxLayout.sm="column">
         <mat-form-field class="cost" fxFlex.xs="100%">
           <div matPrefix>
             <mat-icon>monetization_on</mat-icon>
@@ -51,7 +59,7 @@
             <mat-icon>date_range</mat-icon>
             Початок:&nbsp;
           </div>
-          <input matInput type="date" [(ngModel)]="project.dateStarted" hintlabel="Коли проект починається?"
+          <input matInput type="date" [(ngModel)]="project.dateStarted" hintLabel="Коли проект починається?"
                  value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
@@ -60,7 +68,7 @@
             <mat-icon>date_range</mat-icon>
             Завершення:&nbsp;
           </div>
-          <input matInput type="date" [(ngModel)]="project.dateEnded" hintlabel="Коли закінчується проект?"
+          <input matInput type="date" [(ngModel)]="project.dateEnded" hintLabel="Коли закінчується проект?"
                  value="Дата завершення проекту" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
