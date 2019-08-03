@@ -33,7 +33,7 @@ TypeError: Cannot read property 'databaseURL' of null
             Треба вказати ім'я
           </div>
           <div *ngIf="leaderFormGroup.get('name').hasError('minlength') && leaderFormGroup.get('name').touched"
-               class="validation-error">
+               class="validation-error">§
             Ім'я мусить бути не коротше двох символів
           </div>
           <div *ngIf="leaderFormGroup.get('name').hasError('maxlength') && leaderFormGroup.get('name').touched"
