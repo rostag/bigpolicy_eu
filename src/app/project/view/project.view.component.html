@@ -39,11 +39,14 @@
 
         <ng-template #novisual>
           <div *ngIf="userService.hasEditPermissions(project)">
+            <!--
             <div class="add-media">
               <app-uploader folder="bp-files/projects/{{project._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
                             buttonType="regular" buttonLabel="Завантажити"
                             (uploadedFileUrlChange)="project.onImageUrlChange($event)">
-              </app-uploader></div>
+              </app-uploader>
+            </div>
+            -->
             <h3>Додати відео чи зображення?</h3>
             <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
               <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
