@@ -74,7 +74,7 @@
 
         <mat-form-field>
           <textarea matInput matTextareaAutosize maxLength="1000" name="vision" formControlName="vision"
-                    placeholder="Твоя особиста візія і думки" characterCounter></textarea>
+                    placeholder="Твоя особиста візія і думки" ></textarea>
         </mat-form-field>
         <div *ngIf="leaderFormGroup.get('vision').hasError('required') && leaderFormGroup.get('vision').touched"
              class="validation-error">
@@ -94,7 +94,7 @@
 
         <mat-form-field>
           <textarea matInput matTextareaAutosize maxLength="1000" name="mission" formControlName="mission"
-                    placeholder="Твоя місія" characterCounter></textarea>
+                    placeholder="Твоя місія" ></textarea>
         </mat-form-field>
         <div *ngIf="leaderFormGroup.get('mission').hasError('required') && leaderFormGroup.get('mission').touched"
              class="validation-error">
@@ -145,7 +145,7 @@
   <h3>Як ти вирішиш цю проблему?</h3>
 
   <mat-form-field>
-    <input matInput name="description" characterCounter placeholder="Опиши свій проект: " hintLabel="">
+    <input matInput name="description"  placeholder="Опиши свій проект: " hintLabel="">
   </mat-form-field>
 
   <mat-form-field>

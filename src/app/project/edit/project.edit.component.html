@@ -10,19 +10,20 @@
          <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
                       buttonType="regular" buttonLabel="Додати зображення"
                       (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
-
       </mat-card-title>
-
-      <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
 
       <small>Проект</small>
 
-      <mat-form-field>
-        <input style="width: 100%;" matInput required
+      <mat-form-field floatLabel="never">
+        <input class="header" style="width: 100%;"
+               matInput
+               required
                placeholder="Назва проекту"
-               [(ngModel)]="project.title" characterCounter
+               [(ngModel)]="project.title"
                [ngModelOptions]="{standalone: true}">
       </mat-form-field>
+
+      <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
 
       <mat-form-field>
         <textarea matInput matTextareaAutosize required class="bp-textarea" rows="4" maxLength="1000"
@@ -97,7 +98,7 @@
       <button type="submit" mat-raised-button (click)="saveProject()" color="primary">
         <span *ngIf="!isUpdateMode">Додати</span>
         <span *ngIf="isUpdateMode">Зберегти</span>
-        <span>проект</span>
+        <span> проект</span>
       </button>
     </mat-toolbar>
 
