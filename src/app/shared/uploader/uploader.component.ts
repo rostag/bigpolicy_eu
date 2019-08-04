@@ -139,12 +139,16 @@ export class UploaderComponent implements OnChanges {
       //   this.onFileUploadComplete();
       // });
 
-      uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        console.log('File available at: ', downloadURL);
-        this.uploadedFileUrl = downloadURL;
-        this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
-        this.onFileUploadComplete();
-      });
+      uploadTask.snapshot.ref.getDownloadURL()
+        .then(
+          (downloadURL) => {
+            console.log('File available at: ', downloadURL);
+            this.uploadedFileUrl = downloadURL;
+            this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
+            this.onFileUploadComplete();
+          },
+          (error) => console.error('Error uploading file', JSON.stringify(error, null, '  '))
+        );
     }
   }
 
