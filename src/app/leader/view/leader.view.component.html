@@ -1,51 +1,63 @@
 <div>
 
-  <mat-card-title title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+  <div title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
     <div fxLayout="row wrap" fxLayoutAlign="space-between">
-      <div>
+      <h1>
         <span>{{leader.name}} {{leader.surName}}</span>
         <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
         <div class="small">{{leader.location}}</div>
-      </div>
+      </h1>
       <div class="admin">
         <span *ngIf="userService.hasEditPermissions(leader)">
           <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
           <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
         </span>
+        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
         <!-- FIXME
           <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
-          <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
+          <div>Місто: {{leader.city}}</div>
         -->
         <!-- FIXME - Implement as Dialog -->
-        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
       </div>
     </div>
-  </mat-card-title>
+  </div>
 
-  <mat-card-content>
+  <div>
 
     <!-- Leader image/video and Support Button + Projects -->
     <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
-      <!-- Projects -->
-      <div fxFlex>
-        <div class="vision">
-          <h2>Візія:</h2>
-          <p>{{leader.vision}}</p>
-        </div>
-        <div class="mission">
-          <h2>Місія:</h2>
-          <p>{{leader.mission}}</p>
-        </div>
-      </div>
-
       <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+
+      <div fxLayout="column">
+
+        <div fxFlex>
+          <div class="vision">
+            <h2>Візія</h2>
+            <p>{{leader.vision}}</p>
+          </div>
+          <div class="mission">
+            <h2>Місія</h2>
+            <p>{{leader.mission}}</p>
+          </div>
+        </div>
+
+        <p>&nbsp;</p>
+
+      </div>
+<!--      <h3>Відео</h3>-->
+<!--      <app-bp-video class="media-video" [videoUrl]="leader.videoUrl" [title]="leader.name"-->
+<!--                    placeholderUrl="assets/img/media/media-placeholder.png"-->
+<!--                    fxFlex></app-bp-video>-->
 
     </div>
 
-    <mat-card-title class="projects-title">
-    </mat-card-title>
-    <mat-card-content>
+    <!-- Projects -->
+
+    <h2 class="projects-title">
+      Проекти
+    </h2>
+    <div>
       <app-project-list [leaderId]="leader._id" pageSize="6"
                         *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
       </app-project-list>
@@ -53,47 +65,19 @@
         <span *ngIf="userService.hasEditPermissions(leader)"> –
           <a [routerLink]="['/add-project']">створити</a>?</span>
       </ng-template>
-    </mat-card-content>
-
-    <!-- Video, Mission, Vision -->
-    <div fxLayout="row wrap" fxLayoutGap="5%" fxLayoutAlign="space-between stretch">
-
-      <!-- Show video only if image was present -->
-      <div *ngIf="leader.photo" fxFlex="45% 320px 480px" fxFlex.sm="100%">
-        <div class="content-video-wrapper" *ngIf="leader.videoUrl">
-          <h2>Відео:</h2>
-          <app-bp-video class="content-video" [videoUrl]="leader.videoUrl" [title]="leader.name"></app-bp-video>
-        </div>
-        <p>&nbsp;</p>
-      </div>
-
     </div>
-
-    <!-- FIXME <h2>Навички та вміння:</h2>
-      <p>Аналітик, соціальний підприємець та консультант</p>
-      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
 
     <app-files-view [files]="leader.leaderFiles"></app-files-view>
 
-    <!-- <a href="https://www.google.com.ua/" target="_blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на поточну діяльність
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на вибори
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Фінансовий звіт
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Декларація -->
+  </div>
 
-  </mat-card-content>
-
-  <mat-card-actions>
+  <div>
     <div class="admin">
       <span *ngIf="userService.hasEditPermissions(leader)">
         <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
         <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
-        <!-- FIXME
-          <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
-          <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
-        -->
-        <!-- FIXME - Implement as Dialog -->
       </span>
       <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
-  </mat-card-actions>
+  </div>
 </div>

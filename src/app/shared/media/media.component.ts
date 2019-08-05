@@ -12,7 +12,7 @@ export class MediaComponent implements OnInit {
   @Input() hasEditPermissions: true;
 
   get hasVisual() {
-    return !!this.media.photo || this.media.videoUrl;
+    return !!this.media.photo;
   };
 
   constructor() { }
