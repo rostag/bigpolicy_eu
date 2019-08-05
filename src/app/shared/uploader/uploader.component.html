@@ -33,13 +33,13 @@
       <!-- After file selected -->
       <div *ngIf="fileToUpload != null && !uploadInProgress">
         <div>Вибраний файл: {{fileToUploadName}}</div>
-        <button (click)="handleUploadFileClick()" color="accent" mat-raised-button>Завантажити</button>
+        <button (click)="handleUploadFileClick()" color="accent" mat-raised-button>Покласти</button>
       </div>
 
       <!-- 'Uploading...' -->
-      <div *ngIf="fileToUpload != null && !uploadInProgress">
+      <div *ngIf="fileToUpload != null && uploadInProgress">
         <div>Вибраний файл: {{fileToUploadName}}</div>
-        <button *ngIf="fileToUpload != null && uploadInProgress" mat-button disabled>Завантажую...</button>
+        <button mat-button disabled>Кладу...</button>
       </div>
 
       <mat-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></mat-progress-bar>
