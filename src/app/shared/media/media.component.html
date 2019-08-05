@@ -1,0 +1,26 @@
+<!-- Leader image/video fxFlex.sm="50%" fxFlex.xs="100%" -->
+<div fxFlex="30% 400px 400px">
+  <div class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
+    <div *ngIf="media.photo; then images else videos"></div>
+  </div>
+
+  <ng-template #images>
+    <app-image [src]="media.photo || 'assets/img/avatar-generic.png'"></app-image>
+  </ng-template>
+
+  <ng-template #videos>
+    <app-bp-video class="media-video" [videoUrl]="media.videoUrl" [title]="media.name"
+                  placeholderUrl="assets/img/media/media-placeholder.png"></app-bp-video>
+  </ng-template>
+
+  <ng-template #novisual>
+    <div *ngIf="hasEditPermissions">
+      <h3>Додати відео чи зображення?</h3>
+      <p>Тут немає ані відео, ані зображення.
+        <a [routerLink]="['/media/' + media._id + '/edit']">
+          Додати
+        </a>?
+      </p>
+    </div>
+  </ng-template>
+</div>
