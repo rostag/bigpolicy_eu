@@ -87,7 +87,7 @@ export function reducer(
       });
 
       const nState = {...state, tasks: [...newTasks], tasksPage: {...action.payload}};
-      console.log(':: Reducer :: Load TASKS Success ::', nState);
+      // console.log(':: Reducer :: Load TASKS Success ::', nState);
       return nState;
     default:
       return state;

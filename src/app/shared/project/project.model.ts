@@ -65,7 +65,7 @@ export class ProjectModel implements IProject {
 
   // FIXME Move to be Project Reducer / Service method
   onImageUrlChange(newUrlValue) {
-    console.log('Project image url:', newUrlValue);
+    // console.log('Project image url:', newUrlValue);
     this.imageUrl = newUrlValue;
   }
 }

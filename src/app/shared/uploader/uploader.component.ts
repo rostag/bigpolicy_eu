@@ -71,7 +71,7 @@ export class UploaderComponent implements OnChanges {
   constructor(
     public afDb: AngularFireDatabase
   ) {
-    console.log('afDb:', this.afDb);
+    // console.log('afDb:', this.afDb);
   }
 
   ngOnChanges(changes) {
@@ -84,10 +84,10 @@ export class UploaderComponent implements OnChanges {
       this.listFilesOnStart = changes.listFiles.currentValue === 'yes';
     }
 
-    console.log('new values for folder');
+    // console.log('new values for folder');
     const storage = firebase.storage();
 
-    console.log('Rendering all images in ', `/${this.folder}${this.postfix}`);
+    console.log('Images in ', `/${this.folder}${this.postfix}`);
     this.fileList = this.afDb.list(`/${this.folder}${this.postfix}`);
 
 
@@ -129,7 +129,7 @@ export class UploaderComponent implements OnChanges {
 
       // Upload
       const iRef = storageRef.child(path);
-      console.log(`Upload a file, path = ${path}, selectedFile: ${selectedFile}, folder = ${folder}, iRef = ${iRef}`);
+      // console.log(`Upload a file, path = ${path}, selectedFile: ${selectedFile}, folder = ${folder}, iRef = ${iRef}`);
       const uploadTask = iRef.put(selectedFile);
 
       // Listen for state changes, errors, and completion of the upload.
@@ -137,18 +137,18 @@ export class UploaderComponent implements OnChanges {
         (snapshot) => {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          // console.log('Upload is ' + progress + '% done');
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log('Upload is paused');
+              // console.log('Upload is paused');
               break;
             case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log('Upload is running');
+              // console.log('Upload is running');
               break;
           }
         },
         (error) => {
-          console.log('ERRORED:', error)
+          console.log('ERROR:', error)
 
           // A full list of error codes is available at https://firebase.google.com/docs/storage/web/handle-errors
           switch (error['code']) {
@@ -168,7 +168,7 @@ export class UploaderComponent implements OnChanges {
           uploadTask.snapshot.ref.getDownloadURL()
             .then(
               (downloadURL) => {
-                console.log('Uploaded file available at: ', downloadURL);
+                // console.log('Uploaded file available at: ', downloadURL);
                 this.uploadedFileUrl = downloadURL;
                 this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
                 this.onFileUploadComplete();
