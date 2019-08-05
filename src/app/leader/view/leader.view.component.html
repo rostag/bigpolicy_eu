@@ -39,33 +39,7 @@
         </div>
       </div>
 
-      <!-- Leader image/video fxFlex.sm="50%" fxFlex.xs="100%" -->
-      <div fxFlex="30% 400px 400px">
-        <div class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
-          <div *ngIf="leader.photo; then images else videos"></div>
-        </div>
-
-        <ng-template #images>
-          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-        </ng-template>
-
-        <ng-template #videos>
-          <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name"
-                        placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
-        </ng-template>
-
-        <ng-template #novisual>
-          <div *ngIf="userService.hasEditPermissions(leader)">
-            <h3>Додати відео чи зображення?</h3>
-            <p>Тут немає ані відео, ані зображення.
-              <a [routerLink]="['/leader/' + leader._id + '/edit']">
-                Додати
-              </a>?
-            </p>
-          </div>
-        </ng-template>
-        <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
-      </div>
+      <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
 
     </div>
 

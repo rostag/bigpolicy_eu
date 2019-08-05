@@ -31,10 +31,16 @@
       <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" mat-button><mat-icon class="pointer">add</mat-icon> {{buttonLabel}}</button>
 
       <!-- After file selected -->
-      <button *ngIf="fileToUpload != null && !uploadInProgress" (click)="handleUploadFileClick()" color="accent" mat-raised-button>Завантажити файл {{fileToUploadName}}</button>
+      <div *ngIf="fileToUpload != null && !uploadInProgress">
+        <div>Вибраний файл: {{fileToUploadName}}</div>
+        <button (click)="handleUploadFileClick()" color="accent" mat-raised-button>Завантажити</button>
+      </div>
 
       <!-- 'Uploading...' -->
-      <button *ngIf="fileToUpload != null && uploadInProgress" mat-button disabled>Завантажую {{fileToUploadName}}...</button>
+      <div *ngIf="fileToUpload != null && !uploadInProgress">
+        <div>Вибраний файл: {{fileToUploadName}}</div>
+        <button *ngIf="fileToUpload != null && uploadInProgress" mat-button disabled>Завантажую...</button>
+      </div>
 
       <mat-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></mat-progress-bar>
 
