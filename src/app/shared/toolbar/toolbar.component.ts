@@ -53,8 +53,7 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     this.leaderStore.pipe(
       filter(l => !!l),
       select(getSelectedLeader))
-      .subscribe(leader => {
-        console.log('Leader:', leader);
+      .subscribe(() => {
         if (this.userProfile) {
           this.userProfile.leader = this.leaderService.leader;
         }
