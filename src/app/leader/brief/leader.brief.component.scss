@@ -43,7 +43,16 @@ a {
   padding: 10px 30px 10px 10px;
 
   .icon-me {
-    left: 10px;
+    background: $bp-red;
+    padding: 0 2px;
+    display: inline-block;
+    font-size: 11px;
+    position: relative;
+    top: -12px;
+    line-height: 1.1;
+    margin-left: 6px;
+    font-weight: bold;
+    color: white;
   }
 
   mat-card-title {
@@ -105,6 +114,13 @@ mat-card-content {
       position: absolute;
       right: -25px;
       top: 12px;
+
+      background: $bp-red;
+      padding: 0 2px;
+      font-size: 11px;
+      line-height: 1.1;
+      font-weight: bold;
+      color: white;
     }
   }
 
@@ -173,11 +189,14 @@ mat-card-content {
 }
 
 .icon-me {
-  background: tan;
-  padding: 0 4px;
+  background: $bp-red;
+  padding: 0 2px;
   display: inline-block;
   font-size: 11px;
   position: relative;
-  top: -2px;
-  line-height: 1.2;
+  top: -12px;
+  line-height: 1.1;
+  margin-left: 6px;
+  font-weight: bold;
+  color: white;
 }
