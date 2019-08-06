@@ -11,12 +11,14 @@
   <mat-card-actions align="end">
     <a [routerLink]="['/project/', project._id]"><button mat-raised-button color="primary" >Деталі</button></a>
   </mat-card-actions>
-</mat-card> --> 
+</mat-card> -->
 
 <div class="main-section">
   <mat-card class="project-brief-block" [routerLink]="['/project/', project._id]" *ngIf="!!project && viewContext==='homePage'">
-    <div class="project-cover-wraper">
-      <img mat-card-image class="project-cover" src="{{project.imageUrl || '../../../assets/img/Group 813.png'}}" alt="Project image">
+    <div class="project-cover-wrapper">
+      <div [ngStyle]="{'background-image': 'url(' + (project.imageUrl || '../../../assets/img/Group 813.png')}"
+           class="project-cover"
+           mat-card-image></div>
       <div fxLayout="row" class="time-left">
         <div fxLayoutAlign="center center" class="timer-num">
           <span>04</span>

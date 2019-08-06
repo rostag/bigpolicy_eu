@@ -16,13 +16,15 @@
     <a [routerLink]="getLeaderLink(leader)"><button mat-button mat-raised-button color="primary" >Підтримати</button></a>
     <a [routerLink]="['/leaders']"><button mat-button>Усі лідери</button></a> -->
   <!-- </mat-card-actions>
-</mat-card> --> 
+</mat-card> -->
 
 
 <div class="main-section">
   <mat-card class="leader-brief-block" [routerLink]="getLeaderLink(leader)" *ngIf="!!leader && viewContext==='homePage'">
-    <div class="leader-cover-wraper">
-      <img mat-card-image class="leader-cover" src="{{leader.photo || '../../../assets/img/Group 813.png'}}" alt="leader image">
+    <div class="leader-cover-wrapper">
+      <div [ngStyle]="{'background-image': 'url(' + (leader.photo || '../../../assets/img/Group 813.png')}"
+           class="leader-cover"
+           mat-card-image></div>
       <div class="leader-name">
         <mat-card-title title="{{leader.email}}">{{leader.name}} {{leader.surName}}
           <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
