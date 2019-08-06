@@ -18,13 +18,13 @@
   </div>
 </div> -->
 
-<div fxLayout="row wrap" fxLayoutAlign="center" >
-  <div
-    [fxFlex]="flexState.flex"
-    [fxFlex.lg]="flexState.lg"
-    [fxFlex.sm]="flexState.sm"
-    [fxFlex.xs]="flexState.xs"
-    *ngFor="let project of itemsPage.docs | async | paginate: {
+<!--    [fxFlex]="flexState.flex"-->
+<!--    [fxFlex.lg]="flexState.lg"-->
+<!--    [fxFlex.sm]="flexState.sm"-->
+<!--    [fxFlex.xs]="flexState.xs"-->
+
+<div fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="20px" >
+  <div fxFlex *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
       currentPage: itemsPage.page,
