@@ -1,6 +1,12 @@
+@import '../../../assets/scss/styles.scss';
+
 :host {
   display: block;
   margin: 60px;
+}
+
+h1 {
+  line-height: 1.6;
 }
 
 h2:first-of-type {
@@ -9,13 +15,6 @@ h2:first-of-type {
 
 .small {
   font-size: .5em;
-}
-
-.visual-wrapper {
-  width: 100%;
-  margin-bottom: 2em;
-
-  min-height: 320px;
 }
 
 .leader-video {
@@ -43,14 +42,16 @@ h2:first-of-type {
 }
 
 .icon-me {
-  background: tan;
-  padding: 0 3px;
+  background: $bp-red;
+  padding: 0 2px;
   display: inline-block;
   font-size: 11px;
   position: relative;
   top: -12px;
-  line-height: 1.2;
-  margin-left: 4px;
+  line-height: 1.1;
+  margin-left: 6px;
+  font-weight: bold;
+  color: white;
 }
 
 .media-video {
