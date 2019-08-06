@@ -1,34 +1,62 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LeaderService } from '../leader';
-import { UserService } from './user.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnInit} from '@angular/core';
+import {LeaderService} from '../leader/leader.service';
+import {UserService} from './user.service';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
+import {takeUntil} from 'rxjs/operators';
+import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import * as appVersion from '../../../../package.json';
+import {ILeader} from '../../common/models';
 
 @Component({
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent extends BaseUnsubscribe implements OnInit {
 
-  profileLeader;
-  subscription: Subscription;
+  public userProfile: IUserProfile;
+  public appVersion = appVersion['version'];
+
+  private userProfile$: Observable<IUserProfile> = this.store.pipe(
+    takeUntil(this.unsubscribe),
+    select(selectUserProfile)
+  );
+
+  public profileLeader: ILeader = <any>{};
 
   constructor(
     public leaderService: LeaderService,
-    public userService: UserService
-  ) {}
+    public userService: UserService,
+    private store: Store<AuthState>
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this.subscription = this.leaderService.leaderStream
+    this.userProfile$.subscribe(userProfile => this.userProfile = userProfile);
+
+    // FIXME NGRX IT LP
+    this.leaderService.leaderStream.pipe(
+      takeUntil(this.unsubscribe)
+    )
       .subscribe(item => {
-        console.log('ProfileComponent. set profile leader:', item);
+        console.log('ProfileComponent. Set profile leader:', item);
         this.profileLeader = item;
       });
   }
 
-  ngOnDestroy() {
-    // prevent memory leak when component is destroyed
-    this.subscription.unsubscribe();
+  // TODO REMOVE AFTER TEST
+  public ping() {
+    this.leaderService.ping().subscribe();
+  }
+
+  public pingJwt() {
+    this.leaderService.pingJwt().subscribe();
+  }
+
+  public pingJwtAdmin() {
+    this.leaderService.pingJwtAdmin().subscribe();
   }
 }

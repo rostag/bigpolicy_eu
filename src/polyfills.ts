@@ -14,8 +14,6 @@ import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es6/reflect';
-
-import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
 // If you need to support the browsers/features below, uncomment the import
@@ -31,8 +29,8 @@ import 'zone.js/dist/zone';
 
 // Date, currency, decimal and percent pipes
 // Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
-import 'intl';
-import 'intl/locale-data/jsonp/en.js';
+// import 'intl';
+// import 'intl/locale-data/jsonp/en.js';
 
 // NgClass on SVG elements
 // Needed for: IE10, IE11

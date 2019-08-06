@@ -16,32 +16,32 @@
     </div>
 
     <!-- Спеціальні проекти -->
-    <md-card *ngIf="adminLeader" class="leader-profile">
-      <md-card-content>
-        <!-- FIXME <h2 *ngIf="adminLeader.projects && adminLeader.projects.length > 0">Проекти:</h2> -->
+    <mat-card *ngIf="adminLeader" class="leader-profile">
+      <mat-card-content>
+        <!-- FIXME <h2 *ngIf="adminLeader.projectIds && adminLeader.projectIds.length > 0">Проекти:</h2> -->
         <!-- <app-project-list [leaderId]="adminLeader._id" pageSize="2" > -->
 
-        <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length < 1" }'>
+        <app-project-list title="Проекти без заходів" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.taskIds.length < 1" }'>
         </app-project-list>
 
         <app-project-list title="Проект &laquo;Не на часі&raquo;" pageSize="3" dbQuery='{ "$where": "this.title == \"Не на часі\"" }'>
         </app-project-list>
 
         <!-- Усі проекти -->
-        <!-- <app-project-list title="Усі проекти" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.tasks.length > 0" }'>
+        <!-- <app-project-list title="Усі проекти" [leaderId]="adminLeader._id" pageSize="3" dbQuery='{ "$where": "this.taskIds.length > 0" }'>
         </app-project-list> -->
 
         <!-- Усі заходи -->
-        <app-task-list *ngIf="userService.isAdmin()" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
+        <app-task-list *ngIf="userService.isAdmin" title="Усі заходи" pageSize="100" dbQuery='{}' [showProjectLink]="'show'" >
         </app-task-list>
 
-      </md-card-content>
-      <md-card-actions>
+      </mat-card-content>
+      <mat-card-actions>
         <span *ngIf="userService.hasEditPermissions(adminLeader)">
-          <a [routerLink] = "['/leader/' + adminLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
+          <a [routerLink] = "['/leader/' + adminLeader._id + '/edit']"><button mat-button color="accent">Редагувати</button></a>
         </span>
-      </md-card-actions>
-    </md-card>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
   <div *ngIf="!userService.authenticated()">
@@ -63,7 +63,7 @@
     <p>
       Будь ласка, натисніть "Увійти", для авторизації.
     </p>
-    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+    <a (click)="userService.login()"><button mat-raised-button color="accent">Увійти</button></a>
   </div>
 
 </div>

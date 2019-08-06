@@ -1,0 +1,14 @@
+{
+  "appConfig": {
+    "port": 8090
+  },
+  "dbConfig": {
+    "host": "mongodb://localhost:27017/test"
+  },
+  "dbConfigTest": {
+    "host": "mongodb://localhost:27017/test"
+  },
+  "AUTH0_DOMAIN": "bigpolicy.eu.auth0.com",
+  "AUTH0_API_AUDIENCE": "http://bigpolicy.eu/api/",
+  "NAMESPACE": "https://bigpolicy.eu/roles"
+}

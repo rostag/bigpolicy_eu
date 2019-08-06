@@ -1,31 +1,30 @@
 var http = require('http');
 var express = require('express');
-var app = express();
-var router = express.Router();
-var server = http.createServer(app);
 var port = 4300;
 var hostname = '127.0.0.1';
-var middleware = require('./fb/functions/server/');
+var middleware = require('./fbs/functions/server/');
+
+var appExpress = express();
+var router = express.Router();
+var server = http.createServer(appExpress);
 
 function redirectToSecure(req, res, next) {
   if (req.headers['x-forwarded-proto'] == 'http' || req.headers['x-forwarded-proto'] == null) {
-      res.redirect('https://' + req.headers.host + req.path);
-      return;
+    res.redirect(`https://${req.headers.host}${req.path}`);
+    return;
   } else {
     next();
   }
 }
 
-if (hostname === '127.0.0.1') {
-  port = 4300;
-} else {
-  app.use(redirectToSecure);
+if (!hostname === '127.0.0.1') {
+  appExpress.use(redirectToSecure);
 }
 
-app.use(express.static(__dirname + '/dist'));
+appExpress.use(express.static(__dirname + '/dist'));
 
-middleware(app, router);
+middleware(appExpress, router);
 
-server.listen(port,hostname);
+server.listen(port, hostname);
 
-console.log('  • BigPolicy is listening on http://' + hostname + ':' + port);
+console.log(`bigpolicy is listening on ${hostname}:${port}`);

@@ -1,4 +1,6 @@
-export class TaskModel {
+import { ITask } from '../../common/models';
+
+export class TaskModel implements ITask {
   _id: string;
   title: string;
   description: string;
@@ -11,7 +13,7 @@ export class TaskModel {
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
   donations;
-  totalDonationsReceived: Number = 0;
+  totalDonationsReceived = 0;
 
   /**
    * It's necessary to have a string representation for sending it to DB
@@ -32,19 +34,6 @@ export class TaskModel {
   }
 
   /**
-   * Populate model from a json representation loaded from DB
-   */
-  parseData(data) {
-    for (const item in data) {
-      if (data.hasOwnProperty(item)) {
-        this[item] = data[item];
-      }
-    }
-    this.dateStarted = this.toDateInputValue(this.dateStarted);
-    this.dateEnded = this.toDateInputValue(this.dateEnded);
-  }
-
-  /**
    * Adopts date from Mongo DB format for UI datepicker
    */
   private toDateInputValue(dateToParse) {
@@ -53,5 +42,15 @@ export class TaskModel {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
     return local.toJSON().slice(0, 10);
+  }
+
+  parseData(data) {
+    for (const item in data) {
+      if (data.hasOwnProperty(item)) {
+        this[item] = data[item];
+      }
+    }
+    this.dateStarted = this.toDateInputValue(this.dateStarted);
+    this.dateEnded = this.toDateInputValue(this.dateEnded);
   }
 }

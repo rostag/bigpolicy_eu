@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
-import { MaterialModule, MdDialog, Overlay, OverlayContainer, OVERLAY_PROVIDERS } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 
 describe('DialogService', () => {
@@ -9,11 +9,8 @@ describe('DialogService', () => {
     TestBed.configureTestingModule({
       providers: [
         DialogService,
-        MdDialog,
-        Overlay,
-        OverlayContainer,
-        OVERLAY_PROVIDERS
-    ]
+        MatDialog
+      ]
     });
   });
 
@@ -21,8 +18,8 @@ describe('DialogService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('FIXME should ... show confirmation', inject([DialogService], (service: DialogService) => {
+  it('FIXME should ... show confirmation', inject([DialogService], () => {
     expect(true).toBeTruthy();
-  //   // expect(service.confirm('Hello', 'Service')).toBeTruthy();
+    // expect(service.confirm('Hello', 'Service')).toBeTruthy();
   }));
 });

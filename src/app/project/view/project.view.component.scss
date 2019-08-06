@@ -1,52 +1,167 @@
-// FIXME Move it to the main css
-h1 {
-  font-size: 3em;
-  margin-bottom: .5em;
-  margin-top: .5em;
-}
+@import '../../../assets/scss/styles.scss';
 
-h2 {
-  font-size: 2.5em;
-  margin: 1em 0 .5em;
-}
+:host {
 
-h3 {
-  font-size: 1.6em;
-  margin: 1em 0 .5em;
-}
+  display: block;
+  margin: 60px;
 
-.funding-summary {
-  font-size: 2em;
-  margin-bottom: .5em;
-}
+  .add-media {
+    width: 200px;
+    height: 120px;
+    text-align: center;
+    padding-top: 40px;
+    border: 1px solid $bp-border;
+    font-size: 40px;
 
-.project-toolbar {
-  margin-top: 2em;
-}
-
-.visual-wrapper {
-  height: 320px;
-}
-
-.project-video {
-  height: 320px;
-}
-
-.brogress {
-  height: 16px;
-  margin-bottom: .3em;
-}
-
-.description p {
-  white-space: pre-line;
-}
-
-.sharer-host {
-  ::ng-deep .show-sharer-button {
-    right: 2.3em;
-    top: 9.5em;
+    .mat-button {
+      height: 100px;
+    }
   }
-  ::ng-deep .share-card {
-    margin-top: -9em;
+
+  .mat-progress-spinner circle, .mat-spinner circle {
+    border: 3px solid #ddd000;
+    stroke: #2A79FF !important;
+  }
+
+  .project-view {
+
+    margin-left: 100px;
+    margin-right: 100px;
+
+    .content {
+      margin-top: 8px;
+
+      .main {
+        background-color: $bp-white;
+
+        .description {
+          padding: 30px;
+          line-height: 25px;
+
+          .media-inline {
+            //display: inline-block;
+            float: right;
+            width: 400px;
+            height: 260px;
+            margin-left: 30px;
+          }
+
+          p {
+            font-weight: 300;
+            font-size: 18px;
+            color: $bp-text;
+            white-space: pre-line;
+          }
+        }
+      }
+
+      .aside {
+        text-align: center;
+        background-color: $bp-white;
+        padding: 30px;
+
+        .brogress {
+          position: relative;
+          height: 16px;
+          margin-bottom: .3em;
+          display: inline-block;
+          margin-bottom: 40px;
+
+          .mat-progress-spinner {
+            circle {
+              stroke: #ee3300 !important;
+            }
+          }
+        }
+
+        .percentage {
+          color: $bp-text;
+          position: relative;
+          top: -140px;
+          font-size: 41px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          line-height: 48px;
+          font-weight: 700;
+        }
+
+        .item {
+          color: $bp-text;
+          margin-top: 36px;
+          font-size: 24px;
+          font-weight: bold;
+
+          .info {
+            color: $bp-grey;
+            font-size: 13px;
+          }
+        }
+
+        .donate {
+          margin-top: 30px;
+        }
+      }
+    }
+
+    app-image {
+      display: inline-block;
+      background-color: $bp-white;
+    }
+
+    .project-title {
+
+      font-weight: 500;
+      font-size: 34px;
+      color: #1b1b1b;
+
+      small {
+        a {
+          font-weight: 400;
+          font-size: 20px;
+          color: #5b5b5b;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    h2 {
+      font-size: 2.5em;
+      margin: 1em 0 .5em;
+    }
+
+    h3 {
+      color: $bp-head;
+      font-size: 24px;
+      margin: 1em 0 .5em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    h3::after {
+      content: "";
+      display: block;
+      width: 25px;
+      height: 2px;
+      background-color: #1b1b1b;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .project-toolbar {
+      margin-top: 2em;
+    }
+
+    .visual-wrapper {
+      height: 100%;
+    }
+
+    .project-video {
+      height: 100%;
+    }
   }
 }
+

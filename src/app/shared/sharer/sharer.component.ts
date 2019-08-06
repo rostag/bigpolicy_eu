@@ -1,9 +1,8 @@
-import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, OnChanges,
-  ViewChild, trigger, state, style, transition, animate } from '@angular/core';
-// import { ProjectModel } from '../../shared/project/index';
+import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, OnChanges, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
-import { MdTextareaAutosize } from '@angular/material';
+import { MatTextareaAutosize } from '@angular/material';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -11,8 +10,8 @@ import { MdTextareaAutosize } from '@angular/material';
   styleUrls: ['./sharer.component.scss'],
   animations: [
     trigger('visibilityChanged', [
-      state('true' , style({ opacity: 1 })),
-      state('false', style({ opacity: 0.2 })),
+      state('true', style({opacity: 1})),
+      state('false', style({opacity: 0.2})),
       transition('1 => 0', animate('600ms')),
       transition('0 => 1', animate('400ms'))
     ])
@@ -38,14 +37,13 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   toEmail: string;
 
   showEmailPreview = true;
-  showHtmlPreview = false;
 
   shareForm: NgForm;
 
   @ViewChild('shareForm') currentForm: NgForm;
 
   // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
-  @ViewChild(MdTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
+  @ViewChild(MatTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -69,7 +67,8 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   constructor(
     private shareService: ShareService
-  ) {}
+  ) {
+  }
 
   // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
   ngAfterViewInit() {
@@ -78,13 +77,12 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   ngOnChanges(data?: any): void {
     if (data.itemToShare) {
-      console.log('item to share has changed:', this.itemToShare );
       this.prepareItemForSharing();
     }
   }
 
   ngAfterViewChecked() {
-   this.formChanged();
+    this.formChanged();
   }
 
   getFormState(stateName) {
@@ -92,41 +90,42 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   }
 
   formChanged() {
-   if (this.currentForm === this.shareForm) { return; }
-   this.shareForm = this.currentForm;
-   if (this.shareForm) {
-     this.shareForm.valueChanges
-       .subscribe(data => this.onValueChanged(data));
-   }
+    if (this.currentForm === this.shareForm) {
+      return;
+    }
+    this.shareForm = this.currentForm;
+    if (this.shareForm) {
+      this.shareForm.valueChanges
+        .subscribe(() => this.onValueChanged());
+    }
   }
 
-  handleInputBlur(e) {
-    this.onValueChanged(e);
+  handleInputBlur() {
+    this.onValueChanged();
   }
 
-  onValueChanged(data?: any) {
-   if (!this.shareForm) {
-     return;
-   }
-   const form = this.shareForm.form;
+  onValueChanged() {
+    if (!this.shareForm) {
+      return;
+    }
+    const form = this.shareForm.form;
 
-   for (const field in this.formErrors) {
-     if (this.formErrors.hasOwnProperty(field)) {
-       // clear previous error message (if any)
-       this.formErrors[field] = '';
-       const control = form.get(field);
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        // clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
 
-       // Here's the complex logic for which we needed this method
-       if (control && (control.dirty || control.touched) && !control.valid) {
-         const messages = this.validationMessages[field];
-         for (const key in control.errors) {
-           if (control.errors.hasOwnProperty(key)) {
-             this.formErrors[field] += messages[key] + ' ';
-           }
-         }
-       }
-     }
-   }
+        if (control && (control.dirty || control.touched) && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
   }
 
   /*
@@ -152,40 +151,38 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
     // };
 
     // Tasks and Projects have .title property to use in subject
-    if (this.itemToShare.hasOwnProperty('title') ) {
+    if (this.itemToShare.hasOwnProperty('title')) {
       // Leaders have .name / surName properties
       this.itemToShare.textToReader = 'Друже, хочу поділитися з тобою своїм задумом: ';
-      this.itemToShare.subject = 'Проект "' + this.itemToShare.title + '" - BigPolicy';
+      this.itemToShare.subject = `Проект "${this.itemToShare.title}" - BigPolicy`;
       this.itemToShare.text = this.itemToShare.description;
 
       this.itemToShare.detailsLink =
-      `
+        `
       <br><br>
-      <a href="` + this.shareService.getUrl() + `">Тут можна детальніше переглянути проект</a>
+      <a href="${this.shareService.getUrl()}">Тут можна детальніше переглянути проект</a>
       <br><br>
       `;
     } else if (this.itemToShare.hasOwnProperty('name')) {
       // Leader properties 'name' and 'surName'
-      this.itemToShare.subject = '' + this.itemToShare.name + ' ' + this.itemToShare.surName;
-      this.itemToShare.text = this.itemToShare.mission + '<p></p>' + this.itemToShare.vision;
+      this.itemToShare.subject = `${this.itemToShare.name} ${this.itemToShare.surName}`;
+      this.itemToShare.text = `${this.itemToShare.mission}<p></p>${this.itemToShare.vision}`;
       this.itemToShare.textToReader = 'Будьмо знайомі: ';
       this.itemToShare.detailsLink =
-      `
+        `
       <br><br>
-      <a href="` + this.shareService.getUrl() + `">Відвідай мою сторінку на БігПолісі</a>
+      <a href="${this.shareService.getUrl()}">Відвідай мою сторінку на БігПолісі</a>
       <br><br>
       `;
       this.itemToShare.managerName = this.itemToShare.name;
       this.itemToShare.managerEmail = this.itemToShare.email;
     }
-    // console.log('!!! - !!! ', this.itemToShare);
   }
 
   /**
    * Send the form
-   * @param {formValue} Form value to share
    */
-  shareItem(formValue) {
+  shareItem() {
     if (!this.shareForm.form.valid) {
       this.formStatus = 'formIsNotComplete';
       return false;
@@ -203,16 +200,16 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
     this.shareService.share(this.emailToShare)
       .subscribe(
-        data => {
+        () => {
           this.formStatus = 'emailSent';
           scroll(0, 0);
-          console.log('Project Shared', data);
         },
-        err => (er) => {
+        (er) => {
           this.formStatus = 'emailSendError';
           console.error('Project sharing error: ', er);
         },
-        () => {}
+        () => {
+        }
       );
 
     return false;
@@ -222,39 +219,22 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
    * Populate email properties on itemToShare before share or preview;
    */
   get emailHtml() {
-    return  this.itemToShare.textToReader
-
-            + `<h1 align="center" class="emailH1">
-            `
-            + this.itemToShare.subject + `</h1>
-
+    return `${this.itemToShare.textToReader}
+      <h1 class="emailH1">
+      ${this.itemToShare.subject}</h1>
             <p style="display:none;">
-            `
-            + this.itemToShare.text + `<br><br></p><p align="center">
-            `
-            + this.shareService.getYouTubeThumbnail(this.videoUrl, `full`)
-
-            +
-
-            this.itemToShare.detailsLink +
-            `
-            </p>
-            <p>Щиро вдячний,<br>`
-            + this.itemToShare.managerName + `<br>
-            <small>` + this.itemToShare.managerEmail + `</small></p>
-            `
-            +
-            `
-            <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
+      ${this.itemToShare.text}<br><br></p><p>
+      ${this.shareService.getYouTubeThumbnail(this.videoUrl, 'full')}
+      ${this.itemToShare.detailsLink}
+        </p>
+        <p>Щиро вдячний,<br>
+        ${this.itemToShare.managerName}<br>
+        <small>${this.itemToShare.managerEmail}</small></p>
+        <a href="https://bigpolicy.eu/"><img src="https://bigpolicy.eu/assets/img/logo.png" width="40"></a>`;
   }
 
   toggleSharer() {
     this.sharerIsVisible = !this.sharerIsVisible;
-    return false;
-  }
-
-  toggleHtmlPreview() {
-    this.showHtmlPreview = !this.showHtmlPreview;
     return false;
   }
 }

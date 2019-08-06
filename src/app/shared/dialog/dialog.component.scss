@@ -1,16 +1,16 @@
 // Import all the tools needed to customize the theme and extract parts of it
-@import '~@angular/material/core/theming/all-theme';
+@import '~@angular/material/_theming.scss';
 
 :host {
   .inline-icon {
     float: right;
   }
 
-  md-dialog-actions {
+  mat-dialog-actions {
     margin-top: 1em;
   }
 
   .styled {
-    font-family: $mat-font-family;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }

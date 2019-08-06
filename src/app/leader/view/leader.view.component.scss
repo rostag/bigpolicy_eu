@@ -1,9 +1,14 @@
 :host {
   display: block;
+  margin: 60px;
 }
 
 h2:first-of-type {
   margin-top: 0;
+}
+
+.small {
+  font-size: .5em;
 }
 
 .visual-wrapper {
@@ -18,6 +23,7 @@ h2:first-of-type {
 }
 
 .projects-title {
+  margin-top: 20px;
   margin-bottom: 0;
 }
 
@@ -33,5 +39,20 @@ h2:first-of-type {
 
 .mission p,
 .vision p {
-  white-space: pre-line;
+  font-size: 1em;
+}
+
+.icon-me {
+  background: tan;
+  padding: 0 3px;
+  display: inline-block;
+  font-size: 11px;
+  position: relative;
+  top: -12px;
+  line-height: 1.2;
+  margin-left: 4px;
+}
+
+.media-video {
+  height: 300px;
 }

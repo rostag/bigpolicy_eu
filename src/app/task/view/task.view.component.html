@@ -5,6 +5,7 @@
     <h2>
       <span *ngIf="showProjectLink=='show'">
         <a [routerLink]="['/project/' + task.projectId]">
+          <!-- FIXME THIS IS NOT DISPLAYED FOR SOME REASON -->
           <small>{{projectTitle}}</small>
         </a> | </span>
       <a [routerLink]="['/task/' + task._id]">
@@ -18,45 +19,42 @@
   </div>
 
   <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
-    <a [routerLink]="['/task/' + task._id + '/edit']">
-      <md-icon color="primary">edit</md-icon>
-    </a>
-    <a href (click)="deleteTask(task)">
-      <md-icon color="primary">delete</md-icon>
-    </a>
+    <button mat-icon-button [routerLink]="['/task/' + task._id + '/edit']">
+      <mat-icon color="primary">edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteTask(task, $event)">
+      <mat-icon color="primary">delete</mat-icon>
+    </button>
   </div>
 
 </div>
 
 <!-- FULL VIEW -->
-<md-card class="task-view" *ngIf="!compactView">
-  <md-card-content>
-
-    <div>
-      <!-- FIXME Implement ngrx store data selection: 
-        <span>
-          <a [routerLink]="['/project/' + task.project?.managerName]">{{task.project?.managerName}}:</a>
-        </span>
-      -->
-      <span>
-        <a [routerLink]="['/project/' + task.projectId]">
-          Проект {{projectTitle}}
-        </a>
+<mat-card class="task-view" *ngIf="!compactView">
+  <mat-card-content>
+    <small>
+      <!-- TODO Implement ngrx store leader name selection:  -->
+      <span class="leader-name">
+        <a [routerLink]="['/leader/' + managerId]">{{managerName}}, </a>
       </span>
-    </div>
+      <span class="project-title">
+        <a [routerLink]="['/project/' + task.projectId]">проект {{projectTitle}}</a>
+      </span>
+    </small>
     <h1>{{task.title}}</h1>
-    <!-- FIXME -->
-    <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
-    <!-- -->
+
+    <div class="description">
+      <p>{{task.description}}</p>
+    </div>
+    <p>{{task.dateStarted | date}} - {{task.dateEnded | date}}</p>
 
     <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
       <div fxFlex="45%">
-        <h2>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</h2>
-        <h3>
-          <a [routerLink]="['/project/',task.projectId]">Проект: {{projectTitle}}</a>
-        </h3>
-        <p>Початок: {{task.dateStarted | date}}
-          <br/> Кінець: {{task.dateEnded | date}}</p>
+        <p>Зібрано {{task.totalDonationsReceived || 0}} з {{task.cost}} UAH</p>
+
+        <!-- FIXME -->
+        <app-bp-donate [label]="'Підтримати захід:'" [amount]="70" [target]="task" [targetType]="'task'"></app-bp-donate>
+
         <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//bigpolicy.eu/task/{{task._id}}" class="SHARE FACEBOOK" onclick='window.open(this.href,"popupwindow", "width=800,height=500,left=200,top=5,scrollbars,toolbar=0,resizable"); return false;'
           target="social">
           Share on FB
@@ -89,21 +87,12 @@
       </div>
     </div>
 
-    <div class="description">
-      <h3>Детальніше</h3>
-      <p>{{task.description}}</p>
-    </div>
-
-    <md-card-actions>
-      <md-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
-        <a [routerLink]="['/task/' + task._id + '/edit']">
-          <button md-raised-button>Редагувати</button>
-        </a>
+    <mat-card-actions>
+      <mat-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
+        <button [routerLink]="['/task/' + task._id + '/edit']" mat-raised-button>Редагувати</button>
         <span class="add-fill-remaining"></span>
-        <a href (click)="deleteTask(task)">
-          <button md-raised-button color="warn">Видалити</button>
-        </a>
-      </md-toolbar>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+        <button mat-raised-button color="warn" (click)="deleteTask(task, $event)">Видалити</button>
+      </mat-toolbar>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

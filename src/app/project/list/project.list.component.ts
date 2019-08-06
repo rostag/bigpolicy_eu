@@ -1,9 +1,10 @@
-import 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectService, ProjectModel } from '../../shared/project';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { UserService } from '../../shared/user/user.service';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
+import {UserService} from '../../shared/user/user.service';
+import {IProjectResponsePage} from '../../common/models';
+import {Store} from '@ngrx/store';
+import {IProjectState, getProjectsPage} from '../../state/reducers/project.reducers';
+import {LoadProjectsPage} from '../../state/actions/project.actions';
 
 @Component({
   selector: 'app-project-list',
@@ -12,7 +13,7 @@ import { UserService } from '../../shared/user/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ProjectListComponent implements OnChanges {
+export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
 
   // List title
   @Input() title = '';
@@ -20,7 +21,7 @@ export class ProjectListComponent implements OnChanges {
   // How many leaders to show and to request from db in single turn
   @Input() pageSize = 6;
 
-  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.tasks.length > 0" }'
+  // To find items in DB, we can use mongo query in HTML: dbQuery='{ "$where": "this.taskIds.length > 0" }'
   @Input() dbQuery = '{}';
 
   // An ID of the Leader managing the project
@@ -34,16 +35,15 @@ export class ProjectListComponent implements OnChanges {
 
   @Input() flexSettings = '33|30|30|50|100';
 
-  // 40 320px 320px
   flexState = {
-      flex: 20,
-      lg: '50 200px 100%',
-      md: '33 200px 100%',
-      sm: '33 100px 100%',
-      xs: 100
+    flex: '50%',
+    lg: '50%',
+    sm: '100%',
+    xs: '100%'
   };
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);
+
   public itemsPage = {
     docs: this.projects,
     limit: this.pageSize,
@@ -52,28 +52,37 @@ export class ProjectListComponent implements OnChanges {
     total: 0
   };
 
-  isAddingTaskMode = false;
+  private projectsPage$: Subscription;
 
   constructor(
     public userService: UserService,
-    private projectService: ProjectService,
-    private http: Http
-  ) {}
+    private projectStore: Store<IProjectState>
+  ) {
+  }
 
-  ngOnChanges(changes) {
-    if (changes.leaderId && changes.leaderId.currentValue ||
-        changes.pageSize && changes.pageSize.currentValue ||
-        changes.dbQuery && changes.dbQuery.currentValue) {
+  ngOnInit() {
+    this.projectsPage$ = this.projectStore.select(getProjectsPage).subscribe((pp: IProjectResponsePage) => this.setProjectPage(pp));
+  }
+
+  ngOnDestroy() {
+    this.projectsPage$.unsubscribe();
+  }
+
+  ngOnChanges(c) {
+    if (c.leaderId && c.leaderId.currentValue ||
+      c.pageSize && c.pageSize.currentValue ||
+      c.dbQuery && c.dbQuery.currentValue) {
       this.requestProjects();
     }
-    if (changes.flexSettings && changes.flexSettings.currentValue ) {
-      const f = changes.flexSettings.currentValue.split('|');
-      this.flexState.flex = f[0];
-      this.flexState.lg = f[1];
-      this.flexState.md = f[2];
-      this.flexState.sm = f[3];
-      this.flexState.xs = f[4];
-      console.log('viewContext:', this.flexState);
+    if (c.flexSettings && c.flexSettings.currentValue) {
+      const flexSettings = c.flexSettings.currentValue.split('|');
+      this.flexState = {
+        ...this.flexState,
+        flex: flexSettings[0],
+        lg: flexSettings[1],
+        sm: flexSettings[3],
+        xs: flexSettings[4]
+      };
     }
   }
 
@@ -82,36 +91,23 @@ export class ProjectListComponent implements OnChanges {
     this.requestProjects();
   }
 
-  requestProjects() {
-    const proxySub = this.projectService.getProjectsPage(
-        null,
-        this.leaderId,
-        this.itemsPage.page,
-        this.pageSize,
-        this.dbQuery)
-      .subscribe( (responsePage: ProjectModel) => {
-        // console.log('Next, responsePage:', responsePage);
-        this.itemsPage.docs.next(responsePage['docs']);
-        this.itemsPage.limit = responsePage['limit'];
-        this.itemsPage.page = responsePage['page'];
-        this.itemsPage.pages = responsePage['pages'];
-        this.itemsPage.total = responsePage['total'];
-        proxySub.unsubscribe();
-      });
+  private requestProjects() {
+    this.projectStore.dispatch(new LoadProjectsPage({
+      id: this.leaderId,
+      page: this.itemsPage.page,
+      pageSize: this.pageSize,
+      dbQuery: this.dbQuery
+    }));
   }
 
-  deleteProject(projectToRemove: ProjectModel) {
-    // Delete from DB
-    this.projectService.deleteProject(projectToRemove, false).subscribe( dialogResult => {
-      if (dialogResult === true ) {
-        // Delete in UI
-        let updatedProjects;
-        this.projects.subscribe ( projects => {
-          updatedProjects = projects.filter( project => project._id !== projectToRemove._id);
-        });
-        this.projects.next( updatedProjects );
-      }
-    });
-    return false;
+  private setProjectPage(responsePage: IProjectResponsePage) {
+    if (!responsePage) {
+      return;
+    }
+    this.itemsPage.docs.next(responsePage['docs']);
+    this.itemsPage.limit = responsePage['limit'];
+    this.itemsPage.page = responsePage['page'];
+    this.itemsPage.pages = responsePage['pages'];
+    this.itemsPage.total = responsePage['total'];
   }
 }

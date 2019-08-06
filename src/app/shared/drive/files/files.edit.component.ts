@@ -5,10 +5,12 @@
 // TODO Implement file deletion via UI
 // FIXME Check on file list refresh — now, trashed files are still visible
 
-import { Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
-import { Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
-         ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import {MdSnackBar} from '@angular/material';
+import {
+  Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
+  ChangeDetectionStrategy, ChangeDetectorRef
+} from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-bp-files',
@@ -50,15 +52,18 @@ export class FilesEditComponent implements AfterViewInit {
 
   constructor(
     private ref: ChangeDetectorRef,
-    public snackBar: MdSnackBar
-  ) {}
+    public snackBar: MatSnackBar
+  ) {
+  }
 
   /**
    * On load, called to load the auth2 library and API client library.
    */
   ngAfterViewInit() {
     console.log('BP User:', this.userService);
-    gapi.load('client:auth2', () => { this.initClient(this); });
+    gapi.load('client:auth2', () => {
+      this.initClient();
+    });
   }
 
   private updateFilesList(files: Array<any>) {
@@ -75,17 +80,12 @@ export class FilesEditComponent implements AfterViewInit {
   /**
    *  Initializes GDrive API client library and sets up sign-in state listeners.
    */
-  initClient(that) {
+  initClient() {
     // FIXME 0 - Ensure logged in user observes leader's files, not it's own
-    // FIXME_SEC
-    // Client ID and API key from the Developer Console
-    const CLIENT_ID = '254701279966-lgp72d0ou71o9865v7tp55fmc08ac661.apps.googleusercontent.com';
-
-    // Array of API discovery doc URLs for APIs used by the quickstart
+    const CLIENT_ID = environment.K.gdrive.client_id;
     const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
+    // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
     const SCOPES = [
       'https://www.googleapis.com/auth/drive',
       'https://www.googleapis.com/auth/drive.appdata',
@@ -96,9 +96,11 @@ export class FilesEditComponent implements AfterViewInit {
       discoveryDocs: DISCOVERY_DOCS,
       clientId: CLIENT_ID,
       scope: SCOPES
-    }).then( (res) => {
+    }).then(() => {
       // Listen for sign-in state changes.
-      gapi.auth2.getAuthInstance().isSignedIn.listen( (result) => { this.updateSigninStatus(result); } );
+      gapi.auth2.getAuthInstance().isSignedIn.listen((result) => {
+        this.updateSigninStatus(result);
+      });
 
       // Handle the initial sign-in state.
       this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
@@ -118,13 +120,12 @@ export class FilesEditComponent implements AfterViewInit {
       console.log('All the saints are signed out');
       this.updateFilesList([{}]);
     }
-    // console.log('Is signed in: ', isSignedIn, this.savedSignInUserInfo);
   }
 
   /**
    *  Sign in the user upon button click.
    */
-  handleAuthClick(event) {
+  handleAuthClick() {
     console.log('All the saints are signing in');
     gapi.auth2.getAuthInstance().signIn();
     return false;
@@ -133,7 +134,7 @@ export class FilesEditComponent implements AfterViewInit {
   /**
    *  Sign out the user upon button click.
    */
-  handleSignoutClick(event) {
+  handleSignoutClick() {
     console.log('All the saints are signing out');
     gapi.auth2.getAuthInstance().signOut();
     return false;
@@ -157,7 +158,7 @@ export class FilesEditComponent implements AfterViewInit {
       }
       this.fileToUpload = evt.target.files[0];
       this.fileToUploadName = filename;
-      console.log('handleUploadFilenameChange:', fullPath, filename );
+      console.log('handleUploadFilenameChange:', fullPath, filename);
       this.updateUIOnChange();
     }
   }
@@ -171,7 +172,6 @@ export class FilesEditComponent implements AfterViewInit {
    * Initiate the upload.
    */
   initUpload() {
-    const self = this;
     const xhr = new XMLHttpRequest();
     const file = this.fileToUpload;
     this.uploadInProgress = true;
@@ -183,20 +183,20 @@ export class FilesEditComponent implements AfterViewInit {
       'title': file.name,
       'mimeType': file.type,
       'description': 'This file was uploaded via BigPolicy',
-      parents: [ this.folderForUploads.id ]
+      parents: [this.folderForUploads.id]
     };
 
-    xhr.open('POST', 'https://www.googleapis.com/drive/v3/files?uploadType=multipart', true);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-Upload-Content-Length', this.fileToUpload.size);
-    xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
+    xhr.open(`POST`, `https://www.googleapis.com/drive/v3/files?uploadType=multipart`, true);
+    xhr.setRequestHeader(`Authorization`, `Bearer ${this.savedSignInUserInfo.getAuthResponse().access_token}`);
+    xhr.setRequestHeader(`Content-Type`, `application/json`);
+    xhr.setRequestHeader(`X-Upload-Content-Length`, this.fileToUpload.size);
+    xhr.setRequestHeader(`X-Upload-Content-Type`, this.fileToUpload.type);
 
     xhr.onload = (e: any) => {
       const resp = JSON.parse(e.target.response);
       this.sendFile(resp.id);
     };
-    xhr.onerror = (err) => console.log('Upload error:', err);
+    xhr.onerror = (err) => console.log(`Upload error: ${err}`);
     xhr.send(JSON.stringify(metadata));
   };
 
@@ -208,14 +208,13 @@ export class FilesEditComponent implements AfterViewInit {
   sendFile(fileId) {
     this.fileToUpload.id = fileId;
     const content = this.fileToUpload;
-    const end = this.fileToUpload.size;
 
     const xhr = new XMLHttpRequest();
-    xhr.open('PATCH', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId, true);
-    xhr.setRequestHeader('Content-Type', this.fileToUpload.type);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.savedSignInUserInfo.getAuthResponse().access_token);
-    xhr.setRequestHeader('X-Upload-Content-Type', this.fileToUpload.type);
-    xhr.onload = (res) => this.onFileUploadComplete();
+    xhr.open(`PATCH`, `https://www.googleapis.com/upload/drive/v3/files/${fileId}`, true);
+    xhr.setRequestHeader(`Content-Type`, this.fileToUpload.type);
+    xhr.setRequestHeader(`Authorization`, `Bearer ${this.savedSignInUserInfo.getAuthResponse().access_token}`);
+    xhr.setRequestHeader(`X-Upload-Content-Type`, this.fileToUpload.type);
+    xhr.onload = () => this.onFileUploadComplete();
     xhr.onerror = (err) => console.log('Upload error:', err);
     xhr.send(content);
   };
@@ -248,15 +247,12 @@ export class FilesEditComponent implements AfterViewInit {
     const folderMetadata = {
       q: 'name = "BigPolicy Files"',
       fields: 'nextPageToken, files(id, name)'
-      // pageToken: pageToken
     };
 
-    // console.log('Get folder:', folderMetadata);
-
     gapi.client.drive.files.list(folderMetadata)
-      .execute((resp, raw_resp) => {
+      .execute((resp) => {
         const folder = resp.files[0];
-        if ( !folder ) {
+        if (!folder) {
           this.createFolder();
           return;
         }
@@ -272,17 +268,15 @@ export class FilesEditComponent implements AfterViewInit {
 
   createFolder() {
     const fileMetadata = {
-      'name' : 'BigPolicy Files',
-      'mimeType' : 'application/vnd.google-apps.folder',
+      'name': 'BigPolicy Files',
+      'mimeType': 'application/vnd.google-apps.folder',
     };
 
     gapi.client.drive.files.create({
-       resource: fileMetadata,
-       fields: 'id'
-    }, null).execute((resp, raw_resp) => {
-        console.log('Created Folder Id: ', resp);
-        // this.folderForUploads = resp;
-        this.initFolder(resp);
+      resource: fileMetadata,
+      fields: 'id'
+    }, null).execute((resp) => {
+      this.initFolder(resp);
     });
   }
 
@@ -291,11 +285,11 @@ export class FilesEditComponent implements AfterViewInit {
    */
   listFiles() {
     gapi.client.drive.files.list({
-      'q': '"' + this.folderForUploads.id + '" in parents',
-      'pageSize': this.filesPageSize,
-      'fields': 'nextPageToken, files(id, name, webViewLink, mimeType)',
+      q: `"${this.folderForUploads.id}" in parents`,
+      pageSize: this.filesPageSize,
+      fields: `nextPageToken, files(id, name, webViewLink, mimeType)`,
     }).then((response) => {
-      console.log('Response result and file list:', response.result);
+      console.log(`Response result and file list: ${response.result}`);
       if (response.result.files.length === 0) {
         response.result.files.push(this.noFilesLoadedFile);
       }

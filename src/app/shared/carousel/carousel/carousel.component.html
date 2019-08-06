@@ -1,0 +1,9 @@
+<ngu-carousel fxLayout #myCarousel [inputs]="carouselConfig" [dataSource]="dataSource" *ngIf="'!!leader'">
+	<div *nguCarouselDef="let item;" class="item">
+		<div class="tile">
+			<ng-container *ngTemplateOutlet="item"></ng-container>
+		</div>
+	</div>	
+	<div role="button" NguCarouselPrev class="leftRs __left"><i class="fas fa-chevron-left"></i></div>
+	<div role="button" NguCarouselNext class="rightRs __right"><i class="fas fa-chevron-right"></i></div>
+</ngu-carousel>

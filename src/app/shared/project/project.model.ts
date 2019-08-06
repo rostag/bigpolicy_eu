@@ -1,4 +1,6 @@
-export class ProjectModel {
+import { IProject } from '../../common/models';
+
+export class ProjectModel implements IProject {
   _id: string;
   title: string;
   description: string;
@@ -11,7 +13,7 @@ export class ProjectModel {
   dateStarted: string = this.toDateInputValue(new Date());
   dateEnded: string = this.toDateInputValue(new Date());
   videoUrl = '';
-  tasks;
+  taskIds;
   donations;
   totalDonationsReceived = 0;
 
@@ -31,14 +33,26 @@ export class ProjectModel {
       dateEnded: this.dateEnded,
       imageUrl: this.imageUrl,
       videoUrl: this.videoUrl,
-      tasks: this.tasks,
+      taskIds: this.taskIds,
       totalDonationsReceived: this.totalDonationsReceived
     });
   }
 
   /**
+   * Adopts date from Mongo DB format for UI datepicker
+   */
+  private toDateInputValue(dateToParse) {
+    const date = new Date(dateToParse);
+    const local = new Date(dateToParse);
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
+    return local.toJSON().slice(0, 10);
+  }
+
+  /**
    * Populates model from a JSON representation loaded from DB
    */
+  // FIXME Rework to be Project Reducer / Service method
   parseData(data) {
     for (const item in data) {
       if (data.hasOwnProperty(item)) {
@@ -49,19 +63,9 @@ export class ProjectModel {
     this.dateEnded = this.toDateInputValue(this.dateEnded);
   }
 
-/**
- * Adopts date from Mongo DB format for UI datepicker
- */
-  private toDateInputValue(dateToParse) {
-    const date = new Date(dateToParse);
-    const local = new Date(dateToParse);
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    // Convert date string like this: 2017-03-19T13:11:33.615Z into this: 2017-03-19
-    return local.toJSON().slice(0, 10);
-  }
-
+  // FIXME Move to be Project Reducer / Service method
   onImageUrlChange(newUrlValue) {
-    console.log('Project image url:', newUrlValue);
+    // console.log('Project image url:', newUrlValue);
     this.imageUrl = newUrlValue;
   }
 }

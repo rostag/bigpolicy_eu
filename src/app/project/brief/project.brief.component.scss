@@ -1,4 +1,5 @@
-@import '~@angular/material/core/theming/all-theme';
+// @import '~@angular/material/_theming.scss';
+@import '../../../assets/scss/styles.scss';
 
 $col-white-tran: rgba(255, 255, 255, 0);
 $col-white: rgba(255, 255, 255, 1);
@@ -7,107 +8,184 @@ $col-eee: #eee;
 $col-333: #555;
 $fade-bg: linear-gradient(to bottom, $col-white 0%, $col-white 99%, $col-white 100%);
 
+:host {
+  width: 100%;
+}
+
 a {
   text-decoration: none;
 }
 
-// Card View
-
-.project-brief-card-header-image {
-  // Parametrize via leader photo
-  background-image: url('../../../assets/img/project/project-placeholder.png');
-  background-size: cover;
+.main-section mat-card {
+  min-height: 420px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2)!important;
+  padding: 0;
+  margin-top: 40px;
 }
 
-.md-card-image-clipper {
-  border-bottom: 1px solid $col-eee;
-  border-top: 1px solid $col-eee;
-  height: 300px;
-  margin: 0 -24px 16px;
-  max-height: 300px;
-  overflow: hidden;
-  width: calc(100% + 48px);
+.project-cover-wrapper {
+  position: relative;
 }
+
+.project-cover {
+  width: 100%;
+  height: 280px;
+  margin: 0;
+  background: no-repeat center center;
+  background-size: 100%;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
+.time-left {
+  position: absolute;
+  bottom: 49px;
+  left: 30px;
+  align-items: center;
+}
+
+.timer-num {
+  width: 36px;
+  height: 39px;
+  background-color: $red;
+  border-radius: 5px;
+}
+
+.timer-num span {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.timer-word {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  padding: 3px;
+}
+
+.collected-money {
+  position: absolute;
+  bottom: 36px;
+  right: 0;
+  background-color: #fff;
+  // border-radius: 15px;
+  padding: 10px 10px 10px 40px;
+
+    :nth-child(1) {
+      font-family: 'Montserrat Alternates';
+      color: $red;
+      font-size: 29px;
+      font-weight: 600;
+    }
+    :nth-child(2) {
+      font-family: 'Montserrat Alternates';
+      color: #707070;
+      font-size: 17px;
+      font-weight: 500;
+    }
+}
+
+mat-card-content {
+  padding: 20px 20px 0 20px;
+
+  .project-title {
+    font-weight: 600;
+    font-size: 24px;
+    white-space: nowrap;
+  }
+  .project-description {
+    font-weight: 400;
+    font-size: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden; 
+  }
+}
+
+.bottom-section {
+  width: 100%;
+  padding: 20px;
+}
+
+.left-to-collect-money {
+  font-weight: 800;
+  font-size: 31px;
+}
+
+.left-to-collect-description {
+  font-weight: 400;
+  font-size: 15px;
+  padding-left: 10px;
+}
+
+.btn-action {
+  margin-top: 20px;
+}
+
+.info-btn {
+  font-size: 20px;
+  padding: 5px 45px;
+}
+
 
 // List View - Normal
 
 .project-list-item {
-  background-color: $col-fafafa;
-  cursor: pointer;
-  height: 15em;
-  margin: 1em .3em 1em .2em;
-  overflow: hidden;
+  background-color: $dark-red;
+  border-radius: 25px;
+  margin-bottom: 20px;
 
-  .title,
-  .date,
-  .description {
-    overflow: hidden;
-  }
-
-  .title {
-    height: 1.3em;
-
-    .compact {
-      font-size: .7em;
+    .project-img img {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      overflow: hidden;
+      object-fit: cover;
+      
+      img {
+        min-height: 100%;
+        }
     }
-  }
 
-  .description {
-    margin-bottom: 0;
-    margin-top: 2em;
-  }
-
-  .date,
-  .cost,
-  .tasks {
-    font-size: .7em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .md-card-image-clipper {
-    height: 8em;
-    margin: 0 -24px;
-
-    .project-video {
-      display: block;
-      // margin-top: -.5em;
+    .project-description-wraper {
+      mat-card-content {
+        padding: 15px;
+        overflow: hidden;
+      }
     }
-  }
 
-  .compact {
+    .project-title {
+      color: $bp-white;
+      font-size: 22px;
+    }
+    
+    .project-description {
+      color: $bp-white;
+      font-weight: 400;
+      font-size: 20px;
+      -webkit-line-clamp: 3;
+    }
+    
+    .info-btn.white-btn {
+      font-size: 20px;
+      padding: 5px 30px;
+      margin-bottom: 10px;
+    }
+
     .admin {
-      display: none;
+      .edit-icon {
+        color: #fff;
+      }
     }
-  }
-
-  .manager-name {
-    color: $col-333;
-    float: right;
-  }
-
-  .card-actions {
-    display: none;
-  }
-}
-
-// List View - Hover
-
-.project-list-item:hover {
-  background-color: transparent;
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
-
-  .description {
-    display: block;
-    position: relative;
-    min-height: 1.4em;
-    top: -5.7em;
-    left: -1em;
-    width: calc(100% + .1em);
-    padding: 1em;
-    background: #fff;
-    @include mat-elevation(2);
-  }
 }
 
 .list-brief {
@@ -121,7 +199,7 @@ a {
     display: none;
   }
 
-  .md-card-image-clipper {
+  .mat-card-image-clipper {
     height: 13em;
   }
 
@@ -138,9 +216,9 @@ a {
   }
 }
 
-
 .list-brief:hover {
-  // .md-card-image-clipper {
+  color: inherit;
+  // .mat-card-image-clipper {
   //   display: none;
   // }
 

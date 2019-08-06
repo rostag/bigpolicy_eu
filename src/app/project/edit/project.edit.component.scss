@@ -1,22 +1,49 @@
-input,
-textarea,
-md-input-container {
-  width: 100%;
-}
-
-.cost-and-dates {
-  * {
-    line-height: 1.5;
+:host {
+  input,
+  textarea,
+  mat-form-field {
+    width: 100%;
   }
 
-  md-icon {
-    font-size: 1.3em;
-    vertical-align: bottom;
+  .header {
+    font-size: 24px;
   }
-}
 
-.cost {
-  input {
-    text-align: right;
+  .title {
+    ::ng-deep .mat-form-field-wrapper {
+      margin-bottom: 2px;
+    }
+    ::ng-deep .mat-form-field-infix {
+      border: none;
+      padding: 0;
+      min-width: 280px;
+    }
+  }
+
+  .cost-and-dates {
+    * {
+      line-height: 1.5;
+    }
+
+    mat-icon {
+      font-size: 1.3em;
+      vertical-align: bottom;
+    }
+  }
+
+  .cost {
+    input {
+      text-align: right;
+    }
+  }
+
+  .icon-me {
+    background: tan;
+    padding: 0 4px;
+    display: inline-block;
+    font-size: 11px;
+    position: relative;
+    top: -2px;
+    line-height: 1.2;
   }
 }

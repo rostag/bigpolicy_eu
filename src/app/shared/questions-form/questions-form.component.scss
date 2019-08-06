@@ -1,0 +1,18 @@
+@import '../../../assets/scss/styles.scss';
+
+.questions-container {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    h3 {
+        font-family: 'Montserrat';
+        font-size: 37px;
+        color: $gray;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .question-form {
+        mat-form-field {
+            width: 90%;
+        }
+    }
+}

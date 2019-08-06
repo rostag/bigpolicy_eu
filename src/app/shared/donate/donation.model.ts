@@ -1,5 +1,4 @@
 export class DonationModel {
-	// TODO
   _id: string;
   virtual = false;
   donorId: string;
@@ -16,8 +15,8 @@ export class DonationModel {
   description: string;
   status = 'unfinished';
   // Not stored in DB. Used as backlink for liqpay.
-  result_url: String;
-  server_url: String;
+  result_url: string;
+  server_url: string;
 
   toString() {
     return JSON.stringify({
@@ -38,8 +37,8 @@ export class DonationModel {
   }
 
   /**
-  * Populate model from a json representation loaded from DB
-  */
+   * Populate model from a json representation loaded from DB
+   */
   parseData(data) {
     for (const item in data) {
       if (data.hasOwnProperty(item)) {

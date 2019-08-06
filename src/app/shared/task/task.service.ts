@@ -1,95 +1,101 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
-import { TaskModel } from './task.model';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { ITaskState } from '../../state/reducers/task.reducers';
+import { CreateTaskSuccess } from '../../state/actions/task.actions';
+import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
+import { Router } from '@angular/router';
 
-
-/**
- * This class provides the TaskList service with methods to get and save tasks.
- */
 @Injectable()
 export class TaskService {
 
   private apiUrl = environment.api_url + '/api/task-api/';
 
-  /**
-   * Creates a new TaskService with the injected Http
-   */
   constructor(
-    private http: Http
-  ) { }
+    private router: Router,
+    private http: HttpClient,
+    private taskStore: Store<ITaskState>
+  ) {
+  }
 
   /**
    * Creates new Task in DB
-   * @param {TaskModel} model Task model to create.
+   * @param {ITask} model Task model to create.
    */
-  createTask(model: TaskModel): Observable<TaskModel> {
+  createTask(model: ITask): Observable<ITask> {
     const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.apiUrl, body, options)
-    .map(res => res.json());
+    return this.http
+      .post(this.apiUrl, body, {headers: headers})
+      .pipe(
+        map((res: ITask) => {
+          this.taskStore.dispatch(new CreateTaskSuccess(res));
+          this.gotoTaskView(res);
+          return res;
+        })
+      );
   }
 
-  // TODO: implement local cache
+  /**
+   * Finalizes opening of the project.
+   */
+  gotoTaskView(task) {
+    if (task && task._id) {
+      this.router.navigate(['/task', task._id]).then(() => {
+      });
+    }
+  }
 
   /**
    * Gets tasks page from DB by given taskId, projectId, page and limit
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getTasksPage(taskId = null, projectId = null, page = null, limit = null, dbQuery = '{}'): Observable<TaskModel> {
-
+  loadTasksPage(req: IDataPageRequest): Observable<ITaskResponsePage> {
     let requestUrl;
+    const projectId = req.id;
+    const page = req.page;
+    const limit = req.pageSize;
+    const dbQuery = req.dbQuery;
 
-    // Task by ID :: api/task-api/:taskId
-    if (taskId) {
-      requestUrl = this.apiUrl + taskId;
-    }
-
-    // Page of Tasks :: api/task-api/page/:page/:limit/q/:dbQuery
+    // Page of Tasks - api/task-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.apiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
-    // Page of tasks for Project :: api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
+    // Page of Tasks for Project - api/task-api/project/:projectId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && projectId !== null) {
-      requestUrl = this.apiUrl + 'project/' + projectId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.apiUrl}project/${projectId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
-
-    // console.log('get TasksPage:', taskId, projectId, page, limit, dbQuery);
-
-    return this.http.get(requestUrl)
-    .map((responsePage: Response) => {
-      // console.log('Tasks Page loaded, response: ', responsePage);
-      return responsePage.json();
-    });
+    return this.http.get<ITaskResponsePage>(requestUrl);
   }
 
   /**
-   * Returns single Task from DB, reuses get TasksPage.
+   * Returns single Task from DB, reuses get TasksPage by ID :: api/task-api/:taskId
+   * FIXME Request cached / Load project data to populate on loaded task
    */
-  getTask(taskId: string): Observable<TaskModel> {
-    // FIXME Request cached / Load project data to populate on loaded task
-    return this.getTasksPage(taskId);
+  getTask(taskId: string): Observable<ITask> {
+    return this.http.get<ITask>(this.apiUrl + taskId);
   }
 
   /**
    * Updates a model by performing a request with PUT HTTP method.
-   * @param TaskModel A Task to update
+   * @param model ITask A Task to update
    */
-  updateTask(model: TaskModel): Observable<TaskModel> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
+  updateTask(model: ITask): Observable<Object> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.put(this.apiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
-      .catch(this.handleError);
+      .pipe(
+        map(res => {
+          this.gotoTaskView(res);
+          return res;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   /**
@@ -97,48 +103,31 @@ export class TaskService {
    * @param ids {Array} Task IDs to update
    * @param data {Object} The data to be applied during update in {field: name} format
    */
-  bulkUpdateTasks(ids: Array<string>, data: any): Observable<TaskModel> {
-    // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const body = JSON.stringify({ ids: ids, data: data });
-    // console.log('Tasks service, try to update:', ids, data, body);
-
-    return this.http.put(this.apiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
-      .catch( this.handleError );
+  bulkUpdateTasks(ids: Array<string>, data: any): Observable<ITask> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify({ids: ids, data: data});
+    return this.http.put<ITask>(this.apiUrl + 'bulk-update', body, {headers: headers});
   }
 
   /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param TaskModel A Task to delete
+   * @param model ITask A Task to delete
    */
-  deleteTask(model: TaskModel) {
-    this.http.delete(this.apiUrl + model._id)
-    .map(res => console.log('Task deleted:', res.json()))
-    .catch(this.handleError)
-    .subscribe();
+  deleteTask(model: ITask): Observable<any> {
+    return this.http.delete(this.apiUrl + model._id);
   }
 
   /**
    * Deletes multiple Tasks by performing a request with PUT HTTP method.
    * @param ids Task IDs to delete
    */
-  bulkDeleteTasks(ids: Array<string>): Observable<TaskModel> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const body = JSON.stringify({ ids: ids});
-    console.log('Task service, try to delete:', ids, body);
-
-    return this.http.put(this.apiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
-    .catch( this.handleError );
+  bulkDeleteTasks(ids: Array<string>): Observable<Object> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify({ids: ids});
+    return this.http.put(this.apiUrl + 'bulk-delete', body, {headers: headers});
   }
 
   private handleError(error: Response) {
-    console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+    return observableThrowError(error.json() || 'Server error');
   }
 }

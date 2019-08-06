@@ -1,6 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { LeaderModel, LeaderService } from '../../shared/leader/index';
+import { LeaderModel } from '../../shared/leader/leader.model';
 import { UserService } from '../../shared/user/user.service';
+import { ILeader } from '../../common/models';
+import { Store } from '@ngrx/store';
+import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
+import { LoadLeader } from '../../state/actions/leader.actions';
 
 @Component({
   selector: 'app-leader-brief',
@@ -9,35 +13,45 @@ import { UserService } from '../../shared/user/user.service';
 })
 export class LeaderBriefComponent implements OnChanges {
 
-  @Input() leaderId = '';
-  @Input() viewContext = '';
-
-  leader: LeaderModel = new LeaderModel();
+  @Input() public leaderId = '';
+  @Input() public viewContext = '';
+  // FIXME Get Rid of new LeaderModel(), and new TaskModel()
+  @Input() public leader: ILeader = new LeaderModel();
 
   // Whether it has visual like image or video or it hasn't
-  hasVisual = false;
+  public hasVisual = false;
 
   constructor(
     public userService: UserService,
-    private leaderService: LeaderService
-  ) {}
+    private leaderStore: Store<ILeaderState>,
+  ) {
+    leaderStore.select(getSelectedLeader).subscribe(leader => this.applyChanges(leader));
+  }
 
   ngOnChanges(changes) {
     if (changes.leaderId && changes.leaderId.currentValue) {
-      console.log('Get Leader by ID:');
-      this.requestLeader(this.leaderId);
+      if (!this.leader || !this.leader._id || !this.leader.email) {
+        this.requestLeader(this.leaderId);
+      } else {
+        this.applyChanges(this.leader);
+      }
     }
   }
 
+  private applyChanges(leader: ILeader) {
+    this.leader = leader;
+    this.hasVisual = !!(this.leader && (this.leader.photo || this.leader.videoUrl));
+  }
+
   requestLeader(id) {
-    this.leaderService.getLeader(id)
-    .subscribe(
-      (data) => {
-          this.leader = data;
-          this.hasVisual = Boolean(this.leader.photo) || Boolean(this.leader.videoUrl);
-      },
-      err => console.error(err),
-      () => {}
-    );
+    this.leaderStore.dispatch(new LoadLeader(id));
+  }
+
+  public getLeaderLink(leader: ILeader) {
+    if (!leader || !leader._id) {
+      return null;
+    } else {
+      return ['/leader/', leader._id];
+    }
   }
 }

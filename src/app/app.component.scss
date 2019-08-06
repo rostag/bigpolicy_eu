@@ -1,6 +1,9 @@
+@import '../assets/scss/styles.scss';
+
+
 :host {
+  background-color: $bp-bg;
   display: block;
-  box-sizing: border-box;
 }
 
 .app {
@@ -8,15 +11,66 @@
 }
 
 .app-content {
-  box-sizing: border-box;
-  padding: 2rem;
   min-height: 70vh;
+  width: 100%;
+  margin: 0 auto;
 }
 
-footer {
-  border-top: 1px solid #eee;
-  font-family: sans-serif;
+.footer-top {
+  background-color: $gray;
   font-size: .75rem;
-  padding: 1em;
-  text-align: center;
+  padding: 2em 5rem;
+
+  .information-block {
+    padding: 30px;
+    .info {
+      font-family: 'Montserrat';
+      font-size: 20px;
+      font-weight: 500;
+      color: #fff;
+      text-transform: uppercase;
+    }
+  }
+
+  a {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    font-weight: 400;
+    color:#BBBBBB;
+    text-decoration: none;
+    padding: 5px 0;
+  }
+
+  .contacts-block {
+    padding: 25px;
+    border-left: 1px solid #fff;
+    .our-contacts {
+      color: #979797;
+      font-size: 17px;
+    }
+    .phone-number, .email {
+      color:#BBBBBB;
+      font-size: 18px;
+    }
+  }
+
+  .social-icons a {
+    color: #fff;
+    padding: 5px;
+  }
+
 }
+
+.footer-bottom {
+  background-color: $red; 
+  p {
+    padding: 20px;
+    margin: 1rem 6rem 1rem 0;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    text-align: end;
+  }
+}
+

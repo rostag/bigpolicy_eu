@@ -1,0 +1,16 @@
+
+<mat-card class="questions-container">
+  <h3>Маєте запитання?</h3>
+  <form [formGroup]="questionForm" fxLayout="column" fxLayoutAlign="space-evenly center" class="question-form">
+    <mat-form-field>
+      <input matInput placeholder="Enter your name" type="text" formControlName="userName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Enter your email" type="email" formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Enter your quesion" type="text" formControlName="quesionText" required>
+    </mat-form-field>
+    <button mat-raised-button class="info-btn color-btn">Відіслати</button>
+  </form>
+</mat-card> 

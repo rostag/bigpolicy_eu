@@ -1,37 +1,32 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { DialogComponent } from './dialog.component';
-import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
-import { ViewContainerRef, Injectable } from '@angular/core';
+import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { Injectable } from '@angular/core';
+
+export interface BPDialogConfig extends MatDialogConfig {
+  [key: string]: any
+}
 
 @Injectable()
 export class DialogService {
 
-  constructor(private dialog: MdDialog) { }
+  constructor(private dialog: MatDialog) {
+  }
 
-    public confirm(
-      title: string,
-      message: string,
-      btnOkText: string = 'Продовжити',
-      btnCancelText: string = 'Відмінити',
-      viewContainerRef?: ViewContainerRef): Observable<boolean> {
+  public confirm(dialogConfig?: BPDialogConfig): Observable<boolean> {
+    const dialogRef: MatDialogRef<DialogComponent> = this.dialog.open(DialogComponent, dialogConfig);
+    const comp: any = dialogRef.componentInstance;
 
-        // Docs: https://material.angular.io/components/component/dialog
-        // http://www.madhur.co.in/blog/2017/03/26/angular-confirmation-dialog.html
+    comp.title = dialogConfig.title;
+    comp.message = dialogConfig.message;
+    comp.btnCancelText = dialogConfig.btnCancelText || 'Відмінити';
+    comp.btnOkText = dialogConfig.btnOkText || 'Продовжити';
+    dialogRef.componentInstance = comp;
 
-        let dialogRef: MdDialogRef<DialogComponent>;
-        const dialogConfig = new MdDialogConfig();
-        // FIXME dialogConfig.viewContainerRef = viewContainerRef;
+    return dialogRef.afterClosed();
+  }
 
-        dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-
-        dialogRef.componentInstance.title = title;
-        dialogRef.componentInstance.message = message;
-        dialogRef.componentInstance.btnOkText = btnOkText;
-        dialogRef.componentInstance.btnCancelText = btnCancelText;
-
-        const result = dialogRef.afterClosed();
-
-        return result;
-    }
-
+  public info(dialogConfig?: BPDialogConfig): Observable<boolean> {
+    return this.confirm({...dialogConfig, btnOkText: 'OK'});
+  }
 }

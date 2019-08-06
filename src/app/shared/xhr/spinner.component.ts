@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CustomBrowserXhr } from './xhr';
-import { AnonymousSubscription, TeardownLogic } from 'rxjs/Subscription';
-import { HttpModule, BrowserXhr } from '@angular/http';
+import { Unsubscribable as AnonymousSubscription, TeardownLogic } from 'rxjs';
 
 @Component({
   selector: 'app-working-progress',
-  template: `<md-progress-bar mode="indeterminate" [class.hidden]="!isVisible" color="accent"></md-progress-bar>`,
+  template: `<mat-progress-bar mode="indeterminate" [class.hidden]="!isVisible" color="accent"></mat-progress-bar>`,
   styleUrls: ['spinner.component.scss']
 })
 export class WorkingSpinnerComponent implements OnInit, OnDestroy {
@@ -19,7 +18,6 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._subscription = this.browserXhr.observable.subscribe(next => {
-    // console.log(next.type + ' next received in spinner');
     switch (next.type) {
       case 'open':
         this._connectionCounter++;
@@ -28,7 +26,6 @@ export class WorkingSpinnerComponent implements OnInit, OnDestroy {
         this._connectionCounter--;
         break;
       case 'progress':
-        // console.log('PROGRESS:' , next, next.event.loaded, next.event.total);
         break;
       case 'abort':
         this._connectionCounter--;

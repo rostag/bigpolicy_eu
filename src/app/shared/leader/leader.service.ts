@@ -1,15 +1,16 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { ProjectService } from '../../shared/project/project.service';
-import { environment } from '../../../environments/environment';
-
-import { LeaderModel } from './leader.model';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
+import {throwError as observableThrowError, BehaviorSubject, Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {DialogService} from '../dialog/dialog.service';
+import {ProjectService} from '../project/project.service';
+import {environment} from '../../../environments/environment';
+import {Injectable} from '@angular/core';
+import {map, catchError} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ENV} from 'app/../environments/env.config';
+import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
+import {State, Store} from '@ngrx/store';
+import {ILeaderState} from '../../state/reducers/leader.reducers';
+import {LoadLeaderSuccess} from '../../state/actions/leader.actions';
 
 declare var localStorage: any;
 
@@ -19,187 +20,189 @@ declare var localStorage: any;
 @Injectable()
 export class LeaderService {
 
-  leader: LeaderModel;
+  // FIXME NGRX IT
+  public get leader(): ILeader {
+    return this._leader;
+  };
 
+  // FIXME TO NGRX LDR Store selected leader from here
+  public set leader(leader: ILeader) {
+    this._leader = leader;
+  };
+
+  private _leader: ILeader;
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
-  private leaderSource = new BehaviorSubject<LeaderModel>(this.leader);
+  private leaderSource = new BehaviorSubject<ILeader>(this.leader);
+  public leaderStream = this.leaderSource.asObservable();
 
-  leaderStream = this.leaderSource.asObservable();
+  private static handleError(error: Response) {
+    return observableThrowError(error.json() || 'Server error');
+  }
 
-  /**
-   * The array of models provided by the service.
-   * @type {Array}
-   */
-  private models;
-
-  /**
-   * Creates a new LeaderService with the injected Http.
-   * @param {Http} http - The injected Http.
-   * @constructor
-   */
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private projectService: ProjectService
-  ) {}
+    private projectService: ProjectService,
+    private store: Store<ILeaderState>
+  ) {
+  }
+
+  private get _authHeader(): string {
+    return `Bearer ${localStorage.getItem('access_token')}`;
+  }
+
+  public ping(): Observable<any> {
+    return this.http.get(`${ENV.BASE_API}leader-api/ping`);
+  }
+
+  public pingJwt(): Observable<any> {
+    return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt`, {
+      headers: new HttpHeaders().set('Authorization', this._authHeader)
+    });
+  }
+
+  public pingJwtAdmin(): Observable<any> {
+    return this.http.get(`${ENV.BASE_API}leader-api/ping-jwt-admin`, {
+      headers: new HttpHeaders().set('Authorization', this._authHeader)
+    });
+  }
+
+  public createLeader(model: ILeader) {
+    const body: string = encodeURIComponent(model.toString());
+    const headers = new HttpHeaders()
+      .set('Authorization', this._authHeader)
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post<ILeader>(this.leaderApiUrl, body, {headers: headers})
+      .pipe(map(data => {
+        // Post-FTUX
+        localStorage.removeItem('BigPolicyLeaderRegistration');
+        this.gotoLeaderView(data);
+      }));
+  }
 
   /**
-   * Creates the Leader.
-   * @param {LeaderModel} model - The Leader to create.
+   * Gets Leaders page from DB by given leaderId, groupId, page and limit.
+   * by URL like: /api/leader-api/page/:page/:limit/q/:dbQuery
+   * Returns an Observable for the HTTP GET request.
+   * @param req IDataPageRequest with the following fields:
+   *   id       Group to get Leaders for. Unused.
+   *   page     Page number.
+   *   pageSize Quantity of items to get.
+   *   dbQuery  Database search query.
+   * @return {Observable<ILeader>} The Observable for the HTTP request.
    */
-  createLeader(model: LeaderModel, email) {
-    model.email = email;
-    const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
+  public getLeadersPage(req: IDataPageRequest): Observable<ILeaderResponsePage> {
+    if (!!req && !!req.page && !!req.pageSize) {
+      return this.http.get<ILeaderResponsePage>(
+        `${this.leaderApiUrl}page/${req.page}/${req.pageSize}/q/${encodeURIComponent(req.dbQuery)}`
+      );
+    }
+  }
 
-    this.http.post(this.leaderApiUrl, body, options)
-      .map(res => res.json())
-      .subscribe(
-        data => {
-          // Normal Save
-          this.gotoLeaderView(data);
-          // Post-FTUX
-          // console.log('Finalizing leader registration, cleaning localLeader');
-          localStorage.removeItem('BigPolicyLeaderRegistration');
-        },
-        err => (er) => console.error('Leader creation error: ', er),
-        () => {}
+  /**
+   * Returns single leader from DB by ID.
+   * /api/leader-api/:leaderId
+   */
+  public getLeader(leaderId: string): Observable<ILeader> {
+    if (leaderId) {
+      return this.http.get<ILeader>(this.leaderApiUrl + leaderId);
+    }
+  }
+
+  /**
+   * Searches for leader by user email in DB
+   * If found, saves it via callback as userService.leader propery.
+   */
+  public requestLeaderByEmail(email: string): Observable<ILeaderResponsePage> {
+    // let leader: any = this.findCachedLeaderByEmail(email);
+    // if (leader) {
+    //   leader = of({leader});
+    // }
+
+    console.log('RequestLeader ByEmail:', email);
+
+    // FIXME NGRX IT LP
+    const leaderResponse = this.getLeadersPage({id: null, page: 1, pageSize: 1, dbQuery: `{ "email": "${email}" }`});
+    leaderResponse.subscribe((response: any) => {
+      if (response && response.name && response.name === 'MongoError') {
+        console.warn('Error getting leader by email, response is: ', response);
+      } else {
+        this.setLeaderForUser(response['docs'][0]);
+      }
+    });
+    return leaderResponse;
+  }
+
+  // private findCachedLeaderByEmail(email: string): ILeader {
+  //   const leaders = this.models;
+  //   let foundLeader;
+  //   for (const l in leaders) {
+  //     if (leaders[l].email === email) {
+  //       foundLeader = leaders[l];
+  //     }
+  //   }
+  //   return foundLeader;
+  // }
+
+  /**
+   * Updates a model by performing a request with PUT HTTP method.
+   * @param model ILeader A Leader to update
+   */
+  public updateLeader(model: ILeader): Observable<ILeader> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<ILeader>(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
+      .pipe(
+        map(res => res),
+        catchError(LeaderService.handleError)
       );
   }
 
   /**
-   * Gets Leaders page from DB by given leaderId, groupId, page and limit
-   * Returns an Observable for the HTTP GET request.
-   * @param leaderId Leader ID to get.
-   * @param groupId Group to get Leaders for. Unused.
-   * @param page Page number.
-   * @param limit Qualntity of items to get.
-   * @param dbQuery Database search query.
-   * @return {Observable<LeaderModel>} The Observable for the HTTP request.
-   */
-  getLeadersPage(leaderId = null, groupId = null, page = null, limit = null, dbQuery = '{}'): Observable<LeaderModel> {
-
-    let requestUrl;
-
-    // Leader by ID
-    // /api/leader-api/:leaderId
-    if (leaderId) {
-      requestUrl = this.leaderApiUrl + leaderId;
-    }
-
-    // Page of Leaders
-    // /api/leader-api/page/:page/:limit/q/:dbQuery
-    if (page !== null && limit !== null) {
-      requestUrl = this.leaderApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
-    }
-    // OBSOLETE: All Leaders for Group:         /api/leader-api/group/:groupId/
-    // if (groupId) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId;
-    // }
-    // RESERVED: Page of leaders for Group:     /api/leader-api/group/:groupId/page/:page/:limit
-    // if (page !== null && limit !== null && groupId !== null) {
-    //   requestUrl = this.apiUrl + 'group/' + groupId + '/page/' + page + '/' + limit;
-    // }
-
-    // console.log('get Leaders Page:', leaderId, groupId, page, limit);
-
-    return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        // console.log('Leaders Page loaded, response: ', responsePage);
-        return responsePage.json();
-      });
-  }
-
-  /**
-   * Returns single leader from DB.
-   */
-  getLeader(leaderId: string): Observable<LeaderModel> {
-    return this.getLeadersPage(leaderId);
-  }
-
-  /**
-   * Seaches for leader by user email in DB
-   * If found, saves it via callback as userService.leader propery.
-   */
-  requestLeaderByEmail(email: string): Observable<LeaderModel> {
-
-    // FIXME Optimize - use caching, no need to load leaders each time
-    // let leader: any = this.findCachedLeaderByEmail(email);
-    // if (leader) {
-    //   leader = Observable.from({leader});
-    // } else {
-    // }
-
-    console.log('LeaderService:RequestLeaderByEmail:', email);
-
-    const leaderResponse = this.getLeadersPage(null, null, 1, 1, '{ "email": "' + email + '" }');
-    leaderResponse.subscribe( leader => this.setLeaderForUser(leader['docs'][0]));
-
-    return leaderResponse;
-  }
-
-  private findCachedLeaderByEmail(email: string): LeaderModel {
-    const leaders = this.models;
-    let foundLeader;
-    for (const l in leaders) {
-      if (leaders[l].email === email) {
-        foundLeader = leaders[l];
-      }
-    }
-    return foundLeader;
-  }
-
-  /**
-   * Updates a model by performing a request with PUT HTTP method.
-   * @param LeaderModel A Leader to update
-   */
-  updateLeader(model: LeaderModel): Observable<LeaderModel> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this.http.put(this.leaderApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-
-  // TODO Bulk Update Leaders (Like Project and Tasks).
-
-  /**
    * Deletes a model by performing a request with DELETE HTTP method.
-   * @param LeaderModel A Leader to delete
+   * @param model ILeader A Leader to delete
+   * @param navigateToList
    */
-  deleteLeader(model: LeaderModel, navigateToList = true): Observable<boolean> {
+  public deleteLeader(model: ILeader, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
-    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+    const dialogResult = this.dialogService.confirm({
+      title: 'Точно видалити?',
+      message: 'Ця дія незворотня, продовжити?',
+      btnOkText: 'Видалити',
+      btnCancelText: 'Відмінити'
+    });
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
         // Delete Leader immediately and, if there are projects, re-assign them to other Leader (admin)
         this.finalizeLeaderDeletion(model, navigateToList);
 
-        if (model.projects && model.projects.length > 0) {
-          this.dialogService.confirm('Що робити з проектами?', `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
-            до тимчасової адміністрації?`, 'Видалити', 'Залишити у системі')
-            .subscribe(toDeleteProjects => {
+        if (model.projectIds && model.projectIds.length > 0) {
+          this.dialogService.confirm({
+            title: 'Що робити з проектами?',
+            message: `У лідера є проекти. Видалити їх, чи залишити у системі, передавши
+            до тимчасової адміністрації?`,
+            btnOkText: 'Видалити',
+            btnCancelText: 'Залишити у системі'
+          }).subscribe(toDeleteProjects => {
             if (toDeleteProjects === true) {
-              // Delete Projects and Tasks in DB
-              // TODO Delete Projects Firebase data
-              // TODO Delete Donations and Task Donations?
-              this.projectService.bulkDeleteProjects(model.projects)
-              .subscribe((deleteResult) => { console.log('Projects deleted:', deleteResult); });
+              // Delete Projects and Tasks in DB, TODO delete task donations data
+              this.projectService.bulkDeleteProjects(model.projectIds)
+                .subscribe((deleteResult) => {
+                  console.log('Projects deleted:', deleteResult);
+                });
             } else {
               // Reassign projects to another Leader (this/Admin)
-              // FIXME STOP Mixing Logged in / Profile / User Leader and Leader which is to be deleted
+              // FIXME Check mixing of the logged in, profile, user leader, or leader to be deleted
               const newLeader = this.leader;
-              const projectsUpdate = this.projectService.bulkUpdateProjects(model.projects, {
+              const projectsUpdate = this.projectService.bulkUpdateProjects(model.projectIds, {
                 managerId: newLeader._id,
                 managerEmail: newLeader.email,
-                managerName: newLeader.name + ' ' + newLeader.surName
+                managerName: `${newLeader.name} ${newLeader.surName}`
               });
-              projectsUpdate.subscribe((updateResult) => { console.log('Projects update result:', updateResult); });
+              projectsUpdate.subscribe();
             }
             this.finalizeLeaderDeletion(model, navigateToList);
           });
@@ -212,27 +215,22 @@ export class LeaderService {
   /*
    * Deletes Leader
    */
-  finalizeLeaderDeletion(leaderModel: LeaderModel, navigateToList = true) {
+  private finalizeLeaderDeletion(leaderModel: ILeader, navigateToLeadersList = true) {
     // TODO Delete Leader Firebase data
     this.http.delete(this.leaderApiUrl + leaderModel._id)
-    .map(res => { return res; })
-    .catch( this.handleError )
-    .subscribe((res) => {
-      this.setLeaderForUser(null);
-      if (navigateToList) {
-        this.router.navigate(['/leaders']);
-      }
-    });
+      .pipe(catchError(LeaderService.handleError))
+      .subscribe(() => {
+        this.setLeaderForUser(null);
+        if (navigateToLeadersList) {
+          this.router.navigate(['/leaders']);
+        }
+      });
   }
 
-  // TODO Check if the same can be done for projects
-  gotoLeaderView(leader) {
+  public gotoLeaderView(leader) {
     this.setLeaderForUser(leader);
-    const leaderId = leader._id;
-    if (leaderId) {
-      this.router.navigate(['/leader', leaderId]).then(_ => {
-        // navigation is done
-      });
+    if (leader._id) {
+      this.router.navigate(['/leader', leader._id]);
     }
   }
 
@@ -240,16 +238,9 @@ export class LeaderService {
     if (!leader) {
       return;
     }
-    // FIXME Impersonation happens - check with admin editing different leaders (and see Profile then)
-    console.log('👤 Leader service. Set leader for', leader.email);
+    // FIXME Issues happen, check admin editing different leaders, see Profile for each
     this.leader = leader;
-    // Notify observers;
-    // http://stackoverflow.com/questions/34376854/delegation-eventemitter-or-observable-in-angular2/35568924#35568924
+    // this.store.dispatch(new LoadLeaderSuccess(leader));
     this.leaderSource.next(leader);
-  }
-
-  private handleError(error: Response) {
-    console.error('Error occured: ', error);
-    return Observable.throw(error.json().error || 'Server error');
   }
 }

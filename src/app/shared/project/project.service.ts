@@ -1,59 +1,59 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { TaskService } from '../../shared/task/task.service';
-import { Observable } from 'rxjs/Observable';
+import { IProjectState, getProjectsById } from '../../state/reducers/project.reducers';
+import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DialogService } from '../dialog/dialog.service';
+import { Store, select } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import 'rxjs/add/operator/map';
+import { TaskService } from '../task/task.service';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { ProjectModel } from './project.model';
-
-/**
- * Provides ProjectList service with methods to get and save projects.
- */
 @Injectable()
 export class ProjectService {
 
-  // TODO Implement caching
-  static _cachedProjects = [];
-
   private projectApiUrl = environment.api_url + '/api/project-api/';
 
-  static cacheProject(project) {
-    this._cachedProjects[project._id] = project;
-    // console.log('cache project: ', this._cachedProjects[project._id]);
+  private projects$ = this.projectStore.pipe(
+    select(getProjectsById)
+  );
+
+  public getCachedProject(projectId) {
+    let project = null;
+    this.projects$.subscribe(projects => {
+      project = projects[projectId];
+    });
+    return project || {};
   }
 
-  static getCachedProject(projectId) {
-    // console.log('get cached project by id:', projectId, ': ', this._cachedProjects[projectId]);
-    return this._cachedProjects[projectId] || {};
-  }
-
-  /**
-   * Creates a new ProjectService with the injected Http.
-   * @param {http} http - The injected Http.
-   * @constructor
-   */
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private taskService: TaskService
-  ) {}
+    private taskService: TaskService,
+    private projectStore: Store<IProjectState>
+  ) {
+  }
+
+  createProject(model: IProject): Observable<IProject> {
+    const body: string = encodeURIComponent(model.toString());
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this.projectApiUrl, body, {headers: headers}).pipe(
+      map(data => this.gotoProjectView(data))
+    );
+  }
 
   /**
-   * Creates new Project.
-   * @param {ProjectModel} model Project to create.
+   * Finalizes opening of the project.
    */
-  createProject(model: ProjectModel): Observable<ProjectModel> {
-    const body: string = encodeURIComponent(model.toString());
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(this.projectApiUrl, body, options)
-      .map(res => res.json()
-    );
+  gotoProjectView(project): IProject {
+    if (project && project._id) {
+      this.router.navigate(['/project', project._id]).then(() => {
+      });
+    }
+    return null;
   }
 
   /**
@@ -61,105 +61,84 @@ export class ProjectService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getProjectsPage(projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel> {
+  getProjectsPage(req: IDataPageRequest): Observable<IResponsePage<IProject>> {
+
+    const leaderId = req.id || null;
+    const page = req.page || null;
+    const limit = req.pageSize || null;
+    const dbQuery = req.dbQuery || '{}';
 
     let requestUrl;
 
-    // Project by ID :: api/project-api/:projectId
-    if (projectId) {
-      requestUrl = this.projectApiUrl + projectId;
-    }
-
     // Page of Projects :: api/project-api/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null) {
-      requestUrl = this.projectApiUrl + 'page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.projectApiUrl}page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
     // Page of Projects for Leader :: api/project-api/leader/:leaderId/page/:page/:limit/q/:dbQuery
     if (page !== null && limit !== null && leaderId !== null) {
-      requestUrl = this.projectApiUrl + 'leader/' + leaderId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+      requestUrl = `${this.projectApiUrl}leader/${leaderId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`;
     }
 
-    // console.log('get Projects Page:', projectId, leaderId, page, limit);
-
-    return this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        // console.log('Projects Page loaded, response: ', responsePage);
-        return responsePage.json();
-      });
+    return this.http.get<IResponsePage<IProject>>(requestUrl);
   }
 
-  /**
-   * Returns single project from DB
-   */
-  getProject(projectId: string): Observable<ProjectModel> {
-    return this.getProjectsPage(projectId);
+  getProject(projectId: string): Observable<IProject> {
+    if (projectId) {
+      return this.http.get<IProject>(this.projectApiUrl + projectId);
+    }
   }
 
-  /**
-   * Updates a model by performing a request with PUT HTTP method.
-   * @param ProjectModel A Project to update
-   */
-  updateProject(model: ProjectModel): Observable<ProjectModel> {
-    // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this.http.put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
-      .map(res => res.json())
-      .catch(this.handleError);
+  updateProject(model: IProject): Observable<IProject> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http
+      .put(this.projectApiUrl + model._id, model.toString(), {headers: headers})
+      .pipe(map(res => this.gotoProjectView(res)));
   }
 
-  /**
-   * Updates multiple projects by performing a request with PUT HTTP method.
-   * @param ids {Array} Project IDs to update
-   * @param data {Object} The data to be applied during update in {field: name} format
-   */
-  bulkUpdateProjects(ids: Array<string>, data: any): Observable<ProjectModel> {
-    // TODO Consider encoding the body like in create project above
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const body = JSON.stringify({ ids: ids, data: data });
-    console.log('Project service, try to update:', ids, data, body);
-
-    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers})
-      .map( res => res.json() )
-      .catch( this.handleError );
+  bulkUpdateProjects(ids: string[], data: any) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify({ids: ids, data: data});
+    return this.http.put(this.projectApiUrl + 'bulk-update', body, {headers: headers});
   }
 
-  /**
-   * Deletes a Project by performing a request with DELETE HTTP method.
-   * @param ProjectModel A Project to delete
-   */
-  deleteProject(model: ProjectModel, navigateToList = true): Observable<boolean> {
+  deleteProject(model: IProject, navigateToList = true): Observable<boolean> {
     // Show Delete Confirmation Dialog
-    const dialogResult = this.dialogService.confirm('Точно видалити?', 'Ця дія незворотня, продовжити?', 'Видалити', 'Відмінити');
+    const dialogResult = this.dialogService.confirm({
+      title: 'Точно видалити?',
+      message: 'Ця дія незворотня, продовжити?',
+      btnOkText: 'Видалити',
+      btnCancelText: 'Відмінити'
+    });
 
     dialogResult.subscribe(toDelete => {
       if (toDelete === true) {
         // Delete Project immediately and, if there are tasks, re-assign them to other Project (placeholder)
         this.finalizeProjectDeletion(model, navigateToList);
 
-        if (model.tasks && model.tasks.length > 0) {
-          this.dialogService.confirm('Що робити з заходами?', `Проект має заходи. Видалити їх, чи залишити у системі, передавши
-            до спецпроекту "Не на часі"?`, 'Видалити', 'Залишити у системі')
-            .subscribe(toDeleteTasks => {
+        if (model.taskIds && model.taskIds.length > 0) {
+          this.dialogService.confirm({
+            title: 'Що робити з заходами?',
+            message: `Проект має заходи. Видалити їх, чи залишити у системі,
+            передавши до спецпроекту "Не на часі"?`,
+            btnOkText: 'Видалити',
+            btnCancelText: 'Залишити у системі'
+          }).subscribe(toDeleteTasks => {
             if (toDeleteTasks === true) {
               // Delete Tasks from DB
-              // TODO Delete Tasks Firebase data
-              // TODO Delete Donations and Task Donations?
-              this.taskService.bulkDeleteTasks(model.tasks)
-              .subscribe((deleteResult) => { console.log('Tasks deleted:', deleteResult); });
+              // TODO delete tasks, donations and task donations data
+              this.taskService.bulkDeleteTasks(model.taskIds)
+                .subscribe(() => {
+                });
             } else {
-              // NE NA CHASI: reassign tasks to placeholder Project
-              // projectId = null, leaderId = null, page = null, limit = null, dbQuery = '{}'): Observable<ProjectModel>
-              this.getProjectsPage(null, null, 1, 3, '{ "$where": "this.title == \\"Не на часі\\"" }' )
+              // NENACHASI: reassign tasks to placeholder Project
+              this.getProjectsPage({id: null, page: 1, pageSize: 3, dbQuery: `{ "$where": "this.title == \\"Не на часі\\"" }`})
                 .subscribe((res) => {
-                  // console.log('Got Not On Time Project id: ', res['docs'][0]._id);
-                  this.taskService.bulkUpdateTasks(model.tasks, { projectId: res['docs'][0]._id }).subscribe((result) => {});
+                  this.taskService.bulkUpdateTasks(model.taskIds, {projectId: res['docs'][0]._id}).subscribe(() => {
+                  });
                 });
             }
+            this.finalizeProjectDeletion(model, navigateToList);
           });
         } // If Task reassignment was needed
       }
@@ -167,39 +146,19 @@ export class ProjectService {
     return dialogResult;
   }
 
-  /*
-   * Deletes Project
-   */
-  finalizeProjectDeletion(projectModel: ProjectModel, navigateToList = true) {
+  finalizeProjectDeletion(projectModel: IProject, navigateToList = true) {
     // TODO Delete Project Firebase data
     this.http.delete(this.projectApiUrl + projectModel._id)
-    .map(res => { return res.json(); })
-    .catch( this.handleError )
-    .subscribe((res) => {
-      if (navigateToList) {
-        this.router.navigate(['/projects']);
-      }
-    });
+      .subscribe(() => {
+        if (navigateToList) {
+          this.router.navigate(['/projects']).then();
+        }
+      });
   }
 
-  /**
-   * Deletes multiple projects by performing a request with PUT HTTP method.
-   * @param ids Project IDs to delete
-   */
-  bulkDeleteProjects(ids: Array<string>): Observable<ProjectModel> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const body = JSON.stringify({ ids: ids});
-    console.log('Project service, try to delete:', ids, body);
-
-    return this.http.put(this.projectApiUrl + 'bulk-delete', body, {headers: headers})
-    .map(res => res.json() )
-    .catch( this.handleError );
-  }
-
-  private handleError(error: Response) {
-    console.error('Error occured:', error);
-    return Observable.throw(error.json().error || 'Server error');
+  bulkDeleteProjects(ids: string[]): Observable<Object> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify({ids: ids});
+    return this.http.put(`${this.projectApiUrl} bulk-delete`, body, {headers: headers});
   }
 }

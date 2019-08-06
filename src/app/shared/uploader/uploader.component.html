@@ -9,18 +9,18 @@
     <div *ngIf="useFabButton">
 
       <!-- Before file selected -->
-      <button md-mini-fab class="size-fab-upload" *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick($event, true)">
-        <md-icon color="white">file_upload</md-icon>
+      <button mat-mini-fab class="size-fab-upload" *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick($event, true)">
+        <mat-icon color="white">file_upload</mat-icon>
       </button>
 
       <!-- After file selected — immediate 'Upload' starts -->
 
       <!-- 'Uploading...' -->
-      <md-spinner mode="indeterminate" *ngIf="uploadInProgress" color="accent" class="size-fab-upload" ></md-spinner>
+      <mat-spinner mode="indeterminate" *ngIf="uploadInProgress" color="accent" class="size-fab-upload" ></mat-spinner>
 
       <!-- 'Uploaded!' -->
-      <button md-mini-fab class="size-fab-upload" *ngIf="uploadJustHaveFinished" disabled>
-        <md-icon color="accent">check_circle</md-icon>
+      <button mat-mini-fab class="size-fab-upload" *ngIf="uploadJustHaveFinished" disabled>
+        <mat-icon color="accent">check_circle</mat-icon>
       </button>
     </div>
 
@@ -28,18 +28,24 @@
     <div *ngIf="!useFabButton">
 
       <!-- Before file selected -->
-      <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" md-button><md-icon class="pointer">add</md-icon> {{buttonLabel}}</button>
+      <button *ngIf="fileToUpload === null && !uploadJustHaveFinished" (click)="handleSelectFileClick()" mat-button><mat-icon class="pointer">add</mat-icon> {{buttonLabel}}</button>
 
       <!-- After file selected -->
-      <button *ngIf="fileToUpload != null && !uploadInProgress" (click)="handleUploadFileClick()" color="accent" md-raised-button>Завантажити файл {{fileToUploadName}}</button>
+      <div *ngIf="fileToUpload != null && !uploadInProgress">
+        <div>Вибраний файл: {{fileToUploadName}}</div>
+        <button (click)="handleUploadFileClick()" color="accent" mat-raised-button>Покласти</button>
+      </div>
 
       <!-- 'Uploading...' -->
-      <button *ngIf="fileToUpload != null && uploadInProgress" md-button disabled>Завантажую {{fileToUploadName}}...</button>
+      <div *ngIf="fileToUpload != null && uploadInProgress">
+        <div>Вибраний файл: {{fileToUploadName}}</div>
+        <button mat-button disabled>Кладу...</button>
+      </div>
 
-      <md-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></md-progress-bar>
+      <mat-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></mat-progress-bar>
 
       <!-- 'Uploaded!' -->
-      <button *ngIf="uploadJustHaveFinished" md-button disabled><md-icon color="accent">check_circle</md-icon> Файл завантажено</button>
+      <button *ngIf="uploadJustHaveFinished" mat-button disabled><mat-icon color="accent">check_circle</mat-icon> Файл завантажено</button>
 
     </div>
 

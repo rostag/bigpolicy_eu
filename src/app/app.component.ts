@@ -1,10 +1,7 @@
 import { OnInit, Component } from '@angular/core';
-import { UserModel } from './shared/user/user.model';
-import { UserService } from './shared/user/user.service';
-import { ProjectService } from './shared/project/project.service';
 import { Router, NavigationEnd } from '@angular/router';
-
-import * as appVersion from './app-version.json';
+import { UserService } from './shared/user/user.service';
+import * as appVersion from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -15,21 +12,20 @@ import * as appVersion from './app-version.json';
 export class AppComponent implements OnInit {
 
   title = 'BigPolicy';
-  user: UserModel;
-  version = appVersion['app-version'];
+  version = appVersion['version'];
 
   constructor(
-    public userService: UserService,
-    private projectService: ProjectService,
+    private userService: UserService,
     private router: Router
-  ) {}
+  ) {
+    userService.handleAuth();
+  }
 
   ngOnInit() {
-    console.log('• BP app v. ' + this.version + '. User service: ', this.userService);
-
+    console.log(`BigPolicy v.${this.version}`);
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
-          return;
+        return;
       }
       window.scrollTo(0, 0);
     });

@@ -1,65 +1,69 @@
 <div>
-  <div *ngIf="userService.authenticated() && userService.userProfile">
-    <!-- FIXME Override User Profile Name with Leader Name ? -->
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2%" class="user-title">
-      <h1>{{userService.userProfile.name}}</h1>
-      <p *ngIf="userService.isAdmin()"><a [routerLink]="['/admin']">Адміністратор</a></p>
-      <p *ngIf="profileLeader">Лідер: <a [routerLink]="['/leader/' + profileLeader._id]">{{profileLeader.name}} {{profileLeader.surName}}</a></p>
-      <p><a href="#" (click)="userService.logout()">Вийти</a></p>
+  <div *ngIf="!userService.authenticated() || !userProfile">Потрібно зайти в систему</div>
+  <div *ngIf="userService.authenticated() && userProfile">
+    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="2%" class="user-title">
+      <h1 fxFlex>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>&nbsp;
+      <span fxFlex fxLayout="row" fxLayoutAlign="end">
+        <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
+                *ngIf="userService.hasEditPermissions(profileLeader)"><mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="userService.logout()"><mat-icon>exit_to_app</mat-icon></button>
+      </span>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="start start">
       <div>
-        <img class="user-avatar" [src]="userService.userProfile.picture">
+        <img class="user-avatar" [src]="userProfile.picture" [alt]="userProfile.name">
       </div>
       <div class="user-info">
-        <p><strong>Email: </strong> {{userService.userProfile.email}}</p>
-        <p><strong>Нікнейм: </strong> {{userService.userProfile.nickname}}</p>
-        <p><strong>Дата реєстрації: </strong> {{userService.userProfile.created_at}}</p>
-        <p><strong>Останій вхід: </strong> {{userService.userProfile.updated_at}}</p>
+        <!-- FIXME Override User Profile Name with Leader Name ? -->
+        <p *ngIf="userService.isAdmin"><strong>Роль: </strong><a [routerLink]="['/admin']">Адміністратор</a></p>
+        <p *ngIf="profileLeader"><strong>Лідер: </strong><a
+          [routerLink]="['/leader/' + profileLeader?._id]">{{profileLeader?.name}}
+          {{profileLeader?.surName}}</a></p>
+        <p><strong>Емейл: </strong>{{userProfile.email}}</p>
+        <p><strong>Нікнейм: </strong>{{userProfile.nickname}}</p>
+        <p *ngIf="userProfile?.created_at"><strong>Приєднався: </strong>{{userProfile.created_at}}</p>
+        <p><strong>Останій вхід: </strong>{{userProfile.updated_at | date: 'dd MMM yy, HH:MM:SS'}}</p>
       </div>
     </div>
-
-    <md-card *ngIf="profileLeader" class="leader-profile">
-      <md-card-content>
-        <!-- FIXME <h2 *ngIf="profileLeader.projects && profileLeader.projects.length > 0">Проекти:</h2> -->
-        <!-- <app-project-list [leaderId]="profileLeader._id" pageSize="2" > -->
-        <app-project-list
-          *ngIf="profileLeader.projects && profileLeader.projects.length > 0"
-          title="Проекти" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length > 0" }'>
-        </app-project-list>
-
-        <app-project-list title="Проекти без заходів" [leaderId]="profileLeader._id" [pageSize]="24" dbQuery='{ "$where": "this.tasks.length < 1" }'>
-        </app-project-list>
-
-      </md-card-content>
-      <md-card-actions>
-        <span *ngIf="userService.hasEditPermissions(profileLeader)">
-          <a [routerLink] = "['/leader/' + profileLeader._id + '/edit']"><button md-button color="accent">Редагувати</button></a>
-        </span>
-      </md-card-actions>
-    </md-card>
   </div>
 
   <div *ngIf="!userService.authenticated()">
     <h4>Ви не зайшли в систему</h4>
-    <p>
-      Авторизовані користувачі можуть:
-    </p>
+    <p>Авторизовані користувачі можуть:</p>
     <ul>
-      <li>
-        створювати проекти
-      </li>
-      <li>
-        ставати лідерами
-      </li>
-      <li>
-        користуватися розширеними фунціями системи.
-      </li>
+      <li>створювати проекти</li>
+      <li>ставати лідерами</li>
+      <li>користуватися розширеними фунціями системи.</li>
     </ul>
-    <p>
-      Будь ласка, натисніть "Увійти", для авторизації.
-    </p>
-    <a (click)="userService.login()"><button md-raised-button color="accent">Увійти</button></a>
+    <p>Будь ласка, натисніть "Увійти", для авторизації.</p>
+    <a (click)="userService.login()">
+      <button mat-raised-button color="accent">Увійти</button>
+    </a>
+  </div>
+
+  <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
+
+  <app-leader-view [leaderId]="profileLeader._id"></app-leader-view>
+
+  <div class="admin" *ngIf="userService.isAdmin">
+    <pre>Admin</pre>
+    <pre><a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a> <a [routerLink]="['./about']" (click)="pingJwtAdmin()">Ping JWT Admin</a>
+    </pre>
+    <pre>userProfile: {{userProfile | json}}</pre>
+    <pre>profileLeader: {{profileLeader | json}}</pre>
+  </div>
+
+  <div *ngIf="profileLeader" class="leader-profile">
+    <app-project-list
+      *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0"
+      title="Проекти" [leaderId]="profileLeader?._id" [pageSize]="24"
+      dbQuery='{ "$where": "this.taskIds.length > 0" }'>
+    </app-project-list>
+    <app-project-list title="Проекти без заходів" [leaderId]="profileLeader?._id" [pageSize]="24"
+                      dbQuery='{ "$where": "this.taskIds.length < 1" }'>
+    </app-project-list>
   </div>
 
 </div>

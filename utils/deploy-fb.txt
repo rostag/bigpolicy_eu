@@ -1,16 +1,32 @@
+## Update Jun 15 2018:
+
+To deploy, just run this command:
+
+npm run deploy-fbs
+
 ## Deployment: cd to project, build, copy assets to the local deploy folder, deploy
 
-cd /Users/rosty/dev/BP/bp/
+cd [project root folder]bp/
+yarn
 npm run build-prod
-rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public
-cd fb
+rsync -a dist/* fbs/dist
+cd fbs
 firebase deploy
 
 ## Single command:
 
-cd /Users/rosty/dev/BP/bp/ && npm run build-prod && rsync -a /Users/rosty/dev/BP/bp/dist/* /Users/rosty/dev/BP/bp/fb/public && cd fb && firebase deploy
+cd [project root folder]/bp/ && yarn && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy
+
+## Example:
+
+cd ~/dev/bp/bp/ && yarn && npm run build-prod && rsync -a dist/* fbs/dist && cd fbs && firebase deploy
 
 =====================
+
+cd functions/
+
+npm i --save firebase-functions
+
 
 
 "Technology recommendations are off-topic on Stack Overflow. 
@@ -52,7 +68,7 @@ firebase serve --only hosting,functions
 
 # Step 1 - Commit, Build, Pack, Upload:
 # On local dev machine: pack to Repo:
-cd /Users/rostyslavsiryk/dev/YYY/YYY
+cd [project root folder]YYY/YYY
 git checkout ui-update
 git add . && git commit -m deploy-test-0
 ng build --prod
@@ -61,7 +77,7 @@ git add . && git commit -m deploy-test-1
 git push
 
     # All commands above — in a single line:
-    cd /Users/rostyslavsiryk/dev/YYY/YYY && git checkout ui-update && git add . && git commit -m deploy-test-0 && ng build --prod && tar -czf YYY-dist.tar.gz dist/ && git add . && git commit -m deploy-test-1 && git push
+    cd [project root folder]YYY/YYY && git checkout ui-update && git add . && git commit -m deploy-test-0 && ng build --prod && tar -czf YYY-dist.tar.gz dist/ && git add . && git commit -m deploy-test-1 && git push
 
 # Step 2 - Download, Unpack, Deploy, 'Backup':
 # On target server: unpack dist from Repo to web server folder:

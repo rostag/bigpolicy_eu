@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { UserService } from '../shared/user/user.service';
+import { ILeader } from '../common/models';
+
 
 @Component({
   selector: 'app-home',

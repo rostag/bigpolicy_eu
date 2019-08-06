@@ -28,6 +28,14 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 To develop locally, you need to [MongoDB installation](https://docs.mongodb.com/manual/installation/).
 
+
+#### Nest Js server
+
+- Install packages: `cd nestjsserver && npm i`
+- Run `docker-compose up` - run mongo
+- Run `server:start:dev` to serve server in dev mode
+- Docs available on `http://localhost:3001/docs/`
+
 #### Clone our repository
 
 ```git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>```
@@ -63,15 +71,17 @@ This will show waiting for connections message on the console output, which indi
 
 At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, node serves as web + mongodb. Run ng to build, telling it to watch and rebuild sources:
 
-```npm run serve```
+```npm run db```
+
+```npm run server```
 
 #### Run node express app:
 
-```npm start```
+```npm run client```
 
 ### See your local BP
 
-Visit [localhost:4200](http://localhost:4200/) -- this is your local BigPolicy application.
+Visit [localhost:5000](http://localhost:5000/) -- this is your local BigPolicy application.
 
 After you edited and saved a file, the project is being rebuilt automatically. But you need to manually refresh the page in browser to see the changes (we'll fix it later)
 
@@ -82,7 +92,7 @@ After you edited and saved a file, the project is being rebuilt automatically. B
 
 To run functions locally, use firebase serve:
 
-```firebase serve --only functions,hosting --port 4200 # to emulate both functions and hosting ```
+```firebase serve --only functions,hosting --port 5000 # to emulate both functions and hosting ```
 
 (as per https://firebase.google.com/docs/functions/local-emulator)
 

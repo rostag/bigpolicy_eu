@@ -1,20 +1,8 @@
-import { UserService } from '../user/user.service';
 import { FormGroup } from '@angular/forms';
+import { ILeader } from '../../common/models';
 
-export interface ILeader {
-  name: string;
-  surName: string;
-  vision: string;
-  mission: string;
-  email: string;
-  videoUrl: string;
-}
-
-export class LeaderModel {
-
+export class LeaderModel implements ILeader {
   _id: string;
-
-	// personal info
   name: string;
   surName: string;
   parentName: string;
@@ -24,20 +12,16 @@ export class LeaderModel {
   videoUrl: string;
   photo: string;
   donations;
-  projects;
-  // FIXME Check for Null prevention
+  projectIds;
   leaderFiles;
-  totalDonationsReceived: Number = 0;
+  totalDonationsReceived = 0;
 
-  // id of party from parties list
-  party: Number;
+  party: number;
   officialPost: string;
-
-  // other
   socialNetworks: string;
   skills: string;
 
-  // important personal documents
+  // documents
   docActionPlan: string;
   docElectionProgram: string;
   docPropertyDeclaration: string;
@@ -45,17 +29,19 @@ export class LeaderModel {
   docCorruptionRecord: string;
   docPassport: string;
 
+  location: string;
+
   /**
    * It's necessary to have a string representation for sending it to DB
    * @returns String Serialized Leader
    */
   toString() {
-      // FIXME TEST_1 -- Somehow it stops saving if switch to next string instead of bulky code
-      console.log('leader model.toString', this);
-      return JSON.stringify( this );
+    // FIXME TEST_1 Somehow it stops saving if switch to next string instead of bulky code
+    console.log('leader model.toString', this);
+    return JSON.stringify(this);
   }
 
-	/**
+  /**
    * Populate model from a json representation loaded from DB or local storage
    */
   parseData(data) {
@@ -77,6 +63,7 @@ export class LeaderModel {
     this.vision = f.get('vision').value;
     this.mission = f.get('mission').value;
     this.videoUrl = f.get('videoUrl').value;
+    this.location = f.get('location').value;
   }
 
   applyModelToFormGroup(formGroup: FormGroup) {

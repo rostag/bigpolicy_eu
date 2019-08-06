@@ -1,32 +1,52 @@
-$col-grey: #707070;
+@import '../../../assets/scss/styles';
 
-.user-title {
-  h1 {
-    margin-top: .5rem;
+:host {
+  display: block;
+  margin: 60px;
+
+  .user-title {
+    p {
+      color: $bp-grey;
+      margin-top: 1rem;
+    }
+
+    a {
+      color: $bp-grey;
+    }
   }
 
-  p {
-    color: $col-grey;
-    margin-top: 1rem;
+  .user-avatar {
+    margin-bottom: 24px;
+    margin-right: 24px;
+    width: 100px;
+    border-radius: 50px;
+    border: 0 solid #800000;
+    box-shadow: 6px 14px 33px -9px rgba(0, 0, 0, 0.75);
   }
 
-  a {
-    color: $col-grey;
+  .user-info {
+    margin: 8px 0 0 24px;
+
+    p {
+      margin: 0 0 4px 0;
+
+      strong {
+        display: inline-block;
+        width: 140px;
+        color: $bp-text;
+      }
+    }
   }
-}
 
-.user-avatar {
-  margin-bottom: 2rem;
-  margin-right: 2rem;
-  width: 8rem;
-}
+  .admin {
+    border: 1px solid $bp-border;
+    padding: 60px;
 
-.user-info {
-  margin-top: -1.2rem;
-}
-
-.leader-profile {
-  app-project-list:first-of-type {
-    margin-top: -1.5rem;
+    pre {
+      text-align: left;
+      font-size: x-small;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }

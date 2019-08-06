@@ -1,53 +1,97 @@
-.app-toolbar {
-  // FIXME Use Theme BG color
-  background-color: #455a64;
+@import '../../../assets/scss/styles.scss';
 
-  .mat-button,
-  .mat-button-ripple {
-    color: #fafafa;
-    font-size: .8em;
+:host {
+
+  .app-toolbar ::ng-deep {
+    background-color: $bp-white;
+    height: 100px;
+    // box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, .1);
+
+    a {
+      color: $gray;
+      cursor: pointer;
+      font-family: 'Montserrat Alternates', Arial, sans-serif;
+      font-weight: 500;
+      font-size: 24px;
+      text-decoration: none;
+      letter-spacing: 0.25px;
+      padding: 4px 0 2px 0;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        color: $bp-link;
+        border-bottom: 2px solid $bp-link;
+      }
+    }
+
+    .mat-button,
+    .mat-button-ripple {
+      color: #fafafa;
+      font-size: 1em;
+    }
+
+    .mat-button:hover {
+      background-color: #ff0;
+      color: #c30;
+    }
+    > button,
+    > span {
+      text-align: center;
+    }
   }
 
-  .mat-button:hover {
-    background-color: #fff;
-    color: #c30;
+  .nav-xs {
+    > button,
+    > span {
+      width: 100%;
+    }
   }
 
-  >button,
-  >span {
-    text-align: center;
+  .fab-logo {
+    width: 100px;
+    height: 100px;
+    left: -60px;
+    margin: -100px 50%;
+    position: absolute;
+    box-shadow: none;
+    background-color: transparent;
+
+    ::ng-deep .mat-button-wrapper {
+      padding: 0;
+    }
+    .mat-button-ripple-round {
+      background-color: black !important;
+    }
   }
-}
 
-.nav-xs {
-  >button,
-  >span {
-    width: 100%;
+  .fab-logo-xs {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    width: 100px;
+    height: 0px;
+    left: unset;
+    zoom: 0.30;
+    top: 25px;
   }
-}
 
-.fab-logo {
-  height: 65px;
-  left: -30px;
-  margin: -4em 50%;
-  position: absolute;
-  width: 65px;
-}
+  .logo-placeholder {
+    height: 60px;
+  }
 
-.fab-logo-xs {
-  margin-top: -10.1em;
-}
+  .logo-placeholder:active {
+    box-shadow: none;
+  }
 
-.logo {
-  height: 45px;
-  margin: .62em auto .2em;
-  width: 45px;
-}
+  .separator {
+    height: 1px;
+    background: #ddd;
+  }
 
-.fab-logo:hover {
-  border: 3px solid #fff;
-
-  .logo {
-    margin-top: .4em;
+  .user-icon-wrapper {
+    mat-icon {
+      font-size: 34px;
+      margin-top: -4px;
+    }
   }
 }

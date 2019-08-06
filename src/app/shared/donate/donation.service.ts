@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { DonationModel } from './donation.model';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 /**
  * Provides the donation service with methods to create, read, update and delete models.
@@ -21,15 +21,16 @@ export class DonationService {
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {
+  }
 
   /**
    * Create a donation for target
-   * @param DonationModel A Donation to create
+   * @param model DonationModel A Donation to create
    */
   createDonation(model: DonationModel) {
     const p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'create-donation', p.body, p.options);
+    return this.http.post<string>(this.apiUrl + 'create-donation', p.body, p.options);
   }
 
   // TODO: implement local cache
@@ -39,30 +40,24 @@ export class DonationService {
    * Returns an Observable for the HTTP GET request.
    * @return {string[]} The Observable for the HTTP request.
    */
-  getDonationsPage(donationId = null, targetId = null, targetType = 'leader', page = null, limit = null, dbQuery = '{}'): Observable<any> {
-    // FIXME Implement interface for three types of targets
-    let requestUrl;
-
-    // Page of Donations for Target:     /api/donation-api/target/:targetType/:targetId/page/:page/:limit
-    if (targetId !== null && targetType !== null && page !== null && limit !== null) {
-      requestUrl =
-        this.apiUrl + 'target/' + targetType + '/' + targetId + '/page/' + page + '/' + limit + '/q/' + encodeURIComponent(dbQuery);
+  getDonationsPage(
+    donationId = null,
+    targetId = null,
+    targetType = 'leader',
+    page = null, limit = null,
+    dbQuery = '{}'
+  ): Observable<DonationModel> {
+    if (!!targetId && !!targetType && !!page && !!limit) {
+      return this.http
+        .get(`${this.apiUrl}target/${targetType}/${targetId}/page/${page}/${limit}/q/${encodeURIComponent(dbQuery)}`)
+        .pipe(map((donations: DonationModel) => donations));
     }
-
-    console.log('Donation Service: get by', requestUrl);
-
-    const responseObservable = this.http.get(requestUrl)
-      .map((responsePage: Response) => {
-        const donations = responsePage.json();
-        return donations;
-      });
-      return responseObservable;
   }
 
   /**
    * Get a model from DB or from cache.
    */
-  getDonation(donationId: string): Observable<Response> {
+  getDonation(donationId: string): Observable<any> {
     return this.getDonationsPage(donationId);
   }
 
@@ -72,22 +67,21 @@ export class DonationService {
 
   /**
    * Requires donation form
-   * @param DonationModel A Donation to send
+   * @param model DonationModel A Donation to send
    */
   requireSign(model: DonationModel) {
     const p = this.getPostData(model);
-    return this.http.post(this.apiUrl + 'getsgndta', p.body, p.options);
+    return this.http.post<string>(this.apiUrl + 'getsgndta', p.body, p.options);
   }
 
   /**
    * Internal utility to get post data
    */
   private getPostData(model: DonationModel) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     return {
       body: encodeURIComponent(model.toString()),
-      options: new RequestOptions({ headers: headers })
+      options: {headers: headers, responseType: 'text' as 'json'}
     };
   }
 

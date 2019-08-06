@@ -1,10 +1,9 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/map';
-import { ProjectModel } from '../project/project.model';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IProject } from '../../common/models';
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.
@@ -16,36 +15,26 @@ export class ShareService {
 
   /**
    * Contains the pending request.
-   * @type {Observable<ProjectModel[]>}
+   * @type {Observable<IProject[]>}
    */
   private request;
 
   /**
    * Creates a new ShareService with the injected Http.
-   * @param {Http} http - The injected Http.
+   * @param {HttpClient} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   /**
    * Shares a model
-   * @param ProjectModel A Project to share
+   * @param IProject A Project to share
    */
-  share(modelToShare: any): Observable<Response> {
+  share(modelToShare: any): Observable<any> {
     const body: string = encodeURIComponent(JSON.stringify(modelToShare));
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(this.mailApiUrl + 'share', body, options).map(res => res.json());
-
-    // TODO: Upsert model in DB:
-    // model.events.push({'type': 'share'});
-  }
-
-  private handleError(error: Response) {
-      console.error('Error occured:', error);
-      return Observable.throw(error.json().error || 'Server error');
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post<any>(this.mailApiUrl + 'share', body, {headers: headers});
   }
 
   /**
@@ -66,7 +55,7 @@ export class ShareService {
       full: '/0.jpg'
     };
     return videoId !== null
-      ? '<a href="' + this.getUrl() + '" ><img src="' + prefix + videoId + thumbs[thumbType] + '" /></a>'
+      ? `<a href="${this.getUrl()}" ><img src="${prefix + videoId + thumbs[thumbType]}" /></a>}`
       : '';
   }
 
@@ -75,17 +64,17 @@ export class ShareService {
   }
 
   /**
-    * Get video Thumbnail by given yotube URL.
-    * Supported URL formats:
-      http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
-      http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
-      http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
-      http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
-      http://www.youtube.com/embed/0zM3nApSvMg?rel=0
-      http://www.youtube.com/watch?v=0zM3nApSvMg
-      http://youtu.be/0zM3nApSvMg
-      @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
-    */
+   * Get video Thumbnail by given yotube URL.
+   * Supported URL formats:
+   http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+   http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+   http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+   http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+   http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+   http://www.youtube.com/watch?v=0zM3nApSvMg
+   http://youtu.be/0zM3nApSvMg
+   @origin: http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
+   */
   getYouTubeId(url = ''): string {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     const match = url.match(regExp);

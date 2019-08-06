@@ -1,44 +1,44 @@
-<md-card class="files-card">
-  <md-toolbar color="primary">
+<mat-card class="files-card">
+  <mat-toolbar color="primary">
     <span>Файли та документи</span>
     <!-- <span class="add-fill-remaining"></span>
-    <md-icon *ngIf="gdrive_authorize" (click)="handleAuthClick()" class="pointer">account_circle</md-icon>
-    <md-icon *ngIf="gdrive_signout" (click)="handleSignoutClick()" class="pointer">exit_to_app</md-icon> -->
-  </md-toolbar>
+    <mat-icon *ngIf="gdrive_authorize" (click)="handleAuthClick()" class="pointer">account_circle</mat-icon>
+    <mat-icon *ngIf="gdrive_signout" (click)="handleSignoutClick()" class="pointer">exit_to_app</mat-icon> -->
+  </mat-toolbar>
 
-  <md-card-content class="files-card-content">
+  <mat-card-content class="files-card-content">
 
     <p *ngIf="!gdrive_authorized" class="gdrive-invitation">
       Щоб редагувати свої файли, треба <a href="#" (click)="handleAuthClick()">авторизуватися у Google Drive</a>.
     </p>
 
     <div *ngIf="gdrive_authorized">
-      <md-list class="file-list">
-        <md-list-item *ngFor="let file of fileList">
+      <mat-list class="file-list">
+        <mat-list-item *ngFor="let file of fileList">
           <!-- TODO File link should open document preview -->
-          <md-icon color="warn" title="{{file.id}}" class="file-icon">insert_drive_file</md-icon><a href="{{file.webViewLink}}" title="{{file.mimeType}}" target="_blank">{{file.name}}</a>
-        </md-list-item>
-      </md-list>
+          <mat-icon color="warn" title="{{file.id}}" class="file-icon">insert_drive_file</mat-icon><a href="{{file.webViewLink}}" title="{{file.mimeType}}" target="_blank">{{file.name}}</a>
+        </mat-list-item>
+      </mat-list>
 
       <div>
         <input type="file" #fileInput (change)="handleUploadFilenameChange($event)" style="display: none">
 
         <!-- Before file selected -->
-        <button *ngIf="fileToUpload === null" md-button (click)="handleSelectFileClick()"><md-icon class="pointer">add</md-icon> Додати файл</button>
+        <button *ngIf="fileToUpload === null" mat-button (click)="handleSelectFileClick()"><mat-icon class="pointer">add</mat-icon> Додати файл</button>
 
         <!-- After file selected -->
-        <button *ngIf="fileToUpload != null && !uploadInProgress" md-raised-button (click)="handleUploadFileClick()" color="accent">Завантажити файл "{{fileToUploadName}}"</button>
-        <button *ngIf="fileToUpload != null && uploadInProgress" md-button disabled>Завантажую "{{fileToUploadName}}"...</button>
+        <button *ngIf="fileToUpload != null && !uploadInProgress" mat-raised-button (click)="handleUploadFileClick()" color="accent">Завантажити файл "{{fileToUploadName}}"</button>
+        <button *ngIf="fileToUpload != null && uploadInProgress" mat-button disabled>Завантажую "{{fileToUploadName}}"...</button>
 
         <!-- GDrive Signin Status (and email if user's admin) -->
         <p class="signout-link">
           <a href="#" title="{{savedSignInUserInfo.getBasicProfile().getEmail()}}" (click)="handleSignoutClick()">Вийти з Google Drive</a>
-          <span *ngIf="userService.isAdmin()">({{savedSignInUserInfo.getBasicProfile().getEmail()}})</span>
+          <span *ngIf="userService.isAdmin">({{savedSignInUserInfo.getBasicProfile().getEmail()}})</span>
         </p>
         <!-- *ngIf="uploadInProgress"  -->
-        <md-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></md-progress-bar>
+        <mat-progress-bar mode="indeterminate" *ngIf="uploadInProgress" color="accent"></mat-progress-bar>
       </div>
     </div>
 
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

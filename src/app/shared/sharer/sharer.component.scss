@@ -1,4 +1,5 @@
-@import '~@angular/material/core/theming/all-theme';
+@import '~@angular/material/_theming.scss';
+@import '../../../assets/scss/styles.scss';
 
 $sgray: #777;
 $agray: #bbb;
@@ -6,6 +7,16 @@ $lgray: #eee;
 $reddish: #f44336;
 $cblack: #000;
 $cred: #0f0;
+
+:host-context(.sharer-host) {
+  ::ng-deep .share-card {
+    margin-top: -70px;
+  }
+}
+
+.share-icon {
+  color: $bp-icon;
+}
 
 .share-card {
   border: 7px dashed $lgray;
@@ -16,8 +27,6 @@ $cred: #0f0;
   position: absolute;
   right: 1em;
   z-index: 100;
-
-  @include mat-elevation(24);
 }
 
 // For toggling the sharer
@@ -26,10 +35,9 @@ $cred: #0f0;
 }
 
 .show-sharer-button {
-  position: absolute;
-  right: 2em;
-  z-index: 120;
-  top: 2em;
+  position: relative;
+  top: 8px;
+  left: 4px;
 }
 
 .email-input.invalid {
@@ -80,18 +88,6 @@ h3 {
   p {
     white-space: pre-line;
   }
-}
-
-.bp-pre-html {
-  background-color: $cblack;
-  box-sizing: border-box;
-  color: $cred;
-  font-family: 'Andale Mono', monospace;
-  font-size: 11px;
-  line-height: 160%;
-  margin: 2em 0 1em;
-  padding: 1em;
-  width: 100%;
 }
 
 .info {
