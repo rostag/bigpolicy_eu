@@ -16,18 +16,17 @@ module.exports = function(app, router){
       domain: mailgun_domain
     });
 
-    // let data = req.body;
-    // for ( const item in req.body ) {
-    //   data = JSON.parse(item);
-    // }
-
-    const data = JSON.parse(req.body.keys()[0]);
+    let data = req.body;
+    for ( const item in req.body ) {
+      data = JSON.parse(item);
+    }
 
     console.log('Mail API got project to share:\n', data );
 
     // FIXME un-hardcode to's
     data.to = Object.keys(data.toEmails)[0];
 
+    // FIXME
     mailgun.messages().send(data, function (err) {
       if (err) {
         console.log('Got an error whilst sending mail: ', err);

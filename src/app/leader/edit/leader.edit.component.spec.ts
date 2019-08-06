@@ -1,45 +1,50 @@
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ImageComponent } from '../../shared/image/image.component';
-import { LeaderEditComponent } from './leader.edit.component';
+import {By} from '@angular/platform-browser';
+import {DebugElement} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ImageComponent} from '../../shared/image/image.component';
+import {LeaderEditComponent} from './leader.edit.component';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import { UploaderComponent } from '../../shared/uploader/uploader.component';
-import { FilesViewComponent } from '../../shared/files/view/files.view.component';
-import { FilesEditComponent } from '../../shared/drive/files/files.edit.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { LeaderService } from '../../shared/leader/leader.service';
-import { ProjectService } from '../../shared/project/project.service';
-import { TaskService } from '../../shared/task/task.service';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { UserService } from '../../shared/user/user.service';
-import { DriveService } from '../../shared/drive/drive.service';
-import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from '../../bp.module';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs/internal/observable/of';
+import {UploaderComponent} from '../../shared/uploader/uploader.component';
+import {FilesViewComponent} from '../../shared/files/view/files.view.component';
+import {FilesEditComponent} from '../../shared/drive/files/files.edit.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {LeaderService} from '../../shared/leader/leader.service';
+import {ProjectService} from '../../shared/project/project.service';
+import {TaskService} from '../../shared/task/task.service';
+import {DialogService} from '../../shared/dialog/dialog.service';
+import {UserService} from '../../shared/user/user.service';
+import {DriveService} from '../../shared/drive/drive.service';
+import {ActivatedRoute} from '@angular/router';
+import {of} from 'rxjs/internal/observable/of';
+import {firebaseConfig} from '../../bp.module';
+import {AngularFireModule} from '@angular/fire';
 
 describe('LeaderEditComponent', () => {
 
   let component: LeaderEditComponent;
   let fixture: ComponentFixture<LeaderEditComponent>;
-  let debug:   DebugElement;
-  let submitButton:   HTMLElement;
+  let debug: DebugElement;
+  let submitButton: HTMLElement;
 
   beforeEach(() => {
     // .withRoutes([ { path: 'add-leader', component: LeaderEditComponent } ]),
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule, RouterTestingModule,
+      imports: [ReactiveFormsModule, RouterTestingModule,
+        // FIXME FIREBASE_CONFIG
+        //    const firebase = require('firebase');
+        //    const admin = require('firebase-admin');
+        //    firebase.initialize App(JSON.parse(process.env.FIREBASE_CONFIG));
+        // AngularFireModule.initialize App(firebaseConfig)
         AngularFireModule.initializeApp(firebaseConfig)
       ],
-      providers: [ LeaderService, DialogService, ProjectService, TaskService, UserService, DriveService, {
+      providers: [LeaderService, DialogService, ProjectService, TaskService, UserService, DriveService, {
         provide: ActivatedRoute,
         useValue: {
           path: 'leader/:id/edit',
           params: of({id: '58cf0b7d4256ee60fd1261a7'})
         }
       }],
-      declarations: [ LeaderEditComponent, ImageComponent, UploaderComponent, FilesViewComponent, FilesEditComponent ]
+      declarations: [LeaderEditComponent, ImageComponent, UploaderComponent, FilesViewComponent, FilesEditComponent]
     });
 
     fixture = TestBed.createComponent(LeaderEditComponent);

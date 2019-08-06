@@ -1,114 +1,72 @@
 <div>
 
-  <mat-card-title title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
-    <div fxLayout="row wrap" fxLayoutAlign="space-between">
-      <div>
-        <span>{{leader.name}} {{leader.surName}}</span>
-        <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
-        <div class="small">{{leader.location}}</div>
-      </div>
-      <div class="admin">
-        <button mat-icon-button (click)="editLeader(leader)" *ngIf="userService.hasEditPermissions(leader)" color="primary"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button (click)="deleteLeader(leader)" *ngIf="userService.hasEditPermissions(leader)" color="primary"><mat-icon>delete</mat-icon></button>
-        <!-- FIXME
-          <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
-          <button mat-icon-button><mat-icon>share</mat-icon></button mat-icon-button>
-          <mat-card-subtitle>Місто: {{leader.city}}</mat-card-subtitle>
-        -->
-        <!-- FIXME - Implement as Dialog -->
-        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
-      </div>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+      <span>{{leader.name}} {{leader.surName}}</span>
+      <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+      <div class="small">{{leader.location}}</div>
+    </h1>
+    <div class="admin">
+        <span *ngIf="userService.hasEditPermissions(leader)">
+          <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
+        </span>
+      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
+      <!-- FIXME
+        <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
+        <div>Місто: {{leader.city}}</div>
+      -->
     </div>
-  </mat-card-title>
+  </div>
 
-  <mat-card-content>
 
-    <!-- Leader image/video and Support Button + Projects -->
-    <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+  <!-- Leader image/video and Support Button + Projects -->
+  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
-      <!-- Projects -->
+    <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+
+    <div fxLayout="column">
       <div fxFlex>
         <div class="vision">
-          <h2>Візія:</h2>
+          <h2>Візія</h2>
           <p>{{leader.vision}}</p>
         </div>
         <div class="mission">
-          <h2>Місія:</h2>
+          <h2>Місія</h2>
           <p>{{leader.mission}}</p>
         </div>
       </div>
-
-      <!-- Leader image/video fxFlex.sm="50%" fxFlex.xs="100%" -->
-      <div fxFlex="30% 400px 400px">
-        <div class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
-          <div *ngIf="leader.photo; then images else videos"></div>
-        </div>
-
-        <ng-template #images>
-          <app-image [src]="leader.photo || 'assets/img/avatar-generic.png'"></app-image>
-        </ng-template>
-
-        <ng-template #videos>
-          <app-bp-video class="leader-video" [videoUrl]="leader.videoUrl" [title]="leader.name" placeholderUrl="assets/img/leader/leader-placeholder.png"></app-bp-video>
-        </ng-template>
-
-        <ng-template #novisual>
-          <div *ngIf="userService.hasEditPermissions(leader)">
-            <h3>Додати відео чи зображення?</h3>
-            <p>Тут немає ані відео, ані зображення.
-              <a [routerLink]="['/leader/' + leader._id + '/edit']">
-                Додати
-              </a>?
-            </p>
-          </div>
-        </ng-template>
-        <app-bp-donate [amount]="70" [target]="leader" [targetType]="'leader'"></app-bp-donate>
-      </div>
-
+      <p>&nbsp;</p>
     </div>
+  </div>
 
-    <mat-card-title class="projects-title">
-    </mat-card-title>
-    <mat-card-content>
-      <app-project-list [leaderId]="leader._id" pageSize="6" *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
-      </app-project-list>
-      <ng-template #projects_placeholder>Немає жодного проекту.
-        <span *ngIf="userService.hasEditPermissions(leader)"> –
+  <!-- Projects -->
+
+  <div class="projects">
+    <h2 class="projects-title">Проекти</h2>
+    <app-project-list [leaderId]="leader._id" pageSize="6"
+                      *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
+    </app-project-list>
+    <ng-template #projects_placeholder>Немає жодного проекту.
+      <span *ngIf="userService.hasEditPermissions(leader)"> –
           <a [routerLink]="['/add-project']">створити</a>?</span>
-      </ng-template>
-    </mat-card-content>
+    </ng-template>
+  </div>
 
-    <!-- Video, Mission, Vision -->
-    <div fxLayout="row wrap" fxLayoutGap="5%" fxLayoutAlign="space-between stretch">
+  <app-files-view [files]="leader.leaderFiles"></app-files-view>
 
-      <!-- Show video only if image was present -->
-      <div *ngIf="leader.photo" fxFlex="45% 320px 480px" fxFlex.sm="100%">
-        <div class="content-video-wrapper" *ngIf="leader.videoUrl">
-          <h2>Відео:</h2>
-          <app-bp-video class="content-video" [videoUrl]="leader.videoUrl" [title]="leader.name"></app-bp-video>
-        </div>
-        <p>&nbsp;</p>
-      </div>
+  <!--      <h3>Відео</h3>-->
+  <!--      <app-bp-video class="media-video" [videoUrl]="leader.videoUrl" [title]="leader.name"-->
+  <!--                    placeholderUrl="assets/img/media/media-placeholder.png"-->
+  <!--                    fxFlex></app-bp-video>-->
 
+  <div>
+    <div class="admin">
+      <span *ngIf="userService.hasEditPermissions(leader)">
+        <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
+      </span>
+      <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
-
-    <!-- FIXME <h2>Навички та вміння:</h2>
-      <p>Аналітик, соціальний підприємець та консультант</p>
-      <p>Депутат Дніпровської міської ради. Член партії: Рефлексійка</p> -->
-
-    <app-files-view [files]="leader.leaderFiles"></app-files-view>
-
-    <!-- <a href="https://www.google.com.ua/" target="_blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на поточну діяльність
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Програма на вибори
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Фінансовий звіт
-      <a href="https://www.google.com.ua/" target="blank"><mat-icon>picture_as_pdf</mat-icon></a>Декларація -->
-
-  </mat-card-content>
-
-  <mat-card-actions>
-    <div class="admin" *ngIf="userService.hasEditPermissions(leader)">
-      <button (click)="editLeader(leader)" mat-raised-button color="accent">Редагувати</button>
-      <button (click)="deleteLeader(leader)" mat-raised-button color="warn">Видалити</button>
-    </div>
-  </mat-card-actions>
+  </div>
 </div>

@@ -36,10 +36,10 @@ export class ProjectListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() flexSettings = '33|30|30|50|100';
 
   flexState = {
-    flex: '48%',
-    lg: '48%',
-    sm: '98%',
-    xs: '98%'
+    flex: '50%',
+    lg: '50%',
+    sm: '100%',
+    xs: '100%'
   };
 
   public projects: BehaviorSubject<any> = new BehaviorSubject([{title: 'Loading...'}]);

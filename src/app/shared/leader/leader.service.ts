@@ -8,6 +8,9 @@ import {map, catchError} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ENV} from 'app/../environments/env.config';
 import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
+import {State, Store} from '@ngrx/store';
+import {ILeaderState} from '../../state/reducers/leader.reducers';
+import {LoadLeaderSuccess} from '../../state/actions/leader.actions';
 
 declare var localStorage: any;
 
@@ -40,7 +43,8 @@ export class LeaderService {
     private http: HttpClient,
     private router: Router,
     private dialogService: DialogService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private store: Store<ILeaderState>
   ) {
   }
 
@@ -234,8 +238,9 @@ export class LeaderService {
     if (!leader) {
       return;
     }
-    // FIXME Depersonation happens, check admin editing different leaders, see Profile for each
+    // FIXME Issues happen, check admin editing different leaders, see Profile for each
     this.leader = leader;
+    // this.store.dispatch(new LoadLeaderSuccess(leader));
     this.leaderSource.next(leader);
   }
 }

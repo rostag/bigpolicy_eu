@@ -55,9 +55,19 @@ import {environment} from '../environments/environment';
 import {NguCarouselModule} from '@ngu/carousel';
 import {CompanyComponent} from './companies/brief/company/company.component';
 import {QuestionsFormComponent} from './shared/questions-form/questions-form.component';
+import {MediaComponent} from './shared/media/media.component';
 
 export const K = environment.K;
-export const firebaseConfig = K.fbs;
+// export const firebaseConfig = K.fbs;
+
+export const firebaseConfig = {
+  apiKey: 'AIzaSyCa_yL-SOkz0-x-cdzuRJRTmbzs-5VNNp0',
+  authDomain: 'testbase-eb57f.firebaseapp.com',
+  databaseURL: 'https://testbase-eb57f.firebaseio.com',
+  projectId: 'bigpolicy-qa',
+  storageBucket: 'testbase-eb57f.appspot.com',
+  messagingSenderId: '780191546457'
+};
 
 @NgModule({
   imports: [
@@ -67,8 +77,13 @@ export const firebaseConfig = K.fbs;
     BpRoutingModule,
     CookieLawModule,
     Ng2PaginationModule,
-    AngularFireDatabaseModule,
+    // FIXME FIREBASE_CONFIG
+    //    const firebase = require('firebase');
+    //    const admin = require('firebase-admin');
+    //    firebase.initialize App(JSON.parse(process.env.FIREBASE_CONFIG));
+    // AngularFireModule.initialize App(firebaseConfig),
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
     NguCarouselModule
   ],
   exports: [
@@ -135,7 +150,8 @@ export const firebaseConfig = K.fbs;
     LocationComponent,
     CarouselComponent,
     CompanyComponent,
-    QuestionsFormComponent
+    QuestionsFormComponent,
+    MediaComponent
   ],
   providers: [
     // singleton services

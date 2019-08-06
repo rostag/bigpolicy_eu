@@ -7,7 +7,7 @@
 <!-- TODO Let user enter few addresses, separated by comma or semicolon -->
 <mat-card class="share-card" [class.display-block]="sharerIsVisible" [@visibilityChanged]="sharerIsVisible">
 
-  <form #shareForm="ngForm" (ngSubmit)="shareItem(shareForm.value)">
+  <form #shareForm="ngForm" (ngSubmit)="shareItem()">
 
     <!-- Buttons -->
     <div style="float:right;margin-top: -0.75em;margin-right: 0">
@@ -64,15 +64,10 @@
     <p [innerHTML]="emailHtml"></p>
   </mat-card-content>
 
-  <!-- HTML Preview -->
-  <div *ngIf="showHtmlPreview" class="bp-pre-html">{{emailHtml}}</div>
-
   <!-- Buttons -->
   <div style="float:right">
-    <button (click)="toggleHtmlPreview()" *ngIf="!showHtmlPreview" mat-button>Показати HTML</button>
-    <button (click)="toggleHtmlPreview()" *ngIf="showHtmlPreview" mat-raised-button>Сховати HTML</button>
     <button (click)="toggleSharer()" mat-button>Відмінити</button>
-    <button (click)="shareItem(shareForm.value)" mat-raised-button color="accent" class="bt-input">Надіслати листа
+    <button (click)="shareItem()" mat-raised-button color="accent" class="bt-input">Надіслати листа
     </button>
   </div>
 
