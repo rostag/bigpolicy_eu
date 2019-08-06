@@ -1,6 +1,11 @@
 <div>
 
   <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+      <span>{{leader.name}} {{leader.surName}}</span>
+      <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+      <div class="small">{{leader.location}}</div>
+    </h1>
     <div class="admin">
         <span *ngIf="userService.hasEditPermissions(leader)">
           <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
@@ -14,27 +19,25 @@
     </div>
   </div>
 
-  <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
-    <div fxFlex fxLayout="column">
-      <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
-        <span>{{leader.name}} {{leader.surName}}</span>
-        <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
-        <div class="small">{{leader.location}}</div>
-      </h1>
-      <app-media fxFlex [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+  <!-- Leader image/video and Support Button + Projects -->
+  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+
+    <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+
+    <div fxLayout="column">
+      <div fxFlex>
+        <div class="vision">
+          <h2>Візія</h2>
+          <p>{{leader.vision}}</p>
+        </div>
+        <div class="mission">
+          <h2>Місія</h2>
+          <p>{{leader.mission}}</p>
+        </div>
+      </div>
+      <p>&nbsp;</p>
     </div>
-
-    <div fxFlex class="vision">
-      <h2>Візія</h2>
-      <p>{{leader.vision}}</p>
-    </div>
-
-    <div fxFlex class="mission">
-      <h2>Місія</h2>
-      <p>{{leader.mission}}</p>
-    </div>
-
   </div>
 
   <!-- Projects -->
