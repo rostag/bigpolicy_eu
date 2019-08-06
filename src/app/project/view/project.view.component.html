@@ -1,121 +1,112 @@
 <div class="project-view">
 
-  <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="space-between start">
-      <div class="project-title">
-        <h1>{{project.title}}</h1>
-        <small><a [routerLink]="['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
-      </div>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <h1 class="project-title">
+      <div>{{project.title}}</div>
+      <small><a [routerLink]="['/leader/' + project.managerId ]">{{project.managerName}}</a></small>
+    </h1>
 
-      <div class="admin">
-        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"
-                *ngIf="userService.hasEditPermissions(project)" color="primary">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <!-- TODO Enable it -->
-        <button mat-icon-button (click)="deleteProject(project)" *ngIf="userService.hasEditPermissions(project)"
-                color="primary">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
-      </div>
+    <div class="admin">
+        <span *ngIf="userService.hasEditPermissions(project)">
+          <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']" color="primary"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button (click)="deleteProject(project)" color="primary"><mat-icon>delete</mat-icon></button>
+        </span>
+      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="project"></app-bp-sharer>
     </div>
+  </div>
 
-    <div class="content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
-      <div fxFlex="67" class="main">
+  <div class="content" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between stretch" fxLayout.xs="column" fxLayout.sm="column">
+    <div fxFlex="67" class="main">
 
-        <div *ngIf="hasVisual; else novisual">
-          <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
-        </div>
+      <!-- TODO: Replace by MediaComponent -->
 
-        <ng-template #images>
-          <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
-        </ng-template>
+      <div *ngIf="hasVisual; else novisual">
+        <div class="visual-wrapper" *ngIf="project.imageUrl; then images else videos"></div>
+      </div>
 
-        <ng-template #videos>
-          <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"
-                        placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
-        </ng-template>
+      <ng-template #images>
+        <app-image [src]="project.imageUrl || 'assets/img/project/project-placeholder.png'"></app-image>
+      </ng-template>
 
-        <ng-template #novisual>
-          <div *ngIf="userService.hasEditPermissions(project)">
-            <!--
-            <div class="add-media">
-              <app-uploader folder="bp-files/projects/{{project._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
-                            buttonType="regular" buttonLabel="Завантажити"
-                            (uploadedFileUrlChange)="project.onImageUrlChange($event)">
-              </app-uploader>
-            </div>
-            -->
-            <h3>Додати відео чи зображення?</h3>
-            <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
-              <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
-            </p>
+      <ng-template #videos>
+        <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"
+                      placeholderUrl="assets/img/project/project-placeholder.png"></app-bp-video>
+      </ng-template>
+
+      <ng-template #novisual>
+        <div *ngIf="userService.hasEditPermissions(project)">
+          <!--
+          <div class="add-media">
+            <app-uploader folder="bp-files/projects/{{project._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
+                          buttonType="regular" buttonLabel="Завантажити"
+                          (uploadedFileUrlChange)="project.onImageUrlChange($event)">
+            </app-uploader>
           </div>
-        </ng-template>
-
-        <div class="description">
-          <h3>Про проект</h3>
-          <!-- Show video only if image was present -->
-          <div *ngIf="project.imageUrl" class="media-inline">
-            <div class="visual-wrapper" *ngIf="project.videoUrl">
-              <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>
-            </div>
-          </div>
-          <p>{{project.description}}</p>
+          -->
+          <h3>Додати відео чи зображення?</h3>
+          <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
+            <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
+          </p>
         </div>
+      </ng-template>
 
-        <!-- Project Tasks -->
-        <!-- TODO Re-enable in release <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>-->
-        <!-- /Project Tasks -->
+      <div class="description">
+        <h3>Про проект</h3>
+        <!-- Show video only if image was present -->
+        <!--        FIXME -->
+        <!--        <div *ngIf="project.imageUrl" class="media-inline">-->
+        <!--          <div class="visual-wrapper" *ngIf="project.videoUrl">-->
+        <!--            <app-bp-video class="project-video" [videoUrl]="project.videoUrl" [title]="project.title"></app-bp-video>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <p>{{project.description}}</p>
       </div>
 
-      <div fxFlex="25" fxFlexOffset="1" class="aside">
-        <mat-progress-spinner
-          [diameter]="145"
-          [strokeWidth]="10"
-          color="accent"
-          [value]="project.totalDonationsReceived / project.cost * 100"
-          class="brogress"
-        >
-        </mat-progress-spinner>
-        <div class="percentage">{{percentage}}%</div>
+      <!-- Project Tasks -->
+      <!-- TODO Re-enable in release <app-task-list title="Заходи проекту" [project]="project" [pageSize]="6" ></app-task-list>-->
+      <!-- /Project Tasks -->
+    </div>
 
-        <div class="item">
-          <div class="amount">{{project.totalDonationsReceived || 0}}</div>
-          <div class="info">зібрано з {{project.cost}} UAH</div>
-        </div>
+    <div fxFlex="32" class="aside">
+      <mat-progress-spinner
+        [diameter]="145"
+        [strokeWidth]="10"
+        color="accent"
+        [value]="project.totalDonationsReceived / project.cost * 100"
+        class="brogress"
+      >
+      </mat-progress-spinner>
+      <div class="percentage">{{percentage}}%</div>
 
-        <div class="item">
-          <div>{{project.dateStarted | date}}</div>
-          <div class="info">Початок</div>
-        </div>
-
-        <div class="item">
-          <div>{{project.dateEnded | date}}</div>
-          <div class="info">Завершення</div>
-        </div>
-
-        <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project"
-                       [targetType]="'project'"></app-bp-donate>
-        <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
-
+      <div class="item">
+        <div class="amount">{{project.totalDonationsReceived || 0}}</div>
+        <div class="info">зібрано з {{project.cost}} UAH</div>
       </div>
 
-      <div fxFlex="4">
+      <div class="item">
+        <div>{{project.dateStarted | date}}</div>
+        <div class="info">Початок</div>
       </div>
+
+      <div class="item">
+        <div>{{project.dateEnded | date}}</div>
+        <div class="info">Завершення</div>
+      </div>
+
+      <app-bp-donate class="donate" [label]="'Підтримати'" [amount]="70" [target]="project"
+                     [targetType]="'project'"></app-bp-donate>
+      <!-- FIXME Рахувати вартість та донацїї проекту за його заходами -->
 
     </div>
 
-    <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center">
-      <button mat-raised-button color="primary" [routerLink]="['/project/' + project._id + '/edit']">
-        Змінити
-      </button>
-      <button (click)="deleteProject(project)" mat-raised-button color="warn">
-        Видалити
-      </button>
-    </div>
+  </div>
 
-  </mat-card-content>
-
+  <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center" fxLayoutGap="20px">
+    <button mat-raised-button color="primary" [routerLink]="['/project/' + project._id + '/edit']">
+      Змінити
+    </button>
+    <button (click)="deleteProject(project)" mat-raised-button color="warn">
+      Видалити
+    </button>
+  </div>
 </div>
