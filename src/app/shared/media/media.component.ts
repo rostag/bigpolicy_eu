@@ -9,7 +9,7 @@ export class MediaComponent implements OnInit {
 
   @Input() media: any;
 
-  @Input() hasEditPermissions: true;
+  @Input() hasEditPermissions: boolean;
 
   get hasVisual() {
     return !!this.media.photo;
