@@ -184,7 +184,7 @@ export class UserService {
     return !!this.leaderService.leader;
   }
 
-  public hasEditPermissions(leaderProjectOrTask) {
+  public canEdit(leaderProjectOrTask) {
     // FIXME it's being called too often, as log below shows
     return this.isAdmin || this.isOwner(leaderProjectOrTask);
   }

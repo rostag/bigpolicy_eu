@@ -85,7 +85,7 @@
   </div>
   <mat-card-actions align="end" class="card-actions">
     <div fxLayoutAlign="end" class.lg="compact" >
-      <div *ngIf="userService.hasEditPermissions(project)" class="admin">
+      <div *ngIf="userService.canEdit(project)" class="admin">
         <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"><mat-icon class="edit-icon">edit</mat-icon></button>
         <!-- FIXME RESTORE <button mat-icon-button disabled (click)="shareProject(project)"><mat-icon>share</mat-icon></button> -->
       </div>

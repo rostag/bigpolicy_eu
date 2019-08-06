@@ -85,7 +85,7 @@
     </div>
   </div>
   <div class="buttons-space">
-    <a *ngIf="userService.hasEditPermissions(leader)" [routerLink]="[getLeaderLink(leader) + '/edit']"><mat-icon>edit</mat-icon></a>
+    <a *ngIf="userService.canEdit(leader)" [routerLink]="[getLeaderLink(leader) + '/edit']"><mat-icon>edit</mat-icon></a>
     <a class="lead-button" [routerLink]="getLeaderLink(leader)">Підтримати</a>
   </div>
 </mat-card> -->

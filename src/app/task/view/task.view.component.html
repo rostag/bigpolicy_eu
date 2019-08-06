@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div fxFlex="10" *ngIf="userService.hasEditPermissions(task)" class="actions">
+  <div fxFlex="10" *ngIf="userService.canEdit(task)" class="actions">
     <button mat-icon-button [routerLink]="['/task/' + task._id + '/edit']">
       <mat-icon color="primary">edit</mat-icon>
     </button>
@@ -76,7 +76,7 @@
         </ng-template>
 
         <ng-template #novisual>
-          <div *ngIf="userService.hasEditPermissions(task)">
+          <div *ngIf="userService.canEdit(task)">
             <h3>Додати відео?</h3>
             <p>Цей захід не має відео. Додати його можна на
               <a [routerLink]="['/task/' + task._id + '/edit']">сторінці редагування заходу</a>
@@ -88,7 +88,7 @@
     </div>
 
     <mat-card-actions>
-      <mat-toolbar *ngIf="userService.hasEditPermissions(task)" class="admin">
+      <mat-toolbar *ngIf="userService.canEdit(task)" class="admin">
         <button [routerLink]="['/task/' + task._id + '/edit']" mat-raised-button>Редагувати</button>
         <span class="add-fill-remaining"></span>
         <button mat-raised-button color="warn" (click)="deleteTask(task, $event)">Видалити</button>
