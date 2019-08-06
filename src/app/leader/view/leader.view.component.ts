@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { LeaderModel } from '../../shared/leader/leader.model';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
-import { LoadLeader, DeleteLeader, SelectLeader } from '../../state/actions/leader.actions';
-import { ILeader } from '../../common/models';
-import { UserService } from '../../shared/user/user.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {LeaderModel} from '../../shared/leader/leader.model';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
+import {LoadLeader, DeleteLeader, SelectLeader} from '../../state/actions/leader.actions';
+import {ILeader} from '../../common/models';
+import {UserService} from '../../shared/user/user.service';
 
 @Component({
+  selector: 'app-leader-view',
   templateUrl: './leader.view.component.html',
   styleUrls: ['./leader.view.component.scss']
 })
@@ -19,6 +20,10 @@ export class LeaderViewComponent implements OnInit {
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
+
+  @Input() set leaderId(id: string) {
+    this.setupLeader(id);
+  };
 
   /**
    * Dependency Injection: route (for reading params later)
@@ -37,8 +42,7 @@ export class LeaderViewComponent implements OnInit {
   public ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.leaderStore.dispatch(new SelectLeader(params.id));
-        this.leaderStore.dispatch(new LoadLeader(params.id));
+        this.setupLeader(params.id);
       }
     });
     this.leaderStore.select(getSelectedLeader).subscribe(leader => this.setLeader(leader));
@@ -78,5 +82,10 @@ export class LeaderViewComponent implements OnInit {
   public deleteLeader(leader: ILeader) {
     this.leaderStore.dispatch(new DeleteLeader(leader));
     return false;
+  }
+
+  private setupLeader(id) {
+    this.leaderStore.dispatch(new SelectLeader(id));
+    this.leaderStore.dispatch(new LoadLeader(id));
   }
 }

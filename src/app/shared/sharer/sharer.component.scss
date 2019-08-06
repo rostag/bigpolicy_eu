@@ -10,7 +10,7 @@ $cred: #0f0;
 
 :host-context(.sharer-host) {
   ::ng-deep .share-card {
-    margin-top: -2em;
+    margin-top: -70px;
   }
 }
 
@@ -36,6 +36,8 @@ $cred: #0f0;
 
 .show-sharer-button {
   position: relative;
+  top: 8px;
+  left: 4px;
 }
 
 .email-input.invalid {
@@ -86,18 +88,6 @@ h3 {
   p {
     white-space: pre-line;
   }
-}
-
-.bp-pre-html {
-  background-color: $cblack;
-  // box-sizing: border-box;
-  color: $cred;
-  font-family: 'Andale Mono', monospace;
-  font-size: 11px;
-  line-height: 160%;
-  margin: 2em 0 1em;
-  padding: 1em;
-  width: 100%;
 }
 
 .info {

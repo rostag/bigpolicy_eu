@@ -18,13 +18,13 @@
   </div>
 </div> -->
 
-<div fxLayout="row wrap" fxLayoutAlign="center" >
-  <div
-    [fxFlex]="flexState.flex"
-    [fxFlex.lg]="flexState.lg"
-    [fxFlex.sm]="flexState.sm"  
-    [fxFlex.xs]="flexState.xs"
-    *ngFor="let project of itemsPage.docs | async | paginate: {
+<!--    [fxFlex]="flexState.flex"-->
+<!--    [fxFlex.lg]="flexState.lg"-->
+<!--    [fxFlex.sm]="flexState.sm"-->
+<!--    [fxFlex.xs]="flexState.xs"-->
+
+<div fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="20px" >
+  <div fxFlex *ngFor="let project of itemsPage.docs | async | paginate: {
       id: 'projectItemsPage',
       itemsPerPage: this.pageSize,
       currentPage: itemsPage.page,
@@ -37,23 +37,3 @@
     </app-project-brief>
   </div>
 </div>
-
-<!-- TODO Also show Projects as Cards / Thumbs -->
-
-<!-- <div *ngFor="let project of itemsPage.docs | async ">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{project.title}}</mat-card-title>
-      <mat-card-subtitle>{{project.managerName}}, Дніпро</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        {{project.description}}
-        <br/>
-        <br/>
-        <small>Строки: {{project.dateStarted | date:'yMMMMd'}} - {{project.dateEnded | date:'yMMMMd'}}, вартість: {{project.cost}} UAH</small>
-    </mat-card-content>
-    <mat-card-actions>
-      <a [routerLink]="['/project/' + project._id]"><button mat-button color="primary">Підтримати</button></a>
-    </mat-card-actions>
-  </mat-card>
-</div> -->

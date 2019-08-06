@@ -1,6 +1,7 @@
 // Import necessary building blocks from the library
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
+import {ILeader} from '../../common/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
@@ -15,7 +16,7 @@ export interface IUserProfile {
   created_at: string;
   updated_at: string;
   picture: string;
-  leader?: any;
+  leader?: ILeader;
 }
 
 // The AuthState interface describes the structure of the auth store we create

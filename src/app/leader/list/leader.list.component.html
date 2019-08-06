@@ -1,8 +1,6 @@
 <!-- </mat-card> -->
 <!-- Usage: <app-leader-list [groupId]="123" [pageSize]="10"></app-leader-list> -->
 <h2 *ngIf="title !== ''">{{title}}</h2>
-<mat-card-content>
-
   <!--
   TODO
   <p disabled>Показати у спискові:
@@ -47,9 +45,6 @@
       <pagination-controls id="leaderItemsPage" (pageChange)="pageChanged($event)" [maxSize]="5" directionLinks="true" previousLabel="Previous"
         nextLabel="Next" autoHide="true">
       </pagination-controls>
-      <p>Усього: {{itemsPage.total}}</p>
+      <!-- <p>Усього: {{itemsPage.total}}</p> -->
     </div>
   </div>
-
-</mat-card-content>
-<!-- </mat-card> -->
