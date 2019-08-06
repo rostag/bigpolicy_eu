@@ -31,7 +31,7 @@
             <!-- FIXME Show completeness status {{donation.dateCompleted | date}} -->
             <!-- TODO Add individual donation view <h3 mat-line><a [routerLink]="['/donation/' + donation._id]"><b>{{donation.title}}</b></a></h3> -->
             <!-- TODO let admin to delete donation, user to cancel -->
-            <!-- <div *ngIf="user.hasEditPermissions(donation)" class="admin" style="min-width:4em;">
+            <!-- <div *ngIf="user.canEdit(donation)" class="admin" style="min-width:4em;">
              <a [routerLink]="['/donation/' + donation._id + '/edit']"><mat-icon>edit</mat-icon></a>
              <a href (click)="deleteTask(donation)"><mat-icon>delete</mat-icon></a>
             </div> -->

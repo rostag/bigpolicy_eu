@@ -5,7 +5,7 @@
       <h1 fxFlex>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>&nbsp;
       <span fxFlex fxLayout="row" fxLayoutAlign="end">
         <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
-                *ngIf="userService.hasEditPermissions(profileLeader)"><mat-icon>edit</mat-icon>
+                *ngIf="userService.canEdit(profileLeader)"><mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="primary" (click)="userService.logout()"><mat-icon>exit_to_app</mat-icon></button>
       </span>
