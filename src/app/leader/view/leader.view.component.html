@@ -1,75 +1,64 @@
 <div>
 
-  <div title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
-    <div fxLayout="row wrap" fxLayoutAlign="space-between">
-      <h1>
-        <span>{{leader.name}} {{leader.surName}}</span>
-        <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
-        <div class="small">{{leader.location}}</div>
-      </h1>
-      <div class="admin">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between">
+    <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+      <span>{{leader.name}} {{leader.surName}}</span>
+      <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+      <div class="small">{{leader.location}}</div>
+    </h1>
+    <div class="admin">
         <span *ngIf="userService.hasEditPermissions(leader)">
           <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
           <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
         </span>
-        <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
-        <!-- FIXME
-          <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
-          <div>Місто: {{leader.city}}</div>
-        -->
-        <!-- FIXME - Implement as Dialog -->
-      </div>
+      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
+      <!-- FIXME
+        <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
+        <div>Місто: {{leader.city}}</div>
+      -->
     </div>
   </div>
 
-  <div>
 
-    <!-- Leader image/video and Support Button + Projects -->
-    <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+  <!-- Leader image/video and Support Button + Projects -->
+  <div fxLayout="row" fxLayoutGap="5%" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
-      <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+    <app-media [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
 
-      <div fxLayout="column">
-
-        <div fxFlex>
-          <div class="vision">
-            <h2>Візія</h2>
-            <p>{{leader.vision}}</p>
-          </div>
-          <div class="mission">
-            <h2>Місія</h2>
-            <p>{{leader.mission}}</p>
-          </div>
+    <div fxLayout="column">
+      <div fxFlex>
+        <div class="vision">
+          <h2>Візія</h2>
+          <p>{{leader.vision}}</p>
         </div>
-
-        <p>&nbsp;</p>
-
+        <div class="mission">
+          <h2>Місія</h2>
+          <p>{{leader.mission}}</p>
+        </div>
       </div>
-<!--      <h3>Відео</h3>-->
-<!--      <app-bp-video class="media-video" [videoUrl]="leader.videoUrl" [title]="leader.name"-->
-<!--                    placeholderUrl="assets/img/media/media-placeholder.png"-->
-<!--                    fxFlex></app-bp-video>-->
-
+      <p>&nbsp;</p>
     </div>
-
-    <!-- Projects -->
-
-    <h2 class="projects-title">
-      Проекти
-    </h2>
-    <div>
-      <app-project-list [leaderId]="leader._id" pageSize="6"
-                        *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
-      </app-project-list>
-      <ng-template #projects_placeholder>Немає жодного проекту.
-        <span *ngIf="userService.hasEditPermissions(leader)"> –
-          <a [routerLink]="['/add-project']">створити</a>?</span>
-      </ng-template>
-    </div>
-
-    <app-files-view [files]="leader.leaderFiles"></app-files-view>
-
   </div>
+
+  <!-- Projects -->
+
+  <div class="projects">
+    <h2 class="projects-title">Проекти</h2>
+    <app-project-list [leaderId]="leader._id" pageSize="6"
+                      *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
+    </app-project-list>
+    <ng-template #projects_placeholder>Немає жодного проекту.
+      <span *ngIf="userService.hasEditPermissions(leader)"> –
+          <a [routerLink]="['/add-project']">створити</a>?</span>
+    </ng-template>
+  </div>
+
+  <app-files-view [files]="leader.leaderFiles"></app-files-view>
+
+  <!--      <h3>Відео</h3>-->
+  <!--      <app-bp-video class="media-video" [videoUrl]="leader.videoUrl" [title]="leader.name"-->
+  <!--                    placeholderUrl="assets/img/media/media-placeholder.png"-->
+  <!--                    fxFlex></app-bp-video>-->
 
   <div>
     <div class="admin">
@@ -77,7 +66,7 @@
         <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
         <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
       </span>
-      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
+      <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
   </div>
 </div>
