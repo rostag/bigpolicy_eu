@@ -42,19 +42,6 @@ a {
   border-radius: 10px;
   padding: 10px 30px 10px 10px;
 
-  .icon-me {
-    background: $bp-red;
-    padding: 0 2px;
-    display: inline-block;
-    font-size: 11px;
-    position: relative;
-    top: -12px;
-    line-height: 1.1;
-    margin-left: 6px;
-    font-weight: bold;
-    color: white;
-  }
-
   mat-card-title {
     font-family: 'Montserrat Alternates';
     color: $red;
@@ -109,19 +96,6 @@ mat-card-content {
 
   .leader-name-block {
     position: relative;
-
-    .icon-me {
-      position: absolute;
-      right: -25px;
-      top: 12px;
-
-      background: $bp-red;
-      padding: 0 2px;
-      font-size: 11px;
-      line-height: 1.1;
-      font-weight: bold;
-      color: white;
-    }
   }
 
   .leader-name-list-view {
@@ -186,17 +160,4 @@ mat-card-content {
   display: inline-block;
   margin: auto auto 1.2em;
   max-width: 14em;
-}
-
-.icon-me {
-  background: $bp-red;
-  padding: 0 2px;
-  display: inline-block;
-  font-size: 11px;
-  position: relative;
-  top: -12px;
-  line-height: 1.1;
-  margin-left: 6px;
-  font-weight: bold;
-  color: white;
 }

@@ -136,3 +136,15 @@ a:hover {
   color: $bp-white;
 }
 
+.icon-me {
+  background: $bp-red;
+  padding: 0 2px;
+  display: inline-block;
+  font-size: 11px;
+  position: relative;
+  top: -12px;
+  line-height: 1.1;
+  margin-left: 6px;
+  font-weight: bold;
+  color: white;
+}
