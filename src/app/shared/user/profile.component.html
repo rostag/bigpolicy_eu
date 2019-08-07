@@ -2,7 +2,6 @@
   <div *ngIf="!userService.authenticated() || !userProfile">Потрібно зайти в систему</div>
   <div *ngIf="userService.authenticated() && userProfile">
     <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="2%" class="user-title">
-      <h1 fxFlex>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>&nbsp;
       <span fxFlex fxLayout="row" fxLayoutAlign="end">
         <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
                 *ngIf="userService.canEdit(profileLeader)"><mat-icon>edit</mat-icon>
@@ -16,15 +15,13 @@
         <img class="user-avatar" [src]="userProfile.picture" [alt]="userProfile.name">
       </div>
       <div class="user-info">
+        <h1>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>
         <!-- FIXME Override User Profile Name with Leader Name ? -->
         <p *ngIf="userService.isAdmin"><strong>Роль: </strong><a [routerLink]="['/admin']">Адміністратор</a></p>
         <p *ngIf="profileLeader"><strong>Лідер: </strong><a
           [routerLink]="['/leader/' + profileLeader?._id]">{{profileLeader?.name}}
           {{profileLeader?.surName}}</a></p>
-        <p><strong>Емейл: </strong>{{userProfile.email}}</p>
-        <p><strong>Нікнейм: </strong>{{userProfile.nickname}}</p>
-        <p *ngIf="userProfile?.created_at"><strong>Приєднався: </strong>{{userProfile.created_at}}</p>
-        <p><strong>Останій вхід: </strong>{{userProfile.updated_at | date: 'dd MMM yy, HH:MM:SS'}}</p>
+        <p>{{userProfile.email}}</p>
       </div>
     </div>
   </div>
@@ -35,26 +32,26 @@
     <ul>
       <li>створювати проекти</li>
       <li>ставати лідерами</li>
-      <li>користуватися розширеними фунціями системи.</li>
+      <li>користуватися розширеними функціями системи.</li>
     </ul>
-    <p>Будь ласка, натисніть "Увійти", для авторизації.</p>
+    <p>Натисніть "Увійти", для авторизації.</p>
     <a (click)="userService.login()">
       <button mat-raised-button color="accent">Увійти</button>
     </a>
   </div>
 
-  <a [routerLink]="['./about']" mat-menu-item>BigPolicy v. {{appVersion}}</a>
-
-  <app-leader-view [leaderId]="profileLeader._id"></app-leader-view>
+  <app-leader-view [leaderId]="profileLeader?._id" class="leader"></app-leader-view>
 
   <div class="admin" *ngIf="userService.isAdmin">
     <pre>Admin</pre>
-    <pre><a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a> <a [routerLink]="['./about']" (click)="pingJwtAdmin()">Ping JWT Admin</a>
+    <pre><a [routerLink]="['./about']" (click)="pingJwt()">Ping JWT</a> <a [routerLink]="['./about']"
+                                                                           (click)="pingJwtAdmin()">Ping JWT Admin</a>
     </pre>
     <pre>userProfile: {{userProfile | json}}</pre>
     <pre>profileLeader: {{profileLeader | json}}</pre>
   </div>
 
+  <!-- FIXME Restore task and project filtering
   <div *ngIf="profileLeader" class="leader-profile">
     <app-project-list
       *ngIf="profileLeader?.projectIds && profileLeader?.projectIds.length > 0"
@@ -64,6 +61,6 @@
     <app-project-list title="Проекти без заходів" [leaderId]="profileLeader?._id" [pageSize]="24"
                       dbQuery='{ "$where": "this.taskIds.length < 1" }'>
     </app-project-list>
-  </div>
+  </div> -->
 
 </div>

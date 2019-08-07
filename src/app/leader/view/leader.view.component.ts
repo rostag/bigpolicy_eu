@@ -17,11 +17,13 @@ export class LeaderViewComponent implements OnInit {
 
   // Leader object to be used in template
   public leader: ILeader = new LeaderModel();
+  public hasLeader = false;
 
   // Whether it has visual like image or video or it hasn't
   hasVisual = false;
 
   @Input() set leaderId(id: string) {
+    this.hasLeader = !!id;
     this.setupLeader(id);
   };
 
