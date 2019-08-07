@@ -34,9 +34,9 @@ export class UploaderComponent implements OnChanges {
   // FIXME Why onChanges were needed to get rid of this for prod build:
   // ERROR in /Users/rsiryk/dev/BP/bp/src/$$_gendir/app/shared/uploader/uploader.component.ngfactory.ts (1,1):
   // Operator '===' cannot be applied to types 'boolean' and '"fab"'.
-  @Input() buttonType = 'nofab';
+  @Input() buttonType = 'regular';
 
-  @Input() buttonLabel = 'Завантажити фото';
+  @Input() buttonLabel = 'Завантажити';
 
   useFabButton = false;
 
