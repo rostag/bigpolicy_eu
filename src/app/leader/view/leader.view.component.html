@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="hasLeader">
 
   <div fxLayout="row wrap" fxLayoutAlign="space-between start">
     <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
@@ -65,4 +65,9 @@
       <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
   </div>
+</div>
+
+<div *ngIf="!hasLeader">
+  <h1>No Leader</h1>
+  <p>No cry</p>
 </div>
