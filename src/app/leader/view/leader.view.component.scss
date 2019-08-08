@@ -7,10 +7,8 @@
 
 h1 {
   line-height: 1.6;
-}
-
-h2:first-of-type {
-  margin-top: 0;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .small {
@@ -22,8 +20,9 @@ h2:first-of-type {
 }
 
 .projects-title {
-  margin-top: 20px;
-  margin-bottom: 0;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .content-video-wrapper {
@@ -36,6 +35,10 @@ h2:first-of-type {
   }
 }
 
+.vision {
+  text-align: right;
+}
+
 .mission p,
 .vision p {
   font-size: 1em;
@@ -43,4 +46,8 @@ h2:first-of-type {
 
 .media-video {
   height: 300px;
+}
+
+.admin {
+  text-align: right;
 }
