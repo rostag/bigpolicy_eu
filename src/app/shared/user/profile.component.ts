@@ -6,7 +6,6 @@ import {takeUntil} from 'rxjs/operators';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import * as appVersion from '../../../../package.json';
 import {ILeader} from '../../common/models';
 
 @Component({
@@ -17,7 +16,6 @@ import {ILeader} from '../../common/models';
 export class ProfileComponent extends BaseUnsubscribe implements OnInit {
 
   public userProfile: IUserProfile;
-  public appVersion = appVersion['version'];
 
   private userProfile$: Observable<IUserProfile> = this.store.pipe(
     takeUntil(this.unsubscribe),
@@ -38,18 +36,8 @@ export class ProfileComponent extends BaseUnsubscribe implements OnInit {
     this.userProfile$.subscribe(userProfile => this.userProfile = userProfile);
 
     // FIXME NGRX IT LP
-    this.leaderService.leaderStream.pipe(
-      takeUntil(this.unsubscribe)
-    )
-      .subscribe(item => {
-        console.log('ProfileComponent. Set profile leader:', item);
-        this.profileLeader = item;
-      });
-  }
-
-  // TODO REMOVE AFTER TEST
-  public ping() {
-    this.leaderService.ping().subscribe();
+    this.leaderService.leaderStream.pipe(takeUntil(this.unsubscribe))
+      .subscribe(item => this.profileLeader = item);
   }
 
   public pingJwt() {

@@ -1,4 +1,4 @@
-import {throwError as observableThrowError, BehaviorSubject, Observable} from 'rxjs';
+import {throwError as observableThrowError, BehaviorSubject, Observable, of} from 'rxjs';
 import {Router} from '@angular/router';
 import {DialogService} from '../dialog/dialog.service';
 import {ProjectService} from '../project/project.service';
@@ -108,6 +108,8 @@ export class LeaderService {
   public getLeader(leaderId: string): Observable<ILeader> {
     if (leaderId) {
       return this.http.get<ILeader>(this.leaderApiUrl + leaderId);
+    } else {
+      return of(null);
     }
   }
 

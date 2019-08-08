@@ -1,27 +1,19 @@
 <div>
   <div *ngIf="!userService.authenticated() || !userProfile">Потрібно зайти в систему</div>
   <div *ngIf="userService.authenticated() && userProfile">
-    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="2%" class="user-title">
-      <span fxFlex fxLayout="row" fxLayoutAlign="end">
-        <button mat-icon-button color="primary" [routerLink]="['/leader/' + profileLeader?._id + '/edit']"
-                *ngIf="userService.canEdit(profileLeader)"><mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" (click)="userService.logout()"><mat-icon>exit_to_app</mat-icon></button>
-      </span>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start start">
-      <div>
+    <div *ngIf="userService.canEdit(profileLeader)" fxLayout="row" fxLayoutAlign="space-between" class="user-title">
+      <div fxFlex="30"></div>
+      <div fxFlex="40" class="user-info">
         <img class="user-avatar" [src]="userProfile.picture" [alt]="userProfile.name">
+        <div *ngIf="userService.isAdmin">
+          {{userProfile.email}}<br/>
+          <a [routerLink]="['/admin']">Адмін</a>
+        </div>
       </div>
-      <div class="user-info">
-        <h1>{{profileLeader ? profileLeader.name + ' ' + profileLeader.surName : userProfile.name }}</h1>
-        <!-- FIXME Override User Profile Name with Leader Name ? -->
-        <p *ngIf="userService.isAdmin"><strong>Роль: </strong><a [routerLink]="['/admin']">Адміністратор</a></p>
-        <p *ngIf="profileLeader"><strong>Лідер: </strong><a
-          [routerLink]="['/leader/' + profileLeader?._id]">{{profileLeader?.name}}
-          {{profileLeader?.surName}}</a></p>
-        <p>{{userProfile.email}}</p>
+      <div fxFlex="30" fxLayout="row" fxLayoutAlign="end">
+        <button mat-icon-button color="primary" (click)="userService.logout()">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
       </div>
     </div>
   </div>
