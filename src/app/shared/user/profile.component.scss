@@ -7,7 +7,6 @@
   .user-title {
     p {
       color: $bp-grey;
-      margin-top: 1rem;
     }
 
     a {
@@ -16,26 +15,16 @@
   }
 
   .user-avatar {
-    margin-bottom: 24px;
-    margin-right: 24px;
-    width: 100px;
+    margin: 0 30px 24px 24px;
+    width: 38px;
     border-radius: 50px;
     border: 0 solid #800000;
     box-shadow: 6px 14px 33px -9px rgba(0, 0, 0, 0.75);
   }
 
   .user-info {
-    margin: 8px 0 0 24px;
-
-    p {
-      margin: 0 0 4px 0;
-
-      strong {
-        display: inline-block;
-        width: 140px;
-        color: $bp-text;
-      }
-    }
+    text-align: center;
+    margin: 0 0 20px 0;
   }
 
   .admin {
@@ -52,5 +41,5 @@
 }
 
 .leader {
-  margin: 0px;
+  margin: 0px 10px 0 0;
 }
