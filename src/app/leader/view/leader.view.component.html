@@ -1,13 +1,14 @@
-<div *ngIf="hasLeader">
+<div *ngIf="hasLeader || leader">
 
   <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-    <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+    <div fxFlex="20"></div>
+    <h1 fxFlex="60" title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
       <span>{{leader.name}} {{leader.surName}}</span>
       <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
       <!-- FIXME -->
       <div class="small">{{leader.location}}</div>
     </h1>
-    <div class="admin">
+    <div fxFlex="20" class="admin">
           <span *ngIf="userService.canEdit(leader)">
             <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
@@ -20,7 +21,7 @@
     </div>
   </div>
 
-  <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+  <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
 
     <div fxFlex="34" class="vision">
       <h2>Візія</h2>
@@ -67,7 +68,7 @@
   </div>
 </div>
 
-<div *ngIf="!hasLeader">
+<div *ngIf="!hasLeader && !leader">
   <h1>No Leader</h1>
   <p>No cry</p>
 </div>
