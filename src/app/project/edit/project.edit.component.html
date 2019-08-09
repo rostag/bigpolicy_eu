@@ -1,9 +1,8 @@
 <form class="project-edit">
   <h1>{{isUpdateMode ? 'Редагувати проект' : 'Створити проект' }}</h1>
 
-  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="40px">
+  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="60px">
     <div fxFlex="60" fxLayout="column" fxLayoutGap="20px">
-      <!-- floatLabel="never" -->
       <mat-form-field fxFlex>
         <input class="header" placeholder="Назва:" matInput required
                [(ngModel)]="project.title" [ngModelOptions]="{standalone: true}">
@@ -19,16 +18,6 @@
       <h2>Строки та бюджет</h2>
 
       <div fxLayout="column" fxLayoutGap="20px" class="terms">
-
-        <mat-form-field class="cost">
-          <div matPrefix>
-            <mat-icon>monetization_on</mat-icon>
-            Бюджет проекту:&nbsp;
-          </div>
-          <input value="1" matInput required type="number" [(ngModel)]="project.cost"
-                 [ngModelOptions]="{standalone: true}">
-          <div matSuffix>UAH</div>
-        </mat-form-field>
 
         <mat-form-field>
           <div matPrefix>
@@ -48,8 +37,17 @@
                  value="Дата завершення проекту" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
-      </div> <!-- /end terms -->
+        <mat-form-field class="cost">
+          <div matPrefix>
+            <mat-icon>monetization_on</mat-icon>
+            Бюджет проекту:&nbsp;
+          </div>
+          <input value="1" matInput required type="number" [(ngModel)]="project.cost"
+                 [ngModelOptions]="{standalone: true}">
+          <div matSuffix>UAH</div>
+        </mat-form-field>
 
+      </div> <!-- /end terms -->
     </div> <!-- /end 1st col -->
 
     <div fxLayout="column" fxFlex="40" fxLayoutGap="20px">
@@ -63,9 +61,7 @@
       <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images"
                     buttonLabel="Додати зображення"
                     (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
-
     </div>
-
   </div>
 
 
