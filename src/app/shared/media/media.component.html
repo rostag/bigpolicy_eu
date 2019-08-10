@@ -1,5 +1,5 @@
 <!-- Leader image/video fxFlex.sm="50%" fxFlex.xs="100%" -->
-<div fxFill class="visual-wrapper" *ngIf="hasVisual; else novisual" fxLayout="row">
+<div fxFill *ngIf="hasVisual; else novisual" fxLayout="row">
   <div fxFill *ngIf="media.photo; then images"></div>
 </div>
 

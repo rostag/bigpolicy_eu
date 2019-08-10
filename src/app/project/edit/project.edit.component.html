@@ -1,106 +1,94 @@
-<form>
-  <mat-card class="project-edit-card">
-    <mat-card-content>
-      <mat-card-title fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-        <div class="title">
-          <span *ngIf="!isUpdateMode">Створити проект</span>
-          <span *ngIf="isUpdateMode">Редагувати проект</span>
-        </div>
+<form class="project-edit">
+  <h1>{{isUpdateMode ? 'Редагувати проект' : 'Створити проект' }}</h1>
 
-         <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images" listFiles="no"
-                      buttonType="regular" buttonLabel="Додати зображення"
-                      (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
-      </mat-card-title>
-
-      <small>Проект</small>
-
-      <mat-form-field floatLabel="never">
-        <input class="header" style="width: 100%;"
-               matInput
-               required
-               placeholder="Назва проекту"
-               [(ngModel)]="project.title"
-               [ngModelOptions]="{standalone: true}">
+  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="60px">
+    <div fxFlex="60" fxLayout="column" fxLayoutGap="20px">
+      <mat-form-field fxFlex>
+        <input class="header" placeholder="Назва:" matInput required
+               [(ngModel)]="project.title" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
 
-      <app-image *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
-
-      <mat-form-field>
+      <mat-form-field fxFlex>
         <textarea matInput matTextareaAutosize required class="bp-textarea" rows="4" maxLength="1000"
-                  [(ngModel)]="project.description" placeholder="Опиши свій проект чи захід:"
+                  [(ngModel)]="project.description" placeholder="Опис проекту:"
                   [ngModelOptions]="{standalone: true}">
         </textarea>
       </mat-form-field>
 
-      <mat-form-field>
-        <input matInput [(ngModel)]="project.videoUrl" placeholder="Відео до проекту:"
-               [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
+      <h2>Строки та бюджет</h2>
 
-      <div class="cost-and-dates" fxLayoutGap="3%" fxLayout="row" fxLayoutAlign="space-between stretch"
-           fxLayout.xs="column" fxLayout.sm="column">
-        <mat-form-field class="cost" fxFlex.xs="100%">
-          <div matPrefix>
-            <mat-icon>monetization_on</mat-icon>
-            Бюджет:&nbsp;
-          </div>
-          <input matInput required type="number" [(ngModel)]="project.cost" [ngModelOptions]="{standalone: true}"
-                 value="1">
-          <div matSuffix>UAH</div>
-        </mat-form-field>
+      <div fxLayout="column" fxLayoutGap="20px" class="terms">
 
-        <mat-form-field fxFlex.xs="100%">
+        <mat-form-field>
           <div matPrefix>
             <mat-icon>date_range</mat-icon>
-            Початок:&nbsp;
+            Дата початку:&nbsp;
           </div>
           <input matInput type="date" [(ngModel)]="project.dateStarted" hintLabel="Коли проект починається?"
                  value="Вкажи дату початку проекту, будь ласка" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
-        <mat-form-field fxFlex.xs="100%">
+        <mat-form-field>
           <div matPrefix>
             <mat-icon>date_range</mat-icon>
-            Завершення:&nbsp;
+            Дата завершення:&nbsp;
           </div>
           <input matInput type="date" [(ngModel)]="project.dateEnded" hintLabel="Коли закінчується проект?"
                  value="Дата завершення проекту" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
-      </div>
 
-      <!-- Project Tasks -->
-      <app-task-list title="Заходи проекту" [project]="project" *ngIf="showTasks"></app-task-list>
-      <!-- Working, just disabled: <app-task-list title="Закороткий опис" [project]="project" *ngIf="showTasks" [pageSize]="3" dbQuery='{ "$where": "this.description.length < 3" }'></app-task-list> -->
-      <!-- /Project Tasks -->
+        <mat-form-field class="cost">
+          <div matPrefix>
+            <mat-icon>monetization_on</mat-icon>
+            Бюджет проекту:&nbsp;
+          </div>
+          <input value="1" matInput required type="number" [(ngModel)]="project.cost"
+                 [ngModelOptions]="{standalone: true}">
+          <div matSuffix>UAH</div>
+        </mat-form-field>
 
-    </mat-card-content>
+      </div> <!-- /end terms -->
+    </div> <!-- /end 1st col -->
 
-    <mat-toolbar class="add-toolbar" color="#fff">
-      <!-- MOVE TO OTHER LEADER -->
-      <div *ngIf="userService.isAdmin && isUpdateMode">
-        <button *ngIf="!leadersToMoveProjectTo" mat-button (click)="requestLeadersToSelectFrom()">Змінити лідера
-        </button>
-        <form *ngIf="leadersToMoveProjectTo">
-          <mat-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
-            <mat-option *ngFor="let leader of leadersToMoveProjectTo" [value]="leader">
-              {{leader.name}} {{leader.surName}}
-              <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
-            </mat-option>
-          </mat-select>
-        </form>
-      </div>
+    <div fxLayout="column" fxFlex="40" fxLayoutGap="20px">
+      <mat-form-field fxFlex>
+        <input placeholder="Відео до проекту:" matInput [(ngModel)]="project.videoUrl"
+               [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
 
-      <span class="add-fill-remaining"></span>
+      <h2>Зображення</h2>
+      <app-image class="image" *ngIf="project.imageUrl" [src]="project.imageUrl"></app-image>
+      <app-uploader folder="bp-files/projects/{{project._id || 'tmp_project_id'}}/images"
+                    buttonLabel="Додати зображення"
+                    (uploadedFileUrlChange)="project.onImageUrlChange($event)"></app-uploader>
+    </div>
+  </div>
 
-      <button mat-button (click)="cancelEditing()" color="primary">
-        Відмінити
+
+  <mat-toolbar class="add-toolbar" color="#fff">
+    <!-- MOVE TO OTHER LEADER -->
+    <div *ngIf="userService.isAdmin && isUpdateMode">
+      <button *ngIf="!leadersToMoveProjectTo" mat-button (click)="requestLeadersToSelectFrom()">Змінити лідера
       </button>
-      <button type="submit" mat-raised-button (click)="saveProject()" color="primary">
-        <span *ngIf="!isUpdateMode">Додати</span>
-        <span *ngIf="isUpdateMode">Зберегти</span>
-        <span> проект</span>
-      </button>
-    </mat-toolbar>
+      <form *ngIf="leadersToMoveProjectTo">
+        <mat-select placeholder="Select new leader" (change)="moveProjectToOtherLeader($event)" name="leader">
+          <mat-option *ngFor="let leader of leadersToMoveProjectTo" [value]="leader">
+            {{leader.name}} {{leader.surName}}
+            <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+          </mat-option>
+        </mat-select>
+      </form>
+    </div>
 
-  </mat-card>
+    <span class="add-fill-remaining"></span>
+
+    <button mat-button (click)="cancelEditing()" color="primary">
+      Відмінити
+    </button>
+    <button type="submit" mat-raised-button (click)="saveProject()" color="primary">
+      <span *ngIf="!isUpdateMode">Додати</span>
+      <span *ngIf="isUpdateMode">Зберегти</span>
+      <span> проект</span>
+    </button>
+  </mat-toolbar>
 </form>

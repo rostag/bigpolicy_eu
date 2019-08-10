@@ -1,38 +1,36 @@
-<div>
+<div *ngIf="hasLeader || leader">
 
-  <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
-
-    <div fxFlex fxLayout="column">
-
-      <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-        <h1 title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
-          <span>{{leader.name}} {{leader.surName}}</span>
-          <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
-          <!-- FIXME -->
-          <div class="small">{{leader.location}}</div>
-        </h1>
-        <div class="admin">
-          <span *ngIf="userService.hasEditPermissions(leader)">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <div fxFlex="20"></div>
+    <h1 fxFlex="60" title="Email: {{leader.email}}, Адмін: {{userService.isAdmin}}">
+      <span>{{leader.name}} {{leader.surName}}</span>
+      <span *ngIf="userService.isOwner(leader)" class="icon-me">я</span>
+      <!-- FIXME -->
+      <div class="small">{{leader.location}}</div>
+    </h1>
+    <div fxFlex="20" class="admin">
+          <span *ngIf="userService.canEdit(leader)">
             <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
           </span>
-          <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
-          <!-- FIXME
-            <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
-            <div>Місто: {{leader.city}}</div>
-          -->
-        </div>
-      </div>
-
-      <app-media fxFlex [media]="leader" [hasEditPermissions]="this.userService.hasEditPermissions(leader)"></app-media>
+      <app-bp-sharer class="sharer-host" #sharer [itemToShare]="leader"></app-bp-sharer>
+      <!-- FIXME
+        <button mat-icon-button><mat-icon>thumb_up</mat-icon></button mat-icon-button>
+        <div>Місто: {{leader.city}}</div>
+      -->
     </div>
+  </div>
 
-    <div fxFlex class="vision">
+  <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="space-between stretch" fxLayout.xs="column">
+
+    <div fxFlex="34" class="vision">
       <h2>Візія</h2>
       <p>{{leader.vision}}</p>
     </div>
 
-    <div fxFlex class="mission">
+    <app-media fxFlex="33" [media]="leader" [hasEditPermissions]="this.userService.canEdit(leader)"></app-media>
+
+    <div fxFlex="33" class="mission">
       <h2>Місія</h2>
       <p>{{leader.mission}}</p>
     </div>
@@ -47,7 +45,7 @@
                       *ngIf="leader.projectIds && leader.projectIds.length > 0;else projects_placeholder">
     </app-project-list>
     <ng-template #projects_placeholder>Немає жодного проекту.
-      <span *ngIf="userService.hasEditPermissions(leader)"> –
+      <span *ngIf="userService.canEdit(leader)"> –
           <a [routerLink]="['/add-project']">створити</a>?</span>
     </ng-template>
   </div>
@@ -61,11 +59,16 @@
 
   <div>
     <div class="admin">
-      <span *ngIf="userService.hasEditPermissions(leader)">
+      <span *ngIf="userService.canEdit(leader)">
         <button mat-icon-button (click)="editLeader(leader)" color="primary"><mat-icon>edit</mat-icon></button>
         <button mat-icon-button (click)="deleteLeader(leader)" color="primary"><mat-icon>delete</mat-icon></button>
       </span>
       <app-bp-sharer #sharer [itemToShare]="leader"></app-bp-sharer>
     </div>
   </div>
+</div>
+
+<div *ngIf="!hasLeader && !leader">
+  <h1>No Leader</h1>
+  <p>No cry</p>
 </div>

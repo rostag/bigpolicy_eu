@@ -75,17 +75,14 @@
   <p class="cost" matLine><b>Вартість:</b> {{project.cost}} UAH</p>
   <p class="tasks" matLine><b>Заходів:</b> {{project.taskIds?.length}} <span class="manager-name">{{project.managerName}}</span></p> -->
   <div fxLayout="row" class="project-description-wraper">
-    <div class="project-img">
-      <img src="{{project.imageUrl || '../../../assets/img/Group 813.png'}}" alt="Project image">
-    </div>
     <mat-card-content>
       <mat-card-title class="project-title">{{project.title}}</mat-card-title>
       <p class="project-description">{{project.description | slice : 0 : 150}}</p>
     </mat-card-content>
   </div>
   <mat-card-actions align="end" class="card-actions">
-    <div fxLayoutAlign="end" class.lg="compact" >
-      <div *ngIf="userService.hasEditPermissions(project)" class="admin">
+    <div fxLayoutAlign="end" ngClass.lg="compact" >
+      <div *ngIf="userService.canEdit(project)" class="admin">
         <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"><mat-icon class="edit-icon">edit</mat-icon></button>
         <!-- FIXME RESTORE <button mat-icon-button disabled (click)="shareProject(project)"><mat-icon>share</mat-icon></button> -->
       </div>
@@ -123,4 +120,5 @@
 
 <ng-template #images>
   <img mat-card-image *ngIf="project.imageUrl" src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
+  <!--  <app-image [src]="project.imageUrl"></app-image>-->
 </ng-template>

@@ -7,10 +7,8 @@
 
 h1 {
   line-height: 1.6;
-}
-
-h2:first-of-type {
-  margin-top: 0;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .small {
@@ -22,8 +20,9 @@ h2:first-of-type {
 }
 
 .projects-title {
-  margin-top: 20px;
-  margin-bottom: 0;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .content-video-wrapper {
@@ -36,24 +35,19 @@ h2:first-of-type {
   }
 }
 
+.vision {
+  text-align: right;
+}
+
 .mission p,
 .vision p {
   font-size: 1em;
 }
 
-.icon-me {
-  background: $bp-red;
-  padding: 0 2px;
-  display: inline-block;
-  font-size: 11px;
-  position: relative;
-  top: -12px;
-  line-height: 1.1;
-  margin-left: 6px;
-  font-weight: bold;
-  color: white;
-}
-
 .media-video {
   height: 300px;
+}
+
+.admin {
+  text-align: right;
 }

@@ -10,8 +10,7 @@
         <div fxFlex="36%" fxFlex.xs="100%">
           <!-- FIXME - process tmp_user_reg_id in FTUX process -->
           <app-image [src]="leaderModel.photo || 'assets/img/avatar-generic.png'"></app-image>
-          <app-uploader folder="bp-files/users/{{leaderModel._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
-                        buttonType="regular" buttonLabel="Завантажити фото"
+          <app-uploader folder="bp-files/users/{{leaderModel._id || 'tmp_user_reg_id'}}/avatars"
                         (uploadedFileUrlChange)="leaderModel.onPhotoUrlChange($event)">
           </app-uploader>
         </div>
@@ -74,7 +73,7 @@
 
         <mat-form-field>
           <textarea matInput matTextareaAutosize maxLength="1000" name="vision" formControlName="vision"
-                    placeholder="Твоя особиста візія і думки" ></textarea>
+                    placeholder="Твоя особиста візія і думки"></textarea>
         </mat-form-field>
         <div *ngIf="leaderFormGroup.get('vision').hasError('required') && leaderFormGroup.get('vision').touched"
              class="validation-error">
@@ -94,7 +93,7 @@
 
         <mat-form-field>
           <textarea matInput matTextareaAutosize maxLength="1000" name="mission" formControlName="mission"
-                    placeholder="Твоя місія" ></textarea>
+                    placeholder="Твоя місія"></textarea>
         </mat-form-field>
         <div *ngIf="leaderFormGroup.get('mission').hasError('required') && leaderFormGroup.get('mission').touched"
              class="validation-error">

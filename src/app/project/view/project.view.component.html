@@ -7,7 +7,7 @@
     </h1>
 
     <div class="admin">
-        <span *ngIf="userService.hasEditPermissions(project)">
+        <span *ngIf="userService.canEdit(project)">
           <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']" color="primary"><mat-icon>edit</mat-icon></button>
           <button mat-icon-button (click)="deleteProject(project)" color="primary"><mat-icon>delete</mat-icon></button>
         </span>
@@ -34,15 +34,12 @@
       </ng-template>
 
       <ng-template #novisual>
-        <div *ngIf="userService.hasEditPermissions(project)">
-          <!--
-          <div class="add-media">
-            <app-uploader folder="bp-files/projects/{{project._id || 'tmp_user_reg_id'}}/avatars" listFiles="no"
-                          buttonType="regular" buttonLabel="Завантажити"
+        <div *ngIf="userService.canEdit(project)">
+          <!-- <div class="add-media">
+            <app-uploader folder="bp-files/projects/{{project._id || 'tmp_user_reg_id'}}/avatars"
                           (uploadedFileUrlChange)="project.onImageUrlChange($event)">
             </app-uploader>
-          </div>
-          -->
+          </div> -->
           <h3>Додати відео чи зображення?</h3>
           <p>Даний проект не має ані відео, ані зображення. Додати їх можна на
             <a [routerLink]="['/project/' + project._id + '/edit']">сторінці редагування проекту</a>
@@ -101,7 +98,7 @@
 
   </div>
 
-  <div *ngIf="userService.hasEditPermissions(project)" class="admin project-toolbar" align="center" fxLayoutGap="20px">
+  <div *ngIf="userService.canEdit(project)" class="admin project-toolbar" align="center" fxLayoutGap="20px">
     <button mat-raised-button color="primary" [routerLink]="['/project/' + project._id + '/edit']">
       Змінити
     </button>

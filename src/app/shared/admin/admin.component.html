@@ -37,7 +37,7 @@
 
       </mat-card-content>
       <mat-card-actions>
-        <span *ngIf="userService.hasEditPermissions(adminLeader)">
+        <span *ngIf="userService.canEdit(adminLeader)">
           <a [routerLink] = "['/leader/' + adminLeader._id + '/edit']"><button mat-button color="accent">Редагувати</button></a>
         </span>
       </mat-card-actions>

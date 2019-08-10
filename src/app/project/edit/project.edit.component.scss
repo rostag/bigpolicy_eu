@@ -1,6 +1,13 @@
 @import '../../../assets/scss/styles.scss';
 
 :host {
+  display: block;
+  padding: 60px;
+
+  .project-edit {
+    display: block;
+  }
+
   input,
   textarea,
   mat-form-field {
@@ -8,18 +15,7 @@
   }
 
   .header {
-    font-size: 24px;
-  }
-
-  .title {
-    ::ng-deep .mat-form-field-wrapper {
-      margin-bottom: 2px;
-    }
-    ::ng-deep .mat-form-field-infix {
-      border: none;
-      padding: 0;
-      min-width: 280px;
-    }
+    //font-size: 24px;
   }
 
   .cost-and-dates {
@@ -38,17 +34,12 @@
       text-align: right;
     }
   }
+}
 
-  .icon-me {
-    background: $bp-red;
-    padding: 0 2px;
-    display: inline-block;
-    font-size: 11px;
-    position: relative;
-    top: -12px;
-    line-height: 1.1;
-    margin-left: 6px;
-    font-weight: bold;
-    color: white;
-  }
+.image {
+  max-width: 100%;
+}
+
+.terms {
+  width: 70%;
 }
