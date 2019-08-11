@@ -99,6 +99,7 @@ export class UserService {
     }
   }
 
+  // It's here, not in auth.effects
   private setLoggedIn(toLogin: boolean, userProfile: IUserProfile = null) {
     if (toLogin) {
       this.store.dispatch(new LoginSuccess(userProfile));
