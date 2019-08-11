@@ -88,6 +88,8 @@ export class UserService {
     const lsProfile = localStorage.getItem('profile');
     const lsIsAdmin = localStorage.getItem('isAdmin');
 
+    console.log('userService constructor');
+
     if (UserService.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = lsIsAdmin === 'true';
@@ -97,6 +99,8 @@ export class UserService {
     } else if (!UserService.tokenValid && lsProfile) {
       this.logout();
     }
+
+    this.handleAuth();
   }
 
   // It's here, not in auth.effects
@@ -114,7 +118,9 @@ export class UserService {
 
   public handleAuth() {
     // When Auth0 hash parsed, get profile
+    console.log(' userService handleAuth');
     this._auth0.parseHash((err, authResult) => {
+      console.log(' ---- authResult:', authResult, err);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this._getProfile(authResult);
@@ -126,7 +132,9 @@ export class UserService {
 
   private _getProfile(authResult) {
     // Use access token to retrieve user's profile and set session
+    console.log(' --- getProfile');
     this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+      console.log(' ---- profile:', profile);
       if (profile) {
         this._setSession(authResult, profile);
       } else if (err) {
@@ -136,9 +144,9 @@ export class UserService {
   }
 
   private _setSession(authResult, profile) {
-    // Save session data and update login status subject
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     // Set tokens and expiration in localStorage and props
+    console.log(' --- setSession, authResult:', authResult);
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
