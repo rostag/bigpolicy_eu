@@ -14,7 +14,8 @@
 </mat-card> -->
 
 <div class="main-section">
-  <mat-card class="project-brief-block" [routerLink]="['/project/', project._id]" *ngIf="!!project && viewContext==='homePage'">
+  <mat-card class="project-brief-block" [routerLink]="['/project/', project._id]"
+            *ngIf="!!project && viewContext==='homePage'">
     <div class="project-cover-wrapper">
       <div [ngStyle]="{'background-image': 'url(' + (project.imageUrl || '../../../assets/img/Group 813.png')}"
            class="project-cover"
@@ -42,9 +43,10 @@
       <mat-card-title class="project-title">{{project.title}}</mat-card-title>
       <p class="project-description">{{project.description}}</p>
     </mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="space-between center"  fxLayout.xs="column" class="bottom-section">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" class="bottom-section">
       <div fxLayout="row" fxLayoutAlign="space-around center" class="left-to-collect">
-        <span [ngStyle.sm]="{'font-size.px': 28}" [ngStyle.xs]="{'font-size.px': 22}" class="left-to-collect-money">150₴</span>
+        <span [ngStyle.sm]="{'font-size.px': 28}" [ngStyle.xs]="{'font-size.px': 22}"
+              class="left-to-collect-money">150₴</span>
         <div fxLayout="column" class="left-to-collect-description">
           <span>Залишилось</span>
           <span>зібрати</span>
@@ -52,7 +54,9 @@
       </div>
       <div class="btn-action">
         <mat-card-actions fxLayoutAlign="center">
-          <a [routerLink]="['/project/', project._id]"><button mat-raised-button  class="info-btn color-btn">Детальніше</button></a>
+          <a [routerLink]="['/project/', project._id]">
+            <button mat-raised-button class="info-btn color-btn">Детальніше</button>
+          </a>
         </mat-card-actions>
       </div>
     </div>
@@ -81,12 +85,15 @@
     </mat-card-content>
   </div>
   <mat-card-actions align="end" class="card-actions">
-    <div fxLayoutAlign="end" ngClass.lg="compact" >
+    <div fxLayoutAlign="end" ngClass.lg="compact">
       <div *ngIf="userService.canEdit(project)" class="admin">
-        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']"><mat-icon class="edit-icon">edit</mat-icon></button>
+        <button mat-icon-button [routerLink]="['/project/' + project._id + '/edit']">
+          <mat-icon class="edit-icon">edit</mat-icon>
+        </button>
         <!-- FIXME RESTORE <button mat-icon-button disabled (click)="shareProject(project)"><mat-icon>share</mat-icon></button> -->
       </div>
-      <button mat-raised-button [routerLink]="['/project/' + project._id]" class="info-btn white-btn" >Детальніше</button>
+      <button mat-raised-button [routerLink]="['/project/' + project._id]" class="info-btn white-btn">Детальніше
+      </button>
     </div>
   </mat-card-actions>
 </mat-card>
@@ -94,7 +101,8 @@
 <!-- Item Brief View
     for display in compact lists on Home page e.t.c. -->
 
-<mat-card class="project-list-item list-brief" [routerLink]="['/project/', project._id]" *ngIf="viewContext==='compactProjectList'">
+<mat-card class="project-list-item list-brief" [routerLink]="['/project/', project._id]"
+          *ngIf="viewContext==='compactProjectList'">
   <h3 class="title" matLine><a [routerLink]="['/project/' + project._id]">{{project.title}}</a></h3>
   <div class="mat-card-image-clipper" *ngIf="hasVisual">
     <div *ngIf="project.imageUrl; then images else videos"></div>
@@ -103,7 +111,7 @@
     <small>{{project.description}}</small>
   </p>
   <mat-card-actions align="end" class="card-actions">
-    <button mat-button [routerLink]="['/project/' + project._id]" mat-raised-button color="primary" >Деталі</button>
+    <button mat-button [routerLink]="['/project/' + project._id]" mat-raised-button color="primary">Деталі</button>
   </mat-card-actions>
 </mat-card>
 
@@ -119,6 +127,7 @@
 </ng-template>
 
 <ng-template #images>
-  <img mat-card-image *ngIf="project.imageUrl" src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
+  <img mat-card-image *ngIf="project.imageUrl"
+       src="{{project.imageUrl || 'assets/img/project/project-placeholder.png'}}">
   <!--  <app-image [src]="project.imageUrl"></app-image>-->
 </ng-template>

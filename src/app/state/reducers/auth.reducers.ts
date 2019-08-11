@@ -1,6 +1,6 @@
 // Import necessary building blocks from the library
-import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { AuthActionTypes, AuthAction } from '../actions/auth.actions';
+import {createSelector, createFeatureSelector} from '@ngrx/store';
+import {AuthActionTypes, AuthAction} from '../actions/auth.actions';
 import {ILeader} from '../../common/models';
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -53,16 +53,16 @@ export function reducer(
   switch (action.type) {
 
     case AuthActionTypes.LOGIN_SUCCESS:
-      return { ...state, loggedIn: true, userProfile: action.payload };
+      return {...state, loggedIn: true, userProfile: action.payload};
 
     case AuthActionTypes.LOGOUT_SUCCESS:
-      return { ...state, loggedIn: false, userProfile: null };
+      return {...state, loggedIn: false, userProfile: null};
 
     case AuthActionTypes.LOGIN_ATTEMPT_ADD:
-      return { ...state, loginAttemptsCount: state.loginAttemptsCount + 1 };
+      return {...state, loginAttemptsCount: state.loginAttemptsCount + 1};
 
     case AuthActionTypes.LOGIN_ATTEMPT_RESET:
-      return { ...state, loginAttemptsCount: 0 };
+      return {...state, loginAttemptsCount: 0};
 
     default:
       return state;

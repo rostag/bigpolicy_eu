@@ -67,7 +67,7 @@ export class UserService {
    * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
    */
   public authenticated() {
-    // FIXME Move to using NGRX/store
+    // FIXME NGRX IT
     // return tokenNotExpired('id_token');
     return UserService.tokenValid;
   };
