@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { LeaderModel } from '../../shared/leader/leader.model';
 import { UserService } from '../../shared/user/user.service';
-import { ILeader } from '../../common/models';
+import { ILeader } from '../../shared/models';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getSelectedLeader } from '../../state/reducers/leader.reducers';
 import { LoadLeader } from '../../state/actions/leader.actions';

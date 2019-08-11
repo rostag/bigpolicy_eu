@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { ITaskState } from '../../state/reducers/task.reducers';
 import { CreateTaskSuccess } from '../../state/actions/task.actions';
-import { ITask, ITaskResponsePage, IDataPageRequest } from '../../common/models';
+import { ITask, ITaskResponsePage, IDataPageRequest } from '../models';
 import { Router } from '@angular/router';
 
 @Injectable()

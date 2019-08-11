@@ -1,6 +1,6 @@
 import { Action, createSelector, createFeatureSelector, State } from '@ngrx/store';
 import { ProjectAction, ProjectActionTypes } from '../actions/project.actions';
-import { IProject, IProjectResponsePage } from '../../common/models';
+import { IProject, IProjectResponsePage } from '../../shared/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store

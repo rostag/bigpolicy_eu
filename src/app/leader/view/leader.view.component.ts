@@ -4,7 +4,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
 import {LoadLeader, DeleteLeader, SelectLeader} from '../../state/actions/leader.actions';
-import {ILeader} from '../../common/models';
+import {ILeader} from '../../shared/models';
 import {UserService} from '../../shared/user/user.service';
 
 @Component({

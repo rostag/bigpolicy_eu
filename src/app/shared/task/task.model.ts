@@ -1,4 +1,4 @@
-import { ITask } from '../../common/models';
+import { ITask } from '../models';
 
 export class TaskModel implements ITask {
   _id: string;

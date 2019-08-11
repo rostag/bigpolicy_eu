@@ -1,4 +1,4 @@
-import { IProject } from '../../common/models';
+import { IProject } from '../models';
 
 export class ProjectModel implements IProject {
   _id: string;

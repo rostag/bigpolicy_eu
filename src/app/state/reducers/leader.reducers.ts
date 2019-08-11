@@ -1,5 +1,5 @@
 import {createSelector, createFeatureSelector} from '@ngrx/store';
-import {ILeader, ILeaderResponsePage} from '../../common/models';
+import {ILeader, ILeaderResponsePage} from '../../shared/models';
 import {LeaderAction, LeaderActionTypes} from '../actions/leader.actions';
 
 // Store

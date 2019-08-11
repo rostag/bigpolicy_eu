@@ -1,7 +1,7 @@
 // Import necessary building blocks from the library
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {AuthActionTypes, AuthAction} from '../actions/auth.actions';
-import {ILeader} from '../../common/models';
+import {ILeader} from '../../shared/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store

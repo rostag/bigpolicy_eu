@@ -6,7 +6,7 @@ import {takeUntil} from 'rxjs/operators';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {ILeader} from '../../common/models';
+import {ILeader} from '../models';
 
 @Component({
   templateUrl: './profile.component.html',

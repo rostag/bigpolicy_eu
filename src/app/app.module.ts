@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { CoreModule } from './core.module';
-import { MaterialModule } from './common/modules/material/material.module';
+import { MaterialModule } from './shared/material/material.module';
 import { WorkingSpinnerComponent } from './shared/xhr/spinner.component';
 import { EffectsModule } from '@ngrx/effects';
 import { LeaderEffects } from './state/effects/leader.effects';

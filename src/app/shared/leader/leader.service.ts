@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
 import {map, catchError} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ENV} from 'app/../environments/env.config';
-import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../../common/models';
+import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../models';
 import {State, Store} from '@ngrx/store';
 import {ILeaderState} from '../../state/reducers/leader.reducers';
 import {LoadLeaderSuccess} from '../../state/actions/leader.actions';

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { IResponsePage, IProject, IDataPageRequest } from '../../common/models';
+import { IResponsePage, IProject, IDataPageRequest } from '../../shared/models';
 
 export interface ProjectAction extends Action {
     payload?: any;

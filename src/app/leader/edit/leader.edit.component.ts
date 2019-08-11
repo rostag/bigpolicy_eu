@@ -5,7 +5,7 @@ import {DriveService} from '../../shared/drive/drive.service';
 import {UserService} from '../../shared/user/user.service';
 import {Location} from '@angular/common';
 import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
-import {ILeader} from '../../common/models';
+import {ILeader} from '../../shared/models';
 import {select, Store} from '@ngrx/store';
 import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
 import {LoadLeader, CreateLeader, DeleteLeader, UpdateLeader, SelectLeader} from '../../state/actions/leader.actions';

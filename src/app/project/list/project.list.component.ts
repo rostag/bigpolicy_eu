@@ -1,7 +1,7 @@
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {Component, Input, OnChanges, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
 import {UserService} from '../../shared/user/user.service';
-import {IProjectResponsePage} from '../../common/models';
+import {IProjectResponsePage} from '../../shared/models';
 import {Store} from '@ngrx/store';
 import {IProjectState, getProjectsPage} from '../../state/reducers/project.reducers';
 import {LoadProjectsPage} from '../../state/actions/project.actions';

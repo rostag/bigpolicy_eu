@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject ,  Subscription } from 'rxjs';
 import { UserService } from '../../shared/user/user.service';
 import { HttpClient } from '@angular/common/http';
-import { ILeaderResponsePage, ILeader } from '../../common/models';
+import { ILeaderResponsePage, ILeader } from '../../shared/models';
 import { Store } from '@ngrx/store';
 import { ILeaderState, getLeadersPage } from '../../state/reducers/leader.reducers';
 import { LoadLeadersPage } from '../../state/actions/leader.actions';

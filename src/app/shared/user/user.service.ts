@@ -9,7 +9,7 @@ import {Store, select} from '@ngrx/store';
 import {AuthState, selectUserProfile, IUserProfile} from '../../state/reducers/auth.reducers';
 import {Router} from '@angular/router';
 import {LoginSuccess, Logout} from '../../state/actions/auth.actions';
-import {ILeader} from '../../common/models';
+import {ILeader} from '../models';
 import {ILeaderState} from '../../state/reducers/leader.reducers';
 import {CreateLeader} from '../../state/actions/leader.actions';
 

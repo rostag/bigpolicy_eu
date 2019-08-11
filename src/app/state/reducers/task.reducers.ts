@@ -1,6 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { TasksAction, TasksActionTypes } from '../actions/task.actions';
-import { ITask, ITaskResponsePage } from '../../common/models';
+import { ITask, ITaskResponsePage } from '../../shared/models';
 
 // --------------------------------------------------------------------------------------------------------------------
 // Store
