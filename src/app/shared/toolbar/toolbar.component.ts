@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';
 import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
+import {ILeader} from '../models';
 
 /**
  * This class represents the toolbar component.
@@ -19,6 +20,7 @@ import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reduc
 export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
 
   public userProfile: IUserProfile;
+  public leader: ILeader;
 
   get leaderId() {
     // FIXME NGRX IT
@@ -36,6 +38,11 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     select(selectUserProfile)
   );
 
+  private leader$: Observable<ILeader> = this.leaderStore.pipe(
+    takeUntil(this.unsubscribe),
+    select(getSelectedLeader)
+  );
+
   constructor(
     public userService: UserService,
     public leaderService: LeaderService,
@@ -46,17 +53,7 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userProfile$.subscribe(userProfile => {
-      this.userProfile = userProfile;
-    });
-
-    this.leaderStore.pipe(
-      filter(l => !!l),
-      select(getSelectedLeader))
-      .subscribe(() => {
-        if (this.userProfile) {
-          this.userProfile.leader = this.leaderService.leader;
-        }
-      })
+    this.userProfile$.subscribe(userProfile => this.userProfile = userProfile);
+    this.leader$.subscribe(leader => this.leader = leader);
   }
 }

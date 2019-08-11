@@ -10,15 +10,17 @@ import {AuthState, selectUserProfile, IUserProfile} from '../../state/reducers/a
 import {Router} from '@angular/router';
 import {LoginSuccess, Logout} from '../../state/actions/auth.actions';
 import {ILeader} from '../models';
-import {ILeaderState} from '../../state/reducers/leader.reducers';
+import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
 import {CreateLeader} from '../../state/actions/leader.actions';
+import {filter, takeUntil} from 'rxjs/operators';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseUnsubscribe {
 
   // Create Auth0 web auth instance
   private _auth0 = new auth0.WebAuth({
@@ -31,6 +33,7 @@ export class UserService {
   });
 
   // Store profile object in auth class
+  // FIXME NGRX IT USRPRF
   public userProfile: IUserProfile = {
     given_name: '',
     family_name: '',
@@ -68,7 +71,6 @@ export class UserService {
    */
   public authenticated() {
     // FIXME NGRX IT
-    // return tokenNotExpired('id_token');
     return UserService.tokenValid;
   };
 
@@ -80,6 +82,7 @@ export class UserService {
     private store: Store<AuthState>,
     private router: Router
   ) {
+    super();
     this.store.pipe(select(selectUserProfile)).subscribe(profile => this.userProfile = profile);
 
     // If authenticated, set local profile property, and update login status subject.
@@ -87,8 +90,6 @@ export class UserService {
 
     const lsProfile = localStorage.getItem('profile');
     const lsIsAdmin = localStorage.getItem('isAdmin');
-
-    console.log('userService constructor');
 
     if (UserService.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
@@ -116,11 +117,9 @@ export class UserService {
     this._auth0.authorize();
   }
 
-  public handleAuth() {
+  private handleAuth() {
     // When Auth0 hash parsed, get profile
-    console.log(' userService handleAuth');
     this._auth0.parseHash((err, authResult) => {
-      console.log(' ---- authResult:', authResult, err);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this._getProfile(authResult);
@@ -132,9 +131,7 @@ export class UserService {
 
   private _getProfile(authResult) {
     // Use access token to retrieve user's profile and set session
-    console.log(' --- getProfile');
     this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-      console.log(' ---- profile:', profile);
       if (profile) {
         this._setSession(authResult, profile);
       } else if (err) {
@@ -145,7 +142,6 @@ export class UserService {
 
   private _setSession(authResult, profile) {
     // Set tokens and expiration in localStorage and props
-    console.log(' --- setSession, authResult:', authResult);
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
@@ -185,9 +181,6 @@ export class UserService {
     this.router.navigate(['/']);
   }
 
-  /**
-   * Returns true if leader matching by email has been found in DB
-   */
   public hasLeader() {
     // FIXME NGRX IT
     return !!this.leaderService.leader;

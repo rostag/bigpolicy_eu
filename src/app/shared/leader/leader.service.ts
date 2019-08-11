@@ -1,14 +1,14 @@
-import {throwError as observableThrowError, BehaviorSubject, Observable, of} from 'rxjs';
+import {throwError as observableThrowError, Observable, of} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {DialogService} from '../dialog/dialog.service';
 import {ProjectService} from '../project/project.service';
 import {environment} from '../../../environments/environment';
 import {Injectable} from '@angular/core';
-import {map, catchError} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ENV} from 'app/../environments/env.config';
 import {ILeader, ILeaderResponsePage, IDataPageRequest} from '../models';
-import {State, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {ILeaderState} from '../../state/reducers/leader.reducers';
 import {LoadLeaderSuccess} from '../../state/actions/leader.actions';
 
@@ -32,8 +32,6 @@ export class LeaderService {
 
   private _leader: ILeader;
   private leaderApiUrl = environment.api_url + '/api/leader-api/';
-  private leaderSource = new BehaviorSubject<ILeader>(this.leader);
-  public leaderStream = this.leaderSource.asObservable();
 
   private static handleError(error: Response) {
     return observableThrowError(error.json() || 'Server error');
@@ -242,7 +240,6 @@ export class LeaderService {
     }
     // FIXME Issues happen, check admin editing different leaders, see Profile for each
     this.leader = leader;
-    // this.store.dispatch(new LoadLeaderSuccess(leader));
-    this.leaderSource.next(leader);
+    this.store.dispatch(new LoadLeaderSuccess(leader));
   }
 }

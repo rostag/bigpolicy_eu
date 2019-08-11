@@ -1,5 +1,5 @@
 // src/app/auth/auth.config.ts
-import { ENV } from '../../../environments/env.config';
+import {ENV} from '../../../environments/env.config';
 
 interface AuthConfig {
   CLIENT_ID: string;
@@ -8,8 +8,9 @@ interface AuthConfig {
   REDIRECT: string;
   SCOPE: string;
   NAMESPACE: string;
-};
+}
 
+// FIXME_SEC
 export const AUTH_CONFIG: AuthConfig = {
   CLIENT_ID: 'IgrxIDG6iBnAlS0HLpPW2m3hWb1LRH1J',
   CLIENT_DOMAIN: 'bigpolicy.eu.auth0.com',

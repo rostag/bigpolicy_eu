@@ -32,7 +32,7 @@
     </a>
   </div>
 
-  <app-leader-view [leaderId]="profileLeader?._id" class="leader"></app-leader-view>
+  <app-leader-view *ngIf="profileLeader" [leaderId]="profileLeader?._id" class="leader"></app-leader-view>
 
   <div class="admin" *ngIf="userService.isAdmin">
     <pre>Admin</pre>

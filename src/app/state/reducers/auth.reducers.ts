@@ -16,7 +16,6 @@ export interface IUserProfile {
   created_at: string;
   updated_at: string;
   picture: string;
-  leader?: ILeader;
 }
 
 // The AuthState interface describes the structure of the auth store we create
