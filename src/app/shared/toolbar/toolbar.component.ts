@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from 'app/shared/user/user.service';
-import {LeaderService} from 'app/shared/leader/leader.service';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
 import {ILeader} from '../models';
@@ -23,14 +22,13 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
   public leader: ILeader;
 
   get leaderId() {
-    // FIXME NGRX IT
-    return this.leaderService.leader && this.leaderService.leader._id;
+    return this.leader && this.leader._id;
   }
 
-  // FIXME USE_NGRX
+  // FIXME NGRX IT
   // Show if user has got a logged in Leader
   get hasAuthenticatedLeader() {
-    return this.userService.authenticated() && this.userService.hasLeader();
+    return this.userService.authenticated() && this.userService.hasLeader;
   };
 
   private userProfile$: Observable<IUserProfile> = this.store.pipe(
@@ -45,7 +43,6 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
 
   constructor(
     public userService: UserService,
-    public leaderService: LeaderService,
     private store: Store<AuthState>,
     private leaderStore: Store<ILeaderState>
   ) {

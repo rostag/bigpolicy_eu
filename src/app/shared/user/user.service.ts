@@ -22,6 +22,8 @@ declare var window: any;
 @Injectable()
 export class UserService extends BaseUnsubscribe {
 
+  public hasLeader = false;
+
   // Create Auth0 web auth instance
   private _auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.CLIENT_ID,
@@ -33,7 +35,6 @@ export class UserService extends BaseUnsubscribe {
   });
 
   // Store profile object in auth class
-  // FIXME NGRX IT USRPRF
   public userProfile: IUserProfile = {
     given_name: '',
     family_name: '',
@@ -102,6 +103,14 @@ export class UserService extends BaseUnsubscribe {
     }
 
     this.handleAuth();
+
+    this.leaderStore.pipe(
+      takeUntil(this.unsubscribe),
+      filter(l => !!l),
+      select(getSelectedLeader))
+      .subscribe((l) => {
+        this.hasLeader = !!l;
+      })
   }
 
   // It's here, not in auth.effects
@@ -181,11 +190,6 @@ export class UserService extends BaseUnsubscribe {
     this.router.navigate(['/']);
   }
 
-  public hasLeader() {
-    // FIXME NGRX IT
-    return !!this.leaderService.leader;
-  }
-
   public canEdit(leaderProjectOrTask) {
     // FIXME it's being called too often, as log below shows
     return this.isAdmin || this.isOwner(leaderProjectOrTask);
@@ -209,7 +213,7 @@ export class UserService extends BaseUnsubscribe {
       return false;
     }
 
-    const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
+    const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader;
     const leaderIsOwnedBy = userEmail === item['email'];
     const taskIsOwnedBy = item['projectId'] && userEmail === this.projectService.getCachedProject(item['projectId'])['managerEmail'];
 
@@ -248,7 +252,7 @@ export class UserService extends BaseUnsubscribe {
   private tryToContinueLeaderRegistration() {
     this.router.navigate(['/profile']);
     const lsRegistration = localStorage.getItem('BigPolicyLeaderRegistration');
-    if (this.authenticated() && !this.hasLeader() && !!lsRegistration) {
+    if (this.authenticated() && !this.hasLeader && !!lsRegistration) {
 
       const leader: ILeader = new LeaderModel();
       leader.parseData(JSON.parse(lsRegistration));

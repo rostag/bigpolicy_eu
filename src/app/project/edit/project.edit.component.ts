@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectModel } from '../../shared/project/project.model';
-import { LeaderService } from '../../shared/leader/leader.service';
-import { Location } from '@angular/common';
-import { ILeader, IProject } from '../../shared/models';
-import { LeaderModel } from '../../shared/leader/leader.model';
-import { Store } from '@ngrx/store';
-import { ILeaderState } from '../../state/reducers/leader.reducers';
-import { UpdateLeader } from '../../state/actions/leader.actions';
-import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
-import { CreateProject, UpdateProject, LoadProject, SelectProject } from '../../state/actions/project.actions';
-import { UserService } from '../../shared/user/user.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProjectModel} from '../../shared/project/project.model';
+import {LeaderService} from '../../shared/leader/leader.service';
+import {Location} from '@angular/common';
+import {ILeader, IProject} from '../../shared/models';
+import {LeaderModel} from '../../shared/leader/leader.model';
+import {select, Store} from '@ngrx/store';
+import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
+import {UpdateLeader} from '../../state/actions/leader.actions';
+import {IProjectState, getSelectedProject} from '../../state/reducers/project.reducers';
+import {CreateProject, UpdateProject, LoadProject, SelectProject} from '../../state/actions/project.actions';
+import {UserService} from '../../shared/user/user.service';
+import {Observable} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {BaseUnsubscribe} from '../../shared/base-unsubscribe/base.unsubscribe';
 
 @Component({
   templateUrl: './project.edit.component.html',
   styleUrls: ['./project.edit.component.scss']
 })
 
-export class ProjectEditComponent implements OnInit {
+export class ProjectEditComponent extends BaseUnsubscribe implements OnInit {
+
+  private leader$: Observable<ILeader> = this.leaderStore.pipe(
+    takeUntil(this.unsubscribe),
+    select(getSelectedLeader)
+  );
 
   get showTasks(): boolean {
     return this.isUpdateMode;
@@ -27,6 +35,7 @@ export class ProjectEditComponent implements OnInit {
   isUpdateMode = false;
 
   project: IProject;
+  leader: ILeader;
 
   // need to extract it to separate component
   public leadersToMoveProjectTo: ILeader[] = null;
@@ -41,6 +50,7 @@ export class ProjectEditComponent implements OnInit {
     private leaderStore: Store<ILeaderState>,
     private projectStore: Store<IProjectState>
   ) {
+    super();
     this.project = new ProjectModel();
   }
 
@@ -58,13 +68,13 @@ export class ProjectEditComponent implements OnInit {
       }
     });
     // TODO Consider Getting by ID:
-    this.projectStore.select(getSelectedProject).subscribe(prj => {
-      this.setProject(prj);
-    });
+    this.projectStore.select(getSelectedProject).subscribe(prj => this.setProject(prj));
+
+    this.leader$.subscribe(l => this.leader = l);
+
   }
 
   private setProject(project: IProject) {
-
     this.project = new ProjectModel();
     this.project.parseData(project);
   }
@@ -75,7 +85,7 @@ export class ProjectEditComponent implements OnInit {
    */
   // FIXME: Complete Project processing
   saveProject(): boolean {
-    const leader = this.leaderService.leader;
+    const leader = this.leader;
     // FIXME TO NGRX LDR
     // this.leaderStore.select(getSelectedLeader).subscribe(l => {
     //   leader = l;
