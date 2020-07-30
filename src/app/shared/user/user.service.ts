@@ -9,16 +9,20 @@ import {Store, select} from '@ngrx/store';
 import {AuthState, selectUserProfile, IUserProfile} from '../../state/reducers/auth.reducers';
 import {Router} from '@angular/router';
 import {LoginSuccess, Logout} from '../../state/actions/auth.actions';
-import {ILeader} from '../../common/models';
-import {ILeaderState} from '../../state/reducers/leader.reducers';
+import {ILeader} from '../models';
+import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
 import {CreateLeader} from '../../state/actions/leader.actions';
+import {filter, takeUntil} from 'rxjs/operators';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 
 // Avoid name not found warnings in tests
 declare var localStorage: any;
 declare var window: any;
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseUnsubscribe {
+
+  public hasLeader = false;
 
   // Create Auth0 web auth instance
   private _auth0 = new auth0.WebAuth({
@@ -67,8 +71,7 @@ export class UserService {
    * Check if there's an unexpired JWT, by finding a local storage item with key == 'id_token'
    */
   public authenticated() {
-    // FIXME Move to using NGRX/store
-    // return tokenNotExpired('id_token');
+    // FIXME NGRX IT
     return UserService.tokenValid;
   };
 
@@ -80,6 +83,7 @@ export class UserService {
     private store: Store<AuthState>,
     private router: Router
   ) {
+    super();
     this.store.pipe(select(selectUserProfile)).subscribe(profile => this.userProfile = profile);
 
     // If authenticated, set local profile property, and update login status subject.
@@ -97,8 +101,19 @@ export class UserService {
     } else if (!UserService.tokenValid && lsProfile) {
       this.logout();
     }
+
+    this.handleAuth();
+
+    this.leaderStore.pipe(
+      takeUntil(this.unsubscribe),
+      filter(l => !!l),
+      select(getSelectedLeader))
+      .subscribe((l) => {
+        this.hasLeader = !!l;
+      })
   }
 
+  // It's here, not in auth.effects
   private setLoggedIn(toLogin: boolean, userProfile: IUserProfile = null) {
     if (toLogin) {
       this.store.dispatch(new LoginSuccess(userProfile));
@@ -111,7 +126,7 @@ export class UserService {
     this._auth0.authorize();
   }
 
-  public handleAuth() {
+  private handleAuth() {
     // When Auth0 hash parsed, get profile
     this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -135,9 +150,8 @@ export class UserService {
   }
 
   private _setSession(authResult, profile) {
-    // Save session data and update login status subject
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     // Set tokens and expiration in localStorage and props
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
@@ -176,14 +190,6 @@ export class UserService {
     this.router.navigate(['/']);
   }
 
-  /**
-   * Returns true if leader matching by email has been found in DB
-   */
-  public hasLeader() {
-    // FIXME NGRX IT
-    return !!this.leaderService.leader;
-  }
-
   public canEdit(leaderProjectOrTask) {
     // FIXME it's being called too often, as log below shows
     return this.isAdmin || this.isOwner(leaderProjectOrTask);
@@ -207,7 +213,7 @@ export class UserService {
       return false;
     }
 
-    const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader();
+    const projectIsOwnedBy = userEmail === item['managerEmail'] && this.hasLeader;
     const leaderIsOwnedBy = userEmail === item['email'];
     const taskIsOwnedBy = item['projectId'] && userEmail === this.projectService.getCachedProject(item['projectId'])['managerEmail'];
 
@@ -246,7 +252,7 @@ export class UserService {
   private tryToContinueLeaderRegistration() {
     this.router.navigate(['/profile']);
     const lsRegistration = localStorage.getItem('BigPolicyLeaderRegistration');
-    if (this.authenticated() && !this.hasLeader() && !!lsRegistration) {
+    if (this.authenticated() && !this.hasLeader && !!lsRegistration) {
 
       const leader: ILeader = new LeaderModel();
       leader.parseData(JSON.parse(lsRegistration));

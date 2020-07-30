@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ILeaderResponsePage, ILeader, IDataPageRequest } from '../../common/models';
+import { ILeaderResponsePage, ILeader, IDataPageRequest } from '../../shared/models';
 
 export interface LeaderAction extends Action {
     payload?: any;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
-import { ILeader, IProject } from '../../../common/models';
+import { ILeader, IProject } from '../../models';
 
 @Component({
   selector: 'app-carousel',

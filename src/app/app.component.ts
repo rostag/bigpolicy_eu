@@ -1,6 +1,5 @@
-import { OnInit, Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { UserService } from './shared/user/user.service';
+import {OnInit, Component} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
 import * as appVersion from '../../package.json';
 
 @Component({
@@ -11,14 +10,9 @@ import * as appVersion from '../../package.json';
 
 export class AppComponent implements OnInit {
 
-  title = 'BigPolicy';
   version = appVersion['version'];
 
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) {
-    userService.handleAuth();
+  constructor(private router: Router) {
   }
 
   ngOnInit() {

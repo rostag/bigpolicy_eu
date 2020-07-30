@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IProject } from '../../common/models';
+import { IProject } from '../models';
 
 /**
  * This class provides the ProjectList service with methods to get and save projects.

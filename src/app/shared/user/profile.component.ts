@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {LeaderService} from '../leader/leader.service';
-import {UserService} from './user.service';
-import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
-import {takeUntil} from 'rxjs/operators';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
-import {Observable} from 'rxjs';
+import {getSelectedLeader} from '../../state/reducers/leader.reducers';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
+import {LeaderService} from '../leader/leader.service';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from './user.service';
 import {select, Store} from '@ngrx/store';
-import {ILeader} from '../../common/models';
+import {takeUntil} from 'rxjs/operators';
+import {ILeader} from '../models';
+import {Observable} from 'rxjs';
 
 @Component({
   templateUrl: './profile.component.html',
@@ -22,7 +23,12 @@ export class ProfileComponent extends BaseUnsubscribe implements OnInit {
     select(selectUserProfile)
   );
 
-  public profileLeader: ILeader = <any>{};
+  private leader$: Observable<ILeader> = this.store.pipe(
+    takeUntil(this.unsubscribe),
+    select(getSelectedLeader)
+  );
+
+  public profileLeader: ILeader;
 
   constructor(
     public leaderService: LeaderService,
@@ -34,10 +40,7 @@ export class ProfileComponent extends BaseUnsubscribe implements OnInit {
 
   ngOnInit() {
     this.userProfile$.subscribe(userProfile => this.userProfile = userProfile);
-
-    // FIXME NGRX IT LP
-    this.leaderService.leaderStream.pipe(takeUntil(this.unsubscribe))
-      .subscribe(item => this.profileLeader = item);
+    this.leader$.subscribe(leader => this.profileLeader = leader);
   }
 
   public pingJwt() {

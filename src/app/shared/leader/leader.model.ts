@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { ILeader } from '../../common/models';
+import { ILeader } from '../models';
 
 export class LeaderModel implements ILeader {
   _id: string;

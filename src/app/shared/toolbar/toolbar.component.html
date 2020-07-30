@@ -14,7 +14,7 @@
   <span fxFlex="23" style="white-space:nowrap;">
     <a title="Email: {{userService.userProfile?.email || 'User email'}}" [routerLink]="['/profile']"
        *ngIf="userService.authenticated()">
-      {{userProfile?.leader ? userProfile.leader.name + ' ' + userProfile.leader.surName : userProfile?.name || 'User'}}
+      {{leader ? leader.name + ' ' + leader.surName : userProfile?.name || 'Користувач'}}
     </a>
     <a *ngIf="!userService.authenticated()" (click)="userService.login()">
       Увійти

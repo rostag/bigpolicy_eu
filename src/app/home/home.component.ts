@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { UserService } from '../shared/user/user.service';
-import { ILeader } from '../common/models';
+import { ILeader } from '../shared/models';
 
 
 @Component({

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from 'app/shared/user/user.service';
-import {LeaderService} from 'app/shared/leader/leader.service';
 import {AuthState, IUserProfile, selectUserProfile} from '../../state/reducers/auth.reducers';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
 import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
+import {ILeader} from '../models';
 
 /**
  * This class represents the toolbar component.
@@ -19,16 +19,16 @@ import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reduc
 export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
 
   public userProfile: IUserProfile;
+  public leader: ILeader;
 
   get leaderId() {
-    // FIXME NGRX IT
-    return this.leaderService.leader && this.leaderService.leader._id;
+    return this.leader && this.leader._id;
   }
 
-  // FIXME USE_NGRX
+  // FIXME NGRX IT
   // Show if user has got a logged in Leader
   get hasAuthenticatedLeader() {
-    return this.userService.authenticated() && this.userService.hasLeader();
+    return this.userService.authenticated() && this.userService.hasLeader;
   };
 
   private userProfile$: Observable<IUserProfile> = this.store.pipe(
@@ -36,9 +36,13 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
     select(selectUserProfile)
   );
 
+  private leader$: Observable<ILeader> = this.leaderStore.pipe(
+    takeUntil(this.unsubscribe),
+    select(getSelectedLeader)
+  );
+
   constructor(
     public userService: UserService,
-    public leaderService: LeaderService,
     private store: Store<AuthState>,
     private leaderStore: Store<ILeaderState>
   ) {
@@ -46,17 +50,7 @@ export class ToolbarComponent extends BaseUnsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userProfile$.subscribe(userProfile => {
-      this.userProfile = userProfile;
-    });
-
-    this.leaderStore.pipe(
-      filter(l => !!l),
-      select(getSelectedLeader))
-      .subscribe(() => {
-        if (this.userProfile) {
-          this.userProfile.leader = this.leaderService.leader;
-        }
-      })
+    this.userProfile$.subscribe(userProfile => this.userProfile = userProfile);
+    this.leader$.subscribe(leader => this.leader = leader);
   }
 }

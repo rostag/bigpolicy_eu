@@ -3,7 +3,7 @@ import { TaskModel } from '../../shared/task/task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { DialogService } from '../../shared/dialog/dialog.service';
-import { IProject, ITask } from '../../common/models';
+import { IProject, ITask } from '../../shared/models';
 import { Store } from '@ngrx/store';
 import { IProjectState, getSelectedProject } from '../../state/reducers/project.reducers';
 import { LoadProject } from '../../state/actions/project.actions';

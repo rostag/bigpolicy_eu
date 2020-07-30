@@ -5,7 +5,7 @@ import { ProjectService } from '../../shared/project/project.service';
 import { TaskModel } from '../../shared/task/task.model';
 import { UserService } from '../../shared/user/user.service';
 import { Location } from '@angular/common';
-import { IProject, ITask } from '../../common/models';
+import { IProject, ITask } from '../../shared/models';
 import { Store } from '@ngrx/store';
 import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject } from '../../state/actions/project.actions';

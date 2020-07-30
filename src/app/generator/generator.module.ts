@@ -1,20 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { GeneratorRoutingModule } from './generator-routing.module';
-import { GeneratorComponent } from './generator.component';
-import { AudioComponent } from './audio.component';
-import { MaterialModule } from '../common/modules/material/material.module';
+import {GeneratorRoutingModule} from './generator-routing.module';
+import {GeneratorComponent} from './generator.component';
+import {AudioComponent} from './audio.component';
+import {MaterialModule} from '../shared/material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
     GeneratorRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule,
   ],
   declarations: [
     GeneratorComponent,
     AudioComponent
   ]
 })
-export class GeneratorModule { }
+export class GeneratorModule {
+}

@@ -1,5 +1,5 @@
 import { IProjectState, getProjectsById } from '../../state/reducers/project.reducers';
-import { IProject, IResponsePage, IDataPageRequest } from '../../common/models';
+import { IProject, IResponsePage, IDataPageRequest } from '../models';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogService } from '../dialog/dialog.service';

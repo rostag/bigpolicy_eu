@@ -1,34 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LeaderService } from '../leader/leader.service';
-import { UserService } from '../user/user.service';
-import { Subscription } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../user/user.service';
+import {Observable} from 'rxjs';
+import {BaseUnsubscribe} from '../base-unsubscribe/base.unsubscribe';
+import {ILeader} from '../models';
+import {getSelectedLeader, ILeaderState} from '../../state/reducers/leader.reducers';
+import {select, Store} from '@ngrx/store';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
 
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent extends BaseUnsubscribe implements OnInit {
 
-  adminLeader;
-  subscription: Subscription;
+  adminLeader: ILeader;
+
+  private leader$: Observable<ILeader> = this.store.pipe(takeUntil(this.unsubscribe), select(getSelectedLeader));
 
   constructor(
-    public leaderService: LeaderService,
-    public userService: UserService
-  ) {}
-
-  ngOnInit() {
-    // FIXME NGRX IT
-    this.subscription = this.leaderService.leaderStream
-      .subscribe(item => {
-        console.log('AdminComponent. Set leader:', item);
-        this.adminLeader = item;
-      });
+    public userService: UserService,
+    private store: Store<ILeaderState>
+  ) {
+    super();
   }
 
-  ngOnDestroy() {
-    // prevent memory leak when component is destroyed
-    this.subscription.unsubscribe();
+  ngOnInit() {
+    this.leader$.subscribe(leader => this.adminLeader = leader);
   }
 }

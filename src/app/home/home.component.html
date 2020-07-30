@@ -34,8 +34,8 @@
         </div>
         <div class="card-description">
           <!-- FTUX - LEADER - Section is visible to non-leaders only -->
-          <div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
-          <div *ngIf="userService.hasLeader()">Ви стали лідером</div>
+          <div *ngIf="!userService.hasLeader">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
+          <div *ngIf="userService.hasLeader">Ви стали лідером</div>
           <!-- /FTUX - LEADER END -->
           <div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
         </div>
@@ -77,8 +77,8 @@
     <!-- <div fxFlex="21" fxFlex.sm="42" fxFlex.xs="84"> 
       <img src="assets/svg/smile.svg">
       FTUX - LEADER - Section is visible to non-leaders only
-      <div *ngIf="!userService.hasLeader()">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
-      <div *ngIf="userService.hasLeader()">Ви стали лідером</div>
+      <div *ngIf="!userService.hasLeader">Ви вирішуєте <a [routerLink]="['/add-leader']">стати лідером.</a></div>
+      <div *ngIf="userService.hasLeader">Ви стали лідером</div>
       /FTUX - LEADER END
       <div>Використовуєте інструмент платформи для фандрейзингу коштів на ініціативи.</div>
     </div>
