@@ -1,5 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { debounce, debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-generator',
   templateUrl: './generator.component.html',
@@ -10,13 +12,20 @@ export class GeneratorComponent implements OnInit {
   public isSaved = false;
   public generated = '';
 
+  private movetick = 0;
+
   private dict = [
-    { 'чим': 1 },
-    { 'хо': 4 },
+    { 'ля': 2 },
+    { 'чим': 2 },
+    { 'хо': 3 },
+    { 'дя': 3 },
     { 'мі': 1 },
+    { 'ї': 2 },
+    { 'хав': 3 },
     { 'ду': 2 },
     { 'чи': 4 },
-    { 'ятель': 4 },
+    { 'я': 2 },
+    { 'тель': 4 },
     { 'шов': 5 },
     { 'ку': 1 },
     { ' ': 9 },
@@ -26,7 +35,6 @@ export class GeneratorComponent implements OnInit {
     { 'кос': 1 },
     { 'об': 1 },
     { 'дить': 2 },
-    { 'їхав': 1 },
     { 'учи': 1 },
     { 'му': 1 },
     { 'би': 1 },
@@ -41,7 +49,6 @@ export class GeneratorComponent implements OnInit {
     { 'вез': 1 },
     { 'мет': 1 },
     { 'вет': 1 },
-    { 'дя': 1 },
     { 'ви': 1 }
   ];
 
@@ -79,6 +86,7 @@ export class GeneratorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.draw();
     this.go();
   }
 
@@ -101,10 +109,27 @@ export class GeneratorComponent implements OnInit {
 
   public go() {
     if (!this.isSaved) {
-      this.generated = this.get9898();
+      this.movetick++;
+      if (this.movetick % 4 === 0) {
+        this.draw();
+      }
     }
   }
 
+  private draw() {
+    const maxLength = 5;
+    // this.generated = `${this.get2424()}\n${this.get9898()}`;
+    const s1 = Math.abs(Math.ceil(Math.sin(this.movetick/60) * maxLength));
+    const s2 = Math.abs(Math.ceil(Math.sin(this.movetick/90) * maxLength));
+    const s3 = Math.abs(Math.ceil(Math.sin(this.movetick/90) * maxLength));
+    const s4 = Math.abs(Math.ceil(Math.sin(this.movetick/360) * maxLength));
+    
+    this.generated = `
+      ${this.getByCount(s1).trim()}\n
+      ${this.getByCount(s1).trim()}\n
+      ${this.getByCount(s1).trim()}\n
+      ${this.getByCount(s1).trim()}`;
+  }
   public save() {
     console.log('Save:', this.generated);
     this.isSaved = !this.isSaved;
@@ -120,13 +145,23 @@ export class GeneratorComponent implements OnInit {
       `;
   }
 
+  public get2424() {
+    return `
+      ${this.getByCount(2).trim()}\n
+      ${this.getByCount(4).trim()}\n
+      ${this.getByCount(2).trim()}\n
+      ${this.getByCount(4).trim()}
+      `;
+  }
+
   public getByCount(count) {
     let res = '';
     for (let c = 0; c < count; c++) {
       res += this.getNext(this.dict);
     }
-    return res;
+    return `${count}: ${res}`;
   }
+
   /*
   size_t nth = rand() % count;
   size_t all = 0;
@@ -142,8 +177,12 @@ export class GeneratorComponent implements OnInit {
     let all = 0;
     for (let n = 0; n < dict.length; n++) {
       all += Object['values'](dict[n])[0];
-      if (all >= nth) {
-        return Object.keys(dict[n])[0];
+      if (all > nth) {
+        let result = Object.keys(dict[n])[0];
+        // if ((result as string).trim().length === 0) {
+        //   result += this.getNext(this.dict);
+        // }
+        return result;
       }
     }
   }

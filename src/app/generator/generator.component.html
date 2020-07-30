@@ -1,9 +1,13 @@
-<h2>Генератор поезії</h2>
-<h2>Генератор звуку</h2>
-<app-audio></app-audio>
-
-<h2>Генератор поезії</h2>
-<p>Рухай мишею над текстом, щоб оновити його. Клік - щоб заморозити / розморозити текст.</p>
-<pre class="pre-poetry" (mousemove)="go()" (click)="save()">
-  {{generated}}
-</pre>
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxFlex="50">
+    <h2>audio</h2>
+    <app-audio></app-audio>
+  </div>
+  <div fxFlex="50">
+    <h2>text</h2>
+    <p>Рухай мишею над текстом, клікай щоб зафіксувати текст.</p>
+    <pre class="pre-poetry" (mousemove)="go()" (click)="save()">
+      {{generated}}
+    </pre>
+  </div>
+</div>
