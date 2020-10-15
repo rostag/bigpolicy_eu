@@ -1,5 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 
+export const pyro1 = [
+  [1, 1, 1, 2, 1, 2],
+  [2, 3, 3],
+  [1, 3, 1, 4],
+  [1, 2, 1, 3, 2]
+];
+
+// 2–4–6–8–2
+export const senkan = [
+  [1, 1],
+  [1, 3],
+  [2, 4],
+  [2, 4, 2],
+  [2]
+]
+
+
+/*
+  Result example:
+
+  есть бог мне мало и она 
+  выходит сегодня богиня 
+  всё хватает и производит 
+  бог верит я согреют вчера 
+
+  я бог мне сказал на сутки 
+  выходит минуту редкие 
+  а скучаю была потеплело 
+  как нашим и красивой выношу
+
+  я и он дана всё убить 
+  лишний сирени лариса 
+  мне медленно и потеплело 
+  вдруг весна на полчаса вокруг 
+
+
+  2
+  плакать ноздрями личинок 
+  валют болезней отвести 
+  когда лепесток сирени
+  слова казались тормоза 
+  слова редкие особо 
+
+
+
+  3
+  как ужасно тут поэтому 
+
+  senkan
+  я бог 
+  ты бросая 
+  сукой волосами 
+  красным которые лона 
+  меня 
+
+*/
+
 export interface IEntity {
   name: string;
   description: string;
@@ -39,6 +96,7 @@ export class RandomDomComponent implements OnInit {
   }
   
   public setRythm(ryt: number[][]) {
+    console.log('set rhythm:', JSON.stringify(ryt, null, 2));
     this.rythm = ryt;
   }
 
@@ -111,12 +169,7 @@ export class RandomDomComponent implements OnInit {
     
     this.setDictionary(pyroDictionary);
 
-    this.setRythm([
-      [1, 1, 1, 2, 1, 2],
-      [2, 3, 3],
-      [1, 3, 1, 4],
-      [1, 2, 1, 3, 2]
-    ]);
+    this.setRythm(pyro1);
 
     return this.getResultFromDicAndRythm();
   }
@@ -135,13 +188,14 @@ export class RandomDomComponent implements OnInit {
   };
 
   private getRandomWordOfGivenLength(dic: string[], wordLength: number): string {
-    const syllables = 'їёуэеиаоєяіию';
+    const syllables = 'їёуэеиаоєяіиюыє';
     const randomWord = this.getRandomFromSet(dic);
     let syllablesCount = 0;
     randomWord.split('').forEach(char => {
       syllablesCount += syllables.split('').includes(char) ? 1 : 0;
     })
     if (syllablesCount === wordLength) {
+      dic.splice(dic.indexOf(randomWord), 1);
       return randomWord;
     } else {
       return this.getRandomWordOfGivenLength(dic, wordLength);
