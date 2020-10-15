@@ -1,0 +1,5 @@
+<button mat-raised-button color="primary" (click)="draw()">Ще!</button>
+<pre class="pre-poetry" (mousemove)="go()" (click)="save()">
+  {{generated}}
+</pre>
+<p>{{ paused ? 'На паузі. Клікни, щоб зняти з паузи.': 'Рухай мишею над текстом, клікай щоб зафіксувати його!' }}.</p>

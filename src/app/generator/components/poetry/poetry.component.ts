@@ -1,18 +1,51 @@
-
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { debounce, debounceTime } from 'rxjs/operators';
-@Component({
-  selector: 'app-generator',
-  templateUrl: './generator.component.html',
-  styleUrls: ['./generator.component.scss']
-})
-export class GeneratorComponent implements OnInit {
 
-  public isSaved = false;
+export const dumyMoiDumy: string =
+`Ду-ми мо-ї, ду-ми мо-ї,
+Ли-хо ме-ні з ва-ми!
+На-що ста-ли на па-пе-рі
+Сум-ни-ми ря-да-ми?..
+Чом вас ві-тер не роз-ві-яв
+В сте-пу, як пи-ли-ну?
+Чом вас ли-хо не прис-па-ло,
+Як сво-ю ди-ти-ну?..
+
+Бо вас ли-хо на світ на сміх по-ро-ди-ло,
+По-ли-ва-ли сльо-зи. чом не за-то-пи-ли,
+Не ви-не-сли в мо-ре, не роз-ми-ли в по-лі?.
+Не пи-та-ли б люде, що в ме-не бо-лить,
+Не пи-та-ли б, за що про-кли-наю до-лю,
+Чо-го нуд-жу сві-том? «Ні-чо-го ро-би-ть»,—
+Не ска-за-ли б на сміх...
+
+Кві-ти мо-ї, ді-ти!
+На-що ж вас ко-хав я, на-що дог-ля-дав?
+Чи за-пла-че сер-це од-но на всім сві-ті
+Як я з ва-ми пла-кав Може, і вга-дав
+Може най-деть-ся ді-во-че
+Сер-це ка-рі очі
+Що зап-ла-чуть на сі ду-ми
+Я біль-ше не хо-чу
+Од-ну сльо-зу з о-чей ка-рих
+І пан над па-на-ми
+Ду-ми мо-ї ду-ми мої
+Ли-хо ме-ні з ва-ми!`;
+
+
+@Component({
+  selector: 'app-poetry',
+  templateUrl: './poetry.component.html',
+  styleUrls: ['./poetry.component.scss']
+})
+
+export class PoetryComponent implements OnInit {
+
+  constructor() { }
+
+  public paused = false;
   public generated = '';
 
-  private movetick = 0;
+  private movetick = 100;
 
   private dict = [
     { 'ля': 2 },
@@ -52,46 +85,13 @@ export class GeneratorComponent implements OnInit {
     { 'ви': 1 }
   ];
 
-  private txt =
-    `Ду-ми мо-ї, ду-ми мо-ї,
-    Ли-хо ме-ні з ва-ми!
-    На-що ста-ли на па-пе-рі
-    Сум-ни-ми ря-да-ми?..
-    Чом вас ві-тер не роз-ві-яв
-    В сте-пу, як пи-ли-ну?
-    Чом вас ли-хо не прис-па-ло,
-    Як сво-ю ди-ти-ну?..
-
-    Бо вас ли-хо на світ на сміх по-ро-ди-ло,
-    По-ли-ва-ли сльо-зи. чом не за-то-пи-ли,
-    Не ви-не-сли в мо-ре, не роз-ми-ли в по-лі?.
-    Не пи-та-ли б люде, що в ме-не бо-лить,
-    Не пи-та-ли б, за що про-кли-наю до-лю,
-    Чо-го нуд-жу сві-том? «Ні-чо-го ро-би-ть»,—
-    Не ска-за-ли б на сміх...
-
-    Кві-ти мо-ї, ді-ти!
-    На-що ж вас ко-хав я, на-що дог-ля-дав?
-    Чи за-пла-че сер-це од-но на всім сві-ті
-    Як я з ва-ми пла-кав Може, і вга-дав
-    Може най-деть-ся ді-во-че
-    Сер-це ка-рі очі
-    Що зап-ла-чуть на сі ду-ми
-    Я біль-ше не хо-чу
-    Од-ну сльо-зу з о-чей ка-рих
-    І пан над па-на-ми
-    Ду-ми мо-ї ду-ми мої
-    Ли-хо ме-ні з ва-ми!`;
-
-  constructor() { }
-
   ngOnInit() {
     this.draw();
     this.go();
   }
 
   private getText() {
-    let a = this.txt.toLowerCase().replace(/\s+/ig, '-');
+    let a = dumyMoiDumy.toLowerCase().replace(/\s+/ig, '-');
     a = a.replace(/\n/ig, '-');
     a = a.replace(/,/ig, '');
     a = a.replace(/!/ig, '');
@@ -108,7 +108,7 @@ export class GeneratorComponent implements OnInit {
   }
 
   public go() {
-    if (!this.isSaved) {
+    if (!this.paused) {
       this.movetick++;
       if (this.movetick % 4 === 0) {
         this.draw();
@@ -116,24 +116,28 @@ export class GeneratorComponent implements OnInit {
     }
   }
 
-  private draw() {
+  public draw() {
+    this.generated = `${this.get9898()}`;
+  }
+
+  public save() {
+    console.log('Save:', this.generated);
+    this.paused = !this.paused;
+    this.getText();
+  }
+
+  public get sin() {
     const maxLength = 5;
-    // this.generated = `${this.get2424()}\n${this.get9898()}`;
     const s1 = Math.abs(Math.ceil(Math.sin(this.movetick/60) * maxLength));
     const s2 = Math.abs(Math.ceil(Math.sin(this.movetick/90) * maxLength));
     const s3 = Math.abs(Math.ceil(Math.sin(this.movetick/90) * maxLength));
     const s4 = Math.abs(Math.ceil(Math.sin(this.movetick/360) * maxLength));
     
-    this.generated = `
+    return `
       ${this.getByCount(s1).trim()}\n
       ${this.getByCount(s1).trim()}\n
       ${this.getByCount(s1).trim()}\n
       ${this.getByCount(s1).trim()}`;
-  }
-  public save() {
-    console.log('Save:', this.generated);
-    this.isSaved = !this.isSaved;
-    this.getText();
   }
 
   public get9898() {
