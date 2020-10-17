@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { haiku, pyro1, r1r2r3, r1r2r31, salo, senkan } from '../models/rythm.models';
-import { DictionaryNames, PoetryService } from '../services/poetry.service';
+import { salo } from '../models/rythm.models';
+import { PoetryService, str } from '../services/poetry.service';
 
 /*
   senkan
@@ -97,11 +97,11 @@ export class RandomDomComponent implements OnInit {
   };
 
   private renderPoetry(): string {
-    const dicGGWords = this.poetryService.getDicByName(DictionaryNames.wordsWithGG, '--SECTION-->');
-    const dicDumy = this.poetryService.getDicByName(DictionaryNames.dumyMoiDumy, '\n\n', '\n', ' ', '-');
-    const dicKobzar = this.poetryService.getDicByName(DictionaryNames.kobzar, '\n\n', '\n', ' ');
-    const dicPyro = this.poetryService.getDicByName(DictionaryNames.wordsOfPyro, '\n\n', '\n', ' ', '-');
-    const dicNumbers = this.poetryService.getDicByName(DictionaryNames.wordNumbers, '\n\n', '\n', ' ', '-');
+    const dicGGWords = this.poetryService.getDicByName(str.wordsWithGG, '--SECTION-->');
+    const dicDumy = this.poetryService.getDicByName(str.dumyMoiDumy, '\n\n', '\n', ' ', '-');
+    const dicKobzar = this.poetryService.getDicByName(str.kobzar, '\n\n', '\n', ' ');
+    const dicPyro = this.poetryService.getDicByName(str.wordsOfPyro, '\n\n', '\n', ' ', '-');
+    const dicNumbers = this.poetryService.getDicByName(str.wordNumbers, '\n\n', '\n', ' ', '-');
     
     // const mergedDic = dicGGWords.concat(dicDumy, dicKobzar);
 

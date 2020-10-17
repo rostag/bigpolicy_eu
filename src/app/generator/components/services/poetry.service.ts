@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { dumyMoiDumy, kobzar, wordNumbers, wordsOfPyro, wordsWithGG } from '../models/poetry.model';
+import { dumyMoiDumy, wordNumbers, wordsOfPyro, wordsWithGG } from '../models/poetry.model';
+import { kobzar } from '../models/poetry.model.kob';
 
 /**
  * Poetry backlog:
@@ -17,15 +18,7 @@ import { dumyMoiDumy, kobzar, wordNumbers, wordsOfPyro, wordsWithGG } from '../m
  *  - Lines
  */
 
-export enum DictionaryNames {
-    'wordsWithGG' = 'wordsWithGG',
-    'dumyMoiDumy' = 'dumyMoiDumy',
-    'wordsOfPyro' = 'wordsOfPyro',
-    'kobzar' = 'kobzar',
-    'wordNumbers' = 'wordNumbers',
-};
-
-export const stringsByDictionaryName = {
+export const str = {
     wordsWithGG: wordsWithGG,
     dumyMoiDumy: dumyMoiDumy,
     wordsOfPyro: wordsOfPyro,
@@ -39,7 +32,7 @@ export class PoetryService {
     private dics: any = {};
 
     public getDicByName(
-        dictionaryName: DictionaryNames,
+        dictionaryName: any,
         sectionSeparator = '\n\n',
         linesSeparator = '\n',
         wordsSeparator = ' ',
@@ -47,7 +40,7 @@ export class PoetryService {
     ) {
         const existingDictionary = this.dics[dictionaryName];
         if (!existingDictionary) {
-            const multilineString = stringsByDictionaryName[dictionaryName];
+            const multilineString = dictionaryName;
             let newDictionary = [];
             const sections = multilineString.split(sectionSeparator);
             sections.forEach(section => {
