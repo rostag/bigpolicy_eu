@@ -19,7 +19,6 @@ module.exports = {
     projectId: 'bigpolicy-qa',
     storageBucket: 'bigpolicy-qa.appspot.com',
     messagingSenderId: '780191546457',
-    appId: '1:47982322024:web:021225fcd4662f85'
   }
 };
 

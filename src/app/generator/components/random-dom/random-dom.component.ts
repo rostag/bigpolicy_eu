@@ -99,7 +99,7 @@ export class RandomDomComponent implements OnInit {
   private renderPoetry(): string {
     const dicGGWords = this.poetryService.getDicByName(DictionaryNames.wordsWithGG, '--SECTION-->');
     const dicDumy = this.poetryService.getDicByName(DictionaryNames.dumyMoiDumy, '\n\n', '\n', ' ', '-');
-    const dicKobzar = this.poetryService.getDicByName(DictionaryNames.kobzar, '\n\n', '\n', ' ', '-');
+    const dicKobzar = this.poetryService.getDicByName(DictionaryNames.kobzar, '\n\n', '\n', ' ');
     const dicPyro = this.poetryService.getDicByName(DictionaryNames.wordsOfPyro, '\n\n', '\n', ' ', '-');
     const dicNumbers = this.poetryService.getDicByName(DictionaryNames.wordNumbers, '\n\n', '\n', ' ', '-');
     
