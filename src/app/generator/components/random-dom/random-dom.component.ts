@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { salo } from '../models/rythm.models';
+import { Rhythm, rhythms } from '../models/rythm.models';
 import { PoetryService, str } from '../services/poetry.service';
 
 /*
@@ -54,8 +54,8 @@ export class RandomDomComponent implements OnInit {
     this.dictionary = dic;
   }
   
-  public setRythm(ryt: number[][]) {
-    this.rythm = ryt;
+  public setRythm(ryt: Rhythm) {
+    this.rythm = ryt.value;
   }
 
   public generate() {
@@ -105,7 +105,7 @@ export class RandomDomComponent implements OnInit {
     
     // const mergedDic = dicGGWords.concat(dicDumy, dicKobzar);
 
-    return this.getResultFromDicAndRythm(dicKobzar, salo);
+    return this.getResultFromDicAndRythm(dicPyro, rhythms.salo);
   }
 
   public getResultFromDicAndRythm(dicRef, rythmRef): string {
