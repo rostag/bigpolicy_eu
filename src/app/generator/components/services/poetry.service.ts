@@ -54,24 +54,9 @@ export class PoetryService {
                 const lines = section.split(linesSeparator);
                 lines.forEach(line => {
                     const words = line.trim();
-                    // words cleanup
                     const syllables = words.split(wordsSeparator);
                     syllables.forEach((value, index, array) => {
-                        let r = value.replace(/«/gi, '');
-                        r = r.replace(/»/gi, '');
-                        r = r.replace(/\?/gi, '');
-                        r = r.replace(/\./gi, '');
-                        r = r.replace(/!/gi, '');
-                        r = r.replace(/"/gi, '');
-                        r = r.replace(/\)/gi, '');
-                        r = r.replace(/\(/gi, '');
-                        r = r.replace(/\[/gi, '');
-                        r = r.replace(/\]/gi, '');
-                        // r = r.replace(/,/gi, '');
-                        if (syllablesSeparator) {
-                            r = r.replace(/-/g, '');
-                        }
-                        array[index] = r.toLowerCase();
+                        array[index] = this.cleanWord(value, syllablesSeparator);
                     });
                     newDictionary = newDictionary.concat(syllables);
                 })
@@ -79,5 +64,23 @@ export class PoetryService {
             this.dics[dictionaryName] = newDictionary;
         }
         return this.dics[dictionaryName];
+    }
+
+    public cleanWord(word: string, syllablesSeparator = null): string {
+        let r = word.replace(/«/gi, '');
+        r = r.replace(/»/gi, '');
+        r = r.replace(/\?/gi, '');
+        r = r.replace(/\./gi, '');
+        r = r.replace(/!/gi, '');
+        r = r.replace(/"/gi, '');
+        r = r.replace(/\)/gi, '');
+        r = r.replace(/\(/gi, '');
+        r = r.replace(/\[/gi, '');
+        r = r.replace(/\]/gi, '');
+        // r = r.replace(/,/gi, '');
+        if (syllablesSeparator) {
+            r = r.replace(/-/g, '');
+        }
+        return r.toLowerCase();
     }
 }
