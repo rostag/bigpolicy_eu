@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(`BigPolicy v.${this.version}`);
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;

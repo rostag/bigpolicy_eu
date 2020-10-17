@@ -1,2 +1,9 @@
-<button mat-raised-button color="primary" (click)="generate()">Ще!</button>
-<pre class="pre-poetry">{{generated}}</pre>
+<button mat-button color="accent" (click)="generate()" class="wrapper-button">
+    <pre class="pre-poetry">{{generated}}</pre>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <div>Довжина словника: {{dictionary.length}}</div>
+        <div></div>
+        <div>Ритм: {{rythm | json}}</div>
+    </div>
+    <button mat-button color="warn" (click)="copyText($event)">Copy!</button>
+</button>
