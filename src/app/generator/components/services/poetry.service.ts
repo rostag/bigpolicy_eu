@@ -63,6 +63,10 @@ export class PoetryService {
                         r = r.replace(/\./gi, '');
                         r = r.replace(/!/gi, '');
                         r = r.replace(/"/gi, '');
+                        r = r.replace(/\)/gi, '');
+                        r = r.replace(/\(/gi, '');
+                        r = r.replace(/\[/gi, '');
+                        r = r.replace(/\]/gi, '');
                         // r = r.replace(/,/gi, '');
                         if (syllablesSeparator) {
                             r = r.replace(/-/g, '');
