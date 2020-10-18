@@ -9,7 +9,7 @@ export interface RhythmEntry {
 
 export const rhythms = {
     pyro: {
-        name: 'pyro1',
+        name: 'Pyro',
         value: [
             [1, 1, 1, 2, 1, 2],
             [2, 3, 3],
@@ -18,7 +18,7 @@ export const rhythms = {
         ]
     },
     senkan: {
-        name: 'senkan',
+        name: 'Senkan',
         value: [
             [1, 1],
             [1, 3],
@@ -28,7 +28,7 @@ export const rhythms = {
         ]
     },
     haiku: {
-        name: 'haiku',
+        name: 'Haiku',
         value: [
             [1, 2, 1],
             [3, 1, 2, 1],
@@ -49,7 +49,7 @@ export const rhythms = {
             [1, 2, 3],
         ]
     }, salo: {
-        name: 'salo',
+        name: 'Sao',
         value: [
             [1, 2, 3],
             [2, 2, 2],
@@ -57,7 +57,7 @@ export const rhythms = {
             [3, 3],
         ]
     }, prorizz: {
-        name: 'prorizz',
+        name: 'Prz',
         value: [
             [1, 2, 3, 1, 2, 3,],
             [2, 2, 2, 2, 2, 2,],
