@@ -1,5 +1,8 @@
-export const wordNumbers = 
-`один
+import { ham } from './ham';
+import { kobzar } from './poetry.model.kob';
+
+export const wordNumbers =
+  `один
 два
 три
 чотири
@@ -49,8 +52,8 @@ export const syllablesDict = [
   { 'ви': 1 }
 ];
 
-export const wordsWithGG = 
-`--SECTION-->A
+export const wordsWithGG =
+  `--SECTION-->A
 автобіоґрафия
 автоґраф
 аґа
@@ -579,7 +582,7 @@ export const wordsWithGG =
 Маґда`;
 
 export const dumyMoiDumy =
-`Ду-ми мо-ї, ду-ми мо-ї,
+  `Ду-ми мо-ї, ду-ми мо-ї,
 Ли-хо ме-ні з ва-ми!
 На-що ста-ли на па-пе-рі
 Сум-ни-ми ря-да-ми?..
@@ -609,7 +612,7 @@ export const dumyMoiDumy =
 Ду-ми мо-ї ду-ми мої
 Ли-хо ме-ні з ва-ми!`;
 
-export const wordsOfPyro = 
+export const wordsOfPyro =
   `
   я шёл и думал о сирени
   вокруг визжали тормоза
@@ -710,3 +713,13 @@ export const wordsOfPyro =
   по нашим дням былых безумств
   мне вас ужасно не хватает
   о как мне не хватает вас`;
+
+export const str = {
+  numbers: { name: 'Numbers', value: wordNumbers },
+  sylla: { name: 'Syllables', value: syllablesDict },
+  gg: { name: 'Ґ', value: wordsWithGG },
+  dumy: { name: 'Dumy Moї Dumy', value: dumyMoiDumy },
+  pyro: { name: 'Pyro', value: wordsOfPyro },
+  kob: { name: 'Kob', value: kobzar },
+  ham: { name: 'Ham', value: ham },
+}

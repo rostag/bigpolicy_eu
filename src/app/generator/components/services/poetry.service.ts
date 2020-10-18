@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ham } from '../models/ham';
 import { dumyMoiDumy, wordNumbers, wordsOfPyro, wordsWithGG } from '../models/poetry.model';
 import { kobzar } from '../models/poetry.model.kob';
 
@@ -18,30 +19,30 @@ import { kobzar } from '../models/poetry.model.kob';
  *  - Lines
  */
 
-export const str = {
-    wordsWithGG: wordsWithGG,
-    dumyMoiDumy: dumyMoiDumy,
-    wordsOfPyro: wordsOfPyro,
-    kobzar: kobzar,
-    wordNumbers: wordNumbers,
-};
+export interface DictionaryVO {
+    name: string;
+    dictionary: any;
+}
 
 @Injectable()
 export class PoetryService {
 
     private dics: any = {};
 
-    public getDicByName(
+    public getDicFromString(
         dictionaryName: any,
         sectionSeparator = '\n\n',
         linesSeparator = '\n',
         wordsSeparator = ' ',
         syllablesSeparator = null,
-    ) {
+    ): DictionaryVO {
         const existingDictionary = this.dics[dictionaryName];
         if (!existingDictionary) {
-            const multilineString = dictionaryName;
-            let newDictionary = [];
+            const multilineString = dictionaryName.value;
+            const newDictionaryVO = {
+                name: dictionaryName.name,
+                dictionary: [],
+            }
             const sections = multilineString.split(sectionSeparator);
             sections.forEach(section => {
                 const lines = section.split(linesSeparator);
@@ -51,10 +52,11 @@ export class PoetryService {
                     syllables.forEach((value, index, array) => {
                         array[index] = this.cleanWord(value, syllablesSeparator);
                     });
-                    newDictionary = newDictionary.concat(syllables);
+                    // newDictionary = newDictionary.concat(syllables);
+                    newDictionaryVO.dictionary = newDictionaryVO.dictionary.concat(syllables);
                 })
             });
-            this.dics[dictionaryName] = newDictionary;
+            this.dics[dictionaryName] = newDictionaryVO;
         }
         return this.dics[dictionaryName];
     }

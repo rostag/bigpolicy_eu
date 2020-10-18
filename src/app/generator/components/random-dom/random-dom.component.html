@@ -1,9 +1,15 @@
 <button mat-button color="accent" (click)="generate()" class="wrapper-button">
     <pre class="pre-poetry">{{generated}}</pre>
     <div fxLayout="row" fxLayoutAlign="space-between">
-        <div>Довжина словника: {{dictionary.length}}</div>
+        <div>Словник: {{dictionary.name}} ({{dictionary.dictionary.length}})</div>
         <div></div>
-        <div>Ритм: {{rythm | json}}</div>
+        <div>Ритм: {{ rythm.name }}, {{rythm.value}}</div>
+        <mat-select>
+            <mat-option>1</mat-option>
+            <mat-option>2</mat-option>
+            <mat-option *ngFor="let r of rhythms;">{{r.name}}</mat-option>
+
+        </mat-select>
     </div>
     <button mat-button color="warn" (click)="copyText($event)">Copy!</button>
 </button>

@@ -3,6 +3,10 @@ export interface Rhythm {
     value: number[][];
 }
 
+export interface RhythmEntry {
+    [index: string]: Rhythm;
+}
+
 export const rhythms = {
     pyro: {
         name: 'pyro1',
