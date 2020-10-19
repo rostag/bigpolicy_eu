@@ -2,12 +2,15 @@
     <div>Словник: {{dictionary.name}} ({{dictionary.dictionary.length}})</div>
     <div></div>
     <div>Ритм: {{ rhythm.name }}, {{rhythm.value}}</div>
-    <mat-form-field appearance="fill">
-        <!-- <mat-label>Ритми</mat-label> -->
-        <mat-select [formControl]="rhythmControl" [(value)]="rhythm.value" (selectionChange)="onRhythmSelection(rhythm)">
-            <mat-option *ngFor="let r of getRhytmsCollectionKeys()" [value]="r.value">{{r.name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill">
+            <!-- <mat-label>Ритми</mat-label> -->
+            <mat-select [formControl]="rhythmControl" [(value)]="rhythm.value" (selectionChange)="onRhythmSelection(rhythm)">
+                <mat-option *ngFor="let r of getRhytmsCollectionKeys()" [value]="r.value">{{r.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button (click)="reStyle()">Rst</button>
+    </div>
 </div>
 
 <button mat-button color="accent" (click)="generate()" class="wrapper-button">

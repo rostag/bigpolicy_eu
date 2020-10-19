@@ -22,14 +22,17 @@ export class AudioComponent implements OnInit {
 
     public sampleNames = ['kick', 'dsb-thinner'];
     public currentSample = 'dsb-thinner';
+    audioInitialized: boolean;
 
     constructor() { }
 
-    public ngOnInit() {
-        this.createAudio();
-    }
+    public ngOnInit() { }
 
-    public createAudio() {
+    public initAudio() {
+        if (this.audioInitialized) {
+            return;
+        }
+        this.audioInitialized = true;
         for (let s = 0; s < this.sampleNames.length; s++) {
             this.loadingSample = true;
             this.fetchSample(this.sampleNames[s])
@@ -64,6 +67,7 @@ export class AudioComponent implements OnInit {
     }
 
     public playLoop(sample) {
+        this.initAudio();
         this._sampleFreq = Math.round(Math.random() * 100) + 100;
         this.initLoop(sample, this._sampleFreq);
     }

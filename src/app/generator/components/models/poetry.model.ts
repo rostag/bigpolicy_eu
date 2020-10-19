@@ -1,6 +1,15 @@
 import { ham } from './ham';
 import { kobzar } from './poetry.model.kob';
 
+export interface DictionarySource {
+  name: string,
+  value: string
+}
+
+export interface DictionarySources {
+  [index: string]: DictionarySource;
+}
+
 export const wordNumbers =
   `один
 два
@@ -714,12 +723,13 @@ export const wordsOfPyro =
   мне вас ужасно не хватает
   о как мне не хватает вас`;
 
-export const str = {
+export const dictonarySource: DictionarySources = {
   numbers: { name: 'Numbers', value: wordNumbers },
-  sylla: { name: 'Syllables', value: syllablesDict },
+  // sylla: { name: 'Syllables', value: syllablesDict },
   gg: { name: 'Ґ', value: wordsWithGG },
   dumy: { name: 'Dumy Moї Dumy', value: dumyMoiDumy },
   pyro: { name: 'Pyro', value: wordsOfPyro },
   kob: { name: 'Kob', value: kobzar },
   ham: { name: 'Ham', value: ham },
+  reduced: null,
 }

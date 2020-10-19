@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { str } from '../models/poetry.model';
-import { Rhythm, RhythmEntry, rhythms } from '../models/rythm.models';
+import { dictonarySource } from '../models/poetry.model';
+import { Rhythm, rhythms } from '../models/rythm.models';
 import { DictionaryVO, PoetryService } from '../services/poetry.service';
 
 /*
@@ -20,30 +20,44 @@ import { DictionaryVO, PoetryService } from '../services/poetry.service';
 })
 export class PoetryComponent implements OnInit {
 
-  public rhythmControl = new FormControl();
-  public poetry: string = '';
-  public dictionary: DictionaryVO;
-  public rhythm: Rhythm;
-  public rhythms = rhythms;
+  rhythmControl = new FormControl();
+  poetry: string = '';
+  dictionary: DictionaryVO;
+  rhythm: Rhythm;
+  rhythms = rhythms;
 
-  constructor(private poetryService: PoetryService) { }
+  reducedDictionary: DictionaryVO;
+  dictionaries: DictionaryVO[];
 
-  private getPoetry(): string {    
-    // const dicGGWords = this.poetryService.getDicFromString(str.gg, '--SECTION-->');
-    // const dicDumy = this.poetryService.getDicFromString(str.dumy, '\n\n', '\n', ' ', '-');
-    // const dicKob = this.poetryService.getDicFromString(str.kob, '\n\n', '\n', ' ');
-    // const dicPyro = this.poetryService.getDicFromString(str.pyro, '\n\n', '\n', ' ');
-    // const dicNumbers = this.poetryService.getDicFromString(str.numbers, '\n\n', '\n', ' ');
-    const dicHam = this.poetryService.getDicFromString(str.ham, '\n\n', '\n', ' ');
-    // const mergedDic = dicGGWords.dictionary.concat(dicDumy, dicGGWords);
+  constructor(private poetryService: PoetryService) {
+    this.dictionaries = this.poetryService.setupDictionaries();
+  }
 
-    return this.getResultFromDicAndRythm(dicHam, rhythms.salo);
+  private getPoetry(keepDictionary): string {    
+    const fullDictionary = this.poetryService.getDictionaryByName('Dumy Moї Dumy');
+    console.log('fullDictionary:', fullDictionary);
+
+    dictonarySource.reduced = { name: 'Reduced', value: this.poetry }; 
+    console.log('reduced: ', dictonarySource.reduced);
+    
+    const reducedDictionary = this.poetryService.getDictionaryByName('reduced');
+    // console.log('Re Du:', reducedDictionary);    
+    const dic = keepDictionary ? reducedDictionary : fullDictionary;
+    console.log('Keep dic: ', keepDictionary, 'dic:', dic, );
+    
+    return this.getResultFromDicAndRythm(dic, rhythms.salo);
   }
 
   public onRhythmSelection(r: Rhythm) {
     console.log('Rhytm selection:', r);
+
+    this.rhythm = {...r};
     
-    this.generate();
+    this.generate(true);
+  }
+
+  public reStyle() {
+    this.generate(true);
   }
 
   public getRhytmsCollectionKeys(): [] {
@@ -58,12 +72,12 @@ export class PoetryComponent implements OnInit {
     this.dictionary = dic;
   }
 
-  public setRythm(ryt: Rhythm) {
+  public setRhyme(ryt: Rhythm) {
     this.rhythm = ryt;
   }
 
-  public generate() {
-    this.poetry = this.getPoetry();
+  public generate(keepDictionary = false) {
+    this.poetry = this.getPoetry(keepDictionary);
   }
 
   private getRandomFromSet = (set: any[]): string => {
@@ -78,33 +92,11 @@ export class PoetryComponent implements OnInit {
     }
   };
 
-  private getRandomName = (dictionary: string[]) => {
-    const key: string = this.getRandomFromSet(dictionary);
-    const randomLen = Math.min(Math.max(Math.floor(Math.random() * key.length), 4), 10);
-    return (
-      key[Math.floor(Math.random() * key.length)].toUpperCase() +
-      key
-        .substr(key.length - randomLen)
-        .toLowerCase()
-        .replace(/_/g, ' ')
-    );
-  };
-
-  private getRandomDescription = (wordCount) => {
-    let result = '',
-      i = 0;
-    do {
-      result += this.getRandomName(this.dictionary.dictionary) + ' ';
-      i++;
-    } while (i < wordCount);
-    return result;
-  };
-
-  public getResultFromDicAndRythm(dicRef: DictionaryVO, rythmRef): string {
+  public getResultFromDicAndRythm(dicRef: DictionaryVO, rhymeRef): string {
     this.setDictionary(dicRef);
-    this.setRythm(rythmRef);
+    this.setRhyme(rhymeRef);
     let result = '';
-    const dic: DictionaryVO = {...this.dictionary};
+    const dic: DictionaryVO = {...dicRef};
     this.rhythm.value.forEach(line => {
       line.forEach(wordLength => {
         const newWord = this.getRandomWordOfGivenLength(dic.dictionary, wordLength, false, false);
@@ -145,6 +137,29 @@ export class PoetryComponent implements OnInit {
       return this.getRandomWordOfGivenLength(dic, wordLength);
     }
   }
+
+  private getRandomName = (dictionary: string[]) => {
+    const key: string = this.getRandomFromSet(dictionary);
+    const randomLen = Math.min(Math.max(Math.floor(Math.random() * key.length), 4), 10);
+    return (
+      key[Math.floor(Math.random() * key.length)].toUpperCase() +
+      key
+        .substr(key.length - randomLen)
+        .toLowerCase()
+        .replace(/_/g, ' ')
+    );
+  };
+
+  private getRandomDescription = (wordCount) => {
+    let result = '',
+      i = 0;
+    do {
+      result += this.getRandomName(this.dictionary.dictionary) + ' ';
+      i++;
+    } while (i < wordCount);
+    return result;
+  };
+
   public copyText(event: MouseEvent) {
     event.preventDefault;
     event.stopPropagation();
