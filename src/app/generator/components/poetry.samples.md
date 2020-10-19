@@ -1,5 +1,14 @@
 poetry.samples.md
 
+20 Oct 20
+
+І квіти заплачуть
+
+сміх світом питали 
+
+
+
+
 20 Oct 18
 
 ham / salo

@@ -35,13 +35,13 @@ export class PoetryComponent implements OnInit {
 
   private getPoetry(keepDictionary): string {    
     const fullDictionary = this.poetryService.getDictionaryByName('Dumy Moї Dumy');
-    console.log('fullDictionary:', fullDictionary);
+    console.log('Full dic:', fullDictionary);
 
     dictonarySource.reduced = { name: 'Reduced', value: this.poetry }; 
-    console.log('reduced: ', dictonarySource.reduced);
+    console.log('reduced src : ', dictonarySource.reduced);
     
-    const reducedDictionary = this.poetryService.getDictionaryByName('reduced');
-    // console.log('Re Du:', reducedDictionary);    
+    const reducedDictionary = this.poetryService.createDictionaryFromSource(dictonarySource.reduced);
+    console.log('Reduced dic:', reducedDictionary);    
     const dic = keepDictionary ? reducedDictionary : fullDictionary;
     console.log('Keep dic: ', keepDictionary, 'dic:', dic, );
     
