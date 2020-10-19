@@ -21,13 +21,16 @@ import { DictionaryVO, PoetryService } from '../services/poetry.service';
 export class PoetryComponent implements OnInit {
 
   rhythmControl = new FormControl();
-  poetry: string = '';
+  dictionaryControl = new FormControl();
+
   dictionary: DictionaryVO;
   rhythm: Rhythm;
-  rhythms = rhythms;
 
-  reducedDictionary: DictionaryVO;
+  rhythms = rhythms;
+  poetry: string = '';
+  
   dictionaries: DictionaryVO[];
+  reducedDictionary: DictionaryVO;
 
   constructor(private poetryService: PoetryService) {
     this.dictionaries = this.poetryService.setupDictionaries();
@@ -48,16 +51,28 @@ export class PoetryComponent implements OnInit {
     return this.getResultFromDicAndRythm(dic, rhythms.salo);
   }
 
+  public onDictionarySelection(d: DictionaryVO) {
+    console.log('Dictionary selection:', d);
+    this.dictionary = {...d};
+    this.generate();
+  }
+
   public onRhythmSelection(r: Rhythm) {
     console.log('Rhytm selection:', r);
-
     this.rhythm = {...r};
-    
     this.generate(true);
+  }
+
+  public reDic() {
+    this.generate();
   }
 
   public reStyle() {
     this.generate(true);
+  }
+
+  public getDictionaryCollectionKeys(): [] {
+    return Object['values'](this.dictionaries);
   }
 
   public getRhytmsCollectionKeys(): [] {
