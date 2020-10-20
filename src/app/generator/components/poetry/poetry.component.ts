@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 import { dictonarySource } from '../models/poetry.model';
 import { Rhythm, rhythms } from '../models/rythm.models';
 import { DictionaryVO, PoetryService } from '../services/poetry.service';
@@ -28,38 +29,39 @@ export class PoetryComponent implements OnInit {
 
   rhythms = rhythms;
   poetry: string = '';
-  
+
   dictionaries: DictionaryVO[];
   reducedDictionary: DictionaryVO;
 
   constructor(private poetryService: PoetryService) {
     this.dictionaries = this.poetryService.setupDictionaries();
+    this.dictionary = this.dictionaries[0];
   }
 
-  private getPoetry(keepDictionary): string {    
-    const fullDictionary = this.poetryService.getDictionaryByName('Dumy Moї Dumy');
+  private getPoetry(keepDictionary): string {
+    const fullDictionary = this.poetryService.getDictionaryByName(this.dictionary.name);
     console.log('Full dic:', fullDictionary);
 
-    dictonarySource.reduced = { name: 'Reduced', value: this.poetry }; 
+    dictonarySource.reduced = { name: 'Reduced', value: this.poetry };
     console.log('reduced src : ', dictonarySource.reduced);
-    
+
     const reducedDictionary = this.poetryService.createDictionaryFromSource(dictonarySource.reduced);
-    console.log('Reduced dic:', reducedDictionary);    
+    console.log('Reduced dic:', reducedDictionary);
     const dic = keepDictionary ? reducedDictionary : fullDictionary;
-    console.log('Keep dic: ', keepDictionary, 'dic:', dic, );
-    
+    console.log('Keep dic: ', keepDictionary, 'dic:', dic,);
+
     return this.getResultFromDicAndRythm(dic, rhythms.salo);
   }
 
   public onDictionarySelection(d: DictionaryVO) {
-    console.log('Dictionary selection:', d);
-    this.dictionary = {...d};
+    console.log('--->\n--->\n---> Dictionary selection:', d);
+    this.dictionary = d;
     this.generate();
   }
 
   public onRhythmSelection(r: Rhythm) {
     console.log('Rhytm selection:', r);
-    this.rhythm = {...r};
+    this.rhythm = { ...r };
     this.generate(true);
   }
 
@@ -71,7 +73,7 @@ export class PoetryComponent implements OnInit {
     this.generate(true);
   }
 
-  public getDictionaryCollectionKeys(): [] {
+  public getDictionaryCollectionKeys(): DictionaryVO[] {
     return Object['values'](this.dictionaries);
   }
 
@@ -80,6 +82,11 @@ export class PoetryComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.dictionaryControl.valueChanges
+      .pipe()
+      .subscribe(val => {
+        this.onDictionarySelection(val);
+      });
     this.generate();
   }
 
@@ -111,7 +118,7 @@ export class PoetryComponent implements OnInit {
     this.setDictionary(dicRef);
     this.setRhyme(rhymeRef);
     let result = '';
-    const dic: DictionaryVO = {...dicRef};
+    const dic: DictionaryVO = { ...dicRef };
     this.rhythm.value.forEach(line => {
       line.forEach(wordLength => {
         const newWord = this.getRandomWordOfGivenLength(dic.dictionary, wordLength, false, false);
