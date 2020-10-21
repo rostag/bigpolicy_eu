@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { dumyMoiDumy, kobzar, wordNumbers, wordsOfPyro, wordsWithGG } from '../models/poetry.model';
+import { DictionarySource, dictonarySource } from '../models/poetry.model';
+import { Rhythm } from '../models/rythm.models';
 
 /**
  * Poetry backlog:
@@ -17,63 +18,120 @@ import { dumyMoiDumy, kobzar, wordNumbers, wordsOfPyro, wordsWithGG } from '../m
  *  - Lines
  */
 
-export enum DictionaryNames {
-    'wordsWithGG' = 'wordsWithGG',
-    'dumyMoiDumy' = 'dumyMoiDumy',
-    'wordsOfPyro' = 'wordsOfPyro',
-    'kobzar' = 'kobzar',
-    'wordNumbers' = 'wordNumbers',
-};
-
-export const stringsByDictionaryName = {
-    wordsWithGG: wordsWithGG,
-    dumyMoiDumy: dumyMoiDumy,
-    wordsOfPyro: wordsOfPyro,
-    kobzar: kobzar,
-    wordNumbers: wordNumbers,
-};
+export interface DictionaryVO {
+    name: string;
+    dictionary: string[];
+}
 
 @Injectable()
 export class PoetryService {
 
-    private dics: any = {};
+    private dictionaries: DictionaryVO[] = [];
+    private rhyme: Rhythm[] = [];
 
-    public getDicByName(
-        dictionaryName: DictionaryNames,
+    public setupDictionaries() {
+        this.dictionaries = [
+            // this.createDictionaryFromSource(dictonarySource.kob, '\n\n', '\n', ' '),
+            this.createDictionaryFromSource(dictonarySource.gg, '--SECTION-->'),
+            this.createDictionaryFromSource(dictonarySource.dumy, '\n\n', '\n', ' ', '-'),
+            this.createDictionaryFromSource(dictonarySource.pyro, '\n\n', '\n', ' '),
+            this.createDictionaryFromSource(dictonarySource.numbers, '\n\n', '\n', ' '),
+            this.createDictionaryFromSource(dictonarySource.ham, '\n\n', '\n', ' '),
+        ]
+        console.log('Dictionaries:', this.dictionaries);
+        return this.dictionaries;
+    }
+
+    public getDictionaryByName(name: string) {
+        const dicByName = this.dictionaries.find(d => d.name === name) || this.dictionaries[0];
+        console.log('Dic by name', name, dicByName);
+        return dicByName;
+    }
+
+    public createDictionaryFromSource(
+        dictionarySource: DictionarySource,
         sectionSeparator = '\n\n',
         linesSeparator = '\n',
         wordsSeparator = ' ',
         syllablesSeparator = null,
-    ) {
-        const existingDictionary = this.dics[dictionaryName];
-        if (!existingDictionary) {
-            const multilineString = stringsByDictionaryName[dictionaryName];
-            let newDictionary = [];
-            const sections = multilineString.split(sectionSeparator);
-            sections.forEach(section => {
-                const lines = section.split(linesSeparator);
-                lines.forEach(line => {
-                    const words = line.trim();
-                    // words cleanup
-                    const syllables = words.split(wordsSeparator);
-                    syllables.forEach((value, index, array) => {
-                        let r = value.replace(/«/gi, '');
-                        r = r.replace(/»/gi, '');
-                        r = r.replace(/\?/gi, '');
-                        r = r.replace(/\./gi, '');
-                        r = r.replace(/!/gi, '');
-                        r = r.replace(/"/gi, '');
-                        // r = r.replace(/,/gi, '');
-                        if (syllablesSeparator) {
-                            r = r.replace(/-/g, '');
-                        }
-                        array[index] = r.toLowerCase();
-                    });
-                    newDictionary = newDictionary.concat(syllables);
-                })
-            });
-            this.dics[dictionaryName] = newDictionary;
+    ): DictionaryVO {
+        const dictionaryName = dictionarySource.name;
+        const multilineString = dictionarySource.value;
+        const sections = multilineString.split(sectionSeparator);
+        let dictionary: string[] = [];
+        sections.forEach(section => {
+            const lines = section.split(linesSeparator);
+            lines.forEach(line => {
+                const words = line.trim();
+                const syllables = words.split(wordsSeparator);
+                syllables.forEach((syllable, index, array) => {
+                    array[index] = this.cleanWord(syllable, syllablesSeparator);
+                });
+                dictionary = dictionary.concat(syllables);
+            })
+        });
+        this.dictionaries[dictionaryName] = {
+            name: dictionarySource.name,
+            dictionary: dictionary,
+        };
+        console.log('New dic:', this.dictionaries[dictionaryName]);
+        return this.dictionaries[dictionaryName];
+    }
+
+    // public getDictionaryFromString(
+    //     dictionarySource: any,
+    //     sectionSeparator = '\n\n',
+    //     linesSeparator = '\n',
+    //     wordsSeparator = ' ',
+    //     syllablesSeparator = null,
+    // ): DictionaryVO {
+    //     // const existingDictionary = this.dictionaries.some(dictionary => dictionary.n);
+    //     console.log('dic src:', dictionarySource);
+    //     console.log('ex dic:', existingDictionary);
+    //     if (!existingDictionary) {
+    //         const multilineString = dictionarySource.value;
+    //         const newDictionaryVO = {
+    //             name: dictionarySource.name,
+    //             dictionary: [],
+    //         }
+    //         const sections = multilineString.split(sectionSeparator);
+    //         sections.forEach(section => {
+    //             const lines = section.split(linesSeparator);
+    //             lines.forEach(line => {
+    //                 const words = line.trim();
+    //                 const syllables = words.split(wordsSeparator);
+    //                 syllables.forEach((syllable, index, array) => {
+    //                     array[index] = this.cleanWord(syllable, syllablesSeparator);
+    //                 });
+    //                 // newDictionary = newDictionary.concat(syllables);
+    //                 newDictionaryVO.dictionary = newDictionaryVO.dictionary.concat(syllables);
+    //             })
+    //         });
+    //         this.dics[dictionarySource] = newDictionaryVO;
+    //     }
+    //     console.log('Return dic:', this.dics[dictionarySource]);
+    //     return this.dics[dictionarySource];
+    // }
+
+    public cleanWord(word: string, syllablesSeparator = null): string {
+        let r = word.replace(/«/gi, '');
+        r = r.replace(/»/gi, '');
+        r = r.replace(/\?/gi, '');
+        r = r.replace(/\./gi, '');
+        r = r.replace(/!/gi, '');
+        r = r.replace(/"/gi, '');
+        r = r.replace(/\)/gi, '');
+        r = r.replace(/\(/gi, '');
+        r = r.replace(/\[/gi, '');
+        r = r.replace(/\]/gi, '');
+        r = r.replace(/\:/gi, '');
+        r = r.replace(/\;/gi, '');
+        r = r.replace(/\,/gi, '');
+        r = r.replace(/\—/gi, '');
+        if (syllablesSeparator) {
+            r = r.replace(/-/g, '');
         }
-        return this.dics[dictionaryName];
+        return r.toLowerCase();
+        // return r;
     }
 }

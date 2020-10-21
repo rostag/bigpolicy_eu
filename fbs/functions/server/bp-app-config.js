@@ -18,7 +18,7 @@ module.exports = {
     databaseURL: 'https://bigpolicy-qa.firebaseio.com',
     projectId: 'bigpolicy-qa',
     storageBucket: 'bigpolicy-qa.appspot.com',
-    messagingSenderId: '780191546457'
+    messagingSenderId: '780191546457',
   }
 };
 

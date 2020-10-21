@@ -1,5 +1,27 @@
-<button mat-raised-button color="primary" (click)="draw()">Ще!</button>
-<pre class="pre-poetry" (mousemove)="go()" (click)="save()">
-  {{generated}}
-</pre>
-<p>{{ paused ? 'На паузі. Клікни, щоб зняти з паузи.': 'Рухай мишею над текстом, клікай щоб зафіксувати його!' }}.</p>
+<div fxLayout="row" fxLayoutAlign="space-between">
+    <div fxLayout="row">
+        <div>Словник: {{dictionary.name}} ({{dictionary.dictionary.length}})</div>
+        <mat-form-field appearance="fill">
+            <mat-label>Словники</mat-label>
+            <mat-select [formControl]="dictionaryControl" [(value)]="dictionary">
+                <mat-option *ngFor="let dictionary of getDictionaryCollectionKeys()" [value]="dictionary">{{dictionary.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button (click)="reDic()">Rst</button>
+    </div>
+    <div>Ритм: {{ rhythm.name }}, {{rhythm.value}}</div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill">
+            <mat-label>Ритми</mat-label>
+            <mat-select [formControl]="rhythmControl" [(value)]="rhythm.value" (selectionChange)="onRhythmSelection(rhythm)">
+                <mat-option *ngFor="let r of getRhytmsCollectionKeys()" [value]="r.value">{{r.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button (click)="reStyle()">Rst</button>
+    </div>
+</div>
+
+<button mat-button color="accent" (click)="generate()" class="wrapper-button">
+    <pre class="pre-poetry">{{poetry}}</pre>
+    <button mat-button color="warn" (click)="copyText($event)">Copy!</button>
+</button>

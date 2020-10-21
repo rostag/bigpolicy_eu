@@ -1,10 +1,28 @@
 :host {
+
+    .wrapper-button {
+        border-radius: 0;
+        width: 100%;
+        padding-bottom: 300px;
+    }
+
     .pre-poetry {
-        padding: 0;
-        border: 1px solid #eee;
+        text-align: left;
+        padding: 50px;
         font-family: Helvetica, Arial, sans-serif;
-        text-transform: capitalize;
-        font-size: 1.1em;
-        color: #222;
+        font-size: 50px;
+        letter-spacing: -1px;
+        color: #024;
+        font-weight: 200;
+        line-height: 1.5;
+        &:hover {
+            color: #fff;
+            background-color: #024;
+        }
+
+        &::first-letter {
+            text-transform: capitalize;  
+        }
+
     }
 }
