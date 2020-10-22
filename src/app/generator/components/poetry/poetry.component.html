@@ -6,7 +6,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
         <mat-form-field>
-            <mat-label>{{dictionary.name}} [{{dictionary.words.length}}]</mat-label>
+            <mat-label>Slovnyk: {{ dictionary.name }}, {{ dictionary.words.length }}</mat-label>
             <mat-select [formControl]="dictionaryControl">
                 <mat-option *ngFor="let dictionary of getDictionaries()" [value]="dictionary">
                     {{dictionary.name}}, {{dictionary.words.length}}
@@ -17,10 +17,10 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
         <mat-form-field>
-            <mat-label>Ryma: {{ rhyme.name }} [{{rhyme.value}}]</mat-label>
+            <mat-label>Ryma: {{ rhyme.name }} [{{ rhyme.value }}]</mat-label>
             <mat-select [formControl]="rhymeControl">
                 <mat-option *ngFor="let rhyme of getRhymes()" [value]="rhyme">
-                    {{rhyme.name}}
+                    {{rhyme.name}} [{{ rhyme.value }}]
                 </mat-option>
             </mat-select>
         </mat-form-field>

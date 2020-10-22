@@ -47,9 +47,8 @@ export class PoetryService {
     }
 
     public getDictionaryByName(name: string) {
-        const dicByName = this.dictionaries.find(d => d.name === name) || this.dictionaries[0];
-        console.log('Dic by name', name, dicByName);
-        return dicByName;
+        const dictionaryByName = this.dictionaries.find(d => d.name === name) || this.dictionaries[0];
+        return dictionaryByName;
     }
 
     public createDictionaryFromSource(
