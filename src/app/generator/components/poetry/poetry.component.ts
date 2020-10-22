@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { latynize } from 'app/generator/generator-helpers';
 import { dictonarySource } from '../models/poetry.model';
-import { Rhyme, rhymes } from '../models/rythm.models';
-import { DictionaryVO, PoetryService } from '../services/poetry.service';
+import { Rhyme, Rhymes, rhymes } from '../models/rythm.models';
+import { Dictionary, PoetryService } from '../services/poetry.service';
 
 /*
-  senkan
+  pyro / senkan
   я бог 
   ты бросая 
   сукой волосами 
@@ -25,21 +25,20 @@ export class PoetryComponent implements OnInit {
   dictionaryControl = new FormControl();
   latynizeControl = new FormControl(true);
 
-  dictionary: DictionaryVO;
+  dictionaries: Dictionary[];
+  dictionary: Dictionary;
+
+  rhymes: Rhymes;
   rhyme: Rhyme;
 
-  rhymes = rhymes;
   poetry: string = '';
-
-  dictionaries: DictionaryVO[];
-  reducedDictionary: DictionaryVO;
 
   constructor(private poetryService: PoetryService) {
     this.dictionaries = this.poetryService.setupDictionaries();
     this.dictionary = this.dictionaries[0];
   }
 
-  public onDictionarySelection(d: DictionaryVO) {
+  public onDictionarySelection(d: Dictionary) {
     console.log('\n---> Dictionary:', d);
     this.dictionary = d;
     this.generate();
@@ -47,7 +46,7 @@ export class PoetryComponent implements OnInit {
 
   public onRhymeSelection(rhyme: Rhyme) {
     this.setRhyme(rhyme);
-    this.generate(true);
+    this.generate();
   }
 
   public reDic() {
@@ -55,10 +54,10 @@ export class PoetryComponent implements OnInit {
   }
 
   public reStyle() {
-    this.generate(true);
+    this.generate();
   }
 
-  public getDictionaries(): DictionaryVO[] {
+  public getDictionaries(): Dictionary[] {
     return Object['values'](this.dictionaries);
   }
 
@@ -71,12 +70,13 @@ export class PoetryComponent implements OnInit {
     this.rhymeControl.valueChanges.pipe().subscribe(val => this.onRhymeSelection(val));
     this.latynizeControl.valueChanges.pipe().subscribe(val => this.generate())
 
+    this.rhymes = rhymes;
     this.setRhyme(this.rhymes.haiku);
   
     this.generate();
   }
 
-  public setDictionary(dic: DictionaryVO) {
+  public setDictionary(dic: Dictionary) {
     this.dictionary = dic;
   }
 
@@ -84,7 +84,8 @@ export class PoetryComponent implements OnInit {
     this.rhyme = rhyme;
   }
 
-  public generate(keepDictionary = false) {
+  public generate() {
+    const keepDictionary = false;
     const toLatynize = this.latynizeControl.value;
 
     dictonarySource.reduced = { name: 'Reduced', value: this.poetry };

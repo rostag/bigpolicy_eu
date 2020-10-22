@@ -22,7 +22,7 @@ import { Rhyme } from '../models/rythm.models';
  *  - Lines
  */
 
-export interface DictionaryVO {
+export interface Dictionary {
     name: string;
     words: string[];
 }
@@ -30,8 +30,7 @@ export interface DictionaryVO {
 @Injectable()
 export class PoetryService {
 
-    private dictionaries: DictionaryVO[] = [];
-    private rhyme: Rhyme[] = [];
+    private dictionaries: Dictionary[] = [];
 
     public setupDictionaries() {
         this.dictionaries = [
@@ -59,7 +58,7 @@ export class PoetryService {
         linesSeparator = '\n',
         wordsSeparator = ' ',
         syllablesSeparator = null,
-    ): DictionaryVO {
+    ): Dictionary {
         const dictionaryName = dictionarySource.name;
         const multilineString = dictionarySource.value;
         const sections = multilineString.split(sectionSeparator);
@@ -75,7 +74,7 @@ export class PoetryService {
                 dictionaryWords = dictionaryWords.concat(syllables);
             })
         });
-        this.dictionaries[dictionaryName] = <DictionaryVO>{
+        this.dictionaries[dictionaryName] = <Dictionary>{
             name: dictionarySource.name,
             words: dictionaryWords,
         };

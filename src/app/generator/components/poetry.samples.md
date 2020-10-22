@@ -1,5 +1,24 @@
 Poetry Samples of Generation
 
+Reduced / Pyro - Fri Oct 23 2020 
+
+ne ne ne
+ne їbeš ne їbeš 
+ne їbeš zeїbav
+ne ležala ne їbeš 
+ne їbeš ne ležala їbeš 
+ 
+* * *
+
+Mat / r1r2r3r2r3r1 - Fri Oct 23 2020 
+
+vsjak vony stojalo 
+ležav zaїbav ne 
+ležala vsjak niščo 
+ne ležalo їbeš 
+ 
+* * *
+
 Pyro / Salo - Fri Oct 23 2020 
 
 вы ими втягивал 

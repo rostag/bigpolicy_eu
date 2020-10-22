@@ -3,7 +3,7 @@ export interface Rhyme {
     value: number[][];
 }
 
-export interface RhymeEntry {
+export interface Rhymes {
     [index: string]: Rhyme;
 }
 
