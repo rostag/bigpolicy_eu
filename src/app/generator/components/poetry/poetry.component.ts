@@ -39,7 +39,6 @@ export class PoetryComponent implements OnInit {
   }
 
   public onDictionarySelection(d: Dictionary) {
-    console.log('\n---> Dictionary:', d);
     this.dictionary = d;
     this.generate();
   }
@@ -49,7 +48,7 @@ export class PoetryComponent implements OnInit {
     this.generate();
   }
 
-  public reDic() {
+  public reSlovo() {
     this.generate();
   }
 
