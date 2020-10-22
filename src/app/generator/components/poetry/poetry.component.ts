@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { latynize } from 'app/generator/generator-helpers';
 import { dictonarySource } from '../models/poetry.model';
-import { Rhythm, rhythms } from '../models/rythm.models';
+import { Rhyme, rhymes } from '../models/rythm.models';
 import { DictionaryVO, PoetryService } from '../services/poetry.service';
 
 /*
@@ -21,13 +21,14 @@ import { DictionaryVO, PoetryService } from '../services/poetry.service';
 })
 export class PoetryComponent implements OnInit {
 
-  rhythmControl = new FormControl();
+  rhymeControl = new FormControl();
   dictionaryControl = new FormControl();
+  latynizeControl = new FormControl(true);
 
   dictionary: DictionaryVO;
-  rhythm: Rhythm;
+  rhyme: Rhyme;
 
-  rhythms = rhythms;
+  rhymes = rhymes;
   poetry: string = '';
 
   dictionaries: DictionaryVO[];
@@ -38,30 +39,14 @@ export class PoetryComponent implements OnInit {
     this.dictionary = this.dictionaries[0];
   }
 
-  private getPoetry(keepDictionary): string {
-    const fullDictionary = this.poetryService.getDictionaryByName(this.dictionary.name);
-    console.log('Full dic:', fullDictionary);
-
-    dictonarySource.reduced = { name: 'Reduced', value: this.poetry };
-    console.log('reduced src : ', dictonarySource.reduced);
-
-    const reducedDictionary = this.poetryService.createDictionaryFromSource(dictonarySource.reduced);
-    console.log('Reduced dic:', reducedDictionary);
-    const dic = keepDictionary ? reducedDictionary : fullDictionary;
-    console.log('Keep dic: ', keepDictionary, 'dic:', dic,);
-
-    return this.getResultFromDicAndRythm(dic, rhythms.salo);
-  }
-
   public onDictionarySelection(d: DictionaryVO) {
-    console.log('--->\n--->\n---> Dictionary selection:', d);
+    console.log('\n---> Dictionary:', d);
     this.dictionary = d;
     this.generate();
   }
 
-  public onRhythmSelection(r: Rhythm) {
-    console.log('Rhytm selection:', r);
-    this.rhythm = { ...r };
+  public onRhymeSelection(rhyme: Rhyme) {
+    this.setRhyme(rhyme);
     this.generate(true);
   }
 
@@ -73,20 +58,21 @@ export class PoetryComponent implements OnInit {
     this.generate(true);
   }
 
-  public getDictionaryCollectionKeys(): DictionaryVO[] {
+  public getDictionaries(): DictionaryVO[] {
     return Object['values'](this.dictionaries);
   }
 
-  public getRhytmsCollectionKeys(): [] {
-    return Object['values'](this.rhythms);
+  public getRhymes(): [] {
+    return Object['values'](this.rhymes);
   }
 
   public ngOnInit() {
-    this.dictionaryControl.valueChanges
-      .pipe()
-      .subscribe(val => {
-        this.onDictionarySelection(val);
-      });
+    this.dictionaryControl.valueChanges.pipe().subscribe(val => this.onDictionarySelection(val));
+    this.rhymeControl.valueChanges.pipe().subscribe(val => this.onRhymeSelection(val));
+    this.latynizeControl.valueChanges.pipe().subscribe(val => this.generate())
+
+    this.setRhyme(this.rhymes.haiku);
+  
     this.generate();
   }
 
@@ -94,12 +80,20 @@ export class PoetryComponent implements OnInit {
     this.dictionary = dic;
   }
 
-  public setRhyme(ryt: Rhythm) {
-    this.rhythm = ryt;
+  public setRhyme(rhyme: Rhyme) {
+    this.rhyme = rhyme;
   }
 
   public generate(keepDictionary = false) {
-    this.poetry = this.getPoetry(keepDictionary);
+    const toLatynize = this.latynizeControl.value;
+
+    dictonarySource.reduced = { name: 'Reduced', value: this.poetry };
+    const fullDictionary = this.poetryService.getDictionaryByName(this.dictionary.name);
+    const reducedDictionary = this.poetryService.createDictionaryFromSource(dictonarySource.reduced);
+    this.dictionary = keepDictionary ? reducedDictionary : fullDictionary;
+    const poetry = this.getPoetryFromDicAndRythm();
+
+    this.poetry = toLatynize ? latynize(poetry) : poetry;
   }
 
   private getRandomFromSet = (set: any[]): string => {
@@ -114,14 +108,11 @@ export class PoetryComponent implements OnInit {
     }
   };
 
-  public getResultFromDicAndRythm(dicRef: DictionaryVO, rhymeRef): string {
-    this.setDictionary(dicRef);
-    this.setRhyme(rhymeRef);
+  public getPoetryFromDicAndRythm(): string {
     let result = '';
-    const dic: DictionaryVO = { ...dicRef };
-    this.rhythm.value.forEach(line => {
+    this.rhyme.value.forEach(line => {
       line.forEach(wordLength => {
-        const newWord = this.getRandomWordOfGivenLength(dic.dictionary, wordLength, false, false);
+        const newWord = this.getRandomWordOfGivenLength(this.dictionary.words, wordLength, false, false);
         result += newWord + ' ';
       })
       result += '\n';
@@ -132,11 +123,11 @@ export class PoetryComponent implements OnInit {
   private callCount = 0;
 
   private getRandomWordOfGivenLength(dic: string[], wordLength: number, transformVowels = false, removeWordsFromDic = false): string {
-    const syllables = 'їёуэеиаоєяіиюыє';
+    const vowels = 'їёуэеиаоєяіиюыєeuioay';
     const randomWord = this.getRandomFromSet(dic);
     let syllablesCount = 0;
     randomWord.split('').forEach(char => {
-      syllablesCount += syllables.split('').includes(char) ? 1 : 0;
+      syllablesCount += vowels.split('').includes(char) ? 1 : 0;
     })
     if (syllablesCount === wordLength || this.callCount > 100) {
       // console.log(':', this.callStack, syllablesCount, randomWord);
@@ -176,7 +167,7 @@ export class PoetryComponent implements OnInit {
     let result = '',
       i = 0;
     do {
-      result += this.getRandomName(this.dictionary.dictionary) + ' ';
+      result += this.getRandomName(this.dictionary.words) + ' ';
       i++;
     } while (i < wordCount);
     return result;
@@ -191,7 +182,9 @@ export class PoetryComponent implements OnInit {
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = val;
+    const today = new Date().toDateString();
+    const framework = this.dictionary.name + ' / ' + this.rhyme.name;
+    selBox.value = `${framework} - ${today} \n\n${val} \n* * *\n\n`;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();

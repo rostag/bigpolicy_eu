@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { DictionarySource, dictonarySource } from '../models/poetry.model';
-import { Rhythm } from '../models/rythm.models';
+import { Rhyme } from '../models/rythm.models';
 
 /**
  * Poetry backlog:
  * 
- * UI Constrols:
+ * Words are interactive objects:
+ *  - U can click a word to replace it
+ *  - U can click a line to replace it
+ * 
+ * UI Controls:
  * 
  *  - Rhythm selector
  *  - Model selector
@@ -20,25 +24,26 @@ import { Rhythm } from '../models/rythm.models';
 
 export interface DictionaryVO {
     name: string;
-    dictionary: string[];
+    words: string[];
 }
 
 @Injectable()
 export class PoetryService {
 
     private dictionaries: DictionaryVO[] = [];
-    private rhyme: Rhythm[] = [];
+    private rhyme: Rhyme[] = [];
 
     public setupDictionaries() {
         this.dictionaries = [
             // this.createDictionaryFromSource(dictonarySource.kob, '\n\n', '\n', ' '),
-            this.createDictionaryFromSource(dictonarySource.gg, '--SECTION-->'),
             this.createDictionaryFromSource(dictonarySource.dumy, '\n\n', '\n', ' ', '-'),
-            this.createDictionaryFromSource(dictonarySource.pyro, '\n\n', '\n', ' '),
-            this.createDictionaryFromSource(dictonarySource.numbers, '\n\n', '\n', ' '),
-            this.createDictionaryFromSource(dictonarySource.ham, '\n\n', '\n', ' '),
+            this.createDictionaryFromSource(dictonarySource.mat),
+            this.createDictionaryFromSource(dictonarySource.ham),
+            this.createDictionaryFromSource(dictonarySource.roz),
+            this.createDictionaryFromSource(dictonarySource.gg, '--SECTION-->'),
+            this.createDictionaryFromSource(dictonarySource.pyro),
+            this.createDictionaryFromSource(dictonarySource.numbers),
         ]
-        console.log('Dictionaries:', this.dictionaries);
         return this.dictionaries;
     }
 
@@ -58,23 +63,22 @@ export class PoetryService {
         const dictionaryName = dictionarySource.name;
         const multilineString = dictionarySource.value;
         const sections = multilineString.split(sectionSeparator);
-        let dictionary: string[] = [];
+        let dictionaryWords: string[] = [];
         sections.forEach(section => {
             const lines = section.split(linesSeparator);
             lines.forEach(line => {
-                const words = line.trim();
-                const syllables = words.split(wordsSeparator);
+                const lineWords = line.trim();
+                const syllables = lineWords.split(wordsSeparator);
                 syllables.forEach((syllable, index, array) => {
                     array[index] = this.cleanWord(syllable, syllablesSeparator);
                 });
-                dictionary = dictionary.concat(syllables);
+                dictionaryWords = dictionaryWords.concat(syllables);
             })
         });
-        this.dictionaries[dictionaryName] = {
+        this.dictionaries[dictionaryName] = <DictionaryVO>{
             name: dictionarySource.name,
-            dictionary: dictionary,
+            words: dictionaryWords,
         };
-        console.log('New dic:', this.dictionaries[dictionaryName]);
         return this.dictionaries[dictionaryName];
     }
 

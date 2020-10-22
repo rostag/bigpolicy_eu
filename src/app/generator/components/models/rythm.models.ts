@@ -1,13 +1,13 @@
-export interface Rhythm {
+export interface Rhyme {
     name: string;
     value: number[][];
 }
 
-export interface RhythmEntry {
-    [index: string]: Rhythm;
+export interface RhymeEntry {
+    [index: string]: Rhyme;
 }
 
-export const rhythms = {
+export const rhymes = {
     pyro: {
         name: 'Pyro',
         value: [
@@ -36,7 +36,7 @@ export const rhythms = {
         ]
     },
     r1r2r3: {
-        name: 'r1r2r3',
+        name: 'r1r2r3r2r3r1',
         value: [
             [1, 2, 3],
             [2, 3, 1],
@@ -44,12 +44,12 @@ export const rhythms = {
             [1, 3, 2],
         ]
     }, r1r2r31: {
-        name: 'r1r2r31',
+        name: 'r1r2r3',
         value: [
             [1, 2, 3],
         ]
     }, salo: {
-        name: 'Sao',
+        name: 'Salo',
         value: [
             [1, 2, 3],
             [2, 2, 2],
@@ -57,7 +57,7 @@ export const rhythms = {
             [3, 3],
         ]
     }, prorizz: {
-        name: 'Prz',
+        name: 'prrz',
         value: [
             [1, 2, 3, 1, 2, 3,],
             [2, 2, 2, 2, 2, 2,],
