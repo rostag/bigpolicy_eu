@@ -20,17 +20,17 @@ export function getRandomFromSet(set: any[]) {
 
 let getRandomWordOfGivenLengthCallCount = 0;
 
-export function getRandomWordOfGivenLength(superstrings: Word[], wordLength: number, transformVowels = false, removeWordsFromDic = false): Word {
+export function getRandomWordOfGivenLength(words: Word[], targetWordLength: number, transformVowels = false, removeWordsFromDic = false): Word {
   const vowels = 'їёуэеиаоєяіиюыєeuioay';
-  const randomWord: Word = getRandomFromSet(superstrings);
+  const randomWord: Word = getRandomFromSet(words);
   let syllablesCount = 0;
   randomWord.wordContents.split('').forEach(char => {
     syllablesCount += vowels.split('').includes(char) ? 1 : 0;
   })
-  if (syllablesCount === wordLength || getRandomWordOfGivenLengthCallCount > 100) {
+  if (syllablesCount === targetWordLength || getRandomWordOfGivenLengthCallCount > 100) {
     // console.log(':', callStack, syllablesCount, randomWord);
     if (removeWordsFromDic) {
-      superstrings.splice(superstrings.indexOf(randomWord), 1);
+      words.splice(words.indexOf(randomWord), 1);
     }
     let w = randomWord.wordContents;
     if (transformVowels) {
@@ -42,10 +42,11 @@ export function getRandomWordOfGivenLength(superstrings: Word[], wordLength: num
         .replace(/ы/g, 'Ы');
     }
     getRandomWordOfGivenLengthCallCount = 0;
+    randomWord.rhymeWordLength = targetWordLength;
     return randomWord;
   } else {
     getRandomWordOfGivenLengthCallCount++;
-    return getRandomWordOfGivenLength(superstrings, wordLength);
+    return getRandomWordOfGivenLength(words, targetWordLength);
   }
 }
 

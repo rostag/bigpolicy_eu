@@ -1,7 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
     <h2>OOPО</h2>
-    <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="10px">
-        <div class="word" (click)="reword(word)" *ngFor="let word of words">{{word.wordContents}}</div>
+    <div class="strophae" *ngFor="let strophae of oOPoetry.strophae">
+        <div class="line" *ngFor="let line of strophae.lines">
+            <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="10px">
+                <div class="word" (click)="reword(line.words, word)" *ngFor="let word of line.words">{{word.wordContents}}</div>
+            </div>
+        </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
         <!-- <mat-checkbox>Latynize</mat-checkbox> -->

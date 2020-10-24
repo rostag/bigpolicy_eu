@@ -27,12 +27,25 @@ import { DictionarySource, dictonarySource } from '../models/poetry.model';
  *  - Lines
  */
 
+export interface Poetry {
+    strophae: Strophae[];
+}
+
+export interface Strophae {
+    lines: Line[];
+}
+
+export interface Line {
+    words: Word[];
+}
+
 export interface WordProto {
     content: string,
 }
 
 export interface Word {
     wordContents: string,
+    rhymeWordLength: number,
 };
 
 export interface Dictionary {
@@ -84,7 +97,10 @@ export class PoetryService {
                 words.forEach((word, index, wordsArray) => {
                     const wordCleanedUp = cleanUpWord(word, syllablesSeparator)
                     wordsArray[index] = wordCleanedUp;
-                    const superstring: Word = {wordContents: wordCleanedUp };
+                    const superstring: Word = {
+                        wordContents: wordCleanedUp,
+                        rhymeWordLength: 0,
+                    };
                     superstrings.push(superstring)
                 });
                 dictionaryWords = dictionaryWords.concat(superstrings);

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { getRandomFromSet, getRandomWordOfGivenLength, latynize } from 'app/generator/generator-helpers';
 import { dictonarySource } from '../models/poetry.model';
 import { Rhyme, Rhymes, rhymes } from '../models/rythm.models';
-import { Dictionary, PoetryService, Word, WordProto } from '../services/poetry.service';
+import { Dictionary, Line, Poetry, PoetryService, Strophae, Word } from '../services/poetry.service';
 
 /*
   pyro / senkan
@@ -32,6 +32,7 @@ export class PoetryComponent implements OnInit {
   rhyme: Rhyme;
 
   poetry: string = '';
+  oOPoetry: Poetry = null;
 
   constructor(private poetryService: PoetryService) {
     this.dictionaries = this.poetryService.setupDictionaries();
@@ -71,7 +72,7 @@ export class PoetryComponent implements OnInit {
 
     this.rhymes = rhymes;
     this.setRhyme(this.rhymes.haiku);
-  
+
     this.generate();
   }
 
@@ -91,12 +92,13 @@ export class PoetryComponent implements OnInit {
     const fullDictionary = this.poetryService.getDictionaryByName(this.dictionary.name);
     const reducedDictionary = this.poetryService.createDictionaryFromSource(dictonarySource.reduced);
     this.dictionary = keepDictionary ? reducedDictionary : fullDictionary;
-    const poetry = this.getPoetryFromDicAndRythm();
+    const poetry = this.getPoetryStringFromDicAndRythm();
+    this.oOPoetry = this.getOPoetryObjectFromDicAndRythm();
 
     this.poetry = toLatynize ? latynize(poetry) : poetry;
   }
 
-  public getPoetryFromDicAndRythm(): string {
+  public getPoetryStringFromDicAndRythm(): string {
     let result = '';
     this.rhyme.value.forEach(line => {
       line.forEach(wordLength => {
@@ -106,6 +108,29 @@ export class PoetryComponent implements OnInit {
       result += '\n';
     })
     return result;
+  };
+
+  public getOPoetryObjectFromDicAndRythm(): Poetry {
+    const oopo: Poetry = {
+      strophae: [{
+        lines: [{
+          words: []
+        }]
+      }]
+    };
+    let lines: Line[] = [];
+    this.rhyme.value.forEach(rhymeLine => {
+      let words: Word[] = [];
+      rhymeLine.forEach(wordLength => {
+        const newWord = getRandomWordOfGivenLength(this.dictionary.words, wordLength, false, false);
+        words = words.concat(newWord);
+      })
+      lines.push({
+        words: words
+      });
+    })
+    oopo.strophae[0].lines = lines;
+    return oopo;
   };
 
   public copyText(event: MouseEvent) {
@@ -127,23 +152,11 @@ export class PoetryComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
-  // OOPO
-  _words: Word[] = [
-    {
-      wordContents: 'Hi'
-    },
-    {
-      wordContents: 'Hello'
-    }
-  ]
-
-  get words(): Word[] {
-    return this._words;
-  }
-
-  reword(word): void {
-    const newWord = getRandomFromSet(this.dictionary.words);
-    const index = this._words.indexOf(word);
-    this._words[index] = newWord;
+  reword(words: Word[], word: Word): void {
+    const newWord = getRandomWordOfGivenLength(this.dictionary.words, word.rhymeWordLength);
+    const index = words.indexOf(word);
+    console.log('reword:', newWord, index);
+    
+    words[index] = newWord;
   }
 }

@@ -1,5 +1,14 @@
 Poetry Samples of Generation
 
+
+нe стоїть
+не стоятиме
+не стояло
+не стояв
+не стане
+не завтра
+заїбало
+
 Mat / Haiku - Sat Oct 24 2020 
 
 vse stoїt' mij huj 
