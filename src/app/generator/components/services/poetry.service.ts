@@ -5,9 +5,14 @@ import { Rhyme } from '../models/rythm.models';
 /**
  * Poetry backlog:
  * 
+ * OOPO:
  * Words are interactive objects:
  *  - U can click a word to replace it
  *  - U can click a line to replace it
+ *  - Real rhyming
+ *  - Dash ('—') generation
+ *  - Add sequencing word generation like ('наї' / 'заї') + ('ба') + ('в' || 'ла' || 'ло' || 'ли' || 'ло')
+ * 
  * 
  * UI Controls:
  * 
@@ -22,6 +27,10 @@ import { Rhyme } from '../models/rythm.models';
  *  - Lines
  */
 
+export interface Word {
+    content: string,
+}
+
 export interface Dictionary {
     name: string;
     words: string[];
@@ -35,8 +44,8 @@ export class PoetryService {
     public setupDictionaries() {
         this.dictionaries = [
             // this.createDictionaryFromSource(dictonarySource.kob, '\n\n', '\n', ' '),
-            this.createDictionaryFromSource(dictonarySource.dumy, '\n\n', '\n', ' ', '-'),
             this.createDictionaryFromSource(dictonarySource.mat),
+            this.createDictionaryFromSource(dictonarySource.dumyLat, '\n\n', '\n', ' ', '-'),
             this.createDictionaryFromSource(dictonarySource.ham),
             this.createDictionaryFromSource(dictonarySource.roz),
             this.createDictionaryFromSource(dictonarySource.gg, '--SECTION-->'),

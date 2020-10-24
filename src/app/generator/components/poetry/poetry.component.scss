@@ -27,8 +27,11 @@
     }
 
     // OOPO
-    word {
-        background-color: #ffa;
+    .word {
         cursor: pointer;
+    }
+
+    .word:hover {
+        background-color: #ffa;
     }
 }

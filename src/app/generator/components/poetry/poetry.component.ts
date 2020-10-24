@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { latynize } from 'app/generator/generator-helpers';
+import { getRandomFromSet, getRandomWordOfGivenLength, latynize } from 'app/generator/generator-helpers';
 import { dictonarySource } from '../models/poetry.model';
 import { Rhyme, Rhymes, rhymes } from '../models/rythm.models';
-import { Dictionary, PoetryService } from '../services/poetry.service';
+import { Dictionary, PoetryService, Word } from '../services/poetry.service';
 
 /*
   pyro / senkan
@@ -96,80 +96,15 @@ export class PoetryComponent implements OnInit {
     this.poetry = toLatynize ? latynize(poetry) : poetry;
   }
 
-  private getRandomFromSet = (set: any[]) => {
-    const result = set[Math.round(Math.random() * set.length - 1)];
-    if (!!result || this.getRandomFromSet['callCount'] > 1000) {
-      // console.log('-', result, this.getRandomFromSet['callCount'] );
-      this.getRandomFromSet['callCount'] = 0;
-      return result || '';
-    } else {
-      this.getRandomFromSet['callCount'] = this.getRandomFromSet['callCount'] + 1;
-      return this.getRandomFromSet(set);;
-    }
-  };
-
   public getPoetryFromDicAndRythm(): string {
     let result = '';
     this.rhyme.value.forEach(line => {
       line.forEach(wordLength => {
-        const newWord = this.getRandomWordOfGivenLength(this.dictionary.words, wordLength, false, false);
+        const newWord = getRandomWordOfGivenLength(this.dictionary.words, wordLength, false, false);
         result += newWord + ' ';
       })
       result += '\n';
     })
-    return result;
-  };
-
-  private callCount = 0;
-
-  private getRandomWordOfGivenLength(dic: string[], wordLength: number, transformVowels = false, removeWordsFromDic = false): string {
-    const vowels = 'їёуэеиаоєяіиюыєeuioay';
-    const randomWord = this.getRandomFromSet(dic);
-    let syllablesCount = 0;
-    randomWord.split('').forEach(char => {
-      syllablesCount += vowels.split('').includes(char) ? 1 : 0;
-    })
-    if (syllablesCount === wordLength || this.callCount > 100) {
-      // console.log(':', this.callStack, syllablesCount, randomWord);
-      if (removeWordsFromDic) {
-        dic.splice(dic.indexOf(randomWord), 1);
-      }
-      let w = randomWord;
-      if (transformVowels) {
-        w = w
-          .replace(/ї/g, 'Ї').replace(/ё/g, 'Ё').replace(/у/g, 'У')
-          .replace(/э/g, 'Э').replace(/е/g, 'Е').replace(/и/g, 'И')
-          .replace(/о/g, 'О').replace(/є/g, 'Є').replace(/а/g, 'А')
-          .replace(/я/g, 'Я').replace(/і/g, 'І').replace(/ю/g, 'Ю')
-          .replace(/ы/g, 'Ы');
-      }
-      this.callCount = 0;
-      return w;
-    } else {
-      this.callCount++;
-      return this.getRandomWordOfGivenLength(dic, wordLength);
-    }
-  }
-
-  private getRandomName = (dictionary: string[]) => {
-    const key: string = this.getRandomFromSet(dictionary);
-    const randomLen = Math.min(Math.max(Math.floor(Math.random() * key.length), 4), 10);
-    return (
-      key[Math.floor(Math.random() * key.length)].toUpperCase() +
-      key
-        .substr(key.length - randomLen)
-        .toLowerCase()
-        .replace(/_/g, ' ')
-    );
-  };
-
-  private getRandomDescription = (wordCount) => {
-    let result = '',
-      i = 0;
-    do {
-      result += this.getRandomName(this.dictionary.words) + ' ';
-      i++;
-    } while (i < wordCount);
     return result;
   };
 
@@ -207,14 +142,10 @@ export class PoetryComponent implements OnInit {
   }
 
   reword(word): void {
-    const newWord = this.getRandomFromSet(this._words);
+    const newWord = getRandomFromSet(this._words);
     const index = this._words.indexOf(word);
     this._words[index] = newWord;
     console.log('Words:', this._words);
     
   }
-}
-
-export interface Word {
-  content: string,
 }

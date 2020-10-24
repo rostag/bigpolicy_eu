@@ -1,5 +1,44 @@
 Poetry Samples of Generation
 
+Mat / Haiku - Sat Oct 24 2020 
+
+vse stoїt' mij huj 
+peretak vse їbu ja 
+a pyzda — ničogo 
+ 
+* * *
+
+Mat / Ipav - Sat Oct 24 2020 
+
+всяк пизда 
+він лежить 
+стояло 
+він їбав 
+всяк стоїть 
+їбатиме 
+ 
+* * *
+
+Mat / Ipav - Sat Oct 24 2020 
+
+хуй лежав
+я лежала
+не вона
+все стоїть 
+заїбала 
+
+всяк їбеш 
+я березень 
+хуй ніхто 
+я воно 
+лежатиме 
+ 
+* * *
+
+
+
+* * *
+
 Roz / Haiku - Sat Oct 24 2020 
 
 на отзыв та 

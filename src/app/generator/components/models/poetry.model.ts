@@ -910,7 +910,7 @@ export const dictonarySource: DictionarySources = {
   numbers: { name: 'Numbers', value: wordNumbers },
   // sylla: { name: 'Syllables', value: syllablesDict },
   gg: { name: 'Ґ', value: wordsWithGG },
-  dumy: { name: 'Dumy Lat', value: dumyMoiDumy },
+  dumyLat: { name: 'Dumy Lat', value: dumyMoiDumy },
   pyro: { name: 'Pyro', value: wordsOfPyro },
   kob: { name: 'Kob', value: kobzar },
   ham: { name: 'Hamlet', value: ham },
