@@ -1,5 +1,5 @@
 import { latynka } from './components/models/latynka.model';
-import { SuperString } from './components/services/poetry.service';
+import { Word } from './components/services/poetry.service';
 
 export function latynize(str: string): string {
     Object['entries'](latynka).forEach(letter => str = str.replace(new RegExp(letter[0], 'g'), letter[1]));
@@ -14,17 +14,17 @@ export function getRandomFromSet(set: any[]) {
         return result || '';
     } else {
         getRandomFromSet['callCount'] = getRandomFromSet['callCount'] + 1;
-        return getRandomFromSet(set);;
+        return getRandomFromSet(set);
     }
 };
 
 let getRandomWordOfGivenLengthCallCount = 0;
 
-export function getRandomWordOfGivenLength(superstrings: SuperString[], wordLength: number, transformVowels = false, removeWordsFromDic = false): string {
+export function getRandomWordOfGivenLength(superstrings: Word[], wordLength: number, transformVowels = false, removeWordsFromDic = false): Word {
   const vowels = 'їёуэеиаоєяіиюыєeuioay';
-  const randomWord = getRandomFromSet(superstrings);
+  const randomWord: Word = getRandomFromSet(superstrings);
   let syllablesCount = 0;
-  randomWord.split('').forEach(char => {
+  randomWord.wordContents.split('').forEach(char => {
     syllablesCount += vowels.split('').includes(char) ? 1 : 0;
   })
   if (syllablesCount === wordLength || getRandomWordOfGivenLengthCallCount > 100) {
@@ -32,7 +32,7 @@ export function getRandomWordOfGivenLength(superstrings: SuperString[], wordLeng
     if (removeWordsFromDic) {
       superstrings.splice(superstrings.indexOf(randomWord), 1);
     }
-    let w = randomWord;
+    let w = randomWord.wordContents;
     if (transformVowels) {
       w = w
         .replace(/ї/g, 'Ї').replace(/ё/g, 'Ё').replace(/у/g, 'У')
@@ -42,7 +42,7 @@ export function getRandomWordOfGivenLength(superstrings: SuperString[], wordLeng
         .replace(/ы/g, 'Ы');
     }
     getRandomWordOfGivenLengthCallCount = 0;
-    return w;
+    return randomWord;
   } else {
     getRandomWordOfGivenLengthCallCount++;
     return getRandomWordOfGivenLength(superstrings, wordLength);
@@ -70,3 +70,25 @@ export function getRandomSequence(dictionary, wordCount) {
     } while (i < wordCount);
     return result;
 };
+
+export function cleanUpWord(word: string, syllablesSeparator = null): string {
+  let r = word.replace(/«/gi, '');
+  r = r.replace(/»/gi, '');
+  r = r.replace(/\?/gi, '');
+  r = r.replace(/\./gi, '');
+  r = r.replace(/!/gi, '');
+  r = r.replace(/"/gi, '');
+  r = r.replace(/\)/gi, '');
+  r = r.replace(/\(/gi, '');
+  r = r.replace(/\[/gi, '');
+  r = r.replace(/\]/gi, '');
+  r = r.replace(/\:/gi, '');
+  r = r.replace(/\;/gi, '');
+  r = r.replace(/\,/gi, '');
+  r = r.replace(/\—/gi, '');
+  if (syllablesSeparator) {
+      r = r.replace(/-/g, '');
+  }
+  return r.toLowerCase();
+  // return r;
+}

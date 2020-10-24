@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { getRandomFromSet, getRandomWordOfGivenLength, latynize } from 'app/generator/generator-helpers';
 import { dictonarySource } from '../models/poetry.model';
 import { Rhyme, Rhymes, rhymes } from '../models/rythm.models';
-import { Dictionary, PoetryService, Word } from '../services/poetry.service';
+import { Dictionary, PoetryService, Word, WordProto } from '../services/poetry.service';
 
 /*
   pyro / senkan
@@ -101,7 +101,7 @@ export class PoetryComponent implements OnInit {
     this.rhyme.value.forEach(line => {
       line.forEach(wordLength => {
         const newWord = getRandomWordOfGivenLength(this.dictionary.words, wordLength, false, false);
-        result += newWord + ' ';
+        result += newWord.wordContents + ' ';
       })
       result += '\n';
     })
@@ -128,12 +128,12 @@ export class PoetryComponent implements OnInit {
   }
 
   // OOPO
-  _words = [
+  _words: Word[] = [
     {
-      content: 'Hi'
+      wordContents: 'Hi'
     },
     {
-      content: 'Hello'
+      wordContents: 'Hello'
     }
   ]
 
@@ -142,10 +142,8 @@ export class PoetryComponent implements OnInit {
   }
 
   reword(word): void {
-    const newWord = getRandomFromSet(this._words);
+    const newWord = getRandomFromSet(this.dictionary.words);
     const index = this._words.indexOf(word);
     this._words[index] = newWord;
-    console.log('Words:', this._words);
-    
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { cleanUpWord } from 'app/generator/generator-helpers';
 import { DictionarySource, dictonarySource } from '../models/poetry.model';
-import { Rhyme } from '../models/rythm.models';
 
 /**
  * Poetry backlog:
@@ -10,7 +10,7 @@ import { Rhyme } from '../models/rythm.models';
  *  - U can click a word to replace it
  *  - U can click a line to replace it
  *  - Real rhyming
- *  - Dash ('—') generation
+ *  - Punctuation ('—', '₴') generation
  *  - Add sequencing word generation like ('наї' / 'заї') + ('ба') + ('в' || 'ла' || 'ло' || 'ли' || 'ло')
  * 
  * 
@@ -27,17 +27,17 @@ import { Rhyme } from '../models/rythm.models';
  *  - Lines
  */
 
-export interface Word {
+export interface WordProto {
     content: string,
 }
 
-export interface SuperString extends String {
-    contents?: string,
+export interface Word {
+    wordContents: string,
 };
 
 export interface Dictionary {
     name: string;
-    words: SuperString[];
+    words: Word[];
 }
 
 @Injectable()
@@ -74,16 +74,20 @@ export class PoetryService {
         const dictionaryName = dictionarySource.name;
         const multilineString = dictionarySource.value;
         const sections = multilineString.split(sectionSeparator);
-        let dictionaryWords: SuperString[] = [];
+        let dictionaryWords: Word[] = [];
         sections.forEach(section => {
             const lines = section.split(linesSeparator);
             lines.forEach(line => {
                 const lineOfWords = line.trim();
-                const word = lineOfWords.split(wordsSeparator);
-                word.forEach((syllable, index, array) => {
-                    array[index] = this.cleanWord(syllable, syllablesSeparator);
+                const words = lineOfWords.split(wordsSeparator);
+                const superstrings: Word[] = [];
+                words.forEach((word, index, wordsArray) => {
+                    const wordCleanedUp = cleanUpWord(word, syllablesSeparator)
+                    wordsArray[index] = wordCleanedUp;
+                    const superstring: Word = {wordContents: wordCleanedUp };
+                    superstrings.push(superstring)
                 });
-                dictionaryWords = dictionaryWords.concat(word);
+                dictionaryWords = dictionaryWords.concat(superstrings);
             })
         });
         this.dictionaries[dictionaryName] = <Dictionary>{
@@ -116,7 +120,7 @@ export class PoetryService {
     //                 const words = line.trim();
     //                 const syllables = words.split(wordsSeparator);
     //                 syllables.forEach((syllable, index, array) => {
-    //                     array[index] = this.cleanWord(syllable, syllablesSeparator);
+    //                     array[index] = this.cleanUpWord(syllable, syllablesSeparator);
     //                 });
     //                 // newDictionary = newDictionary.concat(syllables);
     //                 newDictionaryVO.dictionary = newDictionaryVO.dictionary.concat(syllables);
@@ -127,26 +131,4 @@ export class PoetryService {
     //     console.log('Return dic:', this.dics[dictionarySource]);
     //     return this.dics[dictionarySource];
     // }
-
-    public cleanWord(word: string, syllablesSeparator = null): string {
-        let r = word.replace(/«/gi, '');
-        r = r.replace(/»/gi, '');
-        r = r.replace(/\?/gi, '');
-        r = r.replace(/\./gi, '');
-        r = r.replace(/!/gi, '');
-        r = r.replace(/"/gi, '');
-        r = r.replace(/\)/gi, '');
-        r = r.replace(/\(/gi, '');
-        r = r.replace(/\[/gi, '');
-        r = r.replace(/\]/gi, '');
-        r = r.replace(/\:/gi, '');
-        r = r.replace(/\;/gi, '');
-        r = r.replace(/\,/gi, '');
-        r = r.replace(/\—/gi, '');
-        if (syllablesSeparator) {
-            r = r.replace(/-/g, '');
-        }
-        return r.toLowerCase();
-        // return r;
-    }
 }
