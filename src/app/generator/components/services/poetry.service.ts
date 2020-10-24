@@ -31,9 +31,13 @@ export interface Word {
     content: string,
 }
 
+export interface SuperString extends String {
+    contents?: string,
+};
+
 export interface Dictionary {
     name: string;
-    words: string[];
+    words: SuperString[];
 }
 
 @Injectable()
@@ -70,16 +74,16 @@ export class PoetryService {
         const dictionaryName = dictionarySource.name;
         const multilineString = dictionarySource.value;
         const sections = multilineString.split(sectionSeparator);
-        let dictionaryWords: string[] = [];
+        let dictionaryWords: SuperString[] = [];
         sections.forEach(section => {
             const lines = section.split(linesSeparator);
             lines.forEach(line => {
-                const lineWords = line.trim();
-                const syllables = lineWords.split(wordsSeparator);
-                syllables.forEach((syllable, index, array) => {
+                const lineOfWords = line.trim();
+                const word = lineOfWords.split(wordsSeparator);
+                word.forEach((syllable, index, array) => {
                     array[index] = this.cleanWord(syllable, syllablesSeparator);
                 });
-                dictionaryWords = dictionaryWords.concat(syllables);
+                dictionaryWords = dictionaryWords.concat(word);
             })
         });
         this.dictionaries[dictionaryName] = <Dictionary>{

@@ -1,4 +1,5 @@
 import { latynka } from './components/models/latynka.model';
+import { SuperString } from './components/services/poetry.service';
 
 export function latynize(str: string): string {
     Object['entries'](latynka).forEach(letter => str = str.replace(new RegExp(letter[0], 'g'), letter[1]));
@@ -19,9 +20,9 @@ export function getRandomFromSet(set: any[]) {
 
 let getRandomWordOfGivenLengthCallCount = 0;
 
-export function getRandomWordOfGivenLength(dic: string[], wordLength: number, transformVowels = false, removeWordsFromDic = false): string {
+export function getRandomWordOfGivenLength(superstrings: SuperString[], wordLength: number, transformVowels = false, removeWordsFromDic = false): string {
   const vowels = 'їёуэеиаоєяіиюыєeuioay';
-  const randomWord = getRandomFromSet(dic);
+  const randomWord = getRandomFromSet(superstrings);
   let syllablesCount = 0;
   randomWord.split('').forEach(char => {
     syllablesCount += vowels.split('').includes(char) ? 1 : 0;
@@ -29,7 +30,7 @@ export function getRandomWordOfGivenLength(dic: string[], wordLength: number, tr
   if (syllablesCount === wordLength || getRandomWordOfGivenLengthCallCount > 100) {
     // console.log(':', callStack, syllablesCount, randomWord);
     if (removeWordsFromDic) {
-      dic.splice(dic.indexOf(randomWord), 1);
+      superstrings.splice(superstrings.indexOf(randomWord), 1);
     }
     let w = randomWord;
     if (transformVowels) {
@@ -44,7 +45,7 @@ export function getRandomWordOfGivenLength(dic: string[], wordLength: number, tr
     return w;
   } else {
     getRandomWordOfGivenLengthCallCount++;
-    return getRandomWordOfGivenLength(dic, wordLength);
+    return getRandomWordOfGivenLength(superstrings, wordLength);
   }
 }
 
