@@ -96,7 +96,7 @@ export class PoetryComponent implements OnInit {
     this.poetry = toLatynize ? latynize(poetry) : poetry;
   }
 
-  private getRandomFromSet = (set: any[]): string => {
+  private getRandomFromSet = (set: any[]) => {
     const result = set[Math.round(Math.random() * set.length - 1)];
     if (!!result || this.getRandomFromSet['callCount'] > 1000) {
       // console.log('-', result, this.getRandomFromSet['callCount'] );
@@ -191,4 +191,30 @@ export class PoetryComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
   }
+
+  // OOPO
+  _words = [
+    {
+      content: 'Hi'
+    },
+    {
+      content: 'Hello'
+    }
+  ]
+
+  get words(): Word[] {
+    return this._words;
+  }
+
+  reword(word): void {
+    const newWord = this.getRandomFromSet(this._words);
+    const index = this._words.indexOf(word);
+    this._words[index] = newWord;
+    console.log('Words:', this._words);
+    
+  }
+}
+
+export interface Word {
+  content: string,
 }

@@ -1,5 +1,40 @@
 Poetry Samples of Generation
 
+Roz / Haiku - Sat Oct 24 2020 
+
+на отзыв та 
+нестямне є фото свят 
+плохой google 
+ 
+* * *
+
+Mat / Haiku - Sat Oct 24 2020 
+
+ти дупа я 
+лизала ні їбеш всяк 
+їбу стояла 
+ 
+* * *
+
+Mat / Haiku - Sat Oct 24 2020 
+
+не їбе хуй 
+березень не їбеш всяк 
+їбав їбало 
+ 
+* * *
+
+Mat / Senkan - Fri Oct 23 2020 
+
+отак 
+всяк березень 
+лежав
+отак
+їбатимуть вони 
+ніяк 
+ 
+* * *
+
 Reduced / Pyro - Fri Oct 23 2020 
 
 ne ne ne

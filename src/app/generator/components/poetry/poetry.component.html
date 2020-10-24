@@ -1,4 +1,8 @@
 <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
+    <h2>OOPО - Object-Oriented Poetry</h2>
+    <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="10px">
+        <div class="word" (click)="reword(word)" *ngFor="let word of words">{{word.content}}</div>
+    </div>
     <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="10px">
         <!-- <mat-checkbox>Latynize</mat-checkbox> -->
         <input mat-input type="checkbox" [formControl]="latynizeControl" id="cb-latynize" />
