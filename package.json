@@ -57,7 +57,7 @@
     "intl": "1.2.5",
     "ng2-pagination": "2.0.2",
     "node-pre-gyp": "^0.13.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "python": "0.0.4",
     "rxjs": "^6.3.3",
     "sass-loader": "^7.1.0",
