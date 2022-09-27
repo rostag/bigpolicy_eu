@@ -40,7 +40,7 @@ export class UploaderComponent implements OnChanges {
 
   useFabButton = false;
 
-  @ViewChild('fileInput') fileInput;
+  @ViewChild('fileInput', { static: true }) fileInput;
 
   // After successful upload, will emit uploadedFileUrl taken from 'snapshot' object, see below
   @Output() uploadedFileUrlChange: EventEmitter<string> = new EventEmitter<string>();

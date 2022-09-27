@@ -9,7 +9,7 @@ import {
   Component, AfterViewInit, ViewChild, Input, Output, EventEmitter,
   ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
 
 @Component({
