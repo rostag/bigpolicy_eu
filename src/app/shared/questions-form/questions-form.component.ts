@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-questions-form',
@@ -7,9 +7,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./questions-form.component.scss']
 })
 export class QuestionsFormComponent implements OnInit {
-  questionForm: FormGroup;
+  questionForm: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.questionForm = this.fb.group({
       userName: [''],
       email: [''],

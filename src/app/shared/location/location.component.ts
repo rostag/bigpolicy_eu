@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LocationService} from './location.service';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
 
@@ -9,11 +9,11 @@ import {startWith, map} from 'rxjs/operators';
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss']
 })
-export class LocationComponent extends FormControl implements OnInit {
+export class LocationComponent extends UntypedFormControl implements OnInit {
 
   @Output() locationChange: EventEmitter<any> = new EventEmitter();
 
-  public region = new FormControl();
+  public region = new UntypedFormControl();
   public regionOptions = [];
   public cityOptions = null;
   public filteredRegionOptions: Observable<string[]>;

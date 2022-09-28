@@ -11,7 +11,6 @@ import { IProjectState } from '../../state/reducers/project.reducers';
 import { UpdateProject } from '../../state/actions/project.actions';
 import { ITaskState, getSelectedTask } from '../../state/reducers/task.reducers';
 import { CreateTask, LoadTask, DeleteTask, UpdateTask } from '../../state/actions/task.actions';
-import { isArray } from 'util';
 
 @Component({
   selector: 'app-bp-task-edit',
@@ -134,7 +133,7 @@ export class TaskEditComponent implements OnInit {
     }
     // Remove Task from current Project:
     // FIXME Error sometimes: ERROR TypeError: Cannot read property 'splice' of undefined
-    this.tempdata = !!isArray(this.currentProject.taskIds)
+    this.tempdata = this.currentProject.taskIds.hasOwnProperty('splice')
       ? this.currentProject.taskIds.splice(this.currentProject.taskIds.indexOf(this.task._id), 1)
       : null;
     this.projectStore.dispatch(new UpdateProject(this.currentProject));

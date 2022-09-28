@@ -3,7 +3,7 @@ import {DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ImageComponent} from '../../shared/image/image.component';
 import {LeaderEditComponent} from './leader.edit.component';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {UntypedFormGroup, ReactiveFormsModule} from '@angular/forms';
 import {UploaderComponent} from '../../shared/uploader/uploader.component';
 import {FilesViewComponent} from '../../shared/files/view/files.view.component';
 import {FilesEditComponent} from '../../shared/drive/files/files.edit.component';
@@ -65,7 +65,7 @@ describe('LeaderEditComponent', () => {
 
   it('should create a `FormGroup` comprised of `FormControl`s', () => {
     component.ngOnInit();
-    expect(component.leaderFormGroup).toBe(new FormGroup(null));
+    expect(component.leaderFormGroup).toBe(new UntypedFormGroup(null));
   });
 
   it('should require to enter the Leader data, submit button should be disabled', () => {

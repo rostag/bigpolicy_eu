@@ -1,5 +1,3 @@
-<img src="https://github.com/rostag/bigpolicy_eu/blob/develop/src/assets/img/logo.png" alt="BigPolicy" width="47">
-
 # BigPolicy
 
 Opensource crowdfunding platform for social activists, who don't want to involve into obsolete corrupted parties, but are bright and willing for change.
@@ -7,6 +5,7 @@ Opensource crowdfunding platform for social activists, who don't want to involve
 Project appeared in Ukraine, when group of activists decides that Direct Democracy is the instrument of truly agile governments, ready to be open for challenges and react on them.
 
 Our goals for this tool are
+
 - implement new culture in political landscape
 - implement it on local and government level
 
@@ -14,33 +13,30 @@ Idea was verified on EGAP Hackaton Challenge with support of bright experts and 
 
 ## How to start your local development
 
-#### Install Typescript and Angular CLI
+### Install Typescript and Angular CLI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) and Typescript:
 
 ```npm install -g typescript@next```
 
-```npm install -g typings```
-
 ```npm install -g angular-cli```
 
-#### Install MongoDB
+### Install MongoDB
 
 To develop locally, you need to [MongoDB installation](https://docs.mongodb.com/manual/installation/).
 
-
-#### Nest Js server
+### Nest Js server
 
 - Install packages: `cd nestjsserver && npm i`
 - Run `docker-compose up` - run mongo
 - Run `server:start:dev` to serve server in dev mode
 - Docs available on `http://localhost:3001/docs/`
 
-#### Clone our repository
+### Clone repository
 
 ```git clone https://github.com/rostag/bigpolicy_eu.git <app_dir>```
 
-#### Install dependencies
+### Install dependencies
 
 ```npm install```
 
@@ -75,27 +71,26 @@ At this moment, you run both `ng` and `node` commands. ng watches and rebuilds, 
 
 ```npm run server```
 
-#### Run node express app:
+#### Run node express app
 
 ```npm run client```
 
 ### See your local BP
 
-Visit [localhost:5000](http://localhost:5000/) -- this is your local BigPolicy application.
+Visit [localhost:5000](http://localhost:5000/) -- this is your local application.
 
 After you edited and saved a file, the project is being rebuilt automatically. But you need to manually refresh the page in browser to see the changes (we'll fix it later)
 
-## Update: to debug FBase locally: 
+## Update: to debug FBase locally
 
 ```npm install --save firebase-functions@latest firebase-admin```
 ```npm install -g firebase-tools```
 
 To run functions locally, use firebase serve:
 
-```firebase serve --only functions,hosting --port 5000 # to emulate both functions and hosting ```
+```firebase serve --only functions,hosting --port 5000 # to emulate both functions and hosting```
 
-(as per https://firebase.google.com/docs/functions/local-emulator)
-
+(as per <https://firebase.google.com/docs/functions/local-emulator>)
 
 ## More on Angular CLI Development
 
@@ -118,18 +113,15 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 ### Further help
 
-
 Use `ng --help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ### How to contribute?
 
 [Please see BigPolicy Contributing Doc](https://github.com/rostag/bigpolicy_eu/blob/develop/.github/CONTRIBUTING.md)(to be updated)
 
-
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/rostag/bigpolicy_eu.svg)](https://david-dm.org/rostag/bigpolicy_eu)
 [![devDependency Status](https://david-dm.org/rostag/bigpolicy_eu/dev-status.svg)](https://david-dm.org/rostag/bigpolicy_eu#info=devDependencies)
-
 
 ## License
 

@@ -3,7 +3,6 @@ import { DialogService } from '../dialog/dialog.service';
 import { inject, TestBed } from '@angular/core/testing';
 import { LeaderService } from './leader.service';
 import { MatDialog } from '@angular/material/dialog';
-import { MockBackend } from '@angular/http/testing';
 import { ProjectService } from '../project/project.service';
 import { TaskService } from '../task/task.service';
 import { HttpClientModule, HttpXhrBackend} from '@angular/common/http';
@@ -17,7 +16,7 @@ describe('LeaderService', () => {
       providers: [
         LeaderService, ProjectService, TaskService, DialogService, MatDialog,
         { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
-        { provide: HttpXhrBackend, useClass: MockBackend }
+        { provide: HttpXhrBackend }
       ]
     });
   });

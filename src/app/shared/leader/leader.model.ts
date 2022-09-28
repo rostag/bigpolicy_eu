@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ILeader } from '../models';
 
 export class LeaderModel implements ILeader {
@@ -57,7 +57,7 @@ export class LeaderModel implements ILeader {
     this.photo = newUrlValue;
   }
 
-  applyFormGroupToModel(f: FormGroup) {
+  applyFormGroupToModel(f: UntypedFormGroup) {
     this.name = f.get('name').value;
     this.surName = f.get('surName').value;
     this.vision = f.get('vision').value;
@@ -66,7 +66,7 @@ export class LeaderModel implements ILeader {
     this.location = f.get('location').value;
   }
 
-  applyModelToFormGroup(formGroup: FormGroup) {
+  applyModelToFormGroup(formGroup: UntypedFormGroup) {
     formGroup.patchValue(this);
   }
 }
