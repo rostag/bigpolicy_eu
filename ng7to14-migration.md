@@ -7,17 +7,16 @@
 
 - DONE @angular/fire - <https://github.com/angular/angularfire>
 
-    TODO import {AngularFireDatabaseModule} from '@angular/fire/database';
+    TODO import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 - DONE flex-layout - npm i -s @angular/flex-layout @angular/cdk
 - DONE @ngu/carousel
-- "@angular/http": "7.2.3",
-- "angular2-cookie-law": "7.0.1",
 - DONE "@ngrx/effects"
 - DONE "@ngrx/store"
 - DONE "@ngrx/store-devtools"
 - DONE npm install @auth0/angular-jwt (was angular2-jwt - was "angular2-jwt": "0.2.3")
-- ? "firebase" module
+- DONE "firebase" module
+- ? "angular2-cookie-law": "7.0.1",
 
 ## Type forms
 

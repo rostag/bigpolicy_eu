@@ -1,6 +1,5 @@
 import {OnInit, Component} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
-import * as appVersion from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +8,6 @@ import * as appVersion from '../../package.json';
 })
 
 export class AppComponent implements OnInit {
-
-  version = appVersion['version'];
 
   constructor(private router: Router) {
   }
