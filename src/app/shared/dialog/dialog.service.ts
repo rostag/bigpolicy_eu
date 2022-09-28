@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { DialogComponent } from './dialog.component';
-import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Injectable } from '@angular/core';
 
 export interface BPDialogConfig extends MatDialogConfig {

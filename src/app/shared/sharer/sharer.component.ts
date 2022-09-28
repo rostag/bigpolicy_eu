@@ -2,7 +2,7 @@ import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, On
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
-import { MatTextareaAutosize } from '@angular/material';
+import { MatTextareaAutosize } from '@angular/material/input';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -40,10 +40,10 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
 
   shareForm: NgForm;
 
-  @ViewChild('shareForm') currentForm: NgForm;
+  @ViewChild('shareForm', { static: true }) currentForm: NgForm;
 
   // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
-  @ViewChild(MatTextareaAutosize, {read: ViewContainerRef}) resizableTextArea: ViewContainerRef;
+  @ViewChild(MatTextareaAutosize, { read: ViewContainerRef, static: true }) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
