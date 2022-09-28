@@ -1,60 +1,58 @@
-// BpModule.ts
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-
-import {DriveService} from './shared/drive/drive.service';
-import {Ng2PaginationModule} from 'ng2-pagination';
-import {CookieLawModule} from 'angular2-cookie-law';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DriveService } from './shared/drive/drive.service';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 // Components
-import {TaskEditComponent} from './task/edit/task.edit.component';
-import {TaskListComponent} from './task/list/task.list.component';
-import {TaskViewComponent} from './task/view/task.view.component';
+import { TaskEditComponent } from './task/edit/task.edit.component';
+import { TaskListComponent } from './task/list/task.list.component';
+import { TaskViewComponent } from './task/view/task.view.component';
 
-import {ProjectsComponent} from './project/landing/projects.component';
-import {ProjectEditComponent} from './project/edit/project.edit.component';
-import {ProjectListComponent} from './project/list/project.list.component';
-import {ProjectViewComponent} from './project/view/project.view.component';
+import { ProjectsComponent } from './project/landing/projects.component';
+import { ProjectEditComponent } from './project/edit/project.edit.component';
+import { ProjectListComponent } from './project/list/project.list.component';
+import { ProjectViewComponent } from './project/view/project.view.component';
 
-import {LeadersComponent} from './leader/landing/leaders.component';
-import {LeaderEditComponent} from './leader/edit/leader.edit.component';
-import {LeaderListComponent} from './leader/list/leader.list.component';
-import {LeaderViewComponent} from './leader/view/leader.view.component';
+import { LeadersComponent } from './leader/landing/leaders.component';
+import { LeaderEditComponent } from './leader/edit/leader.edit.component';
+import { LeaderListComponent } from './leader/list/leader.list.component';
+import { LeaderViewComponent } from './leader/view/leader.view.component';
 
-import {ProfileComponent} from './shared/user/profile.component';
-import {AdminComponent} from './shared/admin/admin.component';
-import {AboutComponent} from './about/components/about.component';
+import { ProfileComponent } from './shared/user/profile.component';
+import { AdminComponent } from './shared/admin/admin.component';
+import { AboutComponent } from './about/components/about.component';
 
-import {UploaderComponent} from './shared/uploader/uploader.component';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireDatabaseModule} from '@angular/fire/database';
-import {ImageComponent} from './shared/image/image.component';
-import {LeaderBriefComponent} from './leader/brief/leader.brief.component';
-import {ProjectBriefComponent} from './project/brief/project.brief.component';
+import { UploaderComponent } from './shared/uploader/uploader.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { ImageComponent } from './shared/image/image.component';
+import { LeaderBriefComponent } from './leader/brief/leader.brief.component';
+import { ProjectBriefComponent } from './project/brief/project.brief.component';
 
-import {SharerComponent} from './shared/sharer/sharer.component';
-import {DonateComponent} from './shared/donate/donate.component';
-import {DonationsListComponent} from './shared/donate/list/donations.list.component';
+import { SharerComponent } from './shared/sharer/sharer.component';
+import { DonateComponent } from './shared/donate/donate.component';
+import { DonationsListComponent } from './shared/donate/list/donations.list.component';
 
-import {VideoComponent} from './shared/video/video.component';
-import {FilesEditComponent} from './shared/drive/files/files.edit.component';
-import {FilesViewComponent} from './shared/files/view/files.view.component';
-import {HomeComponent} from './home/home.component';
-import {EmailValidatorDirective} from './shared/validation/email.validator';
-import {CarouselComponent} from './shared/carousel/carousel/carousel.component';
-import {ShareService} from './shared/sharer/share.service';
-import {DonationService} from './shared/donate/donation.service';
-import {LoggedInGuard} from './shared/login/logged-in.guard';
-import {DisclaimerComponent} from './about/disclaimer/disclaimer.component';
-import {BpRoutingModule} from './bp-routing.module';
-import {CoreModule} from './core.module';
-import {LocationComponent} from './shared/location/location.component';
-import {LocationService} from './shared/location/location.service';
-import {environment} from '../environments/environment';
-import {NguCarouselModule} from '@ngu/carousel';
-import {CompanyComponent} from './companies/brief/company/company.component';
-import {QuestionsFormComponent} from './shared/questions-form/questions-form.component';
-import {MediaComponent} from './shared/media/media.component';
+import { VideoComponent } from './shared/video/video.component';
+import { FilesEditComponent } from './shared/drive/files/files.edit.component';
+import { FilesViewComponent } from './shared/files/view/files.view.component';
+import { HomeComponent } from './home/home.component';
+import { EmailValidatorDirective } from './shared/validation/email.validator';
+import { CarouselComponent } from './shared/carousel/carousel/carousel.component';
+import { ShareService } from './shared/sharer/share.service';
+import { DonationService } from './shared/donate/donation.service';
+import { LoggedInGuard } from './shared/login/logged-in.guard';
+import { DisclaimerComponent } from './about/disclaimer/disclaimer.component';
+import { BpRoutingModule } from './bp-routing.module';
+import { CoreModule } from './core.module';
+import { LocationComponent } from './shared/location/location.component';
+import { LocationService } from './shared/location/location.service';
+import { environment } from '../environments/environment';
+import { NguCarouselModule } from '@ngu/carousel';
+import { CompanyComponent } from './companies/brief/company/company.component';
+import { QuestionsFormComponent } from './shared/questions-form/questions-form.component';
+import { MediaComponent } from './shared/media/media.component';
+import { MaterialModule } from './common/modules/material/material.module';
 
 export const K = environment.K;
 // export const firebaseConfig = K.fbs;
@@ -73,8 +71,8 @@ export const firebaseConfig = {
     CommonModule,
     CoreModule,
     BpRoutingModule,
-    CookieLawModule,
     Ng2PaginationModule,
+    MaterialModule,
     // FIXME FIREBASE_CONFIG
     //    const firebase = require('firebase');
     //    const admin = require('firebase-admin');
@@ -113,7 +111,6 @@ export const firebaseConfig = {
     LeaderBriefComponent,
     ProjectBriefComponent,
     Ng2PaginationModule,
-    CookieLawModule,
     CarouselComponent
   ],
   declarations: [

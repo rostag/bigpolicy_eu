@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DriveService} from '../../shared/drive/drive.service';
 import {UserService} from '../../shared/user/user.service';
 import {Location} from '@angular/common';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
 import {ILeader} from '../../shared/models';
 import {select, Store} from '@ngrx/store';
 import {ILeaderState, getSelectedLeader} from '../../state/reducers/leader.reducers';
@@ -21,7 +21,7 @@ import {takeUntil} from 'rxjs/operators';
 
 export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
 
-  public leaderFormGroup: FormGroup;
+  public leaderFormGroup: UntypedFormGroup;
 
   // Must be public, used in template
   public leaderModel: ILeader = new LeaderModel();
@@ -36,7 +36,7 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
   );
 
   // FIXME apply validation - shall return either null if the control value is valid or a validation error object
-  private static videoUrlValidator(c: FormControl) {
+  private static videoUrlValidator(c: UntypedFormControl) {
     const youTubeRegexp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
     const isYouTubeUrl = (c.value && c.value.match(youTubeRegexp)) !== null;
     return isYouTubeUrl ? null : {'forbiddenName': 'Error'};
@@ -48,7 +48,7 @@ export class LeaderEditComponent extends BaseUnsubscribe implements OnInit {
     public userService: UserService,
     public driveService: DriveService,
     private location: Location,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store<AuthState>
   ) {
     super();

@@ -60,8 +60,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     providers: [
         // singleton services
     ],
-    entryComponents: [
-    ]
 })
 
 export class MaterialModule { }

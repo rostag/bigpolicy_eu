@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DialogService } from '../dialog/dialog.service';
 import { ProjectService } from '../project/project.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +13,7 @@ xdescribe('UploaderComponent', () => {
   let fixture: ComponentFixture<UploaderComponent>;
 
   // http://stackoverflow.com/questions/42692901/angular2-karma-test-failed-no-provider-for-token-firebaseurl
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule,
         // FIXME FIREBASE_CONFIG

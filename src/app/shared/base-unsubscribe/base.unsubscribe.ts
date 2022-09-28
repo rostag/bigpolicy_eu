@@ -1,6 +1,7 @@
-import {OnDestroy} from '@angular/core';
-import {Subject} from 'rxjs';
+import { OnDestroy, Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
+@Injectable()
 export class BaseUnsubscribe implements OnDestroy {
 
   unsubscribe: Subject<any> = new Subject();

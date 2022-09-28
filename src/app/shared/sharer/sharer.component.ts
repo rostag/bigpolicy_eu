@@ -2,7 +2,6 @@ import { Component, Input, AfterViewChecked, ViewContainerRef, AfterViewInit, On
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ShareService } from './share.service';
 import { NgForm } from '@angular/forms';
-import { MatTextareaAutosize } from '@angular/material/input';
 
 @Component({
   selector: 'app-bp-sharer',
@@ -21,7 +20,7 @@ import { MatTextareaAutosize } from '@angular/material/input';
 
 // TODO: Add subject generator
 
-export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChanges {
+export class SharerComponent implements AfterViewChecked, OnChanges {
 
   // Controlled by button — visibility of the compinent
   @Input() sharerIsVisible = false;
@@ -41,9 +40,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   shareForm: NgForm;
 
   @ViewChild('shareForm', { static: true }) currentForm: NgForm;
-
-  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
-  @ViewChild(MatTextareaAutosize, { read: ViewContainerRef, static: true }) resizableTextArea: ViewContainerRef;
 
   formErrors = {
     'toEmail': ''
@@ -68,11 +64,6 @@ export class SharerComponent implements AfterViewChecked, AfterViewInit, OnChang
   constructor(
     private shareService: ShareService
   ) {
-  }
-
-  // FIXME It's a workaround due to: https://github.com/angular/material2/issues/3346
-  ngAfterViewInit() {
-    this.resizableTextArea.element.nativeElement.style.height = 'auto';
   }
 
   ngOnChanges(data?: any): void {

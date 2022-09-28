@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { dictonarySource } from '../models/poetry.model';
 import { Rhythm, rhythms } from '../models/rythm.models';
@@ -21,8 +21,8 @@ import { DictionaryVO, PoetryService } from '../services/poetry.service';
 })
 export class PoetryComponent implements OnInit {
 
-  rhythmControl = new FormControl();
-  dictionaryControl = new FormControl();
+  rhythmControl = new UntypedFormControl();
+  dictionaryControl = new UntypedFormControl();
 
   dictionary: DictionaryVO;
   rhythm: Rhythm;
