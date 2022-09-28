@@ -1,8 +1,8 @@
-import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
-import {Component, Input, Output, OnChanges, ViewChild, EventEmitter} from '@angular/core';
-import {Observable} from 'rxjs';
-import * as firebase from 'firebase';
-import {map} from 'rxjs/operators';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { Component, Input, Output, OnChanges, ViewChild, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
+import firebase from 'firebase/compat/app';
+import { map } from 'rxjs/operators';
 
 interface Image {
   path: string;
@@ -170,7 +170,7 @@ export class UploaderComponent implements OnChanges {
               (downloadURL) => {
                 // console.log('Uploaded file available at: ', downloadURL);
                 this.uploadedFileUrl = downloadURL;
-                this.afDb.list(`/${folder}`).push({path: path, filename: selectedFile.name});
+                this.afDb.list(`/${folder}`).push({ path: path, filename: selectedFile.name });
                 this.onFileUploadComplete();
               },
               (error) => console.error('Error uploading file: ', error)

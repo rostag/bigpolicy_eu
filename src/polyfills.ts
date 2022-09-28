@@ -14,18 +14,13 @@ import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es6/reflect';
-import 'zone.js/dist/zone';
+import 'zone.js';
 
 // If you need to support the browsers/features below, uncomment the import
 // and run `npm install import-name-here';
 // Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
 
-// Needed for: IE9
-// import 'classlist.js';
-
 // Animations
-// Needed for: All but Chrome and Firefox, Not supported in IE9
-// import 'web-animations-js';
 
 // Date, currency, decimal and percent pipes
 // Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
@@ -33,5 +28,3 @@ import 'zone.js/dist/zone';
 // import 'intl/locale-data/jsonp/en.js';
 
 // NgClass on SVG elements
-// Needed for: IE10, IE11
-// import 'classlist.js';

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { LeaderBriefComponent } from './leader.brief.component';
 import { LeaderService } from '../../shared/leader/leader.service';
@@ -10,7 +10,7 @@ xdescribe('LeaderBriefComponent', () => {
   let component: LeaderBriefComponent;
   let fixture: ComponentFixture<LeaderBriefComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
       providers: [ LeaderService, DialogService, ProjectService, TaskService ],

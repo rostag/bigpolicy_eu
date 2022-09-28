@@ -3,7 +3,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ToolbarComponent} from './shared/toolbar/toolbar.component';
 import {CoreModule} from './core.module';
-import {WorkingSpinnerComponent} from './shared/xhr/spinner.component';
 import {EffectsModule} from '@ngrx/effects';
 import {LeaderEffects} from './state/effects/leader.effects';
 import {ProjectEffects} from './state/effects/project.effects';
@@ -53,7 +52,6 @@ import {NguCarouselModule} from '@ngu/carousel';
   declarations: [
     AppComponent,
     ToolbarComponent,
-    WorkingSpinnerComponent,
     DialogComponent
   ],
   providers: [
@@ -63,16 +61,10 @@ import {NguCarouselModule} from '@ngu/carousel';
     DialogService,
     UserService,
     Title
-    // FIXME Re-enable after modules refactoring
-    // CustomBrowserXhr,
-    // { provide: XhrFactory, useExisting: CustomBrowserXhr }
   ],
   bootstrap: [
     AppComponent
   ],
-  entryComponents: [
-    DialogComponent
-  ]
 })
 export class AppModule {
 }

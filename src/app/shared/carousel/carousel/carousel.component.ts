@@ -16,7 +16,7 @@ export class CarouselComponent implements AfterViewInit, OnInit {
   leader: ILeader;
   @Input() dataSource = [];
 
-  @ViewChild('myCarousel') myCarousel: NguCarousel;
+  @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 2, md: 3, lg: 3, all: 0 },
     load: 2,
