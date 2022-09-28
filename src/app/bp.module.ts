@@ -47,7 +47,6 @@ import {DonationService} from './shared/donate/donation.service';
 import {LoggedInGuard} from './shared/login/logged-in.guard';
 import {DisclaimerComponent} from './about/disclaimer/disclaimer.component';
 import {BpRoutingModule} from './bp-routing.module';
-import {MaterialModule} from './shared/material/material.module';
 import {CoreModule} from './core.module';
 import {LocationComponent} from './shared/location/location.component';
 import {LocationService} from './shared/location/location.service';
@@ -72,7 +71,6 @@ export const firebaseConfig = {
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule,
     CoreModule,
     BpRoutingModule,
     CookieLawModule,

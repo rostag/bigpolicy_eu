@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '../shared/material/material.module';
 import { AudioComponent } from './components/audio/audio.component';
 import { CNewsComponent } from './components/c-news/c-news.component';
 import { GeneratorComponent } from './components/generator/generator.component';
@@ -15,7 +14,6 @@ import { GeneratorRoutingModule } from './generator-routing.module';
   imports: [
     CommonModule,
     GeneratorRoutingModule,
-    MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
   ],

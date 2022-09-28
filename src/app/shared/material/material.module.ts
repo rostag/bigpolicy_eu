@@ -45,10 +45,8 @@ import {
     MatAutocompleteModule
   ],
   declarations: [
-    // components to use in this module
   ],
   providers: [
-    // singleton services
   ],
   entryComponents: []
 })

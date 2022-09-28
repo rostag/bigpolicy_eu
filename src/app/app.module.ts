@@ -3,7 +3,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ToolbarComponent} from './shared/toolbar/toolbar.component';
 import {CoreModule} from './core.module';
-import {MaterialModule} from './shared/material/material.module';
 import {WorkingSpinnerComponent} from './shared/xhr/spinner.component';
 import {EffectsModule} from '@ngrx/effects';
 import {LeaderEffects} from './state/effects/leader.effects';
@@ -34,7 +33,6 @@ import {NguCarouselModule} from '@ngu/carousel';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
-    MaterialModule,
     AppRoutingModule,
     EffectsModule.forRoot([
       LeaderEffects,
@@ -51,9 +49,6 @@ import {NguCarouselModule} from '@ngu/carousel';
       maxAge: 10
     }),
     NguCarouselModule
-  ],
-  exports: [
-    MaterialModule
   ],
   declarations: [
     AppComponent,
