@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.1.2",
-    "@nestjs/core": "^5.4.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/swagger": "^6.1.2",
     "@nestjs/typeorm": "^5.2.2",
     "class-sanitizer": "0.0.5",
