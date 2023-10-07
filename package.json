@@ -65,7 +65,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.3",
+    "@angular-devkit/build-angular": "^14.2.13",
     "@angular/cli": "14.2.3",
     "@types/gapi.auth2": "0.0.48",
     "@types/google-drive-realtime-api": "0.0.33",
