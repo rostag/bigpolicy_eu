@@ -48,7 +48,7 @@
     "@ngrx/store-devtools": "^14.3.1",
     "@ngu/carousel": "^6.0.1",
     "auth0-js": "^9.19.1",
-    "auth0-lock": "^11.34.0",
+    "auth0-lock": "^14.0.0",
     "core-js": "2.6.3",
     "firebase": "^11.7.3",
     "googleapis": ">=39.1.0",
